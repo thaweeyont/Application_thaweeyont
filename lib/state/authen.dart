@@ -24,10 +24,8 @@ class _AuthenState extends State<Authen> {
 
   Future<Null> getprofile_user() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      name = preferences.getString('name_user')!;
-    });
-    if (name.isNotEmpty) {
+
+    if (preferences.getString('name_user') != null) {
       Navigator.pushReplacementNamed(
         context,
         MyContant.routeNavigator_bar_credit,

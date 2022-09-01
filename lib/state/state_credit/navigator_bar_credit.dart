@@ -250,8 +250,12 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         child: Align(
           alignment: FractionalOffset.bottomCenter,
           child: InkWell(
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, MyContant.routeAuthen),
+            onTap: () async {
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+              preferences.clear();
+              Navigator.pushReplacementNamed(context, MyContant.routeAuthen);
+            },
             child: Container(
               padding: EdgeInsets.all(20),
               width: double.infinity,
