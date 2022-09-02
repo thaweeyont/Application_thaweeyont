@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:http/http.dart' as http;
+import '../../model/login_model.dart';
 import '../../utility/my_constant.dart';
 
 class Query_debtor extends StatefulWidget {
@@ -19,6 +20,57 @@ class _Query_debtorState extends State<Query_debtor> {
   String dropdownValueprovince = 'เชียงราย';
   String dropdownValueamphoe = 'เมืองเชียงราย';
   var filter = false;
+  List<Login> datauser = [];
+  TextEditingController idcard = TextEditingController();
+
+  Future<void> get_datauser(String id_card) async {
+    try {
+      var respose = await http.get(
+        Uri.http('110.164.131.46', '/flutter_api/api_user/login_user.php',
+            {"id_card": id_card}),
+      );
+      // print(respose.body);
+      if (respose.statusCode == 200) {
+        setState(() {
+          datauser = loginFromJson(respose.body);
+        });
+        print(respose.body);
+        // if (datauser[0].idcard!.isNotEmpty) {
+        //   setpreferences();
+        // }
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล");
+    }
+  }
+
+  // Future<Null> setpreferences() async {
+  //   var id_card = datauser[0].idcard;
+  //   var name_user = datauser[0].fullname;
+  //   var phone_user = datauser[0].phoneUser;
+  //   var address_user = datauser[0].addressUser;
+  //   var provinces = datauser[0].idProvinces;
+  //   var amphures = datauser[0].idAmphures;
+  //   var districts = datauser[0].idDistricts;
+  //   var profile = datauser[0].profileUser;
+  //   var member = datauser[0].statusMember;
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.setString('id_card', id_card!);
+  //   preferences.setString('name_user', name_user!);
+  //   preferences.setString('phone_user', phone_user!);
+  //   preferences.setString('address_user', address_user!);
+  //   preferences.setString('provinces_user', provinces!);
+  //   preferences.setString('amphures_user', amphures!);
+  //   preferences.setString('districts_user', districts!);
+  //   preferences.setString('profile_user', profile!);
+  //   preferences.setString('member', member!);
+  //   preferences.setString('status_advert', "true");
+
+  //   Navigator.pushReplacementNamed(
+  //     context,
+  //     MyContant.routeNavigator_bar_credit,
+  //   );
+  // }
 
   Future<Null> search_district(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
@@ -486,6 +538,13 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
+  clearTextInput() {
+    idcard.clear();
+    setState(() {
+      datauser.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -644,60 +703,64 @@ class _Query_debtorState extends State<Query_debtor> {
             ),
           ),
           SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, MyContant.routeDataSearchDebtor);
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: Scrollbar(
-                child: ListView(
-                  children: [
-                    for (var i = 0; i <= 10; i++) ...[
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: Color.fromRGBO(255, 218, 249, 1),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text('รหัสเขต : การเงิน'),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text('เลขที่สัญญา : H0101011140621990'),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text('ชื่อลูกค้าในสัญญา : นางสนธยา จับใจนาย'),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text('ชื่อลูกค้าปัจจุบัน : นางสนธยา จับใจนาย'),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                    'ชื่อสินค้า : รถจักรยาน LA Bicycle 24 นิ้ว ALFA 6SP'),
-                              ],
-                            ),
-                          ],
+          Container(
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: Scrollbar(
+              child: ListView(
+                children: [
+                  if (datauser.isNotEmpty) ...[
+                    for (var i = 0; i < datauser.length; i++) ...[
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, MyContant.routeDataSearchDebtor);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Color.fromRGBO(255, 218, 249, 1),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text('รหัสเขต : ${datauser[i].id}'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text('เลขที่สัญญา : ${datauser[i].idcard}'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                      'ชื่อลูกค้าในสัญญา : ${datauser[i].fullname}'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                      'ชื่อลูกค้าปัจจุบัน : ${datauser[i].fullname}'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text('ชื่อสินค้า : ${datauser[i].phoneUser}'),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ],
-                ),
+                ],
               ),
             ),
-          )
+          ),
         ]),
       ),
     );
@@ -755,7 +818,11 @@ class _Query_debtorState extends State<Query_debtor> {
                           primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 16),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (idcard.text.isNotEmpty) {
+                            get_datauser(idcard.text);
+                          }
+                        },
                         child: const Text('ค้นหา'),
                       ),
                     ),
@@ -772,7 +839,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 16),
                         ),
-                        onPressed: () {},
+                        onPressed: clearTextInput,
                         child: const Text('ยกเลิก'),
                       ),
                     ),
@@ -804,6 +871,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: idcard,
           keyboardType: TextInputType.number,
           maxLength: 13,
           onChanged: (keyword) {},

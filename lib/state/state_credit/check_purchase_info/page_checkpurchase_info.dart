@@ -624,7 +624,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                 dropdownValueCus = newValue!;
               });
             },
-            items: <String>['รหัส', 'ชื่อ', 'ที่อยู่', 'เบอร์โทร']
+            items: <String>['รหัส', 'ชื่อ', 'ที่อยู่ ', 'เบอร์โทร']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,

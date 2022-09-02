@@ -65,13 +65,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       profile = preferences.getString('profile_user')!;
       status_advert = preferences.getString('status_advert')!;
       member = preferences.getString('member')!;
-      // if(member =="beyond"){
-      //   textmember="";
-      // }else if(member ==""){
-      //   textmember="";
-      // }else{
-      //   textmember="";
-      // }
     });
   }
 
