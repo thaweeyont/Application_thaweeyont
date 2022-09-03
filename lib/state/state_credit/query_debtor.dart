@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../../model/login_model.dart';
 import '../../utility/my_constant.dart';
+import 'data_searchdebtor.dart';
 
 class Query_debtor extends StatefulWidget {
   const Query_debtor({Key? key}) : super(key: key);
@@ -43,34 +44,6 @@ class _Query_debtorState extends State<Query_debtor> {
       print("ไม่มีข้อมูล");
     }
   }
-
-  // Future<Null> setpreferences() async {
-  //   var id_card = datauser[0].idcard;
-  //   var name_user = datauser[0].fullname;
-  //   var phone_user = datauser[0].phoneUser;
-  //   var address_user = datauser[0].addressUser;
-  //   var provinces = datauser[0].idProvinces;
-  //   var amphures = datauser[0].idAmphures;
-  //   var districts = datauser[0].idDistricts;
-  //   var profile = datauser[0].profileUser;
-  //   var member = datauser[0].statusMember;
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   preferences.setString('id_card', id_card!);
-  //   preferences.setString('name_user', name_user!);
-  //   preferences.setString('phone_user', phone_user!);
-  //   preferences.setString('address_user', address_user!);
-  //   preferences.setString('provinces_user', provinces!);
-  //   preferences.setString('amphures_user', amphures!);
-  //   preferences.setString('districts_user', districts!);
-  //   preferences.setString('profile_user', profile!);
-  //   preferences.setString('member', member!);
-  //   preferences.setString('status_advert', "true");
-
-  //   Navigator.pushReplacementNamed(
-  //     context,
-  //     MyContant.routeNavigator_bar_credit,
-  //   );
-  // }
 
   Future<Null> search_district(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
@@ -712,46 +685,56 @@ class _Query_debtorState extends State<Query_debtor> {
                     for (var i = 0; i < datauser.length; i++) ...[
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, MyContant.routeDataSearchDebtor);
+                          var idcard = datauser[i].idcard;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Data_SearchDebtor(idcard)),
+                          );
                         },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color: Color.fromRGBO(255, 218, 249, 1),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text('รหัสเขต : ${datauser[i].id}'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text('เลขที่สัญญา : ${datauser[i].idcard}'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                      'ชื่อลูกค้าในสัญญา : ${datauser[i].fullname}'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                      'ชื่อลูกค้าปัจจุบัน : ${datauser[i].fullname}'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text('ชื่อสินค้า : ${datauser[i].phoneUser}'),
-                                ],
-                              ),
-                            ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Color.fromRGBO(255, 218, 249, 1),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('รหัสเขต : ${datauser[i].id}'),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text('เลขที่สัญญา : ${datauser[i].idcard}'),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                        'ชื่อลูกค้าในสัญญา : ${datauser[i].fullname}'),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                        'ชื่อลูกค้าปัจจุบัน : ${datauser[i].fullname}'),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                        'ชื่อสินค้า : ${datauser[i].phoneUser}'),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -2,9 +2,13 @@ import 'dart:math';
 
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../../model/login_model.dart';
 
 class Data_SearchDebtor extends StatefulWidget {
-  const Data_SearchDebtor({Key? key}) : super(key: key);
+  final String? idcard;
+  Data_SearchDebtor(this.idcard);
 
   @override
   State<Data_SearchDebtor> createState() => _Data_SearchDebtorState();
@@ -16,6 +20,35 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       active_l2 = false,
       active_l3 = false,
       active_l4 = false;
+  List<Login> data_searchUser = [];
+
+  Future<void> get_datauser_search() async {
+    try {
+      var respose = await http.get(
+        Uri.http('110.164.131.46', '/flutter_api/api_user/login_user.php',
+            {"id_card": widget.idcard.toString()}),
+      );
+      // print(respose.body);
+      if (respose.statusCode == 200) {
+        setState(() {
+          data_searchUser = loginFromJson(respose.body);
+        });
+        print(respose.body);
+        // if (datauser[0].idcard!.isNotEmpty) {
+        //   setpreferences();
+        // }
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get_datauser_search();
+  }
 
   void menu_list(page) {
     setState(() {
@@ -59,21 +92,25 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         centerTitle: true,
         title: Text('ค้นหาข้อมูล'),
       ),
-      body: Stack(children: [
-        if (active_l1 == true) ...[
-          content_list_1(context),
-        ],
-        if (active_l2 == true) ...[
-          content_list_2(context),
-        ],
-        if (active_l3 == true) ...[
-          content_list_3(context),
-        ],
-        if (active_l4 == true) ...[
-          content_list_4(context),
-        ],
-        slidemenu(context),
-      ]),
+      body: data_searchUser.isEmpty
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Stack(children: [
+              if (active_l1 == true) ...[
+                content_list_1(context),
+              ],
+              if (active_l2 == true) ...[
+                content_list_2(context),
+              ],
+              if (active_l3 == true) ...[
+                content_list_3(context),
+              ],
+              if (active_l4 == true) ...[
+                content_list_4(context),
+              ],
+              slidemenu(context),
+            ]),
     );
   }
 
@@ -82,7 +119,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       color: Colors.white,
       height: MediaQuery.of(context).size.height * 0.05,
       // margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(6),
+      padding: EdgeInsets.all(3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -94,14 +131,19 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content1");
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  margin: EdgeInsets.only(top: 2, left: 10),
                   height: 30,
-                  padding: EdgeInsets.all(3.0),
+                  padding: EdgeInsets.all(2.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: active_l1 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                    color: Color.fromRGBO(255, 218, 249, 1),
+                    border: active_l1 == true
+                        ? Border.all(
+                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
+                        : Border.all(color: Colors.transparent),
+                    // color: active_l1 == true
+                    //     ? Color.fromRGBO(202, 71, 150, 1)
+                    //     : Color.fromRGBO(255, 218, 249, 1),
                   ),
                   child: Text('รายการสินค้า'),
                 ),
@@ -111,14 +153,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content2");
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  margin: EdgeInsets.only(top: 2, left: 10),
                   height: 30,
-                  padding: EdgeInsets.all(3.0),
+                  padding: EdgeInsets.all(2.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: active_l2 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                    color: Color.fromRGBO(255, 218, 249, 1),
+                    border: active_l2 == true
+                        ? Border.all(
+                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
+                        : Border.all(color: Colors.transparent),
                   ),
                   child: Text('หมายเหตุพิจารณาสินเชื่อ'),
                 ),
@@ -128,14 +172,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content3");
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  margin: EdgeInsets.only(top: 2, left: 10),
                   height: 30,
-                  padding: EdgeInsets.all(3.0),
+                  padding: EdgeInsets.all(2.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: active_l3 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                    color: Color.fromRGBO(255, 218, 249, 1),
+                    border: active_l3 == true
+                        ? Border.all(
+                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
+                        : Border.all(color: Colors.transparent),
                   ),
                   child: Text('บันทึกหมายเหตุ'),
                 ),
@@ -145,14 +191,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content4");
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
+                  margin: EdgeInsets.only(top: 2, left: 10, right: 10),
                   height: 30,
-                  padding: EdgeInsets.all(3.0),
+                  padding: EdgeInsets.all(2.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: active_l4 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                    color: Color.fromRGBO(255, 218, 249, 1),
+                    border: active_l4 == true
+                        ? Border.all(
+                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
+                        : Border.all(color: Colors.transparent),
                   ),
                   child: Text('ชำระค่างวด'),
                 ),
@@ -181,7 +229,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('เลขที่สัญญา : C01200300912'),
+                    Text('เลขที่สัญญา : ${data_searchUser[0].id}'),
                   ],
                 ),
                 SizedBox(
@@ -189,7 +237,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
                 Row(
                   children: [
-                    Text('เลขบัตรประชาชน : 3571100309811'),
+                    Text('เลขบัตรประชาชน : ${widget.idcard}'),
                   ],
                 ),
                 SizedBox(
@@ -197,8 +245,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
                 Row(
                   children: [
-                    Text(
-                        'ชื่อ-สกุล : นางสนธยา จับใจนาย (แมว)(10012) อายุ 48 ปี'),
+                    Text('ชื่อ-สกุล : ${data_searchUser[0].fullname}'),
                   ],
                 ),
                 SizedBox(
@@ -210,7 +257,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     Text('ที่อยู่ : '),
                     Expanded(
                       child: Text(
-                        '276 ม.3 ป่าบงหลวง ต.จันจว้าใต้ อ.แม่จัน จ.เชียงราย 57270 โทร. 0917957956 , 0861924876 สถานะ ผู้อาศัย',
+                        '${data_searchUser[0].addressUser} ต.${data_searchUser[0].provincesU} อ.${data_searchUser[0].amphuresU} จ.${data_searchUser[0].districtsU}',
                         overflow: TextOverflow.clip,
                       ),
                     ),
@@ -224,8 +271,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   children: [
                     Text('สถานที่ทำงาน : '),
                     Expanded(
-                      child: Text(
-                          'สถานะพนักงาน : พนักงานประจำ วันที่เริ่มงาน : 09/05/37 วันที่ลาออก : ',
+                      child: Text('${data_searchUser[0].phoneUser}',
                           overflow: TextOverflow.clip),
                     ),
                   ],
@@ -235,7 +281,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
                 Row(
                   children: [
-                    Text('อาชีพ : '),
+                    Text('อาชีพ : ${data_searchUser[0].statusMember}'),
                   ],
                 ),
                 SizedBox(
@@ -326,7 +372,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                             Row(
                               children: [
-                                Text('สถานที่่ใกล้เคียง : '),
+                                Text('สถานที่ใกล้เคียง : '),
                               ],
                             ),
                           ],
@@ -381,7 +427,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                             Row(
                               children: [
-                                Text('สถานที่่ใกล้เคียง : '),
+                                Text('สถานที่ใกล้เคียง : '),
                               ],
                             ),
                           ],
@@ -436,7 +482,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                             Row(
                               children: [
-                                Text('สถานที่่ใกล้เคียง : '),
+                                Text('สถานที่ใกล้เคียง : '),
                               ],
                             ),
                           ],
