@@ -121,7 +121,8 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   AppBar Appbar() {
     return AppBar(
-      centerTitle: true,
+      // centerTitle: true,
+      
       title: Text(title_head),
       leading: Builder(
         builder: (BuildContext context) {
