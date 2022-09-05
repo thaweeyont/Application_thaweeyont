@@ -1,9 +1,10 @@
+import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../../model/login_model.dart';
-import '../../utility/my_constant.dart';
 import 'data_searchdebtor.dart';
+import 'package:application_thaweeyont/utility/my_constant.dart';
 
 class Query_debtor extends StatefulWidget {
   const Query_debtor({Key? key}) : super(key: key);
@@ -42,6 +43,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล");
+      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลเลขบัตรประชาชนนี้');
     }
   }
 
@@ -288,8 +290,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                   ),
                                   child: TextButton(
                                     style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
                                       padding: const EdgeInsets.all(0),
-                                      primary: Colors.white,
                                       textStyle: const TextStyle(fontSize: 16),
                                     ),
                                     onPressed: () {},
@@ -797,13 +799,16 @@ class _Query_debtorState extends State<Query_debtor> {
                       ),
                       child: TextButton(
                         style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.all(0),
-                          primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 16),
                         ),
                         onPressed: () {
                           if (idcard.text.isNotEmpty) {
                             get_datauser(idcard.text);
+                          } else {
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรูณากรอกข้อมูลที่ต้องการค้นหา!');
                           }
                         },
                         child: const Text('ค้นหา'),
