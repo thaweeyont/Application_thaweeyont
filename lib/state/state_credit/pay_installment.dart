@@ -24,7 +24,7 @@ class _Pay_installmentState extends State<Pay_installment> {
     );
     return Scaffold(
       appBar: AppBar(
-        // centerTitle: true,
+        centerTitle: true,
         title: Text('ค้นหาข้อมูล'),
       ),
       body: SingleChildScrollView(

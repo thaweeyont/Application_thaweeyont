@@ -50,7 +50,55 @@ class _AuthenState extends State<Authen> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล");
+      showProgressDialog(context);
     }
+  }
+
+  Future<Null> showProgressDialog(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+        ),
+        title: ListTile(
+          leading: Icon(Icons.warning_rounded, color: Colors.red, size: 45),
+          title: Text(
+            'แจ้งเตือน',
+            style: TextStyle(fontSize: 18),
+          ),
+          subtitle: Text(
+            "เลขบัตรประชาชนนี้ไม่ถูกต้อง",
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "ตกลง",
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<Null> setpreferences() async {

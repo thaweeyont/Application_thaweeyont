@@ -89,7 +89,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // centerTitle: true,
+        centerTitle: true,
         title: Text('ค้นหาข้อมูล'),
       ),
       body: data_searchUser.isEmpty
