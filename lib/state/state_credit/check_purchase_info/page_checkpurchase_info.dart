@@ -434,8 +434,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       ),
                       child: TextButton(
                         style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.all(0),
-                          primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 16),
                         ),
                         onPressed: () {},
@@ -451,8 +451,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       ),
                       child: TextButton(
                         style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.all(0),
-                          primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 16),
                         ),
                         onPressed: () {},
@@ -475,7 +475,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           keyboardType: TextInputType.number,
-          maxLength: 13,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
