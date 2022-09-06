@@ -1,3 +1,4 @@
+import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
@@ -38,12 +39,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "2":
         setState(() {
           _selectedIndex = 2;
-          title_head = "ทวียนต์ ";
+          title_head = "ทวียนต์";
         });
         break;
       case "3":
         setState(() {
           _selectedIndex = 3;
+          title_head = "พิจารณาอนุมัติสินเชื่อ";
         });
         break;
       default:
@@ -84,7 +86,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     Query_debtor(),
     Page_Checkpurchase_info(),
     Home_credit(),
-    Home_credit(),
+    Page_Credit_Approval(),
     Home_credit(),
   ];
 
@@ -181,12 +183,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   case 2:
                     setState(() {
                       _selectedIndex = 2;
-                      title_head = "ทวียนต์ ";
+                      title_head = "ทวียนต์";
                     });
                     break;
                   case 3:
                     setState(() {
                       _selectedIndex = 3;
+                      title_head = "พิจารณาอนุมัติสินเชื่อ";
                     });
                     break;
                   default:

@@ -133,17 +133,17 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 child: Container(
                   margin: EdgeInsets.only(top: 2, left: 10),
                   height: 30,
-                  padding: EdgeInsets.all(2.0),
+                  padding: EdgeInsets.all(4.5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromRGBO(255, 218, 249, 1),
-                    border: active_l1 == true
-                        ? Border.all(
-                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
-                        : Border.all(color: Colors.transparent),
-                    // color: active_l1 == true
-                    //     ? Color.fromRGBO(202, 71, 150, 1)
-                    //     : Color.fromRGBO(255, 218, 249, 1),
+                    // color: Color.fromRGBO(255, 218, 249, 1),
+                    // border: active_l1 == true
+                    //     ? Border.all(
+                    //         color: Color.fromRGBO(202, 71, 150, 1), width: 2)
+                    //     : Border.all(color: Colors.transparent),
+                    color: active_l1 == true
+                        ? Color.fromRGBO(202, 71, 150, 1)
+                        : Color.fromRGBO(255, 218, 249, 1),
                   ),
                   child: Text('รายการสินค้า'),
                 ),
@@ -155,14 +155,12 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 child: Container(
                   margin: EdgeInsets.only(top: 2, left: 10),
                   height: 30,
-                  padding: EdgeInsets.all(2.0),
+                  padding: EdgeInsets.all(4.5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromRGBO(255, 218, 249, 1),
-                    border: active_l2 == true
-                        ? Border.all(
-                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
-                        : Border.all(color: Colors.transparent),
+                    color: active_l2 == true
+                        ? Color.fromRGBO(202, 71, 150, 1)
+                        : Color.fromRGBO(255, 218, 249, 1),
                   ),
                   child: Text('หมายเหตุพิจารณาสินเชื่อ'),
                 ),
@@ -174,14 +172,12 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 child: Container(
                   margin: EdgeInsets.only(top: 2, left: 10),
                   height: 30,
-                  padding: EdgeInsets.all(2.0),
+                  padding: EdgeInsets.all(4.5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromRGBO(255, 218, 249, 1),
-                    border: active_l3 == true
-                        ? Border.all(
-                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
-                        : Border.all(color: Colors.transparent),
+                    color: active_l3 == true
+                        ? Color.fromRGBO(202, 71, 150, 1)
+                        : Color.fromRGBO(255, 218, 249, 1),
                   ),
                   child: Text('บันทึกหมายเหตุ'),
                 ),
@@ -193,14 +189,12 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 child: Container(
                   margin: EdgeInsets.only(top: 2, left: 10, right: 10),
                   height: 30,
-                  padding: EdgeInsets.all(2.0),
+                  padding: EdgeInsets.all(4.5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromRGBO(255, 218, 249, 1),
-                    border: active_l4 == true
-                        ? Border.all(
-                            color: Color.fromRGBO(202, 71, 150, 1), width: 2)
-                        : Border.all(color: Colors.transparent),
+                    color: active_l4 == true
+                        ? Color.fromRGBO(202, 71, 150, 1)
+                        : Color.fromRGBO(255, 218, 249, 1),
                   ),
                   child: Text('ชำระค่างวด'),
                 ),

@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="thaweeyont.com.application_thaweeyont">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="application_thaweeyont"
         android:name="${applicationName}"

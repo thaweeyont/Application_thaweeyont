@@ -15,6 +15,8 @@ class MyContant {
   static String routePayInstallment = '/state_credit/pay_installment';
   static String routePagePuechaseinfo =
       '/state_credit/check_purchase_info/page_checkpurchase_info';
+  static String routePageCreditApproval =
+      '/state_credit/credit_approval/page_credit_approval';
 
   // Image
   static String image1 = 'images/image1.png';

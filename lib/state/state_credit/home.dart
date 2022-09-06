@@ -62,30 +62,37 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 
-  Container check_approve(double size) {
-    return Container(
-      padding: const EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Color.fromRGBO(251, 713, 55, 1),
+  InkWell check_approve(double size) {
+    return InkWell(
+      onTap: () => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('3')),
+        (Route<dynamic> route) => false,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Icon(
-              Icons.manage_accounts_rounded,
-              size: size * 0.19,
-              color: Colors.white,
+      child: Container(
+        padding: const EdgeInsets.all(30),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(251, 713, 55, 1),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Icon(
+                Icons.manage_accounts_rounded,
+                size: size * 0.19,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Text(
-            "พิจารณาอนุมัติสินเชื่อ",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
+            Text(
+              "พิจารณาอนุมัติสินเชื่อ",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }
