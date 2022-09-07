@@ -1,5 +1,6 @@
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_credit/check_purchase_info/page_checkpurchase_info.dart';
+import 'package:application_thaweeyont/state/state_credit/credit_approval/page_check_blacklist.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/data_searchdebtor.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
@@ -20,6 +21,8 @@ final Map<String, WidgetBuilder> map = {
       (BuildContext context) => Page_Checkpurchase_info(),
   '/state_credit/credit_approval/page_credit_approval':
       (BuildContext context) => Page_Credit_Approval(),
+  '/state_credit/credit_approval/page_check_blacklist':
+      (BuildContext context) => Page_Check_Blacklist(),
   // '/salerService': (BuildContext context) => SalerService(),
   // '/riderService': (BuildContext context) => RiderService(),
 };

@@ -17,6 +17,8 @@ class MyContant {
       '/state_credit/check_purchase_info/page_checkpurchase_info';
   static String routePageCreditApproval =
       '/state_credit/credit_approval/page_credit_approval';
+  static String routePageCheckBlacklist =
+      '/state_credit/credit_approval/page_check_blacklist';
 
   // Image
   static String image1 = 'images/image1.png';

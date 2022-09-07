@@ -1,3 +1,6 @@
+import 'package:application_thaweeyont/state/state_credit/credit_approval/page_check_blacklist.dart';
+import 'package:application_thaweeyont/state/state_credit/credit_approval/page_info_consider_cus.dart';
+import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 
 class Page_Credit_Approval extends StatefulWidget {
@@ -8,6 +11,31 @@ class Page_Credit_Approval extends StatefulWidget {
 }
 
 class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
+  String page = 'list_content1';
+  bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
+
+  void menu_list(page) {
+    setState(() {
+      active_cl1 = false;
+      active_cl2 = false;
+      active_cl3 = false;
+    });
+    switch (page) {
+      case "list_content1":
+        setState(() {
+          page = "list_content1";
+          active_cl1 = true;
+        });
+        break;
+      case "list_content2":
+        setState(() {
+          page = "list_content2";
+          active_cl2 = true;
+        });
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -254,77 +282,166 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                 ],
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: Scrollbar(
-                child: ListView(
-                  children: [
-                    // if (datauser.isNotEmpty) ...[
-                    for (var i = 0; i < 5; i++) ...[
-                      InkWell(
-                        onTap: () {
-                          // var idcard = datauser[i].idcard;
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           Data_SearchDebtor(idcard)),
-                          // );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: Color.fromRGBO(251, 173, 55, 1),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text('วันทำสัญญา : '),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text('เลขที่สัญญา : '),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text('ชื่อสินค้า : '),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('รหัสเขต : '),
-                                    Text('สถานะ'),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+            if (active_cl1 == true) ...[
+              content_list1(context),
+            ],
+            if (active_cl2 == true) ...[
+              content_list2(context),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container content_list1(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.6,
+      child: Scrollbar(
+        child: ListView(
+          children: [
+            // if (datauser.isNotEmpty) ...[
+            for (var i = 0; i < 5; i++) ...[
+              InkWell(
+                onTap: () {
+                  // var idcard = datauser[i].idcard;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Page_Info_Consider_Cus(),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text('วันทำสัญญา : '),
+                          ],
                         ),
-                      ),
-                    ],
-                  ],
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text('เลขที่สัญญา : '),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text('ชื่อสินค้า : '),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('รหัสเขต : '),
+                            Text('สถานะ : '),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container content_list2(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.6,
+      child: Scrollbar(
+        child: ListView(
+          children: [
+            // if (datauser.isNotEmpty) ...[
+            for (var i = 0; i < 5; i++) ...[
+              InkWell(
+                onTap: () {
+                  // var idcard = datauser[i].idcard;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Page_Info_Consider_Cus(),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text('เลขที่สัญญา : '),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text('ชื่อ-สกุล : '),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text('ชื่อ-สกุลในสัญญา : '),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('ยอดคงเหลือ : '),
+                            Text('สถานะ : '),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('เขตติดตาม : '),
+                            Text('สถานะสัญญา : '),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -345,60 +462,65 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             children: [
               InkWell(
                 onTap: () {
-                  // menu_list("list_content1");
+                  menu_list("list_content1");
                 },
                 child: Container(
                   margin: EdgeInsets.only(top: 2, left: 10),
                   height: 32,
                   padding: EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromRGBO(251, 173, 55, 1),
-                    // border: active_l1 == true
-                    //     ? Border.all(
-                    //         color: Color.fromRGBO(202, 71, 150, 1), width: 2)
-                    //     : Border.all(color: Colors.transparent),
-                    // color: active_l1 == true
-                    //     ? Color.fromRGBO(202, 71, 150, 1)
-                    //     : Color.fromRGBO(255, 218, 249, 1),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    color: active_cl1 == true
+                        ? Color.fromRGBO(202, 121, 0, 1)
+                        : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text('ตรวจสอบหนี้สิน'),
                 ),
               ),
               InkWell(
                 onTap: () {
-                  // menu_list("list_content2");
+                  menu_list("list_content2");
                 },
                 child: Container(
                   margin: EdgeInsets.only(top: 2, left: 10),
                   height: 32,
                   padding: EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Color.fromRGBO(251, 173, 55, 1),
-                    // border: active_l2 == true
-                    //     ? Border.all(
-                    //         color: Color.fromRGBO(202, 71, 150, 1), width: 2)
-                    //     : Border.all(color: Colors.transparent),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    color: active_cl2 == true
+                        ? Color.fromRGBO(202, 121, 0, 1)
+                        : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text('รายละเอียดผู้ค้ำ'),
                 ),
               ),
               InkWell(
                 onTap: () {
-                  // menu_list("list_content3");
+                  // Navigator.pushNamed(
+                  //     context, MyContant.routePageCheckBlacklist);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Page_Check_Blacklist(),
+                    ),
+                  );
                 },
                 child: Container(
                   margin: EdgeInsets.only(top: 2, left: 10),
                   height: 32,
                   padding: EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                     color: Color.fromRGBO(251, 173, 55, 1),
-                    // border: active_l3 == true
-                    //     ? Border.all(
-                    //         color: Color.fromRGBO(202, 71, 150, 1), width: 2)
-                    //     : Border.all(color: Colors.transparent),
+                    // color: active_cl3 == true
+                    //     ? Color.fromRGBO(202, 121, 0, 1)
+                    //     : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text('เช็ค Blacklist'),
                 ),
