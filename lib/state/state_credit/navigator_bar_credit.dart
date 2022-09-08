@@ -1,6 +1,7 @@
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor.dart';
+import 'package:application_thaweeyont/state/state_credit/status_member/page_status_member.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,6 +49,12 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           title_head = "พิจารณาอนุมัติสินเชื่อ";
         });
         break;
+      case "4":
+        setState(() {
+          _selectedIndex = 4;
+          title_head = "สถานะสมาชิกทวียนต์";
+        });
+        break;
       default:
         {
           setState(() {
@@ -87,7 +94,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     Page_Checkpurchase_info(),
     Home_credit(),
     Page_Credit_Approval(),
-    Home_credit(),
+    Page_Status_Member(),
   ];
 
   @override
@@ -190,6 +197,12 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                     setState(() {
                       _selectedIndex = 3;
                       title_head = "พิจารณาอนุมัติสินเชื่อ";
+                    });
+                    break;
+                  case 4:
+                    setState(() {
+                      _selectedIndex = 4;
+                      title_head = "สถานะสมาชิกทวียนต์";
                     });
                     break;
                   default:

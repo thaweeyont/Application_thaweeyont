@@ -81,9 +81,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               ),
             ),
             group_btnsearch(),
-            SizedBox(
-              height: 10,
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: DefaultTabController(
