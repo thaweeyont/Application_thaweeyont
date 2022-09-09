@@ -29,6 +29,8 @@ class MyContant {
   static String image4 = 'images/image4.png';
   static String avatar = 'images/avatar.png';
   static String logo_login = 'images/logo.png';
+  static String map = 'images/map.jpeg';
+  static String idcard = 'images/idcard.png';
 
   //Color
   static Color primary = Color(0xff87861d);

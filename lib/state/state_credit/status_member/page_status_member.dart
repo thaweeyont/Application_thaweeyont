@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../utility/my_constant.dart';
 import '../../../widgets/show_image.dart';
 
@@ -316,7 +315,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           ),
                           Container(
                             width: size * 0.8,
-                            child: ShowImage(path: MyContant.logo_login),
+                            child: ShowImage(path: MyContant.idcard),
                           ),
                         ],
                       ),
@@ -390,7 +389,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           ),
                           Container(
                             width: size * 0.8,
-                            child: ShowImage(path: MyContant.image2),
+                            child: ShowImage(path: MyContant.map),
                           ),
                         ],
                       ),
@@ -419,6 +418,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
     return Scaffold(
       body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
         child: ListView(
           children: [
             Padding(

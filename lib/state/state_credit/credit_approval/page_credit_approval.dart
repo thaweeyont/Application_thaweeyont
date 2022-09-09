@@ -50,6 +50,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
     return Scaffold(
       body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
         child: ListView(
           children: [
             Padding(
@@ -598,7 +600,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -624,7 +625,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",

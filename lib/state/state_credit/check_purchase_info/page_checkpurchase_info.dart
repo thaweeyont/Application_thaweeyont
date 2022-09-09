@@ -474,7 +474,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",

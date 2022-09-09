@@ -935,6 +935,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),

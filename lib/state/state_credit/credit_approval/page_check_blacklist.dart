@@ -26,6 +26,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         title: Text('เช็ค Blacklist'),
       ),
       body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
         child: ListView(
           children: [
             Padding(
@@ -139,6 +141,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           keyboardType: TextInputType.number,
+          maxLength: 13,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -164,7 +167,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -190,7 +192,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -216,7 +217,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
