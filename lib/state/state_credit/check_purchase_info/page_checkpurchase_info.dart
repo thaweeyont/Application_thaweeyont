@@ -1,3 +1,5 @@
+import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 enum ProductTypeEum { Customer, Employee }
@@ -11,11 +13,25 @@ class Page_Checkpurchase_info extends StatefulWidget {
 }
 
 class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
-  String dropdownValue = 'ขายของ';
-  String dropdownValueCus = 'รหัส';
-  ProductTypeEum? _productTypeEum;
+  var selectedType, selectedTypeCus;
+  List<String> dropdownValue = <String>[
+    'ขายรถ',
+    'ขายเครื่องใช้ไฟฟ้า',
+    'ขายโทรศัพท์',
+    'ขายเฟอร์นิเจอร์'
+  ];
+  List<String> dropdownValueCus = <String>[
+    'รหัส',
+    'ชื่อ',
+    'ที่อยู่ ',
+    'เบอร์โทร'
+  ];
 
+  ProductTypeEum? _productTypeEum;
   bool st_customer = true, st_employee = false;
+  var filter_search = false;
+  TextEditingController idcustomer = TextEditingController();
+  TextEditingController namecustomer = TextEditingController();
 
   @override
   void initState() {
@@ -23,6 +39,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     super.initState();
     setState(() {
       _productTypeEum = ProductTypeEum.Customer;
+    });
+    setState(() {
+      _productTypeEum.toString();
     });
   }
 
@@ -120,6 +139,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       groupValue: _productTypeEum,
                                       title: Text('พนักงาน'),
                                       onChanged: (val) {
+                                        print(val);
                                         setState(() {
                                           st_customer = false;
                                           st_employee = true;
@@ -318,7 +338,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                     Row(
                       children: [
                         Text('ประเภทการขาย'),
-                        input_sale_type(sizeIcon, border),
+                        select_sale_type(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -342,68 +362,72 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               child: Scrollbar(
                 child: ListView(
                   children: [
-                    for (var i = 0; i <= 5; i++) ...[
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: Color.fromRGBO(229, 188, 244, 1),
+                    if (filter_search) ...[
+                      for (var i = 0; i <= 5; i++) ...[
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Color.fromRGBO(229, 188, 244, 1),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('ลำดับ : ${i + 1}'),
+                                  Text('วันที่ขาย : 16/08/2565'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text('เลขที่เอกสาร : RC0122080179'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text('ชื่อลูกค้า : กรรณิการ์ ทาทัน'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text('รายการสินค้า : เตารีด PHILIPS GCI426'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('ราคา : 590.00'),
+                                  Text('ประเภทการขาย : ขายแคช'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text('พนักงานขาย : นิมิตร สุวรรณประภา'),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('ลำดับ : ${i + 1}'),
-                                Text('วันที่ขาย : 16/08/2565'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text('เลขที่เอกสาร : RC0122080179'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text('ชื่อลูกค้า : กรรณิการ์ ทาทัน'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text('รายการสินค้า : เตารีด PHILIPS GCI426'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('ราคา : 590.00'),
-                                Text('ประเภทการขาย : ขายแคช'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text('พนักงานขาย : นิมิตร สุวรรณประภา'),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                      ],
                     ],
                   ],
                 ),
@@ -438,7 +462,19 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                           padding: const EdgeInsets.all(0),
                           textStyle: const TextStyle(fontSize: 16),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (idcustomer.text.isNotEmpty ||
+                              namecustomer.text.isNotEmpty ||
+                              selectedType != null) {
+                            print(selectedType);
+                            setState(() {
+                              filter_search = true;
+                            });
+                          } else {
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรุณากรอกข้อมูลที่ต้องการค้นหา');
+                          }
+                        },
                         child: const Text('ค้นหา'),
                       ),
                     ),
@@ -455,7 +491,18 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                           padding: const EdgeInsets.all(0),
                           textStyle: const TextStyle(fontSize: 16),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            selectedType = null;
+                          });
+                          idcustomer.clear();
+                          namecustomer.clear();
+                          if (filter_search == true) {
+                            setState(() {
+                              filter_search = false;
+                            });
+                          }
+                        },
                         child: const Text('ยกเลิก'),
                       ),
                     ),
@@ -474,6 +521,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: idcustomer,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -499,6 +547,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: namecustomer,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -519,34 +568,42 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_sale_type(sizeIcon, border) {
+  Expanded select_sale_type(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(1),
+        padding: const EdgeInsets.all(8),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.07,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            value: dropdownValue,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: DropdownButton(
+            items: dropdownValue
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selectedSaleType) {
               setState(() {
-                dropdownValue = newValue!;
+                selectedType = selectedSaleType;
               });
             },
-            items: <String>['ขายของ', 'ขายน้ำ', 'ขายอาหาร', 'ขายฝัน']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+            value: selectedType,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'กรุณาเลือกประเภท',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
           ),
         ),
       ),
@@ -610,25 +667,31 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            value: dropdownValueCus,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
+          child: DropdownButton(
+            items: dropdownValueCus
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selectedCusType) {
               setState(() {
-                dropdownValueCus = newValue!;
+                selectedTypeCus = selectedCusType;
               });
             },
-            items: <String>['รหัส', 'ชื่อ', 'ที่อยู่ ', 'เบอร์โทร']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+            value: selectedTypeCus,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'กรุณาเลือกข้อมูล',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
           ),
         ),
       ),

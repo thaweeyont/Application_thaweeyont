@@ -448,8 +448,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                   ),
                                   child: TextButton(
                                     style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
                                       padding: const EdgeInsets.all(0),
-                                      primary: Colors.white,
                                       textStyle: const TextStyle(fontSize: 16),
                                     ),
                                     onPressed: () {},
@@ -823,8 +823,8 @@ class _Query_debtorState extends State<Query_debtor> {
                       ),
                       child: TextButton(
                         style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.all(0),
-                          primary: Colors.white,
                           textStyle: const TextStyle(fontSize: 16),
                         ),
                         onPressed: clearTextInput,
