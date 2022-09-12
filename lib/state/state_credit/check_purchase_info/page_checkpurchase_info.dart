@@ -186,8 +186,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   ),
                                   child: TextButton(
                                     style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
                                       padding: const EdgeInsets.all(0),
-                                      primary: Colors.white,
                                       textStyle: const TextStyle(fontSize: 16),
                                     ),
                                     onPressed: () {},
@@ -355,76 +355,81 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 5,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.5,
               child: Scrollbar(
                 child: ListView(
                   children: [
                     if (filter_search) ...[
                       for (var i = 0; i <= 5; i++) ...[
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 5),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color: Color.fromRGBO(229, 188, 244, 1),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('ลำดับ : ${i + 1}'),
-                                  Text('วันที่ขาย : 16/08/2565'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text('เลขที่เอกสาร : RC0122080179'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text('ชื่อลูกค้า : กรรณิการ์ ทาทัน'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text('รายการสินค้า : เตารีด PHILIPS GCI426'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('ราคา : 590.00'),
-                                  Text('ประเภทการขาย : ขายแคช'),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text('พนักงานขาย : นิมิตร สุวรรณประภา'),
-                                ],
-                              ),
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Color.fromRGBO(229, 188, 244, 1),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('ลำดับ : ${i + 1}'),
+                                    Text('วันที่ขาย : 16/08/2565'),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text('เลขที่เอกสาร : RC0122080179'),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text('ชื่อลูกค้า : กรรณิการ์ ทาทัน'),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                        'รายการสินค้า : เตารีด PHILIPS GCI426'),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('ราคา : 590.00'),
+                                    Text('ประเภทการขาย : ขายแคช'),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text('พนักงานขาย : นิมิตร สุวรรณประภา'),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

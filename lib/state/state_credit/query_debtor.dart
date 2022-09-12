@@ -14,16 +14,55 @@ class Query_debtor extends StatefulWidget {
 }
 
 class _Query_debtorState extends State<Query_debtor> {
-  String dropdownValue = 'One';
-  String dropdownValue1 = 'แม่สาย';
-  String dropdownValue2 = 'text';
-  String dropdownValue3 = 'tttt';
-  String dropdownValuesector = 'ภาคเหนือ';
-  String dropdownValueprovince = 'เชียงราย';
-  String dropdownValueamphoe = 'เมืองเชียงราย';
+  var selected,
+      selectedBranch,
+      selectedreceiType,
+      selectedStatus,
+      selectsector,
+      selectprovince,
+      selectamphoe;
+  List<String> dropdownValue = <String>[
+    'ชื่อ',
+    'นามสกุล',
+    'เบอร์โทร',
+    'เลขบัตรประชาชน'
+  ];
+  List<String> dropdownBranch = <String>[
+    'แม่สาย',
+    'สำนักงานใหญ่',
+    'เชียงรายมอลล์ ',
+    'แม่จัน'
+  ];
+  List<String> dropdownreceiType = <String>['ดีมาก', 'ดี', 'ปานกลาง ', 'ไม่ดี'];
+  List<String> dropdowncontractStatus = <String>['ยังไม่หมดสัญญา', 'หมดสัญญา'];
+  List<String> dropdowncdropdownValuesectorontractStatus = <String>[
+    'ยังไม่หมดสัญญา',
+    'หมดสัญญา'
+  ];
+  List<String> dropdownsector = <String>[
+    'ภาคเหนือ',
+    'ภาคกลาง',
+    'ภาคอีสาน',
+    'ภาคใต้ '
+  ];
+  List<String> dropdownprovince = <String>[
+    'เชียงราย',
+    'เชียงใหม่',
+    'พะเยา',
+    'ลำปาง'
+  ];
+  List<String> dropdownamphoe = <String>[
+    'เมืองเชียงราย',
+    'แม่จัน',
+    'แม่สาย',
+    'พาน'
+  ];
   var filter = false;
   List<Login> datauser = [];
   TextEditingController idcard = TextEditingController();
+  TextEditingController district = TextEditingController();
+  TextEditingController amphoe = TextEditingController();
+  TextEditingController provincn = TextEditingController();
 
   Future<void> get_datauser(String id_card) async {
     try {
@@ -86,7 +125,14 @@ class _Query_debtorState extends State<Query_debtor> {
                                 Row(
                                   children: [
                                     InkWell(
-                                      onTap: () => Navigator.pop(context),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          selectsector = null;
+                                          selectprovince = null;
+                                          selectamphoe = null;
+                                        });
+                                      },
                                       child: Container(
                                         width: 30,
                                         height: 30,
@@ -117,161 +163,19 @@ class _Query_debtorState extends State<Query_debtor> {
                               Row(
                                 children: [
                                   Text('ภาค'),
-                                  // input_sector(sizeIcon, border),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        // height: 27,
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.07,
-                                        // margin: EdgeInsets.zero,
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: DropdownButton<String>(
-                                          isExpanded: true,
-                                          // hint: Text(
-                                          //   "เลือกอำเภอ",
-                                          //   style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-                                          // ),
-                                          value: dropdownValuesector,
-                                          elevation: 16,
-                                          style: TextStyle(
-                                              fontFamily: 'Prompt',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          underline: SizedBox(),
-                                          onChanged: (String? newValue) {
-                                            setState(() {
-                                              dropdownValuesector = newValue!;
-                                            });
-                                          },
-                                          items: <String>[
-                                            'ภาคเหนือ',
-                                            'ภาคกลาง',
-                                            'ภาคอีสาน',
-                                            'ภาคใต้ '
-                                          ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  select_sectorDia(context, setState),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('จังหวัด'),
-                                  // input_provinceDia(sizeIcon, border),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        // height: 27,
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.07,
-                                        // margin: EdgeInsets.zero,
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: DropdownButton<String>(
-                                          isExpanded: true,
-                                          // hint: Text(
-                                          //   "เลือกอำเภอ",
-                                          //   style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-                                          // ),
-                                          value: dropdownValueprovince,
-                                          elevation: 16,
-                                          style: TextStyle(
-                                              fontFamily: 'Prompt',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          underline: SizedBox(),
-                                          onChanged: (String? newValue) {
-                                            setState(() {
-                                              dropdownValueprovince = newValue!;
-                                            });
-                                          },
-                                          items: <String>[
-                                            'เชียงราย',
-                                            'เชียงใหม่',
-                                            'พะเยา',
-                                            'ลำปาง'
-                                          ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  select_provincnDia(context, setState),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('​อำเภอ'),
-                                  // input_amphoeDia(sizeIcon, border),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.07,
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: DropdownButton<String>(
-                                          isExpanded: true,
-                                          // hint: Text(
-                                          //   "เลือกอำเภอ",
-                                          //   style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-                                          // ),
-                                          value: dropdownValueamphoe,
-                                          elevation: 16,
-                                          style: TextStyle(
-                                              fontFamily: 'Prompt',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          underline: SizedBox(),
-                                          onChanged: (String? newValue) {
-                                            setState(() {
-                                              dropdownValueamphoe = newValue!;
-                                            });
-                                          },
-                                          items: <String>[
-                                            'เมืองเชียงราย',
-                                            'แม่จัน',
-                                            'แม่สาย',
-                                            'พาน'
-                                          ].map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                            return DropdownMenuItem<String>(
-                                              value: value,
-                                              child: Text(value),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  select_amphoeDia(context, setState),
                                 ],
                               ),
                             ]),
@@ -313,32 +217,46 @@ class _Query_debtorState extends State<Query_debtor> {
                               child: ListView(
                                 children: [
                                   for (var i = 0; i <= 10; i++) ...[
-                                    Container(
-                                      margin: EdgeInsets.symmetric(vertical: 5),
-                                      padding: EdgeInsets.all(8.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                        color: Color.fromRGBO(255, 218, 249, 1),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text('จังหวัด : เชียงราย'),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text('อำเภอ : เมืองเชียงราย'),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text('ตำบล : รอบเวียง'),
-                                            ],
-                                          ),
-                                        ],
+                                    InkWell(
+                                      onTap: () {
+                                        setState(
+                                          () {
+                                            district.text = 'รอบเวียง';
+                                            amphoe.text = 'เมืองเชียงราย';
+                                            provincn.text = 'เชียงราย';
+                                          },
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        padding: EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color:
+                                              Color.fromRGBO(255, 218, 249, 1),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text('จังหวัด : เชียงราย'),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text('อำเภอ : เมืองเชียงราย'),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text('ตำบล : รอบเวียง'),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -351,6 +269,126 @@ class _Query_debtorState extends State<Query_debtor> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded select_amphoeDia(BuildContext context, StateSetter setState) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.07,
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: DropdownButton(
+            items: dropdownamphoe
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selected_Amphoe) {
+              setState(() {
+                selectamphoe = selected_Amphoe;
+              });
+            },
+            value: selectamphoe,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'เลือกอำเภอ',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded select_provincnDia(BuildContext context, StateSetter setState) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.07,
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: DropdownButton(
+            items: dropdownprovince
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selected_Provincn) {
+              setState(() {
+                selectprovince = selected_Provincn;
+              });
+            },
+            value: selectprovince,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'เลือกจังหวัด',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded select_sectorDia(BuildContext context, StateSetter setState) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.07,
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: DropdownButton(
+            items: dropdownsector
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selected_Sector) {
+              setState(() {
+                selectsector = selected_Sector;
+              });
+            },
+            value: selectsector,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'เลือกภาค',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
               ),
             ),
           ),
@@ -515,6 +553,9 @@ class _Query_debtorState extends State<Query_debtor> {
 
   clearTextInput() {
     idcard.clear();
+    district.clear();
+    amphoe.clear();
+    provincn.clear();
     setState(() {
       datauser.clear();
     });
@@ -569,7 +610,7 @@ class _Query_debtorState extends State<Query_debtor> {
                         Text('เบอร์โทร'),
                         input_tel(sizeIcon, border),
                         Text('ค้นหาจาก'),
-                        input_search(sizeIcon, border),
+                        select_search(sizeIcon, border),
                       ],
                     ),
                     line(),
@@ -620,7 +661,7 @@ class _Query_debtorState extends State<Query_debtor> {
                     Row(
                       children: [
                         Text('สาขา'),
-                        input_branch(sizeIcon, border),
+                        select_branch(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -632,13 +673,13 @@ class _Query_debtorState extends State<Query_debtor> {
                     Row(
                       children: [
                         Text('ประเภทลูกหนี้ '),
-                        input_receivableType(sizeIcon, border),
+                        select_receivableType(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
                         Text('สถานะสัญญา'),
-                        input_contractStatus(sizeIcon, border),
+                        select_contractStatus(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -955,40 +996,40 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_search(sizeIcon, border) {
+  Expanded select_search(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          // height: 27,
           height: MediaQuery.of(context).size.width * 0.07,
-          // margin: EdgeInsets.zero,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            hint: Text(
-              "เลือกอำเภอ",
-              style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-            ),
-            value: dropdownValue,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
+          child: DropdownButton(
+            items: dropdownValue
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selectedSearch) {
               setState(() {
-                dropdownValue = newValue!;
+                selected = selectedSearch;
               });
             },
-            items: <String>['One', 'Two', 'Free', 'Four']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+            value: selected,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'ค้นหาจาก',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
           ),
         ),
       ),
@@ -1048,6 +1089,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: district,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
@@ -1072,6 +1114,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: amphoe,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
@@ -1096,6 +1139,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: provincn,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
@@ -1115,7 +1159,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_branch(sizeIcon, border) {
+  Expanded select_branch(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1126,33 +1170,31 @@ class _Query_debtorState extends State<Query_debtor> {
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            hint: Text(
-              "เลือกอำเภอ",
-              style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-            ),
-            value: dropdownValue1,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
+          child: DropdownButton(
+            items: dropdownBranch
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selected_branch) {
               setState(() {
-                dropdownValue1 = newValue!;
+                selectedBranch = selected_branch;
               });
             },
-            items: <String>[
-              'แม่สาย',
-              'สำนักงานใหญ่',
-              'เชียงรายมอลล์ ',
-              'แม่จัน'
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+            value: selectedBranch,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'เลือกสาขา',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
           ),
         ),
       ),
@@ -1183,7 +1225,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_receivableType(sizeIcon, border) {
+  Expanded select_receivableType(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1194,36 +1236,38 @@ class _Query_debtorState extends State<Query_debtor> {
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            hint: Text(
-              "เลือกอำเภอ",
-              style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-            ),
-            value: dropdownValue2,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
+          child: DropdownButton(
+            items: dropdownreceiType
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selected_receiType) {
               setState(() {
-                dropdownValue2 = newValue!;
+                selectedreceiType = selected_receiType;
               });
             },
-            items: <String>['text', 'Two', 'Free', 'Four']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+            value: selectedreceiType,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'เลือกประเภทลูกหนี้',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Expanded input_contractStatus(sizeIcon, border) {
+  Expanded select_contractStatus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1234,29 +1278,31 @@ class _Query_debtorState extends State<Query_debtor> {
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            hint: Text(
-              "เลือกอำเภอ",
-              style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-            ),
-            value: dropdownValue3,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
+          child: DropdownButton(
+            items: dropdowncontractStatus
+                .map((value) => DropdownMenuItem(
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      ),
+                      value: value,
+                    ))
+                .toList(),
+            onChanged: (selected_status) {
               setState(() {
-                dropdownValue3 = newValue!;
+                selectedStatus = selected_status;
               });
             },
-            items: <String>['tttt', 'Two', 'Free', 'Four']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+            value: selectedStatus,
+            isExpanded: true,
+            underline: SizedBox(),
+            hint: Align(
+              child: Text(
+                'เลือกสถานะสัญญา',
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+              ),
+            ),
           ),
         ),
       ),
@@ -1281,124 +1327,6 @@ class _Query_debtorState extends State<Query_debtor> {
             suffixIconConstraints: sizeIcon,
             filled: true,
             fillColor: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded input_sector(sizeIcon, border) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          // height: 27,
-          height: MediaQuery.of(context).size.width * 0.07,
-          // margin: EdgeInsets.zero,
-          padding: EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            // hint: Text(
-            //   "เลือกอำเภอ",
-            //   style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-            // ),
-            value: dropdownValuesector,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValuesector = newValue!;
-              });
-            },
-            items: <String>['ภาคเหนือ', 'ภาคกลาง', 'ภาคอีสาน', 'ภาคใต้']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded input_provinceDia(sizeIcon, border) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          // height: 27,
-          height: MediaQuery.of(context).size.width * 0.07,
-          // margin: EdgeInsets.zero,
-          padding: EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            // hint: Text(
-            //   "เลือกอำเภอ",
-            //   style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-            // ),
-            value: dropdownValueprovince,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValueprovince = newValue!;
-              });
-            },
-            items: <String>['เชียงราย', 'เชียงใหม่', 'พะเยา', 'ลำปาง']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded input_amphoeDia(sizeIcon, border) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: MediaQuery.of(context).size.width * 0.07,
-          padding: EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            // hint: Text(
-            //   "เลือกอำเภอ",
-            //   style: TextStyle(fontFamily: 'Prompt', color: Colors.grey),
-            // ),
-            value: dropdownValueamphoe,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValueamphoe = newValue!;
-              });
-            },
-            items: <String>['เมืองเชียงราย', 'แม่จัน', 'แม่สาย', 'พาน']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
           ),
         ),
       ),

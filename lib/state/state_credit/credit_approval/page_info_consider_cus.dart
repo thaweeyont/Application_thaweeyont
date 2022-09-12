@@ -72,6 +72,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 content_list_mu3(context),
               ],
               if (active_mu4 == true) ...[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text('รายการชำระค่างวด'),
+                    ],
+                  ),
+                ),
                 content_list_mu4(context),
               ],
             ],
@@ -210,9 +218,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       ),
-                      // border: Border(
-                      //   top: BorderSide(color: Colors.grey, width: 0.5),
-                      // ),
                     ),
                     child: TabBarView(children: <Widget>[
                       //ผู้ค้ำที1
@@ -852,17 +857,9 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu4(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.75,
       child: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text('รายการชำระค่างวด'),
-              ],
-            ),
-          ),
           for (var i = 0; i <= 10; i++) ...[
             InkWell(
               onTap: () {
@@ -874,7 +871,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 );
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Container(
                   padding: EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
