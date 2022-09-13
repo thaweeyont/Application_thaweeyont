@@ -119,10 +119,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   Expanded(
                                     child: RadioListTile<ProductTypeEum>(
                                       contentPadding: EdgeInsets.all(0.0),
-                                      tileColor: Colors.blue.shade100,
                                       value: ProductTypeEum.Customer,
                                       groupValue: _productTypeEum,
-                                      title: Text('ลูกค้าทั่วไป'),
+                                      title: Text(
+                                        'ลูกค้าทั่วไป',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
                                       onChanged: (val) {
                                         print(val);
                                         setState(() {
@@ -137,7 +139,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                     child: RadioListTile<ProductTypeEum>(
                                       value: ProductTypeEum.Employee,
                                       groupValue: _productTypeEum,
-                                      title: Text('พนักงาน'),
+                                      title: Text(
+                                        'พนักงาน',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
                                       onChanged: (val) {
                                         print(val);
                                         setState(() {
@@ -153,9 +158,15 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                               if (st_employee == true) ...[
                                 Row(
                                   children: [
-                                    Text('ชื่อ'),
+                                    Text(
+                                      'ชื่อ',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
                                     input_nameCusDia(sizeIcon, border),
-                                    Text('สกุล'),
+                                    Text(
+                                      'สกุล',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
                                     input_lastNameCusDia(sizeIcon, border),
                                   ],
                                 ),
@@ -172,6 +183,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                               ],
                             ]),
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
@@ -179,17 +193,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                               children: [
                                 Container(
                                   height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Color.fromRGBO(76, 83, 146, 1),
-                                  ),
                                   child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      padding: const EdgeInsets.all(0),
-                                      textStyle: const TextStyle(fontSize: 16),
-                                    ),
+                                    style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {},
                                     child: const Text('ค้นหา'),
                                   ),
@@ -199,7 +204,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                           ),
                           Row(
                             children: [
-                              Text('รายการที่ค้นหา'),
+                              Text(
+                                'รายการที่ค้นหา',
+                                style: MyContant().h2Style(),
+                              ),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -220,7 +228,11 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       children: [
                                         Row(
                                           children: [
-                                            Text('รหัส : M181505470255'),
+                                            Text(
+                                              'รหัส : M181505470255',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
                                           ],
                                         ),
                                         SizedBox(
@@ -229,7 +241,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                         Row(
                                           children: [
                                             Text(
-                                                'ชื่อ-สกุล : นางสาว กรรณิการ์ ทาทัน (13914)'),
+                                              'ชื่อ-สกุล : นางสาว กรรณิการ์ ทาทัน (13914)',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
                                           ],
                                         ),
                                         SizedBox(
@@ -239,10 +254,16 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('ที่อยู่ : '),
+                                            Text(
+                                              'ที่อยู่ : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
                                             Expanded(
                                               child: Text(
                                                 'เลขประจำตัวผู้เสียภาษี 1570400205606 25 ม.2 ต.ปล้อง อ.เทิง จ.เชียงราย 57230',
+                                                style:
+                                                    MyContant().h4normalStyle(),
                                                 overflow: TextOverflow.clip,
                                               ),
                                             ),
@@ -253,7 +274,11 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                         ),
                                         Row(
                                           children: [
-                                            Text('โทร : 097-1931096'),
+                                            Text(
+                                              'โทร : 097-1931096',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
                                           ],
                                         ),
                                       ],
@@ -308,7 +333,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                   children: [
                     Row(
                       children: [
-                        Text('รหัสลูกค้า'),
+                        Text(
+                          'รหัสลูกค้า',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_idcustomer(sizeIcon, border),
                         InkWell(
                           onTap: () {
@@ -331,13 +359,19 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                     ),
                     Row(
                       children: [
-                        Text('ชื่อลูกค้า'),
+                        Text(
+                          'ชื่อลูกค้า',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_namecustomer(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('ประเภทการขาย'),
+                        Text(
+                          'ประเภทการขาย',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         select_sale_type(sizeIcon, border),
                       ],
                     ),
@@ -350,7 +384,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text('รายการที่ค้นหา'),
+                  Text(
+                    'รายการที่ค้นหา',
+                    style: MyContant().h2Style(),
+                  ),
                 ],
               ),
             ),
@@ -380,24 +417,14 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('ลำดับ : ${i + 1}'),
-                                    Text('วันที่ขาย : 16/08/2565'),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text('เลขที่เอกสาร : RC0122080179'),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text('ชื่อลูกค้า : กรรณิการ์ ทาทัน'),
+                                    Text(
+                                      'ลำดับ : ${i + 1}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Text(
+                                      'วันที่ขาย : 16/08/2565',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -406,7 +433,31 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 Row(
                                   children: [
                                     Text(
-                                        'รายการสินค้า : เตารีด PHILIPS GCI426'),
+                                      'เลขที่เอกสาร : RC0122080179',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'ชื่อลูกค้า : กรรณิการ์ ทาทัน',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'รายการสินค้า : เตารีด PHILIPS GCI426',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -416,8 +467,14 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('ราคา : 590.00'),
-                                    Text('ประเภทการขาย : ขายแคช'),
+                                    Text(
+                                      'ราคา : 590.00',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Text(
+                                      'ประเภทการขาย : ขายแคช',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -425,7 +482,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 ),
                                 Row(
                                   children: [
-                                    Text('พนักงานขาย : นิมิตร สุวรรณประภา'),
+                                    Text(
+                                      'พนักงานขาย : นิมิตร สุวรรณประภา',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -457,16 +517,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                   children: [
                     Container(
                       height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Color.fromRGBO(76, 83, 146, 1),
-                      ),
                       child: TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(0),
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
+                        style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
                           if (idcustomer.text.isNotEmpty ||
                               namecustomer.text.isNotEmpty ||
@@ -486,16 +538,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                     SizedBox(width: 10),
                     Container(
                       height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Color.fromRGBO(248, 40, 78, 1),
-                      ),
                       child: TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(0),
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
+                        style: MyContant().myButtonCancelStyle(),
                         onPressed: () {
                           setState(() {
                             selectedType = null;

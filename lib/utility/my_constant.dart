@@ -38,27 +38,48 @@ class MyContant {
   static Color light = Color(0xffb9b64e);
 
   //Style
-  TextStyle h1Style() => TextStyle(
-        fontSize: 24,
-        color: dark,
-        fontWeight: FontWeight.bold,
+  TextStyle h1MenuStyle() => TextStyle(
+        fontSize: 16,
+        color: Colors.white,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
       );
   TextStyle h2Style() => TextStyle(
-        fontSize: 18,
-        color: dark,
-        fontWeight: FontWeight.w700,
+        fontSize: 16,
+        color: Colors.grey[700],
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
       );
   TextStyle h3Style() => TextStyle(
         fontSize: 14,
-        color: dark,
+        color: Colors.black,
         fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
+  TextStyle h4normalStyle() => TextStyle(
+        fontSize: 16,
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
       );
 
-  ButtonStyle myButtonStyle() => ElevatedButton.styleFrom(
-        backgroundColor: MyContant.primary,
+  ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
+        backgroundColor: Color.fromRGBO(76, 83, 146, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
         ),
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.all(0),
+        textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+      );
+  ButtonStyle myButtonCancelStyle() => ElevatedButton.styleFrom(
+        backgroundColor: Color.fromRGBO(248, 40, 78, 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.all(0),
+        textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );
 }
 

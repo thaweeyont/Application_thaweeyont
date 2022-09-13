@@ -162,19 +162,28 @@ class _Query_debtorState extends State<Query_debtor> {
                             child: Column(children: [
                               Row(
                                 children: [
-                                  Text('ภาค'),
+                                  Text(
+                                    'ภาค',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
                                   select_sectorDia(context, setState),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Text('จังหวัด'),
+                                  Text(
+                                    'จังหวัด',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
                                   select_provincnDia(context, setState),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Text('​อำเภอ'),
+                                  Text(
+                                    '​อำเภอ',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
                                   select_amphoeDia(context, setState),
                                 ],
                               ),
@@ -187,17 +196,8 @@ class _Query_debtorState extends State<Query_debtor> {
                               children: [
                                 Container(
                                   height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Color.fromRGBO(76, 83, 146, 1),
-                                  ),
                                   child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      padding: const EdgeInsets.all(0),
-                                      textStyle: const TextStyle(fontSize: 16),
-                                    ),
+                                    style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {},
                                     child: const Text('ค้นหา'),
                                   ),
@@ -207,7 +207,10 @@ class _Query_debtorState extends State<Query_debtor> {
                           ),
                           Row(
                             children: [
-                              Text('รายการที่ค้นหา'),
+                              Text(
+                                'รายการที่ค้นหา',
+                                style: MyContant().h2Style(),
+                              ),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -242,17 +245,44 @@ class _Query_debtorState extends State<Query_debtor> {
                                           children: [
                                             Row(
                                               children: [
-                                                Text('จังหวัด : เชียงราย'),
+                                                Text(
+                                                  'จังหวัด : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Text(
+                                                  'เชียงราย',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
                                               ],
                                             ),
                                             Row(
                                               children: [
-                                                Text('อำเภอ : เมืองเชียงราย'),
+                                                Text(
+                                                  'อำเภอ : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Text(
+                                                  'เมืองเชียงราย',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
                                               ],
                                             ),
                                             Row(
                                               children: [
-                                                Text('ตำบล : รอบเวียง'),
+                                                Text(
+                                                  'ตำบล : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Text(
+                                                  'รอบเวียง',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -592,39 +622,63 @@ class _Query_debtorState extends State<Query_debtor> {
                 children: [
                   Row(
                     children: [
-                      Text('เลขบัตรประชาชน'),
+                      Text(
+                        'เลขบัตรประชาชน',
+                        style: MyContant().h4normalStyle(),
+                      ),
                       input_idcard(sizeIcon, border),
                     ],
                   ),
                   Row(
                     children: [
-                      Text('ชื่อ'),
+                      Text(
+                        'ชื่อ',
+                        style: MyContant().h4normalStyle(),
+                      ),
                       input_name(sizeIcon, border),
-                      Text('นามสกุล'),
+                      Text(
+                        'นามสกุล',
+                        style: MyContant().h4normalStyle(),
+                      ),
                       input_lastname(sizeIcon, border),
                     ],
                   ),
                   if (filter == true) ...[
                     Row(
                       children: [
-                        Text('เบอร์โทร'),
+                        Text(
+                          'เบอร์โทร',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_tel(sizeIcon, border),
-                        Text('ค้นหาจาก'),
+                        Text(
+                          'ค้นหาจาก',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         select_search(sizeIcon, border),
                       ],
                     ),
                     line(),
                     Row(
                       children: [
-                        Text('บ้านเลขที่'),
+                        Text(
+                          'บ้านเลขที่',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_numberhome(sizeIcon, border),
-                        Text('หมู่'),
+                        Text(
+                          'หมู่',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_moo(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('ตำบล'),
+                        Text(
+                          'ตำบล',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_district(sizeIcon, border),
                         InkWell(
                           onTap: () {
@@ -647,44 +701,65 @@ class _Query_debtorState extends State<Query_debtor> {
                     ),
                     Row(
                       children: [
-                        Text('อำเภอ'),
+                        Text(
+                          'อำเภอ',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_amphoe(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('จังหวัด'),
+                        Text(
+                          'จังหวัด',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_province(sizeIcon, border),
                       ],
                     ),
                     line(),
                     Row(
                       children: [
-                        Text('สาขา'),
+                        Text(
+                          'สาขา',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         select_branch(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('เลขที่สัญญา'),
+                        Text(
+                          'เลขที่สัญญา',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_contractNumber(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('ประเภทลูกหนี้ '),
+                        Text(
+                          'ประเภทลูกหนี้ ',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         select_receivableType(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('สถานะสัญญา'),
+                        Text(
+                          'สถานะสัญญา',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         select_contractStatus(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('ประเภทสัญญา'),
+                        Text(
+                          'ประเภทสัญญา',
+                          style: MyContant().h4normalStyle(),
+                        ),
                         input_contractType(sizeIcon, border),
                         InkWell(
                           onTap: () {
@@ -714,11 +789,13 @@ class _Query_debtorState extends State<Query_debtor> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Text('รายการที่ค้นหา'),
+                Text(
+                  'รายการที่ค้นหา',
+                  style: MyContant().h2Style(),
+                ),
               ],
             ),
           ),
-          SizedBox(height: 10),
           Container(
             height: MediaQuery.of(context).size.height * 0.6,
             child: Scrollbar(
@@ -816,7 +893,10 @@ class _Query_debtorState extends State<Query_debtor> {
                   child: Container(
                     child: Row(
                       children: [
-                        Text('ค้นหาแบบละเอียด'),
+                        Text(
+                          'ค้นหาแบบละเอียด',
+                          style: MyContant().h3Style(),
+                        ),
                         if (filter == true) ...[
                           Icon(Icons.arrow_drop_up),
                         ] else ...[
@@ -834,16 +914,17 @@ class _Query_debtorState extends State<Query_debtor> {
                   children: [
                     Container(
                       height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Color.fromRGBO(76, 83, 146, 1),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                      //   color: Color.fromRGBO(76, 83, 146, 1),
+                      // ),
                       child: TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(0),
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
+                        style: MyContant().myButtonSearchStyle(),
+                        // style: TextButton.styleFrom(
+                        //   foregroundColor: Colors.white,
+                        //   padding: const EdgeInsets.all(0),
+                        //   textStyle: const TextStyle(fontSize: 16),
+                        // ),
                         onPressed: () {
                           if (idcard.text.isNotEmpty) {
                             get_datauser(idcard.text);
@@ -858,16 +939,17 @@ class _Query_debtorState extends State<Query_debtor> {
                     SizedBox(width: 10),
                     Container(
                       height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Color.fromRGBO(248, 40, 78, 1),
-                      ),
+                      // decoration: BoxDecoration(
+                      //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                      //   color: Color.fromRGBO(248, 40, 78, 1),
+                      // ),
                       child: TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(0),
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
+                        style: MyContant().myButtonCancelStyle(),
+                        // style: TextButton.styleFrom(
+                        //   foregroundColor: Colors.white,
+                        //   padding: const EdgeInsets.all(0),
+                        //   textStyle: const TextStyle(fontSize: 16),
+                        // ),
                         onPressed: clearTextInput,
                         child: const Text('ยกเลิก'),
                       ),

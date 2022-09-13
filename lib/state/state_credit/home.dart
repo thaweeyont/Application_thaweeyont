@@ -61,7 +61,7 @@ class _Home_creditState extends State<Home_credit> {
             Text(
               "สถานะสมาชิกทวียนต์",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: MyContant().h1MenuStyle(),
             ),
           ],
         ),
@@ -95,8 +95,8 @@ class _Home_creditState extends State<Home_credit> {
             ),
             Text(
               "พิจารณาอนุมัติสินเชื่อ",
+              style: MyContant().h1MenuStyle(),
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
             ),
           ],
         ),
@@ -131,7 +131,7 @@ class _Home_creditState extends State<Home_credit> {
             Text(
               "ตรวจสอบข้อมูลการซื้อสินค้า",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: MyContant().h1MenuStyle(),
             ),
           ],
         ),
@@ -166,7 +166,7 @@ class _Home_creditState extends State<Home_credit> {
             Text(
               "สอบถามลายละเอียดลูกหนี้",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: MyContant().h1MenuStyle(),
             ),
           ],
         ),
