@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class Authen extends StatefulWidget {
 class _AuthenState extends State<Authen> {
   bool statusRedEye = true;
   List<Login> datauser = [];
-  TextEditingController idcard = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
   late String name;
 
   Future<Null> getprofile_user() async {
@@ -34,52 +36,44 @@ class _AuthenState extends State<Authen> {
   }
 
   Future<void> login_user(String id_card) async {
+    // var headers = {'Content-Type': 'application/json;text/charset=utf-8'};
+    // var request = http.Request(
+    //     'POST', Uri.parse('https://twyapp.com/twyapi/apiV1/authen/'));
+    // request.body = json.encode({"userName": "Jakkrit.i", "passWord": "1234"});
+    // request.headers.addAll(headers);
+
+    // http.get() response = await request.send();
+
+    // if (response.statusCode == 200) {
+    //   print(await response.stream.bytesToString());
+    //   setState(() {
+    //     datauser = authenToJson(response.stream) as List<Data>;
+    //   });
+    //   // print(datauser[0].)
+    // } else {
+    //   print(response.reasonPhrase);
+    // }
+
     try {
-      var respose = await http.get(
-        Uri.http('110.164.131.46', '/flutter_api/api_user/login_user.php',
-            {"id_card": id_card}),
+      var respose = await http.post(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/authen/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(
+            <String, String>{'userName': 'Jakkrit.i', 'passWord': '1234'}),
       );
-      // print(respose.body);
+
       if (respose.statusCode == 200) {
-        setState(() {
-          datauser = loginFromJson(respose.body);
-        });
-        if (datauser[0].idcard!.isNotEmpty) {
-          setpreferences();
-        }
+        Map<String, dynamic> data =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        print(data['data']["firstName"]);
       }
     } catch (e) {
-      print("ไม่มีข้อมูล");
-      showProgressDialog(context, 'แจ้งเตือน', 'เลขบัตรประชาชนนี้ไม่ถูกต้อง');
+      print("ไม่มีข้อมูล $e");
+      // showProgressDialog(context, 'แจ้งเตือน', 'เลขบัตรประชาชนนี้ไม่ถูกต้อง');
     }
-  }
-
-  Future<Null> setpreferences() async {
-    var id_card = datauser[0].idcard;
-    var name_user = datauser[0].fullname;
-    var phone_user = datauser[0].phoneUser;
-    var address_user = datauser[0].addressUser;
-    var provinces = datauser[0].idProvinces;
-    var amphures = datauser[0].idAmphures;
-    var districts = datauser[0].idDistricts;
-    var profile = datauser[0].profileUser;
-    var member = datauser[0].statusMember;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString('id_card', id_card!);
-    preferences.setString('name_user', name_user!);
-    preferences.setString('phone_user', phone_user!);
-    preferences.setString('address_user', address_user!);
-    preferences.setString('provinces_user', provinces!);
-    preferences.setString('amphures_user', amphures!);
-    preferences.setString('districts_user', districts!);
-    preferences.setString('profile_user', profile!);
-    preferences.setString('member', member!);
-    preferences.setString('status_advert', "true");
-
-    Navigator.pushReplacementNamed(
-      context,
-      MyContant.routeNavigator_bar_credit,
-    );
   }
 
   @override
@@ -136,7 +130,7 @@ class _AuthenState extends State<Authen> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: idcard,
+                    controller: username,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.account_circle_rounded,
@@ -152,6 +146,7 @@ class _AuthenState extends State<Authen> {
             SizedBox(height: size * 0.04),
             Expanded(
               child: TextField(
+                controller: password,
                 obscureText: statusRedEye,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
@@ -193,12 +188,13 @@ class _AuthenState extends State<Authen> {
                   textStyle: const TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  if (idcard.text.isNotEmpty) {
-                    login_user(idcard.text);
-                  } else {
-                    showProgressDialog(
-                        context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ถูกต้อง');
-                  }
+                  login_user(username.text);
+                  // if (idcard.text.isNotEmpty) {
+                  //   login_user(idcard.text);
+                  // } else {
+                  //   showProgressDialog(
+                  //       context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ถูกต้อง');
+                  // }
 
                   // Navigator.pushReplacementNamed(
                   //     context, MyContant.routeNavigator_bar_credit);

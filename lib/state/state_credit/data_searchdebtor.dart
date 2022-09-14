@@ -20,7 +20,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       active_l2 = false,
       active_l3 = false,
       active_l4 = false;
-  List<Login> data_searchUser = [];
+  // List<NULL> data_searchUser = [];
 
   Future<void> get_datauser_search() async {
     try {
@@ -31,7 +31,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       // print(respose.body);
       if (respose.statusCode == 200) {
         setState(() {
-          data_searchUser = loginFromJson(respose.body);
+          // data_searchUser = loginFromJson(respose.body);
         });
         print(respose.body);
         // if (datauser[0].idcard!.isNotEmpty) {
@@ -92,11 +92,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         centerTitle: true,
         title: Text('ค้นหาข้อมูล'),
       ),
-      body: data_searchUser.isEmpty
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : GestureDetector(
+      body:  GestureDetector(
               child: Container(
                 child: Column(
                   children: [
@@ -237,7 +233,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('เลขที่สัญญา : ${data_searchUser[0].id}'),
+                      // Text('เลขที่สัญญา : ${data_searchUser[0].id}'),
                     ],
                   ),
                   SizedBox(
@@ -253,7 +249,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('ชื่อ-สกุล : ${data_searchUser[0].fullname}'),
+                      // Text('ชื่อ-สกุล : ${data_searchUser[0].fullname}'),
                     ],
                   ),
                   SizedBox(
@@ -263,12 +259,12 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('ที่อยู่ : '),
-                      Expanded(
-                        child: Text(
-                          '${data_searchUser[0].addressUser} ต.${data_searchUser[0].provincesU} อ.${data_searchUser[0].amphuresU} จ.${data_searchUser[0].districtsU}',
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: Text(
+                      //     '${data_searchUser[0].addressUser} ต.${data_searchUser[0].provincesU} อ.${data_searchUser[0].amphuresU} จ.${data_searchUser[0].districtsU}',
+                      //     overflow: TextOverflow.clip,
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
@@ -278,10 +274,10 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('สถานที่ทำงาน : '),
-                      Expanded(
-                        child: Text('${data_searchUser[0].phoneUser}',
-                            overflow: TextOverflow.clip),
-                      ),
+                      // Expanded(
+                      //   child: Text('${data_searchUser[0].phoneUser}',
+                      //       overflow: TextOverflow.clip),
+                      // ),
                     ],
                   ),
                   SizedBox(
@@ -289,7 +285,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('อาชีพ : ${data_searchUser[0].statusMember}'),
+                      // Text('อาชีพ : ${data_searchUser[0].statusMember}'),
                     ],
                   ),
                   SizedBox(

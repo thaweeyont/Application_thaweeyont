@@ -58,7 +58,7 @@ class _Query_debtorState extends State<Query_debtor> {
     'พาน'
   ];
   var filter = false;
-  List<Login> datauser = [];
+  // List<Login> datauser = [];
   TextEditingController idcard = TextEditingController();
   TextEditingController district = TextEditingController();
   TextEditingController amphoe = TextEditingController();
@@ -73,7 +73,7 @@ class _Query_debtorState extends State<Query_debtor> {
       // print(respose.body);
       if (respose.statusCode == 200) {
         setState(() {
-          datauser = loginFromJson(respose.body);
+          // datauser = loginFromJson(respose.body);
         });
         print(respose.body);
         // if (datauser[0].idcard!.isNotEmpty) {
@@ -587,7 +587,7 @@ class _Query_debtorState extends State<Query_debtor> {
     amphoe.clear();
     provincn.clear();
     setState(() {
-      datauser.clear();
+      // datauser.clear();
     });
   }
 
@@ -801,16 +801,16 @@ class _Query_debtorState extends State<Query_debtor> {
             child: Scrollbar(
               child: ListView(
                 children: [
-                  if (datauser.isNotEmpty) ...[
-                    for (var i = 0; i < datauser.length; i++) ...[
+                  // if (datauser.isNotEmpty) ...[
+                  //   for (var i = 0; i < datauser.length; i++) ...[
                       InkWell(
                         onTap: () {
-                          var idcard = datauser[i].idcard;
+                          // var idcard = datauser[i].idcard;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    Data_SearchDebtor(idcard)),
+                                    Data_SearchDebtor(35.toString())),
                           );
                         },
                         child: Padding(
@@ -827,30 +827,30 @@ class _Query_debtorState extends State<Query_debtor> {
                               children: [
                                 Row(
                                   children: [
-                                    Text('รหัสเขต : ${datauser[i].id}'),
+                                    Text('รหัสเขต : '),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    Text('เลขที่สัญญา : ${datauser[i].idcard}'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                        'ชื่อลูกค้าในสัญญา : ${datauser[i].fullname}'),
+                                    Text('เลขที่สัญญา :'),
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                        'ชื่อลูกค้าปัจจุบัน : ${datauser[i].fullname}'),
+                                        'ชื่อลูกค้าในสัญญา : '),
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                        'ชื่อสินค้า : ${datauser[i].phoneUser}'),
+                                        'ชื่อลูกค้าปัจจุบัน : '),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                        'ชื่อสินค้า : '),
                                   ],
                                 ),
                               ],
@@ -859,8 +859,8 @@ class _Query_debtorState extends State<Query_debtor> {
                         ),
                       ),
                     ],
-                  ],
-                ],
+                  
+             
               ),
             ),
           ),
