@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-enum ProductTypeEum { Customer, Employee }
+// enum ProductTypeEum { 1, 2 }
 
 class Page_Checkpurchase_info extends StatefulWidget {
   const Page_Checkpurchase_info({Key? key}) : super(key: key);
@@ -14,34 +18,69 @@ class Page_Checkpurchase_info extends StatefulWidget {
 
 class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   var selectedType, selectedTypeCus;
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List<String> dropdownValue = <String>[
     'ขายรถ',
     'ขายเครื่องใช้ไฟฟ้า',
     'ขายโทรศัพท์',
     'ขายเฟอร์นิเจอร์'
   ];
-  List<String> dropdownValueCus = <String>[
-    'รหัส',
-    'ชื่อ',
-    'ที่อยู่ ',
-    'เบอร์โทร'
-  ];
 
-  ProductTypeEum? _productTypeEum;
+  List dropdown_customer = [];
+  var selectValue_customer;
+
+  // ProductTypeEum? _productTypeEum;
+  String? id = '1';
   bool st_customer = true, st_employee = false;
   var filter_search = false;
   TextEditingController idcustomer = TextEditingController();
   TextEditingController namecustomer = TextEditingController();
+  TextEditingController searchData = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      _productTypeEum = ProductTypeEum.Customer;
+      id = '1';
     });
+    getdata();
+  }
+
+  Future<void> get_select_cus() async {
+    print(tokenId);
+    try {
+      var respose = await http.get(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/custCondition'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> data =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        // print(data['data'][1]['id']);
+        setState(() {
+          dropdown_customer = data['data'];
+        });
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+    }
+  }
+
+  Future<Null> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      _productTypeEum.toString();
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
     });
   }
 
@@ -117,39 +156,39 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: RadioListTile<ProductTypeEum>(
+                                    child: RadioListTile(
                                       contentPadding: EdgeInsets.all(0.0),
-                                      value: ProductTypeEum.Customer,
-                                      groupValue: _productTypeEum,
+                                      value: '1',
+                                      groupValue: id,
                                       title: Text(
                                         'ลูกค้าทั่วไป',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                      onChanged: (val) {
-                                        print(val);
+                                      onChanged: (value) {
                                         setState(() {
                                           st_customer = true;
                                           st_employee = false;
-                                          _productTypeEum = val;
+                                          id = value.toString();
                                         });
+                                        print(value);
                                       },
                                     ),
                                   ),
                                   Expanded(
-                                    child: RadioListTile<ProductTypeEum>(
-                                      value: ProductTypeEum.Employee,
-                                      groupValue: _productTypeEum,
+                                    child: RadioListTile(
+                                      value: '2',
+                                      groupValue: id,
                                       title: Text(
                                         'พนักงาน',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                      onChanged: (val) {
-                                        print(val);
+                                      onChanged: (value) {
                                         setState(() {
                                           st_customer = false;
                                           st_employee = true;
-                                          _productTypeEum = val;
+                                          id = value.toString();
                                         });
+                                        print(value);
                                       },
                                     ),
                                   ),
@@ -341,6 +380,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                         InkWell(
                           onTap: () {
                             search_idcustomer(sizeIcon, border);
+                            get_select_cus();
                           },
                           child: Container(
                             width: 30,
@@ -717,21 +757,20 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: DropdownButton(
-            items: dropdownValueCus
+            items: dropdown_customer
                 .map((value) => DropdownMenuItem(
-                      child: Text(
-                        value,
-                        style: TextStyle(fontSize: 14, color: Colors.black),
-                      ),
-                      value: value,
+                      child: Text(value['name'],
+                          style: TextStyle(fontSize: 14, color: Colors.black)),
+                      value: value['id'],
                     ))
                 .toList(),
-            onChanged: (selectedCusType) {
+            onChanged: (newvalue) {
+              print(newvalue);
               setState(() {
-                selectedTypeCus = selectedCusType;
+                selectValue_customer = newvalue;
               });
             },
-            value: selectedTypeCus,
+            value: selectValue_customer,
             isExpanded: true,
             underline: SizedBox(),
             hint: Align(
@@ -752,6 +791,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),

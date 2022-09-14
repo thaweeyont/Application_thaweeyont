@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor.dart';
@@ -5,7 +7,9 @@ import 'package:application_thaweeyont/state/state_credit/status_member/page_sta
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
+import '../authen.dart';
 import 'check_purchase_info/page_checkpurchase_info.dart';
 
 // import 'package:custom_navigator/custom_navigator.dart';
@@ -19,7 +23,35 @@ class Navigator_bar_credit extends StatefulWidget {
 }
 
 class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
-  String name = '', idcard = '', profile = '', status_advert = '', member = '';
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+
+  Future<void> logout_system() async {
+    try {
+      var respose = await http.post(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/authen/logout'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+    }
+  }
 
   void check_index() {
     var index_page = widget.index;
@@ -69,11 +101,11 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   Future<Null> getprofile_user() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      name = preferences.getString('name_user')!;
-      idcard = preferences.getString('id_card')!;
-      profile = preferences.getString('profile_user')!;
-      status_advert = preferences.getString('status_advert')!;
-      member = preferences.getString('member')!;
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
     });
   }
 
@@ -260,10 +292,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           alignment: FractionalOffset.bottomCenter,
           child: InkWell(
             onTap: () async {
-              SharedPreferences preferences =
-                  await SharedPreferences.getInstance();
-              preferences.clear();
-              Navigator.pushReplacementNamed(context, MyContant.routeAuthen);
+              logout_system();
             },
             child: Container(
               padding: EdgeInsets.all(20),
@@ -316,7 +345,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               ),
               SizedBox(width: 8),
               Text(
-                "$name",
+                "$firstName  $lastName",
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ],

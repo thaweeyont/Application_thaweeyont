@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
 import 'package:flutter/material.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/show_image.dart';
@@ -27,52 +28,61 @@ class _AuthenState extends State<Authen> {
   Future<Null> getprofile_user() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    if (preferences.getString('name_user') != null) {
-      Navigator.pushReplacementNamed(
+    if (preferences.getString('userId') != null) {
+      Navigator.pushAndRemoveUntil(
         context,
-        MyContant.routeNavigator_bar_credit,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('2')),
+        (Route<dynamic> route) => false,
       );
     }
   }
 
   Future<void> login_user(String id_card) async {
-    // var headers = {'Content-Type': 'application/json;text/charset=utf-8'};
-    // var request = http.Request(
-    //     'POST', Uri.parse('https://twyapp.com/twyapi/apiV1/authen/'));
-    // request.body = json.encode({"userName": "Jakkrit.i", "passWord": "1234"});
-    // request.headers.addAll(headers);
-
-    // http.get() response = await request.send();
-
-    // if (response.statusCode == 200) {
-    //   print(await response.stream.bytesToString());
-    //   setState(() {
-    //     datauser = authenToJson(response.stream) as List<Data>;
-    //   });
-    //   // print(datauser[0].)
-    // } else {
-    //   print(response.reasonPhrase);
-    // }
-
     try {
       var respose = await http.post(
         Uri.parse('https://twyapp.com/twyapi/apiV1/authen/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
-        body: jsonEncode(
-            <String, String>{'userName': 'Jakkrit.i', 'passWord': '1234'}),
+        body: jsonEncode(<String, String>{
+          'userName': username.text.toString(),
+          'passWord': password.text.toString()
+        }),
       );
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
             new Map<String, dynamic>.from(json.decode(respose.body));
+        if (data['status'] == 'success') {
+          var userId = data['data']['userId'];
+          var empId = data['data']['empId'];
+          var firstName = data['data']['firstName'];
+          var lastName = data['data']['lastName'];
+          var tokenId = data['data']['tokenId'];
 
-        print(data['data']["firstName"]);
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.setString('userId', userId!);
+          preferences.setString('empId', empId!);
+          preferences.setString('firstName', firstName!);
+          preferences.setString('lastName', lastName!);
+          preferences.setString('tokenId', tokenId!);
+
+          print(data['data']);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => Navigator_bar_credit('2')),
+            (Route<dynamic> route) => false,
+          );
+        } else {
+          print('ไม่มีข้อมูล');
+          showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
+        }
+      } else {
+        print('ไม่มีข้อมูล');
+        showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      // showProgressDialog(context, 'แจ้งเตือน', 'เลขบัตรประชาชนนี้ไม่ถูกต้อง');
     }
   }
 
