@@ -26,6 +26,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   List list_dataBuyTyle = [];
   var selectValue_customer;
   var selectvalue_saletype;
+  var valueStatus, valueNotdata;
 
   // ProductTypeEum? _productTypeEum;
   String? id = '1';
@@ -123,7 +124,11 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         Navigator.pop(context);
 
         print(dataBuylist['data']);
+        print(valueStatus);
       } else {
+        setState(() {
+          valueStatus = respose.statusCode;
+        });
         Navigator.pop(context);
         print(respose.statusCode);
         print(respose.body);
@@ -152,9 +157,28 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     showDialog(
       context: context,
       barrierColor: Colors.transparent,
-      // Color.fromRGBO(230, 230, 230, 0.3),
       builder: (context) => WillPopScope(
-        child: Center(child: CircularProgressIndicator()),
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade400.withOpacity(0.6),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            padding: EdgeInsets.all(80),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                Text(
+                  'Loading....',
+                  style: MyContant().h4normalStyle(),
+                ),
+              ],
+            ),
+          ),
+        ),
         onWillPop: () async {
           return false;
         },
@@ -169,10 +193,21 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       st_employee = false;
       selectValue_customer = null;
       list_datavalue = [];
+      valueNotdata = null;
     });
     searchData.clear();
     firstname_em.clear();
     lastname_em.clear();
+  }
+
+  clearValueBuylist() {
+    custId.clear();
+    custName.clear();
+    setState(() {
+      selectvalue_saletype = null;
+      list_dataBuyTyle.clear();
+      valueStatus = null;
+    });
   }
 
   Future<Null> search_idcustomer() async {
@@ -220,6 +255,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           search_idcustomer();
           // print(list_datavalue);
         } else {
+          setState(() {
+            valueNotdata = respose.statusCode;
+          });
           Navigator.pop(context);
           print(respose.statusCode);
           print('ไม่พบข้อมูล');
@@ -244,9 +282,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         // if (firstname_em.text.isNotEmpty && lastname_em.text.isNotEmpty) {
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
-        // } else {
-        //   showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบถ้วน');
-        // }
       }
     }
 
@@ -422,14 +457,15 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             ],
                           ),
                           SizedBox(height: 10),
-                          if (list_datavalue.isNotEmpty) ...[
-                            for (var i = 0; i < list_datavalue.length; i++) ...[
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Scrollbar(
-                                  child: ListView(
-                                    children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: Scrollbar(
+                              child: ListView(
+                                children: [
+                                  if (list_datavalue.isNotEmpty) ...[
+                                    for (var i = 0;
+                                        i < list_datavalue.length;
+                                        i++) ...[
                                       InkWell(
                                         onTap: () {
                                           setState(
@@ -515,29 +551,38 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                         ),
                                       ),
                                     ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ] else ...[
-                            Container(
-                              height: 50,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'ไม่พบข้อมูล',
-                                        style: MyContant().h2Style(),
+                                  ] else ...[
+                                    if (valueNotdata == 404) ...[
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.4,
+                                        // color: Colors.blue,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'ไม่พบข้อมูล',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  )
+                                    ] else
+                                      ...[],
+                                  ],
                                 ],
                               ),
                             ),
-                          ],
+                          )
                         ],
                       ),
                     ),
@@ -567,197 +612,222 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(229, 188, 244, 1),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(229, 188, 244, 1),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'รหัสลูกค้า',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_idcustomer(sizeIcon, border),
-                        InkWell(
-                          onTap: () {
-                            search_idcustomer();
-                            get_select_cus();
-                          },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(202, 71, 150, 1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'รหัสลูกค้า',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_idcustomer(sizeIcon, border),
+                          InkWell(
+                            onTap: () {
+                              search_idcustomer();
+                              get_select_cus();
+                            },
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(202, 71, 150, 1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ชื่อลูกค้า',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_namecustomer(sizeIcon, border),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ประเภทการขาย',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        select_sale_type(sizeIcon, border),
-                      ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'ชื่อลูกค้า',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_namecustomer(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'ประเภทการขาย',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          select_sale_type(sizeIcon, border),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              group_btnsearch(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'รายการที่ค้นหา',
+                      style: MyContant().h2Style(),
                     ),
                   ],
                 ),
               ),
-            ),
-            group_btnsearch(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'รายการที่ค้นหา',
-                    style: MyContant().h2Style(),
-                  ),
-                ],
+              SizedBox(
+                height: 5,
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: Scrollbar(
-                child: ListView(
-                  children: [
-                    if (list_dataBuyTyle.isNotEmpty) ...[
-                      for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 5),
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: Color.fromRGBO(229, 188, 244, 1),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'ลำดับ : ${i + 1}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    Text(
-                                      'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ชื่อลูกค้า : ${list_dataBuyTyle[i]['custName']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'รายการสินค้า : ',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        '${list_dataBuyTyle[i]['itemName']}',
-                                        overflow: TextOverflow.clip,
+              if (list_dataBuyTyle.isNotEmpty) ...[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Scrollbar(
+                    child: ListView(
+                      children: [
+                        for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 5),
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                                color: Color.fromRGBO(229, 188, 244, 1),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ลำดับ : ${i + 1}',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    Text(
-                                      'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      Text(
+                                        'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ชื่อลูกค้า : ${list_dataBuyTyle[i]['custName']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'รายการสินค้า : ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_dataBuyTyle[i]['itemName']}',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Text(
+                                        'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ],
-                    ],
-                  ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ] else ...[
+                if (valueStatus == 404) ...[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    // color: Colors.blue,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'ไม่พบข้อมูล',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ] else
+                  ...[]
+              ],
+            ],
+          ),
         ),
       ),
     );
@@ -791,16 +861,17 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       child: TextButton(
                         style: MyContant().myButtonCancelStyle(),
                         onPressed: () {
-                          setState(() {
-                            selectedType = null;
-                          });
-                          custId.clear();
-                          custName.clear();
-                          if (filter_search == true) {
-                            setState(() {
-                              filter_search = false;
-                            });
-                          }
+                          clearValueBuylist();
+                          // setState(() {
+                          //   selectedType = null;
+                          // });
+                          // custId.clear();
+                          // custName.clear();
+                          // if (filter_search == true) {
+                          //   setState(() {
+                          //     filter_search = false;
+                          //   });
+                          // }
                         },
                         child: const Text('ยกเลิก'),
                       ),
