@@ -19,23 +19,20 @@ class Page_Checkpurchase_info extends StatefulWidget {
 class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   var selectedType, selectedTypeCus;
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
-  List<String> dropdownValue = <String>[
-    'ขายรถ',
-    'ขายเครื่องใช้ไฟฟ้า',
-    'ขายโทรศัพท์',
-    'ขายเฟอร์นิเจอร์'
-  ];
 
   List dropdown_customer = [];
+  List dropdown_saletype = [];
   List list_datavalue = [];
+  List list_dataBuyTyle = [];
   var selectValue_customer;
+  var selectvalue_saletype;
 
   // ProductTypeEum? _productTypeEum;
   String? id = '1';
   bool st_customer = true, st_employee = false;
   var filter_search = false;
-  TextEditingController idcustomer = TextEditingController();
-  TextEditingController namecustomer = TextEditingController();
+  TextEditingController custId = TextEditingController();
+  TextEditingController custName = TextEditingController();
   TextEditingController searchData = TextEditingController();
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
@@ -75,6 +72,70 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     }
   }
 
+  Future<void> get_select_saleType() async {
+    print(tokenId);
+    try {
+      var respose = await http.get(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/saleType'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataSale =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        // print(data['data'][1]['id']);
+        setState(() {
+          dropdown_saletype = dataSale['data'];
+        });
+        print(dropdown_saletype);
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+    }
+  }
+
+  Future<void> getData_buyList() async {
+    try {
+      var respose = await http.post(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/sale/custBuyList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, String>{
+          'custId': custId.text.toString(),
+          'saleTypeId': selectvalue_saletype.toString()
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataBuylist =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          list_dataBuyTyle = dataBuylist['data'];
+        });
+        Navigator.pop(context);
+
+        print(dataBuylist['data']);
+      } else {
+        Navigator.pop(context);
+        print(respose.statusCode);
+        print(respose.body);
+        print('ไม่พบข้อมูล');
+        // showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      print("ไม่มีข้อมูล $e");
+    }
+  }
+
   Future<Null> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -84,6 +145,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
+    get_select_saleType();
   }
 
   Future<Null> showProgressLoading(BuildContext context) async {
@@ -179,12 +241,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         }
       } else {
         print(id);
-        if (firstname_em.text.isNotEmpty && lastname_em.text.isNotEmpty) {
-          showProgressLoading(context);
-          getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
-        } else {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบถ้วน');
-        }
+        // if (firstname_em.text.isNotEmpty && lastname_em.text.isNotEmpty) {
+        showProgressLoading(context);
+        getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
+        // } else {
+        //   showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบถ้วน');
+        // }
       }
     }
 
@@ -368,74 +430,88 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 child: Scrollbar(
                                   child: ListView(
                                     children: [
-                                      Container(
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 5),
-                                        padding: EdgeInsets.all(8.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          color:
-                                              Color.fromRGBO(229, 188, 244, 1),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'รหัส : ${list_datavalue[i]['custId']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'ชื่อ : ${list_datavalue[i]['custName']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'ที่อยู่ : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_datavalue[i]['address']}',
+                                      InkWell(
+                                        onTap: () {
+                                          setState(
+                                            () {
+                                              custId.text =
+                                                  list_datavalue[i]['custId'];
+                                              custName.text =
+                                                  list_datavalue[i]['custName'];
+                                            },
+                                          );
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          margin:
+                                              EdgeInsets.symmetric(vertical: 5),
+                                          padding: EdgeInsets.all(8.0),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                            color: Color.fromRGBO(
+                                                229, 188, 244, 1),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'รหัส : ${list_datavalue[i]['custId']}',
                                                     style: MyContant()
                                                         .h4normalStyle(),
-                                                    overflow: TextOverflow.clip,
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'โทร : ${list_datavalue[i]['telephone']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'ชื่อ : ${list_datavalue[i]['custName']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'ที่อยู่ : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_datavalue[i]['address']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'โทร : ${list_datavalue[i]['telephone']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -574,8 +650,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               child: Scrollbar(
                 child: ListView(
                   children: [
-                    if (filter_search) ...[
-                      for (var i = 0; i <= 5; i++) ...[
+                    if (list_dataBuyTyle.isNotEmpty) ...[
+                      for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 5),
@@ -597,7 +673,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       style: MyContant().h4normalStyle(),
                                     ),
                                     Text(
-                                      'วันที่ขาย : 16/08/2565',
+                                      'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -608,7 +684,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 Row(
                                   children: [
                                     Text(
-                                      'เลขที่เอกสาร : RC0122080179',
+                                      'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -619,7 +695,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 Row(
                                   children: [
                                     Text(
-                                      'ชื่อลูกค้า : กรรณิการ์ ทาทัน',
+                                      'ชื่อลูกค้า : ${list_dataBuyTyle[i]['custName']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -628,10 +704,18 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   height: 5,
                                 ),
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'รายการสินค้า : เตารีด PHILIPS GCI426',
+                                      'รายการสินค้า : ',
                                       style: MyContant().h4normalStyle(),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        '${list_dataBuyTyle[i]['itemName']}',
+                                        overflow: TextOverflow.clip,
+                                        style: MyContant().h4normalStyle(),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -643,11 +727,11 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'ราคา : 590.00',
+                                      'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                     Text(
-                                      'ประเภทการขาย : ขายแคช',
+                                      'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -658,7 +742,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 Row(
                                   children: [
                                     Text(
-                                      'พนักงานขาย : นิมิตร สุวรรณประภา',
+                                      'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -695,17 +779,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
-                          if (idcustomer.text.isNotEmpty ||
-                              namecustomer.text.isNotEmpty ||
-                              selectedType != null) {
-                            print(selectedType);
-                            setState(() {
-                              filter_search = true;
-                            });
-                          } else {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอกข้อมูลที่ต้องการค้นหา');
-                          }
+                          showProgressLoading(context);
+                          getData_buyList();
                         },
                         child: const Text('ค้นหา'),
                       ),
@@ -719,8 +794,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                           setState(() {
                             selectedType = null;
                           });
-                          idcustomer.clear();
-                          namecustomer.clear();
+                          custId.clear();
+                          custName.clear();
                           if (filter_search == true) {
                             setState(() {
                               filter_search = false;
@@ -745,7 +820,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: idcustomer,
+          controller: custId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -771,7 +846,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: namecustomer,
+          controller: custName,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -804,21 +879,21 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: DropdownButton(
-            items: dropdownValue
+            items: dropdown_saletype
                 .map((value) => DropdownMenuItem(
                       child: Text(
-                        value,
+                        value['name'],
                         style: TextStyle(fontSize: 14, color: Colors.black),
                       ),
-                      value: value,
+                      value: value['id'],
                     ))
                 .toList(),
-            onChanged: (selectedSaleType) {
+            onChanged: (newvalue) {
               setState(() {
-                selectedType = selectedSaleType;
+                selectvalue_saletype = newvalue;
               });
             },
-            value: selectedType,
+            value: selectvalue_saletype,
             isExpanded: true,
             underline: SizedBox(),
             hint: Align(
