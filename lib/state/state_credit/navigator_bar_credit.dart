@@ -46,7 +46,21 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           (Route<dynamic> route) => false,
         );
       } else {
+        Map<String, dynamic> check_list =
+            new Map<String, dynamic>.from(json.decode(respose.body));
         print(respose.statusCode);
+        print(check_list['message']);
+        if (check_list['message'] == "Token Unauthorized") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Authen(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -66,7 +80,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "1":
         setState(() {
           _selectedIndex = 1;
-          title_head = "ตรวจสอบการข้อมูลซื้อสินค้า";
+          title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
         });
         break;
       case "2":
@@ -216,7 +230,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   case 1:
                     setState(() {
                       _selectedIndex = 1;
-                      title_head = "ตรวจสอบการข้อมูลซื้อสินค้า";
+                      title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
                     });
                     break;
                   case 2:
@@ -333,8 +347,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         children: <Widget>[
           Image.asset(
             'images/logo.png',
-            width: size * 0.33,
+            width: size * 0.3,
           ),
+          SizedBox(height: 5),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -343,9 +358,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 Icons.account_box_rounded,
                 color: Colors.white,
               ),
-              SizedBox(width: 8),
+              SizedBox(width: 10),
               Text(
-                "$firstName  $lastName",
+                "$firstName $lastName",
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ],
