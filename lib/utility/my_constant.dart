@@ -50,6 +50,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle hintTextStyle() => TextStyle(
+        fontSize: 13,
+        color: Colors.grey[500],
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle h3Style() => TextStyle(
         fontSize: 14,
         color: Colors.black,

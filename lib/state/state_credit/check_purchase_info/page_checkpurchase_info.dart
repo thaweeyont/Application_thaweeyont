@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../authen.dart';
+
 // enum ProductTypeEum { 1, 2 }
 
 class Page_Checkpurchase_info extends StatefulWidget {
@@ -27,7 +29,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   var selectValue_customer;
   var selectvalue_saletype;
   var valueStatus, valueNotdata;
-
+  var Texthint;
   // ProductTypeEum? _productTypeEum;
   String? id = '1';
   bool st_customer = true, st_employee = false;
@@ -37,6 +39,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   TextEditingController searchData = TextEditingController();
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
+  TextEditingController lastname = TextEditingController();
 
   @override
   void initState() {
@@ -94,6 +97,21 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         print(dropdown_saletype);
       } else {
         print(respose.statusCode);
+        Map<String, dynamic> check_list =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        print(respose.statusCode);
+        print(check_list['message']);
+        if (check_list['message'] == "Token Unauthorized") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Authen(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -133,7 +151,21 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         print(respose.statusCode);
         print(respose.body);
         print('ไม่พบข้อมูล');
-        // showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
+        Map<String, dynamic> check_list =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        print(respose.statusCode);
+        print(check_list['message']);
+        if (check_list['message'] == "Token Unauthorized") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Authen(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
       }
     } catch (e) {
       Navigator.pop(context);
@@ -194,6 +226,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       selectValue_customer = null;
       list_datavalue = [];
       valueNotdata = null;
+      Texthint = '';
     });
     searchData.clear();
     firstname_em.clear();
@@ -261,6 +294,22 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           Navigator.pop(context);
           print(respose.statusCode);
           print('ไม่พบข้อมูล');
+          Map<String, dynamic> check_list =
+              new Map<String, dynamic>.from(json.decode(respose.body));
+          print(respose.statusCode);
+          print(check_list['message']);
+          if (check_list['message'] == "Token Unauthorized") {
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+            preferences.clear();
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Authen(),
+              ),
+              (Route<dynamic> route) => false,
+            );
+          }
         }
       } catch (e) {
         Navigator.pop(context);
@@ -273,7 +322,13 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         print(id);
         if (selectValue_customer != null && searchData.text.isNotEmpty) {
           showProgressLoading(context);
-          getData_condition(id, selectValue_customer, searchData.text, '', '');
+          if (selectValue_customer.toString() == "2") {
+            getData_condition(
+                id, selectValue_customer, '', searchData.text, lastname.text);
+          } else {
+            getData_condition(
+                id, selectValue_customer, searchData.text, '', '');
+          }
         } else {
           showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบถ้วน');
         }
@@ -417,9 +472,70 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 Row(
                                   children: [
                                     // Text('ชื่อ'),
-                                    select_searchCus(sizeIcon, border),
+                                    // select_searchCus(sizeIcon, border),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.07,
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: DropdownButton(
+                                            items: dropdown_customer
+                                                .map(
+                                                    (value) => DropdownMenuItem(
+                                                          child: Text(
+                                                              value['name'],
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black)),
+                                                          value: value['id'],
+                                                        ))
+                                                .toList(),
+                                            onChanged: (newvalue) {
+                                              print(newvalue);
+                                              setState(() {
+                                                selectValue_customer = newvalue;
+                                                if (selectValue_customer
+                                                        .toString() ==
+                                                    "2") {
+                                                  Texthint = 'ชื่อ';
+                                                } else {
+                                                  Texthint = '';
+                                                }
+                                              });
+                                            },
+                                            value: selectValue_customer,
+                                            isExpanded: true,
+                                            underline: SizedBox(),
+                                            hint: Align(
+                                              child: Text(
+                                                'กรุณาเลือกข้อมูล',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color.fromRGBO(
+                                                        106, 106, 106, 1)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     // Text('สกุล'),
                                     input_searchCus(sizeIcon, border),
+                                    //lastname
+                                    // Text(selectValue_customer),
+                                    if (selectValue_customer.toString() ==
+                                        "2") ...[
+                                      input_lastnameCus(sizeIcon, border)
+                                    ],
                                   ],
                                 ),
                               ],
@@ -1030,44 +1146,68 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded select_searchCus(sizeIcon, border) {
+  Expanded input_lastnameCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(1),
-        child: Container(
-          height: MediaQuery.of(context).size.width * 0.07,
-          padding: EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton(
-            items: dropdown_customer
-                .map((value) => DropdownMenuItem(
-                      child: Text(value['name'],
-                          style: TextStyle(fontSize: 14, color: Colors.black)),
-                      value: value['id'],
-                    ))
-                .toList(),
-            onChanged: (newvalue) {
-              print(newvalue);
-              setState(() {
-                selectValue_customer = newvalue;
-              });
-            },
-            value: selectValue_customer,
-            isExpanded: true,
-            underline: SizedBox(),
-            hint: Align(
-              child: Text(
-                'กรุณาเลือกข้อมูล',
-                style: TextStyle(
-                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
-              ),
-            ),
+        padding: const EdgeInsets.all(0),
+        child: TextField(
+          controller: lastname,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintText: 'นามสกุล',
+            hintStyle: MyContant().hintTextStyle(),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
           ),
         ),
       ),
     );
   }
+
+  // Expanded select_searchCus(sizeIcon, border) {
+  //   return Expanded(
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(1),
+  //       child: Container(
+  //         height: MediaQuery.of(context).size.width * 0.07,
+  //         padding: EdgeInsets.all(4),
+  //         decoration: BoxDecoration(
+  //             color: Colors.white, borderRadius: BorderRadius.circular(5)),
+  //         child: DropdownButton(
+  //           items: dropdown_customer
+  //               .map((value) => DropdownMenuItem(
+  //                     child: Text(value['name'],
+  //                         style: TextStyle(fontSize: 14, color: Colors.black)),
+  //                     value: value['id'],
+  //                   ))
+  //               .toList(),
+  //           onChanged: (newvalue) {
+  //             print(newvalue);
+  //             setState(() {
+  //               selectValue_customer = newvalue;
+  //             });
+  //           },
+  //           value: selectValue_customer,
+  //           isExpanded: true,
+  //           underline: SizedBox(),
+  //           hint: Align(
+  //             child: Text(
+  //               'กรุณาเลือกข้อมูล',
+  //               style: TextStyle(
+  //                   fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Expanded input_searchCus(sizeIcon, border) {
     return Expanded(
@@ -1081,9 +1221,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
+            hintText: Texthint,
+            hintStyle: MyContant().hintTextStyle(),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
