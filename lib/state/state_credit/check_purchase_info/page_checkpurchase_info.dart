@@ -119,6 +119,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   }
 
   Future<void> getData_buyList() async {
+    setState(() {
+      list_dataBuyTyle = [];
+    });
     try {
       var respose = await http.post(
         Uri.parse('https://twyapp.com/twyapi/apiV1/sale/custBuyList'),
@@ -459,12 +462,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       'ชื่อ',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_nameCusDia(sizeIcon, border),
+                                    input_nameEmploDia(sizeIcon, border),
                                     Text(
                                       'สกุล',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_lastNameCusDia(sizeIcon, border),
+                                    input_lastNameEmploDia(sizeIcon, border),
                                   ],
                                 ),
                               ],
@@ -491,11 +494,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                                 .map(
                                                     (value) => DropdownMenuItem(
                                                           child: Text(
-                                                              value['name'],
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .black)),
+                                                            value['name'],
+                                                            style: MyContant()
+                                                                .TextInputStyle(),
+                                                          ),
                                                           value: value['id'],
                                                         ))
                                                 .toList(),
@@ -518,10 +520,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                             hint: Align(
                                               child: Text(
                                                 'กรุณาเลือกข้อมูล',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color.fromRGBO(
-                                                        106, 106, 106, 1)),
+                                                style: MyContant()
+                                                    .TextInputSelect(),
                                               ),
                                             ),
                                           ),
@@ -978,16 +978,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                         style: MyContant().myButtonCancelStyle(),
                         onPressed: () {
                           clearValueBuylist();
-                          // setState(() {
-                          //   selectedType = null;
-                          // });
-                          // custId.clear();
-                          // custName.clear();
-                          // if (filter_search == true) {
-                          //   setState(() {
-                          //     filter_search = false;
-                          //   });
-                          // }
                         },
                         child: const Text('ยกเลิก'),
                       ),
@@ -1007,6 +997,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          textAlignVertical: TextAlignVertical.center,
           controller: custId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
@@ -1015,13 +1006,14 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
             fillColor: Colors.white,
+          ),
+          style: TextStyle(
+            fontFamily: 'Prompt',
+            fontSize: 16,
           ),
         ),
       ),
@@ -1041,14 +1033,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
             fillColor: Colors.white,
           ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );
@@ -1070,7 +1060,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                 .map((value) => DropdownMenuItem(
                       child: Text(
                         value['name'],
-                        style: TextStyle(fontSize: 14, color: Colors.black),
+                        style: MyContant().TextInputStyle(),
                       ),
                       value: value['id'],
                     ))
@@ -1086,8 +1076,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             hint: Align(
               child: Text(
                 'กรุณาเลือกประเภท',
-                style: TextStyle(
-                    fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
+                style: MyContant().TextInputSelect(),
               ),
             ),
           ),
@@ -1096,7 +1085,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_nameCusDia(sizeIcon, border) {
+  Expanded input_nameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1116,12 +1105,13 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );
   }
 
-  Expanded input_lastNameCusDia(sizeIcon, border) {
+  Expanded input_lastNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1141,6 +1131,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );
@@ -1165,6 +1156,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );
@@ -1228,6 +1220,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );

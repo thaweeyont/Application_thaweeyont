@@ -51,7 +51,7 @@ class MyContant {
         fontFamily: 'Prompt',
       );
   TextStyle hintTextStyle() => TextStyle(
-        fontSize: 13,
+        fontSize: 16,
         color: Colors.grey[500],
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
@@ -65,6 +65,18 @@ class MyContant {
   TextStyle h4normalStyle() => TextStyle(
         fontSize: 16,
         color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
+  TextStyle TextInputStyle() => TextStyle(
+        fontSize: 16,
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
+  TextStyle TextInputSelect() => TextStyle(
+        fontSize: 16,
+        color: Color.fromRGBO(106, 106, 106, 1),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );

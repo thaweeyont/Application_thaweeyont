@@ -199,15 +199,6 @@ class _AuthenState extends State<Authen> {
                 ),
                 onPressed: () {
                   login_user(username.text);
-                  // if (idcard.text.isNotEmpty) {
-                  //   login_user(idcard.text);
-                  // } else {
-                  //   showProgressDialog(
-                  //       context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ถูกต้อง');
-                  // }
-
-                  // Navigator.pushReplacementNamed(
-                  //     context, MyContant.routeNavigator_bar_credit);
                 },
                 child: const Text('เข้าสู่ระบบ'),
               ),
