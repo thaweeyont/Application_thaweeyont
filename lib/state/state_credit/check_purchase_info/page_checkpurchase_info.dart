@@ -1011,10 +1011,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: TextStyle(
-            fontFamily: 'Prompt',
-            fontSize: 16,
-          ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );

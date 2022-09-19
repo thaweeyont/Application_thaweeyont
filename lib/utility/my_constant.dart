@@ -62,6 +62,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle TextsearchStyle() => TextStyle(
+        fontSize: 14,
+        color: Color.fromRGBO(9, 123, 237, 1),
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle h4normalStyle() => TextStyle(
         fontSize: 16,
         color: Colors.black,
