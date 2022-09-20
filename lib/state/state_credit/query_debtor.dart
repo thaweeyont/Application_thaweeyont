@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/login_model.dart';
+import '../authen.dart';
 import 'data_searchdebtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 
@@ -28,13 +30,19 @@ class _Query_debtorState extends State<Query_debtor> {
   var filter = false;
   // List<Login> datauser = [];
   TextEditingController idcard = TextEditingController();
+  TextEditingController firstname = TextEditingController();
+  TextEditingController lastname = TextEditingController();
   TextEditingController district = TextEditingController();
   TextEditingController amphoe = TextEditingController();
   TextEditingController provincn = TextEditingController();
-  TextEditingController search_nameItemtype = TextEditingController();
+  TextEditingController searchNameItemtype = TextEditingController();
   TextEditingController itemTypelist = TextEditingController();
+  TextEditingController homeNo = TextEditingController();
+  TextEditingController moo = TextEditingController();
+  TextEditingController telephone = TextEditingController();
+  TextEditingController signId = TextEditingController();
 
-  List dropdown_province = [];
+  List dropdown_province = [], list_dataDebtor = [];
   List dropdown_amphoe = [],
       dropdown_addresstype = [],
       dropdown_branch = [],
@@ -46,13 +54,130 @@ class _Query_debtorState extends State<Query_debtor> {
       select_addreessType,
       select_branchlist,
       select_debtorType,
-      select_signStatus;
+      select_signStatus,
+      checkStatuscode,
+      debtorStatuscode,
+      tumbolId,
+      itemType;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getdata();
+  }
+
+  Future<void> getData_debtorList() async {
+    var signStatus, branch, debtorType, tumbol, amphur, province;
+    if (select_signStatus == null) {
+      signStatus = '';
+    } else {
+      signStatus = select_signStatus;
+    }
+
+    if (select_branchlist == null) {
+      branch = '';
+    } else {
+      branch = select_branchlist;
+    }
+
+    if (select_debtorType == null) {
+      debtorType = '';
+    } else {
+      debtorType = select_debtorType;
+    }
+
+    if (tumbolId == null) {
+      tumbol = '';
+      amphur = '';
+      province = '';
+    } else {
+      tumbol = tumbolId;
+      amphur = selectValue_amphoe.toString().split("_")[0];
+      province = selectValue_province.toString().split("_")[0];
+    }
+
+    print(tokenId);
+    // print(homeNo.text);
+    // print(moo.text);
+    // print(tumbolId.toString());
+    // print(amphur.toString());
+    // print(province.toString());
+    // print(firstname.text);
+    // print(lastname.text);
+    print(select_addreessType.toString());
+    // print(debtorType.toString());
+    // print(idcard.text);
+    // print(telephone.text);
+    // print(branch.toString());
+    // print(signId.text);
+    // print(itemTypelist.text);
+    try {
+      var respose = await http.post(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/list'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, String>{
+          'homeNo': homeNo.text,
+          'moo': moo.text,
+          'tumbolId': tumbol.toString(),
+          'amphurId': amphur.toString(),
+          'provId': province.toString(),
+          'firstName': firstname.text,
+          'lastName': lastname.text,
+          'addressType': select_addreessType.toString(),
+          'debtorType': debtorType.toString(),
+          'smartId': idcard.text,
+          'telephone': telephone.text,
+          'branchId': branch.toString(),
+          'signId': signId.text,
+          'signStatus': signStatus.toString(),
+          'itemType': itemTypelist.text,
+          'page': '1',
+          'limit': '20'
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> datadebtorList =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          list_dataDebtor = datadebtorList['data'];
+        });
+        Navigator.pop(context);
+
+        print('#data# $list_dataDebtor');
+      } else {
+        setState(() {
+          debtorStatuscode = respose.statusCode;
+        });
+        Navigator.pop(context);
+        print(respose.body);
+        print(respose.statusCode);
+        print('ไม่พบข้อมูล');
+        Map<String, dynamic> check_list =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        print(respose.statusCode);
+        print(check_list['message']);
+        if (check_list['message'] == "Token Unauthorized") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Authen(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      print("ไม่มีข้อมูล $e");
+    }
   }
 
   Future<void> get_select_province() async {
@@ -153,12 +278,12 @@ class _Query_debtorState extends State<Query_debtor> {
         const Radius.circular(4.0),
       ),
     );
-    print(search_nameItemtype.text);
+    print(searchNameItemtype.text);
     print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse(
-            'https://twyapp.com/twyapi/apiV1/setup/itemTypeList?searchName=${search_nameItemtype.text}&page=1&limit=50'),
+            'https://twyapp.com/twyapi/apiV1/setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -179,6 +304,9 @@ class _Query_debtorState extends State<Query_debtor> {
         // print(data_provice['data']);
         print(list_itemType);
       } else {
+        setState(() {
+          checkStatuscode = respose.statusCode;
+        });
         Navigator.pop(context);
         print(respose.statusCode);
       }
@@ -205,9 +333,10 @@ class _Query_debtorState extends State<Query_debtor> {
             new Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_addresstype = data_addressTypelist['data'];
+          select_addreessType = dropdown_addresstype[0]['id'];
         });
 
-        print(dropdown_addresstype);
+        print(select_addreessType);
       } else {
         print(respose.statusCode);
       }
@@ -298,6 +427,28 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
+  clearTextInputAll() {
+    idcard.clear();
+    firstname.clear();
+    lastname.clear();
+    telephone.clear();
+    homeNo.clear();
+    moo.clear();
+    district.clear();
+    amphoe.clear();
+    provincn.clear();
+    signId.clear();
+    itemTypelist.clear();
+    setState(() {
+      dropdown_branch = [];
+      dropdown_debtorType = [];
+      dropdown_signStatus = [];
+      dropdown_addresstype = [];
+      list_dataDebtor = [];
+      debtorStatuscode = null;
+    });
+  }
+
   clearValue_search_district() {
     setState(() {
       selectValue_province = null;
@@ -310,7 +461,7 @@ class _Query_debtorState extends State<Query_debtor> {
     setState(() {
       list_itemType = [];
     });
-    search_nameItemtype.clear();
+    searchNameItemtype.clear();
   }
 
   Future<Null> showProgressLoading(BuildContext context) async {
@@ -439,75 +590,80 @@ class _Query_debtorState extends State<Query_debtor> {
                                       child: Container(
                                         height:
                                             MediaQuery.of(context).size.width *
-                                                0.07,
+                                                0.08,
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(5)),
-                                        child: DropdownButton(
-                                          items: dropdown_province
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(
-                                                      value['name'],
-                                                      style: MyContant()
-                                                          .TextInputStyle(),
-                                                    ),
-                                                    value:
-                                                        "${value['id']}_${value['name']}",
-                                                  ))
-                                              .toList(),
-                                          onChanged: (newvalue) async {
-                                            setState(() {
-                                              var dfvalue = newvalue;
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 4),
+                                          child: DropdownButton(
+                                            items: dropdown_province
+                                                .map(
+                                                    (value) => DropdownMenuItem(
+                                                          child: Text(
+                                                            value['name'],
+                                                            style: MyContant()
+                                                                .TextInputStyle(),
+                                                          ),
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
+                                                        ))
+                                                .toList(),
+                                            onChanged: (newvalue) async {
+                                              setState(() {
+                                                var dfvalue = newvalue;
 
-                                              selectValue_province = dfvalue;
-                                              text_province = dfvalue
-                                                  .toString()
-                                                  .split("_")[1];
-                                            });
+                                                selectValue_province = dfvalue;
+                                                text_province = dfvalue
+                                                    .toString()
+                                                    .split("_")[1];
+                                              });
 
-                                            try {
-                                              var respose = await http.get(
-                                                Uri.parse(
-                                                    'https://twyapp.com/twyapi/apiV1/setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
-                                                headers: <String, String>{
-                                                  'Content-Type':
-                                                      'application/json',
-                                                  'Authorization':
-                                                      tokenId.toString(),
-                                                },
-                                                // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
-                                              );
+                                              try {
+                                                var respose = await http.get(
+                                                  Uri.parse(
+                                                      'https://twyapp.com/twyapi/apiV1/setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                  headers: <String, String>{
+                                                    'Content-Type':
+                                                        'application/json',
+                                                    'Authorization':
+                                                        tokenId.toString(),
+                                                  },
+                                                  // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
+                                                );
 
-                                              if (respose.statusCode == 200) {
-                                                Map<String, dynamic>
-                                                    data_amphoe = new Map<
-                                                            String,
-                                                            dynamic>.from(
-                                                        json.decode(
-                                                            respose.body));
-                                                setState(() {
-                                                  dropdown_amphoe =
-                                                      data_amphoe['data'];
-                                                });
-                                                print(data_amphoe['data']);
-                                              } else {
-                                                print(respose.statusCode);
+                                                if (respose.statusCode == 200) {
+                                                  Map<String, dynamic>
+                                                      data_amphoe = new Map<
+                                                              String,
+                                                              dynamic>.from(
+                                                          json.decode(
+                                                              respose.body));
+                                                  setState(() {
+                                                    dropdown_amphoe =
+                                                        data_amphoe['data'];
+                                                  });
+                                                  print(data_amphoe['data']);
+                                                } else {
+                                                  print(respose.statusCode);
+                                                }
+                                              } catch (e) {
+                                                print("ไม่มีข้อมูล $e");
                                               }
-                                            } catch (e) {
-                                              print("ไม่มีข้อมูล $e");
-                                            }
-                                            // print(selectValue_province);
-                                          },
-                                          value: selectValue_province,
-                                          isExpanded: true,
-                                          underline: SizedBox(),
-                                          hint: Align(
-                                            child: Text(
-                                              'เลือกจังหวัด',
-                                              style:
-                                                  MyContant().TextInputSelect(),
+                                              // print(selectValue_province);
+                                            },
+                                            value: selectValue_province,
+                                            isExpanded: true,
+                                            underline: SizedBox(),
+                                            hint: Align(
+                                              child: Text(
+                                                'เลือกจังหวัด',
+                                                style: MyContant()
+                                                    .TextInputSelect(),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -529,42 +685,47 @@ class _Query_debtorState extends State<Query_debtor> {
                                       child: Container(
                                         height:
                                             MediaQuery.of(context).size.width *
-                                                0.07,
+                                                0.08,
                                         padding: EdgeInsets.all(4),
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(5)),
-                                        child: DropdownButton(
-                                          items: dropdown_amphoe
-                                              .map((value) => DropdownMenuItem(
-                                                    child: Text(
-                                                      value['name'],
-                                                      style: MyContant()
-                                                          .TextInputStyle(),
-                                                    ),
-                                                    value:
-                                                        "${value['id']}_${value['name']}",
-                                                  ))
-                                              .toList(),
-                                          onChanged: (newvalue) {
-                                            setState(() {
-                                              var dfvalue = newvalue;
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 4),
+                                          child: DropdownButton(
+                                            items: dropdown_amphoe
+                                                .map(
+                                                    (value) => DropdownMenuItem(
+                                                          child: Text(
+                                                            value['name'],
+                                                            style: MyContant()
+                                                                .TextInputStyle(),
+                                                          ),
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
+                                                        ))
+                                                .toList(),
+                                            onChanged: (newvalue) {
+                                              setState(() {
+                                                var dfvalue = newvalue;
 
-                                              selectValue_amphoe = dfvalue;
-                                              text_amphoe = dfvalue
-                                                  .toString()
-                                                  .split("_")[1];
-                                            });
-                                          },
-                                          value: selectValue_amphoe,
-                                          isExpanded: true,
-                                          underline: SizedBox(),
-                                          hint: Align(
-                                            child: Text(
-                                              'เลือกอำเภอ',
-                                              style:
-                                                  MyContant().TextInputSelect(),
+                                                selectValue_amphoe = dfvalue;
+                                                text_amphoe = dfvalue
+                                                    .toString()
+                                                    .split("_")[1];
+                                              });
+                                            },
+                                            value: selectValue_amphoe,
+                                            isExpanded: true,
+                                            underline: SizedBox(),
+                                            hint: Align(
+                                              child: Text(
+                                                'เลือกอำเภอ',
+                                                style: MyContant()
+                                                    .TextInputSelect(),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -620,6 +781,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                                   '${list_district[i]['name']}';
                                               amphoe.text = '$text_amphoe';
                                               provincn.text = '$text_province';
+                                              tumbolId =
+                                                  '${list_district[i]['id']}';
                                             },
                                           );
                                           Navigator.pop(context);
@@ -952,6 +1115,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                             () {
                                               itemTypelist.text =
                                                   '${list_itemType[i]['name']}';
+                                              itemType =
+                                                  '${list_itemType[i]['id']}';
                                             },
                                           );
                                           Navigator.pop(context);
@@ -992,6 +1157,33 @@ class _Query_debtorState extends State<Query_debtor> {
                                         ),
                                       ),
                                     ],
+                                  ] else ...[
+                                    if (checkStatuscode == 404) ...[
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.4,
+                                        // color: Colors.blue,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'ไม่พบข้อมูล',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ] else
+                                      ...[],
                                   ],
                                 ],
                               ),
@@ -1008,16 +1200,6 @@ class _Query_debtorState extends State<Query_debtor> {
         ),
       ),
     );
-  }
-
-  clearTextInput() {
-    idcard.clear();
-    district.clear();
-    amphoe.clear();
-    provincn.clear();
-    setState(() {
-      // datauser.clear();
-    });
   }
 
   @override
@@ -1163,7 +1345,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           'เลขที่สัญญา',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_contractNumber(sizeIcon, border),
+                        input_signId(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1231,59 +1413,130 @@ class _Query_debtorState extends State<Query_debtor> {
             child: Scrollbar(
               child: ListView(
                 children: [
-                  // if (datauser.isNotEmpty) ...[
-                  //   for (var i = 0; i < datauser.length; i++) ...[
-                  InkWell(
-                    onTap: () {
-                      // var idcard = datauser[i].idcard;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                Data_SearchDebtor(35.toString())),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          color: Color.fromRGBO(255, 218, 249, 1),
+                  if (list_dataDebtor.isNotEmpty) ...[
+                    for (var i = 0; i < list_dataDebtor.length; i++) ...[
+                      InkWell(
+                        onTap: () {
+                          // var idcard = datauser[i].idcard;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Data_SearchDebtor(35.toString())),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Color.fromRGBO(255, 218, 249, 1),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'รหัสเขต : ${list_dataDebtor[i]['followAreaName']}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'ชื่อลูกค้าในสัญญา : ${list_dataDebtor[i]['custName']}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'ชื่อลูกค้าปัจจุบัน : ${list_dataDebtor[i]['custSignName']}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'ชื่อสินค้า : ',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        '${list_dataDebtor[i]['itemName']}',
+                                        overflow: TextOverflow.clip,
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
+                      ),
+                    ],
+                  ] else ...[
+                    if (debtorStatuscode == 404) ...[
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        // color: Colors.blue,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('รหัสเขต : '),
+                                Text(
+                                  'ไม่พบข้อมูล',
+                                  style: MyContant().h4normalStyle(),
+                                ),
                               ],
-                            ),
-                            Row(
-                              children: [
-                                Text('เลขที่สัญญา :'),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text('ชื่อลูกค้าในสัญญา : '),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text('ชื่อลูกค้าปัจจุบัน : '),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text('ชื่อสินค้า : '),
-                              ],
-                            ),
+                            )
                           ],
                         ),
                       ),
-                    ),
-                  ),
+                    ] else
+                      ...[],
+                  ],
                 ],
               ),
             ),
@@ -1340,7 +1593,10 @@ class _Query_debtorState extends State<Query_debtor> {
                       height: 30,
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
-                        onPressed: () {},
+                        onPressed: () {
+                          showProgressLoading(context);
+                          getData_debtorList();
+                        },
                         child: const Text('ค้นหา'),
                       ),
                     ),
@@ -1349,7 +1605,7 @@ class _Query_debtorState extends State<Query_debtor> {
                       height: 30,
                       child: TextButton(
                         style: MyContant().myButtonCancelStyle(),
-                        onPressed: clearTextInput,
+                        onPressed: clearTextInputAll,
                         child: const Text('ยกเลิก'),
                       ),
                     ),
@@ -1387,13 +1643,10 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1410,15 +1663,13 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: firstname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1435,15 +1686,13 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1460,16 +1709,16 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: telephone,
+          maxLength: 10,
           keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            counterText: "",
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1486,32 +1735,37 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.07,
+          height: MediaQuery.of(context).size.width * 0.08,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton(
-            items: dropdown_addresstype
-                .map((value) => DropdownMenuItem(
-                      child: Text(
-                        value['name'],
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      value: value['id'],
-                    ))
-                .toList(),
-            onChanged: (newvalue) {
-              setState(() {
-                select_addreessType = newvalue;
-              });
-            },
-            value: select_addreessType,
-            isExpanded: true,
-            underline: SizedBox(),
-            hint: Align(
-              child: Text(
-                'ค้นหาจาก',
-                style: MyContant().TextInputSelect(),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 2),
+            child: DropdownButton(
+              items: dropdown_addresstype
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value['name'],
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        value: value['id'],
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  select_addreessType = newvalue;
+                });
+              },
+              value: select_addreessType,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'ค้นหาจาก',
+                  style: MyContant().TextInputSelect(),
+                ),
               ),
             ),
           ),
@@ -1525,15 +1779,13 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: homeNo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1550,15 +1802,13 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: moo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1576,15 +1826,13 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: district,
+          readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1602,15 +1850,13 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: amphoe,
+          readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1628,15 +1874,13 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: provincn,
+          readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1653,34 +1897,35 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          // height: 27,
-          height: MediaQuery.of(context).size.width * 0.07,
-          // margin: EdgeInsets.zero,
+          height: MediaQuery.of(context).size.width * 0.08,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton(
-            items: dropdown_branch
-                .map((value) => DropdownMenuItem(
-                      child: Text(
-                        value['name'],
-                        style: MyContant().TextInputStyle(),
-                      ),
-                      value: value['id'],
-                    ))
-                .toList(),
-            onChanged: (newvalue) {
-              setState(() {
-                select_branchlist = newvalue;
-              });
-            },
-            value: select_branchlist,
-            isExpanded: true,
-            underline: SizedBox(),
-            hint: Align(
-              child: Text(
-                'เลือกสาขา',
-                style: MyContant().TextInputSelect(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdown_branch
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value['id'],
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  select_branchlist = newvalue;
+                });
+              },
+              value: select_branchlist,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกสาขา',
+                  style: MyContant().TextInputSelect(),
+                ),
               ),
             ),
           ),
@@ -1689,20 +1934,18 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_contractNumber(sizeIcon, border) {
+  Expanded input_signId(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: signId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
-              fontSize: 14,
-            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
@@ -1719,34 +1962,35 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          // height: 27,
-          height: MediaQuery.of(context).size.width * 0.07,
-          // margin: EdgeInsets.zero,
+          height: MediaQuery.of(context).size.width * 0.08,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton(
-            items: dropdown_debtorType
-                .map((value) => DropdownMenuItem(
-                      child: Text(
-                        value['name'],
-                        style: MyContant().TextInputStyle(),
-                      ),
-                      value: value['id'],
-                    ))
-                .toList(),
-            onChanged: (newvalue) {
-              setState(() {
-                select_debtorType = newvalue;
-              });
-            },
-            value: select_debtorType,
-            isExpanded: true,
-            underline: SizedBox(),
-            hint: Align(
-              child: Text(
-                'เลือกประเภทลูกหนี้',
-                style: MyContant().TextInputSelect(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdown_debtorType
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value['id'],
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  select_debtorType = newvalue;
+                });
+              },
+              value: select_debtorType,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกประเภทลูกหนี้',
+                  style: MyContant().TextInputSelect(),
+                ),
               ),
             ),
           ),
@@ -1760,34 +2004,35 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          // height: 27,
-          height: MediaQuery.of(context).size.width * 0.07,
-          // margin: EdgeInsets.zero,
+          height: MediaQuery.of(context).size.width * 0.08,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton(
-            items: dropdown_signStatus
-                .map((value) => DropdownMenuItem(
-                      child: Text(
-                        value['name'],
-                        style: MyContant().TextInputStyle(),
-                      ),
-                      value: value['id'],
-                    ))
-                .toList(),
-            onChanged: (newvalue) {
-              setState(() {
-                select_signStatus = newvalue;
-              });
-            },
-            value: select_signStatus,
-            isExpanded: true,
-            underline: SizedBox(),
-            hint: Align(
-              child: Text(
-                'เลือกสถานะสัญญา',
-                style: MyContant().TextInputSelect(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdown_signStatus
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value['id'],
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  select_signStatus = newvalue;
+                });
+              },
+              value: select_signStatus,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกสถานะสัญญา',
+                  style: MyContant().TextInputSelect(),
+                ),
               ),
             ),
           ),
@@ -1804,7 +2049,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: itemTypelist,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1827,10 +2072,10 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: search_nameItemtype,
+          controller: searchNameItemtype,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
