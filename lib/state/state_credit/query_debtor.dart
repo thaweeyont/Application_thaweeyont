@@ -48,7 +48,7 @@ class _Query_debtorState extends State<Query_debtor> {
       dropdown_branch = [],
       dropdown_debtorType = [],
       dropdown_signStatus = [];
-  List list_district = [], list_itemType = [];
+  List list_district = [], list_itemType = [], list_Debtordetail = [];
   var selectValue_province,
       selectValue_amphoe,
       select_addreessType,
@@ -58,7 +58,8 @@ class _Query_debtorState extends State<Query_debtor> {
       checkStatuscode,
       debtorStatuscode,
       tumbolId,
-      itemType;
+      itemType,
+      valueSignId;
 
   @override
   void initState() {
@@ -179,6 +180,8 @@ class _Query_debtorState extends State<Query_debtor> {
       print("ไม่มีข้อมูล $e");
     }
   }
+
+  
 
   Future<void> get_select_province() async {
     print(tokenId);
@@ -1417,12 +1420,11 @@ class _Query_debtorState extends State<Query_debtor> {
                     for (var i = 0; i < list_dataDebtor.length; i++) ...[
                       InkWell(
                         onTap: () {
-                          // var idcard = datauser[i].idcard;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    Data_SearchDebtor(35.toString())),
+                                builder: (context) => Data_SearchDebtor(
+                                    list_dataDebtor[i]['signId'])),
                           );
                         },
                         child: Padding(
