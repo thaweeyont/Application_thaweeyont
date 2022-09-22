@@ -75,21 +75,31 @@ class MyContant {
         fontFamily: 'Prompt',
       );
   TextStyle TextInputStyle() => TextStyle(
+        //ตัวหนังสือใน input
         fontSize: 16,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
   TextStyle TextInputSelect() => TextStyle(
+        //ตัวหนังสือใน dropdown
         fontSize: 16,
         color: Color.fromRGBO(106, 106, 106, 1),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
   TextStyle TextSmallStyle() => TextStyle(
+        //ตัวหนังสือเล็กหนา
         fontSize: 12,
         color: Colors.black,
         fontWeight: FontWeight.bold,
+        fontFamily: 'Prompt',
+      );
+  TextStyle TextSmalldebNote() => TextStyle(
+        // ตัวหนังสือบันทึกหมายเหตุ
+        fontSize: 15,
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
 

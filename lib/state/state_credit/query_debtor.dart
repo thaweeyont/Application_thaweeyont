@@ -137,7 +137,7 @@ class _Query_debtorState extends State<Query_debtor> {
           'signStatus': signStatus.toString(),
           'itemType': itemTypelist.text,
           'page': '1',
-          'limit': '20'
+          'limit': '40'
         }),
       );
 
@@ -150,7 +150,7 @@ class _Query_debtorState extends State<Query_debtor> {
         });
         Navigator.pop(context);
 
-        print('#data# $list_dataDebtor');
+        print(list_dataDebtor);
       } else {
         setState(() {
           debtorStatuscode = respose.statusCode;
@@ -180,8 +180,6 @@ class _Query_debtorState extends State<Query_debtor> {
       print("ไม่มีข้อมูล $e");
     }
   }
-
-  
 
   Future<void> get_select_province() async {
     print(tokenId);
@@ -443,10 +441,10 @@ class _Query_debtorState extends State<Query_debtor> {
     signId.clear();
     itemTypelist.clear();
     setState(() {
-      dropdown_branch = [];
-      dropdown_debtorType = [];
-      dropdown_signStatus = [];
-      dropdown_addresstype = [];
+      select_debtorType = null;
+      select_signStatus = null;
+      select_branchlist = null;
+      // select_addreessType = dropdown_addresstype[0]['id'];
       list_dataDebtor = [];
       debtorStatuscode = null;
     });
@@ -1265,6 +1263,10 @@ class _Query_debtorState extends State<Query_debtor> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_tel(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         Text(
                           'ค้นหาจาก',
                           style: MyContant().h4normalStyle(),
@@ -1744,7 +1746,7 @@ class _Query_debtorState extends State<Query_debtor> {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(left: 2),
+            padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
               items: dropdown_addresstype
                   .map((value) => DropdownMenuItem(
@@ -2049,6 +2051,7 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: itemTypelist,
+          readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

@@ -26,7 +26,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       active_l4 = false;
 
   var Debtordetail, status = false;
-  late Map<String, dynamic> list_quarantee1, list_quarantee2, list_quarantee3;
+  Map<String, dynamic>? list_quarantee1,
+      list_quarantee2,
+      list_quarantee3,
+      list_itemDetail,
+      list_debNote,
+      list_finance;
+
+  List list_payDetail = [];
 
   @override
   void initState() {
@@ -71,12 +78,27 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             list_quarantee3 =
                 new Map<String, dynamic>.from(Debtordetail['quarantee']['3']);
           }
+          list_itemDetail =
+              new Map<String, dynamic>.from(Debtordetail['itemDetail']);
+
+          if (Debtordetail['debtNote'] == true) {
+            if (Debtordetail['debtNote']['debt'] != null) {
+              list_debNote = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['debt']);
+            }
+            if (Debtordetail['debtNote']['finance'] != null) {
+              list_finance = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['finance']);
+            }
+          }
+
+          list_payDetail = Debtordetail['payDetail'];
         });
         // Navigator.pop(context);
         // print(list_quarantee1['smartId']);
         // print(list_quarantee1);
         // print(list_quarantee2);
-        // print(list_quarantee3.isNotEmpty);
+        // print(list_payDetail);
       } else {
         // setState(() {
         //   debtorStatuscode = respose.statusCode;
@@ -434,10 +456,18 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     height: 5,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'อาชีพ : ${Debtordetail['debtorCareer']}',
+                        'อาชีพ : ',
                         style: MyContant().h4normalStyle(),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'อาชีพ : ${Debtordetail['debtorCareer']}',
+                          overflow: TextOverflow.clip,
+                          style: MyContant().h4normalStyle(),
+                        ),
                       ),
                     ],
                   ),
@@ -525,7 +555,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'เลขบัตรประชาชน : ${list_quarantee1['smartId']}',
+                                            'เลขบัตรประชาชน : ${list_quarantee1!['smartId']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -535,7 +565,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'ชื่อ-สกุล : ${list_quarantee1['name']}',
+                                            'ชื่อ-สกุล : ${list_quarantee1!['name']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -552,7 +582,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_quarantee1['address']}',
+                                            '${list_quarantee1!['address']}',
                                             overflow: TextOverflow.clip,
                                             style: MyContant().h4normalStyle(),
                                           ),
@@ -572,7 +602,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_quarantee1['workADdress']}',
+                                            '${list_quarantee1!['workADdress']}',
                                             overflow: TextOverflow.clip,
                                             style: MyContant().h4normalStyle(),
                                           ),
@@ -585,7 +615,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'อาชีพ : ${list_quarantee1['career']}',
+                                            'อาชีพ : ${list_quarantee1!['career']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -595,7 +625,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'สถานที่ใกล้เคียง : ${list_quarantee1['nearPlace']}',
+                                            'สถานที่ใกล้เคียง : ${list_quarantee1!['nearPlace']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -632,7 +662,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'เลขบัตรประชาชน : ${list_quarantee2['smartId']}',
+                                            'เลขบัตรประชาชน : ${list_quarantee2!['smartId']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -642,7 +672,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'ชื่อ-สกุล : ${list_quarantee2['name']}',
+                                            'ชื่อ-สกุล : ${list_quarantee2!['name']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -659,7 +689,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_quarantee2['address']}',
+                                            '${list_quarantee2!['address']}',
                                             overflow: TextOverflow.clip,
                                             style: MyContant().h4normalStyle(),
                                           ),
@@ -679,7 +709,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_quarantee2['workADdress']}',
+                                            '${list_quarantee2!['workADdress']}',
                                             overflow: TextOverflow.clip,
                                             style: MyContant().h4normalStyle(),
                                           ),
@@ -692,7 +722,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'อาชีพ : ${list_quarantee2['career']}',
+                                            'อาชีพ : ${list_quarantee2!['career']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -702,7 +732,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'สถานที่ใกล้เคียง : ${list_quarantee2['nearPlace']}',
+                                            'สถานที่ใกล้เคียง : ${list_quarantee2!['nearPlace']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -739,7 +769,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'เลขบัตรประชาชน : ${list_quarantee3['smartId']}',
+                                            'เลขบัตรประชาชน : ${list_quarantee3!['smartId']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -749,7 +779,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                            'ชื่อ-สกุล : ${list_quarantee3['name']}',
+                                            'ชื่อ-สกุล : ${list_quarantee3!['name']}',
                                             style: MyContant().h4normalStyle()),
                                       ],
                                     ),
@@ -766,7 +796,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_quarantee3['address']}',
+                                            '${list_quarantee3!['address']}',
                                             overflow: TextOverflow.clip,
                                             style: MyContant().h4normalStyle(),
                                           ),
@@ -786,7 +816,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_quarantee3['workADdress']}',
+                                            '${list_quarantee3!['workADdress']}',
                                             overflow: TextOverflow.clip,
                                             style: MyContant().h4normalStyle(),
                                           ),
@@ -799,7 +829,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                          'อาชีพ : ${list_quarantee3['career']}',
+                                          'อาชีพ : ${list_quarantee3!['career']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
@@ -810,7 +840,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     Row(
                                       children: [
                                         Text(
-                                          'สถานที่ใกล้เคียง : ${list_quarantee3['nearPlace']}',
+                                          'สถานที่ใกล้เคียง : ${list_quarantee3!['nearPlace']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
@@ -846,6 +876,24 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       // height: MediaQuery.of(context).size.height * 0.06,
                       ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Text(
+                      //   'รายละเอียดสัญญา : ',
+                      //   style: MyContant().h4normalStyle(),
+                      // ),
+                      Expanded(
+                        child: Text(
+                            'รายละเอียดสัญญา : ${Debtordetail['signDetail']}',
+                            // overflow: TextOverflow.clip,
+                            style: MyContant().h4normalStyle()),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
                     children: [
                       Text('วันที่ทำสัญญา : ${Debtordetail['signDate']}',
                           style: MyContant().h4normalStyle()),
@@ -874,7 +922,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('กำหนดงวด : ', style: MyContant().h4normalStyle()),
+                      Text('ชำระแล้ว : ${Debtordetail['periodNo']} งวด',
+                          style: MyContant().h4normalStyle()),
                     ],
                   ),
                   SizedBox(
@@ -884,7 +933,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     children: [
                       Expanded(
                         child: Text(
-                          'พนักงานขาย : ',
+                          'พนักงานขาย : ${Debtordetail['saleName']}',
                           style: MyContant().h4normalStyle(),
                           overflow: TextOverflow.clip,
                         ),
@@ -897,7 +946,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   Row(
                     children: [
                       Expanded(
-                        child: Text('ผู้ตรวจสอบเครดิต : ',
+                        child: Text(
+                            'ผู้ตรวจสอบเครดิต : ${Debtordetail['creditName']}',
                             style: MyContant().h4normalStyle(),
                             overflow: TextOverflow.clip),
                       ),
@@ -908,7 +958,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('ผู้อนุมัติสินเชื่อ : ',
+                      Text(
+                          'ผู้อนุมัติสินเชื่อ : ${Debtordetail['approveName']}',
                           style: MyContant().h4normalStyle()),
                     ],
                   ),
@@ -936,14 +987,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   SizedBox(
                       // height: MediaQuery.of(context).size.height * 0.06,
                       ),
-                  Row(
-                    children: [
-                      Text(
-                        'รายการสินค้า (หมายเหตุ สินค้าปกติ สินค้าเปลี่ยน สินค้ารับคืน)',
-                        style: MyContant().TextSmallStyle(),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       'รายการสินค้า (หมายเหตุ สินค้าปกติ สินค้าเปลี่ยน สินค้ารับคืน)',
+                  //       style: MyContant().TextSmallStyle(),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 5,
                   ),
@@ -953,7 +1004,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       Text('รายการ : ', style: MyContant().h4normalStyle()),
                       Expanded(
                         child: Text(
-                          'เครื่องปรับอากาศ มิตซูบิชิ MS-SGE13VC/MU-SGE13VC',
+                          '${list_itemDetail!['name']}',
                           style: MyContant().h4normalStyle(),
                           overflow: TextOverflow.clip,
                         ),
@@ -965,7 +1016,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('ยี่ห้อ : MITSUBISHI',
+                      Text('ยี่ห้อ : ${list_itemDetail!['brandName']}',
                           style: MyContant().h4normalStyle()),
                     ],
                   ),
@@ -974,7 +1025,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('ขนาด : -', style: MyContant().h4normalStyle()),
+                      Text('ขนาด : ${list_itemDetail!['sizeName']}',
+                          style: MyContant().h4normalStyle()),
                     ],
                   ),
                   SizedBox(
@@ -982,7 +1034,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('รุ่น/แบบ : MS-SGE13VC/MU-SGE13VC',
+                      Text('รุ่น/แบบ : ${list_itemDetail!['modelName']}',
                           style: MyContant().h4normalStyle()),
                     ],
                   ),
@@ -996,7 +1048,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           style: MyContant().h4normalStyle()),
                       Expanded(
                         child: Text(
-                          'L20T90SS0000635T/L20T9B6S0000106T',
+                          '${list_itemDetail!['serialId']}',
                           style: MyContant().h4normalStyle(),
                           overflow: TextOverflow.clip,
                         ),
@@ -1008,7 +1060,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Row(
                     children: [
-                      Text('จำนวน : 1', style: MyContant().h4normalStyle()),
+                      Text('จำนวน : ${list_itemDetail!['qty']}',
+                          style: MyContant().h4normalStyle()),
                     ],
                   ),
                   SizedBox(
@@ -1025,7 +1078,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           children: [
                             Expanded(
                               child: Text(
-                                'หมายเหตุการขาย : หักเงินเดือนพนักงาน เริ่ม 20/05/53 = 1,075.-/ด. พนักงานคิด 0.8% * 18 = 1,075.- ราคาขายพร้อมติดตั้ง ฟรีท่อน้ำยา 4 เมตร สายไฟไม่เกิน 15 เมตร ไม่รวมขาแขวน',
+                                'หมายเหตุการขาย : ${list_itemDetail!['saleNote']}',
                                 style: MyContant().h4normalStyle(),
                                 overflow: TextOverflow.clip,
                               ),
@@ -1174,68 +1227,10 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('เชคเกอร์ ', style: MyContant().h4normalStyle()),
-                      Text('วันที่ : 28/10/62 15:45:59 ',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
+                      Text(
+                        'เชคเกอร์ ',
+                        style: MyContant().h4normalStyle(),
                       ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [Text('')],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('การเงิน', style: MyContant().h4normalStyle()),
-                      Text('วันที่ : ', style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [Text('ทดสอบตัวหนังสือ')],
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('ติดตามหนี้ ', style: MyContant().h4normalStyle()),
                       Text(
                         'วันที่ : ',
                         style: MyContant().h4normalStyle(),
@@ -1257,10 +1252,189 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     child: Column(
                       children: [
                         Row(
-                          children: [Text('')],
+                          children: [
+                            Text(''),
+                          ],
                         )
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // H010105220554415
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'การเงิน',
+                        style: MyContant().h4normalStyle(),
+                      ),
+                      if (list_finance == null) ...[
+                        Text(
+                          'วันที่ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ] else ...[
+                        Text(
+                          'วันที่ : ${list_finance!['date']}',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                    child: list_finance == null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่มีบันทึก',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${list_finance!['note']}',
+                                            overflow: TextOverflow.clip,
+                                            style:
+                                                MyContant().TextSmalldebNote(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ผู้บันทึก : ${list_finance!['createName']}',
+                                          style: MyContant().TextSmalldebNote(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'ติดตามหนี้ ',
+                        style: MyContant().h4normalStyle(),
+                      ),
+                      if (list_debNote == null) ...[
+                        Text(
+                          'วันที่ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ] else ...[
+                        Text(
+                          'วันที่ : ${list_debNote!['date']}',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    padding: EdgeInsets.all(2.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                    child: list_debNote == null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่มีบันทึก',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${list_debNote!['note']}',
+                                            overflow: TextOverflow.clip,
+                                            style:
+                                                MyContant().TextSmalldebNote(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ผู้บันทึก : ${list_debNote!['createName']}',
+                                          style: MyContant().TextSmalldebNote(),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                   ),
                   SizedBox(
                     height: 10,
@@ -1293,7 +1467,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     child: Column(
                       children: [
                         Row(
-                          children: [Text('')],
+                          children: [
+                            Text(''),
+                          ],
                         )
                       ],
                     ),
@@ -1329,7 +1505,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     child: Column(
                       children: [
                         Row(
-                          children: [Text('ทดสอบตัวหนังสือ')],
+                          children: [
+                            Text(''),
+                          ],
                         )
                       ],
                     ),
@@ -1365,7 +1543,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     child: Column(
                       children: [
                         Row(
-                          children: [Text('')],
+                          children: [
+                            Text(''),
+                          ],
                         )
                       ],
                     ),
@@ -1387,105 +1567,116 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       height: MediaQuery.of(context).size.height * 0.75,
       child: ListView(
         children: [
-          for (var i = 0; i <= 10; i++) ...[
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, MyContant.routePayInstallment);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 218, 249, 1),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+          if (list_payDetail.isNotEmpty) ...[
+            for (var i = 0; i < list_payDetail.length; i++) ...[
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, MyContant.routePayInstallment);
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(255, 218, 249, 1),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
                     ),
-                  ),
-                  padding: EdgeInsets.all(8.0),
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'งวดที่ : ${i + 1}',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          Text(
-                            'วันที่ชำระ : 20/07/62',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'เลขที่ใบเสร็จ : R301190778395',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'เงินต้น : 1,065.00',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          Text(
-                            'คงเหลือ : ',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'ค่าปรับ : ',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          Text(
-                            'วันที่ชำระ : 20/07/62',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'ชำระเงินต้น : 1,065.00',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          Text(
-                            'ชำระค่าปรับ : ',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                    ],
+                    padding: EdgeInsets.all(8.0),
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'งวดที่ : ${list_payDetail[i]['periodNo']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'วันที่ชำระ : ${list_payDetail[i]['payDate']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'เลขที่ใบเสร็จ : ${list_payDetail[i]['receiptTranId']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'เงินต้น : ${list_payDetail[i]['payPrice']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'คงเหลือ : ${list_payDetail[i]['periodPrice']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+
+                            // Text(
+                            //   'คงเหลือ : ',
+                            //   style: MyContant().h4normalStyle(),
+                            // ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'ค่าปรับ : ${list_payDetail[i]['payFine']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'คงเหลือ : ${list_payDetail[i]['finePrice']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'ประเภทการรับ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${list_payDetail[i]['payBy']}',
+                                overflow: TextOverflow.clip,
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ],
         ],
       ),
