@@ -324,21 +324,15 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     Future<Null> getData_search() async {
       if (id == '1') {
         print(id);
-        if (selectValue_customer != null && searchData.text.isNotEmpty) {
-          showProgressLoading(context);
-          if (selectValue_customer.toString() == "2") {
-            getData_condition(
-                id, selectValue_customer, '', searchData.text, lastname.text);
-          } else {
-            getData_condition(
-                id, selectValue_customer, searchData.text, '', '');
-          }
+        showProgressLoading(context);
+        if (selectValue_customer.toString() == "2") {
+          getData_condition(
+              id, selectValue_customer, '', searchData.text, lastname.text);
         } else {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบถ้วน');
+          getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
         print(id);
-        // if (firstname_em.text.isNotEmpty && lastname_em.text.isNotEmpty) {
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
       }

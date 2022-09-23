@@ -26,6 +26,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       valueNotdata,
       Texthint;
 
+  TextEditingController custId = TextEditingController();
+  TextEditingController custName = TextEditingController();
   TextEditingController searchData = TextEditingController();
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
@@ -183,21 +185,15 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     Future<Null> getData_search() async {
       if (id == '1') {
         print(id);
-        if (selectValue_customer != null && searchData.text.isNotEmpty) {
-          showProgressLoading(context);
-          if (selectValue_customer.toString() == "2") {
-            getData_condition(
-                id, selectValue_customer, '', searchData.text, lastname.text);
-          } else {
-            getData_condition(
-                id, selectValue_customer, searchData.text, '', '');
-          }
+        showProgressLoading(context);
+        if (selectValue_customer.toString() == "2") {
+          getData_condition(
+              id, selectValue_customer, '', searchData.text, lastname.text);
         } else {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลให้ครบถ้วน');
+          getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
         print(id);
-        // if (firstname_em.text.isNotEmpty && lastname_em.text.isNotEmpty) {
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
       }
@@ -1331,6 +1327,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
@@ -1354,7 +1351,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: searchData,
+          controller: custId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
@@ -1377,6 +1374,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
+          controller: custName,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
