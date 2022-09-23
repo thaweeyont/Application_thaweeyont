@@ -25,7 +25,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       active_l3 = false,
       active_l4 = false;
 
-  var Debtordetail, status = false;
+  var Debtordetail, status = false, select_payDetail;
   Map<String, dynamic>? list_quarantee1,
       list_quarantee2,
       list_quarantee3,
@@ -33,7 +33,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       list_debNote,
       list_finance;
 
-  List list_payDetail = [];
+  List list_payDetail = [], dropdown_paydetail = [];
 
   @override
   void initState() {
@@ -207,6 +207,260 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         });
         break;
     }
+  }
+
+  Future<Null> show_paydetail(sizeIcon, border, periodNo) async {
+    var data_d = periodNo.toString().split('|');
+    var perodNo_d = data_d[0].toString(),
+        receiptTranId_d = data_d[1].toString(),
+        payDate_d = data_d[2].toString(),
+        payPrice_d = data_d[3].toString(),
+        payFine_d = data_d[4].toString(),
+        payBy_d = data_d[5].toString();
+    double size = MediaQuery.of(context).size.width;
+    // bool btn_edit = false;
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: StatefulBuilder(
+          builder: (context, setState) => Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(5),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 0,
+                    color: Colors.white,
+                    child: Container(
+                      // height: MediaQuery.of(context).size.height * 0.7,
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: size * 0.03,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(202, 71, 150, 1),
+                                            shape: BoxShape.circle),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              color: Color.fromRGBO(255, 218, 249, 1),
+                            ),
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'งวดที่ : ',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    // input_pay_installment(sizeIcon, border),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.07,
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 4),
+                                            child: DropdownButton(
+                                              items: list_payDetail
+                                                  .map((value) =>
+                                                      DropdownMenuItem(
+                                                        child: Text(
+                                                          value['periodNo'],
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                        value: value['periodNo'] +
+                                                            '|' +
+                                                            value[
+                                                                'receiptTranId'] +
+                                                            '|' +
+                                                            value['payDate'] +
+                                                            '|' +
+                                                            value['payPrice'] +
+                                                            '|' +
+                                                            value['payFine'] +
+                                                            '|' +
+                                                            value['payBy'],
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (newvalue) {
+                                                setState(() {
+                                                  select_payDetail = newvalue;
+                                                  var data_s = select_payDetail
+                                                      .toString()
+                                                      .split('|');
+                                                  perodNo_d =
+                                                      data_s[0].toString();
+                                                  receiptTranId_d =
+                                                      data_s[1].toString();
+                                                  payDate_d =
+                                                      data_s[2].toString();
+                                                  payPrice_d =
+                                                      data_s[3].toString();
+                                                  payFine_d =
+                                                      data_s[4].toString();
+                                                  payBy_d =
+                                                      data_s[5].toString();
+                                                });
+                                              },
+                                              value: select_payDetail,
+                                              isExpanded: true,
+                                              underline: SizedBox(),
+                                              hint: Align(
+                                                child: Text(
+                                                  'ไม่มี',
+                                                  style: MyContant()
+                                                      .TextInputSelect(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              color: Color.fromRGBO(255, 218, 249, 1),
+                            ),
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'งวดที่ : $perodNo_d',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Text(
+                                      'วันที่ชำระ : $payDate_d',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'เลขที่ใบเสร็จ : $receiptTranId_d',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'จำนวนเงิน : $payPrice_d',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Text(
+                                      'ค่าปรับ : $payFine_d',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'ประเภทการรับ : $payBy_d',
+                                        overflow: TextOverflow.clip,
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -1563,6 +1817,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   }
 
   Container content_list_4(BuildContext context) {
+    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = OutlineInputBorder(
+      borderSide: const BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: const BorderRadius.all(
+        const Radius.circular(4.0),
+      ),
+    );
     return Container(
       height: MediaQuery.of(context).size.height * 0.75,
       child: ListView(
@@ -1571,7 +1835,27 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             for (var i = 0; i < list_payDetail.length; i++) ...[
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, MyContant.routePayInstallment);
+                  var periodNo = list_payDetail[i]['periodNo'];
+                  var receiptTranId = list_payDetail[i]['receiptTranId'];
+                  var payDate = list_payDetail[i]['payDate'];
+                  var payPrice = list_payDetail[i]['payPrice'];
+                  var payFine = list_payDetail[i]['payFine'];
+                  var payBy = list_payDetail[i]['payBy'];
+                  setState(() {
+                    select_payDetail = periodNo +
+                        '|' +
+                        receiptTranId +
+                        '|' +
+                        payDate +
+                        '|' +
+                        payPrice +
+                        '|' +
+                        payFine +
+                        '|' +
+                        payBy;
+                  });
+
+                  show_paydetail(sizeIcon, border, select_payDetail);
                 },
                 child: Padding(
                   padding:
@@ -1626,11 +1910,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               'คงเหลือ : ${list_payDetail[i]['periodPrice']}',
                               style: MyContant().h4normalStyle(),
                             ),
-
-                            // Text(
-                            //   'คงเหลือ : ',
-                            //   style: MyContant().h4normalStyle(),
-                            // ),
                           ],
                         ),
                         SizedBox(
@@ -1653,15 +1932,10 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           height: 5,
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'ประเภทการรับ : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
                             Expanded(
                               child: Text(
-                                '${list_payDetail[i]['payBy']}',
+                                'ประเภทการรับ : ${list_payDetail[i]['payBy']}',
                                 overflow: TextOverflow.clip,
                                 style: MyContant().h4normalStyle(),
                               ),

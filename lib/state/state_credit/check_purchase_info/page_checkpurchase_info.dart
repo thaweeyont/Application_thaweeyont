@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -965,8 +966,15 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
-                          showProgressLoading(context);
-                          getData_buyList();
+                          print(selectvalue_saletype);
+                          if (custId.text.isEmpty ||
+                              selectvalue_saletype == null) {
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรุณากรอกข้อมูลให้ครบถ้วน!');
+                          } else {
+                            showProgressLoading(context);
+                            getData_buyList();
+                          }
                         },
                         child: const Text('ค้นหา'),
                       ),

@@ -102,6 +102,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle TextcolorBlue() => TextStyle(
+        fontSize: 15,
+        color: Color.fromRGBO(0, 14, 131, 1),
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
 
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(76, 83, 146, 1),
