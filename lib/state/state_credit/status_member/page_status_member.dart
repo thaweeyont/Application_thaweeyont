@@ -19,12 +19,14 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
 
   bool st_customer = true, st_employee = false;
   String? id = '1';
-  List list_datavalue = [], dropdown_customer = [];
+  List list_datavalue = [], list_dataMember = [], dropdown_customer = [];
+  List list_address = [];
   var selectValue_customer,
       selectvalue_saletype,
       valueStatus,
       valueNotdata,
-      Texthint;
+      Texthint,
+      valueaddress;
 
   TextEditingController custId = TextEditingController();
   TextEditingController custName = TextEditingController();
@@ -49,6 +51,63 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
+  }
+
+  Future<void> getData_CusMember() async {
+    print(tokenId);
+    print(custId.text);
+    try {
+      var respose = await http.post(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/customer/member'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, String>{
+          'custId': custId.text,
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataMemberList =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        valueaddress = dataMemberList['data'][0];
+        setState(() {
+          list_dataMember = dataMemberList['data'];
+          list_address = valueaddress['address'];
+        });
+        // Navigator.pop(context);
+        // Navigator.pop(context);
+        // search_idcustomer();
+        print(list_address);
+      } else {
+        // setState(() {
+        //   valueNotdata = respose.statusCode;
+        // });
+        // Navigator.pop(context);
+        print(respose.statusCode);
+        print('ไม่พบข้อมูล');
+        Map<String, dynamic> check_list =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        print(respose.statusCode);
+        print(check_list['message']);
+        if (check_list['message'] == "Token Unauthorized") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Authen(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
+      }
+    } catch (e) {
+      // Navigator.pop(context);
+      print("ไม่มีข้อมูล $e");
+    }
   }
 
   Future<void> get_select_cus() async {
@@ -120,6 +179,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         const Radius.circular(4.0),
       ),
     );
+
     Future<void> getData_condition(String? custType, conditionType,
         String searchData, String firstName, String lastName) async {
       list_datavalue = [];
@@ -436,10 +496,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         onTap: () {
                                           setState(
                                             () {
-                                              // custId.text =
-                                              //     list_datavalue[i]['custId'];
-                                              // custName.text =
-                                              //     list_datavalue[i]['custName'];
+                                              custId.text =
+                                                  list_datavalue[i]['custId'];
+                                              custName.text =
+                                                  list_datavalue[i]['custName'];
                                             },
                                           );
                                           Navigator.pop(context);
@@ -792,486 +852,506 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(64, 203, 203, 1),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+            if (list_dataMember.isNotEmpty) ...[
+              for (var i = 0; i < list_dataMember.length; i++) ...[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(64, 203, 203, 1),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'รหัสลูกค้า : ${list_dataMember[i]['custId']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                                'ชื่อ-นามสกุล : ${list_dataMember[i]['custName']}',
+                                style: MyContant().h4normalStyle()),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'ชื่อเล่น : ${list_dataMember[i]['nickName']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'เพศ : ${list_dataMember[i]['gender']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'สถานภาพ : ${list_dataMember[i]['marryStatus']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'ศาสนา : ${list_dataMember[i]['religionName']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'เชื้อชาติ : ${list_dataMember[i]['raceName']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'สัญชาติ : ${list_dataMember[i]['nationName']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'วันเกิด : ${list_dataMember[i]['birthday']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'อายุ : ${list_dataMember[i]['age']} ปี',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'เบอร์โทรศัพท์ : ${list_dataMember[i]['mobile']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'บัตร : ${list_dataMember[i]['cardTypeName']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'เลขที่ : ${list_dataMember[i]['smartId']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Email : ${list_dataMember[i]['email']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Website : ${list_dataMember[i]['website']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Line Id : ${list_dataMember[i]['lineId']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'วันที่หมดอายุ : ${list_dataMember[i]['smartExpireDate']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Row(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(64, 203, 203, 1),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: Column(
                       children: [
-                        Text(
-                          'รหัสลูกค้า : ',
-                          style: MyContant().h4normalStyle(),
+                        Row(
+                          children: [
+                            Text(
+                              'ข้อมูลบัตรสมาขิก',
+                              style: MyContant().TextcolorBlue(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'รหัสบัตร : ${list_dataMember[i]['memberCardId']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'สถานะบัตรสมาชิก : ${list_dataMember[i]['memberCardName']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'ผู้ตรวจสอบ : ${list_dataMember[i]['auditName']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'วันที่ออกบัตร : ${list_dataMember[i]['applyDate']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text('ชื่อ-นามสกุล : ',
-                            style: MyContant().h4normalStyle()),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'ชื่อเล่น : ',
-                          style: MyContant().h4normalStyle(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'ข้อมูลที่อยู่ ',
+                        style: MyContant().h2Style(),
+                      ),
+                    ],
+                  ),
+                ),
+                if (list_address.isNotEmpty) ...[
+                  for (var i = 0; i < list_address.length; i++) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(64, 203, 203, 1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
-                        Text(
-                          'เพศ : ',
-                          style: MyContant().h4normalStyle(),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '1',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Text(
+                                  'ประเภท : ${list_address[i]['type']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'ที่อยุ่ : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'เบอร์โทรศัพท์ : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'เบอร์แฟกซ์ : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'บัตร คุณอรทัย ไชยแสน',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    view_card_id(sizeIcon, border);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(18, 108, 108, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.search,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'แผนที่บ้าน คุณอรทัย ไชยแสน',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    view_map_cus(sizeIcon, border);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(18, 108, 108, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.search,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        Text(
-                          'สถานภาพ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'ศาสนา : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'เชื้อชาติ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'สัญชาติ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text('วันเกิด : ', style: MyContant().h4normalStyle()),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'เบอร์โทรศัพท์ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'บัตร : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'เลขที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Email : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Website : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Line Id : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'วันที่หมดอายุ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(64, 203, 203, 1),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'ข้อมูลบัตรสมาขิก',
-                          style: MyContant().TextcolorBlue(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'รหัสบัตร : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'สถานะบัตรสมาชิก : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ผู้ตรวจสอบ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'วันที่ออกบัตร : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'ข้อมูลที่อยู่',
-                    style: MyContant().h2Style(),
-                  ),
                 ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(64, 203, 203, 1),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(64, 203, 203, 1),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '2',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'ประเภท : ที่อยู่ปัจจุบัน',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'ที่อยุ่ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'เบอร์โทรศัพท์ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'เบอร์แฟกซ์ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(64, 203, 203, 1),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: Column(
                       children: [
-                        Text(
-                          '1',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'ประเภท : ทะเบียนบ้าน',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ที่อยุ่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text('เบอร์โทรศัพท์ : '),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'เบอร์แฟกซ์ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'บัตร คุณอรทัย ไชยแสน',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            view_card_id(sizeIcon, border);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(18, 108, 108, 1),
-                              shape: BoxShape.circle,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '3',
+                              style: MyContant().h4normalStyle(),
                             ),
-                            child: Icon(
-                              Icons.search,
-                              size: 15,
-                              color: Colors.white,
+                            Text(
+                              'ประเภท : ที่อยู่ที่ทำงาน',
+                              style: MyContant().h4normalStyle(),
                             ),
-                          ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'ที่อยุ่ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'เบอร์โทรศัพท์ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'เบอร์แฟกซ์ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'แผนที่บ้าน คุณอรทัย ไชยแสน',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            view_map_cus(sizeIcon, border);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(18, 108, 108, 1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              size: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(64, 203, 203, 1),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '2',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'ประเภท : ที่อยู่ปัจจุบัน',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ที่อยุ่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'เบอร์โทรศัพท์ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'เบอร์แฟกซ์ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(64, 203, 203, 1),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '3',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'ประเภท : ที่อยู่ที่ทำงาน',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ที่อยุ่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'เบอร์โทรศัพท์ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'เบอร์แฟกซ์ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+              ],
+            ],
           ],
         ),
       ),
@@ -1296,7 +1376,9 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                       ),
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
-                        onPressed: () {},
+                        onPressed: () {
+                          getData_CusMember();
+                        },
                         child: const Text('ค้นหา'),
                       ),
                     ),
@@ -1390,6 +1472,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );
