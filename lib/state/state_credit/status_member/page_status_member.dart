@@ -77,15 +77,13 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           list_dataMember = dataMemberList['data'];
           list_address = valueaddress['address'];
         });
-        // Navigator.pop(context);
-        // Navigator.pop(context);
-        // search_idcustomer();
+        Navigator.pop(context);
         print(list_address);
       } else {
-        // setState(() {
-        //   valueNotdata = respose.statusCode;
-        // });
-        // Navigator.pop(context);
+        setState(() {
+          valueStatus = respose.statusCode;
+        });
+        Navigator.pop(context);
         print(respose.statusCode);
         print('ไม่พบข้อมูล');
         Map<String, dynamic> check_list =
@@ -105,7 +103,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         }
       }
     } catch (e) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
     }
   }
@@ -166,6 +164,30 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         },
       ),
     );
+  }
+
+  clearValuemembar() {
+    custId.clear();
+    custName.clear();
+    setState(() {
+      list_dataMember.clear();
+      valueStatus = null;
+    });
+  }
+
+  clearDialog() {
+    setState(() {
+      id = '1';
+      st_customer = true;
+      st_employee = false;
+      selectValue_customer = null;
+      list_datavalue = [];
+      valueNotdata = null;
+      Texthint = '';
+    });
+    searchData.clear();
+    firstname_em.clear();
+    lastname_em.clear();
   }
 
   Future<Null> search_idcustomer() async {
@@ -298,7 +320,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                 Row(
                                   children: [
                                     InkWell(
-                                      onTap: () => Navigator.pop(context),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        clearDialog();
+                                      },
                                       child: Container(
                                         width: 30,
                                         height: 30,
@@ -1118,7 +1143,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '1',
+                                  '${i + 1}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                                 Text(
@@ -1131,61 +1156,17 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               height: 10,
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'ที่อยุ่ : ',
                                   style: MyContant().h4normalStyle(),
                                 ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'เบอร์โทรศัพท์ : ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'เบอร์แฟกซ์ : ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'บัตร คุณอรทัย ไชยแสน',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    view_card_id(sizeIcon, border);
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    width: 20,
-                                    height: 20,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromRGBO(18, 108, 108, 1),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.search,
-                                      size: 15,
-                                      color: Colors.white,
-                                    ),
+                                Expanded(
+                                  child: Text(
+                                    '${list_address[i]['detail']}',
+                                    overflow: TextOverflow.clip,
+                                    style: MyContant().h4normalStyle(),
                                   ),
                                 ),
                               ],
@@ -1196,161 +1177,243 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                             Row(
                               children: [
                                 Text(
-                                  'แผนที่บ้าน คุณอรทัย ไชยแสน',
+                                  'เบอร์โทรศัพท์ : ${list_address[i]['tel']}',
                                   style: MyContant().h4normalStyle(),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    view_map_cus(sizeIcon, border);
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    width: 20,
-                                    height: 20,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromRGBO(18, 108, 108, 1),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.search,
-                                      size: 15,
-                                      color: Colors.white,
-                                    ),
-                                  ),
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'เบอร์แฟกซ์ : ${list_address[i]['fax']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // // Row(
+                            // //   children: [
+                            // //     Text(
+                            // //       'บัตร คุณอรทัย ไชยแสน',
+                            // //       style: MyContant().h4normalStyle(),
+                            // //     ),
+                            // //     InkWell(
+                            // //       onTap: () {
+                            // //         view_card_id(sizeIcon, border);
+                            // //       },
+                            // //       child: Container(
+                            // //         margin: EdgeInsets.only(left: 10),
+                            // //         width: 20,
+                            // //         height: 20,
+                            // //         decoration: BoxDecoration(
+                            // //           color: Color.fromRGBO(18, 108, 108, 1),
+                            // //           shape: BoxShape.circle,
+                            // //         ),
+                            // //         child: Icon(
+                            // //           Icons.search,
+                            // //           size: 15,
+                            // //           color: Colors.white,
+                            // //         ),
+                            // //       ),
+                            // //     ),
+                            // //   ],
+                            // // ),
+                            // SizedBox(
+                            //   height: 5,
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Text(
+                            //       'แผนที่บ้าน คุณอรทัย ไชยแสน',
+                            //       style: MyContant().h4normalStyle(),
+                            //     ),
+                            //     InkWell(
+                            //       onTap: () {
+                            //         view_map_cus(sizeIcon, border);
+                            //       },
+                            //       child: Container(
+                            //         margin: EdgeInsets.only(left: 10),
+                            //         width: 20,
+                            //         height: 20,
+                            //         decoration: BoxDecoration(
+                            //           color: Color.fromRGBO(18, 108, 108, 1),
+                            //           shape: BoxShape.circle,
+                            //         ),
+                            //         child: Icon(
+                            //           Icons.search,
+                            //           size: 15,
+                            //           color: Colors.white,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
                     ),
                   ],
                 ],
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(64, 203, 203, 1),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '2',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            Text(
-                              'ประเภท : ที่อยู่ปัจจุบัน',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'ที่อยุ่ : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'เบอร์โทรศัพท์ : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'เบอร์แฟกซ์ : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(64, 203, 203, 1),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '3',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            Text(
-                              'ประเภท : ที่อยู่ที่ทำงาน',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'ที่อยุ่ : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'เบอร์โทรศัพท์ : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'เบอร์แฟกซ์ : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Container(
+                //     padding: EdgeInsets.all(8.0),
+                //     decoration: BoxDecoration(
+                //       color: Color.fromRGBO(64, 203, 203, 1),
+                //       borderRadius: BorderRadius.all(
+                //         Radius.circular(10),
+                //       ),
+                //     ),
+                //     child: Column(
+                //       children: [
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Text(
+                //               '2',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //             Text(
+                //               'ประเภท : ${list_address[i]['type']}',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(
+                //           height: 10,
+                //         ),
+                //         Row(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               'ที่อยุ่ : ',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //             Expanded(
+                //               child: Text(
+                //                 'ที่อยุ่ : ${list_address[i]['detail']}',
+                //                 overflow: TextOverflow.clip,
+                //                 style: MyContant().h4normalStyle(),
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(
+                //           height: 5,
+                //         ),
+                //         Row(
+                //           children: [
+                //             Text(
+                //               'เบอร์โทรศัพท์ : ',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(
+                //           height: 5,
+                //         ),
+                //         Row(
+                //           children: [
+                //             Text(
+                //               'เบอร์แฟกซ์ : ',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //           ],
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Container(
+                //     padding: EdgeInsets.all(8.0),
+                //     decoration: BoxDecoration(
+                //       color: Color.fromRGBO(64, 203, 203, 1),
+                //       borderRadius: BorderRadius.all(
+                //         Radius.circular(10),
+                //       ),
+                //     ),
+                //     child: Column(
+                //       children: [
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Text(
+                //               '3',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //             Text(
+                //               'ประเภท : ที่อยู่ที่ทำงาน',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(
+                //           height: 10,
+                //         ),
+                //         Row(
+                //           children: [
+                //             Text(
+                //               'ที่อยุ่ : ',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(
+                //           height: 5,
+                //         ),
+                //         Row(
+                //           children: [
+                //             Text(
+                //               'เบอร์โทรศัพท์ : ',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(
+                //           height: 5,
+                //         ),
+                //         Row(
+                //           children: [
+                //             Text(
+                //               'เบอร์แฟกซ์ : ',
+                //               style: MyContant().h4normalStyle(),
+                //             ),
+                //           ],
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
+            ] else ...[
+              if (valueStatus == 404) ...[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  // color: Colors.blue,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ไม่พบข้อมูล',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ] else
+                ...[],
             ],
           ],
         ),
@@ -1377,7 +1440,13 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
-                          getData_CusMember();
+                          if (custId.text.isEmpty) {
+                            showProgressDialog(
+                                context, 'แจ้งเตือน', 'กรุณากรอกรหัสลูกค้า');
+                          } else {
+                            showProgressLoading(context);
+                            getData_CusMember();
+                          }
                         },
                         child: const Text('ค้นหา'),
                       ),
@@ -1390,7 +1459,9 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                       ),
                       child: TextButton(
                         style: MyContant().myButtonCancelStyle(),
-                        onPressed: () {},
+                        onPressed: () {
+                          clearValuemembar();
+                        },
                         child: const Text('ยกเลิก'),
                       ),
                     ),

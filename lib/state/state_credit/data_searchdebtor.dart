@@ -30,8 +30,12 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       list_quarantee2,
       list_quarantee3,
       list_itemDetail,
+      list_service,
+      list_finance,
       list_debNote,
-      list_finance;
+      list_law,
+      list_regis,
+      list_checker;
 
   List list_payDetail = [], dropdown_paydetail = [];
 
@@ -89,6 +93,22 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             if (Debtordetail['debtNote']['finance'] != null) {
               list_finance = new Map<String, dynamic>.from(
                   Debtordetail['debtNote']['finance']);
+            }
+            if (Debtordetail['debtNote']['service'] != null) {
+              list_service = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['service']);
+            }
+            if (Debtordetail['debtNote']['law'] != null) {
+              list_law = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['law']);
+            }
+            if (Debtordetail['debtNote']['regis'] != null) {
+              list_regis = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['regis']);
+            }
+            if (Debtordetail['debtNote']['checker'] != null) {
+              list_checker = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['checker']);
             }
           }
 
@@ -212,11 +232,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   Future<Null> show_paydetail(sizeIcon, border, periodNo) async {
     var data_d = periodNo.toString().split('|');
     var perodNo_d = data_d[0].toString(),
-        receiptTranId_d = data_d[1].toString(),
-        payDate_d = data_d[2].toString(),
-        payPrice_d = data_d[3].toString(),
-        payFine_d = data_d[4].toString(),
-        payBy_d = data_d[5].toString();
+        payDate_d = data_d[1].toString(),
+        payPrice_d = data_d[2].toString(),
+        payFine_d = data_d[3].toString();
     double size = MediaQuery.of(context).size.width;
     // bool btn_edit = false;
     showDialog(
@@ -322,18 +340,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
-                                                        value: value['periodNo'] +
-                                                            '|' +
-                                                            value[
-                                                                'receiptTranId'] +
+                                                        value: value[
+                                                                'periodNo'] +
                                                             '|' +
                                                             value['payDate'] +
                                                             '|' +
                                                             value['payPrice'] +
                                                             '|' +
-                                                            value['payFine'] +
-                                                            '|' +
-                                                            value['payBy'],
+                                                            value['payFine'],
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
@@ -344,16 +358,12 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                       .split('|');
                                                   perodNo_d =
                                                       data_s[0].toString();
-                                                  receiptTranId_d =
-                                                      data_s[1].toString();
                                                   payDate_d =
-                                                      data_s[2].toString();
+                                                      data_s[1].toString();
                                                   payPrice_d =
-                                                      data_s[3].toString();
+                                                      data_s[2].toString();
                                                   payFine_d =
-                                                      data_s[4].toString();
-                                                  payBy_d =
-                                                      data_s[5].toString();
+                                                      data_s[3].toString();
                                                 });
                                               },
                                               value: select_payDetail,
@@ -404,30 +414,11 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   height: 5,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'เลขที่ใบเสร็จ : $receiptTranId_d',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'จำนวนเงิน : $payPrice_d',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    Text(
-                                      'ค่าปรับ : $payFine_d',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
                                   ],
                                 ),
                                 SizedBox(
@@ -435,12 +426,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                 ),
                                 Row(
                                   children: [
-                                    Expanded(
-                                      child: Text(
-                                        'ประเภทการรับ : $payBy_d',
-                                        overflow: TextOverflow.clip,
-                                        style: MyContant().h4normalStyle(),
-                                      ),
+                                    Text(
+                                      'ค่าปรับ : $payFine_d',
+                                      style: MyContant().h4normalStyle(),
                                     ),
                                   ],
                                 ),
@@ -1485,10 +1473,17 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         'เชคเกอร์ ',
                         style: MyContant().h4normalStyle(),
                       ),
-                      Text(
-                        'วันที่ : ',
-                        style: MyContant().h4normalStyle(),
-                      ),
+                      if (list_service == null) ...[
+                        Text(
+                          'วันที่ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ] else ...[
+                        Text(
+                          'วันที่ : ${list_service!['date']}',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
                     ],
                   ),
                   SizedBox(
@@ -1503,15 +1498,58 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(''),
-                          ],
-                        )
-                      ],
-                    ),
+                    child: list_service == null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่มีบันทึก',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${list_service!['note']}',
+                                            overflow: TextOverflow.clip,
+                                            style:
+                                                MyContant().TextSmalldebNote(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ผู้บันทึก : ${list_service!['createName']}',
+                                          style: MyContant().TextSmalldebNote(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                   ),
                   SizedBox(
                     height: 10,
@@ -1700,10 +1738,17 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         'กฎหมาย',
                         style: MyContant().h4normalStyle(),
                       ),
-                      Text(
-                        'วันที่ : ',
-                        style: MyContant().h4normalStyle(),
-                      ),
+                      if (list_law == null) ...[
+                        Text(
+                          'วันที่ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ] else ...[
+                        Text(
+                          'วันที่ : ${list_law!['date']}',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
                     ],
                   ),
                   SizedBox(
@@ -1718,15 +1763,58 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(''),
-                          ],
-                        )
-                      ],
-                    ),
+                    child: list_law == null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่มีบันทึก',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${list_law!['note']}',
+                                            overflow: TextOverflow.clip,
+                                            style:
+                                                MyContant().TextSmalldebNote(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ผู้บันทึก : ${list_law!['createName']}',
+                                          style: MyContant().TextSmalldebNote(),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                   ),
                   SizedBox(
                     height: 10,
@@ -1738,10 +1826,17 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         'ทะเบียน',
                         style: MyContant().h4normalStyle(),
                       ),
-                      Text(
-                        'วันที่ : ',
-                        style: MyContant().h4normalStyle(),
-                      ),
+                      if (list_regis == null) ...[
+                        Text(
+                          'วันที่ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ] else ...[
+                        Text(
+                          'วันที่ : ${list_regis!['date']}',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
                     ],
                   ),
                   SizedBox(
@@ -1756,15 +1851,58 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(''),
-                          ],
-                        )
-                      ],
-                    ),
+                    child: list_regis == null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่มีบันทึก',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${list_regis!['note']}',
+                                            overflow: TextOverflow.clip,
+                                            style:
+                                                MyContant().TextSmalldebNote(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ผู้บันทึก : ${list_regis!['createName']}',
+                                          style: MyContant().TextSmalldebNote(),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                   ),
                   SizedBox(
                     height: 10,
@@ -1776,10 +1914,17 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         'บริการ',
                         style: MyContant().h4normalStyle(),
                       ),
-                      Text(
-                        'วันที่ : ',
-                        style: MyContant().h4normalStyle(),
-                      ),
+                      if (list_checker == null) ...[
+                        Text(
+                          'วันที่ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ] else ...[
+                        Text(
+                          'วันที่ : ${list_checker!['date']}',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
                     ],
                   ),
                   SizedBox(
@@ -1794,15 +1939,58 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(''),
-                          ],
-                        )
-                      ],
-                    ),
+                    child: list_checker == null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่มีบันทึก',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${list_checker!['note']}',
+                                            overflow: TextOverflow.clip,
+                                            style:
+                                                MyContant().TextSmalldebNote(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ผู้บันทึก : ${list_checker!['createName']}',
+                                          style: MyContant().TextSmalldebNote(),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                   ),
                   SizedBox(
                     height: 20,
@@ -1836,23 +2024,17 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
               InkWell(
                 onTap: () {
                   var periodNo = list_payDetail[i]['periodNo'];
-                  var receiptTranId = list_payDetail[i]['receiptTranId'];
                   var payDate = list_payDetail[i]['payDate'];
                   var payPrice = list_payDetail[i]['payPrice'];
                   var payFine = list_payDetail[i]['payFine'];
-                  var payBy = list_payDetail[i]['payBy'];
                   setState(() {
                     select_payDetail = periodNo +
-                        '|' +
-                        receiptTranId +
                         '|' +
                         payDate +
                         '|' +
                         payPrice +
                         '|' +
-                        payFine +
-                        '|' +
-                        payBy;
+                        payFine;
                   });
 
                   show_paydetail(sizeIcon, border, select_payDetail);
@@ -1880,22 +2062,22 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               style: MyContant().h4normalStyle(),
                             ),
                             Text(
-                              'วันที่ชำระ : ${list_payDetail[i]['payDate']}',
+                              'วันที่ชำระ : ${list_payDetail[i]['periodDate']}',
                               style: MyContant().h4normalStyle(),
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'เลขที่ใบเสร็จ : ${list_payDetail[i]['receiptTranId']}',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Text(
+                        //       'เลขที่ใบเสร็จ : ${list_payDetail[i]['receiptTranId']}',
+                        //       style: MyContant().h4normalStyle(),
+                        //     ),
+                        //   ],
+                        // ),
                         SizedBox(
                           height: 5,
                         ),
@@ -1907,7 +2089,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               style: MyContant().h4normalStyle(),
                             ),
                             Text(
-                              'คงเหลือ : ${list_payDetail[i]['periodPrice']}',
+                              'คงเหลือ : ${list_payDetail[i]['remainPrice']}',
                               style: MyContant().h4normalStyle(),
                             ),
                           ],
@@ -1928,22 +2110,50 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ],
                         ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: Text(
+                        //         'ประเภทการรับ : ${list_payDetail[i]['payBy']}',
+                        //         overflow: TextOverflow.clip,
+                        //         style: MyContant().h4normalStyle(),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        line(),
                         SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: [
-                            Expanded(
-                              child: Text(
-                                'ประเภทการรับ : ${list_payDetail[i]['payBy']}',
-                                overflow: TextOverflow.clip,
-                                style: MyContant().h4normalStyle(),
-                              ),
+                            Text(
+                              'วันที่ชำระ : ${list_payDetail[i]['payDate']}',
+                              style: MyContant().h4normalStyle(),
                             ),
                           ],
                         ),
                         SizedBox(
                           height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'ชำระเงินต้น : ${list_payDetail[i]['payPrice']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              'ชำระค่าปรับ : ${list_payDetail[i]['payFine']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
                         ),
                       ],
                     ),
