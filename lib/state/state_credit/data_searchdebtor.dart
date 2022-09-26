@@ -706,7 +706,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ),
                       Expanded(
                         child: Text(
-                          'อาชีพ : ${Debtordetail['debtorCareer']}',
+                          '${Debtordetail['debtorCareer']}',
                           overflow: TextOverflow.clip,
                           style: MyContant().h4normalStyle(),
                         ),

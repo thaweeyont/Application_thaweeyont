@@ -288,8 +288,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           child: Column(
             // padding: EdgeInsets.zeros
             children: [
-              drawerheader(size),
-              SizedBox(height: 45),
+              // drawerheader(size),
+              drawerIcon(size),
+              // SizedBox(height: 45),
               navigator_cradit(context, size),
               btn_exit()
             ],
@@ -323,9 +324,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   Text(
                     "ออกจากระบบ",
                     style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 18,
-                    ),
+                        color: Colors.red, fontSize: 18, fontFamily: 'Prompt'),
                   ),
                 ],
               ),
@@ -336,20 +335,47 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
+  Container drawerIcon(double size) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 30),
+      child: Column(
+        children: <Widget>[
+          Image.asset(
+            'images/logo.png',
+            width: size * 0.4,
+          ),
+          SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.account_box_rounded,
+                color: Colors.white,
+              ),
+              SizedBox(width: 10),
+              Text(
+                "$firstName $lastName",
+                style: TextStyle(
+                    color: Colors.white, fontSize: 18, fontFamily: 'Prompt'),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
   DrawerHeader drawerheader(double size) {
     return DrawerHeader(
-      padding: EdgeInsets.zero,
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(7, 15, 82, 1),
-      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Image.asset(
             'images/logo.png',
-            width: size * 0.3,
+            width: size * 0.2,
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -383,13 +409,18 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
           color: Colors.white,
         ),
-        child: Row(
+        child: Column(
           children: [
-            Icon(Icons.credit_card_outlined),
-            SizedBox(width: 10),
-            Text(
-              "สินเชื่อ",
-              style: TextStyle(color: Colors.black, fontSize: 14),
+            Row(
+              children: [
+                Icon(Icons.credit_card_outlined),
+                SizedBox(width: 10),
+                Text(
+                  "สินเชื่อ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
+                ),
+              ],
             ),
           ],
         ),
