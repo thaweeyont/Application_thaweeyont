@@ -16,7 +16,7 @@ final Map<String, WidgetBuilder> map = {
   '/state_credit/navigator_bar_credit': (BuildContext context) =>
       Navigator_bar_credit('2'),
   '/state_credit/query_debtor': (BuildContext context) => Query_debtor(),
-  '/state_credit/pay_installment': (BuildContext context) => Pay_installment(),
+  // '/state_credit/pay_installment': (BuildContext context) => Pay_installment(),
   '/state_credit/check_purchase_info/page_checkpurchase_info':
       (BuildContext context) => Page_Checkpurchase_info(),
   '/state_credit/credit_approval/page_credit_approval':

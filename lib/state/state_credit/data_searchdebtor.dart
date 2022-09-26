@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/login_model.dart';
 import '../authen.dart';
+import 'pay_installment.dart';
 
 class Data_SearchDebtor extends StatefulWidget {
   final String? signId;
@@ -1226,9 +1227,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                      // height: MediaQuery.of(context).size.height * 0.06,
-                      ),
                   // Row(
                   //   children: [
                   //     Text(
@@ -2023,21 +2021,17 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             for (var i = 0; i < list_payDetail.length; i++) ...[
               InkWell(
                 onTap: () {
-                  var periodNo = list_payDetail[i]['periodNo'];
-                  var payDate = list_payDetail[i]['payDate'];
-                  var payPrice = list_payDetail[i]['payPrice'];
-                  var payFine = list_payDetail[i]['payFine'];
-                  setState(() {
-                    select_payDetail = periodNo +
-                        '|' +
-                        payDate +
-                        '|' +
-                        payPrice +
-                        '|' +
-                        payFine;
-                  });
-
-                  show_paydetail(sizeIcon, border, select_payDetail);
+                  // var listpay = list_payDetail.length;
+                  // print(listpay);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Pay_installment(
+                            Debtordetail['signId'],
+                            list_payDetail[i]['periodNo'],
+                            list_payDetail.length.toString())),
+                  );
+                  // print(list_payDetail.length.toString());
                 },
                 child: Padding(
                   padding:
@@ -2085,7 +2079,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'เงินต้น : ${list_payDetail[i]['payPrice']}',
+                              'เงินต้น : ${list_payDetail[i]['periodPrice']}',
                               style: MyContant().h4normalStyle(),
                             ),
                             Text(
@@ -2101,13 +2095,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'ค่าปรับ : ${list_payDetail[i]['payFine']}',
+                              'ค่าปรับ : ${list_payDetail[i]['finePrice']}',
                               style: MyContant().h4normalStyle(),
                             ),
-                            Text(
-                              'คงเหลือ : ${list_payDetail[i]['finePrice']}',
-                              style: MyContant().h4normalStyle(),
-                            ),
+                            // Text(
+                            //   'คงเหลือ : ${list_payDetail[i]['finePrice']}',
+                            //   style: MyContant().h4normalStyle(),
+                            // ),
                           ],
                         ),
                         // SizedBox(

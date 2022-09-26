@@ -1,14 +1,144 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import '../../utility/my_constant.dart';
+import '../authen.dart';
 
 class Pay_installment extends StatefulWidget {
-  const Pay_installment({Key? key}) : super(key: key);
+  // const Pay_installment({Key? key}) : super(key: key);
+  final String? signId;
+  final String? list_payDetail, listpay;
+  Pay_installment(this.signId, this.list_payDetail, this.listpay);
 
   @override
   State<Pay_installment> createState() => _Pay_installmentState();
 }
 
 class _Pay_installmentState extends State<Pay_installment> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String dropdownValue = '1';
+  var payDetail, status = false;
+
+  late String? periodNo = widget.list_payDetail.toString(),
+      list = widget.listpay.toString();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdata();
+  }
+
+  Future<void> getData_payDetail() async {
+    print(tokenId);
+    print(widget.signId.toString());
+    print(list);
+
+    try {
+      var respose = await http.post(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/payDetail'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, String>{
+          'signId': widget.signId.toString(),
+          'periodId': widget.list_payDetail.toString(),
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataPayDetail =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          status = true;
+          payDetail = dataPayDetail['data'][0];
+        });
+
+        // print(payDetail['receiptTranId']);
+        // print(payDetail['payDate']);
+        // print(payDetail['payPrice']);
+        // print(payDetail['payFine']);
+        // print(payDetail['payBy']);
+      } else {
+        // setState(() {
+        //   debtorStatuscode = respose.statusCode;
+        // });
+        // Navigator.pop(context);
+        print(respose.body);
+        print(respose.statusCode);
+        print('ไม่พบข้อมูล');
+        Map<String, dynamic> check_list =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        print(respose.statusCode);
+        print(check_list['message']);
+        if (check_list['message'] == "Token Unauthorized") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Authen(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
+      }
+    } catch (e) {
+      // Navigator.pop(context);
+      print("ไม่มีข้อมูล $e");
+    }
+  }
+
+  Future<Null> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+
+    getData_payDetail();
+  }
+
+  Future<Null> showProgressLoading(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) => WillPopScope(
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade400.withOpacity(0.6),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            padding: EdgeInsets.all(80),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                Text(
+                  'Loading....',
+                  style: MyContant().h4normalStyle(),
+                ),
+              ],
+            ),
+          ),
+        ),
+        onWillPop: () async {
+          return false;
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,71 +157,125 @@ class _Pay_installmentState extends State<Pay_installment> {
         centerTitle: true,
         title: Text('ค้นหาข้อมูล'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+      body: status == false
+          ? Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400.withOpacity(0.6),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
-                color: Color.fromRGBO(255, 218, 249, 1),
+                padding: EdgeInsets.all(80),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    Text(
+                      'Loading....',
+                      style: MyContant().h4normalStyle(),
+                    ),
+                  ],
+                ),
               ),
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('งวดที่ : '),
-                  input_pay_installment(sizeIcon, border),
-                ],
-              ),
-            ),
-            Container(
-              color: Color.fromRGBO(255, 218, 249, 1),
-              padding: EdgeInsets.all(8.0),
+            )
+          : SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('งวดที่ : 1'),
-                      Text('วันที่ใบเสร็จ : 20/07/62'),
-                    ],
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      color: Color.fromRGBO(255, 218, 249, 1),
+                    ),
+                    margin: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'งวดที่ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_pay_installment(sizeIcon, border),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('เลขที่ใบเสร็จ : R301190778395'),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('จำนวนเงิน : 1,065.00'),
-                      Text('ค่าปรับ : '),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('ประเภทการรับ : เงินสด'),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(255, 218, 249, 1),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'งวดที่ : ${periodNo.toString()}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Text(
+                                'วันที่ใบเสร็จ : ${payDetail['payDate']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'เลขที่ใบเสร็จ : ${payDetail['receiptTranId']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'จำนวนเงิน : ${payDetail['payPrice']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Text(
+                                'ค่าปรับ : ${payDetail['payFine']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'ประเภทการรับ : ${payDetail['payBy']}',
+                                  style: MyContant().h4normalStyle(),
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -108,8 +292,7 @@ class _Pay_installmentState extends State<Pay_installment> {
             isExpanded: true,
             value: dropdownValue,
             elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
+            style: MyContant().TextInputStyle(),
             underline: SizedBox(),
             onChanged: (String? newValue) {
               setState(() {
