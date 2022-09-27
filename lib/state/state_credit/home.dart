@@ -18,18 +18,22 @@ class _Home_creditState extends State<Home_credit> {
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: GridView.count(
-        primary: false,
-        padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
-        children: <Widget>[
-          check_information(size),
-          check_buyproduct(size),
-          check_approve(size),
-          check_statususer(size),
-        ],
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: GridView.count(
+          primary: false,
+          padding: const EdgeInsets.all(20),
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisCount: 2,
+          children: <Widget>[
+            check_information(size),
+            check_buyproduct(size),
+            check_approve(size),
+            check_statususer(size),
+          ],
+        ),
       ),
     );
   }
