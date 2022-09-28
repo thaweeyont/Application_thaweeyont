@@ -38,6 +38,13 @@ class MyContant {
   static Color light = Color(0xffb9b64e);
 
   //Style
+  //TitleBar
+  TextStyle TitleStyle() => TextStyle(
+        fontSize: 22,
+        color: Colors.white,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle h1MenuStyle() => TextStyle(
         fontSize: 16,
         color: Colors.white,

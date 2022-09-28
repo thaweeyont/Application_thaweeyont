@@ -24,7 +24,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       active_mu2 = false,
       active_mu3 = false,
       active_mu4 = false;
-  var Debtordetail, status = false;
+  var Debtordetail, status = false, dataDebnote;
+  List list_payDetail = [], data_service = [];
   Map<String, dynamic>? list_quarantee1,
       list_quarantee2,
       list_quarantee3,
@@ -79,6 +80,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
         setState(() {
           status = true;
+
           if (Debtordetail['quarantee']['1'] != null) {
             list_quarantee1 =
                 new Map<String, dynamic>.from(Debtordetail['quarantee']['1']);
@@ -95,17 +97,17 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               new Map<String, dynamic>.from(Debtordetail['itemDetail']);
 
           if (Debtordetail['debtNote'] == true) {
-            if (Debtordetail['debtNote']['debt'] != null) {
-              list_debNote = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['debt']);
+            if (Debtordetail['debtNote']['service'] != null) {
+              list_service = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['service']);
             }
             if (Debtordetail['debtNote']['finance'] != null) {
               list_finance = new Map<String, dynamic>.from(
                   Debtordetail['debtNote']['finance']);
             }
-            if (Debtordetail['debtNote']['service'] != null) {
-              list_service = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['service']);
+            if (Debtordetail['debtNote']['debt'] != null) {
+              list_debNote = new Map<String, dynamic>.from(
+                  Debtordetail['debtNote']['debt']);
             }
             if (Debtordetail['debtNote']['law'] != null) {
               list_law = new Map<String, dynamic>.from(
@@ -121,13 +123,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             }
           }
 
-          // list_payDetail = Debtordetail['payDetail'];
+          list_payDetail = Debtordetail['payDetail'];
         });
-        // Navigator.pop(context);
-        // print(list_quarantee1['smartId']);
-        // print(list_quarantee1);
-        // print(list_quarantee2);
-        print(Debtordetail);
+        // Navigator.pop(context););
+        print(list_payDetail);
+        // print(list_service);
       } else {
         // setState(() {
         //   debtorStatuscode = respose.statusCode;
@@ -153,7 +153,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         }
       }
     } catch (e) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
     }
   }
@@ -198,7 +198,10 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('ค้นหาข้อมูล'),
+        title: Text(
+          'ค้นหาข้อมูล',
+          style: MyContant().TitleStyle(),
+        ),
       ),
       body: status == false
           ? Center(
@@ -241,7 +244,10 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Text('รายการชำระค่างวด'),
+                            Text(
+                              'รายการชำระค่างวด',
+                              style: MyContant().h3Style(),
+                            ),
                           ],
                         ),
                       ),
@@ -801,7 +807,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   Row(
                     children: [
                       Text(
-                        'ชำระแล้ว : ${Debtordetail['periodNo']} งวด',
+                        'กำหนดเวลา : ${Debtordetail['periodNo']} งวด',
                         style: MyContant().h4normalStyle(),
                       ),
                     ],
@@ -1021,13 +1027,16 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              '',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                '${Debtordetail['considerNote']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -1056,13 +1065,16 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              '',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                '${Debtordetail['headNote']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -1101,7 +1113,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         'เชคเกอร์ ',
                         style: MyContant().h4normalStyle(),
                       ),
-                      if (list_service == null) ...[
+                      if (list_service == null && status == true) ...[
                         Text(
                           'วันที่ : ',
                           style: MyContant().h4normalStyle(),
@@ -1119,14 +1131,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.15,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
-                    child: list_service == null
+                    child: list_service == null && status == true
                         ? Container(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Column(
@@ -1643,7 +1655,10 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Page_Pay_Installment(),
+                    builder: (context) => Page_Pay_Installment(
+                      Debtordetail['signId'],
+                      list_payDetail[i]['periodNo'],
+                    ),
                   ),
                 );
               },
@@ -1664,22 +1679,38 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'งวดที่ : ${i + 1}',
+                            'งวดที่ : ${list_payDetail[i]['periodNo']}',
                             style: MyContant().h4normalStyle(),
                           ),
                           Text(
-                            'วันที่ชำระ : 20/07/62',
+                            'วันที่ชำระ : ${list_payDetail[i]['periodDate']}',
                             style: MyContant().h4normalStyle(),
                           ),
                         ],
                       ),
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       'เลขที่ใบเสร็จ : ${list_payDetail[i]['receiptTranId']}',
+                      //       style: MyContant().h4normalStyle(),
+                      //     ),
+                      //   ],
+                      // ),
                       SizedBox(
                         height: 5,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'เลขที่ใบเสร็จ : R301190778395',
+                            'เงินต้น : ${list_payDetail[i]['periodPrice']}',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          Text(
+                            'คงเหลือ : ${list_payDetail[i]['remainPrice']}',
                             style: MyContant().h4normalStyle(),
                           ),
                         ],
@@ -1691,11 +1722,40 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'เงินต้น : 1,065.00',
+                            'ค่าปรับ : ${list_payDetail[i]['finePrice']}',
                             style: MyContant().h4normalStyle(),
                           ),
+                          // Text(
+                          //   'คงเหลือ : ${list_payDetail[i]['finePrice']}',
+                          //   style: MyContant().h4normalStyle(),
+                          // ),
+                        ],
+                      ),
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Text(
+                      //         'ประเภทการรับ : ${list_payDetail[i]['payBy']}',
+                      //         overflow: TextOverflow.clip,
+                      //         style: MyContant().h4normalStyle(),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      line(),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
                           Text(
-                            'คงเหลือ : ',
+                            'วันที่ชำระ : ${list_payDetail[i]['payDate']}',
                             style: MyContant().h4normalStyle(),
                           ),
                         ],
@@ -1707,33 +1767,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'ค่าปรับ : ',
+                            'ชำระเงินต้น : ${list_payDetail[i]['payPrice']}',
                             style: MyContant().h4normalStyle(),
                           ),
                           Text(
-                            'วันที่ชำระ : 20/07/62',
+                            'ชำระค่าปรับ : ${list_payDetail[i]['payFine']}',
                             style: MyContant().h4normalStyle(),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'ชำระเงินต้น : 1,065.00',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          Text(
-                            'ชำระค่าปรับ : ',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
                       ),
                     ],
                   ),

@@ -46,7 +46,7 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(25),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(64, 203, 203, 1),
@@ -81,7 +81,7 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(25),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(251, 713, 55, 1),
@@ -116,7 +116,7 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(25),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(212, 151, 233, 1),
@@ -151,7 +151,7 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(25),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(255, 152, 238, 1),

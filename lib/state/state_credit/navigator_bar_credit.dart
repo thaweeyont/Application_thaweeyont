@@ -177,7 +177,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   AppBar Appbar() {
     return AppBar(
       centerTitle: true,
-      title: Text(title_head),
+      title: Text(
+        title_head,
+        style: MyContant().TitleStyle(),
+      ),
       leading: Builder(
         builder: (BuildContext context) {
           return IconButton(
