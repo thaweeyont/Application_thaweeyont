@@ -915,10 +915,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: 5,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'รุ่น/แบบ : ${list_itemDetail!['modelName']}',
+                        'รุ่น/แบบ : ',
                         style: MyContant().h4normalStyle(),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${list_itemDetail!['modelName']}',
+                          overflow: TextOverflow.clip,
+                          style: MyContant().h4normalStyle(),
+                        ),
                       ),
                     ],
                   ),

@@ -20,7 +20,7 @@ class Pay_installment extends StatefulWidget {
 class _Pay_installmentState extends State<Pay_installment> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String dropdownValue = '1';
-  var payDetail, status = false;
+  var payDetail, status = false, debtorStatuscode;
 
   late String? periodNo = widget.list_payDetail.toString(),
       list = widget.listpay.toString();
@@ -65,9 +65,9 @@ class _Pay_installmentState extends State<Pay_installment> {
         // print(payDetail['payFine']);
         // print(payDetail['payBy']);
       } else {
-        // setState(() {
-        //   debtorStatuscode = respose.statusCode;
-        // });
+        setState(() {
+          debtorStatuscode = respose.statusCode;
+        });
         // Navigator.pop(context);
         print(respose.body);
         print(respose.statusCode);
@@ -159,25 +159,43 @@ class _Pay_installmentState extends State<Pay_installment> {
       ),
       body: status == false
           ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade400.withOpacity(0.6),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding: EdgeInsets.all(80),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(),
-                    Text(
-                      'Loading....',
-                      style: MyContant().h4normalStyle(),
+              child: debtorStatuscode == 404
+                  ? Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'ไม่พบข้อมูล',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade400.withOpacity(0.6),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      padding: EdgeInsets.all(80),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(),
+                          Text(
+                            'Loading....',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
             )
           : SingleChildScrollView(
               child: Column(

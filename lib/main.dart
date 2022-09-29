@@ -21,8 +21,8 @@ final Map<String, WidgetBuilder> map = {
       (BuildContext context) => Page_Checkpurchase_info(),
   '/state_credit/credit_approval/page_credit_approval':
       (BuildContext context) => Page_Credit_Approval(),
-  '/state_credit/credit_approval/page_check_blacklist':
-      (BuildContext context) => Page_Check_Blacklist(),
+  // '/state_credit/credit_approval/page_check_blacklist':
+  //     (BuildContext context) => Page_Check_Blacklist(),
   // '/salerService': (BuildContext context) => SalerService(),
   // '/riderService': (BuildContext context) => RiderService(),
 };
