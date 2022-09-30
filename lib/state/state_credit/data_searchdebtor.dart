@@ -86,40 +86,35 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
           list_itemDetail =
               new Map<String, dynamic>.from(Debtordetail['itemDetail']);
 
-          if (Debtordetail['debtNote'] == true) {
-            if (Debtordetail['debtNote']['debt'] != null) {
-              list_debNote = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['debt']);
-            }
-            if (Debtordetail['debtNote']['finance'] != null) {
-              list_finance = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['finance']);
-            }
-            if (Debtordetail['debtNote']['service'] != null) {
-              list_service = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['service']);
-            }
-            if (Debtordetail['debtNote']['law'] != null) {
-              list_law = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['law']);
-            }
-            if (Debtordetail['debtNote']['regis'] != null) {
-              list_regis = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['regis']);
-            }
-            if (Debtordetail['debtNote']['checker'] != null) {
-              list_checker = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['checker']);
-            }
+          if (Debtordetail['debtNote']['debt'].toString() != "[]") {
+            list_debNote =
+                new Map<String, dynamic>.from(Debtordetail['debtNote']['debt']);
+          }
+          if (Debtordetail['debtNote']['finance'].toString() != "[]") {
+            list_finance = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['finance']);
+          }
+          if (Debtordetail['debtNote']['service'].toString() != "[]") {
+            list_service = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['service']);
+          }
+          if (Debtordetail['debtNote']['law'].toString() != "[]") {
+            list_law =
+                new Map<String, dynamic>.from(Debtordetail['debtNote']['law']);
+          }
+          if (Debtordetail['debtNote']['regis'].toString() != "[]") {
+            list_regis = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['regis']);
+          }
+          if (Debtordetail['debtNote']['checker'].toString() != "[]") {
+            list_checker = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['checker']);
           }
 
           list_payDetail = Debtordetail['payDetail'];
         });
         // Navigator.pop(context);
         // print(list_quarantee1['smartId']);
-        // print(list_quarantee1);
-        // print(list_quarantee2);
-        // print(list_payDetail);
       } else {
         // setState(() {
         //   debtorStatuscode = respose.statusCode;
@@ -341,7 +336,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
-                                                        value: value[
+                                                        value: value[  
                                                                 'periodNo'] +
                                                             '|' +
                                                             value['payDate'] +
@@ -457,7 +452,10 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('ค้นหาข้อมูล'),
+        title: Text(
+          'ค้นหาข้อมูล',
+          style: MyContant().TitleStyle(),
+        ),
       ),
       body: status == false
           ? Center(
@@ -518,8 +516,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container slidemenu(BuildContext context) {
     return Container(
-      color: Colors.white,
-      height: MediaQuery.of(context).size.height * 0.05,
+      // color: Colors.white,
+      height: MediaQuery.of(context).size.height * 0.06,
       // margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(3),
       child: ListView(
@@ -533,11 +531,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content1");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 5),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
                     color: active_l1 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 218, 249, 1),
@@ -553,11 +553,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content2");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 7),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
                     color: active_l2 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 218, 249, 1),
@@ -571,11 +573,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content3");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 7),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
                     color: active_l3 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 218, 249, 1),
@@ -589,11 +593,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   menu_list("list_content4");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 7, right: 5),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
                     color: active_l4 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 218, 249, 1),
@@ -806,10 +812,20 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       height: 5,
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            'ชื่อ-สกุล : ${list_quarantee1!['name']}',
-                                            style: MyContant().h4normalStyle()),
+                                          'ชื่อ-สกุล : ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_quarantee1!['name']}',
+                                            overflow: TextOverflow.clip,
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -913,10 +929,20 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       height: 5,
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            'ชื่อ-สกุล : ${list_quarantee2!['name']}',
-                                            style: MyContant().h4normalStyle()),
+                                          'ชื่อ-สกุล : ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_quarantee2!['name']}',
+                                            overflow: TextOverflow.clip,
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -1020,10 +1046,20 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       height: 5,
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            'ชื่อ-สกุล : ${list_quarantee3!['name']}',
-                                            style: MyContant().h4normalStyle()),
+                                          'ชื่อ-สกุล : ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_quarantee3!['name']}',
+                                            overflow: TextOverflow.clip,
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -1371,7 +1407,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     height: 5,
                   ),
                   Container(
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1410,7 +1446,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     height: 5,
                   ),
                   Container(
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1489,7 +1525,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1579,7 +1615,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1755,7 +1791,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1843,7 +1879,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1931,7 +1967,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(

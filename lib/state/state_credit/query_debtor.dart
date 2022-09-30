@@ -113,6 +113,7 @@ class _Query_debtorState extends State<Query_debtor> {
     // print(branch.toString());
     // print(signId.text);
     // print(itemTypelist.text);
+    list_dataDebtor = [];
     try {
       var respose = await http.post(
         Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/list'),
@@ -1145,11 +1146,22 @@ class _Query_debtorState extends State<Query_debtor> {
                                               ),
                                               SizedBox(height: 5),
                                               Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'ชื่อ : ${list_itemType[i]['name']}',
+                                                    'ชื่อ : ',
                                                     style: MyContant()
                                                         .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_itemType[i]['name']}',
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
                                                   ),
                                                 ],
                                               ),

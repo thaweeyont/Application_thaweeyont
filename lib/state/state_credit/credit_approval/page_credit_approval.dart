@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String page = 'list_content1';
   String? id = '1';
-  bool active_cl1 = false, active_cl2 = false, active_cl3 = false;
+  bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
   bool st_customer = true, st_employee = false;
   var valueapprove, status = false, valueStatus, Texthint, valueNotdata;
   var selectValue_customer, selectvalue_saletype;
@@ -511,45 +510,50 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.07,
+                                              0.085,
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(5)),
-                                          child: DropdownButton(
-                                            items: dropdown_customer
-                                                .map(
-                                                    (value) => DropdownMenuItem(
-                                                          child: Text(
-                                                            value['name'],
-                                                            style: MyContant()
-                                                                .TextInputStyle(),
-                                                          ),
-                                                          value: value['id'],
-                                                        ))
-                                                .toList(),
-                                            onChanged: (newvalue) {
-                                              print(newvalue);
-                                              setState(() {
-                                                selectValue_customer = newvalue;
-                                                if (selectValue_customer
-                                                        .toString() ==
-                                                    "2") {
-                                                  Texthint = 'ชื่อ';
-                                                } else {
-                                                  Texthint = '';
-                                                }
-                                              });
-                                            },
-                                            value: selectValue_customer,
-                                            isExpanded: true,
-                                            underline: SizedBox(),
-                                            hint: Align(
-                                              child: Text(
-                                                'กรุณาเลือกข้อมูล',
-                                                style: MyContant()
-                                                    .TextInputSelect(),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 4),
+                                            child: DropdownButton(
+                                              items: dropdown_customer
+                                                  .map((value) =>
+                                                      DropdownMenuItem(
+                                                        child: Text(
+                                                          value['name'],
+                                                          style: MyContant()
+                                                              .TextInputStyle(),
+                                                        ),
+                                                        value: value['id'],
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (newvalue) {
+                                                print(newvalue);
+                                                setState(() {
+                                                  selectValue_customer =
+                                                      newvalue;
+                                                  if (selectValue_customer
+                                                          .toString() ==
+                                                      "2") {
+                                                    Texthint = 'ชื่อ';
+                                                  } else {
+                                                    Texthint = '';
+                                                  }
+                                                });
+                                              },
+                                              value: selectValue_customer,
+                                              isExpanded: true,
+                                              underline: SizedBox(),
+                                              hint: Align(
+                                                child: Text(
+                                                  'กรุณาเลือกข้อมูล',
+                                                  style: MyContant()
+                                                      .TextInputSelect(),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -1007,9 +1011,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                 height: 10,
               ),
               slidemenu(context),
-              SizedBox(
-                height: 5,
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -1257,8 +1258,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
   Container slidemenu(BuildContext context) {
     return Container(
-      color: Colors.white,
-      height: MediaQuery.of(context).size.height * 0.05,
+      // color: Colors.white,
+      height: MediaQuery.of(context).size.height * 0.06,
       // margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(3),
       child: ListView(
@@ -1272,12 +1273,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                   menu_list("list_content1");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 2, left: 10),
-                  height: 32,
-                  padding: EdgeInsets.all(6.0),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(8),
                     ),
                     color: active_cl1 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
@@ -1295,12 +1296,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                   getData_quarantee();
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 2, left: 10),
-                  height: 32,
-                  padding: EdgeInsets.all(6.0),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(8),
                     ),
                     color: active_cl2 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
@@ -1323,12 +1324,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 2, left: 10),
-                  height: 32,
-                  padding: EdgeInsets.all(6.0),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(8),
                     ),
                     color: Color.fromRGBO(251, 173, 55, 1),
                     // color: active_cl3 == true

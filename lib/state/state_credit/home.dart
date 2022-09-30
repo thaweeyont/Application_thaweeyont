@@ -46,7 +46,7 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(64, 203, 203, 1),
@@ -55,17 +55,28 @@ class _Home_creditState extends State<Home_credit> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Icon(
-                Icons.switch_account_outlined,
-                size: size * 0.19,
-                color: Colors.white,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Icon(
+                    Icons.switch_account_outlined,
+                    size: size * 0.17,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              "สถานะสมาชิกทวียนต์",
-              textAlign: TextAlign.center,
-              style: MyContant().h1MenuStyle(),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "สถานะสมาชิกทวียนต์",
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                    style: MyContant().h1MenuStyle(),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -81,7 +92,7 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(251, 713, 55, 1),
@@ -90,17 +101,28 @@ class _Home_creditState extends State<Home_credit> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Icon(
-                Icons.manage_accounts_rounded,
-                size: size * 0.19,
-                color: Colors.white,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Icon(
+                    Icons.manage_accounts_rounded,
+                    size: size * 0.17,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              "พิจารณาอนุมัติสินเชื่อ",
-              style: MyContant().h1MenuStyle(),
-              textAlign: TextAlign.center,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "พิจารณาอนุมัติสินเชื่อ",
+                    overflow: TextOverflow.clip,
+                    style: MyContant().h1MenuStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -116,7 +138,7 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(212, 151, 233, 1),
@@ -125,17 +147,28 @@ class _Home_creditState extends State<Home_credit> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Icon(
-                Icons.shopping_basket_rounded,
-                size: size * 0.19,
-                color: Colors.white,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Icon(
+                    Icons.shopping_basket_rounded,
+                    size: size * 0.17,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              "ตรวจสอบข้อมูลการซื้อสินค้า",
-              textAlign: TextAlign.center,
-              style: MyContant().h1MenuStyle(),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "ตรวจสอบข้อมูลการซื้อสินค้า",
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                    style: MyContant().h1MenuStyle(),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -151,28 +184,41 @@ class _Home_creditState extends State<Home_credit> {
         (Route<dynamic> route) => false,
       ),
       child: Container(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Color.fromRGBO(255, 152, 238, 1),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Icon(
-                Icons.people,
-                size: size * 0.19,
-                color: Colors.white,
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Icon(
+                      Icons.people,
+                      size: size * 0.17,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Text(
-              "สอบถามลายละเอียดลูกหนี้",
-              textAlign: TextAlign.center,
-              style: MyContant().h1MenuStyle(),
-            ),
-          ],
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "สอบถามลายละเอียดลูกหนี้",
+                      overflow: TextOverflow.clip,
+                      textAlign: TextAlign.center,
+                      style: MyContant().h1MenuStyle(),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

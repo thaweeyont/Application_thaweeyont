@@ -40,7 +40,7 @@ class MyContant {
   //Style
   //TitleBar
   TextStyle TitleStyle() => TextStyle(
-        fontSize: 22,
+        fontSize: 21,
         color: Colors.white,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',

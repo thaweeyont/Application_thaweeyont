@@ -71,7 +71,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           'signId': widget.signId.toString(),
         }),
       );
-
       if (respose.statusCode == 200) {
         Map<String, dynamic> datadebtorDetail =
             new Map<String, dynamic>.from(json.decode(respose.body));
@@ -96,38 +95,36 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           list_itemDetail =
               new Map<String, dynamic>.from(Debtordetail['itemDetail']);
 
-          if (Debtordetail['debtNote'] == true) {
-            if (Debtordetail['debtNote']['service'] != null) {
-              list_service = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['service']);
-            }
-            if (Debtordetail['debtNote']['finance'] != null) {
-              list_finance = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['finance']);
-            }
-            if (Debtordetail['debtNote']['debt'] != null) {
-              list_debNote = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['debt']);
-            }
-            if (Debtordetail['debtNote']['law'] != null) {
-              list_law = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['law']);
-            }
-            if (Debtordetail['debtNote']['regis'] != null) {
-              list_regis = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['regis']);
-            }
-            if (Debtordetail['debtNote']['checker'] != null) {
-              list_checker = new Map<String, dynamic>.from(
-                  Debtordetail['debtNote']['checker']);
-            }
+          // print(Debtordetail['debtNote']['service']);
+          if (Debtordetail['debtNote']['service'].toString() != "[]") {
+            list_service = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['service']);
+          }
+          if (Debtordetail['debtNote']['finance'].toString() != "[]") {
+            list_finance = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['finance']);
+          }
+          if (Debtordetail['debtNote']['debt'].toString() != "[]") {
+            list_debNote =
+                new Map<String, dynamic>.from(Debtordetail['debtNote']['debt']);
+          }
+          if (Debtordetail['debtNote']['law'].toString() != "[]") {
+            list_law =
+                new Map<String, dynamic>.from(Debtordetail['debtNote']['law']);
+          }
+          if (Debtordetail['debtNote']['regis'].toString() != "[]") {
+            list_regis = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['regis']);
+          }
+          if (Debtordetail['debtNote']['checker'].toString() != "[]") {
+            list_checker = new Map<String, dynamic>.from(
+                Debtordetail['debtNote']['checker']);
           }
 
           list_payDetail = Debtordetail['payDetail'];
         });
         // Navigator.pop(context););
-        print(list_payDetail);
-        // print(list_service);
+
       } else {
         // setState(() {
         //   debtorStatuscode = respose.statusCode;
@@ -1026,7 +1023,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: 5,
                   ),
                   Container(
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1039,9 +1036,12 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              Text(
-                                '${Debtordetail['considerNote']}',
-                                style: MyContant().h4normalStyle(),
+                              Expanded(
+                                child: Text(
+                                  '${Debtordetail['considerNote']}',
+                                  overflow: TextOverflow.clip,
+                                  style: MyContant().h4normalStyle(),
+                                ),
                               ),
                             ],
                           ),
@@ -1064,7 +1064,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: 5,
                   ),
                   Container(
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1121,7 +1121,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         'เชคเกอร์ ',
                         style: MyContant().h4normalStyle(),
                       ),
-                      if (list_service == null && status == true) ...[
+                      if (list_service == null) ...[
                         Text(
                           'วันที่ : ',
                           style: MyContant().h4normalStyle(),
@@ -1139,14 +1139,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
-                    child: list_service == null && status == true
+                    child: list_service == null
                         ? Container(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Column(
@@ -1228,7 +1228,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1404,7 +1404,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1492,7 +1492,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1580,7 +1580,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: 100,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1797,8 +1797,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container slidemenu(BuildContext context) {
     return Container(
-      color: Colors.white,
-      height: MediaQuery.of(context).size.height * 0.05,
+      // color: Colors.white,
+      height: MediaQuery.of(context).size.height * 0.06,
       // margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(3),
       child: ListView(
@@ -1812,12 +1812,13 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   menu_list("list_content_mu1");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 5),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  // margin: EdgeInsets.only(top: 4, left: 5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(8),
                     ),
                     color: active_mu1 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
@@ -1834,12 +1835,12 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   menu_list("list_content_mu2");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 10),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(8),
                     ),
                     color: active_mu2 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
@@ -1856,12 +1857,12 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   menu_list("list_content_mu3");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 10),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(8),
                     ),
                     color: active_mu3 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
@@ -1878,12 +1879,12 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   menu_list("list_content_mu4");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(top: 4, left: 10, right: 5),
-                  height: 30,
-                  padding: EdgeInsets.all(4.5),
+                  margin: EdgeInsets.all(5),
+                  height: 35,
+                  padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(8),
                     ),
                     color: active_mu4 == true
                         ? Color.fromRGBO(202, 121, 0, 1)

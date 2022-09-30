@@ -420,45 +420,50 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.08,
+                                              0.085,
                                           padding: EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(5)),
-                                          child: DropdownButton(
-                                            items: dropdown_customer
-                                                .map(
-                                                    (value) => DropdownMenuItem(
-                                                          child: Text(
-                                                            value['name'],
-                                                            style: MyContant()
-                                                                .TextInputStyle(),
-                                                          ),
-                                                          value: value['id'],
-                                                        ))
-                                                .toList(),
-                                            onChanged: (newvalue) {
-                                              print(newvalue);
-                                              setState(() {
-                                                selectValue_customer = newvalue;
-                                                if (selectValue_customer
-                                                        .toString() ==
-                                                    "2") {
-                                                  Texthint = 'ชื่อ';
-                                                } else {
-                                                  Texthint = '';
-                                                }
-                                              });
-                                            },
-                                            value: selectValue_customer,
-                                            isExpanded: true,
-                                            underline: SizedBox(),
-                                            hint: Align(
-                                              child: Text(
-                                                'กรุณาเลือกข้อมูล',
-                                                style: MyContant()
-                                                    .TextInputSelect(),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 4),
+                                            child: DropdownButton(
+                                              items: dropdown_customer
+                                                  .map((value) =>
+                                                      DropdownMenuItem(
+                                                        child: Text(
+                                                          value['name'],
+                                                          style: MyContant()
+                                                              .TextInputStyle(),
+                                                        ),
+                                                        value: value['id'],
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (newvalue) {
+                                                print(newvalue);
+                                                setState(() {
+                                                  selectValue_customer =
+                                                      newvalue;
+                                                  if (selectValue_customer
+                                                          .toString() ==
+                                                      "2") {
+                                                    Texthint = 'ชื่อ';
+                                                  } else {
+                                                    Texthint = '';
+                                                  }
+                                                });
+                                              },
+                                              value: selectValue_customer,
+                                              isExpanded: true,
+                                              underline: SizedBox(),
+                                              hint: Align(
+                                                child: Text(
+                                                  'กรุณาเลือกข้อมูล',
+                                                  style: MyContant()
+                                                      .TextInputSelect(),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -1494,6 +1499,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
+          style: MyContant().TextInputStyle(),
         ),
       ),
     );

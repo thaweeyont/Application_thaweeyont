@@ -22,8 +22,8 @@ class _Pay_installmentState extends State<Pay_installment> {
   String dropdownValue = '1';
   var payDetail, status = false, debtorStatuscode;
 
-  late String? periodNo = widget.list_payDetail.toString(),
-      list = widget.listpay.toString();
+  // late String? periodNo = widget.list_payDetail.toString(),
+  // list = widget.listpay.toString();
 
   @override
   void initState() {
@@ -35,7 +35,6 @@ class _Pay_installmentState extends State<Pay_installment> {
   Future<void> getData_payDetail() async {
     print(tokenId);
     print(widget.signId.toString());
-    print(list);
 
     try {
       var respose = await http.post(
@@ -236,7 +235,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'งวดที่ : ${periodNo.toString()}',
+                                'งวดที่ : ${widget.list_payDetail.toString()}',
                                 style: MyContant().h4normalStyle(),
                               ),
                               Text(
@@ -300,30 +299,48 @@ class _Pay_installmentState extends State<Pay_installment> {
   Expanded input_pay_installment(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(1),
+        padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.07,
+          height: MediaQuery.of(context).size.width * 0.08,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            value: dropdownValue,
-            elevation: 16,
-            style: MyContant().TextInputStyle(),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValue = newValue!;
-              });
-            },
-            items: <String>['1', '2', '3', '4']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: <String>[
+                '1',
+                '2',
+                '3',
+                '4',
+                '5',
+                '6',
+                '7',
+                '8'
+              ] //dropdown_branch
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value,
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value,
+                      ))
+                  .toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              value: dropdownValue,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกสาขา',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
           ),
         ),
       ),
