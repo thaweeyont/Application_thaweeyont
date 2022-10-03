@@ -9,9 +9,9 @@ import '../authen.dart';
 
 class Pay_installment extends StatefulWidget {
   // const Pay_installment({Key? key}) : super(key: key);
-  final String? signId;
-  final String? list_payDetail, listpay;
-  Pay_installment(this.signId, this.list_payDetail, this.listpay);
+  var signId, list_payDetail;
+  List<dynamic> period;
+  Pay_installment(this.signId, this.list_payDetail, this.period);
 
   @override
   State<Pay_installment> createState() => _Pay_installmentState();
@@ -22,19 +22,35 @@ class _Pay_installmentState extends State<Pay_installment> {
   String dropdownValue = '1';
   var payDetail, status = false, debtorStatuscode;
 
-  // late String? periodNo = widget.list_payDetail.toString(),
-  // list = widget.listpay.toString();
+  // List<String> datalist = [widget.period.toString()];
+  List<String> datalist = [];
+  List<String> array = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getdata();
+    setListdropdown();
+  }
+
+  setListdropdown() {
+    List<dynamic> no = widget.period.map((e) => e["periodNo"]).toList();
+    print(widget.list_payDetail);
+    no.forEach((element) {
+      datalist.add(element);
+    });
+    setState(() {
+      datalist = datalist;
+      dropdownValue =
+          datalist.firstWhere((element) => element == widget.list_payDetail);
+    });
   }
 
   Future<void> getData_payDetail() async {
     print(tokenId);
-    print(widget.signId.toString());
+    print(widget.signId);
+    // print(data);
 
     try {
       var respose = await http.post(
@@ -44,8 +60,8 @@ class _Pay_installmentState extends State<Pay_installment> {
           'Authorization': tokenId.toString(),
         },
         body: jsonEncode(<String, String>{
-          'signId': widget.signId.toString(),
-          'periodId': widget.list_payDetail.toString(),
+          'signId': widget.signId,
+          'periodId': widget.list_payDetail,
         }),
       );
 
@@ -93,6 +109,20 @@ class _Pay_installmentState extends State<Pay_installment> {
     }
   }
 
+  main() {
+    List list = [widget.period];
+
+    int i = 0;
+    Map map = {for (var item in list) i++: '$item'};
+    print(map);
+    // List<dynamic> numbers = <dynamic>[widget.period.toString()];
+    // print(numbers.runtimeType);
+    // final List<String> strs = numbers.map((e) => e.toString()).toList();
+
+    // print(strs.runtimeType);
+    // print(strs);
+  }
+
   Future<Null> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -104,6 +134,7 @@ class _Pay_installmentState extends State<Pay_installment> {
     });
 
     getData_payDetail();
+    main();
   }
 
   Future<Null> showProgressLoading(BuildContext context) async {
@@ -308,16 +339,8 @@ class _Pay_installmentState extends State<Pay_installment> {
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
-              items: <String>[
-                '1',
-                '2',
-                '3',
-                '4',
-                '5',
-                '6',
-                '7',
-                '8'
-              ] //dropdown_branch
+              //<String>['1', '2', '3']
+              items: datalist
                   .map((value) => DropdownMenuItem(
                         child: Text(
                           value,
@@ -336,7 +359,7 @@ class _Pay_installmentState extends State<Pay_installment> {
               underline: SizedBox(),
               hint: Align(
                 child: Text(
-                  'เลือกสาขา',
+                  '',
                   style: MyContant().TextInputSelect(),
                 ),
               ),

@@ -107,12 +107,6 @@ class _Query_debtorState extends State<Query_debtor> {
     // print(firstname.text);
     // print(lastname.text);
     print(select_addreessType.toString());
-    // print(debtorType.toString());
-    // print(idcard.text);
-    // print(telephone.text);
-    // print(branch.toString());
-    // print(signId.text);
-    // print(itemTypelist.text);
     list_dataDebtor = [];
     try {
       var respose = await http.post(

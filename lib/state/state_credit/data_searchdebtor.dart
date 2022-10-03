@@ -336,7 +336,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
-                                                        value: value[  
+                                                        value: value[
                                                                 'periodNo'] +
                                                             '|' +
                                                             value['payDate'] +
@@ -2059,14 +2059,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
               InkWell(
                 onTap: () {
                   // var listpay = list_payDetail.length;
-                  // print(listpay);
+                  // print('=>> ${list_payDetail.length.toString()}');
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Pay_installment(
-                            Debtordetail['signId'],
-                            list_payDetail[i]['periodNo'],
-                            list_payDetail.length.toString())),
+                      builder: (context) => Pay_installment(
+                        Debtordetail['signId'],
+                        list_payDetail[i]['periodNo'],
+                        list_payDetail
+                      ),
+                    ),
                   );
                   // print(list_payDetail.length.toString());
                 },
