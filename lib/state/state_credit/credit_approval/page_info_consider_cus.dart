@@ -1666,6 +1666,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     builder: (context) => Page_Pay_Installment(
                       Debtordetail['signId'],
                       list_payDetail[i]['periodNo'],
+                      list_payDetail
                     ),
                   ),
                 );

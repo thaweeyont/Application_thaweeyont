@@ -9,9 +9,9 @@ import '../../authen.dart';
 
 class Page_Pay_Installment extends StatefulWidget {
   // const Page_Pay_Installment({super.key});
-  final String? signId;
-  final String? list_payDetail;
-  Page_Pay_Installment(this.signId, this.list_payDetail);
+  var signId, list_payDetail;
+  List<dynamic> period;
+  Page_Pay_Installment(this.signId, this.list_payDetail, this.period);
 
   @override
   State<Page_Pay_Installment> createState() => _Page_Pay_InstallmentState();
@@ -21,16 +21,46 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String dropdownValue = '1';
   var payDetail, status = false, debtorStatuscode;
-  late String? periodNo = widget.list_payDetail.toString();
+  // late String? periodNo = widget.list_payDetail.toString();
+  List<String> datalist = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getdata();
+    setListdropdown();
   }
 
-  Future<void> getData_payDetail() async {
+  Future<Null> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    showProgressLoading(context);
+    getData_payDetail(widget.signId, widget.list_payDetail);
+  }
+
+  setListdropdown() {
+    List<dynamic> no = widget.period.map((e) => e["periodNo"]).toList();
+    print(widget.list_payDetail);
+    no.forEach((element) {
+      datalist.add(element);
+    });
+    setState(() {
+      datalist = datalist;
+      dropdownValue =
+          datalist.firstWhere((element) => element == widget.list_payDetail);
+    });
+    print('#==>> $datalist');
+    print('==>>> ${widget.period}');
+  }
+
+  Future<void> getData_payDetail(signId, String period) async {
     print(tokenId);
     // print(widget.signId.toString());
     // print(list);
@@ -43,8 +73,8 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
           'Authorization': tokenId.toString(),
         },
         body: jsonEncode(<String, String>{
-          'signId': widget.signId.toString(),
-          'periodId': widget.list_payDetail.toString(),
+          'signId': signId,
+          'periodId': period,
         }),
       );
 
@@ -57,13 +87,15 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
           payDetail = dataPayDetail['data'][0];
         });
 
+        Navigator.pop(context);
         print(payDetail);
       } else {
         setState(() {
+          status = false;
           debtorStatuscode = respose.statusCode;
         });
         print('#=> $debtorStatuscode');
-        // Navigator.pop(context);
+        Navigator.pop(context);
         print(respose.body);
         print(respose.statusCode);
         print('ไม่พบข้อมูล');
@@ -84,21 +116,9 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
         }
       }
     } catch (e) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
     }
-  }
-
-  Future<Null> getdata() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-    });
-    getData_payDetail();
   }
 
   Future<Null> showProgressLoading(BuildContext context) async {
@@ -154,10 +174,34 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
           style: MyContant().TitleStyle(),
         ),
       ),
-      body: status == false
-          ? Center(
-              child: debtorStatuscode == 404
-                  ? Container(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                color: Color.fromRGBO(251, 173, 55, 1),
+              ),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'งวดที่ : ',
+                    style: MyContant().h4normalStyle(),
+                  ),
+                  input_pay_installment(sizeIcon, border),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: status == false
+                  ? Center(
+                      child: Container(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -173,53 +217,8 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                           )
                         ],
                       ),
-                    )
+                    ))
                   : Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade400.withOpacity(0.6),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      padding: EdgeInsets.all(80),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircularProgressIndicator(),
-                          Text(
-                            'Loading....',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                    ),
-            )
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      color: Color.fromRGBO(251, 173, 55, 1),
-                    ),
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'งวดที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_pay_installment(sizeIcon, border),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
                       padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         color: Color.fromRGBO(251, 173, 55, 1),
@@ -233,7 +232,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'งวดที่ : ${periodNo.toString()}',
+                                'งวดที่ : ${dropdownValue}',
                                 style: MyContant().h4normalStyle(),
                               ),
                               Text(
@@ -287,41 +286,53 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
             ),
+          ],
+        ),
+      ),
     );
   }
 
   Expanded input_pay_installment(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(1),
+        padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.07,
+          height: MediaQuery.of(context).size.width * 0.08,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: DropdownButton<String>(
-            isExpanded: true,
-            value: dropdownValue,
-            elevation: 16,
-            style: TextStyle(
-                fontFamily: 'Prompt', fontSize: 14, color: Colors.black),
-            underline: SizedBox(),
-            onChanged: (String? newValue) {
-              setState(() {
-                dropdownValue = newValue!;
-              });
-            },
-            items: <String>['1', '2', '3', '4']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: DropdownButton(
+              items: datalist
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value,
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value,
+                      ))
+                  .toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                  showProgressLoading(context);
+                  getData_payDetail(widget.signId, dropdownValue);
+                });
+
+                print('#1==>${widget.signId} #2==> $dropdownValue');
+              },
+              value: dropdownValue,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  '',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
           ),
         ),
       ),

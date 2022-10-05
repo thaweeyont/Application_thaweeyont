@@ -22,9 +22,7 @@ class _Pay_installmentState extends State<Pay_installment> {
   String dropdownValue = '1';
   var payDetail, status = false, debtorStatuscode;
 
-  // List<String> datalist = [widget.period.toString()];
   List<String> datalist = [];
-  List<String> array = [];
 
   @override
   void initState() {
@@ -32,6 +30,19 @@ class _Pay_installmentState extends State<Pay_installment> {
     super.initState();
     getdata();
     setListdropdown();
+  }
+
+  Future<Null> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    showProgressLoading(context);
+    getData_payDetail(widget.signId, widget.list_payDetail);
   }
 
   setListdropdown() {
@@ -45,9 +56,11 @@ class _Pay_installmentState extends State<Pay_installment> {
       dropdownValue =
           datalist.firstWhere((element) => element == widget.list_payDetail);
     });
+    print('#==>> $datalist');
+    print('==>>> ${widget.period}');
   }
 
-  Future<void> getData_payDetail() async {
+  Future<void> getData_payDetail(signId, String period) async {
     print(tokenId);
     print(widget.signId);
     // print(data);
@@ -60,8 +73,8 @@ class _Pay_installmentState extends State<Pay_installment> {
           'Authorization': tokenId.toString(),
         },
         body: jsonEncode(<String, String>{
-          'signId': widget.signId,
-          'periodId': widget.list_payDetail,
+          'signId': signId,
+          'periodId': period,
         }),
       );
 
@@ -74,16 +87,18 @@ class _Pay_installmentState extends State<Pay_installment> {
           payDetail = dataPayDetail['data'][0];
         });
 
-        // print(payDetail['receiptTranId']);
+        Navigator.pop(context);
+        print('#data# $period == >> $payDetail');
         // print(payDetail['payDate']);
         // print(payDetail['payPrice']);
         // print(payDetail['payFine']);
         // print(payDetail['payBy']);
       } else {
         setState(() {
+          status = false;
           debtorStatuscode = respose.statusCode;
         });
-        // Navigator.pop(context);
+        Navigator.pop(context);
         print(respose.body);
         print(respose.statusCode);
         print('ไม่พบข้อมูล');
@@ -104,37 +119,9 @@ class _Pay_installmentState extends State<Pay_installment> {
         }
       }
     } catch (e) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
     }
-  }
-
-  main() {
-    List list = [widget.period];
-
-    int i = 0;
-    Map map = {for (var item in list) i++: '$item'};
-    print(map);
-    // List<dynamic> numbers = <dynamic>[widget.period.toString()];
-    // print(numbers.runtimeType);
-    // final List<String> strs = numbers.map((e) => e.toString()).toList();
-
-    // print(strs.runtimeType);
-    // print(strs);
-  }
-
-  Future<Null> getdata() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-    });
-
-    getData_payDetail();
-    main();
   }
 
   Future<Null> showProgressLoading(BuildContext context) async {
@@ -187,10 +174,34 @@ class _Pay_installmentState extends State<Pay_installment> {
         centerTitle: true,
         title: Text('ค้นหาข้อมูล'),
       ),
-      body: status == false
-          ? Center(
-              child: debtorStatuscode == 404
-                  ? Container(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                color: Color.fromRGBO(255, 218, 249, 1),
+              ),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'งวดที่ : ',
+                    style: MyContant().h4normalStyle(),
+                  ),
+                  input_pay_installment(sizeIcon, border),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: status == false
+                  ? Center(
+                      child: Container(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -206,53 +217,8 @@ class _Pay_installmentState extends State<Pay_installment> {
                           )
                         ],
                       ),
-                    )
+                    ))
                   : Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade400.withOpacity(0.6),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      padding: EdgeInsets.all(80),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircularProgressIndicator(),
-                          Text(
-                            'Loading....',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                    ),
-            )
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      color: Color.fromRGBO(255, 218, 249, 1),
-                    ),
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'งวดที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_pay_installment(sizeIcon, border),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
                       decoration: BoxDecoration(
                         color: Color.fromRGBO(255, 218, 249, 1),
                         borderRadius: BorderRadius.all(
@@ -266,7 +232,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'งวดที่ : ${widget.list_payDetail.toString()}',
+                                'งวดที่ : ${dropdownValue.toString()}',
                                 style: MyContant().h4normalStyle(),
                               ),
                               Text(
@@ -320,10 +286,10 @@ class _Pay_installmentState extends State<Pay_installment> {
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
             ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -337,9 +303,8 @@ class _Pay_installmentState extends State<Pay_installment> {
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsets.only(left: 5),
             child: DropdownButton(
-              //<String>['1', '2', '3']
               items: datalist
                   .map((value) => DropdownMenuItem(
                         child: Text(
@@ -352,7 +317,11 @@ class _Pay_installmentState extends State<Pay_installment> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
+                  showProgressLoading(context);
+                  getData_payDetail(widget.signId, dropdownValue);
                 });
+
+                print('#1==>${widget.signId} #2==> $dropdownValue');
               },
               value: dropdownValue,
               isExpanded: true,
