@@ -47,6 +47,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
   Future<void> getData_blacklist() async {
     print(tokenId);
     print(idcard.text);
+    valueStatus = " ";
     list_Blacklist = [];
     try {
       var respose = await http.post(

@@ -157,39 +157,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     getData_debtorDetail();
   }
 
-  Future<Null> showProgressLoading(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) => WillPopScope(
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400.withOpacity(0.6),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            padding: EdgeInsets.all(80),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                Text(
-                  'Loading....',
-                  style: MyContant().h4normalStyle(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        onWillPop: () async {
-          return false;
-        },
-      ),
-    );
-  }
-
   void menu_list(page) {
     setState(() {
       active_l1 = false;

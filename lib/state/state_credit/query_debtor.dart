@@ -460,39 +460,6 @@ class _Query_debtorState extends State<Query_debtor> {
     searchNameItemtype.clear();
   }
 
-  Future<Null> showProgressLoading(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) => WillPopScope(
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400.withOpacity(0.6),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            padding: EdgeInsets.all(80),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                Text(
-                  'Loading....',
-                  style: MyContant().h4normalStyle(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        onWillPop: () async {
-          return false;
-        },
-      ),
-    );
-  }
-
   Future<Null> search_district(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
