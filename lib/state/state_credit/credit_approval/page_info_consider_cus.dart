@@ -24,7 +24,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       active_mu2 = false,
       active_mu3 = false,
       active_mu4 = false;
-  var Debtordetail, status = false, dataDebnote;
+  var Debtordetail, status = false, dataDebnote, debtorStatuscode;
   List list_payDetail = [], data_service = [];
   Map<String, dynamic>? list_quarantee1,
       list_quarantee2,
@@ -124,11 +124,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           list_payDetail = Debtordetail['payDetail'];
         });
         // Navigator.pop(context););
-
+        print('#==>> $list_payDetail');
       } else {
-        // setState(() {
-        //   debtorStatuscode = respose.statusCode;
-        // });
+        setState(() {
+          debtorStatuscode = respose.statusCode;
+        });
         // Navigator.pop(context);
         print(respose.body);
         print(respose.statusCode);
@@ -202,25 +202,43 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       ),
       body: status == false
           ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade400.withOpacity(0.6),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding: EdgeInsets.all(80),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(),
-                    Text(
-                      'Loading....',
-                      style: MyContant().h4normalStyle(),
+              child: debtorStatuscode == 404 || debtorStatuscode == 500
+                  ? Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'ไม่พบข้อมูล',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade400.withOpacity(0.6),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      padding: EdgeInsets.all(80),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(),
+                          Text(
+                            'Loading....',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
             )
           : GestureDetector(
               child: Container(
@@ -1156,7 +1174,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1245,7 +1263,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1333,7 +1351,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1421,7 +1439,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1509,7 +1527,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1597,7 +1615,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1657,17 +1675,16 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       height: MediaQuery.of(context).size.height * 0.75,
       child: ListView(
         children: [
-          for (var i = 0; i <= 10; i++) ...[
+          for (var i = 0; i < list_payDetail.length; i++) ...[
             InkWell(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Page_Pay_Installment(
-                      Debtordetail['signId'],
-                      list_payDetail[i]['periodNo'],
-                      list_payDetail
-                    ),
+                        Debtordetail['signId'],
+                        list_payDetail[i]['periodNo'],
+                        list_payDetail),
                   ),
                 );
               },

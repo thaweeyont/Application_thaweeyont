@@ -25,10 +25,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   var valueapprove, status = false, valueStatus, Texthint, valueNotdata;
   var selectValue_customer, selectvalue_saletype;
   var filter_search = false;
-  List list_signDetail = [],
-      list_quarantee = [],
+  List list_quarantee = [],
       list_datavalue = [],
-      dropdown_customer = [];
+      dropdown_customer = [],
+      list_signDetail = [];
+
+  // Map<String, dynamic>? list_signDetail;
 
   TextEditingController custId = TextEditingController();
   TextEditingController custName = TextEditingController();
@@ -61,6 +63,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> getData_approve() async {
     print(tokenId);
     print(custId.text);
+    valueapprove = null;
     list_signDetail = [];
     try {
       var respose = await http.post(
@@ -80,13 +83,21 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
         status = true;
         valueapprove = dataApprove['data'];
-
+        print('##===> $valueapprove');
+        print('#<===> ${valueapprove['signDetail']}');
         setState(() {
-          list_signDetail = valueapprove['signDetail'];
-        });
+          if (valueapprove['signDetail'].toString() != "") {
+            list_signDetail = valueapprove['signDetail'];
+          }
+          active_cl1 = true;
+          active_cl2 = false;
+          active_cl3 = false;
 
+          // list_signDetail = valueapprove['signDetail'];
+        });
+        print('#===> $list_signDetail');
+        // print('##===> $valueapprove');
         Navigator.pop(context);
-        print(list_signDetail);
       } else {
         setState(() {
           valueStatus = respose.statusCode;
@@ -112,6 +123,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       }
     } catch (e) {
       Navigator.pop(context);
+      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล');
       print("ไม่มีข้อมูล $e");
     }
   }
@@ -119,6 +131,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> getData_quarantee() async {
     print(tokenId);
     print(custId.text);
+
+    list_quarantee = [];
     try {
       var respose = await http.post(
         Uri.parse('https://twyapp.com/twyapi/apiV1/credit/quarantee'),
@@ -139,13 +153,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           list_quarantee = dataQuarantee['data'];
         });
 
-        // Navigator.pop(context);
+        Navigator.pop(context);
         print(list_quarantee);
       } else {
         // setState(() {
         //   valueStatus = respose.statusCode;
         // });
-        // Navigator.pop(context);
+        Navigator.pop(context);
         print(respose.statusCode);
         print('ไม่พบข้อมูล');
         Map<String, dynamic> check_list =
@@ -165,7 +179,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         }
       }
     } catch (e) {
-      // Navigator.pop(context);
+      Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
     }
   }
@@ -256,6 +270,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     valueStatus = [];
     setState(() {
       list_signDetail = [];
+      valueapprove = null;
       valueStatus = null;
     });
   }
@@ -624,6 +639,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                             },
                                           );
                                           Navigator.pop(context);
+                                          // list_signDetail = [];
                                         },
                                         child: Container(
                                           margin:
@@ -819,7 +835,18 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               ),
             ),
             group_btnsearch(),
-            if (list_signDetail.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'รายการที่ค้นหา',
+                    style: MyContant().h2Style(),
+                  ),
+                ],
+              ),
+            ),
+            if (valueapprove != null) ...[
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DefaultTabController(
@@ -1010,24 +1037,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               SizedBox(
                 height: 10,
               ),
-              slidemenu(context),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'รายการที่ค้นหา',
-                      style: MyContant().h2Style(),
-                    ),
-                  ],
-                ),
-              ),
-              if (active_cl1 == true) ...[
-                content_list1(context),
-              ],
-              if (active_cl2 == true) ...[
-                content_list2(context),
-              ],
             ] else ...[
               if (valueStatus == 404 || valueStatus == 500) ...[
                 Container(
@@ -1047,6 +1056,15 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     ],
                   ),
                 )
+              ],
+            ],
+            if (list_signDetail.isNotEmpty) ...[
+              slidemenu(context),
+              if (active_cl1 == true) ...[
+                content_list1(context),
+              ],
+              if (active_cl2 == true) ...[
+                content_list2(context),
               ],
             ],
           ],
@@ -1162,12 +1180,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               for (var i = 0; i < list_quarantee.length; i++) ...[
                 InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => Page_Info_Consider_Cus(),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Page_Info_Consider_Cus(list_quarantee[i]['signId']),
+                      ),
+                    );
                   },
                   child: Padding(
                     padding:
@@ -1293,6 +1312,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               InkWell(
                 onTap: () {
                   menu_list("list_content2");
+                  showProgressLoading(context);
                   getData_quarantee();
                 },
                 child: Container(
