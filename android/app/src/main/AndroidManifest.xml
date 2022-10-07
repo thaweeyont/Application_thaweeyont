@@ -2,7 +2,7 @@
     package="thaweeyont.com.application_thaweeyont">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="Thaweeyont Credit"
+        android:label="Thaweeyont"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
