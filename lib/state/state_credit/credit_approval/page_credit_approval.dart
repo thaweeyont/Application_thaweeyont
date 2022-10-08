@@ -23,12 +23,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
   bool st_customer = true, st_employee = false;
   var valueapprove, status = false, valueStatus, Texthint, valueNotdata;
-  var selectValue_customer, selectvalue_saletype;
+  var selectValue_customer, selectvalue_saletype, select_branchlist;
   var filter_search = false;
   List list_quarantee = [],
       list_datavalue = [],
       dropdown_customer = [],
-      list_signDetail = [];
+      list_signDetail = [],
+      dropdown_branch = [];
 
   // Map<String, dynamic>? list_signDetail;
 
@@ -38,6 +39,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
   TextEditingController lastname = TextEditingController();
+  TextEditingController start_date = TextEditingController();
 
   @override
   void initState() {
@@ -824,10 +826,56 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     Row(
                       children: [
                         Text(
-                          'ชื่อลูกค้า',
+                          'เลขที่บัตร',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_idcard(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'ชื่อ',
                           style: MyContant().h4normalStyle(),
                         ),
                         input_namecustomer(sizeIcon, border),
+                        Text(
+                          'นามสกุล',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_lastnamecustomer(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'สาขา',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        select_branch(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'วันที่',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_date(sizeIcon, border),
+                        Text(
+                          'ถึงวันที่',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_namecustomer(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'ผลการพิจารณา',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        select_branch(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -1464,12 +1512,63 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
+  Expanded input_idcard(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          // controller: custId,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintStyle: TextStyle(
+              fontSize: 14,
+            ),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
   Expanded input_namecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: custName,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded input_lastnamecustomer(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          // controller: custName,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -1585,6 +1684,81 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             fillColor: Colors.white,
           ),
           style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded select_branch(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.08,
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdown_branch
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value['id'],
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  select_branchlist = newvalue;
+                });
+              },
+              value: select_branchlist,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกสาขา',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded input_date(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: start_date,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            icon: Icon(Icons.calendar_today_rounded),
+            counterText: "",
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+          onTap: () async {
+            DateTime? pickeddate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+          },
         ),
       ),
     );

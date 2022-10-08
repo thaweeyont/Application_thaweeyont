@@ -37,10 +37,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   var filter_search = false;
   TextEditingController custId = TextEditingController();
   TextEditingController custName = TextEditingController();
+  TextEditingController lastname_cust = TextEditingController();
   TextEditingController searchData = TextEditingController();
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
   TextEditingController lastname = TextEditingController();
+  TextEditingController idcard = TextEditingController();
 
   @override
   void initState() {
@@ -773,10 +775,24 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       Row(
                         children: [
                           Text(
-                            'ชื่อลูกค้า',
+                            'เลขที่บัตร',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_idcard(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'ชื่อ',
                             style: MyContant().h4normalStyle(),
                           ),
                           input_namecustomer(sizeIcon, border),
+                          Text(
+                            'นามสกุล',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_lastnamecustomer(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -1048,6 +1064,30 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
+  Expanded input_lastnamecustomer(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: lastname_cust,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
   Expanded select_sale_type(sizeIcon, border) {
     return Expanded(
       child: Padding(
@@ -1214,6 +1254,31 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: searchData,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintText: Texthint,
+            hintStyle: MyContant().hintTextStyle(),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded input_idcard(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: idcard,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
