@@ -4,6 +4,7 @@ import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import '../../authen.dart';
 import 'page_check_blacklist.dart';
@@ -40,6 +41,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   TextEditingController lastname_em = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController start_date = TextEditingController();
+  TextEditingController end_date = TextEditingController();
 
   @override
   void initState() {
@@ -861,12 +863,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'วันที่',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_date(sizeIcon, border),
+                        input_dateStart(sizeIcon, border),
                         Text(
                           'ถึงวันที่',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_namecustomer(sizeIcon, border),
+                        input_dateEnd(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1326,7 +1328,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Container slidemenu(BuildContext context) {
     return Container(
       // color: Colors.white,
-      height: MediaQuery.of(context).size.height * 0.06,
+      height: MediaQuery.of(context).size.height * 0.07,
       // margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(3),
       child: ListView(
@@ -1731,16 +1733,19 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_date(sizeIcon, border) {
+  Expanded input_dateStart(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(6.0),
         child: TextField(
           controller: start_date,
           onChanged: (keyword) {},
+          readOnly: true,
           decoration: InputDecoration(
-            icon: Icon(Icons.calendar_today_rounded),
-            counterText: "",
+            suffixIcon: Icon(
+              Icons.calendar_today,
+              color: Colors.black,
+            ),
             contentPadding: EdgeInsets.all(4),
             isDense: true,
             enabledBorder: border,
@@ -1750,7 +1755,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().TextInputDate(),
           onTap: () async {
             DateTime? pickeddate = await showDatePicker(
               context: context,
@@ -1758,6 +1763,66 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               firstDate: DateTime(2000),
               lastDate: DateTime(2101),
             );
+            if (pickeddate != null) {
+              print(
+                  pickeddate); //pickedDate output format => 2021-03-10 00:00:00.000
+              String formattedDate =
+                  DateFormat('yyyy-MM-dd').format(pickeddate);
+              print(
+                  formattedDate); //formatted date output using intl package =>  2021-03-16
+              setState(() {
+                start_date.text =
+                    formattedDate; //set output date to TextField value.
+              });
+            } else {}
+          },
+        ),
+      ),
+    );
+  }
+
+  Expanded input_dateEnd(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: TextField(
+          controller: end_date,
+          onChanged: (keyword) {},
+          readOnly: true,
+          decoration: InputDecoration(
+            suffixIcon: Icon(
+              Icons.calendar_today,
+              color: Colors.black,
+            ),
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputDate(),
+          onTap: () async {
+            DateTime? pickeddate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+            if (pickeddate != null) {
+              print(
+                  pickeddate); //pickedDate output format => 2021-03-10 00:00:00.000
+              String formattedDate =
+                  DateFormat('yyyy-MM-dd').format(pickeddate);
+              print(
+                  formattedDate); //formatted date output using intl package =>  2021-03-16
+              setState(() {
+                end_date.text =
+                    formattedDate; //set output date to TextField value.
+              });
+            } else {}
           },
         ),
       ),

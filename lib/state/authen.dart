@@ -75,7 +75,7 @@ class _AuthenState extends State<Authen> {
           );
         } else {
           print('ไม่มีข้อมูล');
-          showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
+          // showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
         }
       } else {
         print('ไม่มีข้อมูล');
@@ -148,6 +148,10 @@ class _AuthenState extends State<Authen> {
                       ),
                       border: OutlineInputBorder(),
                       hintText: 'Username',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Prompt',
+                      ),
                     ),
                   ),
                 ),
@@ -181,6 +185,10 @@ class _AuthenState extends State<Authen> {
                   ),
                   border: OutlineInputBorder(),
                   hintText: 'Password',
+                  hintStyle: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                  ),
                 ),
               ),
             ),
@@ -195,10 +203,16 @@ class _AuthenState extends State<Authen> {
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.all(10.0),
-                  textStyle: const TextStyle(fontSize: 20),
+                  textStyle:
+                      const TextStyle(fontSize: 20, fontFamily: 'Prompt'),
                 ),
                 onPressed: () {
-                  login_user(username.text);
+                  if (username.text.isEmpty || password.text.isEmpty) {
+                    showProgressDialog(
+                        context, 'แจ้งเตือน', 'กรุณากรอก User และ Password');
+                  } else {
+                    login_user(username.text);
+                  }
                 },
                 child: const Text('เข้าสู่ระบบ'),
               ),
@@ -213,16 +227,19 @@ class _AuthenState extends State<Authen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Column(
-          children: [
-            SizedBox(
-              height: size * 0.20,
-            ),
-            Container(
-              width: size * 0.8,
-              child: ShowImage(path: MyContant.logo_login),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 60),
+          child: Column(
+            children: [
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.1,
+              // ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ShowImage(path: MyContant.logo_login),
+              ),
+            ],
+          ),
         ),
       ],
     );

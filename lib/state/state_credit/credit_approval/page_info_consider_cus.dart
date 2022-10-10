@@ -281,7 +281,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       child: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:
+                const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -1017,7 +1018,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       child: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -1120,7 +1121,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       child: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -1815,10 +1816,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container slidemenu(BuildContext context) {
     return Container(
-      // color: Colors.white,
-      height: MediaQuery.of(context).size.height * 0.06,
-      // margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(3),
+      height: MediaQuery.of(context).size.height * 0.07,
+      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -1830,9 +1829,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   menu_list("list_content_mu1");
                 },
                 child: Container(
-                  // margin: EdgeInsets.only(top: 4, left: 5),
                   margin: EdgeInsets.all(5),
-                  height: 35,
+                  height: 40,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -1854,7 +1852,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
-                  height: 35,
+                  height: 40,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -1876,7 +1874,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
-                  height: 35,
+                  height: 40,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -1898,7 +1896,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
-                  height: 35,
+                  height: 40,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(

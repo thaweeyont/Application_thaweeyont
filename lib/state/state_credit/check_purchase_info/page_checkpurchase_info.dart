@@ -825,7 +825,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               ),
               if (list_dataBuyTyle.isNotEmpty) ...[
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   child: Scrollbar(
                     child: ListView(
                       children: [
@@ -934,6 +934,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       ],
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 25,
                 ),
               ] else ...[
                 if (valueStatus == 404) ...[

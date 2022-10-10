@@ -89,6 +89,13 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle TextInputDate() => TextStyle(
+        //ตัวหนังสือใน input date
+        fontSize: 14,
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle TextInputSelect() => TextStyle(
         //ตัวหนังสือใน dropdown
         fontSize: 16,
@@ -140,47 +147,48 @@ class MyContant {
 Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
-    builder: (context) => SimpleDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5.0),
-        ),
+    builder: (context) => Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
       ),
-      title: ListTile(
-        leading: Icon(Icons.warning_rounded, color: Colors.red, size: 45),
-        title: Text(
-          title,
-          style: TextStyle(fontSize: 18),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-      children: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "ตกลง",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      child: SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
           ),
         ),
-      ],
+        title: ListTile(
+          leading: Image.asset('images/error_log.gif'),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Column(
+              children: [
+                Text("ตกลง",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Prompt',
+                        color: Colors.black)),
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
+    // animationType: DialogTransitionType.fadeScale,
+    // curve: Curves.fastOutSlowIn,
+    // duration: Duration(seconds: 1),
   );
 }
 

@@ -860,7 +860,21 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                     Row(
                       children: [
                         Text(
-                          'ชื่อลูกค้า',
+                          'เลขที่บัตร',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_namecustomer(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'ชื่อ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_namecustomer(sizeIcon, border),
+                        Text(
+                          'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
                         input_namecustomer(sizeIcon, border),
