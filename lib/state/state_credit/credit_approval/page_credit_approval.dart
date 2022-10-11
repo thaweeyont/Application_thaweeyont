@@ -917,7 +917,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             ),
             if (valueapprove != null) ...[
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: DefaultTabController(
                   length: 3,
                   initialIndex: 0,
@@ -1161,8 +1161,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     );
                   },
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
                       padding: EdgeInsets.all(8.0),

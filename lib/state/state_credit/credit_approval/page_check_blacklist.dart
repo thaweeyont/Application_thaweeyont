@@ -103,7 +103,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
 
   clearValueblacklist() {
     idcard.clear();
-
     setState(() {
       list_Blacklist = [];
       valueStatus = null;
@@ -156,29 +155,29 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                         input_idcard(sizeIcon, border),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          'ชื่อ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_name(sizeIcon, border),
-                        Text(
-                          'สกุล',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_lastname(sizeIcon, border),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'รหัส Blacklist',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_idblacklist(sizeIcon, border),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Text(
+                    //       'ชื่อ',
+                    //       style: MyContant().h4normalStyle(),
+                    //     ),
+                    //     input_name(sizeIcon, border),
+                    //     Text(
+                    //       'สกุล',
+                    //       style: MyContant().h4normalStyle(),
+                    //     ),
+                    //     input_lastname(sizeIcon, border),
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     Text(
+                    //       'รหัส Blacklist',
+                    //       style: MyContant().h4normalStyle(),
+                    //     ),
+                    //     input_idblacklist(sizeIcon, border),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
