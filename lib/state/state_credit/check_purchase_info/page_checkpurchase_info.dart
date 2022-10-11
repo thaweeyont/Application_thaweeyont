@@ -557,8 +557,25 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       // getData_condition();
-
-                                      getData_search();
+                                      if (id == '1') {
+                                        print('1==>> $id');
+                                        if (selectValue_customer == null ||
+                                            searchData.text.isEmpty) {
+                                          showProgressDialog(context,
+                                              'แจ้งเตือน', 'กรุณากรอกข้อมูล');
+                                        } else {
+                                          getData_search();
+                                        }
+                                      } else {
+                                        print('2==>> $id');
+                                        if (firstname_em.text.isEmpty &&
+                                            lastname_em.text.isEmpty) {
+                                          showProgressDialog(context,
+                                              'แจ้งเตือน', 'กรุณากรอกข้อมูล');
+                                        } else {
+                                          getData_search();
+                                        }
+                                      }
                                     },
                                     child: const Text('ค้นหา'),
                                   ),
