@@ -224,3 +224,35 @@ Future<Null> showProgressLoading(BuildContext context) async {
     ),
   );
 }
+
+Center notData(BuildContext context) {
+  return Center(
+    child: Container(
+      height: MediaQuery.of(context).size.height * 0.25,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                // width: 50,
+                width: MediaQuery.of(context).size.width * 0.2,
+                child: Image.asset('images/searc_unscreen.gif'),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'ไม่พบข้อมูล',
+                style: MyContant().h4normalStyle(),
+              ),
+            ],
+          )
+        ],
+      ),
+    ),
+  );
+}

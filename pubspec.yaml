@@ -67,6 +67,8 @@ flutter:
     - map.jpeg
     - idcard.png
     - error_log.gif
+    - search.gif
+    - searc_unscreen.gif
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

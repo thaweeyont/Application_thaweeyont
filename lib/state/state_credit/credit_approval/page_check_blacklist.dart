@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/show_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -281,25 +283,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                       ],
                     ] else ...[
                       if (valueStatus == 404) ...[
-                        Center(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ไม่พบข้อมูล',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        )
+                        notData(context),
                       ],
                     ],
                   ],
@@ -311,6 +295,38 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       ),
     );
   }
+
+  // Center notData(BuildContext context) {
+  //   return Center(
+  //     child: Container(
+  //       height: MediaQuery.of(context).size.height * 0.25,
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Container(
+  //                 // width: 50,
+  //                 width: MediaQuery.of(context).size.width * 0.2,
+  //                 child: Image.asset('images/searc_unscreen.gif'),
+  //               ),
+  //             ],
+  //           ),
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: [
+  //               Text(
+  //                 'ไม่พบข้อมูล',
+  //                 style: MyContant().h4normalStyle(),
+  //               ),
+  //             ],
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Padding group_btnsearch() {
     return Padding(

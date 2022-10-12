@@ -628,29 +628,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                     ],
                                   ] else ...[
                                     if (valueNotdata == 404) ...[
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.4,
-                                        // color: Colors.blue,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'ไม่พบข้อมูล',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                      notData(context),
                                     ] else
                                       ...[],
                                   ],

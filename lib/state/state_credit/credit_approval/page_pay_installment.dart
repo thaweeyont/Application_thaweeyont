@@ -64,7 +64,6 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
     print(tokenId);
     // print(widget.signId.toString());
     // print(list);
-
     try {
       var respose = await http.post(
         Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/payDetail'),
@@ -121,39 +120,6 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
     }
   }
 
-  Future<Null> showProgressLoading(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) => WillPopScope(
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400.withOpacity(0.6),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            padding: EdgeInsets.all(80),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                Text(
-                  'Loading....',
-                  style: MyContant().h4normalStyle(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        onWillPop: () async {
-          return false;
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final sizeIcon = BoxConstraints(minWidth: 20, minHeight: 20);
@@ -201,23 +167,10 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
               padding: const EdgeInsets.all(8.0),
               child: status == false
                   ? Center(
-                      child: Container(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'ไม่พบข้อมูล',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ))
+                      child: debtorStatuscode == 404
+                          ? notData(context)
+                          : Container(),
+                    )
                   : Container(
                       padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
