@@ -34,6 +34,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
   TextEditingController lastname = TextEditingController();
+  TextEditingController smartId = TextEditingController();
+  TextEditingController lastnamecust = TextEditingController();
 
   @override
   void initState() {
@@ -65,6 +67,11 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         },
         body: jsonEncode(<String, String>{
           'custId': custId.text,
+          'smartId': smartId.text,
+          'firstName': custName.text,
+          'lastName': lastnamecust.text,
+          'page': '1',
+          'limit': '20',
         }),
       );
 
@@ -133,42 +140,44 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     }
   }
 
-  Future<Null> showProgressLoading(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) => WillPopScope(
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400.withOpacity(0.6),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            padding: EdgeInsets.all(80),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                Text(
-                  'Loading....',
-                  style: MyContant().h4normalStyle(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        onWillPop: () async {
-          return false;
-        },
-      ),
-    );
-  }
+  // Future<Null> showProgressLoading(BuildContext context) async {
+  //   showDialog(
+  //     context: context,
+  //     barrierColor: Colors.transparent,
+  //     builder: (context) => WillPopScope(
+  //       child: Center(
+  //         child: Container(
+  //           decoration: BoxDecoration(
+  //             color: Colors.grey.shade400.withOpacity(0.6),
+  //             borderRadius: BorderRadius.all(
+  //               Radius.circular(10),
+  //             ),
+  //           ),
+  //           padding: EdgeInsets.all(80),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               CircularProgressIndicator(),
+  //               Text(
+  //                 'Loading....',
+  //                 style: MyContant().h4normalStyle(),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //       onWillPop: () async {
+  //         return false;
+  //       },
+  //     ),
+  //   );
+  // }
 
   clearValuemembar() {
     custId.clear();
+    smartId.clear();
     custName.clear();
+    lastnamecust.clear();
     setState(() {
       list_dataMember.clear();
       valueStatus = null;
@@ -547,8 +556,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                             () {
                                               custId.text =
                                                   list_datavalue[i]['custId'];
-                                              custName.text =
-                                                  list_datavalue[i]['custName'];
                                             },
                                           );
                                           Navigator.pop(context);
@@ -860,7 +867,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           'เลขที่บัตร',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_namecustomer(sizeIcon, border),
+                        input_smartId(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -874,7 +881,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_namecustomer(sizeIcon, border),
+                        input_lastname(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -1135,7 +1142,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                   child: Row(
                     children: [
                       Text(
-                        'ข้อมูลที่อยู่ ',
+                        'ข้อมูลที่อยู่ ${list_address.length}',
                         style: MyContant().h2Style(),
                       ),
                     ],
@@ -1175,7 +1182,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'ที่อยุ่ : ',
+                                  'ที่อยู่ : ',
                                   style: MyContant().h4normalStyle(),
                                 ),
                                 Expanded(
@@ -1407,31 +1414,55 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                 //     ),
                 //   ),
                 // ),
+                if (list_dataMember.length > 1) ...[
+                  lineNext(),
+                ],
               ],
             ] else ...[
               if (valueStatus == 404) ...[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  // color: Colors.blue,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'ไม่พบข้อมูล',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                notData(context),
               ] else
                 ...[],
             ],
           ],
+        ),
+      ),
+    );
+  }
+
+  Row lineNext() {
+    return Row(children: <Widget>[
+      Expanded(
+        child: new Container(
+            margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+            child: Divider(
+              thickness: 2.0,
+              color: Colors.black,
+              height: 36,
+            )),
+      ),
+      Text('คนถัดไป'),
+      Expanded(
+        child: new Container(
+            margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+            child: Divider(
+              thickness: 2.0,
+              color: Colors.black,
+              height: 36,
+            )),
+      ),
+    ]);
+  }
+
+  Padding line() {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: SizedBox(
+        height: 10,
+        width: double.infinity,
+        child: Divider(
+          thickness: 2.0,
+          color: Color.fromARGB(255, 34, 34, 34),
         ),
       ),
     );
@@ -1456,9 +1487,12 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
-                          if (custId.text.isEmpty) {
+                          if (custId.text.isEmpty &&
+                              smartId.text.isEmpty &&
+                              custName.text.isEmpty &&
+                              lastnamecust.text.isEmpty) {
                             showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณากรอกรหัสลูกค้า');
+                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
                           } else {
                             showProgressLoading(context);
                             getData_CusMember();
@@ -1539,12 +1573,62 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
+  Expanded input_smartId(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: smartId,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
   Expanded input_namecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: custName,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintStyle: TextStyle(
+              fontSize: 14,
+            ),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded input_lastname(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: lastnamecust,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",

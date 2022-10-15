@@ -131,6 +131,7 @@ class _Query_debtorState extends State<Query_debtor> {
           'Authorization': tokenId.toString(),
         },
         body: jsonEncode(<String, String>{
+          'custId': custId.text,
           'homeNo': homeNo.text,
           'moo': moo.text,
           'tumbolId': tumbol.toString(),
@@ -464,6 +465,7 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   clearTextInputAll() {
+    custId.clear();
     idcard.clear();
     firstname.clear();
     lastname.clear();
@@ -1657,29 +1659,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                     ],
                                   ] else ...[
                                     if (valueNotdata == 404) ...[
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.4,
-                                        // color: Colors.blue,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'ไม่พบข้อมูล',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                      notData(context),
                                     ] else
                                       ...[],
                                   ],
@@ -2001,6 +1981,17 @@ class _Query_debtorState extends State<Query_debtor> {
                                 Row(
                                   children: [
                                     Text(
+                                      'เลขบัตรประชาชน : ${list_dataDebtor[i]['smartId']}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
                                       'ชื่อลูกค้าปัจจุบัน : ${list_dataDebtor[i]['custSignName']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
@@ -2044,24 +2035,7 @@ class _Query_debtorState extends State<Query_debtor> {
                     ],
                   ] else ...[
                     if (debtorStatuscode == 404 || debtorStatuscode == 500) ...[
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        // color: Colors.blue,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ไม่พบข้อมูล',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
+                      notData(context),
                     ] else
                       ...[],
                   ],

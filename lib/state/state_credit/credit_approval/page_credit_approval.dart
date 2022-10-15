@@ -24,13 +24,18 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
   bool st_customer = true, st_employee = false;
   var valueapprove, status = false, valueStatus, Texthint, valueNotdata;
-  var selectValue_customer, selectvalue_saletype, select_branchlist;
+  var selectValue_customer,
+      selectvalue_saletype,
+      select_branchlist,
+      select_status;
   var filter_search = false;
   List list_quarantee = [],
       list_datavalue = [],
       dropdown_customer = [],
       list_signDetail = [],
-      dropdown_branch = [];
+      dropdown_branch = [],
+      dropdown_status = [],
+      list_approve = [];
 
   // Map<String, dynamic>? list_signDetail;
 
@@ -42,6 +47,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   TextEditingController lastname = TextEditingController();
   TextEditingController start_date = TextEditingController();
   TextEditingController end_date = TextEditingController();
+  TextEditingController idcard = TextEditingController();
+  TextEditingController lastname_cust = TextEditingController();
 
   @override
   void initState() {
@@ -62,13 +69,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
+    get_select_branch();
+    get_select_statusApprove();
   }
 
   Future<void> getData_approve() async {
     print(tokenId);
-    print(custId.text);
-    valueapprove = null;
-    list_signDetail = [];
     try {
       var respose = await http.post(
         Uri.parse('https://twyapp.com/twyapi/apiV1/credit/approve'),
@@ -78,36 +84,41 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         },
         body: jsonEncode(<String, String>{
           'custId': custId.text,
+          'smartId': idcard.text,
+          'firstName': custName.text,
+          'lastName': lastname_cust.text,
+          'branchId': select_branchlist,
+          'startDate': start_date.text,
+          'endDate': end_date.text,
+          'approveStatus': select_status.toString(),
+          'page': '1',
+          'limit': '20'
         }),
       );
-
+      print(custId.text);
+      print(idcard.text);
+      print(custName.text);
+      print(lastname_cust.text);
+      print(select_branchlist.toString());
+      print(select_status.toString());
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataApprove =
+        Map<String, dynamic> data_approve =
             new Map<String, dynamic>.from(json.decode(respose.body));
 
-        status = true;
-        valueapprove = dataApprove['data'];
-        print('##===> $valueapprove');
-        print('#<===> ${valueapprove['signDetail']}');
         setState(() {
-          if (valueapprove['signDetail'].toString() != "") {
-            list_signDetail = valueapprove['signDetail'];
-          }
-          active_cl1 = true;
-          active_cl2 = false;
-          active_cl3 = false;
-
-          // list_signDetail = valueapprove['signDetail'];
+          list_approve = data_approve['data'];
         });
-        print('#===> $list_signDetail');
-        // print('##===> $valueapprove');
-        Navigator.pop(context);
+        // Navigator.pop(context);
+
+        print('==>> $list_approve');
+        print(valueStatus);
       } else {
         setState(() {
           valueStatus = respose.statusCode;
         });
-        Navigator.pop(context);
+        // Navigator.pop(context);
         print(respose.statusCode);
+        print(respose.body);
         print('ไม่พบข้อมูล');
         Map<String, dynamic> check_list =
             new Map<String, dynamic>.from(json.decode(respose.body));
@@ -126,8 +137,132 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         }
       }
     } catch (e) {
-      Navigator.pop(context);
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล');
+      // Navigator.pop(context);
+      print("ไม่มีข้อมูล $e");
+    }
+  }
+
+  // Future<void> getData_approve() async {
+  //   print(tokenId);
+  //   print(custName.text);
+  //   print(lastname_cust.text);
+  //   print(select_status.toString());
+
+  //   try {
+  //     var respose = await http.post(
+  //       Uri.parse('https://twyapp.com/twyapi/apiV1/credit/approve'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': tokenId.toString(),
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'custId': "M010707046123",
+  //         'smartId': idcard.text,
+  //         'firstName': custName.text,
+  //         'lastName': lastname_cust.text,
+  //         'branchId': select_branchlist.toString(),
+  //         'startDate': start_date.text,
+  //         'endDate': end_date.text,
+  //         'approveStatus': "1",
+  //         'page': '1',
+  //         'limit': '20',
+  //       }),
+  //     );
+
+  //     if (respose.statusCode == 200) {
+  //       Map<String, dynamic> dataApprove =
+  //           new Map<String, dynamic>.from(json.decode(respose.body));
+
+  //       // status = true;
+  //       // valueapprove = dataApprove['data'];
+  //       setState(() {
+  //         list_approve = dataApprove['data'];
+  //       });
+
+  //       print('#===> $list_approve');
+  //       // Navigator.pop(context);
+  //     } else {
+  //       setState(() {
+  //         valueStatus = respose.statusCode;
+  //       });
+  //       // Navigator.pop(context);
+  //       print(respose.statusCode);
+  //       print('ไม่พบข้อมูล');
+  //       Map<String, dynamic> check_list =
+  //           new Map<String, dynamic>.from(json.decode(respose.body));
+  //       print(respose.statusCode);
+  //       print(check_list['message']);
+  //       if (check_list['message'] == "Token Unauthorized") {
+  //         SharedPreferences preferences = await SharedPreferences.getInstance();
+  //         preferences.clear();
+  //         Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => Authen(),
+  //           ),
+  //           (Route<dynamic> route) => false,
+  //         );
+  //       }
+  //     }
+  //   } catch (e) {
+  //     // Navigator.pop(context);
+  //     showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล');
+  //     print("ไม่มีข้อมูล $e");
+  //   }
+  // }
+
+  Future<void> get_select_branch() async {
+    print(tokenId);
+    try {
+      var respose = await http.get(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/branchList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> data_branch =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdown_branch = data_branch['data'];
+        });
+
+        print(dropdown_branch);
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+    }
+  }
+
+  Future<void> get_select_statusApprove() async {
+    print(tokenId);
+    try {
+      var respose = await http.get(
+        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/approveStatus'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> data_statusApprove =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdown_status = data_statusApprove['data'];
+        });
+
+        print(dropdown_status);
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
       print("ไม่มีข้อมูล $e");
     }
   }
@@ -624,8 +759,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                             () {
                                               custId.text =
                                                   list_datavalue[i]['custId'];
-                                              custName.text =
-                                                  list_datavalue[i]['custName'];
                                             },
                                           );
                                           Navigator.pop(context);
@@ -841,7 +974,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'ผลการพิจารณา',
                           style: MyContant().h4normalStyle(),
                         ),
-                        select_branch(sizeIcon, border),
+                        select_statusApprove(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -860,211 +993,211 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                 ],
               ),
             ),
-            if (valueapprove != null) ...[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: DefaultTabController(
-                  length: 3,
-                  initialIndex: 0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(251, 173, 55, 1),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                            )),
-                        child: TabBar(
-                          labelColor: Color.fromRGBO(110, 66, 0, 1),
-                          labelStyle:
-                              TextStyle(fontSize: 16, fontFamily: 'Prompt'),
-                          unselectedLabelColor: Colors.black,
-                          tabs: [
-                            Tab(text: 'ข้อมูลลูกค้า'),
-                            Tab(text: 'ที่อยู่ลูกค้า'),
-                            Tab(text: 'อาชีพ'),
-                          ],
-                        ),
-                      ),
-                      line(),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(251, 173, 55, 1),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          ),
-                        ),
-                        child: TabBarView(children: <Widget>[
-                          //ข้อมูลลูกค้า
-                          SingleChildScrollView(
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'เลขบัตรประชาชน : ${valueapprove['smartId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'ชื่อลูกค้า : ${valueapprove['custName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'เกิดวันที่ : ${valueapprove['birthday']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      Text(
-                                        'อายุ : ${valueapprove['age']} ปี',
-                                        style: MyContant().h4normalStyle(),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'ชื่อรอง : ${valueapprove['nickName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          //ที่อยู่ลูกค้า
-                          SingleChildScrollView(
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ที่อยู่ : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${valueapprove['address']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ที่อยู่ใช้สินค้า : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${valueapprove['address']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          //อาชีพ
-                          SingleChildScrollView(
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'อาชีพ : ${valueapprove['career']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'สถานที่ทำงาน : ${valueapprove['workPlace']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ]),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ] else ...[
-              if (valueStatus == 404 || valueStatus == 500) ...[
-                notData(context),
-              ],
-            ],
-            if (list_signDetail.isNotEmpty) ...[
-              slidemenu(context),
-              if (active_cl1 == true) ...[
-                content_list1(context),
-              ],
-              if (active_cl2 == true) ...[
-                content_list2(context),
-              ],
-            ],
+            // if (valueapprove != null) ...[
+            //   Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 8),
+            //     child: DefaultTabController(
+            //       length: 3,
+            //       initialIndex: 0,
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.stretch,
+            //         children: <Widget>[
+            //           Container(
+            //             decoration: BoxDecoration(
+            //                 color: Color.fromRGBO(251, 173, 55, 1),
+            //                 borderRadius: BorderRadius.only(
+            //                   topLeft: Radius.circular(10),
+            //                   topRight: Radius.circular(10),
+            //                 )),
+            //             child: TabBar(
+            //               labelColor: Color.fromRGBO(110, 66, 0, 1),
+            //               labelStyle:
+            //                   TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            //               unselectedLabelColor: Colors.black,
+            //               tabs: [
+            //                 Tab(text: 'ข้อมูลลูกค้า'),
+            //                 Tab(text: 'ที่อยู่ลูกค้า'),
+            //                 Tab(text: 'อาชีพ'),
+            //               ],
+            //             ),
+            //           ),
+            //           line(),
+            //           Container(
+            //             height: MediaQuery.of(context).size.height * 0.2,
+            //             decoration: BoxDecoration(
+            //               color: Color.fromRGBO(251, 173, 55, 1),
+            //               borderRadius: BorderRadius.only(
+            //                 bottomLeft: Radius.circular(10),
+            //                 bottomRight: Radius.circular(10),
+            //               ),
+            //             ),
+            //             child: TabBarView(children: <Widget>[
+            //               //ข้อมูลลูกค้า
+            //               SingleChildScrollView(
+            //                 child: Container(
+            //                   padding: EdgeInsets.all(8.0),
+            //                   child: Column(
+            //                     children: [
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'เลขบัตรประชาชน : ${valueapprove['smartId']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'ชื่อลูกค้า : ${valueapprove['custName']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'เกิดวันที่ : ${valueapprove['birthday']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                           SizedBox(
+            //                             width: 15,
+            //                           ),
+            //                           Text(
+            //                             'อายุ : ${valueapprove['age']} ปี',
+            //                             style: MyContant().h4normalStyle(),
+            //                           )
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'ชื่อรอง : ${valueapprove['nickName']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ),
+            //               //ที่อยู่ลูกค้า
+            //               SingleChildScrollView(
+            //                 child: Container(
+            //                   padding: EdgeInsets.all(8.0),
+            //                   child: Column(
+            //                     children: [
+            //                       Row(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'ที่อยู่ : ',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                           Expanded(
+            //                             child: Text(
+            //                               '${valueapprove['address']}',
+            //                               overflow: TextOverflow.clip,
+            //                               style: MyContant().h4normalStyle(),
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 10,
+            //                       ),
+            //                       Row(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'ที่อยู่ใช้สินค้า : ',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                           Expanded(
+            //                             child: Text(
+            //                               '${valueapprove['address']}',
+            //                               overflow: TextOverflow.clip,
+            //                               style: MyContant().h4normalStyle(),
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ),
+            //               //อาชีพ
+            //               SingleChildScrollView(
+            //                 child: Container(
+            //                   padding: EdgeInsets.all(8.0),
+            //                   child: Column(
+            //                     children: [
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'อาชีพ : ${valueapprove['career']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'สถานที่ทำงาน : ${valueapprove['workPlace']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ),
+            //             ]),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // ] else ...[
+            //   if (valueStatus == 404 || valueStatus == 500) ...[
+            //     notData(context),
+            //   ],
+            // ],
+            // if (list_signDetail.isNotEmpty) ...[
+            //   slidemenu(context),
+            //   if (active_cl1 == true) ...[
+            //     content_list1(context),
+            //   ],
+            //   if (active_cl2 == true) ...[
+            //     content_list2(context),
+            //   ],
+            // ],
           ],
         ),
       ),
@@ -1387,15 +1520,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
-                          if (custId.text.isEmpty) {
-                            showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณากรอกรหัสลูกค้า!');
-                          } else {
-                            showProgressLoading(context);
-                            getData_approve();
-                          }
-                          print(
-                              'เริ่ม=>>${start_date.text} ถึง=>>${end_date.text}');
+                          getData_approve();
                         },
                         child: const Text('ค้นหา'),
                       ),
@@ -1468,7 +1593,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          // controller: custId,
+          controller: idcard,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -1519,7 +1644,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          // controller: custName,
+          controller: lastname_cust,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -1682,6 +1807,48 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
+  Expanded select_statusApprove(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.08,
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdown_status
+                  .map((value) => DropdownMenuItem(
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value['id'],
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  select_status = newvalue;
+                });
+              },
+              value: select_status,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกการพิจารณา',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Expanded input_dateStart(sizeIcon, border) {
     return Expanded(
       child: Padding(
@@ -1715,8 +1882,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             if (pickeddate != null) {
               print(
                   pickeddate); //pickedDate output format => 2021-03-10 00:00:00.000
-              String formattedDate =
-                  DateFormat('yyyy-MM-dd').format(pickeddate);
+              String formattedDate = DateFormat('yyyyMMdd').format(pickeddate);
               print(
                   formattedDate); //formatted date output using intl package =>  2021-03-16
               setState(() {

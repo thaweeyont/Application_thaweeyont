@@ -42,7 +42,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
   TextEditingController lastname = TextEditingController();
-  TextEditingController idcard = TextEditingController();
+  TextEditingController smartId = TextEditingController();
 
   @override
   void initState() {
@@ -134,7 +134,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         },
         body: jsonEncode(<String, String>{
           'custId': custId.text.toString(),
-          'saleTypeId': selectvalue_saletype.toString()
+          'saleTypeId': selectvalue_saletype.toString(),
+          'smartId': smartId.text,
+          'firstName': custName.text,
+          'lastName': lastname_cust.text,
+          'page': '1',
+          'limit': '20'
         }),
       );
 
@@ -191,38 +196,38 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     get_select_saleType();
   }
 
-  Future<Null> showProgressLoading(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierColor: Colors.transparent,
-      builder: (context) => WillPopScope(
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade400.withOpacity(0.6),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            padding: EdgeInsets.all(80),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                Text(
-                  'Loading....',
-                  style: MyContant().h4normalStyle(),
-                ),
-              ],
-            ),
-          ),
-        ),
-        onWillPop: () async {
-          return false;
-        },
-      ),
-    );
-  }
+  // Future<Null> showProgressLoading(BuildContext context) async {
+  //   showDialog(
+  //     context: context,
+  //     barrierColor: Colors.transparent,
+  //     builder: (context) => WillPopScope(
+  //       child: Center(
+  //         child: Container(
+  //           decoration: BoxDecoration(
+  //             color: Colors.grey.shade400.withOpacity(0.6),
+  //             borderRadius: BorderRadius.all(
+  //               Radius.circular(10),
+  //             ),
+  //           ),
+  //           padding: EdgeInsets.all(80),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               CircularProgressIndicator(),
+  //               Text(
+  //                 'Loading....',
+  //                 style: MyContant().h4normalStyle(),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //       onWillPop: () async {
+  //         return false;
+  //       },
+  //     ),
+  //   );
+  // }
 
   clearValue() {
     setState(() {
@@ -241,7 +246,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
 
   clearValueBuylist() {
     custId.clear();
+    smartId.clear();
     custName.clear();
+    lastname_cust.clear();
     setState(() {
       selectvalue_saletype = null;
       list_dataBuyTyle.clear();
@@ -556,7 +563,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   child: TextButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
-                                      // getData_condition();
                                       if (id == '1') {
                                         print('1==>> $id');
                                         if (selectValue_customer == null ||
@@ -607,8 +613,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                             () {
                                               custId.text =
                                                   list_datavalue[i]['custId'];
-                                              custName.text =
-                                                  list_datavalue[i]['custName'];
                                             },
                                           );
                                           Navigator.pop(context);
@@ -957,24 +961,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                 ),
               ] else ...[
                 if (valueStatus == 404) ...[
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    // color: Colors.blue,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'ไม่พบข้อมูล',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+                  notData(context),
                 ] else
                   ...[]
               ],
@@ -1002,13 +989,20 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
                           print(selectvalue_saletype);
-                          if (custId.text.isEmpty ||
-                              selectvalue_saletype == null) {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอกข้อมูลให้ครบถ้วน!');
+                          if (custId.text.isEmpty &&
+                              smartId.text.isEmpty &&
+                              custName.text.isEmpty &&
+                              lastname_cust.text.isEmpty) {
+                            showProgressDialog(
+                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
                           } else {
-                            showProgressLoading(context);
-                            getData_buyList();
+                            if (selectvalue_saletype == null) {
+                              showProgressDialog(context, 'แจ้งเตือน',
+                                  'กรุณาเลือกประเภทการขาย');
+                            } else {
+                              showProgressLoading(context);
+                              getData_buyList();
+                            }
                           }
                         },
                         child: const Text('ค้นหา'),
@@ -1298,14 +1292,13 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: idcard,
+          controller: smartId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintText: Texthint,
             hintStyle: MyContant().hintTextStyle(),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
