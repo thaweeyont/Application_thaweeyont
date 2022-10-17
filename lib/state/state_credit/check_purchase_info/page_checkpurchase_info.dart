@@ -196,39 +196,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     get_select_saleType();
   }
 
-  // Future<Null> showProgressLoading(BuildContext context) async {
-  //   showDialog(
-  //     context: context,
-  //     barrierColor: Colors.transparent,
-  //     builder: (context) => WillPopScope(
-  //       child: Center(
-  //         child: Container(
-  //           decoration: BoxDecoration(
-  //             color: Colors.grey.shade400.withOpacity(0.6),
-  //             borderRadius: BorderRadius.all(
-  //               Radius.circular(10),
-  //             ),
-  //           ),
-  //           padding: EdgeInsets.all(80),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               CircularProgressIndicator(),
-  //               Text(
-  //                 'Loading....',
-  //                 style: MyContant().h4normalStyle(),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       onWillPop: () async {
-  //         return false;
-  //       },
-  //     ),
-  //   );
-  // }
-
   clearValue() {
     setState(() {
       id = '1';
