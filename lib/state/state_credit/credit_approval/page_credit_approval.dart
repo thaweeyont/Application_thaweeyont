@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 
 import '../../authen.dart';
 import 'page_check_blacklist.dart';
@@ -49,6 +51,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Intl.defaultLocale = 'th';
+    initializeDateFormatting();
     setState(() {
       id = '1';
     });
@@ -68,7 +72,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     get_select_statusApprove();
   }
 
-  Future<void> getData_approve() async {
+  Future<void> getData_approve(start_date, end_date) async {
     print(tokenId);
     try {
       var respose = await http.post(
@@ -83,8 +87,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           'firstName': custName.text,
           'lastName': lastname_cust.text,
           'branchId': select_branchlist,
-          'startDate': start_date.text,
-          'endDate': end_date.text,
+          'startDate': start_date,
+          'endDate': end_date,
           'approveStatus': select_status.toString(),
           'page': '1',
           'limit': '20'
@@ -1008,8 +1012,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                               showProgressDialog(context, 'แจ้งเตือน',
                                   'กรุณาเลือกผลการพิจารณา');
                             } else {
+                              var newStratDate =
+                                  start_date.text.replaceAll('-', '');
+                              var newEndDate =
+                                  end_date.text.replaceAll('-', '');
+                              print('<=====>>>> $newStratDate');
                               showProgressLoading(context);
-                              getData_approve();
+                              getData_approve(newStratDate, newEndDate);
                             }
                           }
                         },
@@ -1371,16 +1380,15 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               lastDate: DateTime(2101),
             );
             if (pickeddate != null) {
-              print(
-                  pickeddate); //pickedDate output format => 2021-03-10 00:00:00.000
-              // String formattedDate = DateFormat('yyyyMMdd').format(pickeddate);
-              var formattedDate = DateFormat('yyyyMMdd').format(pickeddate);
-              print(
-                  formattedDate); //formatted date output using intl package =>  2021-03-16
+              var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var newDate = pickeddate.yearInBuddhistCalendar;
+              print('===>> $newDate');
+              print(formattedDate);
               setState(() {
-                start_date.text =
+                start_date.text = '${newDate}' +
                     formattedDate; //set output date to TextField value.
               });
+              print('<=>>> ${start_date.text.replaceAll(RegExp("-"), "")}');
             } else {}
           },
         ),
@@ -1419,14 +1427,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               lastDate: DateTime(2101),
             );
             if (pickeddate != null) {
-              print(
-                  pickeddate); //pickedDate output format => 2021-03-10 00:00:00.000
-              String formattedDate =
-                  DateFormat('yyyy-MM-dd').format(pickeddate);
-              print(
-                  formattedDate); //formatted date output using intl package =>  2021-03-16
+              var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var newDate = pickeddate.yearInBuddhistCalendar;
+              print('===>> $newDate');
+              print(formattedDate);
               setState(() {
-                end_date.text =
+                end_date.text = '${newDate}' +
                     formattedDate; //set output date to TextField value.
               });
             } else {}
