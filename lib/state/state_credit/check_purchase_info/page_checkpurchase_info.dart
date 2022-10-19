@@ -859,10 +859,19 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                     height: 5,
                                   ),
                                   Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'ชื่อลูกค้า : ${list_dataBuyTyle[i]['custName']}',
+                                        'ชื่อลูกค้า : ',
                                         style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_dataBuyTyle[i]['custName']}',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
                                       ),
                                     ],
                                   ),

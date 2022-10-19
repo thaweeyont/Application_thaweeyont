@@ -14,7 +14,7 @@ import 'page_datacust_approve.dart';
 import 'page_info_consider_cus.dart';
 
 class Page_Credit_Approval extends StatefulWidget {
-  const Page_Credit_Approval({super.key});
+  const Page_Credit_Approval({Key? key}) : super(key: key);
 
   @override
   State<Page_Credit_Approval> createState() => _Page_Credit_ApprovalState();

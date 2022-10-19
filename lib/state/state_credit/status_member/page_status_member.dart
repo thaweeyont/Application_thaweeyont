@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../../authen.dart';
 
 class Page_Status_Member extends StatefulWidget {
-  const Page_Status_Member({super.key});
+  const Page_Status_Member({Key? key}) : super(key: key);
 
   @override
   State<Page_Status_Member> createState() => _Page_Status_MemberState();
