@@ -119,8 +119,8 @@ class _Query_debtorState extends State<Query_debtor> {
     // print(tumbolId.toString());
     // print(amphur.toString());
     // print(province.toString());
-    // print(firstname.text);
-    // print(lastname.text);
+    print(firstname.text);
+    print(lastname.text);
     print(select_addreessType.toString());
     list_dataDebtor = [];
     try {
@@ -148,7 +148,7 @@ class _Query_debtorState extends State<Query_debtor> {
           'signStatus': signStatus.toString(),
           'itemType': itemTypelist.text,
           'page': '1',
-          'limit': '40'
+          'limit': '20'
         }),
       );
 
