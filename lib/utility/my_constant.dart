@@ -88,6 +88,7 @@ class MyContant {
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
+        height: 1.7,
       );
   TextStyle TextInputDate() => TextStyle(
         //ตัวหนังสือใน input date
@@ -189,6 +190,53 @@ Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
     // animationType: DialogTransitionType.fadeScale,
     // curve: Curves.fastOutSlowIn,
     // duration: Duration(seconds: 1),
+  );
+}
+
+Future<Null> showProgressDialogn_Notdata(
+    BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    builder: (context) => Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+      ),
+      child: SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        title: ListTile(
+          leading: Image.asset('images/error_log.gif'),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Column(
+              children: [
+                Text("ตกลง",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Prompt',
+                        color: Colors.black)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }
 

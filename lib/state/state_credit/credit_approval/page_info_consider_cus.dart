@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../authen.dart';
+import 'package:application_thaweeyont/api.dart';
 
 class Page_Info_Consider_Cus extends StatefulWidget {
   // const Page_Info_Consider_Cus({super.key});
@@ -62,7 +63,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/detail'),
+        Uri.parse('${api}debtor/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

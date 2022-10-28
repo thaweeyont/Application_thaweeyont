@@ -27,11 +27,12 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   Future<void> logout_system() async {
     try {
+      print(tokenId);
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/authen/logout'),
+        Uri.parse('https://api.twyapp.com/apiV1/authen/logout'),
         headers: <String, String>{
           'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
+          'Authorization': tokenId,
         },
       );
 

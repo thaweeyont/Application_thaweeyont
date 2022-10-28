@@ -12,6 +12,7 @@ import '../../authen.dart';
 import 'page_check_blacklist.dart';
 import 'page_datacust_approve.dart';
 import 'page_info_consider_cus.dart';
+import 'package:application_thaweeyont/api.dart';
 
 class Page_Credit_Approval extends StatefulWidget {
   const Page_Credit_Approval({Key? key}) : super(key: key);
@@ -76,7 +77,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     print(tokenId);
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/credit/approve'),
+        Uri.parse('${api}credit/approve'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -145,7 +146,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/branchList'),
+        Uri.parse('${api}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -173,7 +174,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/approveStatus'),
+        Uri.parse('${api}setup/approveStatus'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -200,7 +201,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -269,7 +270,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       // list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('https://twyapp.com/twyapi/apiV1/customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

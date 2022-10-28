@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authen.dart';
+import 'package:application_thaweeyont/api.dart';
 
 // enum ProductTypeEum { 1, 2 }
 
@@ -57,7 +58,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -83,7 +84,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/saleType'),
+        Uri.parse('${api}setup/saleType'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -127,7 +128,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     });
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/sale/custBuyList'),
+        Uri.parse('${api}sale/custBuyList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -240,7 +241,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('https://twyapp.com/twyapi/apiV1/customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

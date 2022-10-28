@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utility/my_constant.dart';
 import '../../../widgets/show_image.dart';
 import 'package:http/http.dart' as http;
+import 'package:application_thaweeyont/api.dart';
 import '../../authen.dart';
 
 class Page_Status_Member extends StatefulWidget {
@@ -60,7 +61,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     print(custId.text);
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/customer/member'),
+        Uri.parse('${api}customer/member'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -118,7 +119,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -216,7 +217,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('https://twyapp.com/twyapi/apiV1/customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

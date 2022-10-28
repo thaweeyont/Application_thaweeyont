@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/login_model.dart';
 import '../authen.dart';
 import 'pay_installment.dart';
+import 'package:application_thaweeyont/api.dart';
 
 class Data_SearchDebtor extends StatefulWidget {
   final String? signId;
@@ -53,7 +54,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/detail'),
+        Uri.parse('${api}debtor/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -142,6 +143,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
+      showProgressDialogn_Notdata(context, 'แจ้งเตือน', 'ข้อมูลไม่ถูกต้อง');
+      // Navigator.pop(context);
     }
   }
 

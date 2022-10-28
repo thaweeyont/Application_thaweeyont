@@ -6,6 +6,7 @@ import 'package:application_thaweeyont/widgets/show_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:application_thaweeyont/api.dart';
 
 import '../../authen.dart';
 
@@ -53,7 +54,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     list_Blacklist = [];
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/credit/checkBlacklist'),
+        Uri.parse('${api}credit/checkBlacklist'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

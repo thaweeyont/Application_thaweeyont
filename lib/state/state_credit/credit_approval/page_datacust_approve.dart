@@ -9,6 +9,7 @@ import 'page_check_blacklist.dart';
 import 'package:http/http.dart' as http;
 
 import 'page_info_consider_cus.dart';
+import 'package:application_thaweeyont/api.dart';
 
 class Data_Cust_Approve extends StatefulWidget {
   final String? custId;
@@ -40,7 +41,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/credit/detail'),
+        Uri.parse('${api}credit/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -116,7 +117,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     list_quarantee = [];
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/credit/quarantee'),
+        Uri.parse('${api}credit/quarantee'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

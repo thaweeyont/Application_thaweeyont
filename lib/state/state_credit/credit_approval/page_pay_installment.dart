@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:application_thaweeyont/api.dart';
 
 import '../../../utility/my_constant.dart';
 import '../../authen.dart';
@@ -66,7 +67,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
     // print(list);
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/payDetail'),
+        Uri.parse('${api}debtor/payDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

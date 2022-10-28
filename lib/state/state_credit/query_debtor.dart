@@ -10,6 +10,7 @@ import '../../model/login_model.dart';
 import '../authen.dart';
 import 'data_searchdebtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/api.dart';
 
 class Query_debtor extends StatefulWidget {
   const Query_debtor({Key? key}) : super(key: key);
@@ -125,7 +126,7 @@ class _Query_debtorState extends State<Query_debtor> {
     list_dataDebtor = [];
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/debtor/list'),
+        Uri.parse('${api}debtor/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -189,6 +190,7 @@ class _Query_debtorState extends State<Query_debtor> {
     } catch (e) {
       Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
+      showProgressDialog(context, 'แจ้งเตือน', 'ข้อมูลไม่ถูกต้อง');
     }
   }
 
@@ -196,8 +198,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse(
-            'https://twyapp.com/twyapi/apiV1/setup/provinceList?page=1&limit=500'),
+        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -236,7 +237,7 @@ class _Query_debtorState extends State<Query_debtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            'https://twyapp.com/twyapi/apiV1/setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -295,7 +296,7 @@ class _Query_debtorState extends State<Query_debtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            'https://twyapp.com/twyapi/apiV1/setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
+            '${api}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -332,7 +333,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/addressTypeList'),
+        Uri.parse('${api}setup/addressTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -361,7 +362,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/branchList'),
+        Uri.parse('${api}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -389,7 +390,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/debtorTypeList'),
+        Uri.parse('${api}setup/debtorTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -416,7 +417,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/signStatusList'),
+        Uri.parse('${api}setup/signStatusList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -442,7 +443,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -630,7 +631,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                               try {
                                                 var respose = await http.get(
                                                   Uri.parse(
-                                                      'https://twyapp.com/twyapi/apiV1/setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                      '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                   headers: <String, String>{
                                                     'Content-Type':
                                                         'application/json',
@@ -1235,7 +1236,7 @@ class _Query_debtorState extends State<Query_debtor> {
       // list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('https://twyapp.com/twyapi/apiV1/customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

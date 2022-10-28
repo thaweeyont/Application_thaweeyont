@@ -8,6 +8,7 @@ import 'package:application_thaweeyont/widgets/show_image.dart';
 import 'package:application_thaweeyont/widgets/show_title.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:application_thaweeyont/api.dart';
 
 import '../model/login_model.dart';
 
@@ -37,20 +38,21 @@ class _AuthenState extends State<Authen> {
     }
   }
 
-  Future<void> login_user(String id_card) async {
+  Future<void> login_user() async {
     try {
       var respose = await http.post(
-        Uri.parse('https://twyapp.com/twyapi/apiV1/authen/'),
+        Uri.parse('${api}authen/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
         body: jsonEncode(<String, String>{
-          'userName': username.text.toString(),
-          'passWord': password.text.toString()
+          'userName': username.text,
+          'passWord': password.text,
         }),
       );
 
       if (respose.statusCode == 200) {
+        print(respose.statusCode);
         Map<String, dynamic> data =
             new Map<String, dynamic>.from(json.decode(respose.body));
         if (data['status'] == 'success') {
@@ -78,6 +80,7 @@ class _AuthenState extends State<Authen> {
           // showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
         }
       } else {
+        print(respose.statusCode);
         print('ไม่มีข้อมูล');
         showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
       }
@@ -211,7 +214,7 @@ class _AuthenState extends State<Authen> {
                     showProgressDialog(
                         context, 'แจ้งเตือน', 'กรุณากรอก User และ Password');
                   } else {
-                    login_user(username.text);
+                    login_user();
                   }
                 },
                 child: const Text('เข้าสู่ระบบ'),
