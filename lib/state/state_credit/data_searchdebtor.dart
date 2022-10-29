@@ -116,11 +116,25 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         });
         // Navigator.pop(context);
         // print(list_quarantee1['smartId']);
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      } else if (respose.statusCode == 404) {
+        print(respose.statusCode);
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else {
-        // setState(() {
-        //   debtorStatuscode = respose.statusCode;
-        // });
-        // Navigator.pop(context);
         print(respose.body);
         print(respose.statusCode);
         print('ไม่พบข้อมูล');
@@ -143,7 +157,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialogn_Notdata(context, 'แจ้งเตือน', 'ข้อมูลไม่ถูกต้อง');
+      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ข้อมูลไม่ถูกต้อง');
       // Navigator.pop(context);
     }
   }
@@ -500,7 +514,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
-                  height: 40,
+                  height: 35,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -522,7 +536,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
-                  height: 40,
+                  height: 35,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -542,7 +556,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
-                  height: 40,
+                  height: 35,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -562,7 +576,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 },
                 child: Container(
                   margin: EdgeInsets.all(5),
-                  height: 40,
+                  height: 35,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(

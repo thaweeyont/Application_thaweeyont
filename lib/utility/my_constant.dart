@@ -193,7 +193,148 @@ Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
   );
 }
 
-Future<Null> showProgressDialogn_Notdata(
+Future<Null> showProgressDialog_Notdata(
+    BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    builder: (context) => Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+      ),
+      child: SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        title: ListTile(
+          leading: Image.asset('images/error_log.gif'),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Column(
+              children: [
+                Text("ตกลง",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Prompt',
+                        color: Colors.black)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Future<Null> showProgressDialog_400(
+    BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    builder: (context) => Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+      ),
+      child: SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        title: ListTile(
+          leading: Image.asset('images/error_log.gif'),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Column(
+              children: [
+                Text("ตกลง",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Prompt',
+                        color: Colors.black)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Future<Null> showProgressDialog_404(
+    BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    builder: (context) => Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+      ),
+      child: SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        title: ListTile(
+          leading: Image.asset('images/error_log.gif'),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Column(
+              children: [
+                Text("ตกลง",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Prompt',
+                        color: Colors.black)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Future<Null> showProgressDialog_500(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,

@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.5
   intl: ^0.16.1
   buddhist_datetime_dateformat: ^1.0.6
+  package_info_plus: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
     - error_log.gif
     - search.gif
     - searc_unscreen.gif
+    - checked.png
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

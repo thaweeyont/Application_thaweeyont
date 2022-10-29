@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 
 import '../authen.dart';
 import 'check_purchase_info/page_checkpurchase_info.dart';
+import 'package:application_thaweeyont/widgets/show_version.dart';
 
 // import 'package:custom_navigator/custom_navigator.dart';
 
@@ -296,6 +297,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               drawerIcon(size),
               // SizedBox(height: 45),
               navigator_cradit(context, size),
+              ShowVersion(),
               btn_exit()
             ],
           ),
