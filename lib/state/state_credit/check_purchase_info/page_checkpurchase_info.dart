@@ -99,26 +99,39 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           dropdown_saletype = dataSale['data'];
         });
         print(dropdown_saletype);
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
         print(respose.statusCode);
-        Map<String, dynamic> check_list =
-            new Map<String, dynamic>.from(json.decode(respose.body));
-        print(respose.statusCode);
-        print(check_list['message']);
-        if (check_list['message'] == "Token Unauthorized") {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.clear();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Authen(),
-            ),
-            (Route<dynamic> route) => false,
-          );
-        }
+        // Map<String, dynamic> check_list =
+        //     new Map<String, dynamic>.from(json.decode(respose.body));
+        // print(respose.statusCode);
+        // print(check_list['message']);
+        // if (check_list['message'] == "Token Unauthorized") {
+        //   SharedPreferences preferences = await SharedPreferences.getInstance();
+        //   preferences.clear();
+        //   Navigator.pushAndRemoveUntil(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => Authen(),
+        //     ),
+        //     (Route<dynamic> route) => false,
+        //   );
+        // }
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
     }
   }
 
@@ -155,29 +168,57 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
 
         print(dataBuylist['data']);
         print(valueStatus);
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 401) {
+        print('customer >>${respose.statusCode}');
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        print(respose.statusCode);
+        showProgressDialog_404(
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
       } else {
         setState(() {
           valueStatus = respose.statusCode;
         });
         Navigator.pop(context);
         print(respose.statusCode);
-        print(respose.body);
-        print('ไม่พบข้อมูล');
-        Map<String, dynamic> check_list =
-            new Map<String, dynamic>.from(json.decode(respose.body));
-        print(respose.statusCode);
-        print(check_list['message']);
-        if (check_list['message'] == "Token Unauthorized") {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.clear();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Authen(),
-            ),
-            (Route<dynamic> route) => false,
-          );
-        }
+        // print(respose.body);
+        // print('ไม่พบข้อมูล');
+        // Map<String, dynamic> check_list =
+        //     new Map<String, dynamic>.from(json.decode(respose.body));
+        // print(respose.statusCode);
+        // print(check_list['message']);
+        // if (check_list['message'] == "Token Unauthorized") {
+        //   SharedPreferences preferences = await SharedPreferences.getInstance();
+        //   preferences.clear();
+        //   Navigator.pushAndRemoveUntil(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => Authen(),
+        //     ),
+        //     (Route<dynamic> route) => false,
+        //   );
+        // }
       }
     } catch (e) {
       Navigator.pop(context);
@@ -268,33 +309,62 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           Navigator.pop(context);
           search_idcustomer();
           // print(list_datavalue);
+        } else if (respose.statusCode == 400) {
+          print(respose.statusCode);
+          showProgressDialog_400(
+              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+        } else if (respose.statusCode == 401) {
+          print(respose.statusCode);
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Authen(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+          showProgressDialog_401(
+              context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+        } else if (respose.statusCode == 404) {
+          print(respose.statusCode);
+          showProgressDialog_404(context, 'แจ้งเตือน',
+              'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+        } else if (respose.statusCode == 405) {
+          print(respose.statusCode);
+          showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        } else if (respose.statusCode == 500) {
+          print(respose.statusCode);
+          showProgressDialog_500(
+              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
         } else {
           setState(() {
             valueNotdata = respose.statusCode;
           });
           Navigator.pop(context);
           print(respose.statusCode);
-          print('ไม่พบข้อมูล');
-          Map<String, dynamic> check_list =
-              new Map<String, dynamic>.from(json.decode(respose.body));
-          print(respose.statusCode);
-          print(check_list['message']);
-          if (check_list['message'] == "Token Unauthorized") {
-            SharedPreferences preferences =
-                await SharedPreferences.getInstance();
-            preferences.clear();
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Authen(),
-              ),
-              (Route<dynamic> route) => false,
-            );
-          }
+          // print('ไม่พบข้อมูล');
+          // Map<String, dynamic> check_list =
+          //     new Map<String, dynamic>.from(json.decode(respose.body));
+          // print(respose.statusCode);
+          // print(check_list['message']);
+          // if (check_list['message'] == "Token Unauthorized") {
+          //   SharedPreferences preferences =
+          //       await SharedPreferences.getInstance();
+          //   preferences.clear();
+          //   Navigator.pushAndRemoveUntil(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => Authen(),
+          //     ),
+          //     (Route<dynamic> route) => false,
+          //   );
+          // }
         }
       } catch (e) {
-        Navigator.pop(context);
+        // Navigator.pop(context);
         print("ไม่มีข้อมูล $e");
+        showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       }
     }
 

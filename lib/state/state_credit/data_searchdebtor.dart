@@ -121,6 +121,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -128,37 +130,41 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
           ),
           (Route<dynamic> route) => false,
         );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_404(
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
-        showProgressDialog_500(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_500(context, 'แจ้งเตือน',
+            'Error ${respose.statusCode} ข้อมูลไม่ถูกต้อง!');
       } else {
-        print(respose.body);
         print(respose.statusCode);
         print('ไม่พบข้อมูล');
-        Map<String, dynamic> check_list =
-            new Map<String, dynamic>.from(json.decode(respose.body));
-        print(respose.statusCode);
-        print(check_list['message']);
-        if (check_list['message'] == "Token Unauthorized") {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.clear();
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Authen(),
-            ),
-            (Route<dynamic> route) => false,
-          );
-        }
+        // Map<String, dynamic> check_list =
+        //     new Map<String, dynamic>.from(json.decode(respose.body));
+        // print(respose.statusCode);
+        // print(check_list['message']);
+        // if (check_list['message'] == "Token Unauthorized") {
+        //   SharedPreferences preferences = await SharedPreferences.getInstance();
+        //   preferences.clear();
+        //   Navigator.pushAndRemoveUntil(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => Authen(),
+        //     ),
+        //     (Route<dynamic> route) => false,
+        //   );
+        // }
       }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ข้อมูลไม่ถูกต้อง');
-      // Navigator.pop(context);
+      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
     }
   }
 
@@ -500,8 +506,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container slidemenu(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.07,
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 3),
+      height: MediaQuery.of(context).size.height * 0.06,
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -1524,7 +1530,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1570,8 +1576,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   SizedBox(
                     height: 10,
                   ),
-                  // H010105220554415
-                  // H010105090202023
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1614,7 +1618,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1702,7 +1706,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1790,7 +1794,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1878,7 +1882,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -1966,7 +1970,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'ไม่มีบันทึก',
+                                      '',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
