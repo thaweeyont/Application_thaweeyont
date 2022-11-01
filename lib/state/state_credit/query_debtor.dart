@@ -177,14 +177,14 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
-        showProgressDialog_500(context, 'แจ้งเตือน',
-            'Error ${respose.statusCode} ข้อมูลไม่ถูกต้อง!');
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         setState(() {
           debtorStatuscode = respose.statusCode;
@@ -257,14 +257,14 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         print(respose.statusCode);
       }
@@ -325,14 +325,14 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         Navigator.pop(context);
         print(respose.statusCode);
@@ -1427,10 +1427,10 @@ class _Query_debtorState extends State<Query_debtor> {
           setState(() {
             list_datavalue = dataList['data'];
           });
+          print(respose.statusCode);
           Navigator.pop(context);
           Navigator.pop(context);
           search_idcustomer();
-          // print(list_datavalue);
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
@@ -1450,42 +1450,44 @@ class _Query_debtorState extends State<Query_debtor> {
               context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
         } else if (respose.statusCode == 404) {
           print(respose.statusCode);
-          showProgressDialog_404(context, 'แจ้งเตือน',
-              'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+          showProgressDialog_404(
+              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
         } else if (respose.statusCode == 500) {
           print(respose.statusCode);
-          showProgressDialog_500(
-              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
-        } else {
-          setState(() {
-            valueNotdata = respose.statusCode;
-          });
-          Navigator.pop(context);
-          print(respose.statusCode);
-          print('ไม่พบข้อมูล');
-          // Map<String, dynamic> check_list =
-          //     new Map<String, dynamic>.from(json.decode(respose.body));
-          // print(respose.statusCode);
-          // print(check_list['message']);
-          // if (check_list['message'] == "Token Unauthorized") {
-          //   SharedPreferences preferences =
-          //       await SharedPreferences.getInstance();
-          //   preferences.clear();
-          //   Navigator.pushAndRemoveUntil(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => Authen(),
-          //     ),
-          //     (Route<dynamic> route) => false,
-          //   );
-          // }
+          showProgressDialog_500(context, 'แจ้งเตือน',
+              'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
         }
+        // else {
+        //   setState(() {
+        //     valueNotdata = respose.statusCode;
+        //   });
+        //   Navigator.pop(context);
+        //   print(respose.statusCode);
+        //   print('ไม่พบข้อมูล');
+        // Map<String, dynamic> check_list =
+        //     new Map<String, dynamic>.from(json.decode(respose.body));
+        // print(respose.statusCode);
+        // print(check_list['message']);
+        // if (check_list['message'] == "Token Unauthorized") {
+        //   SharedPreferences preferences =
+        //       await SharedPreferences.getInstance();
+        //   preferences.clear();
+        //   Navigator.pushAndRemoveUntil(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => Authen(),
+        //     ),
+        //     (Route<dynamic> route) => false,
+        //   );
+        // }
+        // }
       } catch (e) {
-        Navigator.pop(context);
+        // Navigator.pop(context);
         print("ไม่มีข้อมูล $e");
+        showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       }
     }
 
@@ -1722,8 +1724,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                   child: TextButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
-                                      // getData_condition();
-                                      // getData_search();
                                       if (id == '1') {
                                         print('1==>> $id');
                                         if (selectValue_customer == null ||
@@ -1854,12 +1854,13 @@ class _Query_debtorState extends State<Query_debtor> {
                                         ),
                                       ),
                                     ],
-                                  ] else ...[
-                                    if (valueNotdata == 404) ...[
-                                      notData(context),
-                                    ] else
-                                      ...[],
                                   ],
+                                  // else ...[
+                                  //   if (valueNotdata == 404) ...[
+                                  //     notData(context),
+                                  //   ] else
+                                  //     ...[],
+                                  // ],
                                 ],
                               ),
                             ),
@@ -2126,7 +2127,8 @@ class _Query_debtorState extends State<Query_debtor> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Data_SearchDebtor(
-                                    list_dataDebtor[i]['signId'])),
+                                    list_dataDebtor[i]['signId'],
+                                    list_dataDebtor[i]['signStatusName'])),
                           );
                         },
                         child: Padding(
@@ -2229,15 +2231,19 @@ class _Query_debtorState extends State<Query_debtor> {
                         ),
                       ),
                     ],
-                  ] else ...[
-                    if (debtorStatuscode == 404 || debtorStatuscode == 500) ...[
-                      notData(context),
-                    ] else
-                      ...[],
                   ],
+                  // else ...[
+                  //   if (debtorStatuscode == 404 || debtorStatuscode == 500) ...[
+                  //     notData(context),
+                  //   ] else
+                  //     ...[],
+                  // ],
                 ],
               ),
             ),
+          ),
+          SizedBox(
+            height: 25,
           ),
         ]),
       ),

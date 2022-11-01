@@ -12,8 +12,8 @@ import 'pay_installment.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Data_SearchDebtor extends StatefulWidget {
-  final String? signId;
-  Data_SearchDebtor(this.signId);
+  final String? signId, signStatusName;
+  Data_SearchDebtor(this.signId, this.signStatusName);
 
   @override
   State<Data_SearchDebtor> createState() => _Data_SearchDebtorState();
@@ -133,35 +133,43 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+        if (widget.signStatusName == "ยกเลิก") {
+          print(widget.signStatusName);
+          print(respose.statusCode);
+          showProgressDialog_404(context, 'แจ้งเตือน',
+              'Error ${respose.statusCode} ถูกยกเลิกสัญญา!');
+        } else {
+          print(respose.statusCode);
+          showProgressDialog_404(context, 'แจ้งเตือน',
+              'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+        }
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
-        showProgressDialog_500(context, 'แจ้งเตือน',
-            'Error ${respose.statusCode} ข้อมูลไม่ถูกต้อง!');
-      } else {
-        print(respose.statusCode);
-        print('ไม่พบข้อมูล');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences = await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       }
+      // else {
+      //   print(respose.statusCode);
+      //   print('ไม่พบข้อมูล');
+      // Map<String, dynamic> check_list =
+      //     new Map<String, dynamic>.from(json.decode(respose.body));
+      // print(respose.statusCode);
+      // print(check_list['message']);
+      // if (check_list['message'] == "Token Unauthorized") {
+      //   SharedPreferences preferences = await SharedPreferences.getInstance();
+      //   preferences.clear();
+      //   Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => Authen(),
+      //     ),
+      //     (Route<dynamic> route) => false,
+      //   );
+      // }
+      // }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -506,8 +514,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container slidemenu(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.06,
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+      height: MediaQuery.of(context).size.height * 0.065,
+      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [

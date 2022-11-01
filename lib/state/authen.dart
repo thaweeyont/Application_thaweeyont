@@ -80,9 +80,17 @@ class _AuthenState extends State<Authen> {
           // showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
         }
       } else {
+        Map<String, dynamic> check_list =
+            new Map<String, dynamic>.from(json.decode(respose.body));
         print(respose.statusCode);
-        print('ไม่มีข้อมูล');
-        showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
+        print(check_list['message']);
+        if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
+          print('ไม่พบชื่อเข้าใช้ระบบ');
+          showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบชื่อเข้าใช้ระบบ');
+        } else if (check_list['message'] == "รหัสผ่านผิด") {
+          print('รหัสผ่านผิด');
+          showProgressDialog(context, 'แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');
+        }
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
