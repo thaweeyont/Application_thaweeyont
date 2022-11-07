@@ -155,7 +155,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           'firstName': custName.text,
           'lastName': lastname_cust.text,
           'page': '1',
-          'limit': '20'
+          'limit': '150'
         }),
       );
 
