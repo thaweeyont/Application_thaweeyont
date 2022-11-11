@@ -31,7 +31,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   var selectValue_customer;
   var selectvalue_saletype;
   var valueStatus, valueNotdata;
-  var Texthint;
+  var Texthint, list_sort;
   // ProductTypeEum? _productTypeEum;
   String? id = '1';
   bool st_customer = true, st_employee = false;
@@ -166,10 +166,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         setState(() {
           list_dataBuyTyle = dataBuylist['data'];
         });
-        Navigator.pop(context);
 
-        print(dataBuylist['data']);
-        print(valueStatus);
+        Navigator.pop(context);
+        print(list_dataBuyTyle);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -254,6 +253,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     searchData.clear();
     firstname_em.clear();
     lastname_em.clear();
+    lastname.clear();
   }
 
   clearValueBuylist() {
@@ -308,6 +308,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           setState(() {
             list_datavalue = dataList['data'];
           });
+
           Navigator.pop(context);
           Navigator.pop(context);
           search_idcustomer();
@@ -1362,3 +1363,22 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 }
+
+// class load_data extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 30,
+//       color: Colors.blue,
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Text(
+//             'กำลังโหลด',
+//             style: MyContant().TextInputStyle(),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

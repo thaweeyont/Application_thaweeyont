@@ -293,6 +293,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     searchData.clear();
     firstname_em.clear();
     lastname_em.clear();
+    lastname.clear();
   }
 
   Future<Null> search_idcustomer() async {

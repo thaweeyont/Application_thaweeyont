@@ -215,7 +215,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     });
   }
 
-  clearDialog() {
+  clearDialog() {  
     setState(() {
       id = '1';
       st_customer = true;
@@ -228,6 +228,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     searchData.clear();
     firstname_em.clear();
     lastname_em.clear();
+    lastname.clear();
   }
 
   Future<Null> search_idcustomer() async {

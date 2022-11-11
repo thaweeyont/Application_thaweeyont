@@ -31,7 +31,8 @@ class _Query_debtorState extends State<Query_debtor> {
   String? id = '1';
   var filter = false;
   TextEditingController idcard = TextEditingController();
-  TextEditingController firstname = TextEditingController();
+  TextEditingController firstname_c = TextEditingController();
+  TextEditingController lastname_c = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController district = TextEditingController();
   TextEditingController amphoe = TextEditingController();
@@ -115,7 +116,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
 
     print(tokenId);
-    print(firstname.text);
+    print(firstname_c.text);
     print(lastname.text);
     print(select_addreessType.toString());
     list_dataDebtor = [];
@@ -133,8 +134,8 @@ class _Query_debtorState extends State<Query_debtor> {
           'tumbolId': tumbol.toString(),
           'amphurId': amphur.toString(),
           'provId': province.toString(),
-          'firstName': firstname.text,
-          'lastName': lastname.text,
+          'firstName': firstname_c.text,
+          'lastName': lastname_c.text,
           'addressType': select_addreessType.toString(),
           'debtorType': debtorType.toString(),
           'smartId': idcard.text,
@@ -586,7 +587,7 @@ class _Query_debtorState extends State<Query_debtor> {
   clearTextInputAll() {
     custId.clear();
     idcard.clear();
-    firstname.clear();
+    firstname_c.clear();
     lastname.clear();
     telephone.clear();
     homeNo.clear();
@@ -634,6 +635,7 @@ class _Query_debtorState extends State<Query_debtor> {
     searchData.clear();
     firstname_em.clear();
     lastname_em.clear();
+    lastname.clear();
   }
 
   Future<Null> search_district(sizeIcon, border) async {
@@ -1401,7 +1403,6 @@ class _Query_debtorState extends State<Query_debtor> {
 
     Future<void> getData_condition(String? custType, conditionType,
         String searchData, String firstName, String lastName) async {
-      // list_datavalue = [];
       try {
         var respose = await http.post(
           Uri.parse('${api}customer/list'),
@@ -1412,7 +1413,7 @@ class _Query_debtorState extends State<Query_debtor> {
           body: jsonEncode(<String, String>{
             'custType': custType.toString(),
             'conditionType': conditionType.toString(),
-            'searchData': searchData.toString(), // M011911761883
+            'searchData': searchData.toString(),
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
@@ -1494,15 +1495,18 @@ class _Query_debtorState extends State<Query_debtor> {
     Future<Null> getData_search() async {
       if (id == '1') {
         print(id);
+        list_datavalue = [];
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
           getData_condition(
               id, selectValue_customer, '', searchData.text, lastname.text);
         } else {
+          list_datavalue = [];
           getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
         print(id);
+        list_datavalue = [];
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
       }
@@ -2392,7 +2396,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: firstname,
+          controller: firstname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -2415,7 +2419,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: lastname,
+          controller: lastname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
