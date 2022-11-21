@@ -116,7 +116,7 @@ class _Home_creditState extends State<Home_credit> {
               children: [
                 Expanded(
                   child: Text(
-                    "พิจารณาอนุมัติสินเชื่อ",
+                    "เช็คผลการพิจารณาสินเชื่อ",
                     overflow: TextOverflow.clip,
                     style: MyContant().h1MenuStyle(),
                     textAlign: TextAlign.center,
@@ -209,7 +209,7 @@ class _Home_creditState extends State<Home_credit> {
                 children: [
                   Expanded(
                     child: Text(
-                      "สอบถามลายละเอียดลูกหนี้",
+                      "สอบถามรายละเอียดลูกหนี้",
                       overflow: TextOverflow.clip,
                       textAlign: TextAlign.center,
                       style: MyContant().h1MenuStyle(),

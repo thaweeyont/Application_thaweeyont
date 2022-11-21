@@ -1095,7 +1095,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                   start_date.text.replaceAll('-', '');
                               var newEndDate =
                                   end_date.text.replaceAll('-', '');
-                              print('<=====>>>> $newStratDate');
+                              print('s==>> $newStratDate');
+                              print('e==>> $newEndDate');
                               showProgressLoading(context);
                               getData_approve(newStratDate, newEndDate);
                             }
@@ -1466,8 +1467,9 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               setState(() {
                 start_date.text = '${newDate}' +
                     formattedDate; //set output date to TextField value.
+                print(start_date.text);
               });
-              print('<=>>> ${start_date.text.replaceAll(RegExp("-"), "")}');
+              // print('<=>>> ${start_date.text.replaceAll(RegExp("-"), "")}');
             } else {}
           },
         ),
@@ -1509,10 +1511,11 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
               var newDate = pickeddate.yearInBuddhistCalendar;
               print('===>> $newDate');
-              print(formattedDate);
+              // print('${newDate}${formattedDate}');
               setState(() {
                 end_date.text = '${newDate}' +
                     formattedDate; //set output date to TextField value.
+                print(end_date.text);
               });
             } else {}
           },

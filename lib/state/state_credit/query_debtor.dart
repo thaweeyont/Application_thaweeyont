@@ -455,7 +455,7 @@ class _Query_debtorState extends State<Query_debtor> {
           select_addreessType = dropdown_addresstype[0]['id'];
         });
 
-        print(select_addreessType);
+        print('>>${select_addreessType}');
       } else {
         print(respose.statusCode);
       }
@@ -588,7 +588,7 @@ class _Query_debtorState extends State<Query_debtor> {
     custId.clear();
     idcard.clear();
     firstname_c.clear();
-    lastname.clear();
+    lastname_c.clear();
     telephone.clear();
     homeNo.clear();
     moo.clear();

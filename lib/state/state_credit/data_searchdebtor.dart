@@ -71,6 +71,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         Debtordetail = datadebtorDetail['data'];
 
         setState(() {
+          print(Debtordetail['quarantee']);
           status = true;
           if (Debtordetail['quarantee']['1'] != null) {
             list_quarantee1 =
@@ -761,6 +762,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                   ),
                   line(),
+                  // if (Debtordetail['quarantee'] != []) ...[
                   Container(
                     height: MediaQuery.of(context).size.height * 0.25,
                     decoration: BoxDecoration(
@@ -773,7 +775,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     child: TabBarView(children: <Widget>[
                       //ผู้ค้ำที1
                       SingleChildScrollView(
-                        child: Debtordetail['quarantee']['1'] == null
+                        child: Debtordetail['quarantee'] == [] ||
+                                Debtordetail['quarantee'][1] == null
                             ? Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
@@ -890,7 +893,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ),
                       //ผู้ค้ำที่2
                       SingleChildScrollView(
-                        child: Debtordetail['quarantee']['2'] == null
+                        child: Debtordetail['quarantee'] == [] ||
+                                Debtordetail['quarantee'][2] == null
                             ? Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
@@ -1007,7 +1011,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ),
                       //ผู้ค้ำที่3
                       SingleChildScrollView(
-                        child: Debtordetail['quarantee']['3'] == null
+                        child: Debtordetail['quarantee'] == [] ||
+                                Debtordetail['quarantee'][3] == null
                             ? Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
@@ -1126,6 +1131,23 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ),
                     ]),
                   ),
+                  // ] else if (Debtordetail['quarantee'] == []) ...[
+                  //   Container(
+                  //     height: MediaQuery.of(context).size.height * 0.25,
+                  //     decoration: BoxDecoration(
+                  //       color: Color.fromRGBO(255, 218, 249, 1),
+                  //       borderRadius: BorderRadius.only(
+                  //         bottomLeft: Radius.circular(10),
+                  //         bottomRight: Radius.circular(10),
+                  //       ),
+                  //     ),
+                  //     child: Row(
+                  //       children: [
+                  //         Text('ไม่มีคนค้ำ'),
+                  //       ],
+                  //     ),
+                  //   )
+                  // ],
                 ],
               ),
             ),
@@ -1199,6 +1221,29 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     children: [
                       Text('ชำระแล้ว : ${Debtordetail['periodNo']} งวด',
                           style: MyContant().h4normalStyle()),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Text('รหัสเขต : ${Debtordetail['followAreaName']}',
+                          style: MyContant().h4normalStyle()),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'สถานะสัญญา : ${Debtordetail['signStatus']}',
+                          style: MyContant().h4normalStyle(),
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -1305,9 +1350,19 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     height: 5,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('รุ่น/แบบ : ${list_itemDetail!['modelName']}',
-                          style: MyContant().h4normalStyle()),
+                      Text(
+                        'รุ่น/แบบ : ',
+                        style: MyContant().h4normalStyle(),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${list_itemDetail!['modelName']}',
+                          style: MyContant().h4normalStyle(),
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(

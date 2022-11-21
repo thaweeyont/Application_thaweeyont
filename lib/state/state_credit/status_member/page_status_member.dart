@@ -713,7 +713,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
               ),
             ),
           ),
-        ),
+        ), 
       ),
     );
   }

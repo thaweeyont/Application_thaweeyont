@@ -6,11 +6,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 
 import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
-
-// enum ProductTypeEum { 1, 2 }
 
 class Page_Checkpurchase_info extends StatefulWidget {
   const Page_Checkpurchase_info({Key? key}) : super(key: key);
@@ -29,9 +30,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   List list_datavalue = [];
   List list_dataBuyTyle = [];
   var selectValue_customer;
-  var selectvalue_saletype;
+  var selectvalue_saletype, select_index_saletype;
   var valueStatus, valueNotdata;
-  var Texthint, list_sort;
+  var Texthint, list_sort, list;
+  int sumbill = 0;
   // ProductTypeEum? _productTypeEum;
   String? id = '1';
   bool st_customer = true, st_employee = false;
@@ -44,6 +46,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   TextEditingController lastname_em = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController smartId = TextEditingController();
+  TextEditingController start_date = TextEditingController();
+  TextEditingController end_date = TextEditingController();
 
   @override
   void initState() {
@@ -97,6 +101,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         // print(data['data'][1]['id']);
         setState(() {
           dropdown_saletype = dataSale['data'];
+          select_index_saletype = dropdown_saletype[0]['id'];
         });
         print(dropdown_saletype);
       } else if (respose.statusCode == 401) {
@@ -137,7 +142,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     }
   }
 
-  Future<void> getData_buyList() async {
+  Future<void> getData_buyList(start_date, end_date) async {
     setState(() {
       list_dataBuyTyle = [];
     });
@@ -150,10 +155,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         },
         body: jsonEncode(<String, String>{
           'custId': custId.text.toString(),
-          'saleTypeId': selectvalue_saletype.toString(),
+          'saleTypeId': select_index_saletype.toString(),
           'smartId': smartId.text,
           'firstName': custName.text,
           'lastName': lastname_cust.text,
+          'startDate': start_date,
+          'endDate': end_date,
           'page': '1',
           'limit': '150'
         }),
@@ -165,6 +172,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
 
         setState(() {
           list_dataBuyTyle = dataBuylist['data'];
+          // totalbill();
         });
 
         Navigator.pop(context);
@@ -261,8 +269,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     smartId.clear();
     custName.clear();
     lastname_cust.clear();
+    start_date.clear();
+    end_date.clear();
     setState(() {
-      selectvalue_saletype = null;
+      // selectvalue_saletype = null;
       list_dataBuyTyle.clear();
       valueStatus = null;
     });
@@ -777,6 +787,17 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
+  void totalbill() {
+    var list_1, total;
+    for (var i = 0; i < list_dataBuyTyle.length; i++) {
+      list_1 = [list_dataBuyTyle[i]['billTotal']].reduce(
+        (a, b) => a + b,
+      );
+    }
+    total = total + list_1;
+    print('sum > ${total}');
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -856,6 +877,20 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             style: MyContant().h4normalStyle(),
                           ),
                           input_lastnamecustomer(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'วันที่',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_dateStart(sizeIcon, border),
+                          Text(
+                            'ถึงวันที่',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_dateEnd(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -1048,13 +1083,13 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             showProgressDialog(
                                 context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
                           } else {
-                            if (selectvalue_saletype == null) {
-                              showProgressDialog(context, 'แจ้งเตือน',
-                                  'กรุณาเลือกประเภทการขาย');
-                            } else {
-                              showProgressLoading(context);
-                              getData_buyList();
-                            }
+                            var newStratDate =
+                                start_date.text.replaceAll('-', '');
+                            var newEndDate = end_date.text.replaceAll('-', '');
+                            print('s==>> $newStratDate');
+                            print('e==>> $newEndDate');
+                            showProgressLoading(context);
+                            getData_buyList(newStratDate, newEndDate);
                           }
                         },
                         child: const Text('ค้นหา'),
@@ -1179,10 +1214,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                   .toList(),
               onChanged: (newvalue) {
                 setState(() {
-                  selectvalue_saletype = newvalue;
+                  select_index_saletype = newvalue;
                 });
               },
-              value: selectvalue_saletype,
+              value: select_index_saletype,
               isExpanded: true,
               underline: SizedBox(),
               hint: Align(
@@ -1358,6 +1393,101 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             fillColor: Colors.white,
           ),
           style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded input_dateStart(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: TextField(
+          controller: start_date,
+          onChanged: (keyword) {},
+          readOnly: true,
+          decoration: InputDecoration(
+            suffixIcon: Icon(
+              Icons.calendar_today,
+              color: Colors.black,
+            ),
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputDate(),
+          onTap: () async {
+            DateTime? pickeddate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+            if (pickeddate != null) {
+              var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var newDate = pickeddate.yearInBuddhistCalendar;
+              print('===>> $newDate');
+              print(formattedDate);
+              setState(() {
+                start_date.text = '${newDate}' +
+                    formattedDate; //set output date to TextField value.
+                print(start_date.text);
+              });
+              // print('<=>>> ${start_date.text.replaceAll(RegExp("-"), "")}');
+            } else {}
+          },
+        ),
+      ),
+    );
+  }
+
+  Expanded input_dateEnd(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: TextField(
+          controller: end_date,
+          onChanged: (keyword) {},
+          readOnly: true,
+          decoration: InputDecoration(
+            suffixIcon: Icon(
+              Icons.calendar_today,
+              color: Colors.black,
+            ),
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputDate(),
+          onTap: () async {
+            DateTime? pickeddate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+            if (pickeddate != null) {
+              var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var newDate = pickeddate.yearInBuddhistCalendar;
+              print('===>> $newDate');
+              // print('${newDate}${formattedDate}');
+              setState(() {
+                end_date.text = '${newDate}' +
+                    formattedDate; //set output date to TextField value.
+                print(end_date.text);
+              });
+            } else {}
+          },
         ),
       ),
     );

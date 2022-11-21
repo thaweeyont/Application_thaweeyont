@@ -1,1 +1,1 @@
-String api = 'https://api.twyapp.com/apiV1/';
+final api = 'https://api.twyapp.com/apiV1/';

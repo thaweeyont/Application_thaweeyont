@@ -25,6 +25,7 @@ class Navigator_bar_credit extends StatefulWidget {
 
 class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  var status = false;
 
   Future<void> logout_system() async {
     try {
@@ -71,43 +72,49 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   void check_index() {
     var index_page = widget.index;
-
+    status = true;
     switch (index_page) {
       case "0":
         setState(() {
           _selectedIndex = 0;
           title_head = "สอบถามรายละเอียดลูกหนี้";
+          status = false;
         });
         break;
       case "1":
         setState(() {
           _selectedIndex = 1;
           title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
+          status = false;
         });
         break;
       case "2":
         setState(() {
           _selectedIndex = 2;
-          title_head = "ทวียนต์";
+          // title_head = "ทวียนต์ ";
+          status = true;
         });
         break;
       case "3":
         setState(() {
           _selectedIndex = 3;
-          title_head = "พิจารณาอนุมัติสินเชื่อ";
+          title_head = "เช็คผลการพิจารณาสินเชื่อ";
+          status = false;
         });
         break;
       case "4":
         setState(() {
           _selectedIndex = 4;
           title_head = "สถานะสมาชิกทวียนต์";
+          status = false;
         });
         break;
       default:
         {
           setState(() {
             _selectedIndex = 0;
-            title_head = "ทวียนต์ ";
+            // title_head = "ทวียนต์ ";
+            status = true;
           });
         }
         break;
@@ -135,6 +142,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   int _selectedIndex = 0;
   String title_head = "";
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
@@ -169,7 +177,8 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           child: Icon(Icons.home),
           onPressed: () => setState(() {
             _selectedIndex = 2;
-            title_head = "ทวียนต์ ";
+            // title_head = "ทวียนต์ 222";
+            status = true;
           }),
         ),
       ),
@@ -179,10 +188,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   AppBar Appbar() {
     return AppBar(
       centerTitle: true,
-      title: Text(
-        title_head,
-        style: MyContant().TitleStyle(),
-      ),
+      title: status == true
+          ? Image.asset(
+              'images/TWYLOGO.png',
+              height: 40,
+            )
+          : Text(
+              title_head,
+              style: MyContant().TitleStyle(),
+            ),
       leading: Builder(
         builder: (BuildContext context) {
           return IconButton(
@@ -230,37 +244,42 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   case 0:
                     setState(() {
                       title_head = "สอบถามรายละเอียดลูกหนี้";
+                      status = false;
                     });
                     break;
                   case 1:
                     setState(() {
                       _selectedIndex = 1;
                       title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
+                      status = false;
                     });
                     break;
                   case 2:
                     setState(() {
                       _selectedIndex = 2;
-                      title_head = "ทวียนต์";
+                      // title_head = "ทวียนต์";
+                      status = true;
                     });
                     break;
                   case 3:
                     setState(() {
                       _selectedIndex = 3;
-                      title_head = "พิจารณาอนุมัติสินเชื่อ";
+                      title_head = "เช็คผลการพิจารณาสินเชื่อ";
                     });
                     break;
                   case 4:
                     setState(() {
                       _selectedIndex = 4;
                       title_head = "สถานะสมาชิกทวียนต์";
+                      status = false;
                     });
                     break;
                   default:
                     {
                       setState(() {
                         _selectedIndex = 0;
-                        title_head = "ทวียนต์ ";
+                        // title_head = "ทวียนต์";
+                        status = true;
                       });
                     }
                     break;
