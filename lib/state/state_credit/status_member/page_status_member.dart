@@ -215,7 +215,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     });
   }
 
-  clearDialog() {  
+  clearDialog() {
     setState(() {
       id = '1';
       st_customer = true;
@@ -260,7 +260,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
-            'limit': '20'
+            'limit': '40'
           }),
         );
 
@@ -713,7 +713,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
               ),
             ),
           ),
-        ), 
+        ),
       ),
     );
   }
@@ -1557,8 +1557,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               smartId.text.isEmpty &&
                               custName.text.isEmpty &&
                               lastnamecust.text.isEmpty) {
-                            showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
                           } else {
                             showProgressLoading(context);
                             getData_CusMember();
@@ -1645,8 +1645,11 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: smartId,
+          keyboardType: TextInputType.number,
+          maxLength: 13,
           onChanged: (keyword) {},
           decoration: InputDecoration(
+            counterText: "",
             contentPadding: EdgeInsets.all(4),
             isDense: true,
             enabledBorder: border,

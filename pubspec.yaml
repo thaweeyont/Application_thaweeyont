@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.16.1
   buddhist_datetime_dateformat: ^1.0.6
   package_info_plus: ^3.0.1
+  upgrader: ^5.0.0
 
 dev_dependencies:
   flutter_test:

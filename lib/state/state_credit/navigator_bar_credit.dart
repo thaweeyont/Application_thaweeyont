@@ -265,6 +265,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                     setState(() {
                       _selectedIndex = 3;
                       title_head = "เช็คผลการพิจารณาสินเชื่อ";
+                      status = false;
                     });
                     break;
                   case 4:

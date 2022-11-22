@@ -1080,8 +1080,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                               smartId.text.isEmpty &&
                               custName.text.isEmpty &&
                               lastname_cust.text.isEmpty) {
-                            showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
                           } else {
                             var newStratDate =
                                 start_date.text.replaceAll('-', '');
@@ -1380,8 +1380,11 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: smartId,
+          keyboardType: TextInputType.number,
+          maxLength: 13,
           onChanged: (keyword) {},
           decoration: InputDecoration(
+            counterText: "",
             contentPadding: EdgeInsets.all(4),
             isDense: true,
             enabledBorder: border,

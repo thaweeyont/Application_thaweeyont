@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:ui';
 
 import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
@@ -5,6 +6,7 @@ import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:upgrader/upgrader.dart';
 
 class Home_credit extends StatefulWidget {
   const Home_credit({Key? key}) : super(key: key);
@@ -224,3 +226,26 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 }
+
+// class CheckUpdate extends StatelessWidget {
+//   const CheckUpdate({
+//     Key? key,
+//   }) : super(key: key);
+// ;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: UpgradeAlert(
+//         upgrader: Upgrader(
+//           durationUntilAlertAgain: const Duration(days: 1),
+//           dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material
+//         ),
+//         child: Center(
+//           child: Column(children: [
+//             Text('test'),
+//           ]),
+//         ),
+//       ),
+//     );
+//   }
+// }

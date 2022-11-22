@@ -29,6 +29,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   var selectValue_customer,
       selectvalue_saletype,
       select_branchlist,
+      select_index_approve,
       select_status;
   var filter_search = false;
   List list_datavalue = [],
@@ -54,10 +55,10 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     super.initState();
     Intl.defaultLocale = 'th';
     initializeDateFormatting();
+    getdata();
     setState(() {
       id = '1';
     });
-    getdata();
   }
 
   Future<Null> getdata() async {
@@ -90,7 +91,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           'branchId': select_branchlist,
           'startDate': start_date,
           'endDate': end_date,
-          'approveStatus': select_status.toString(),
+          'approveStatus': select_index_approve.toString(),
           'page': '1',
           'limit': '20'
         }),
@@ -227,6 +228,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             new Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_status = data_statusApprove['data'];
+          select_index_approve = dropdown_status[0]['id'];
         });
 
         print(dropdown_status);
@@ -275,7 +277,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     setState(() {
       list_approve = [];
       select_branchlist = null;
-      select_status = null;
+      // select_status = null;
       valueStatus = null;
     });
   }
@@ -1079,27 +1081,17 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           if (custId.text.isEmpty &&
                               idcard.text.isEmpty &&
                               custName.text.isEmpty &&
-                              lastname_cust.text.isEmpty &&
-                              select_branchlist == null &&
-                              start_date.text.isEmpty &&
-                              end_date.text.isEmpty &&
-                              select_status == null) {
-                            showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
+                              lastname_cust.text.isEmpty) {
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
                           } else {
-                            if (select_status == null) {
-                              showProgressDialog(context, 'แจ้งเตือน',
-                                  'กรุณาเลือกผลการพิจารณา');
-                            } else {
-                              var newStratDate =
-                                  start_date.text.replaceAll('-', '');
-                              var newEndDate =
-                                  end_date.text.replaceAll('-', '');
-                              print('s==>> $newStratDate');
-                              print('e==>> $newEndDate');
-                              showProgressLoading(context);
-                              getData_approve(newStratDate, newEndDate);
-                            }
+                            var newStratDate =
+                                start_date.text.replaceAll('-', '');
+                            var newEndDate = end_date.text.replaceAll('-', '');
+                            print('s==>> $newStratDate');
+                            print('e==>> $newEndDate');
+                            showProgressLoading(context);
+                            getData_approve(newStratDate, newEndDate);
                           }
                         },
                         child: const Text('ค้นหา'),
@@ -1174,6 +1166,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: idcard,
+          keyboardType: TextInputType.number,
+          maxLength: 13,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
@@ -1410,10 +1404,10 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                   .toList(),
               onChanged: (newvalue) {
                 setState(() {
-                  select_status = newvalue;
+                  select_index_approve = newvalue;
                 });
               },
-              value: select_status,
+              value: select_index_approve,
               isExpanded: true,
               underline: SizedBox(),
               hint: Align(
