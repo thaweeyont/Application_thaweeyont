@@ -28,11 +28,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   List dropdown_customer = [];
   List dropdown_saletype = [];
   List list_datavalue = [];
-  List list_dataBuyTyle = [];
+  List list_dataBuyTyle = [], list_test = [];
   var selectValue_customer;
   var selectvalue_saletype, select_index_saletype;
   var valueStatus, valueNotdata;
   var Texthint, list_sort, list;
+  var list_1, total;
   int sumbill = 0;
   // ProductTypeEum? _productTypeEum;
   String? id = '1';
@@ -172,9 +173,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
 
         setState(() {
           list_dataBuyTyle = dataBuylist['data'];
-          // totalbill();
         });
-
+        // totalbill();
         Navigator.pop(context);
         print(list_dataBuyTyle);
       } else if (respose.statusCode == 400) {
@@ -787,15 +787,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  void totalbill() {
-    var list_1, total;
+  totalbill() {
     for (var i = 0; i < list_dataBuyTyle.length; i++) {
-      list_1 = [list_dataBuyTyle[i]['billTotal']].reduce(
-        (a, b) => a + b,
-      );
+      list_1 = [list_dataBuyTyle[i]['billTotal']];
+      total = total + list_1;
+      print('sum > ${total}');
     }
-    total = total + list_1;
-    print('sum > ${total}');
   }
 
   @override

@@ -81,15 +81,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         setState(() {
           status = true;
 
-          if (Debtordetail['quarantee']['1'] != null) {
+          if (Debtordetail['quarantee']['1'].toString() != "[]") {
             list_quarantee1 =
                 new Map<String, dynamic>.from(Debtordetail['quarantee']['1']);
           }
-          if (Debtordetail['quarantee']['2'] != null) {
+          if (Debtordetail['quarantee']['2'].toString() != "[]") {
             list_quarantee2 =
                 new Map<String, dynamic>.from(Debtordetail['quarantee']['2']);
           }
-          if (Debtordetail['quarantee']['3'] != null) {
+          if (Debtordetail['quarantee']['3'].toString() != "[]") {
             list_quarantee3 =
                 new Map<String, dynamic>.from(Debtordetail['quarantee']['3']);
           }
@@ -466,7 +466,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       children: <Widget>[
                         //ผู้ค้ำที1
                         SingleChildScrollView(
-                          child: Debtordetail['quarantee']['1'] == null
+                          child: list_quarantee1 == null
                               ? Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.25,
@@ -502,11 +502,21 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         height: 5,
                                       ),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              'ชื่อ-สกุล : ${list_quarantee1!['name']}',
+                                            'ชื่อ-สกุล : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${list_quarantee1!['name']}',
+                                              overflow: TextOverflow.clip,
                                               style:
-                                                  MyContant().h4normalStyle()),
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          )
                                         ],
                                       ),
                                       SizedBox(
@@ -579,7 +589,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                         //ผู้ค้ำที่2
                         SingleChildScrollView(
-                          child: Debtordetail['quarantee']['2'] == null
+                          child: list_quarantee2 == null
                               ? Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.25,
@@ -615,11 +625,21 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         height: 5,
                                       ),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              'ชื่อ-สกุล : ${list_quarantee2!['name']}',
+                                            'ชื่อ-สกุล : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${list_quarantee2!['name']}',
+                                              overflow: TextOverflow.clip,
                                               style:
-                                                  MyContant().h4normalStyle()),
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          )
                                         ],
                                       ),
                                       SizedBox(
@@ -692,7 +712,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                         //ผู้ค้ำที่3
                         SingleChildScrollView(
-                          child: Debtordetail['quarantee']['3'] == null
+                          child: list_quarantee3 == null
                               ? Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.25,
@@ -728,11 +748,21 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         height: 5,
                                       ),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              'ชื่อ-สกุล : ${list_quarantee3!['name']}',
+                                            'ชื่อ-สกุล : ${list_quarantee3!['name']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${list_quarantee3!['name']}',
+                                              overflow: TextOverflow.clip,
                                               style:
-                                                  MyContant().h4normalStyle()),
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       SizedBox(

@@ -2150,7 +2150,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                 Row(
                                   children: [
                                     Text(
-                                      'รหัสเขต : ${list_dataDebtor[i]['followAreaName']}',
+                                      'สาขาที่ออกขาย : ${list_dataDebtor[i]['branchName']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -2172,7 +2172,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                 Row(
                                   children: [
                                     Text(
-                                      'ชื่อลูกค้าในสัญญา : ${list_dataDebtor[i]['custName']}',
+                                      'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -2192,9 +2192,80 @@ class _Query_debtorState extends State<Query_debtor> {
                                   height: 5,
                                 ),
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'ชื่อลูกค้าปัจจุบัน : ${list_dataDebtor[i]['custSignName']}',
+                                      'ชื่อลูกค้าในสัญญา : ',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        '${list_dataDebtor[i]['custName']}',
+                                        overflow: TextOverflow.clip,
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'สินค้าที่ซื้อ : ',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        '${list_dataDebtor[i]['itemName']}',
+                                        overflow: TextOverflow.clip,
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'เงินดาวน์/งวดแรก : ${list_dataDebtor[i]['downPrice']}  บาท',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'ส่งเดือนละ : ${list_dataDebtor[i]['periodPrice']}  บาท',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'ระยเวลา : ${list_dataDebtor[i]['periodCount']}  งวด',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'กำหนดชำระทุกวันที่ : ${list_dataDebtor[i]['periodDay']}  ของเดือน',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                   ],
@@ -2206,12 +2277,12 @@ class _Query_debtorState extends State<Query_debtor> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'ชื่อสินค้า : ',
+                                      'หมายเหตุ : ',
                                       style: MyContant().h4normalStyle(),
                                     ),
                                     Expanded(
                                       child: Text(
-                                        '${list_dataDebtor[i]['itemName']}',
+                                        'เกินกำหนดชำระค่างวด 3 วัน มีเบี้ยปรับ+ค่าทวงถาม',
                                         overflow: TextOverflow.clip,
                                         style: MyContant().h4normalStyle(),
                                       ),
@@ -2236,12 +2307,6 @@ class _Query_debtorState extends State<Query_debtor> {
                       ),
                     ],
                   ],
-                  // else ...[
-                  //   if (debtorStatuscode == 404 || debtorStatuscode == 500) ...[
-                  //     notData(context),
-                  //   ] else
-                  //     ...[],
-                  // ],
                 ],
               ),
             ),

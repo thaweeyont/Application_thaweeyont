@@ -93,7 +93,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           'endDate': end_date,
           'approveStatus': select_index_approve.toString(),
           'page': '1',
-          'limit': '20'
+          'limit': '100'
         }),
       );
       print(custId.text);
