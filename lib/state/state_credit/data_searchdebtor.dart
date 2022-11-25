@@ -116,8 +116,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
           list_payDetail = Debtordetail['payDetail'];
         });
-        // Navigator.pop(context);
-        // print(list_quarantee1['smartId']);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -152,6 +150,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
       // else {
       //   print(respose.statusCode);
@@ -174,7 +174,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       // }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -1438,7 +1439,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     height: 5,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1477,7 +1478,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     height: 5,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -2087,16 +2088,21 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             for (var i = 0; i < list_payDetail.length; i++) ...[
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Pay_installment(
-                        Debtordetail['signId'],
-                        list_payDetail[i]['periodNo'],
-                        list_payDetail,
+                  if (list_payDetail[i]['periodNo'] == 'D') {
+                    showProgressDialog(context, 'แจ้งเตือน',
+                        'เงินดาวน์ ${list_payDetail[i]['periodPrice']} บาท');
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Pay_installment(
+                          Debtordetail['signId'],
+                          list_payDetail[i]['periodNo'],
+                          list_payDetail,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 },
                 child: Padding(
                   padding:

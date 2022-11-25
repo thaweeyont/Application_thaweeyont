@@ -97,12 +97,12 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        setState(() {
-          valueStatus = respose.statusCode;
-        });
+        // setState(() {
+        //   valueStatus = respose.statusCode;
+        // });
         // Navigator.pop(context);
         print(respose.statusCode);
-        print('ไม่พบข้อมูล');
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         // Map<String, dynamic> check_list =
         //     new Map<String, dynamic>.from(json.decode(respose.body));
         // print(respose.statusCode);
@@ -120,7 +120,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         // }
       }
     } catch (e) {
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       print("ไม่มีข้อมูล $e");
     }
   }
@@ -193,6 +194,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
       // else {
       //   Navigator.pop(context);
@@ -217,7 +220,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -504,11 +508,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       ),
                     ),
                   ],
-                  // else ...[
-                  //   if (valueStatus == 404 || valueStatus == 500) ...[
-                  //     notData(context),
-                  //   ],
-                  // ],
                   if (list_signDetail.isNotEmpty) ...[
                     slidemenu(context),
                     if (active_cl1 == true) ...[

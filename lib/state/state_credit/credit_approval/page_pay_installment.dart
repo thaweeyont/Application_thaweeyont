@@ -106,8 +106,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -116,15 +115,13 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        setState(() {
-          status = false;
-          debtorStatuscode = respose.statusCode;
-        });
-        print('#=> $debtorStatuscode');
-        Navigator.pop(context);
-        print(respose.body);
+        // setState(() {
+        //   status = false;
+        //   debtorStatuscode = respose.statusCode;
+        // });
+        // Navigator.pop(context);
         print(respose.statusCode);
-        print('ไม่พบข้อมูล');
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         // Map<String, dynamic> check_list =
         //     new Map<String, dynamic>.from(json.decode(respose.body));
         // print(respose.statusCode);
@@ -143,7 +140,8 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -194,10 +192,23 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
               padding: const EdgeInsets.all(8.0),
               child: status == false
                   ? Center(
-                      child: debtorStatuscode == 404
-                          ? notData(context)
-                          : Container(),
-                    )
+                      child: Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'ไม่พบข้อมูล',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ))
                   : Container(
                       padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(

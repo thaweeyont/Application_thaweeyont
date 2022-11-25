@@ -24,7 +24,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   List list_address = [];
   var selectValue_customer,
       selectvalue_saletype,
-      valueStatus,
       valueNotdata,
       Texthint,
       valueaddress;
@@ -116,12 +115,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        setState(() {
-          valueStatus = respose.statusCode;
-        });
-        Navigator.pop(context);
         print(respose.statusCode);
-        print('ไม่พบข้อมูล');
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         // Map<String, dynamic> check_list =
         //     new Map<String, dynamic>.from(json.decode(respose.body));
         // print(respose.statusCode);
@@ -141,7 +136,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -167,7 +163,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -211,7 +208,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     lastnamecust.clear();
     setState(() {
       list_dataMember.clear();
-      valueStatus = null;
     });
   }
 
@@ -303,6 +299,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           print(respose.statusCode);
           showProgressDialog_500(context, 'แจ้งเตือน',
               'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+        } else {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         }
         // else {
         //   setState(() {
@@ -330,7 +328,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         // }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_Notdata(
+            context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       }
     }
 
@@ -1481,12 +1480,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                 ],
               ],
             ],
-            // else ...[
-            //   if (valueStatus == 404) ...[
-            //     notData(context),
-            //   ] else
-            //     ...[],
-            // ],
             SizedBox(
               height: 25,
             ),

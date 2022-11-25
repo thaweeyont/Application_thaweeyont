@@ -82,6 +82,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -139,7 +141,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       // }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -206,12 +209,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        setState(() {
-          valueStatus = respose.statusCode;
-        });
-        Navigator.pop(context);
+        // setState(() {
+        //   valueStatus = respose.statusCode;
+        // });
+        // Navigator.pop(context);
         print(respose.statusCode);
-        // print(respose.body);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         // print('ไม่พบข้อมูล');
         // Map<String, dynamic> check_list =
         //     new Map<String, dynamic>.from(json.decode(respose.body));
@@ -232,7 +235,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -274,7 +278,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     setState(() {
       // selectvalue_saletype = null;
       list_dataBuyTyle.clear();
-      valueStatus = null;
     });
   }
 
@@ -351,6 +354,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           print(respose.statusCode);
           showProgressDialog_500(context, 'แจ้งเตือน',
               'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+        } else {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         }
         // else {
         //   setState(() {
@@ -378,7 +383,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         // }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_Notdata(
+            context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       }
     }
 
@@ -1043,12 +1049,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                   height: 25,
                 ),
               ],
-              // else ...[
-              //   if (valueStatus == 404) ...[
-              //     notData(context),
-              //   ] else
-              //     ...[]
-              // ],
             ],
           ),
         ),

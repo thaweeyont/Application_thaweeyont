@@ -64,7 +64,7 @@ class _Pay_installmentState extends State<Pay_installment> {
   Future<void> getData_payDetail(signId, String period) async {
     print(tokenId);
     print(signId);
-    print(period);
+    print('งวดที่ => ${period}');
 
     try {
       var respose = await http.post(
@@ -109,8 +109,7 @@ class _Pay_installmentState extends State<Pay_installment> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -119,14 +118,14 @@ class _Pay_installmentState extends State<Pay_installment> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
       } else {
-        setState(() {
-          status = false;
-          debtorStatuscode = respose.statusCode;
-        });
-        Navigator.pop(context);
-        print(respose.body);
         print(respose.statusCode);
-        print('ไม่พบข้อมูล');
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        // setState(() {
+        //   status = false;
+        //   debtorStatuscode = respose.statusCode;
+        // });
+        // Navigator.pop(context);
+        // print('ไม่พบข้อมูล');
         // Map<String, dynamic> check_list =
         //     new Map<String, dynamic>.from(json.decode(respose.body));
         // print(respose.statusCode);
@@ -144,8 +143,10 @@ class _Pay_installmentState extends State<Pay_installment> {
         // }
       }
     } catch (e) {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 

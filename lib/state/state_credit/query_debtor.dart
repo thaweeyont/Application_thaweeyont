@@ -187,10 +187,11 @@ class _Query_debtorState extends State<Query_debtor> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        setState(() {
-          debtorStatuscode = respose.statusCode;
-        });
-        Navigator.pop(context);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        // setState(() {
+        //   debtorStatuscode = respose.statusCode;
+        // });
+        // Navigator.pop(context);
         // print(respose.body);
         // print(respose.statusCode);
         // print('ไม่พบข้อมูล');
@@ -213,7 +214,8 @@ class _Query_debtorState extends State<Query_debtor> {
     } catch (e) {
       Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -268,10 +270,12 @@ class _Query_debtorState extends State<Query_debtor> {
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -335,13 +339,15 @@ class _Query_debtorState extends State<Query_debtor> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        Navigator.pop(context);
+        // Navigator.pop(context);
         print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -422,16 +428,18 @@ class _Query_debtorState extends State<Query_debtor> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
       } else {
-        setState(() {
-          checkStatuscode = respose.statusCode;
-        });
-        Navigator.pop(context);
+        // setState(() {
+        //   checkStatuscode = respose.statusCode;
+        // });
+        // Navigator.pop(context);
         print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -461,6 +469,8 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -489,6 +499,8 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -516,6 +528,8 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -556,6 +570,8 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -572,7 +588,6 @@ class _Query_debtorState extends State<Query_debtor> {
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
             new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(data['data'][1]['id']);
         setState(() {
           dropdown_customer = data['data'];
         });
@@ -581,6 +596,8 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -601,7 +618,6 @@ class _Query_debtorState extends State<Query_debtor> {
       select_debtorType = null;
       select_signStatus = null;
       select_branchlist = null;
-      // select_addreessType = dropdown_addresstype[0]['id'];
       list_dataDebtor = [];
       debtorStatuscode = null;
     });
@@ -815,6 +831,10 @@ class _Query_debtorState extends State<Query_debtor> {
                                                 }
                                               } catch (e) {
                                                 print("ไม่มีข้อมูล $e");
+                                                showProgressDialog_Notdata(
+                                                    context,
+                                                    'แจ้งเตือน',
+                                                    'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
                                               }
                                               // print(selectValue_province);
                                             },
@@ -1344,34 +1364,35 @@ class _Query_debtorState extends State<Query_debtor> {
                                         ),
                                       ),
                                     ],
-                                  ] else ...[
-                                    if (checkStatuscode == 404) ...[
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.4,
-                                        // color: Colors.blue,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'ไม่พบข้อมูล',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ] else
-                                      ...[],
                                   ],
+                                  // else ...[
+                                  //   if (checkStatuscode == 404) ...[
+                                  //     Container(
+                                  //       height:
+                                  //           MediaQuery.of(context).size.height *
+                                  //               0.4,
+                                  //       // color: Colors.blue,
+                                  //       child: Column(
+                                  //         mainAxisAlignment:
+                                  //             MainAxisAlignment.center,
+                                  //         children: [
+                                  //           Row(
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment.center,
+                                  //             children: [
+                                  //               Text(
+                                  //                 'ไม่พบข้อมูล',
+                                  //                 style: MyContant()
+                                  //                     .h4normalStyle(),
+                                  //               ),
+                                  //             ],
+                                  //           )
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ] else
+                                  //     ...[],
+                                  // ],
                                 ],
                               ),
                             ),

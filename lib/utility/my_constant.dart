@@ -319,16 +319,6 @@ Future<Null> showProgressDialog_401(
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              // SharedPreferences preferences =
-              //     await SharedPreferences.getInstance();
-              // preferences.clear();
-              // Navigator.pushAndRemoveUntil(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => Authen(),
-              //   ),
-              //   (Route<dynamic> route) => false,
-              // );
             },
             child: Column(
               children: [

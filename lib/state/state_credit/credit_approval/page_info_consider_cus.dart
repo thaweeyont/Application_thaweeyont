@@ -25,7 +25,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       active_mu2 = false,
       active_mu3 = false,
       active_mu4 = false;
-  var Debtordetail, status = false, dataDebnote, debtorStatuscode;
+  var Debtordetail,
+      status = false,
+      dataDebnote,
+      debtorStatuscode,
+      status_check404 = false;
   List list_payDetail = [], data_service = [];
   Map<String, dynamic>? list_quarantee1,
       list_quarantee2,
@@ -144,6 +148,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        status_check404 = true;
         print(respose.statusCode);
         showProgressDialog_404(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
@@ -154,6 +159,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
       // else {
       //   setState(() {
@@ -182,7 +189,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -233,7 +241,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       ),
       body: status == false
           ? Center(
-              child: debtorStatuscode == 404 || debtorStatuscode == 500
+              child: status_check404 == true
                   ? Container(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: Column(
@@ -1103,7 +1111,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: 5,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1144,7 +1152,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: 5,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1740,15 +1748,20 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           for (var i = 0; i < list_payDetail.length; i++) ...[
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Page_Pay_Installment(
-                        Debtordetail['signId'],
-                        list_payDetail[i]['periodNo'],
-                        list_payDetail),
-                  ),
-                );
+                if (list_payDetail[i]['periodNo'] == 'D') {
+                  showProgressDialog(context, 'แจ้งเตือน',
+                      'เงินดาวน์ ${list_payDetail[i]['periodPrice']} บาท');
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Page_Pay_Installment(
+                          Debtordetail['signId'],
+                          list_payDetail[i]['periodNo'],
+                          list_payDetail),
+                    ),
+                  );
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),

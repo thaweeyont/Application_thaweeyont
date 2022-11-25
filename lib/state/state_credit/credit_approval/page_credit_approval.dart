@@ -112,7 +112,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         Navigator.pop(context);
 
         print('==>> $list_approve');
-        print(valueStatus);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -142,13 +141,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        setState(() {
-          valueStatus = respose.statusCode;
-        });
-        Navigator.pop(context);
+        // setState(() {
+        //   valueStatus = respose.statusCode;
+        // });
+        // Navigator.pop(context);
         print(respose.statusCode);
-        print(respose.body);
-        print('ไม่พบข้อมูล');
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         // Map<String, dynamic> check_list =
         //     new Map<String, dynamic>.from(json.decode(respose.body));
         // print(respose.statusCode);
@@ -167,7 +165,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -208,7 +207,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -237,7 +237,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -263,7 +264,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -278,7 +280,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       list_approve = [];
       select_branchlist = null;
       // select_status = null;
-      valueStatus = null;
     });
   }
 
@@ -370,6 +371,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           print(respose.statusCode);
           showProgressDialog_500(context, 'แจ้งเตือน',
               'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+        } else {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         }
         // else {
         //   setState(() {
@@ -398,7 +401,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       } catch (e) {
         // Navigator.pop(context);
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_Notdata(
+            context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       }
     }
 
@@ -769,13 +773,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                         ),
                                       ),
                                     ],
-                                  ]
-                                  // else ...[
-                                  //   if (valueNotdata == 404) ...[
-                                  //     notData(context),
-                                  //   ] else
-                                  //     ...[],
-                                  // ],
+                                  ],
                                 ],
                               ),
                             ),
@@ -1038,12 +1036,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           ),
                         )
                       ],
-                    ]
-                    // else ...[
-                    //   if (valueStatus == 404 || valueStatus == 500) ...[
-                    //     notData(context),
-                    //   ],
-                    // ],
+                    ],
                   ],
                 ),
               ),
