@@ -214,7 +214,7 @@ class _Query_debtorState extends State<Query_debtor> {
     } catch (e) {
       Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }

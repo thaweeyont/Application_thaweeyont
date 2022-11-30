@@ -87,7 +87,7 @@ class _Pay_installmentState extends State<Pay_installment> {
           status = true;
           payDetail = dataPayDetail['data'][0];
         });
-
+        print(payDetail);
         Navigator.pop(context);
         print('#data# $period == >> $payDetail');
       } else if (respose.statusCode == 400) {
@@ -195,22 +195,23 @@ class _Pay_installmentState extends State<Pay_installment> {
               child: status == false
                   ? Center(
                       child: Container(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'ไม่พบข้อมูล',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          )
-                        ],
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ไม่พบข้อมูล',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ))
+                    )
                   : Container(
                       decoration: BoxDecoration(
                         color: Color.fromRGBO(255, 218, 249, 1),

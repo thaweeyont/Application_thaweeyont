@@ -871,10 +871,20 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       height: 5,
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            'อาชีพ : ${list_quarantee1!['career']}',
-                                            style: MyContant().h4normalStyle()),
+                                          'อาชีพ : ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_quarantee1!['career']}',
+                                            overflow: TextOverflow.clip,
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -977,10 +987,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_quarantee2!['workADdress']}',
-                                            overflow: TextOverflow.clip,
-                                            style: MyContant().h4normalStyle(),
-                                          ),
+                                              '${list_quarantee2!['workADdress']}'),
                                         ),
                                       ],
                                     ),
@@ -988,10 +995,20 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       height: 5,
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                            'อาชีพ : ${list_quarantee2!['career']}',
-                                            style: MyContant().h4normalStyle()),
+                                          'อาชีพ : ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_quarantee2!['career']}',
+                                            overflow: TextOverflow.clip,
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -1105,10 +1122,19 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       height: 5,
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'อาชีพ : ${list_quarantee3!['career']}',
+                                          'อาชีพ : ',
                                           style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_quarantee3!['career']}',
+                                            overflow: TextOverflow.clip,
+                                            style: MyContant().h4normalStyle(),
+                                          ),
                                         ),
                                       ],
                                     ),

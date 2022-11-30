@@ -29,6 +29,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   List dropdown_saletype = [];
   List list_datavalue = [];
   List list_dataBuyTyle = [], list_test = [];
+  List totalbill = [];
+  List<int> lint = [];
   var selectValue_customer;
   var selectvalue_saletype, select_index_saletype;
   var valueStatus, valueNotdata;
@@ -179,7 +181,25 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         });
         // totalbill();
         Navigator.pop(context);
-        print(list_dataBuyTyle);
+        // print(list_dataBuyTyle);
+        // ------ sum billTotal ---------------------------------------
+        totalbill = [];
+        List<dynamic> bill =
+            list_dataBuyTyle.map((e) => e['billTotal']).toList();
+        // print('>>>${list_dataBuyTyle}');
+        bill.forEach((element) {
+          totalbill.add(element);
+        });
+        setState(() {
+          totalbill = totalbill;
+        });
+        print('bill >> ${totalbill}');
+        List<int> list = bill.cast<int>();
+        // int number = list.reduce((a, b) => a + b);
+        List<int> number = totalbill.map((e) => int.parse(e)).toList();
+
+        print('sum >${number}');
+        //-------------------------------------------------------------
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -235,7 +255,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     } catch (e) {
       // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -791,14 +811,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         ),
       ),
     );
-  }
-
-  totalbill() {
-    for (var i = 0; i < list_dataBuyTyle.length; i++) {
-      list_1 = [list_dataBuyTyle[i]['billTotal']];
-      total = total + list_1;
-      print('sum > ${total}');
-    }
   }
 
   @override
