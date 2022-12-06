@@ -178,14 +178,14 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         // setState(() {
@@ -243,7 +243,7 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -260,14 +260,14 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
@@ -313,7 +313,7 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print('select_district >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -330,14 +330,14 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         // Navigator.pop(context);
         print(respose.statusCode);
@@ -406,7 +406,7 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
@@ -419,24 +419,19 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ถูกยกเลิกสัญญา');
+            context, 'แจ้งเตือน', '${respose.statusCode} ถูกยกเลิกสัญญา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else {
-        // setState(() {
-        //   checkStatuscode = respose.statusCode;
-        // });
-        // Navigator.pop(context);
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -725,15 +720,6 @@ class _Query_debtorState extends State<Query_debtor> {
                             padding: EdgeInsets.all(8),
                             width: double.infinity,
                             child: Column(children: [
-                              // Row(
-                              //   children: [
-                              //     Text(
-                              //       'ภาค',
-                              //       style: MyContant().h4normalStyle(),
-                              //     ),
-                              //     select_sectorDia(context, setState),
-                              //   ],
-                              // ),
                               Row(
                                 children: [
                                   Text(
@@ -1456,7 +1442,7 @@ class _Query_debtorState extends State<Query_debtor> {
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
-              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
         } else if (respose.statusCode == 401) {
           print('${respose.statusCode}');
           SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -1473,14 +1459,14 @@ class _Query_debtorState extends State<Query_debtor> {
         } else if (respose.statusCode == 404) {
           print(respose.statusCode);
           showProgressDialog_404(
-              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล');
+              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
         } else if (respose.statusCode == 500) {
           print(respose.statusCode);
-          showProgressDialog_500(context, 'แจ้งเตือน',
-              'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+          showProgressDialog_500(
+              context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
         }
         // else {
         //   setState(() {
@@ -1507,7 +1493,6 @@ class _Query_debtorState extends State<Query_debtor> {
         // }
         // }
       } catch (e) {
-        // Navigator.pop(context);
         print("ไม่มีข้อมูล $e");
         showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       }
@@ -1664,8 +1649,6 @@ class _Query_debtorState extends State<Query_debtor> {
                               if (st_customer == true) ...[
                                 Row(
                                   children: [
-                                    // Text('ชื่อ'),
-                                    // select_searchCus(sizeIcon, border),
                                     Expanded(
                                       child: Padding(
                                         padding: const EdgeInsets.all(1),
@@ -1723,10 +1706,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                         ),
                                       ),
                                     ),
-                                    // Text('สกุล'),
                                     input_searchCus(sizeIcon, border),
-                                    //lastname
-                                    // Text(selectValue_customer),
                                     if (selectValue_customer.toString() ==
                                         "2") ...[
                                       input_lastnameCus(sizeIcon, border)
@@ -1799,12 +1779,9 @@ class _Query_debtorState extends State<Query_debtor> {
                                             () {
                                               custId.text =
                                                   list_datavalue[i]['custId'];
-                                              // custName.text =
-                                              //     list_datavalue[i]['custName'];
                                             },
                                           );
                                           Navigator.pop(context);
-                                          // list_signDetail = [];
                                         },
                                         child: Container(
                                           margin:
@@ -1880,12 +1857,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                       ),
                                     ],
                                   ],
-                                  // else ...[
-                                  //   if (valueNotdata == 404) ...[
-                                  //     notData(context),
-                                  //   ] else
-                                  //     ...[],
-                                  // ],
                                 ],
                               ),
                             ),

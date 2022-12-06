@@ -76,7 +76,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -93,36 +93,15 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       }
-      // else {
-      //   Navigator.pop(context);
-      //   print(respose.statusCode);
-      //   print('ไม่พบข้อมูล');
-
-      //   // Map<String, dynamic> check_list =
-      //   //     new Map<String, dynamic>.from(json.decode(respose.body));
-      //   // print(respose.statusCode);
-      //   // print(check_list['message']);
-      //   // if (check_list['message'] == "Token Unauthorized") {
-      //   //   SharedPreferences preferences = await SharedPreferences.getInstance();
-      //   //   preferences.clear();
-      //   //   Navigator.pushAndRemoveUntil(
-      //   //     context,
-      //   //     MaterialPageRoute(
-      //   //       builder: (context) => Authen(),
-      //   //     ),
-      //   //     (Route<dynamic> route) => false,
-      //   //   );
-      //   // }
-      // }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -183,29 +162,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                         input_idcard(sizeIcon, border),
                       ],
                     ),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       'ชื่อ',
-                    //       style: MyContant().h4normalStyle(),
-                    //     ),
-                    //     input_name(sizeIcon, border),
-                    //     Text(
-                    //       'สกุล',
-                    //       style: MyContant().h4normalStyle(),
-                    //     ),
-                    //     input_lastname(sizeIcon, border),
-                    //   ],
-                    // ),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       'รหัส Blacklist',
-                    //       style: MyContant().h4normalStyle(),
-                    //     ),
-                    //     input_idblacklist(sizeIcon, border),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
@@ -230,14 +186,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                     if (list_Blacklist.isNotEmpty) ...[
                       for (var i = 0; i < list_Blacklist.length; i++) ...[
                         InkWell(
-                          onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => Page_Info_Consider_Cus(),
-                            //   ),
-                            // );
-                          },
+                          onTap: () {},
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 2),
@@ -307,12 +256,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                           ),
                         ),
                       ],
-                    ]
-                    // else ...[
-                    //   if (valueStatus == 404) ...[
-                    //     notData(context),
-                    //   ],
-                    // ],
+                    ],
                   ],
                 ),
               ),

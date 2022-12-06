@@ -127,6 +127,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle Textversion() => TextStyle(
+        fontSize: 12,
+        color: Color.fromARGB(255, 163, 163, 163),
+        fontWeight: FontWeight.normal,
+        // fontFamily: 'Prompt',
+      );
 
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(76, 83, 146, 1),

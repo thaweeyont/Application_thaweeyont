@@ -179,9 +179,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         setState(() {
           list_dataBuyTyle = dataBuylist['data'];
         });
-        // totalbill();
         Navigator.pop(context);
-        // print(list_dataBuyTyle);
+
         // ------ sum billTotal ---------------------------------------
         totalbill = [];
         List<dynamic> bill =
@@ -196,14 +195,14 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         print('bill >> ${totalbill}');
         List<int> list = bill.cast<int>();
         // int number = list.reduce((a, b) => a + b);
-        List<int> number = totalbill.map((e) => int.parse(e)).toList();
+        // List<int> number = totalbill.map((e) => int.parse(e)).toList();
 
-        print('sum >${number}');
+        // print('sum >${number}');
         //-------------------------------------------------------------
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print('customer >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -220,14 +219,14 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         // setState(() {
         //   valueStatus = respose.statusCode;
@@ -253,7 +252,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         // }
       }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');

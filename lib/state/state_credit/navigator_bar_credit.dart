@@ -317,7 +317,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               drawerIcon(size),
               // SizedBox(height: 45),
               navigator_cradit(context, size),
-              ShowVersion(),
+              // ShowVersion(),
               btn_exit()
             ],
           ),

@@ -17,7 +17,7 @@ class _ShowVersionState extends State<ShowVersion> {
     version: 'Unknown',
     buildNumber: 'Unknown',
     buildSignature: 'Unknown',
-    installerStore: 'Unknown',
+    // installerStore: 'Unknown',
   );
 
   @override

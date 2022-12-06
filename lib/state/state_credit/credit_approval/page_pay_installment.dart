@@ -90,7 +90,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -113,30 +113,10 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        // setState(() {
-        //   status = false;
-        //   debtorStatuscode = respose.statusCode;
-        // });
-        // Navigator.pop(context);
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences = await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");

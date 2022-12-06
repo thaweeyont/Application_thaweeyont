@@ -71,7 +71,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -88,36 +88,17 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        // setState(() {
-        //   valueStatus = respose.statusCode;
-        // });
-        // Navigator.pop(context);
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences = await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
       }
     } catch (e) {
       showProgressDialog_Notdata(
@@ -186,39 +167,18 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
-      // else {
-      //   Navigator.pop(context);
-      //   print(respose.statusCode);
-      //   print('ไม่พบข้อมูล');
-      // Map<String, dynamic> check_list =
-      //     new Map<String, dynamic>.from(json.decode(respose.body));
-      // print(respose.statusCode);
-      // print(check_list['message']);
-      // if (check_list['message'] == "Token Unauthorized") {
-      //   SharedPreferences preferences = await SharedPreferences.getInstance();
-      //   preferences.clear();
-      //   Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => Authen(),
-      //     ),
-      //     (Route<dynamic> route) => false,
-      //   );
-      // }
-      // }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -345,11 +305,21 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             height: 5,
                                           ),
                                           Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'ชื่อลูกค้า : ${valueapprove['custName']}',
+                                                'ชื่อลูกค้า : ',
                                                 style:
                                                     MyContant().h4normalStyle(),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  '${valueapprove['custName']}',
+                                                  overflow: TextOverflow.clip,
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -526,21 +496,17 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   Container slidemenu(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.07,
-      // margin: EdgeInsets.all(10),
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Row(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
                 onTap: () {
                   menu_list("list_content1");
                 },
                 child: Container(
-                  // margin: EdgeInsets.all(5),
-                  // height: 35,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -564,7 +530,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
-                  // height: 35,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -592,7 +557,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
-                  // height: 35,
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -753,10 +717,18 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             height: 5,
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'ชื่อ-สกุล : ${list_quarantee[i]['custName']}',
+                                'ชื่อ-สกุล : ',
                                 style: MyContant().h4normalStyle(),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${list_quarantee[i]['custName']}',
+                                  overflow: TextOverflow.clip,
+                                  style: MyContant().h4normalStyle(),
+                                ),
                               ),
                             ],
                           ),
@@ -764,10 +736,18 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             height: 5,
                           ),
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'ชื่อ-สกุลในสัญญา : ${list_quarantee[i]['signCustName']}',
+                                'ชื่อ-สกุลในสัญญา : ',
                                 style: MyContant().h4normalStyle(),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${list_quarantee[i]['signCustName']}',
+                                  overflow: TextOverflow.clip,
+                                  style: MyContant().h4normalStyle(),
+                                ),
                               ),
                             ],
                           ),

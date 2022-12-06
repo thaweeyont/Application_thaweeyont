@@ -40,7 +40,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       list_debNote,
       list_law,
       list_regis,
-      list_checker;
+      list_checker,
+      list_paydetailsum;
 
   @override
   void initState() {
@@ -100,7 +101,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           list_itemDetail =
               new Map<String, dynamic>.from(Debtordetail['itemDetail']);
 
-          // print(Debtordetail['debtNote']['service']);
           if (Debtordetail['debtNote']['service'].toString() != "[]") {
             list_service = new Map<String, dynamic>.from(
                 Debtordetail['debtNote']['service']);
@@ -127,13 +127,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           }
 
           list_payDetail = Debtordetail['payDetail'];
+
+          list_paydetailsum =
+              new Map<String, dynamic>.from(Debtordetail['payDetailSummary']);
         });
-        // Navigator.pop(context););
-        print('#==>> $list_payDetail');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -151,7 +152,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         status_check404 = true;
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -162,32 +163,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       } else {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
-      // else {
-      //   setState(() {
-      //     debtorStatuscode = respose.statusCode;
-      //   });
-      //   // Navigator.pop(context);
-      //   print(respose.body);
-      //   print(respose.statusCode);
-      //   print('ไม่พบข้อมูล');
-      // Map<String, dynamic> check_list =
-      //     new Map<String, dynamic>.from(json.decode(respose.body));
-      // print(respose.statusCode);
-      // print(check_list['message']);
-      // if (check_list['message'] == "Token Unauthorized") {
-      //   SharedPreferences preferences = await SharedPreferences.getInstance();
-      //   preferences.clear();
-      //   Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => Authen(),
-      //     ),
-      //     (Route<dynamic> route) => false,
-      //   );
-      // }
-      // }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -296,11 +272,31 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     if (active_mu4 == true) ...[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
+                        child: Column(
                           children: [
-                            Text(
-                              'รายการชำระค่างวด',
-                              style: MyContant().h3Style(),
+                            Row(
+                              children: [
+                                Text(
+                                  'รายการชำระค่างวด',
+                                  style: MyContant().h3Style(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
+                                  style: MyContant().h3Style(),
+                                ),
+                                Text(
+                                  'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
+                                  style: MyContant().h3Style(),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -946,15 +942,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               ),
               child: Column(
                 children: [
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       'รายการสินค้า (หมายเหตุ สินค้าปกติ สินค้าเปลี่ยน สินค้ารับคืน)',
-                  //       style: TextStyle(
-                  //           fontSize: 12, fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ],
-                  // ),
                   SizedBox(
                     height: 5,
                   ),
@@ -1118,23 +1105,31 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  '${Debtordetail['considerNote']}',
-                                  overflow: TextOverflow.clip,
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ),
-                            ],
+                    child: Scrollbar(
+                      child: ListView(
+                        children: [
+                          Container(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          '${Debtordetail['considerNote']}',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -1159,20 +1154,28 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                '${Debtordetail['headNote']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
+                    child: Scrollbar(
+                      child: ListView(
+                        children: [
+                          Container(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '${Debtordetail['headNote']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -1227,7 +1230,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1316,7 +1319,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1403,7 +1406,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: 5,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     padding: EdgeInsets.all(2.0),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
@@ -1492,7 +1495,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1580,7 +1583,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(
@@ -1668,7 +1671,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       borderRadius: BorderRadius.all(

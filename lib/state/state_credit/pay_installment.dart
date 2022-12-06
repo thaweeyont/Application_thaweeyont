@@ -93,7 +93,7 @@ class _Pay_installmentState extends State<Pay_installment> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -116,7 +116,7 @@ class _Pay_installmentState extends State<Pay_installment> {
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else {
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
@@ -143,7 +143,6 @@ class _Pay_installmentState extends State<Pay_installment> {
         // }
       }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');

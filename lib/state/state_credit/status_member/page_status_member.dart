@@ -22,11 +22,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   String? id = '1';
   List list_datavalue = [], list_dataMember = [], dropdown_customer = [];
   List list_address = [];
-  var selectValue_customer,
-      selectvalue_saletype,
-      valueNotdata,
-      Texthint,
-      valueaddress;
+  var selectValue_customer, selectvalue_saletype, Texthint, valueaddress;
 
   TextEditingController custId = TextEditingController();
   TextEditingController custName = TextEditingController();
@@ -106,35 +102,19 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences = await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
       }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -168,39 +148,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     }
   }
 
-  // Future<Null> showProgressLoading(BuildContext context) async {
-  //   showDialog(
-  //     context: context,
-  //     barrierColor: Colors.transparent,
-  //     builder: (context) => WillPopScope(
-  //       child: Center(
-  //         child: Container(
-  //           decoration: BoxDecoration(
-  //             color: Colors.grey.shade400.withOpacity(0.6),
-  //             borderRadius: BorderRadius.all(
-  //               Radius.circular(10),
-  //             ),
-  //           ),
-  //           padding: EdgeInsets.all(80),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               CircularProgressIndicator(),
-  //               Text(
-  //                 'Loading....',
-  //                 style: MyContant().h4normalStyle(),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //       onWillPop: () async {
-  //         return false;
-  //       },
-  //     ),
-  //   );
-  // }
-
   clearValuemembar() {
     custId.clear();
     smartId.clear();
@@ -218,7 +165,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       st_employee = false;
       selectValue_customer = null;
       list_datavalue = [];
-      valueNotdata = null;
       Texthint = '';
     });
     searchData.clear();
@@ -274,7 +220,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
-              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
         } else if (respose.statusCode == 401) {
           print(respose.statusCode);
           SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -291,41 +237,17 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         } else if (respose.statusCode == 404) {
           print(respose.statusCode);
           showProgressDialog_404(
-              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล');
+              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
         } else if (respose.statusCode == 500) {
           print(respose.statusCode);
-          showProgressDialog_500(context, 'แจ้งเตือน',
-              'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+          showProgressDialog_500(
+              context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
         } else {
           showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         }
-        // else {
-        //   setState(() {
-        //     valueNotdata = respose.statusCode;
-        //   });
-        //   Navigator.pop(context);
-        //   print(respose.statusCode);
-        //   print('ไม่พบข้อมูล');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences =
-        //       await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
-        // }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
         showProgressDialog_Notdata(
@@ -694,12 +616,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                       ),
                                     ],
                                   ]
-                                  // else ...[
-                                  //   if (valueNotdata == 404) ...[
-                                  //     notData(context),
-                                  //   ] else
-                                  //     ...[],
-                                  // ],
                                 ],
                               ),
                             ),
@@ -1277,204 +1193,12 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                 ),
                               ],
                             ),
-                            // SizedBox(
-                            //   height: 5,
-                            // ),
-                            // // Row(
-                            // //   children: [
-                            // //     Text(
-                            // //       'บัตร คุณอรทัย ไชยแสน',
-                            // //       style: MyContant().h4normalStyle(),
-                            // //     ),
-                            // //     InkWell(
-                            // //       onTap: () {
-                            // //         view_card_id(sizeIcon, border);
-                            // //       },
-                            // //       child: Container(
-                            // //         margin: EdgeInsets.only(left: 10),
-                            // //         width: 20,
-                            // //         height: 20,
-                            // //         decoration: BoxDecoration(
-                            // //           color: Color.fromRGBO(18, 108, 108, 1),
-                            // //           shape: BoxShape.circle,
-                            // //         ),
-                            // //         child: Icon(
-                            // //           Icons.search,
-                            // //           size: 15,
-                            // //           color: Colors.white,
-                            // //         ),
-                            // //       ),
-                            // //     ),
-                            // //   ],
-                            // // ),
-                            // SizedBox(
-                            //   height: 5,
-                            // ),
-                            // Row(
-                            //   children: [
-                            //     Text(
-                            //       'แผนที่บ้าน คุณอรทัย ไชยแสน',
-                            //       style: MyContant().h4normalStyle(),
-                            //     ),
-                            //     InkWell(
-                            //       onTap: () {
-                            //         view_map_cus(sizeIcon, border);
-                            //       },
-                            //       child: Container(
-                            //         margin: EdgeInsets.only(left: 10),
-                            //         width: 20,
-                            //         height: 20,
-                            //         decoration: BoxDecoration(
-                            //           color: Color.fromRGBO(18, 108, 108, 1),
-                            //           shape: BoxShape.circle,
-                            //         ),
-                            //         child: Icon(
-                            //           Icons.search,
-                            //           size: 15,
-                            //           color: Colors.white,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
                           ],
                         ),
                       ),
                     ),
                   ],
                 ],
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     padding: EdgeInsets.all(8.0),
-                //     decoration: BoxDecoration(
-                //       color: Color.fromRGBO(64, 203, 203, 1),
-                //       borderRadius: BorderRadius.all(
-                //         Radius.circular(10),
-                //       ),
-                //     ),
-                //     child: Column(
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             Text(
-                //               '2',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //             Text(
-                //               'ประเภท : ${list_address[i]['type']}',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //           ],
-                //         ),
-                //         SizedBox(
-                //           height: 10,
-                //         ),
-                //         Row(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Text(
-                //               'ที่อยุ่ : ',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //             Expanded(
-                //               child: Text(
-                //                 'ที่อยุ่ : ${list_address[i]['detail']}',
-                //                 overflow: TextOverflow.clip,
-                //                 style: MyContant().h4normalStyle(),
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //         SizedBox(
-                //           height: 5,
-                //         ),
-                //         Row(
-                //           children: [
-                //             Text(
-                //               'เบอร์โทรศัพท์ : ',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //           ],
-                //         ),
-                //         SizedBox(
-                //           height: 5,
-                //         ),
-                //         Row(
-                //           children: [
-                //             Text(
-                //               'เบอร์แฟกซ์ : ',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //           ],
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     padding: EdgeInsets.all(8.0),
-                //     decoration: BoxDecoration(
-                //       color: Color.fromRGBO(64, 203, 203, 1),
-                //       borderRadius: BorderRadius.all(
-                //         Radius.circular(10),
-                //       ),
-                //     ),
-                //     child: Column(
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             Text(
-                //               '3',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //             Text(
-                //               'ประเภท : ที่อยู่ที่ทำงาน',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //           ],
-                //         ),
-                //         SizedBox(
-                //           height: 10,
-                //         ),
-                //         Row(
-                //           children: [
-                //             Text(
-                //               'ที่อยุ่ : ',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //           ],
-                //         ),
-                //         SizedBox(
-                //           height: 5,
-                //         ),
-                //         Row(
-                //           children: [
-                //             Text(
-                //               'เบอร์โทรศัพท์ : ',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //           ],
-                //         ),
-                //         SizedBox(
-                //           height: 5,
-                //         ),
-                //         Row(
-                //           children: [
-                //             Text(
-                //               'เบอร์แฟกซ์ : ',
-                //               style: MyContant().h4normalStyle(),
-                //             ),
-                //           ],
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 if (list_dataMember.length > 1) ...[
                   lineNext(),
                 ],

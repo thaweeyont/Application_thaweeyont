@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:async';
 
 import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:application_thaweeyont/api.dart';
 
 import '../model/login_model.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class Authen extends StatefulWidget {
   const Authen({Key? key}) : super(key: key);
@@ -36,6 +38,22 @@ class _AuthenState extends State<Authen> {
         (Route<dynamic> route) => false,
       );
     }
+  }
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    // installerStore: 'Unknown',
+  );
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
   }
 
   Future<void> login_user() async {
@@ -102,6 +120,11 @@ class _AuthenState extends State<Authen> {
     // TODO: implement initState
     super.initState();
     getprofile_user();
+    _initPackageInfo();
+  }
+
+  Future<PackageInfo> _getPackageInfo() {
+    return PackageInfo.fromPlatform();
   }
 
   @override
@@ -144,7 +167,7 @@ class _AuthenState extends State<Authen> {
       height: MediaQuery.of(context).size.height * 0.48,
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 30, right: 30, top: 60, bottom: 60),
+            const EdgeInsets.only(left: 30, right: 30, top: 60, bottom: 25),
         child: Column(
           children: <Widget>[
             Row(
@@ -227,6 +250,31 @@ class _AuthenState extends State<Authen> {
                 },
                 child: const Text('เข้าสู่ระบบ'),
               ),
+            ),
+            // SizedBox(height: size * 0.04),
+            showversion(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container showversion() {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 30,
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'version ${_packageInfo.version}',
+                  style: MyContant().Textversion(),
+                ),
+              ],
             ),
           ],
         ),

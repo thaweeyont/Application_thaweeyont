@@ -115,7 +115,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -132,36 +132,17 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         showProgressDialog_404(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
       } else {
-        // setState(() {
-        //   valueStatus = respose.statusCode;
-        // });
-        // Navigator.pop(context);
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences = await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -279,7 +260,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     setState(() {
       list_approve = [];
       select_branchlist = null;
-      // select_status = null;
     });
   }
 
@@ -363,43 +343,18 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         } else if (respose.statusCode == 404) {
           print(respose.statusCode);
           showProgressDialog_404(
-              context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
         } else if (respose.statusCode == 500) {
           print(respose.statusCode);
-          showProgressDialog_500(context, 'แจ้งเตือน',
-              'Error ${respose.statusCode} ข้อมูลผิดพลาด!');
+          showProgressDialog_500(
+              context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
         } else {
           showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         }
-        // else {
-        //   setState(() {
-        //     valueNotdata = respose.statusCode;
-        //   });
-        //   Navigator.pop(context);
-        //   print(respose.statusCode);
-        //   print('ไม่พบข้อมูล');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences =
-        //       await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
-        // }
       } catch (e) {
-        // Navigator.pop(context);
         print("ไม่มีข้อมูล $e");
         showProgressDialog_Notdata(
             context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -617,10 +572,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                         ),
                                       ),
                                     ),
-                                    // Text('สกุล'),
                                     input_searchCus(sizeIcon, border),
-                                    //lastname
-                                    // Text(selectValue_customer),
                                     if (selectValue_customer.toString() ==
                                         "2") ...[
                                       input_lastnameCus(sizeIcon, border)
@@ -643,8 +595,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                   child: TextButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
-                                      // getData_condition();
-                                      // getData_search();
                                       if (id == '1') {
                                         print('1==>> $id');
                                         if (selectValue_customer == null ||
@@ -698,7 +648,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                             },
                                           );
                                           Navigator.pop(context);
-                                          // list_signDetail = [];
                                         },
                                         child: Container(
                                           margin:
@@ -998,10 +947,19 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                     height: 5,
                                   ),
                                   Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'เลขบัตรประชาชน : ${list_approve[i]['smartId']}',
+                                        'เลขบัตรประชาชน : ',
                                         style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_approve[i]['smartId']}',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -1009,10 +967,19 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                     height: 5,
                                   ),
                                   Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'ชื่อ : ${list_approve[i]['custName']}',
+                                        'ชื่อ : ',
                                         style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_approve[i]['custName']}',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
                                       ),
                                     ],
                                   ),
