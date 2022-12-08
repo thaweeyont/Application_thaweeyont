@@ -105,8 +105,12 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        setState(() {
+          status = false;
+        });
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน');
+        showProgressDialog_404(
+            context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน งวดที่ ${period}');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -173,7 +177,13 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
               child: status == false
                   ? Center(
                       child: Container(
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(251, 173, 55, 1),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.15,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -181,7 +191,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'ไม่พบข้อมูล',
+                                'ยังไม่มีการชำระเงิน',
                                 style: MyContant().h4normalStyle(),
                               ),
                             ],

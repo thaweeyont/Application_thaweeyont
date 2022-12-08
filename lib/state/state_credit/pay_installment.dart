@@ -80,6 +80,7 @@ class _Pay_installmentState extends State<Pay_installment> {
       );
 
       if (respose.statusCode == 200) {
+        payDetail = '';
         Map<String, dynamic> dataPayDetail =
             new Map<String, dynamic>.from(json.decode(respose.body));
 
@@ -108,8 +109,12 @@ class _Pay_installmentState extends State<Pay_installment> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        setState(() {
+          status = false;
+        });
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน');
+        showProgressDialog_404(
+            context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน งวดที่ ${period}');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -194,7 +199,13 @@ class _Pay_installmentState extends State<Pay_installment> {
               child: status == false
                   ? Center(
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.25,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(255, 218, 249, 1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.15,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -202,7 +213,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'ไม่พบข้อมูล',
+                                  'ยังไม่มีการชำระเงิน',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -225,7 +236,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'งวดที่ : ${dropdownValue.toString()}',
+                                'งวดที่ : ${dropdownValue}',
                                 style: MyContant().h4normalStyle(),
                               ),
                               Text(

@@ -168,7 +168,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           'startDate': start_date,
           'endDate': end_date,
           'page': '1',
-          'limit': '150'
+          'limit': '230'
         }),
       );
 
@@ -192,7 +192,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         setState(() {
           totalbill = totalbill;
         });
-        print('bill >> ${totalbill}');
+        // print('bill >> ${totalbill}');
         List<int> list = bill.cast<int>();
         // int number = list.reduce((a, b) => a + b);
         // List<int> number = totalbill.map((e) => int.parse(e)).toList();

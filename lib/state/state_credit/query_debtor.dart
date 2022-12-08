@@ -1351,34 +1351,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                       ),
                                     ],
                                   ],
-                                  // else ...[
-                                  //   if (checkStatuscode == 404) ...[
-                                  //     Container(
-                                  //       height:
-                                  //           MediaQuery.of(context).size.height *
-                                  //               0.4,
-                                  //       // color: Colors.blue,
-                                  //       child: Column(
-                                  //         mainAxisAlignment:
-                                  //             MainAxisAlignment.center,
-                                  //         children: [
-                                  //           Row(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment.center,
-                                  //             children: [
-                                  //               Text(
-                                  //                 'ไม่พบข้อมูล',
-                                  //                 style: MyContant()
-                                  //                     .h4normalStyle(),
-                                  //               ),
-                                  //             ],
-                                  //           )
-                                  //         ],
-                                  //       ),
-                                  //     ),
-                                  //   ] else
-                                  //     ...[],
-                                  // ],
                                 ],
                               ),
                             ),

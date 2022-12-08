@@ -2150,7 +2150,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       ),
     );
     return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: ListView(
         children: [
           if (list_payDetail.isNotEmpty) ...[
