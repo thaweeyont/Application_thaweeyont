@@ -1751,20 +1751,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           for (var i = 0; i < list_payDetail.length; i++) ...[
             InkWell(
               onTap: () {
-                if (list_payDetail[i]['periodNo'] == 'D') {
-                  showProgressDialog(context, 'แจ้งเตือน',
-                      'เงินดาวน์ ${list_payDetail[i]['periodPrice']} บาท');
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Page_Pay_Installment(
-                          Debtordetail['signId'],
-                          list_payDetail[i]['periodNo'],
-                          list_payDetail),
-                    ),
-                  );
-                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Page_Pay_Installment(
+                        Debtordetail['signId'],
+                        list_payDetail[i]['periodNo'],
+                        list_payDetail),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),

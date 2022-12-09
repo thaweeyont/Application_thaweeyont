@@ -2157,21 +2157,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             for (var i = 0; i < list_payDetail.length; i++) ...[
               InkWell(
                 onTap: () {
-                  if (list_payDetail[i]['periodNo'] == 'D') {
-                    showProgressDialog(context, 'แจ้งเตือน',
-                        'เงินดาวน์ ${list_payDetail[i]['periodPrice']} บาท');
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Pay_installment(
-                          Debtordetail['signId'],
-                          list_payDetail[i]['periodNo'],
-                          list_payDetail,
-                        ),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Pay_installment(
+                        Debtordetail['signId'],
+                        list_payDetail[i]['periodNo'],
+                        list_payDetail,
                       ),
-                    );
-                  }
+                    ),
+                  );
                 },
                 child: Padding(
                   padding:

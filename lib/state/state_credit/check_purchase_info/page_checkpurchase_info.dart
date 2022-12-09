@@ -183,21 +183,17 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
 
         // ------ sum billTotal ---------------------------------------
         totalbill = [];
-        List<dynamic> bill =
-            list_dataBuyTyle.map((e) => e['billTotal']).toList();
-        // print('>>>${list_dataBuyTyle}');
+        List bill = list_dataBuyTyle.map((e) => e['billTotal']).toList();
         bill.forEach((element) {
           totalbill.add(element);
         });
         setState(() {
           totalbill = totalbill;
         });
-        // print('bill >> ${totalbill}');
-        List<int> list = bill.cast<int>();
-        // int number = list.reduce((a, b) => a + b);
-        // List<int> number = totalbill.map((e) => int.parse(e)).toList();
+        print('bill >> ${totalbill}');
+        // List<int> ints = jsonDecode("[$totalbill]");
 
-        // print('sum >${number}');
+        // print('sum >${ints}');
         //-------------------------------------------------------------
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);

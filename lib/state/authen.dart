@@ -167,7 +167,7 @@ class _AuthenState extends State<Authen> {
       height: MediaQuery.of(context).size.height * 0.48,
       child: Padding(
         padding:
-            const EdgeInsets.only(left: 30, right: 30, top: 60, bottom: 25),
+            const EdgeInsets.only(left: 30, right: 30, top: 50, bottom: 30),
         child: Column(
           children: <Widget>[
             Row(
@@ -287,7 +287,7 @@ class _AuthenState extends State<Authen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 60),
+          padding: const EdgeInsets.symmetric(vertical: 50),
           child: Column(
             children: [
               // SizedBox(
