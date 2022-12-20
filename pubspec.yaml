@@ -38,6 +38,13 @@ dependencies:
   intl: ^0.16.1
   buddhist_datetime_dateformat: ^1.0.6
   package_info_plus: ^3.0.1
+  carousel_slider: ^4.2.1
+  cached_network_image: ^3.2.3
+  skeleton_text: ^3.0.0
+  firebase_messaging: ^14.1.4
+  provider: ^6.0.5
+  url_launcher: ^6.1.7
+  flutter_animated_dialog: ^2.0.1
   
 
 dev_dependencies:
@@ -74,6 +81,7 @@ flutter:
     - checked.png
     - TWYLOGO.png
     - TWY.png
+    - logo_home.png
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

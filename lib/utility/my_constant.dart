@@ -9,6 +9,7 @@ class MyContant {
   static String domain = 'https://a0ab-183-88-181-66.ap.ngrok.io';
 
   // Route
+  static String routeProductHome = '/product_home/product_home';
   static String routeAuthen = '/authen';
   static String routeHomeCredit = '/state_credit/home';
   static String routeNavigator_bar_credit =
@@ -133,6 +134,23 @@ class MyContant {
         fontWeight: FontWeight.normal,
         // fontFamily: 'Prompt',
       );
+  TextStyle normal_text(Color color) => TextStyle(
+        fontSize: 16,
+        color: color,
+        fontFamily: 'Prompt',
+      );
+  TextStyle bold_text(Color color) => TextStyle(
+        fontSize: 16,
+        color: color,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Prompt',
+      );
+
+  TextStyle small_text(Color color) => TextStyle(
+        fontSize: 14,
+        color: color,
+        fontFamily: 'Prompt',
+      );
 
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(76, 83, 146, 1),
@@ -151,6 +169,13 @@ class MyContant {
         foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+      );
+
+  SizedBox space_box(double height) => SizedBox(
+        height: height,
+        child: Container(
+          color: Colors.grey[200],
+        ),
       );
 }
 
