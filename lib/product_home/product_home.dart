@@ -18,6 +18,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Product_home extends StatefulWidget {
   const Product_home({Key? key}) : super(key: key);
@@ -71,8 +72,9 @@ class _Product_homeState extends State<Product_home> {
                   data_product_hot(),
                   MyContant().space_box(15),
                   title_product(),
-                  // data_product(),
-                  ButtonHome(context),
+                  data_product(),
+                  title_end_page(),
+                  // ButtonHome(context),
                 ],
               ),
             )
@@ -201,64 +203,64 @@ class list_product extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       vertical: 2, horizontal: 5),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.start,
-                      //     children: [
-                      //       Expanded(
-                      //         child: Row(
-                      //           children: [
-                      //             Text(
-                      //               "฿${items[index].optionPrice}",
-                      //               style: TextStyle(
-                      //                 color: Colors.black.withOpacity(0.5),
-                      //                 fontSize: 16,
-                      //                 fontWeight: FontWeight.bold,
-                      //                 decoration: TextDecoration.lineThrough,
-                      //               ),
-                      //             ),
-                      //             SizedBox(width: 10),
-                      //             Text(
-                      //               "฿${items[index].promotionPrice}",
-                      //               style: TextStyle(
-                      //                 color: Colors.red,
-                      //                 fontSize: 16,
-                      //                 fontWeight: FontWeight.bold,
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "฿${items[index].optionPrice}",
+                                    style: TextStyle(
+                                      color: Colors.black.withOpacity(0.5),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.lineThrough,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "฿${items[index].promotionPrice}",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              // if (value_min > 300) ...[
-              //   Positioned(
-              //     right: 0,
-              //     child: ClipPath(
-              //       clipper: MyClipper(),
-              //       child: Container(
-              //         color: Colors.yellow,
-              //         padding: EdgeInsets.all(4),
-              //         child: Column(
-              //           children: [
-              //             Text(
-              //               "ลด",
-              //               style: MyContant().small_text(Colors.white),
-              //             ),
-              //             show_per(index),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ],
+              if (value_min > 300) ...[
+                Positioned(
+                  right: 0,
+                  child: ClipPath(
+                    clipper: MyClipper(),
+                    child: Container(
+                      color: Colors.yellow,
+                      padding: EdgeInsets.all(4),
+                      child: Column(
+                        children: [
+                          Text(
+                            "ลด",
+                            style: MyContant().small_text(Colors.white),
+                          ),
+                          show_per(index),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ],
           );
         },
@@ -290,6 +292,10 @@ class buildSkeleton_product extends StatelessWidget {
         margin: EdgeInsets.only(top: 0),
         color: Colors.white,
         child: GridView.builder(
+          padding: EdgeInsets.all(2),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             childAspectRatio: 0.73,
@@ -832,36 +838,45 @@ class list_product_hot extends StatelessWidget {
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: SizedBox(
                               width: double.infinity,
-                              child: Text(
-                                "${items[index].productName}",
-                                overflow: TextOverflow.ellipsis,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 5),
+                                child: Text(
+                                  "${items[index].productName}",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           )
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        padding: const EdgeInsets.symmetric(vertical: 1),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
                               child: Row(
                                 children: [
-                                  Text(
-                                    " \฿${items[index].optionPrice}",
-                                    style: TextStyle(
-                                      color: Colors.black.withOpacity(0.5),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.lineThrough,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Text(
+                                      "฿${items[index].optionPrice}",
+                                      style: TextStyle(
+                                        color: Colors.black.withOpacity(0.5),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.lineThrough,
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(width: 10),
+                                  SizedBox(width: 5),
                                   Text(
                                     "฿${items[index].promotionPrice}",
                                     style: TextStyle(
@@ -981,4 +996,81 @@ class CuponClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+}
+
+class title_end_page extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ProductProvider controllerprovider, child) {
+        if (controllerprovider.isloading) {
+          return load_data();
+        } else {
+          return end_page();
+        }
+      },
+    );
+  }
+}
+
+class load_data extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 30,
+      color: Colors.grey[200],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'กำลังโหลด',
+            style: TextStyle(
+              color: Colors.red[400],
+              fontFamily: 'prompt',
+              fontSize: 14,
+            ),
+          ),
+          AnimatedTextKit(
+            animatedTexts: [
+              WavyAnimatedText(
+                '........',
+                textStyle: TextStyle(
+                  color: Colors.red[400],
+                  fontFamily: 'prompt',
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+          AnimatedTextKit(
+            animatedTexts: [
+              WavyAnimatedText(
+                '........',
+                textStyle: TextStyle(
+                  color: Colors.red[400],
+                  fontFamily: 'prompt',
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class end_page extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "สิ้นสุดหน้า",
+      style: TextStyle(
+        color: Colors.red[400],
+        fontFamily: 'prompt',
+        fontSize: 14,
+      ),
+    );
+  }
 }

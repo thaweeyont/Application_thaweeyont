@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/model/categorymodel.dart';
+import 'package:application_thaweeyont/product_home/category.dart';
 import 'package:application_thaweeyont/widgets/skeleton_container.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -93,12 +94,12 @@ class listmenu extends StatelessWidget {
                       padding: EdgeInsets.all(8),
                     ),
                     onPressed: () {
-                      //   Navigator.pushAndRemoveUntil(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => CateGory(menu.catId)),
-                      //   (Route<dynamic> route) => false,
-                      // );
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CateGory(menu.catId)),
+                        (Route<dynamic> route) => false,
+                      );
                     },
                     child: Image.network(
                         "https://www.thaweeyont.com/${menu.imgPath}"),

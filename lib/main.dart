@@ -1,3 +1,4 @@
+import 'package:application_thaweeyont/Tap.dart';
 import 'package:application_thaweeyont/product_home/product_home.dart';
 import 'package:application_thaweeyont/provider/Controllerprovider.dart';
 import 'package:application_thaweeyont/provider/producthotprovider.dart';
@@ -76,7 +77,8 @@ class _MyAppState extends State<MyApp> {
         ),
         title: MyContant.appName,
         routes: map,
-        initialRoute: initlalRounte,
+        // initialRoute: initlalRounte,
+        home: TapControl("0"),
       ),
     );
   }
