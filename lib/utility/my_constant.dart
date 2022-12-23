@@ -40,6 +40,10 @@ class MyContant {
   static Color primary = Color(0xff87861d);
   static Color dark = Color(0xff575900);
   static Color light = Color(0xffb9b64e);
+  static Color load = Color(0xffe6b980);
+
+  // size icon input
+  final sizeIcon = BoxConstraints(minWidth: 45, minHeight: 45);
 
   //Style
   //TitleBar

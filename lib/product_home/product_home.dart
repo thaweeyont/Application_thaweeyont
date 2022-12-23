@@ -8,7 +8,9 @@ import 'package:application_thaweeyont/provider/producthotprovider.dart';
 import 'package:application_thaweeyont/provider/productprovider.dart';
 import 'package:application_thaweeyont/provider/promotionprovider.dart';
 import 'package:application_thaweeyont/state/authen.dart';
+import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/header.dart';
 import 'package:application_thaweeyont/widgets/main_menu.dart';
 import 'package:application_thaweeyont/widgets/skeleton_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,6 +19,7 @@ import 'package:application_thaweeyont/widgets/banner_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -40,11 +43,25 @@ class _Product_homeState extends State<Product_home> {
     await context.read<ProductProvider>().clear_product();
     await context.read<ProductProvider>().getproduct(offset);
     await context.read<ProducthotProvider>().getproduct_hot();
+    getprofile_user();
+  }
+
+  Future<Null> getprofile_user() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    if (preferences.getString('userId') != null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('2')),
+        (Route<dynamic> route) => false,
+      );
+    }
   }
 
   //เรียกใช้เมื่อมีการเปิดหน้านี้ขึ้นมา
   @override
   void initState() {
+    // getprofile_user();
     GetListData();
     super.initState();
   }
@@ -53,32 +70,42 @@ class _Product_homeState extends State<Product_home> {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: ScrollBehavior(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              controller: _scrollControll,
-              child: Column(
-                children: [
-                  BannerS(),
-                  MainMenu(),
-                  SizedBox(height: 20),
-                  MyContant().space_box(15),
-                  // Promotion_data(),
-                  title_product_hot(),
-                  data_product_hot(),
-                  MyContant().space_box(15),
-                  title_product(),
-                  data_product(),
-                  title_end_page(),
-                  // ButtonHome(context),
-                ],
+    return RefreshIndicator(
+      color: MyContant.load,
+      onRefresh: () async {
+        await context.read<ProducthotProvider>().clear_product();
+        await context.read<ProductProvider>().clear_product();
+        await Future.delayed(Duration(seconds: 3));
+        await context.read<ProductProvider>().getproduct(0);
+        await context.read<ProducthotProvider>().getproduct_hot();
+      },
+      child: ScrollConfiguration(
+        behavior: ScrollBehavior(),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                controller: _scrollControll,
+                child: Column(
+                  children: [
+                    BannerS(),
+                    MainMenu(),
+                    SizedBox(height: 20),
+                    MyContant().space_box(15),
+                    title_product_hot(),
+                    data_product_hot(),
+                    MyContant().space_box(15),
+                    title_product(),
+                    data_product(),
+                    title_end_page(),
+                    // ButtonHome(context),
+                  ],
+                ),
               ),
-            )
-          ],
+              Header(_scrollControll, "header"),
+            ],
+          ),
         ),
       ),
     );

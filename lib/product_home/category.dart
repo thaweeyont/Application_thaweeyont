@@ -3,6 +3,7 @@ import 'package:application_thaweeyont/model/mainproductmodel.dart';
 import 'package:application_thaweeyont/provider/Controllerprovider.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/banner_slider.dart';
+import 'package:application_thaweeyont/widgets/header.dart';
 import 'package:application_thaweeyont/widgets/main_menu.dart';
 import 'package:application_thaweeyont/widgets/skeleton_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -106,7 +107,8 @@ class _CateGoryState extends State<CateGory> {
                 ]
               ],
             ),
-          )
+          ),
+          Header(_scrollControll, "subhead"),
         ],
       ),
     );

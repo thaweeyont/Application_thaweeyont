@@ -1,6 +1,7 @@
 import 'package:application_thaweeyont/product_home/product_home.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TapControl extends StatefulWidget {
   final index;
@@ -48,20 +49,25 @@ class _TapControlState extends State<TapControl> {
   ];
 
   @override
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) async {
     if (index != 1) {
       setState(() {
         _selectedIndex = index;
       });
     } else {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Authen()),
-        (Route<dynamic> route) => false,
-      );
-      // Navigator.of(context).push(
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+
+      if (preferences.getString('userId') == null) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => Authen()),
+        );
+      }
+      // Navigator.pushAndRemoveUntil(
+      //   context,
       //   MaterialPageRoute(builder: (context) => Authen()),
+      //   (Route<dynamic> route) => false,
       // );
+
     }
   }
 
