@@ -165,24 +165,187 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       drawer: drawer(size, context),
-      bottomNavigationBar: bottonNavigator(),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(0),
-        child: FloatingActionButton(
-          backgroundColor: _selectedIndex == 2
-              ? Colors.blue
-              : Color.fromARGB(255, 22, 30, 94),
-          child: Icon(Icons.home),
-          onPressed: () => setState(() {
+      // bottomNavigationBar: bottonNavigator(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor:
+            _selectedIndex == 2 ? Colors.blue : Color.fromARGB(255, 22, 30, 94),
+        child: const Icon(Icons.home),
+        onPressed: () {
+          setState(() {
             _selectedIndex = 2;
             // title_head = "ทวียนต์ 222";
             status = true;
-          }),
+          });
+        },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Color.fromARGB(255, 22, 30, 94),
+        shape: CircularNotchedRectangle(),
+        notchMargin: 6.0,
+        child: new Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.view_list_rounded),
+              color: Colors.white,
+              onPressed: showMenu,
+            ),
+            IconButton(
+              icon: Icon(Icons.settings_applications),
+              color: Colors.white,
+              onPressed: () {},
+            )
+          ],
         ),
       ),
+      // floatingActionButtonLocation:
+      //     FloatingActionButtonLocation.miniCenterDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.all(0),
+      //   child: FloatingActionButton(
+      //     backgroundColor: _selectedIndex == 2
+      //         ? Colors.blue
+      //         : Color.fromARGB(255, 22, 30, 94),
+      //     child: Icon(Icons.home),
+      //     onPressed: () => setState(() {
+      //       _selectedIndex = 2;
+      //       // title_head = "ทวียนต์ 222";
+      //       status = true;
+      //     }),
+      //   ),
+      // ),
     );
+  }
+
+  showMenu() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.only(
+              //   topLeft: Radius.circular(16.0),
+              //   topRight: Radius.circular(16.0),
+              // ),
+              color: Color.fromARGB(255, 22, 30, 94),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: (56 * 6).toDouble(),
+                  child: Container(
+                    child: Stack(
+                      alignment: Alignment(0, 0),
+                      children: <Widget>[
+                        Positioned(
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            children: <Widget>[
+                              ListTile(
+                                title: Text(
+                                  "สอบถามรายละเอียดลูกหนี้",
+                                  style: MyContant().h1MenuStyle(),
+                                ),
+                                leading: Icon(
+                                  Icons.people,
+                                  color: Colors.white,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 0;
+                                    title_head = "สอบถามรายละเอียดลูกหนี้";
+                                    status = false;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ListTile(
+                                title: Text(
+                                  "ตรวจสอบข้อมูลการซื้อสินค้า",
+                                  style: MyContant().h1MenuStyle(),
+                                ),
+                                leading: Icon(
+                                  Icons.shopping_basket_rounded,
+                                  color: Colors.white,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 1;
+                                    title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
+                                    status = false;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ListTile(
+                                title: Text(
+                                  "เช็คผลการพิจารณาสินเชื่อ",
+                                  style: MyContant().h1MenuStyle(),
+                                ),
+                                leading: Icon(
+                                  Icons.manage_accounts_rounded,
+                                  color: Colors.white,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 3;
+                                    title_head = "เช็คผลการพิจารณาสินเชื่อ";
+                                    status = false;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ListTile(
+                                title: Text(
+                                  "สถานะสมาชิกทวียนต์",
+                                  style: MyContant().h1MenuStyle(),
+                                ),
+                                leading: Icon(
+                                  Icons.switch_account_outlined,
+                                  color: Colors.white,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 4;
+                                    title_head = "สถานะสมาชิกทวียนต์";
+                                    status = false;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ListTile(
+                                title: Text(
+                                  "สอบถามรายละเอียด BlackList",
+                                  style: MyContant().h1MenuStyle(),
+                                ),
+                                leading: Icon(
+                                  Icons.block_sharp,
+                                  color: Colors.white,
+                                ),
+                                onTap: () {},
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                // Container(
+                //   height: 56,
+                //   color: Color.fromARGB(255, 255, 255, 255),
+                // )
+              ],
+            ),
+          );
+        });
   }
 
   AppBar Appbar() {

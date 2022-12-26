@@ -4,7 +4,7 @@ import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.d
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart'; 
+import 'package:flutter/src/widgets/framework.dart';
 
 class Home_credit extends StatefulWidget {
   const Home_credit({Key? key}) : super(key: key);

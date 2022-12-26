@@ -1,5 +1,6 @@
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/model/mainproductmodel.dart';
+import 'package:application_thaweeyont/product_home/product_home.dart';
 import 'package:application_thaweeyont/provider/Controllerprovider.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/banner_slider.dart';
@@ -135,6 +136,10 @@ class _CateGoryState extends State<CateGory> {
               ),
               itemCount: dataproduct.length,
               itemBuilder: (context, index) {
+                var max = int.parse(dataproduct[index].optionPrice.toString());
+                var min =
+                    int.parse(dataproduct[index].promotionPrice.toString());
+                var value_min = max - min;
                 return Stack(
                   children: [
                     InkWell(
@@ -226,11 +231,44 @@ class _CateGoryState extends State<CateGory> {
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    if (value_min > 300) ...[
+                      Positioned(
+                        right: 0,
+                        child: ClipPath(
+                          clipper: MyClipper(),
+                          child: Container(
+                            color: Colors.yellow,
+                            padding: EdgeInsets.all(4),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'ลด',
+                                  style: MyContant().small_text(Colors.white),
+                                ),
+                                show_per(index),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ],
                 );
               },
             ),
+    );
+  }
+
+  Text show_per(index) {
+    var max = int.parse(dataproduct[index].optionPrice.toString());
+    var min = int.parse(dataproduct[index].promotionPrice.toString());
+    var val_min = max - min;
+    var persen = (val_min / max) * 100;
+
+    return Text(
+      "${persen.toStringAsFixed(0)}%",
+      style: MyContant().small_text(Colors.deepOrange),
     );
   }
 }
