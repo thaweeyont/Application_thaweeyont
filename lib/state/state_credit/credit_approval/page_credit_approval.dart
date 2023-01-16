@@ -240,6 +240,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         setState(() {
           dropdown_customer = data['data'];
         });
+        print(dropdown_customer);
       } else {
         print(respose.statusCode);
       }
@@ -426,12 +427,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                         width: 30,
                                         height: 30,
                                         decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
-                                              173,
-                                              106,
-                                              3,
-                                              1,
-                                            ),
+                                            color:
+                                                Color.fromRGBO(173, 106, 3, 1),
                                             shape: BoxShape.circle),
                                         child: Icon(
                                           Icons.close,

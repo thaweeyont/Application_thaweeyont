@@ -1,4 +1,4 @@
-import 'package:application_thaweeyont/product_home/product_home.dart';
+// import 'package:application_thaweeyont/product_home/product_home.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +44,7 @@ class _TapControlState extends State<TapControl> {
     fontWeight: FontWeight.bold,
   );
   static List<Widget> _widgetOption = <Widget>[
-    Product_home(),
+    // Product_home(),
     // Authen(),
   ];
 

@@ -17,6 +17,7 @@ class _Home_creditState extends State<Home_credit> {
   @override
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.width;
+    double size_h = MediaQuery.of(context).size.height * 0.005;
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -26,12 +27,233 @@ class _Home_creditState extends State<Home_credit> {
           padding: const EdgeInsets.all(20),
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
-          crossAxisCount: 2,
+          crossAxisCount: 1,
+          childAspectRatio: size_h,
           children: <Widget>[
-            check_information(size),
-            check_buyproduct(size),
-            check_approve(size),
-            check_statususer(size),
+            check_information_n(size),
+            check_buyproduct_n(size),
+            check_approve_n(size),
+            check_statususer_n(size),
+            check_blacklist_n(size),
+            // check_information(size),
+            // check_buyproduct(size),
+            // check_approve(size),
+            // check_statususer(size),
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell check_approve_n(double size) {
+    return InkWell(
+      onTap: () => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('3')),
+        (Route<dynamic> route) => false,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(251, 713, 55, 1),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.manage_accounts_rounded,
+                  size: size * 0.12,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 15),
+                Text(
+                  'เช็คผลการพิจารณาสินเชื่อ',
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell check_statususer_n(double size) {
+    return InkWell(
+      onTap: () => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('4')),
+        (Route<dynamic> route) => false,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(64, 203, 203, 1),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.switch_account_outlined,
+                  size: size * 0.12,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 15),
+                Text(
+                  'สถานะสมาชิกทวียนต์',
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell check_buyproduct_n(double size) {
+    return InkWell(
+      onTap: () => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('1')),
+        (Route<dynamic> route) => false,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(212, 151, 233, 1),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.shopping_basket_rounded,
+                  size: size * 0.12,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 15),
+                Text(
+                  'ตรวจสอบข้อมูลการซื้อสินค้า',
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell check_blacklist_n(double size) {
+    return InkWell(
+      onTap: () => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('5')),
+        (Route<dynamic> route) => false,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(162, 181, 252, 1),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.person_off_rounded,
+                  size: size * 0.12,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 15),
+                Text(
+                  'สอบถามรายละเอียด BlackList',
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell check_information_n(double size) {
+    return InkWell(
+      onTap: () => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator_bar_credit('0')),
+        (Route<dynamic> route) => false,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromRGBO(255, 152, 238, 1),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.people,
+                  size: size * 0.12,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 15),
+                Text(
+                  'สอบถามรายละเอียดลูกหนี้',
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

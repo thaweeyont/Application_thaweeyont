@@ -59,6 +59,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle h1MenuStyle_click() => TextStyle(
+        fontSize: 16,
+        color: Colors.blue,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   //รายาการค้นหา
   TextStyle h2Style() => TextStyle(
         fontSize: 16,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor.dart';
@@ -109,6 +110,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           status = false;
         });
         break;
+      case "5":
+        setState(() {
+          _selectedIndex = 5;
+          title_head = "สอบถามรายละเอียด BlackList";
+          status = false;
+        });
+        break;
       default:
         {
           setState(() {
@@ -151,6 +159,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     Home_credit(),
     Page_Credit_Approval(),
     Page_Status_Member(),
+    Check_Blacklist_Data(),
   ];
 
   @override
@@ -165,7 +174,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       drawer: drawer(size, context),
-      // bottomNavigationBar: bottonNavigator(),
+      bottomNavigationBar: bottonNavigator_new(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor:
@@ -179,27 +188,28 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           });
         },
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Color.fromARGB(255, 22, 30, 94),
-        shape: CircularNotchedRectangle(),
-        notchMargin: 6.0,
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.view_list_rounded),
-              color: Colors.white,
-              onPressed: showMenu,
-            ),
-            IconButton(
-              icon: Icon(Icons.settings_applications),
-              color: Colors.white,
-              onPressed: () {},
-            )
-          ],
-        ),
-      ),
+      // bottomNavigationBar: BottomAppBar(
+      //   color: Color.fromARGB(255, 22, 30, 94),
+      //   shape: CircularNotchedRectangle(),
+      //   notchMargin: 6.0,
+      //   child: new Row(
+      //     mainAxisSize: MainAxisSize.max,
+      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //     children: <Widget>[
+      //       IconButton(
+      //         icon: Icon(Icons.view_list_rounded),
+      //         color: Colors.white,
+      //         onPressed: showMenu,
+      //       ),
+      //       IconButton(
+      //         icon: Icon(Icons.settings_applications),
+      //         color: Colors.white,
+      //         onPressed: () {},
+      //       )
+      //     ],
+      //   ),
+      // ),
+
       // floatingActionButtonLocation:
       //     FloatingActionButtonLocation.miniCenterDocked,
       // floatingActionButton: Padding(
@@ -251,11 +261,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                               ListTile(
                                 title: Text(
                                   "สอบถามรายละเอียดลูกหนี้",
-                                  style: MyContant().h1MenuStyle(),
+                                  style: _selectedIndex == 0
+                                      ? MyContant().h1MenuStyle_click()
+                                      : MyContant().h1MenuStyle(),
                                 ),
                                 leading: Icon(
                                   Icons.people,
-                                  color: Colors.white,
+                                  color: _selectedIndex == 0
+                                      ? Colors.blue
+                                      : Colors.white,
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -269,11 +283,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                               ListTile(
                                 title: Text(
                                   "ตรวจสอบข้อมูลการซื้อสินค้า",
-                                  style: MyContant().h1MenuStyle(),
+                                  style: _selectedIndex == 1
+                                      ? MyContant().h1MenuStyle_click()
+                                      : MyContant().h1MenuStyle(),
                                 ),
                                 leading: Icon(
                                   Icons.shopping_basket_rounded,
-                                  color: Colors.white,
+                                  color: _selectedIndex == 1
+                                      ? Colors.blue
+                                      : Colors.white,
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -287,11 +305,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                               ListTile(
                                 title: Text(
                                   "เช็คผลการพิจารณาสินเชื่อ",
-                                  style: MyContant().h1MenuStyle(),
+                                  style: _selectedIndex == 3
+                                      ? MyContant().h1MenuStyle_click()
+                                      : MyContant().h1MenuStyle(),
                                 ),
                                 leading: Icon(
                                   Icons.manage_accounts_rounded,
-                                  color: Colors.white,
+                                  color: _selectedIndex == 3
+                                      ? Colors.blue
+                                      : Colors.white,
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -305,11 +327,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                               ListTile(
                                 title: Text(
                                   "สถานะสมาชิกทวียนต์",
-                                  style: MyContant().h1MenuStyle(),
+                                  style: _selectedIndex == 4
+                                      ? MyContant().h1MenuStyle_click()
+                                      : MyContant().h1MenuStyle(),
                                 ),
                                 leading: Icon(
                                   Icons.switch_account_outlined,
-                                  color: Colors.white,
+                                  color: _selectedIndex == 4
+                                      ? Colors.blue
+                                      : Colors.white,
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -326,10 +352,17 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                                   style: MyContant().h1MenuStyle(),
                                 ),
                                 leading: Icon(
-                                  Icons.block_sharp,
+                                  Icons.person_off_rounded,
                                   color: Colors.white,
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex = 5;
+                                    title_head = "สอบถามรายละเอียด BlackList";
+                                    status = false;
+                                  });
+                                  Navigator.pop(context);
+                                },
                               ),
                             ],
                           ),
@@ -372,6 +405,66 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           );
         },
+      ),
+    );
+  }
+
+  BottomAppBar bottonNavigator_new() {
+    return BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      notchMargin: 8.0,
+      clipBehavior: Clip.antiAlias,
+      child: Container(
+        height: kBottomNavigationBarHeight,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              top: BorderSide(
+                color: Colors.grey,
+                width: 0.5,
+              ),
+            ),
+          ),
+          child: BottomNavigationBar(
+            elevation: 15,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+            // currentIndex: _selectedIndex,
+            backgroundColor: Color.fromARGB(255, 22, 30, 94),
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white,
+            onTap: (index) {
+              switch (index) {
+                case 0:
+                  setState(() {
+                    showMenu();
+                  });
+                  break;
+                case 1:
+                  setState(() {
+                    _selectedIndex = 2;
+                    // title_head = "ทวียนต์ ";
+                    status = true;
+                  });
+                  break;
+                case 2:
+                  setState(() {
+                    showMenu();
+                  });
+                  break;
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.view_list_rounded), label: ''),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings_applications), label: ''),
+            ],
+          ),
+        ),
       ),
     );
   }
