@@ -349,11 +349,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                               ListTile(
                                 title: Text(
                                   "สอบถามรายละเอียด BlackList",
-                                  style: MyContant().h1MenuStyle(),
+                                  style: _selectedIndex == 5
+                                      ? MyContant().h1MenuStyle_click()
+                                      : MyContant().h1MenuStyle(),
                                 ),
                                 leading: Icon(
                                   Icons.person_off_rounded,
-                                  color: Colors.white,
+                                  color: _selectedIndex == 5
+                                      ? Colors.blue
+                                      : Colors.white,
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -450,9 +454,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   });
                   break;
                 case 2:
-                  setState(() {
-                    showMenu();
-                  });
+                  setState(() {});
                   break;
               }
             },

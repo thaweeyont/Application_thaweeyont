@@ -75,7 +75,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   }
 
   Future<void> getData_approve(start_date, end_date) async {
-    print(tokenId);
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/approve'),
@@ -93,15 +92,10 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           'endDate': end_date,
           'approveStatus': select_index_approve.toString(),
           'page': '1',
-          'limit': '100'
+          'limit': '80'
         }),
       );
-      print(custId.text);
-      print(idcard.text);
-      print(custName.text);
-      print(lastname_cust.text);
-      print(select_branchlist.toString());
-      print(select_status.toString());
+
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_approve =
             new Map<String, dynamic>.from(json.decode(respose.body));
@@ -110,8 +104,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           list_approve = data_approve['data'];
         });
         Navigator.pop(context);
-
-        print('==>> $list_approve');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -152,7 +144,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   }
 
   Future<void> get_select_branch() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/branchList'),
@@ -194,7 +185,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   }
 
   Future<void> get_select_statusApprove() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/approveStatus'),

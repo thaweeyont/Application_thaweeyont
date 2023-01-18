@@ -1862,122 +1862,31 @@ class _Query_debtorState extends State<Query_debtor> {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
-        child: ListView(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Color.fromRGBO(255, 218, 249, 1),
-              ),
-              width: double.infinity,
-              // height: 250,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'รหัสลูกค้า',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      input_idcustomer(sizeIcon, border),
-                      InkWell(
-                        onTap: () {
-                          search_idcustomer();
-                          get_select_cus();
-                        },
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(202, 71, 150, 1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'เลขบัตรประชาชน',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      input_idcard(sizeIcon, border),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'ชื่อ',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      input_name(sizeIcon, border),
-                      Text(
-                        'นามสกุล',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      input_lastname(sizeIcon, border),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'เลขที่สัญญา',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      input_signId(sizeIcon, border),
-                    ],
-                  ),
-                  if (filter == true) ...[
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Color.fromRGBO(255, 218, 249, 1),
+                ),
+                width: double.infinity,
+                // height: 250,
+                child: Column(
+                  children: [
                     Row(
                       children: [
                         Text(
-                          'เบอร์โทร',
+                          'รหัสลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_tel(sizeIcon, border),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ค้นหาจาก',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        select_search(sizeIcon, border),
-                      ],
-                    ),
-                    line(),
-                    Row(
-                      children: [
-                        Text(
-                          'บ้านเลขที่',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_numberhome(sizeIcon, border),
-                        Text(
-                          'หมู่',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_moo(sizeIcon, border),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ตำบล',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_district(sizeIcon, border),
+                        input_idcustomer(sizeIcon, border),
                         InkWell(
                           onTap: () {
-                            search_district(sizeIcon, border);
+                            search_idcustomer();
+                            get_select_cus();
                           },
                           child: Container(
                             width: 30,
@@ -1997,288 +1906,384 @@ class _Query_debtorState extends State<Query_debtor> {
                     Row(
                       children: [
                         Text(
-                          'อำเภอ',
+                          'เลขบัตรประชาชน',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_amphoe(sizeIcon, border),
+                        input_idcard(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
-                          'จังหวัด',
+                          'ชื่อ',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_province(sizeIcon, border),
-                      ],
-                    ),
-                    line(),
-                    Row(
-                      children: [
+                        input_name(sizeIcon, border),
                         Text(
-                          'สาขา',
+                          'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
-                        select_branch(sizeIcon, border),
+                        input_lastname(sizeIcon, border),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
-                          'ประเภทลูกหนี้ ',
+                          'เลขที่สัญญา',
                           style: MyContant().h4normalStyle(),
                         ),
-                        select_debtorTypelist(sizeIcon, border),
+                        input_signId(sizeIcon, border),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          'สถานะสัญญา',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        select_contractStatus(sizeIcon, border),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'ประเภทสัญญา',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        input_contractType(sizeIcon, border),
-                        InkWell(
-                          onTap: () {
-                            search_conType(sizeIcon, border);
-                          },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
+                    if (filter == true) ...[
+                      Row(
+                        children: [
+                          Text(
+                            'เบอร์โทร',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_tel(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'ค้นหาจาก',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          select_search(sizeIcon, border),
+                        ],
+                      ),
+                      line(),
+                      Row(
+                        children: [
+                          Text(
+                            'บ้านเลขที่',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_numberhome(sizeIcon, border),
+                          Text(
+                            'หมู่',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_moo(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'ตำบล',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_district(sizeIcon, border),
+                          InkWell(
+                            onTap: () {
+                              search_district(sizeIcon, border);
+                            },
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
                                 color: Color.fromRGBO(202, 71, 150, 1),
-                                shape: BoxShape.circle),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.white,
+                              ),
                             ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'อำเภอ',
+                            style: MyContant().h4normalStyle(),
                           ),
-                        )
-                      ],
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          group_btnsearch(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text(
-                  'รายการที่ค้นหา',
-                  style: MyContant().h2Style(),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: Scrollbar(
-              child: ListView(
-                children: [
-                  if (list_dataDebtor.isNotEmpty) ...[
-                    for (var i = 0; i < list_dataDebtor.length; i++) ...[
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Data_SearchDebtor(
-                                    list_dataDebtor[i]['signId'],
-                                    list_dataDebtor[i]['signStatusName'])),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: Color.fromRGBO(255, 218, 249, 1),
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'สาขาที่ออกขาย : ${list_dataDebtor[i]['branchName']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'เลขบัตรประชาชน : ${list_dataDebtor[i]['smartId']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'ชื่อลูกค้าในสัญญา : ',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        '${list_dataDebtor[i]['custName']}',
-                                        overflow: TextOverflow.clip,
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'สินค้าที่ซื้อ : ',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        '${list_dataDebtor[i]['itemName']}',
-                                        overflow: TextOverflow.clip,
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'เงินดาวน์/งวดแรก : ${list_dataDebtor[i]['downPrice']}  บาท',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ส่งเดือนละ : ${list_dataDebtor[i]['periodPrice']}  บาท',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ระยเวลา : ${list_dataDebtor[i]['periodCount']}  งวด',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'กำหนดชำระทุกวันที่ : ${list_dataDebtor[i]['periodDay']}  ของเดือน',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'หมายเหตุ : ',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        'เกินกำหนดชำระค่างวด 3 วัน มีเบี้ยปรับ+ค่าทวงถาม',
-                                        overflow: TextOverflow.clip,
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          input_amphoe(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'จังหวัด',
+                            style: MyContant().h4normalStyle(),
                           ),
-                        ),
+                          input_province(sizeIcon, border),
+                        ],
+                      ),
+                      line(),
+                      Row(
+                        children: [
+                          Text(
+                            'สาขา',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          select_branch(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'ประเภทลูกหนี้ ',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          select_debtorTypelist(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'สถานะสัญญา',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          select_contractStatus(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'ประเภทสัญญา',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          input_contractType(sizeIcon, border),
+                          InkWell(
+                            onTap: () {
+                              search_conType(sizeIcon, border);
+                            },
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(202, 71, 150, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ],
+                ),
+              ),
+            ),
+            group_btnsearch(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'รายการที่ค้นหา',
+                    style: MyContant().h2Style(),
+                  ),
                 ],
               ),
             ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-        ]),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Scrollbar(
+                child: ListView(
+                  children: [
+                    if (list_dataDebtor.isNotEmpty) ...[
+                      for (var i = 0; i < list_dataDebtor.length; i++) ...[
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Data_SearchDebtor(
+                                      list_dataDebtor[i]['signId'],
+                                      list_dataDebtor[i]['signStatusName'])),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                                color: Color.fromRGBO(255, 218, 249, 1),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'สาขาที่ออกขาย : ${list_dataDebtor[i]['branchName']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เลขบัตรประชาชน : ${list_dataDebtor[i]['smartId']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'ชื่อลูกค้าในสัญญา : ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_dataDebtor[i]['custName']}',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'สินค้าที่ซื้อ : ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_dataDebtor[i]['itemName']}',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เงินดาวน์/งวดแรก : ${list_dataDebtor[i]['downPrice']}  บาท',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ส่งเดือนละ : ${list_dataDebtor[i]['periodPrice']}  บาท',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ระยเวลา : ${list_dataDebtor[i]['periodCount']}  งวด',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'กำหนดชำระทุกวันที่ : ${list_dataDebtor[i]['periodDay']}  ของเดือน',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'หมายเหตุ : ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          'เกินกำหนดชำระค่างวด 3 วัน มีเบี้ยปรับ+ค่าทวงถาม',
+                                          overflow: TextOverflow.clip,
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+          ],
+        ),
       ),
     );
   }
