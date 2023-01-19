@@ -756,13 +756,14 @@ class _Query_debtorState extends State<Query_debtor> {
                                                         ))
                                                 .toList(),
                                             onChanged: (newvalue) async {
+                                              list_district = [];
                                               setState(() {
                                                 var dfvalue = newvalue;
-
                                                 selectValue_province = dfvalue;
                                                 text_province = dfvalue
                                                     .toString()
                                                     .split("_")[1];
+                                                selectValue_amphoe = null;
                                               });
 
                                               try {
@@ -792,8 +793,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                                   print(data_amphoe['data']);
                                                 } else if (respose.statusCode ==
                                                     401) {
-                                                  print(
-                                                      'จังหวัด >>${respose.statusCode}');
                                                   SharedPreferences
                                                       preferences =
                                                       await SharedPreferences
@@ -847,7 +846,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                     '​อำเภอ',
                                     style: MyContant().h4normalStyle(),
                                   ),
-                                  // select_amphoeDia(context, setState),
                                   Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -879,12 +877,12 @@ class _Query_debtorState extends State<Query_debtor> {
                                             onChanged: (newvalue) {
                                               setState(() {
                                                 var dfvalue = newvalue;
-
                                                 selectValue_amphoe = dfvalue;
                                                 text_amphoe = dfvalue
                                                     .toString()
                                                     .split("_")[1];
                                               });
+                                              list_district = [];
                                             },
                                             value: selectValue_amphoe,
                                             isExpanded: true,

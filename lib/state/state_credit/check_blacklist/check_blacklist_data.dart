@@ -263,7 +263,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         Navigator.pop(context);
         Navigator.pop(context);
         search_district(sizeIcon, border);
-        print(data_district['data']);
+        // print(data_district['data']);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -328,6 +328,14 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     lastnameSearchBl.clear();
     setState(() {
       list_dataSearch_bl = [];
+    });
+  }
+
+  clearValue_search_district() {
+    setState(() {
+      selectValue_province = null;
+      selectValue_amphoe = null;
+      list_district = [];
     });
   }
 
@@ -775,7 +783,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                     InkWell(
                                       onTap: () {
                                         Navigator.pop(context);
-                                        // clearValue_search_district();
+                                        clearValue_search_district();
                                       },
                                       child: Container(
                                         width: 30,
@@ -810,7 +818,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                     'จังหวัด',
                                     style: MyContant().h4normalStyle(),
                                   ),
-                                  // select_provincnDia(context, setState),
                                   Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -840,12 +847,15 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                         ))
                                                 .toList(),
                                             onChanged: (newvalue) async {
+                                              list_district = [];
                                               setState(() {
                                                 var dfvalue = newvalue;
                                                 selectValue_province = dfvalue;
                                                 text_province = dfvalue
                                                     .toString()
                                                     .split("_")[1];
+
+                                                selectValue_amphoe = null;
                                               });
 
                                               try {
@@ -871,11 +881,10 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                     dropdown_amphoe =
                                                         data_amphoe['data'];
                                                   });
-                                                  print(data_amphoe['data']);
+                                                  print(
+                                                      'อำเภอ =>${dropdown_amphoe}');
                                                 } else if (respose.statusCode ==
                                                     401) {
-                                                  print(
-                                                      'จังหวัด >>${respose.statusCode}');
                                                   SharedPreferences
                                                       preferences =
                                                       await SharedPreferences
@@ -961,12 +970,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                             onChanged: (newvalue) {
                                               setState(() {
                                                 var dfvalue = newvalue;
-
                                                 selectValue_amphoe = dfvalue;
                                                 text_amphoe = dfvalue
                                                     .toString()
                                                     .split("_")[1];
                                               });
+                                              list_district = [];
                                             },
                                             value: selectValue_amphoe,
                                             isExpanded: true,
