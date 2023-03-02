@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/state/state_credit/check_blacklist/credit_data_detail.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -25,7 +26,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String? id = '1', thaidate = '543';
   bool st_customer = true, st_employee = false;
-  var status = false, valueStatus, Texthint, valueNotdata;
+  var status = false, valueStatus, Texthint, valueNotdata, new_branch;
   var selectValue_customer,
       selectvalue_saletype,
       select_branchlist,
@@ -74,79 +75,79 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     get_select_statusApprove();
   }
 
-  Future<void> getData_approve(start_date, end_date) async {
-    try {
-      var respose = await http.post(
-        Uri.parse('${api}credit/approve'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-        body: jsonEncode(<String, String>{
-          'custId': custId.text,
-          'smartId': idcard.text,
-          'firstName': custName.text,
-          'lastName': lastname_cust.text,
-          'branchId': select_branchlist,
-          'startDate': start_date,
-          'endDate': end_date,
-          'approveStatus': select_index_approve.toString(),
-          'page': '1',
-          'limit': '80'
-        }),
-      );
+  // Future<void> getData_approve(start_date, end_date) async {
+  //   try {
+  //     var respose = await http.post(
+  //       Uri.parse('${beta_api_test}credit/approve'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': tokenId.toString(),
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'custId': custId.text,
+  //         'smartId': idcard.text,
+  //         'firstName': custName.text,
+  //         'lastName': lastname_cust.text,
+  //         'branchId': select_branchlist,
+  //         'startDate': start_date,
+  //         'endDate': end_date,
+  //         'approveStatus': select_index_approve.toString(),
+  //         'page': '1',
+  //         'limit': '80'
+  //       }),
+  //     );
 
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> data_approve =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+  //     if (respose.statusCode == 200) {
+  //       Map<String, dynamic> data_approve =
+  //           new Map<String, dynamic>.from(json.decode(respose.body));
 
-        setState(() {
-          list_approve = data_approve['data'];
-        });
-        Navigator.pop(context);
-      } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-      } else {
-        print(respose.statusCode);
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
+  //       setState(() {
+  //         list_approve = data_approve['data'];
+  //       });
+  //       Navigator.pop(context);
+  //     } else if (respose.statusCode == 400) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_400(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 401) {
+  //       print(respose.statusCode);
+  //       SharedPreferences preferences = await SharedPreferences.getInstance();
+  //       preferences.clear();
+  //       Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => Authen(),
+  //         ),
+  //         (Route<dynamic> route) => false,
+  //       );
+  //       showProgressDialog_401(
+  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+  //     } else if (respose.statusCode == 404) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_404(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 405) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 500) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_500(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+  //     } else {
+  //       print(respose.statusCode);
+  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+  //     }
+  //   } catch (e) {
+  //     print("ไม่มีข้อมูล $e");
+  //     showProgressDialog_Notdata(
+  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+  //   }
+  // }
 
   Future<void> get_select_branch() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/branchList'),
+        Uri.parse('${beta_api_test}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -187,7 +188,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_statusApprove() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/approveStatus'),
+        Uri.parse('${beta_api_test}setup/approveStatus'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -216,7 +217,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/custCondition'),
+        Uri.parse('${beta_api_test}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -287,7 +288,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       // list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${api}customer/list'),
+          Uri.parse('${beta_api_test}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -773,12 +774,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                             width: 30,
                             height: 30,
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(
-                                173,
-                                106,
-                                3,
-                                1,
-                              ),
+                              color: Color.fromRGBO(173, 106, 3, 1),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
@@ -824,10 +820,14 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     Row(
                       children: [
                         Text(
-                          'วันที่',
+                          'วันที่   ',
                           style: MyContant().h4normalStyle(),
                         ),
                         input_dateStart(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         Text(
                           'ถึงวันที่',
                           style: MyContant().h4normalStyle(),
@@ -860,141 +860,143 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                 ],
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: Scrollbar(
-                child: ListView(
-                  children: [
-                    if (list_approve.isNotEmpty) ...[
-                      for (var i = 0; i < list_approve.length; i++) ...[
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Data_Cust_Approve(
-                                      list_approve[i]['custId'])),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                                color: Color.fromRGBO(251, 173, 55, 1),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'วันที่ : ${list_approve[i]['tranDate']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'สาขา : ${list_approve[i]['branchName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'รหัสลูกค้า : ${list_approve[i]['custId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'เลขบัตรประชาชน : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${list_approve[i]['smartId']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ชื่อ : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${list_approve[i]['custName']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'สถานะ : ${list_approve[i]['approveStatus']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ],
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   height: MediaQuery.of(context).size.height * 0.6,
+            //   child: Scrollbar(
+            //     child: ListView(
+            //       children: [
+            //         if (list_approve.isNotEmpty) ...[
+            //           for (var i = 0; i < list_approve.length; i++) ...[
+            //             InkWell(
+            //               onTap: () {
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) => Data_Cust_Approve(
+            //                         list_approve[i]['custId']),
+            //                   ),
+            //                 );
+            //               },
+            //               child: Padding(
+            //                 padding: const EdgeInsets.symmetric(
+            //                     horizontal: 8, vertical: 4),
+            //                 child: Container(
+            //                   padding: EdgeInsets.all(8.0),
+            //                   decoration: BoxDecoration(
+            //                     borderRadius:
+            //                         BorderRadius.all(Radius.circular(5)),
+            //                     color: Color.fromRGBO(251, 173, 55, 1),
+            //                   ),
+            //                   child: Column(
+            //                     children: [
+            //                       // Row(
+            //                       //   children: [
+            //                       //     Text(
+            //                       //       'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
+            //                       //       style: MyContant().h4normalStyle(),
+            //                       //     ),
+            //                       //   ],
+            //                       // ),
+            //                       // SizedBox(
+            //                       //   height: 5,
+            //                       // ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'สาขา : ${list_approve[i]['branchName']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         mainAxisAlignment:
+            //                             MainAxisAlignment.spaceBetween,
+            //                         children: [
+            //                           Text(
+            //                             'วันที่ : ${list_approve[i]['tranDate']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       // Row(
+            //                       //   children: [
+            //                       //     Text(
+            //                       //       'รหัสลูกค้า : ${list_approve[i]['custId']}',
+            //                       //       style: MyContant().h4normalStyle(),
+            //                       //     ),
+            //                       //   ],
+            //                       // ),
+            //                       // SizedBox(
+            //                       //   height: 5,
+            //                       // ),
+            //                       // Row(
+            //                       //   crossAxisAlignment:
+            //                       //       CrossAxisAlignment.start,
+            //                       //   children: [
+            //                       //     Text(
+            //                       //       'เลขบัตรประชาชน : ',
+            //                       //       style: MyContant().h4normalStyle(),
+            //                       //     ),
+            //                       //     Expanded(
+            //                       //       child: Text(
+            //                       //         '${list_approve[i]['smartId']}',
+            //                       //         overflow: TextOverflow.clip,
+            //                       //         style: MyContant().h4normalStyle(),
+            //                       //       ),
+            //                       //     ),
+            //                       //   ],
+            //                       // ),
+            //                       // SizedBox(
+            //                       //   height: 5,
+            //                       // ),
+            //                       Row(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'ชื่อ : ',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                           Expanded(
+            //                             child: Text(
+            //                               '${list_approve[i]['custName']}',
+            //                               overflow: TextOverflow.clip,
+            //                               style: MyContant().h4normalStyle(),
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'สถานะ : ${list_approve[i]['approveStatus']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       // SizedBox(
+            //                       //   height: 5,
+            //                       // ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ),
+            //             )
+            //           ],
+            //         ],
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: 25,
             ),
@@ -1017,6 +1019,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                   children: [
                     Container(
                       height: 30,
+                      width: 90,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
@@ -1025,21 +1028,48 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                       child: TextButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
-                          if (custId.text.isEmpty &&
-                              idcard.text.isEmpty &&
-                              custName.text.isEmpty &&
-                              lastname_cust.text.isEmpty) {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
+                          var newStratDate =
+                              start_date.text.replaceAll('-', '');
+                          var newEndDate = end_date.text.replaceAll('-', '');
+                          print('s==>> $newStratDate');
+                          print('e==>> $newEndDate');
+                          if (select_branchlist == null) {
+                            new_branch = "";
                           } else {
-                            var newStratDate =
-                                start_date.text.replaceAll('-', '');
-                            var newEndDate = end_date.text.replaceAll('-', '');
-                            print('s==>> $newStratDate');
-                            print('e==>> $newEndDate');
-                            showProgressLoading(context);
-                            getData_approve(newStratDate, newEndDate);
+                            new_branch = select_branchlist;
                           }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Credit_data_detail(
+                                  custId.text,
+                                  idcard.text,
+                                  custName.text,
+                                  lastname_cust.text,
+                                  new_branch,
+                                  newStratDate,
+                                  newEndDate,
+                                  select_index_approve),
+                            ),
+                          );
+                          // if (custId.text.isEmpty &&
+                          //     idcard.text.isEmpty &&
+                          //     custName.text.isEmpty &&
+                          //     lastname_cust.text.isEmpty) {
+                          //   showProgressDialog(context, 'แจ้งเตือน',
+                          //       'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
+                          // } else {
+                          //   var newStratDate =
+                          //       start_date.text.replaceAll('-', '');
+                          //   var newEndDate = end_date.text.replaceAll('-', '');
+                          //   print('s==>> $newStratDate');
+                          //   print('e==>> $newEndDate');
+                          //   showProgressLoading(context);
+                          //   getData_approve(newStratDate, newEndDate);
+                          // }
+                          // showProgressLoading(context);
+
+                          // getData_approve(newStratDate, newEndDate);
                         },
                         child: const Text('ค้นหา'),
                       ),
@@ -1047,6 +1077,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     SizedBox(width: 10),
                     Container(
                       height: 30,
+                      width: 90,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),

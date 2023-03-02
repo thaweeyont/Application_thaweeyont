@@ -53,7 +53,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     list_Blacklist = [];
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/checkBlacklist'),
+        Uri.parse('${beta_api_test}credit/checkBlacklist'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

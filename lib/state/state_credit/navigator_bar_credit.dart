@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
@@ -32,7 +33,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     try {
       print(tokenId);
       var respose = await http.post(
-        Uri.parse('https://api.twyapp.com/apiV1/authen/logout'),
+        Uri.parse('${beta_api_test}authen/logout'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId,

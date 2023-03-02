@@ -41,7 +41,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/detail'),
+        Uri.parse('${beta_api_test}credit/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -126,7 +126,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     list_quarantee = [];
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/quarantee'),
+        Uri.parse('${beta_api_test}credit/quarantee'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -480,13 +480,154 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ],
                   if (list_signDetail.isNotEmpty) ...[
                     slidemenu(context),
-                    if (active_cl1 == true) ...[
-                      content_list1(context),
-                    ],
-                    if (active_cl2 == true) ...[
-                      content_list2(context),
-                    ],
+                    // if (active_cl1 == true) ...[
+                    //   // content_list1(context),
+                    // ],
+                    // if (active_cl2 == true) ...[
+                    //   content_list2(context),
+                    // ],
                   ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(251, 173, 55, 1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
+                          )),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'ชื่อสินค้า : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'ราคา/หน่วย : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Text(
+                                  'จำนวน : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'จำนวนเงิน : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(251, 173, 55, 1),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'ประเภทสัญญา : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Text(
+                                  'ทำสัญญาที่ : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'ราคาตั้งขาย :   บาท',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'เงินดาวน์ :   บาท',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'ระยะส่ง(งวด) :   งวด',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'จำนวนที่ชำระ/งวด :   บาท',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'การพิจารณา : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'ผู้ตรวจสอบเครดิต : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'พนักงานขาย : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'ผู้ส่งขออนุมัติสินเชื่อ : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -494,6 +635,16 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Container slidemenu(BuildContext context) {
+    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = OutlineInputBorder(
+      borderSide: const BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: const BorderRadius.all(
+        const Radius.circular(4.0),
+      ),
+    );
     return Container(
       height: MediaQuery.of(context).size.height * 0.07,
       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -504,7 +655,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             children: [
               InkWell(
                 onTap: () {
-                  menu_list("list_content1");
+                  // menu_list("list_content1");
+                  sign_Detail(sizeIcon, border);
                 },
                 child: Container(
                   padding: EdgeInsets.all(5),
@@ -512,9 +664,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),
-                    color: active_cl1 == true
-                        ? Color.fromRGBO(202, 121, 0, 1)
-                        : Color.fromRGBO(251, 173, 55, 1),
+                    color: Color.fromRGBO(251, 173, 55, 1),
+                    // color: active_cl1 == true
+                    //     ? Color.fromRGBO(202, 121, 0, 1)
+                    //     : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'ตรวจสอบหนี้สิน',
@@ -535,9 +688,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),
-                    color: active_cl2 == true
-                        ? Color.fromRGBO(202, 121, 0, 1)
-                        : Color.fromRGBO(251, 173, 55, 1),
+                    color: Color.fromRGBO(251, 173, 55, 1),
+                    // color: active_cl2 == true
+                    //     ? Color.fromRGBO(202, 121, 0, 1)
+                    //     : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'รายละเอียดผู้ค้ำ',
@@ -791,6 +945,189 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               ],
             ],
           ],
+        ),
+      ),
+    );
+  }
+
+  Future<Null> sign_Detail(sizeIcon, border) async {
+    double size = MediaQuery.of(context).size.width;
+    // bool btn_edit = false;
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: StatefulBuilder(
+          builder: (context, setState) => Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(5),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    elevation: 0,
+                    color: Colors.white,
+                    child: Container(
+                      height: size * 1.5,
+                      margin: EdgeInsets.all(5),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: size * 0.03,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: 15, right: 15, bottom: 15),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('data'),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        // clearValue_search_conType();
+                                      },
+                                      child: Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Color.fromRGBO(173, 106, 3, 1),
+                                            shape: BoxShape.circle),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.63,
+                            child: Scrollbar(
+                              child: ListView(
+                                children: [
+                                  if (list_signDetail.isNotEmpty) ...[
+                                    for (var i = 0;
+                                        i < list_signDetail.length;
+                                        i++) ...[
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Page_Info_Consider_Cus(
+                                                list_signDetail[i]['signId'],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4, horizontal: 4),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                              color: Color.fromRGBO(
+                                                  251, 173, 55, 1),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'วันทำสัญญา : ${list_signDetail[i]['signDate']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'เลขที่สัญญา : ${list_signDetail[i]['signId']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'ชื่อสินค้า : ',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${list_signDetail[i]['itemName']}',
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'รหัสเขต : ${list_signDetail[i]['followAreaName']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Text(
+                                                        'สถานะ : ${list_signDetail[i]['signStatusName']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
