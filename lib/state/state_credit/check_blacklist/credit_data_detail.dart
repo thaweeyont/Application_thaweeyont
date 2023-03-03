@@ -182,7 +182,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Data_Cust_Approve(
-                                      list_approve[i]['custId']),
+                                      list_approve[i]['custId'],list_approve[i]['tranId']),
                                 ),
                               );
                             },

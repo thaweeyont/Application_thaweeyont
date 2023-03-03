@@ -96,6 +96,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle TextTitleDialog() => TextStyle(
+        fontSize: 18,
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle TextInputStyle() => TextStyle(
         //ตัวหนังสือใน input
         fontSize: 16,
@@ -177,6 +183,15 @@ class MyContant {
           borderRadius: BorderRadius.circular(10),
         ),
         foregroundColor: Colors.white,
+        padding: const EdgeInsets.all(0),
+        textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+      );
+  ButtonStyle myButtonSubmitStyle() => ElevatedButton.styleFrom(
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        foregroundColor: Color.fromARGB(255, 0, 0, 0),
         padding: const EdgeInsets.all(0),
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );

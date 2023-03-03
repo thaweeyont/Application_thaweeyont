@@ -849,157 +849,157 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               ),
             ),
             group_btnsearch(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'รายการที่ค้นหา',
-                    style: MyContant().h2Style(),
-                  ),
-                ],
-              ),
-            ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.6,
-            //   child: Scrollbar(
-            //     child: ListView(
-            //       children: [
-            //         if (list_approve.isNotEmpty) ...[
-            //           for (var i = 0; i < list_approve.length; i++) ...[
-            //             InkWell(
-            //               onTap: () {
-            //                 Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                     builder: (context) => Data_Cust_Approve(
-            //                         list_approve[i]['custId']),
-            //                   ),
-            //                 );
-            //               },
-            //               child: Padding(
-            //                 padding: const EdgeInsets.symmetric(
-            //                     horizontal: 8, vertical: 4),
-            //                 child: Container(
-            //                   padding: EdgeInsets.all(8.0),
-            //                   decoration: BoxDecoration(
-            //                     borderRadius:
-            //                         BorderRadius.all(Radius.circular(5)),
-            //                     color: Color.fromRGBO(251, 173, 55, 1),
-            //                   ),
-            //                   child: Column(
-            //                     children: [
-            //                       // Row(
-            //                       //   children: [
-            //                       //     Text(
-            //                       //       'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
-            //                       //       style: MyContant().h4normalStyle(),
-            //                       //     ),
-            //                       //   ],
-            //                       // ),
-            //                       // SizedBox(
-            //                       //   height: 5,
-            //                       // ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'สาขา : ${list_approve[i]['branchName']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         mainAxisAlignment:
-            //                             MainAxisAlignment.spaceBetween,
-            //                         children: [
-            //                           Text(
-            //                             'วันที่ : ${list_approve[i]['tranDate']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       // Row(
-            //                       //   children: [
-            //                       //     Text(
-            //                       //       'รหัสลูกค้า : ${list_approve[i]['custId']}',
-            //                       //       style: MyContant().h4normalStyle(),
-            //                       //     ),
-            //                       //   ],
-            //                       // ),
-            //                       // SizedBox(
-            //                       //   height: 5,
-            //                       // ),
-            //                       // Row(
-            //                       //   crossAxisAlignment:
-            //                       //       CrossAxisAlignment.start,
-            //                       //   children: [
-            //                       //     Text(
-            //                       //       'เลขบัตรประชาชน : ',
-            //                       //       style: MyContant().h4normalStyle(),
-            //                       //     ),
-            //                       //     Expanded(
-            //                       //       child: Text(
-            //                       //         '${list_approve[i]['smartId']}',
-            //                       //         overflow: TextOverflow.clip,
-            //                       //         style: MyContant().h4normalStyle(),
-            //                       //       ),
-            //                       //     ),
-            //                       //   ],
-            //                       // ),
-            //                       // SizedBox(
-            //                       //   height: 5,
-            //                       // ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'ชื่อ : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               '${list_approve[i]['custName']}',
-            //                               overflow: TextOverflow.clip,
-            //                               style: MyContant().h4normalStyle(),
-            //                             ),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'สถานะ : ${list_approve[i]['approveStatus']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       // SizedBox(
-            //                       //   height: 5,
-            //                       // ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               ),
-            //             )
-            //           ],
-            //         ],
-            //       ],
-            //     ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       Text(
+            //         'รายการที่ค้นหา',
+            //         style: MyContant().h2Style(),
+            //       ),
+            //     ],
             //   ),
             // ),
-            SizedBox(
-              height: 25,
-            ),
+            // // Container(
+            // //   height: MediaQuery.of(context).size.height * 0.6,
+            // //   child: Scrollbar(
+            // //     child: ListView(
+            // //       children: [
+            // //         if (list_approve.isNotEmpty) ...[
+            // //           for (var i = 0; i < list_approve.length; i++) ...[
+            // //             InkWell(
+            // //               onTap: () {
+            // //                 Navigator.push(
+            // //                   context,
+            // //                   MaterialPageRoute(
+            // //                     builder: (context) => Data_Cust_Approve(
+            // //                         list_approve[i]['custId']),
+            // //                   ),
+            // //                 );
+            // //               },
+            // //               child: Padding(
+            // //                 padding: const EdgeInsets.symmetric(
+            // //                     horizontal: 8, vertical: 4),
+            // //                 child: Container(
+            // //                   padding: EdgeInsets.all(8.0),
+            // //                   decoration: BoxDecoration(
+            // //                     borderRadius:
+            // //                         BorderRadius.all(Radius.circular(5)),
+            // //                     color: Color.fromRGBO(251, 173, 55, 1),
+            // //                   ),
+            // //                   child: Column(
+            // //                     children: [
+            // //                       // Row(
+            // //                       //   children: [
+            // //                       //     Text(
+            // //                       //       'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
+            // //                       //       style: MyContant().h4normalStyle(),
+            // //                       //     ),
+            // //                       //   ],
+            // //                       // ),
+            // //                       // SizedBox(
+            // //                       //   height: 5,
+            // //                       // ),
+            // //                       Row(
+            // //                         children: [
+            // //                           Text(
+            // //                             'สาขา : ${list_approve[i]['branchName']}',
+            // //                             style: MyContant().h4normalStyle(),
+            // //                           ),
+            // //                         ],
+            // //                       ),
+            // //                       SizedBox(
+            // //                         height: 5,
+            // //                       ),
+            // //                       Row(
+            // //                         mainAxisAlignment:
+            // //                             MainAxisAlignment.spaceBetween,
+            // //                         children: [
+            // //                           Text(
+            // //                             'วันที่ : ${list_approve[i]['tranDate']}',
+            // //                             style: MyContant().h4normalStyle(),
+            // //                           ),
+            // //                         ],
+            // //                       ),
+            // //                       SizedBox(
+            // //                         height: 5,
+            // //                       ),
+            // //                       // Row(
+            // //                       //   children: [
+            // //                       //     Text(
+            // //                       //       'รหัสลูกค้า : ${list_approve[i]['custId']}',
+            // //                       //       style: MyContant().h4normalStyle(),
+            // //                       //     ),
+            // //                       //   ],
+            // //                       // ),
+            // //                       // SizedBox(
+            // //                       //   height: 5,
+            // //                       // ),
+            // //                       // Row(
+            // //                       //   crossAxisAlignment:
+            // //                       //       CrossAxisAlignment.start,
+            // //                       //   children: [
+            // //                       //     Text(
+            // //                       //       'เลขบัตรประชาชน : ',
+            // //                       //       style: MyContant().h4normalStyle(),
+            // //                       //     ),
+            // //                       //     Expanded(
+            // //                       //       child: Text(
+            // //                       //         '${list_approve[i]['smartId']}',
+            // //                       //         overflow: TextOverflow.clip,
+            // //                       //         style: MyContant().h4normalStyle(),
+            // //                       //       ),
+            // //                       //     ),
+            // //                       //   ],
+            // //                       // ),
+            // //                       // SizedBox(
+            // //                       //   height: 5,
+            // //                       // ),
+            // //                       Row(
+            // //                         crossAxisAlignment:
+            // //                             CrossAxisAlignment.start,
+            // //                         children: [
+            // //                           Text(
+            // //                             'ชื่อ : ',
+            // //                             style: MyContant().h4normalStyle(),
+            // //                           ),
+            // //                           Expanded(
+            // //                             child: Text(
+            // //                               '${list_approve[i]['custName']}',
+            // //                               overflow: TextOverflow.clip,
+            // //                               style: MyContant().h4normalStyle(),
+            // //                             ),
+            // //                           ),
+            // //                         ],
+            // //                       ),
+            // //                       SizedBox(
+            // //                         height: 5,
+            // //                       ),
+            // //                       Row(
+            // //                         children: [
+            // //                           Text(
+            // //                             'สถานะ : ${list_approve[i]['approveStatus']}',
+            // //                             style: MyContant().h4normalStyle(),
+            // //                           ),
+            // //                         ],
+            // //                       ),
+            // //                       // SizedBox(
+            // //                       //   height: 5,
+            // //                       // ),
+            // //                     ],
+            // //                   ),
+            // //                 ),
+            // //               ),
+            // //             )
+            // //           ],
+            // //         ],
+            // //       ],
+            // //     ),
+            // //   ),
+            // // ),
+            // SizedBox(
+            //   height: 25,
+            // ),
           ],
         ),
       ),
@@ -1322,7 +1322,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.08,
+          height: MediaQuery.of(context).size.width * 0.1,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -1364,7 +1364,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.08,
+          height: MediaQuery.of(context).size.width * 0.1,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -1414,7 +1414,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               Icons.calendar_today,
               color: Colors.black,
             ),
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1462,7 +1462,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               Icons.calendar_today,
               color: Colors.black,
             ),
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
