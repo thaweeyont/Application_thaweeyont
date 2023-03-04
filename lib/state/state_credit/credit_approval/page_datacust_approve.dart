@@ -25,17 +25,20 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
   String page = 'list_content1';
   String? id = '1';
+  final disabledItems = ['3'];
 
-  Map<String, dynamic>? list_itemDetail, list_detail;
+  Map<String, dynamic>? list_itemDetail, list_detail, dropdown_approve;
+  String? select_approveTypeList;
   List list_signDetail = [],
       list_quarantee = [],
       dropdown_approveReasonList = [],
-      dropdown_approveTypeList = [];
+      dropdown_approveTypeList = [],
+      dropdownTest = [];
   var valueapprove,
       value_approveDetail,
       valueStatus,
       select_approveReasonList,
-      select_approveTypeList,
+      get_valueapprov,
       status = false;
 
   TextEditingController note_approve = TextEditingController();
@@ -85,12 +88,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 valueapprove['approveDetail']['detail']);
           }
 
+          get_valueapprov = list_detail!['approveStatus'];
+          select_approveTypeList = get_valueapprov;
           // active_cl1 = true;
           // active_cl2 = false;
           // active_cl3 = false;
         });
 
-        print('#===> ${list_detail}');
+        print('#===> ${get_valueapprov}');
         // Navigator.pop(context);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
@@ -232,7 +237,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         });
 
         // Navigator.pop(context);
-        // print(dropdown_approveTypeList);
+        print(dropdown_approveTypeList);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -634,15 +639,15 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       ),
                     ),
                   ],
-                  if (list_signDetail.isNotEmpty) ...[
-                    slidemenu(context),
-                    // if (active_cl1 == true) ...[
-                    //   // content_list1(context),
-                    // ],
-                    // if (active_cl2 == true) ...[
-                    //   content_list2(context),
-                    // ],
-                  ],
+                  // if (list_signDetail.isNotEmpty) ...[
+                  slidemenu(context),
+                  // if (active_cl1 == true) ...[
+                  //   // content_list1(context),
+                  // ],
+                  // if (active_cl2 == true) ...[
+                  //   content_list2(context),
+                  // ],
+                  // ],
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -657,10 +662,18 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         child: Column(
                           children: [
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'ชื่อสินค้า : ',
                                   style: MyContant().h4normalStyle(),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${list_itemDetail!['itemName']}',
+                                    style: MyContant().h4normalStyle(),
+                                    overflow: TextOverflow.clip,
+                                  ),
                                 ),
                               ],
                             ),
@@ -668,11 +681,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'ราคา/หน่วย : ',
+                                  'ราคา/หน่วย : ${list_itemDetail!['unitPrice']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                                 Text(
-                                  'จำนวน : ',
+                                  'จำนวน : ${list_itemDetail!['qty']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -680,7 +693,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Row(
                               children: [
                                 Text(
-                                  'จำนวนเงิน : ',
+                                  'จำนวนเงิน : ${list_itemDetail!['totalPrice']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -705,14 +718,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'ประเภทสัญญา : ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                Text(
-                                  'ทำสัญญาที่ : ',
+                                  'ประเภทสัญญา : ${list_detail!['signTypeName']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -720,7 +728,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Row(
                               children: [
                                 Text(
-                                  'ราคาตั้งขาย :   บาท',
+                                  'ทำสัญญาที่ : ${list_detail!['makeSignPlace']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -728,7 +736,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Row(
                               children: [
                                 Text(
-                                  'เงินดาวน์ :   บาท',
+                                  'ราคาตั้งขาย : ${list_detail!['leaseTotal']}  บาท',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -736,7 +744,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Row(
                               children: [
                                 Text(
-                                  'ระยะส่ง(งวด) :   งวด',
+                                  'เงินดาวน์ : ${list_detail!['downPrice']}  บาท',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -744,23 +752,39 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Row(
                               children: [
                                 Text(
-                                  'จำนวนที่ชำระ/งวด :   บาท',
+                                  'ระยะส่ง(งวด) :  ${list_detail!['leasePeriod']} งวด',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
                             ),
                             Row(
+                              children: [
+                                Text(
+                                  'จำนวนที่ชำระ/งวด : ${list_detail!['periodPrice']}  บาท',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'การพิจารณา : ',
                                   style: MyContant().h4normalStyle(),
                                 ),
+                                Expanded(
+                                  child: Text(
+                                    '${list_detail!['considerName']}',
+                                    style: MyContant().h4normalStyle(),
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
                                 Text(
-                                  'ผู้ตรวจสอบเครดิต : ',
+                                  'ผู้ตรวจสอบเครดิต : ${list_detail!['checkerName']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -768,7 +792,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Row(
                               children: [
                                 Text(
-                                  'พนักงานขาย : ',
+                                  'พนักงานขาย : ${list_detail!['saleName']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -776,7 +800,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Row(
                               children: [
                                 Text(
-                                  'ผู้ส่งขออนุมัติสินเชื่อ : ',
+                                  'ผู้ส่งขออนุมัติสินเชื่อ : ${list_detail!['sendApproveName']}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -831,7 +855,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                               children: [
                                                 Expanded(
                                                   child: Text(
-                                                    '',
+                                                    '${list_detail!['creditNote']}',
                                                     overflow: TextOverflow.clip,
                                                     style: MyContant()
                                                         .h4normalStyle(),
@@ -897,7 +921,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                               children: [
                                                 Expanded(
                                                   child: Text(
-                                                    '',
+                                                    '${list_detail!['headNote']}',
                                                     overflow: TextOverflow.clip,
                                                     style: MyContant()
                                                         .h4normalStyle(),
@@ -1652,22 +1676,28 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton(
-              items: dropdown_approveTypeList
-                  .map((value) => DropdownMenuItem(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().TextInputStyle(),
-                        ),
-                        value: value['id'],
-                      ))
-                  .toList(),
-              onChanged: (newvalue) {
-                setState(() {
-                  select_approveTypeList = newvalue;
-                });
-              },
+            child: DropdownButton<String>(
               value: select_approveTypeList,
+              items: dropdown_approveTypeList.isEmpty
+                  ? []
+                  : dropdown_approveTypeList
+                      .map(
+                        (value) => DropdownMenuItem<String>(
+                          child: Text(
+                            value['name'],
+                            style: MyContant().TextInputStyle(),
+                          ),
+                          value: value['id'].toString(),
+                        ),
+                      )
+                      .toList(),
+              onChanged: disabledItems.contains(select_approveTypeList)
+                  ? (String? newvalue) {
+                      setState(() {
+                        select_approveTypeList = newvalue;
+                      });
+                    }
+                  : null,
               isExpanded: true,
               underline: SizedBox(),
               hint: Align(
