@@ -63,7 +63,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
     print(widget.custName);
     print(widget.lastname_cust);
     print('สาขา>>${widget.select_branchlist}');
-    print(widget.start_date);
+    print('date->${widget.start_date}');
     print(widget.end_date);
     print(widget.select_index_approve);
     try {
@@ -182,7 +182,8 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Data_Cust_Approve(
-                                      list_approve[i]['custId'],list_approve[i]['tranId']),
+                                      list_approve[i]['custId'],
+                                      list_approve[i]['tranId']),
                                 ),
                               );
                             },

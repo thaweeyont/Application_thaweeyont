@@ -50,6 +50,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   TextEditingController idcard = TextEditingController();
   TextEditingController lastname_cust = TextEditingController();
 
+  DateTime selectedDate = DateTime.now();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -73,6 +75,11 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     });
     get_select_branch();
     get_select_statusApprove();
+    var formattedDate = DateFormat('-MM-dd').format(selectedDate);
+    var newDate = selectedDate.yearInBuddhistCalendar;
+    start_date.text = '${newDate}' + formattedDate;
+    print('date_now>>${start_date.text}');
+    // start_date.text = ('${newDate.toLocal()}'.split(' ')[0]);
   }
 
   // Future<void> getData_approve(start_date, end_date) async {
@@ -200,7 +207,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             new Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_status = data_statusApprove['data'];
-          select_index_approve = dropdown_status[0]['id'];
+          select_index_approve = dropdown_status[3]['id'];
         });
 
         print(dropdown_status);

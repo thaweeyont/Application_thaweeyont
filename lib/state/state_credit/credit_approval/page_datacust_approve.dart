@@ -25,24 +25,27 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
   String page = 'list_content1';
   String? id = '1';
-  final disabledItems = ['3'];
 
   Map<String, dynamic>? list_itemDetail, list_detail, dropdown_approve;
-  String? select_approveTypeList;
+  String? select_approveTypeList,
+      select_approveReasonList,
+      select_NotapproveReasonList,
+      valueSelectApprove;
   List list_signDetail = [],
       list_quarantee = [],
       dropdown_approveReasonList = [],
+      dropdown_NotapproveReasonList = [],
       dropdown_approveTypeList = [],
       dropdownTest = [];
   var valueapprove,
       value_approveDetail,
       valueStatus,
-      select_approveReasonList,
       get_valueapprov,
       status = false;
 
   TextEditingController note_approve = TextEditingController();
   TextEditingController name_approve = TextEditingController();
+  TextEditingController show_approve_credit = TextEditingController();
 
   @override
   void initState() {
@@ -83,19 +86,24 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             list_itemDetail = new Map<String, dynamic>.from(
                 valueapprove['approveDetail']['itemDetail']);
           }
-          if (valueapprove['approveDetail']['detail'].toString() != "") {
+          if (valueapprove['approveDetail']['detail'].toString() != "[]") {
             list_detail = new Map<String, dynamic>.from(
                 valueapprove['approveDetail']['detail']);
           }
 
           get_valueapprov = list_detail!['approveStatus'];
           select_approveTypeList = get_valueapprov;
+          note_approve.text = list_detail![''];
+          show_approve_credit.text = list_detail![''];
+          name_approve.text = ' ${list_detail!['approveId']}'
+              ' ${list_detail!['approveName']}';
           // active_cl1 = true;
           // active_cl2 = false;
           // active_cl3 = false;
         });
 
-        print('#===> ${get_valueapprov}');
+        print('#===> ${list_detail!.length}');
+        print('data=>>${dataCreditdetail['status']}');
         // Navigator.pop(context);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
@@ -136,6 +144,81 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
+  Future<void> ApproveCredit() async {
+    if (select_approveReasonList == "" || select_approveReasonList == null) {
+      print('1=>>$select_approveReasonList');
+      valueSelectApprove = select_NotapproveReasonList;
+    } else if (select_NotapproveReasonList == "" ||
+        select_NotapproveReasonList == null) {
+      print('2=>>$select_NotapproveReasonList');
+      valueSelectApprove = select_approveReasonList;
+    }
+    print(widget.tranId);
+    print(select_approveTypeList);
+    print(valueSelectApprove);
+    print(note_approve.text);
+
+    try {
+      var respose = await http.post(
+        Uri.parse('${beta_api_test}credit/approveCredit'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, String>{
+          'tranApproveId': widget.tranId.toString(),
+          'approveStatus': select_approveTypeList.toString(),
+          'approveReasonId': valueSelectApprove.toString(),
+          'approveNote': note_approve.text
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        print('data=>>${respose.body}');
+        setState(() {
+          Navigator.pop(context);
+          getData_Creditdetail();
+        });
+        // Navigator.pop(context);
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        print(respose.statusCode);
+        showProgressDialog_404(
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+      } else {
+        print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
   Future<Null> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -146,7 +229,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       tokenId = preferences.getString('tokenId')!;
     });
     getData_Creditdetail();
-    get_approveReasonList();
+    // get_approveReasonList();
     get_approveTypeList();
   }
 
@@ -294,6 +377,66 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
         setState(() {
           dropdown_approveReasonList = dataapproveReasonList['data'];
+        });
+
+        // Navigator.pop(context);
+        // print(dropdown_approveReasonList);
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        print(respose.statusCode);
+        showProgressDialog_404(
+            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> get_notApproveReasonList() async {
+    print(tokenId);
+
+    try {
+      var respose = await http.get(
+        Uri.parse('${beta_api_test}setup/notApproveReasonList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> datanotReasonList =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          dropdown_NotapproveReasonList = datanotReasonList['data'];
         });
 
         // Navigator.pop(context);
@@ -750,6 +893,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ],
                             ),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'ดอกเบี้ย :  ${list_detail!['interestPercent']} %',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Text(
+                                  'รวม :  ${list_detail!['interestTotal']} บาท',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
                               children: [
                                 Text(
                                   'ระยะส่ง(งวด) :  ${list_detail!['leasePeriod']} งวด',
@@ -969,8 +1125,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               height: 5,
                             ),
                             Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.465,
+                              height: MediaQuery.of(context).size.height * 0.5,
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.7),
                                 borderRadius: BorderRadius.all(
@@ -1080,20 +1235,40 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       ),
                                       Row(
                                         children: [
-                                          select_ReasonList(sizeIcon, border),
+                                          if (list_detail!['approveStatus'] ==
+                                              '3') ...[
+                                            if (select_approveTypeList ==
+                                                '1') ...[
+                                              select_ReasonList(
+                                                  sizeIcon, border),
+                                            ] else if (select_approveTypeList ==
+                                                '2') ...[
+                                              select_notReasonList(
+                                                  sizeIcon, border),
+                                            ] else ...[
+                                              SizedBox(
+                                                height: 48,
+                                              )
+                                            ]
+                                          ] else ...[
+                                            input_approve_credit(
+                                                sizeIcon, border),
+                                          ]
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'หมายเหตุ : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
                                         ],
                                       ),
                                       SizedBox(
                                         height: 3,
                                       ),
                                       Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            'หมายเหตุ : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
                                           input_note_approve(sizeIcon, border),
                                         ],
                                       ),
@@ -1112,26 +1287,34 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       SizedBox(
                                         height: 20,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Container(
-                                                height: 30,
-                                                width: 120,
-                                                child: TextButton(
-                                                  style: MyContant()
-                                                      .myButtonSubmitStyle(),
-                                                  onPressed: () {},
-                                                  child: const Text('บันทึก'),
+                                      if (list_detail!['approveStatus'] ==
+                                          '3') ...[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Container(
+                                                  height: 30,
+                                                  width: 120,
+                                                  child: TextButton(
+                                                    style: MyContant()
+                                                        .myButtonSubmitStyle(),
+                                                    onPressed: () {
+                                                      print('click');
+                                                      showProgressLoading(
+                                                          context);
+                                                      ApproveCredit();
+                                                    },
+                                                    child: const Text('บันทึก'),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ],
                                   ),
                                 ),
@@ -1142,6 +1325,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       ),
                     ),
                   ),
+
                   SizedBox(
                     height: 20,
                   ),
@@ -1691,11 +1875,16 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         ),
                       )
                       .toList(),
-              onChanged: disabledItems.contains(select_approveTypeList)
+              onChanged: list_detail!['approveStatus'] == '3'
                   ? (String? newvalue) {
                       setState(() {
                         select_approveTypeList = newvalue;
                       });
+                      if (select_approveTypeList == '1') {
+                        get_approveReasonList();
+                      } else if (select_approveTypeList == '2') {
+                        get_notApproveReasonList();
+                      }
                     }
                   : null,
               isExpanded: true,
@@ -1724,22 +1913,66 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton(
+            child: DropdownButton<String>(
               items: dropdown_approveReasonList
-                  .map((value) => DropdownMenuItem(
+                  .map((value) => DropdownMenuItem<String>(
                         child: Text(
                           value['name'],
                           style: MyContant().TextInputStyle(),
                         ),
-                        value: value['id'],
+                        value: value['id'].toString(),
                       ))
                   .toList(),
-              onChanged: (newvalue) {
+              onChanged: (String? newvalue) {
                 setState(() {
                   select_approveReasonList = newvalue;
                 });
+                print('test>>${select_approveReasonList}');
               },
               value: select_approveReasonList,
+              isExpanded: true,
+              underline: SizedBox(),
+              hint: Align(
+                child: Text(
+                  'กรุณาเลือกข้อมูล',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded select_notReasonList(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.1,
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton<String>(
+              items: dropdown_NotapproveReasonList
+                  .map((value) => DropdownMenuItem<String>(
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                        value: value['id'].toString(),
+                      ))
+                  .toList(),
+              onChanged: (String? newvalue) {
+                setState(() {
+                  select_NotapproveReasonList = newvalue;
+                });
+                print('test>>${select_NotapproveReasonList}');
+              },
+              value: select_NotapproveReasonList,
               isExpanded: true,
               underline: SizedBox(),
               hint: Align(
@@ -1764,12 +1997,41 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           onChanged: (keyword) {},
           minLines: 4,
           maxLines: null,
+          readOnly: list_detail!['approveStatus'] == '3' ? false : true,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
             hintText: 'หมายเหตุ',
+            hintStyle: MyContant().hintTextStyle(),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded input_approve_credit(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(0),
+        child: TextField(
+          controller: show_approve_credit,
+          onChanged: (keyword) {},
+          minLines: 2,
+          maxLines: null,
+          readOnly: true,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(4),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintText: '',
             hintStyle: MyContant().hintTextStyle(),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
@@ -1789,6 +2051,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         child: TextField(
           controller: name_approve,
           onChanged: (keyword) {},
+          readOnly: true,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(4),
             isDense: true,
