@@ -24,6 +24,7 @@ class Page_Credit_Approval extends StatefulWidget {
 
 class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  bool? allowApproveStatus;
   String? id = '1', thaidate = '543';
   bool st_customer = true, st_employee = false;
   var status = false, valueStatus, Texthint, valueNotdata, new_branch;
@@ -72,14 +73,15 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       firstName = preferences.getString('firstName')!;
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
+      allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
+    print('สิทธิ์อนุมัติ->>${allowApproveStatus}');
     get_select_branch();
     get_select_statusApprove();
     var formattedDate = DateFormat('-MM-dd').format(selectedDate);
     var newDate = selectedDate.yearInBuddhistCalendar;
     start_date.text = '${newDate}' + formattedDate;
     print('date_now>>${start_date.text}');
-    // start_date.text = ('${newDate.toLocal()}'.split(' ')[0]);
   }
 
   // Future<void> getData_approve(start_date, end_date) async {

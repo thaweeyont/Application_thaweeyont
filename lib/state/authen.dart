@@ -79,6 +79,7 @@ class _AuthenState extends State<Authen> {
           var firstName = data['data']['firstName'];
           var lastName = data['data']['lastName'];
           var tokenId = data['data']['tokenId'];
+          bool allowApproveStatus = data['data']['allowApproveStatus'];
 
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.setString('userId', userId!);
@@ -86,6 +87,7 @@ class _AuthenState extends State<Authen> {
           preferences.setString('firstName', firstName!);
           preferences.setString('lastName', lastName!);
           preferences.setString('tokenId', tokenId!);
+          preferences.setBool('allowApproveStatus', allowApproveStatus);
 
           print(data['data']);
           Navigator.pushAndRemoveUntil(

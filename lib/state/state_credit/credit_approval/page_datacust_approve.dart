@@ -26,22 +26,20 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   String page = 'list_content1';
   String? id = '1';
 
-  Map<String, dynamic>? list_itemDetail, list_detail, dropdown_approve;
+  Map<String, dynamic>? list_itemDetail, list_detail;
   String? select_approveTypeList,
+      valueSelectApprove,
       select_approveReasonList,
       select_NotapproveReasonList,
-      valueSelectApprove;
+      get_valueapprov,
+      get_valueReason;
   List list_signDetail = [],
       list_quarantee = [],
       dropdown_approveReasonList = [],
       dropdown_NotapproveReasonList = [],
       dropdown_approveTypeList = [],
       dropdownTest = [];
-  var valueapprove,
-      value_approveDetail,
-      valueStatus,
-      get_valueapprov,
-      status = false;
+  var valueapprove, value_approveDetail, valueStatus, status = false;
 
   TextEditingController note_approve = TextEditingController();
   TextEditingController name_approve = TextEditingController();
@@ -52,6 +50,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     // TODO: implement initState
     super.initState();
     getdata();
+    // get_approveReasonList();
   }
 
   Future<void> getData_Creditdetail() async {
@@ -92,11 +91,25 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           }
 
           get_valueapprov = list_detail!['approveStatus'];
+          get_valueReason = list_detail!['approveReasonId'];
+          print('value->${get_valueReason}');
           select_approveTypeList = get_valueapprov;
-          note_approve.text = list_detail![''];
-          show_approve_credit.text = list_detail![''];
-          name_approve.text = ' ${list_detail!['approveId']}'
-              ' ${list_detail!['approveName']}';
+          note_approve.text = list_detail!['approveNote'];
+
+          if (get_valueapprov == '1' || get_valueapprov == '2') {
+            name_approve.text = ' ${list_detail!['approveId']}'
+                ' ${list_detail!['approveName']}';
+          } else {
+            name_approve.text = ' ${empId}'
+                ' ${firstName}'
+                ' ${lastName}';
+          }
+
+          if (get_valueapprov == '1') {
+            select_approveReasonList = get_valueReason;
+          } else if (get_valueapprov == '2') {
+            select_NotapproveReasonList = get_valueReason;
+          }
           // active_cl1 = true;
           // active_cl2 = false;
           // active_cl3 = false;
@@ -229,8 +242,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       tokenId = preferences.getString('tokenId')!;
     });
     getData_Creditdetail();
-    // get_approveReasonList();
+    get_approveReasonList();
     get_approveTypeList();
+    get_notApproveReasonList();
   }
 
   Future<void> getData_quarantee() async {
@@ -380,7 +394,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         });
 
         // Navigator.pop(context);
-        // print(dropdown_approveReasonList);
+        print(dropdown_approveReasonList);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -440,7 +454,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         });
 
         // Navigator.pop(context);
-        // print(dropdown_approveReasonList);
+        print(dropdown_approveReasonList);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -1152,76 +1166,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                           select_TypeList(sizeIcon, border),
                                         ],
                                       ),
-                                      // SizedBox(
-                                      //   height: 5,
-                                      // ),
-                                      // Container(
-                                      //   height:
-                                      //       MediaQuery.of(context).size.height *
-                                      //           0.1,
-                                      //   decoration: BoxDecoration(
-                                      //     color: Colors.white.withOpacity(0.6),
-                                      //     borderRadius: BorderRadius.all(
-                                      //       Radius.circular(5),
-                                      //     ),
-                                      //   ),
-                                      //   child: Container(
-                                      //     child: Column(
-                                      //       children: [
-                                      //         Row(
-                                      //           children: [
-                                      //             Expanded(
-                                      //               child: RadioListTile(
-                                      //                   contentPadding:
-                                      //                       EdgeInsets.all(0.0),
-                                      //                   value: '1',
-                                      //                   groupValue: id,
-                                      //                   title: Text(
-                                      //                     'อนุมัติ',
-                                      //                     style: MyContant()
-                                      //                         .h4normalStyle(),
-                                      //                   ),
-                                      //                   onChanged: (value) {
-                                      //                     setState(() {});
-                                      //                   }),
-                                      //             ),
-                                      //             Expanded(
-                                      //               child: RadioListTile(
-                                      //                   contentPadding:
-                                      //                       EdgeInsets.all(0.0),
-                                      //                   value: '2',
-                                      //                   groupValue: id,
-                                      //                   title: Text(
-                                      //                     'ไม่อนุมัติ',
-                                      //                     style: MyContant()
-                                      //                         .h4normalStyle(),
-                                      //                   ),
-                                      //                   onChanged: (value) {
-                                      //                     setState(() {});
-                                      //                   }),
-                                      //             ),
-                                      //             Expanded(
-                                      //               child: RadioListTile(
-                                      //                   contentPadding:
-                                      //                       EdgeInsets.all(0.0),
-                                      //                   value: '3',
-                                      //                   groupValue: id,
-                                      //                   title: Text(
-                                      //                     'รอพิจารณา',
-                                      //                     style: MyContant()
-                                      //                         .h4normalStyle(),
-                                      //                   ),
-                                      //                   onChanged: (value) {
-                                      //                     setState(() {});
-                                      //                   }),
-                                      //             ),
-                                      //           ],
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //   ),
-                                      // ),
-
                                       Row(
                                         children: [
                                           Text(
@@ -1235,24 +1179,20 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       ),
                                       Row(
                                         children: [
-                                          if (list_detail!['approveStatus'] ==
-                                              '3') ...[
-                                            if (select_approveTypeList ==
-                                                '1') ...[
-                                              select_ReasonList(
-                                                  sizeIcon, border),
-                                            ] else if (select_approveTypeList ==
-                                                '2') ...[
-                                              select_notReasonList(
-                                                  sizeIcon, border),
-                                            ] else ...[
-                                              SizedBox(
-                                                height: 48,
-                                              )
-                                            ]
-                                          ] else ...[
-                                            input_approve_credit(
+                                          // input_approve_credit(
+                                          //     sizeIcon, border),
+                                          // select_ReasonList(sizeIcon, border),
+                                          if (select_approveTypeList ==
+                                              '1') ...[
+                                            select_ReasonList(sizeIcon, border),
+                                          ] else if (select_approveTypeList ==
+                                              '2') ...[
+                                            select_notReasonList(
                                                 sizeIcon, border),
+                                          ] else ...[
+                                            SizedBox(
+                                              height: 48,
+                                            )
                                           ]
                                         ],
                                       ),
@@ -1914,21 +1854,24 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
-              items: dropdown_approveReasonList
-                  .map((value) => DropdownMenuItem<String>(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().TextInputStyle(),
-                        ),
-                        value: value['id'].toString(),
-                      ))
-                  .toList(),
-              onChanged: (String? newvalue) {
-                setState(() {
-                  select_approveReasonList = newvalue;
-                });
-                print('test>>${select_approveReasonList}');
-              },
+              items: dropdown_approveReasonList.isEmpty
+                  ? []
+                  : dropdown_approveReasonList
+                      .map((value) => DropdownMenuItem<String>(
+                            child: Text(
+                              value['name'],
+                              style: MyContant().TextInputStyle(),
+                            ),
+                            value: value['id'].toString(),
+                          ))
+                      .toList(),
+              onChanged: list_detail!['approveStatus'] == '3'
+                  ? (String? newvalue) {
+                      setState(() {
+                        select_approveReasonList = newvalue;
+                      });
+                    }
+                  : null,
               value: select_approveReasonList,
               isExpanded: true,
               underline: SizedBox(),
@@ -1957,21 +1900,24 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
-              items: dropdown_NotapproveReasonList
-                  .map((value) => DropdownMenuItem<String>(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().TextInputStyle(),
-                        ),
-                        value: value['id'].toString(),
-                      ))
-                  .toList(),
-              onChanged: (String? newvalue) {
-                setState(() {
-                  select_NotapproveReasonList = newvalue;
-                });
-                print('test>>${select_NotapproveReasonList}');
-              },
+              items: dropdown_NotapproveReasonList.isEmpty
+                  ? []
+                  : dropdown_NotapproveReasonList
+                      .map((value) => DropdownMenuItem<String>(
+                            child: Text(
+                              value['name'],
+                              style: MyContant().TextInputStyle(),
+                            ),
+                            value: value['id'].toString(),
+                          ))
+                      .toList(),
+              onChanged: list_detail!['approveStatus'] == '3'
+                  ? (String? newvalue) {
+                      setState(() {
+                        select_NotapproveReasonList = newvalue;
+                      });
+                    }
+                  : null,
               value: select_NotapproveReasonList,
               isExpanded: true,
               underline: SizedBox(),
@@ -1999,7 +1945,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           maxLines: null,
           readOnly: list_detail!['approveStatus'] == '3' ? false : true,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
