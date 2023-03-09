@@ -22,6 +22,7 @@ class Data_Cust_Approve extends StatefulWidget {
 
 class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  bool? allowApproveStatus;
   bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
   String page = 'list_content1';
   String? id = '1';
@@ -50,7 +51,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     // TODO: implement initState
     super.initState();
     getdata();
-    // get_approveReasonList();
   }
 
   Future<void> getData_Creditdetail() async {
@@ -240,11 +240,13 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       firstName = preferences.getString('firstName')!;
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
+      allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
     getData_Creditdetail();
     get_approveReasonList();
     get_approveTypeList();
     get_notApproveReasonList();
+    getData_quarantee();
   }
 
   Future<void> getData_quarantee() async {
@@ -272,9 +274,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           list_quarantee = dataQuarantee['data'];
         });
 
-        Navigator.pop(context);
         // print(list_quarantee);
-        // print(respose.statusCode);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -566,7 +566,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 children: [
                   if (valueapprove != null) ...[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                       child: DefaultTabController(
                         length: 3,
                         initialIndex: 0,
@@ -807,7 +807,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   // ],
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        const EdgeInsets.only(left: 8, right: 8, bottom: 4),
                     child: Container(
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(251, 173, 55, 1),
@@ -834,6 +834,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -847,6 +848,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -882,6 +884,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -890,6 +893,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -898,6 +902,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -906,6 +911,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -919,6 +925,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -927,6 +934,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -935,22 +943,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'การพิจารณา : ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '${list_detail!['considerName']}',
-                                    style: MyContant().h4normalStyle(),
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -959,6 +952,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -967,6 +961,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -974,6 +969,73 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
+                            ),
+                            spaceText(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(251, 173, 55, 1),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'การพิจารณา',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.7),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              child: Scrollbar(
+                                child: ListView(
+                                  children: [
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '${list_detail!['considerName']}',
+                                                    overflow: TextOverflow.clip,
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -1112,166 +1174,178 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
+                  if (allowApproveStatus == true) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(251, 173, 55, 1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ผลการอนุมัติสินเชื่อ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.5,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.7),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'ผลการอนุมัติสินเชื่อ',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                ],
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 8),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8),
-                                            child: Text(
-                                              'ผลการพิจารณา : ',
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 8),
+                                  child: Container(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 8),
+                                              child: Text(
+                                                'ผลการพิจารณา : ',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ),
+                                            select_TypeList(sizeIcon, border),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'การอนุมัติสินเชื่อ : ',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
-                                          ),
-                                          select_TypeList(sizeIcon, border),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'การอนุมัติสินเชื่อ : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          // input_approve_credit(
-                                          //     sizeIcon, border),
-                                          // select_ReasonList(sizeIcon, border),
-                                          if (select_approveTypeList ==
-                                              '1') ...[
-                                            select_ReasonList(sizeIcon, border),
-                                          ] else if (select_approveTypeList ==
-                                              '2') ...[
-                                            select_notReasonList(
-                                                sizeIcon, border),
-                                          ] else ...[
-                                            SizedBox(
-                                              height: 48,
-                                            )
-                                          ]
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'หมายเหตุ : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 3,
-                                      ),
-                                      Row(
-                                        children: [
-                                          input_note_approve(sizeIcon, border),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ผู้อนุมัติสินเชื่อ : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          input_NameApprove(sizeIcon, border),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      if (list_detail!['approveStatus'] ==
-                                          '3') ...[
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
                                           children: [
-                                            Column(
-                                              children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 120,
-                                                  child: TextButton(
-                                                    style: MyContant()
-                                                        .myButtonSubmitStyle(),
-                                                    onPressed: () {
-                                                      print('click');
-                                                      showProgressLoading(
-                                                          context);
-                                                      ApproveCredit();
-                                                    },
-                                                    child: const Text('บันทึก'),
-                                                  ),
-                                                ),
-                                              ],
+                                            if (select_approveTypeList ==
+                                                '1') ...[
+                                              select_ReasonList(
+                                                  sizeIcon, border),
+                                            ] else if (select_approveTypeList ==
+                                                '2') ...[
+                                              select_notReasonList(
+                                                  sizeIcon, border),
+                                            ] else ...[
+                                              SizedBox(
+                                                height: 48,
+                                              )
+                                            ]
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'หมายเหตุ : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
                                             ),
                                           ],
                                         ),
+                                        SizedBox(
+                                          height: 3,
+                                        ),
+                                        Row(
+                                          children: [
+                                            input_note_approve(
+                                                sizeIcon, border),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'ผู้อนุมัติสินเชื่อ : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            input_NameApprove(sizeIcon, border),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        if (list_detail!['approveStatus'] ==
+                                                '3' &&
+                                            allowApproveStatus == true) ...[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Container(
+                                                    height: 30,
+                                                    width: 120,
+                                                    child: TextButton(
+                                                      style: MyContant()
+                                                          .myButtonSubmitStyle(),
+                                                      onPressed: () {
+                                                        print('click');
+                                                        showProgressLoading(
+                                                            context);
+                                                        ApproveCredit();
+                                                      },
+                                                      child:
+                                                          const Text('บันทึก'),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ],
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-
+                  ],
                   SizedBox(
                     height: 20,
                   ),
                 ],
               ),
             ),
+    );
+  }
+
+  SizedBox spaceText() {
+    return SizedBox(
+      height: 3,
     );
   }
 
@@ -1300,7 +1374,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   sign_Detail(sizeIcon, border);
                 },
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
@@ -1318,13 +1392,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               ),
               InkWell(
                 onTap: () {
-                  menu_list("list_content2");
-                  showProgressLoading(context);
-                  getData_quarantee();
+                  // menu_list("list_content2");
+                  // showProgressLoading(context);
+                  // getData_quarantee();
+                  quarantee(sizeIcon, border);
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
@@ -1352,7 +1427,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
@@ -1759,6 +1834,245 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                       ),
                                                       Text(
                                                         'สถานะ : ${list_signDetail[i]['signStatusName']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<Null> quarantee(sizeIcon, border) async {
+    double size = MediaQuery.of(context).size.width;
+    // bool btn_edit = false;
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: StatefulBuilder(
+          builder: (context, setState) => Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.all(5),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    elevation: 0,
+                    color: Colors.white,
+                    child: Container(
+                      height: size * 1.5,
+                      margin: EdgeInsets.all(5),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'รายละเอียดผู้ค้ำ',
+                                            style:
+                                                MyContant().TextTitleDialog(),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 4),
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 182, 182, 182),
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.63,
+                            child: Scrollbar(
+                              child: ListView(
+                                children: [
+                                  if (list_quarantee.isNotEmpty) ...[
+                                    for (var i = 0;
+                                        i < list_quarantee.length;
+                                        i++) ...[
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Page_Info_Consider_Cus(
+                                                      list_quarantee[i]
+                                                          ['signId']),
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4, horizontal: 4),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
+                                              color: Color.fromRGBO(
+                                                  251, 173, 55, 1),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'เลขที่สัญญา : ${list_quarantee[i]['signId']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'ชื่อ-สกุล : ',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${list_quarantee[i]['custName']}',
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'ชื่อ-สกุลในสัญญา : ',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${list_quarantee[i]['signCustName']}',
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'ยอดคงเหลือ : ${list_quarantee[i]['remainPrice']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Text(
+                                                        'สถานะ : ${list_quarantee[i]['personStatusName']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        'เขตติดตาม : ${list_quarantee[i]['followName']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Text(
+                                                        'สถานะสัญญา : ${list_quarantee[i]['signStatusName']}',
                                                         style: MyContant()
                                                             .h4normalStyle(),
                                                       ),

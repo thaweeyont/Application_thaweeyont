@@ -103,13 +103,17 @@ class _AuthenState extends State<Authen> {
         Map<String, dynamic> check_list =
             new Map<String, dynamic>.from(json.decode(respose.body));
         print(respose.statusCode);
-        print(check_list['message']);
+        print(check_list['message']); 
         if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
           print('ไม่พบชื่อเข้าใช้ระบบ');
           showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบชื่อเข้าใช้ระบบ');
         } else if (check_list['message'] == "รหัสผ่านผิด") {
           print('รหัสผ่านผิด');
           showProgressDialog(context, 'แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');
+        } else if (check_list['message'] ==
+            "ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ") {
+          showProgressDialog(context, 'แจ้งเตือน',
+              'ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ');
         }
       }
     } catch (e) {
