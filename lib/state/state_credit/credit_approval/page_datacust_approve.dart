@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utility/my_constant.dart';
@@ -539,19 +540,20 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade400.withOpacity(0.6),
+                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.all(80),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircularProgressIndicator(),
+                    // CircularProgressIndicator(),
+                    Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
-                      'Loading....',
-                      style: MyContant().h4normalStyle(),
+                      'กำลังโหลด',
+                      style: MyContant().textLoading(),
                     ),
                   ],
                 ),
@@ -610,68 +612,101 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'เลขบัตรประชาชน : ${valueapprove['smartId']}',
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.20,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withOpacity(0.7),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
                                               ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'ชื่อลูกค้า : ',
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                            ),
+                                            child: Scrollbar(
+                                              child: ListView(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Container(
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                'เลขบัตรประชาชน : ${valueapprove['smartId']}',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'ชื่อลูกค้า : ',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  '${valueapprove['custName']}',
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  style: MyContant()
+                                                                      .h4normalStyle(),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                'เกิดวันที่ : ${valueapprove['birthday']}',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 15,
+                                                              ),
+                                                              Text(
+                                                                'อายุ : ${valueapprove['age']} ปี',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                'ชื่อรอง : ${valueapprove['nickName']}',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  '${valueapprove['custName']}',
-                                                  overflow: TextOverflow.clip,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'เกิดวันที่ : ${valueapprove['birthday']}',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                              SizedBox(
-                                                width: 15,
-                                              ),
-                                              Text(
-                                                'อายุ : ${valueapprove['age']} ปี',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                'ชื่อรอง : ${valueapprove['nickName']}',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -683,46 +718,82 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'ที่อยู่ : ',
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.20,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withOpacity(0.7),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  '${valueapprove['address']}',
-                                                  overflow: TextOverflow.clip,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
+                                            ),
+                                            child: Scrollbar(
+                                              child: ListView(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Container(
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'ที่อยู่ : ',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  '${valueapprove['address']}',
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  style: MyContant()
+                                                                      .h4normalStyle(),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'ที่อยู่ใช้สินค้า : ',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  '${valueapprove['address']}',
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  style: MyContant()
+                                                                      .h4normalStyle(),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'ที่อยู่ใช้สินค้า : ',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  '${valueapprove['address']}',
-                                                  overflow: TextOverflow.clip,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 5,
@@ -737,49 +808,85 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'อาชีพ : ',
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.20,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withOpacity(0.7),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  '${valueapprove['career']}',
-                                                  overflow: TextOverflow.clip,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
+                                            ),
+                                            child: Scrollbar(
+                                              child: ListView(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Container(
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'อาชีพ : ',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  '${valueapprove['career']}',
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  style: MyContant()
+                                                                      .h4normalStyle(),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'สถานที่ทำงาน : ',
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                              ),
+                                                              Expanded(
+                                                                child: Text(
+                                                                  '${valueapprove['workPlace']}',
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .clip,
+                                                                  style: MyContant()
+                                                                      .h4normalStyle(),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'สถานที่ทำงาน : ',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  '${valueapprove['workPlace']}',
-                                                  overflow: TextOverflow.clip,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                           SizedBox(
                                             height: 5,
@@ -1202,8 +1309,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 height: 5,
                               ),
                               Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.5,
+                                height: list_detail!['approveStatus'] == '3'
+                                    ? MediaQuery.of(context).size.height * 0.5
+                                    : MediaQuery.of(context).size.height * 0.44,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
                                   borderRadius: BorderRadius.all(

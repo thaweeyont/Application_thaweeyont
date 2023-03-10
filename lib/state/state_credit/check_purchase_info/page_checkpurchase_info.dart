@@ -65,7 +65,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/custCondition'),
+        Uri.parse('${beta_api_test}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -93,7 +93,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/saleType'),
+        Uri.parse('${beta_api_test}setup/saleType'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -154,7 +154,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     });
     try {
       var respose = await http.post(
-        Uri.parse('${api}sale/custBuyList'),
+        Uri.parse('${beta_api_test}sale/custBuyList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -312,7 +312,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${api}customer/list'),
+          Uri.parse('${beta_api_test}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

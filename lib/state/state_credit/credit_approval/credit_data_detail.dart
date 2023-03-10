@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../credit_approval/page_datacust_approve.dart';
+import 'page_datacust_approve.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 
 class Credit_data_detail extends StatefulWidget {
   // const Credit_data_detail({Key? key}) : super(key: key);
@@ -149,19 +150,20 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade400.withOpacity(0.6),
+                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.all(80),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircularProgressIndicator(),
+                    // CircularProgressIndicator(),
+                    Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
-                      'Loading....',
-                      style: MyContant().h4normalStyle(),
+                      'กำลังโหลด',
+                      style: MyContant().textLoading(),
                     ),
                   ],
                 ),

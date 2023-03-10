@@ -56,7 +56,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     print(custId.text);
     try {
       var respose = await http.post(
-        Uri.parse('${api}customer/member'),
+        Uri.parse('${beta_api_test}customer/member'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -124,7 +124,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/custCondition'),
+        Uri.parse('${beta_api_test}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -190,7 +190,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${api}customer/list'),
+          Uri.parse('${beta_api_test}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

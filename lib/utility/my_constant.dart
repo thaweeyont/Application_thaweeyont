@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../state/authen.dart';
@@ -93,6 +94,12 @@ class MyContant {
   TextStyle h4normalStyle() => TextStyle(
         fontSize: 16,
         color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
+  TextStyle textLoading() => TextStyle(
+        fontSize: 16,
+        color: Colors.white,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
@@ -541,19 +548,20 @@ Future<Null> showProgressLoading(BuildContext context) async {
       child: Center(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey.shade400.withOpacity(0.6),
+            color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
           ),
-          padding: EdgeInsets.all(80),
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircularProgressIndicator(),
+              // CircularProgressIndicator(),
+              Image.asset(cupertinoActivityIndicator, scale: 4),
               Text(
-                'Loading....',
-                style: MyContant().h4normalStyle(),
+                'กำลังโหลด',
+                style: MyContant().textLoading(),
               ),
             ],
           ),
