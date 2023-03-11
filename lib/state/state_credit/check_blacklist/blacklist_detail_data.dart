@@ -4,6 +4,7 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -118,19 +119,20 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade400.withOpacity(0.6),
+                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.all(80),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircularProgressIndicator(),
+                    // CircularProgressIndicator(),
+                    Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
-                      'Loading....',
-                      style: MyContant().h4normalStyle(),
+                      'กำลังโหลด',
+                      style: MyContant().textLoading(),
                     ),
                   ],
                 ),
@@ -156,7 +158,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                             Row(
                               children: [
                                 Text(
-                                  'รหัส Blacklist : ${list_detail_bl[0]['blId']}',
+                                  'ข้อมูลลูกค้า',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -164,76 +166,120 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                             SizedBox(
                               height: 5,
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'รหัสลูกค้า : ${list_detail_bl[0]['custId']}',
-                                  style: MyContant().h4normalStyle(),
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.7),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
                                 ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'เลขที่บัตรประชาชน : ${list_detail_bl[0]['smartId']}',
-                                  style: MyContant().h4normalStyle(),
+                              ),
+                              child: Scrollbar(
+                                child: ListView(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'รหัส Blacklist : ${list_detail_bl[0]['blId']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'รหัสลูกค้า : ${list_detail_bl[0]['custId']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'เลขที่บัตรประชาชน : ${list_detail_bl[0]['smartId']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'ชื่อลูกค้า : ${list_detail_bl[0]['custName']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'ที่อยู่ลูกค้า : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${list_detail_bl[0]['custAddress']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                    overflow: TextOverflow.clip,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'เบอร์โทรศัพท์ : ${list_detail_bl[0]['telephone']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'เบอร์มือถือ : ${list_detail_bl[0]['mobile']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'ชื่อลูกค้า : ${list_detail_bl[0]['custName']}',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'ที่อยู่ลูกค้า : ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '${list_detail_bl[0]['custAddress']}',
-                                    style: MyContant().h4normalStyle(),
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'เบอร์โทรศัพท์ : ${list_detail_bl[0]['telephone']}',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'เบอร์มือถือ : ${list_detail_bl[0]['mobile']}',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -253,7 +299,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.53,
+                    height: MediaQuery.of(context).size.height * 0.50,
                     child: Scrollbar(
                       child: ListView(
                         children: [

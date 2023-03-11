@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
+import 'package:application_thaweeyont/state/state_credit/check_blacklist/blacklist_cust_list.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/blacklist_detail_data.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
@@ -64,89 +65,89 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     get_select_province();
   }
 
-  Future<void> getData_blacklist() async {
-    list_data_blacklist = [];
-    var tumbol, amphur, province;
+  // Future<void> getData_blacklist() async {
+  //   list_data_blacklist = [];
+  //   var tumbol, amphur, province;
 
-    if (districtId == null) {
-      tumbol = '';
-      amphur = '';
-      province = '';
-    } else {
-      tumbol = districtId;
-      amphur = selectValue_amphoe.toString().split("_")[0];
-      province = selectValue_province.toString().split("_")[0];
-    }
+  //   if (districtId == null) {
+  //     tumbol = '';
+  //     amphur = '';
+  //     province = '';
+  //   } else {
+  //     tumbol = districtId;
+  //     amphur = selectValue_amphoe.toString().split("_")[0];
+  //     province = selectValue_province.toString().split("_")[0];
+  //   }
 
-    try {
-      var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/checkBlacklist'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-        body: jsonEncode(<String, String>{
-          'blId': idblacklist.text,
-          'smartId': smartId.text,
-          'firstName': name.text,
-          'lastName': lastname.text,
-          'homeNo': home_no.text,
-          'moo': moo_no.text,
-          'tumbolId': tumbol.toString(),
-          'amphurId': amphur.toString(),
-          'provId': province.toString(),
-        }),
-      );
-      print('ตอจ >$districtId>> $tumbol,$amphur,$province');
+  //   try {
+  //     var respose = await http.post(
+  //       Uri.parse('${beta_api_test}credit/checkBlacklist'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': tokenId.toString(),
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'blId': idblacklist.text,
+  //         'smartId': smartId.text,
+  //         'firstName': name.text,
+  //         'lastName': lastname.text,
+  //         'homeNo': home_no.text,
+  //         'moo': moo_no.text,
+  //         'tumbolId': tumbol.toString(),
+  //         'amphurId': amphur.toString(),
+  //         'provId': province.toString(),
+  //       }),
+  //     );
+  //     print('ตอจ >$districtId>> $tumbol,$amphur,$province');
 
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> data_blacklist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+  //     if (respose.statusCode == 200) {
+  //       Map<String, dynamic> data_blacklist =
+  //           new Map<String, dynamic>.from(json.decode(respose.body));
 
-        setState(() {
-          list_data_blacklist = data_blacklist['data'];
-        });
+  //       setState(() {
+  //         list_data_blacklist = data_blacklist['data'];
+  //       });
 
-        Navigator.pop(context);
-        // Navigator.pop(context);
-        print('ข้อมูล => $list_data_blacklist');
-      } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-      } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
+  //       Navigator.pop(context);
+  //       // Navigator.pop(context);
+  //       print('ข้อมูล => $list_data_blacklist');
+  //     } else if (respose.statusCode == 400) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_400(
+  //           context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 401) {
+  //       print(respose.statusCode);
+  //       SharedPreferences preferences = await SharedPreferences.getInstance();
+  //       preferences.clear();
+  //       Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => Authen(),
+  //         ),
+  //         (Route<dynamic> route) => false,
+  //       );
+  //       showProgressDialog_401(
+  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+  //     } else if (respose.statusCode == 404) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_404(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 405) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 500) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_500(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+  //     } else {
+  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+  //     }
+  //   } catch (e) {
+  //     print("ไม่มีข้อมูล $e");
+  //     showProgressDialog_Notdata(
+  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+  //   }
+  // }
 
   Future<void> get_select_bl_search() async {
     try {
@@ -1189,9 +1190,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        input_name_show_bl(border, sizeIcon),
+                        Text(
+                          'ชื่อ-สกุล ลูกค้า',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_name_show_bl(sizeIcon, border),
                         Container(
                           width: 30,
                           height: 30,
@@ -1217,6 +1221,10 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_name_blacklist(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         Text(
                           'สกุล',
                           style: MyContant().h4normalStyle(),
@@ -1288,108 +1296,108 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
               ),
             ),
             group_btnsearch(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'รายการที่ค้นหา',
-                    style: MyContant().h2Style(),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Scrollbar(
-                child: ListView(
-                  children: [
-                    if (list_data_blacklist.isNotEmpty) ...[
-                      for (var i = 0; i < list_data_blacklist.length; i++) ...[
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Blacklist_Detail(
-                                    list_data_blacklist[i]['blId']),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(162, 181, 252, 1),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'รหัสลูกค้า : ${list_data_blacklist[i]['blId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'ชื่อลูกค้า : ${list_data_blacklist[i]['custName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ที่อยู่ : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${list_data_blacklist[i]['custAddress']}',
-                                          style: MyContant().h4normalStyle(),
-                                          overflow: TextOverflow.clip,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'สถานะ : ${list_data_blacklist[i]['blStatus']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ],
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: [
+            //       Text(
+            //         'รายการที่ค้นหา',
+            //         style: MyContant().h2Style(),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Container(
+            //   height: MediaQuery.of(context).size.height * 0.7,
+            //   child: Scrollbar(
+            //     child: ListView(
+            //       children: [
+            //         if (list_data_blacklist.isNotEmpty) ...[
+            //           for (var i = 0; i < list_data_blacklist.length; i++) ...[
+            //             InkWell(
+            //               onTap: () {
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(
+            //                     builder: (context) => Blacklist_Detail(
+            //                         list_data_blacklist[i]['blId']),
+            //                   ),
+            //                 );
+            //               },
+            //               child: Padding(
+            //                 padding: const EdgeInsets.symmetric(horizontal: 8),
+            //                 child: Container(
+            //                   margin: EdgeInsets.symmetric(vertical: 5),
+            //                   padding: EdgeInsets.all(8),
+            //                   decoration: BoxDecoration(
+            //                     color: Color.fromRGBO(162, 181, 252, 1),
+            //                     borderRadius: BorderRadius.all(
+            //                       Radius.circular(5),
+            //                     ),
+            //                   ),
+            //                   child: Column(
+            //                     children: [
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'รหัสลูกค้า : ${list_data_blacklist[i]['blId']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'ชื่อลูกค้า : ${list_data_blacklist[i]['custName']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         crossAxisAlignment:
+            //                             CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'ที่อยู่ : ',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                           Expanded(
+            //                             child: Text(
+            //                               '${list_data_blacklist[i]['custAddress']}',
+            //                               style: MyContant().h4normalStyle(),
+            //                               overflow: TextOverflow.clip,
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       SizedBox(
+            //                         height: 5,
+            //                       ),
+            //                       Row(
+            //                         children: [
+            //                           Text(
+            //                             'สถานะ : ${list_data_blacklist[i]['blStatus']}',
+            //                             style: MyContant().h4normalStyle(),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           ],
+            //         ],
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               height: 25,
             ),
@@ -1426,13 +1434,10 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Padding input_name_show_bl(
-      OutlineInputBorder border, BoxConstraints sizeIcon) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: 219,
-        height: 35,
+  Expanded input_name_show_bl(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: TextField(
           controller: name_show,
           onChanged: (keyword) {},
@@ -1443,6 +1448,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
+            hintText: 'สำหรับแสดง ชื่อ-สกุล ลูกค้า',
             hintStyle: TextStyle(
               fontSize: 14,
             ),
@@ -1717,12 +1723,42 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 showProgressDialog(context, 'แจ้งเตือน',
                                     'กรุณาเลือก ตำบล อำเภอ จังหวัด');
                               } else {
-                                showProgressLoading(context);
-                                getData_blacklist();
+                                // showProgressLoading(context);
+                                // getData_blacklist();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Blacklist_cust_list(
+                                        idblacklist.text,
+                                        smartId.text,
+                                        name.text,
+                                        lastname.text,
+                                        home_no.text,
+                                        moo_no.text,
+                                        districtId,
+                                        selectValue_amphoe,
+                                        selectValue_province),
+                                  ),
+                                );
                               }
                             } else {
-                              showProgressLoading(context);
-                              getData_blacklist();
+                              // showProgressLoading(context);
+                              // getData_blacklist();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Blacklist_cust_list(
+                                      idblacklist.text,
+                                      smartId.text,
+                                      name.text,
+                                      lastname.text,
+                                      home_no.text,
+                                      moo_no.text,
+                                      districtId,
+                                      selectValue_amphoe,
+                                      selectValue_province),
+                                ),
+                              );
                             }
                           }
                         },

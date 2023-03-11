@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/state/state_credit/check_purchase_info/purchase_info_list.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/gestures.dart';
@@ -148,111 +149,111 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     }
   }
 
-  Future<void> getData_buyList(start_date, end_date) async {
-    setState(() {
-      list_dataBuyTyle = [];
-    });
-    try {
-      var respose = await http.post(
-        Uri.parse('${beta_api_test}sale/custBuyList'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-        body: jsonEncode(<String, String>{
-          'custId': custId.text.toString(),
-          'saleTypeId': select_index_saletype.toString(),
-          'smartId': smartId.text,
-          'firstName': custName.text,
-          'lastName': lastname_cust.text,
-          'startDate': start_date,
-          'endDate': end_date,
-          'page': '1',
-          'limit': '230'
-        }),
-      );
+  // Future<void> getData_buyList(start_date, end_date) async {
+  //   setState(() {
+  //     list_dataBuyTyle = [];
+  //   });
+  //   try {
+  //     var respose = await http.post(
+  //       Uri.parse('${beta_api_test}sale/custBuyList'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': tokenId.toString(),
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'custId': custId.text.toString(),
+  //         'saleTypeId': select_index_saletype.toString(),
+  //         'smartId': smartId.text,
+  //         'firstName': custName.text,
+  //         'lastName': lastname_cust.text,
+  //         'startDate': start_date,
+  //         'endDate': end_date,
+  //         'page': '1',
+  //         'limit': '250'
+  //       }),
+  //     );
 
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> dataBuylist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+  //     if (respose.statusCode == 200) {
+  //       Map<String, dynamic> dataBuylist =
+  //           new Map<String, dynamic>.from(json.decode(respose.body));
 
-        setState(() {
-          list_dataBuyTyle = dataBuylist['data'];
-        });
-        Navigator.pop(context);
+  //       setState(() {
+  //         list_dataBuyTyle = dataBuylist['data'];
+  //       });
+  //       Navigator.pop(context);
 
-        // ------ sum billTotal ---------------------------------------
-        totalbill = [];
-        List bill = list_dataBuyTyle.map((e) => e['billTotal']).toList();
-        bill.forEach((element) {
-          totalbill.add(element);
-        });
-        setState(() {
-          totalbill = totalbill;
-        });
-        print('bill >> ${totalbill}');
-        // List<int> ints = jsonDecode("[$totalbill]");
+  //       // ------ sum billTotal ---------------------------------------
+  //       totalbill = [];
+  //       List bill = list_dataBuyTyle.map((e) => e['billTotal']).toList();
+  //       bill.forEach((element) {
+  //         totalbill.add(element);
+  //       });
+  //       setState(() {
+  //         totalbill = totalbill;
+  //       });
+  //       print('bill >> ${totalbill}');
+  //       // List<int> ints = jsonDecode("[$totalbill]");
 
-        // print('sum >${ints}');
-        //-------------------------------------------------------------
-      } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 401) {
-        print('customer >>${respose.statusCode}');
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-      } else {
-        // setState(() {
-        //   valueStatus = respose.statusCode;
-        // });
-        // Navigator.pop(context);
-        print(respose.statusCode);
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-        // print('ไม่พบข้อมูล');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences = await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialog(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
+  //       // print('sum >${ints}');
+  //       //-------------------------------------------------------------
+  //     } else if (respose.statusCode == 400) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_400(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 401) {
+  //       print('customer >>${respose.statusCode}');
+  //       SharedPreferences preferences = await SharedPreferences.getInstance();
+  //       preferences.clear();
+  //       Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => Authen(),
+  //         ),
+  //         (Route<dynamic> route) => false,
+  //       );
+  //       showProgressDialog_401(
+  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+  //     } else if (respose.statusCode == 404) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_404(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 405) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 500) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_500(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+  //     } else {
+  //       // setState(() {
+  //       //   valueStatus = respose.statusCode;
+  //       // });
+  //       // Navigator.pop(context);
+  //       print(respose.statusCode);
+  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+  //       // print('ไม่พบข้อมูล');
+  //       // Map<String, dynamic> check_list =
+  //       //     new Map<String, dynamic>.from(json.decode(respose.body));
+  //       // print(respose.statusCode);
+  //       // print(check_list['message']);
+  //       // if (check_list['message'] == "Token Unauthorized") {
+  //       //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //       //   preferences.clear();
+  //       //   Navigator.pushAndRemoveUntil(
+  //       //     context,
+  //       //     MaterialPageRoute(
+  //       //       builder: (context) => Authen(),
+  //       //     ),
+  //       //     (Route<dynamic> route) => false,
+  //       //   );
+  //       // }
+  //     }
+  //   } catch (e) {
+  //     print("ไม่มีข้อมูล $e");
+  //     showProgressDialog(
+  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+  //   }
+  // }
 
   Future<Null> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -290,7 +291,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     start_date.clear();
     end_date.clear();
     setState(() {
-      // selectvalue_saletype = null;
+      select_index_saletype = dropdown_saletype[0]['id'];
       list_dataBuyTyle.clear();
     });
   }
@@ -371,30 +372,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         } else {
           showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
         }
-        // else {
-        //   setState(() {
-        //     valueNotdata = respose.statusCode;
-        //   });
-        //   Navigator.pop(context);
-        //   print(respose.statusCode);
-        //   // print('ไม่พบข้อมูล');
-        //   // Map<String, dynamic> check_list =
-        //   //     new Map<String, dynamic>.from(json.decode(respose.body));
-        //   // print(respose.statusCode);
-        //   // print(check_list['message']);
-        //   // if (check_list['message'] == "Token Unauthorized") {
-        //   //   SharedPreferences preferences =
-        //   //       await SharedPreferences.getInstance();
-        //   //   preferences.clear();
-        //   //   Navigator.pushAndRemoveUntil(
-        //   //     context,
-        //   //     MaterialPageRoute(
-        //   //       builder: (context) => Authen(),
-        //   //     ),
-        //   //     (Route<dynamic> route) => false,
-        //   //   );
-        //   // }
-        // }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
         showProgressDialog_Notdata(
@@ -881,6 +858,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             style: MyContant().h4normalStyle(),
                           ),
                           input_namecustomer(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Text(
                             'นามสกุล',
                             style: MyContant().h4normalStyle(),
@@ -895,6 +876,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             style: MyContant().h4normalStyle(),
                           ),
                           input_dateStart(sizeIcon, border),
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Text(
                             'ถึงวันที่',
                             style: MyContant().h4normalStyle(),
@@ -916,145 +901,145 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                 ),
               ),
               group_btnsearch(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'รายการที่ค้นหา',
-                      style: MyContant().h2Style(),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         'รายการที่ค้นหา',
+              //         style: MyContant().h2Style(),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 height: 5,
               ),
-              if (list_dataBuyTyle.isNotEmpty) ...[
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  child: Scrollbar(
-                    child: ListView(
-                      children: [
-                        for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 5),
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                                color: Color.fromRGBO(229, 188, 244, 1),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'ลำดับ : ${i + 1}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Text(
-                                        'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ชื่อลูกค้า : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${list_dataBuyTyle[i]['custName']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'รายการสินค้า : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${list_dataBuyTyle[i]['itemName']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Text(
-                                        'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-              ],
+              // if (list_dataBuyTyle.isNotEmpty) ...[
+              //   Container(
+              //     height: MediaQuery.of(context).size.height * 0.6,
+              //     child: Scrollbar(
+              //       child: ListView(
+              //         children: [
+              //           for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
+              //             Padding(
+              //               padding: const EdgeInsets.symmetric(
+              //                   horizontal: 8, vertical: 5),
+              //               child: Container(
+              //                 padding: EdgeInsets.all(8.0),
+              //                 decoration: BoxDecoration(
+              //                   borderRadius:
+              //                       BorderRadius.all(Radius.circular(5)),
+              //                   color: Color.fromRGBO(229, 188, 244, 1),
+              //                 ),
+              //                 child: Column(
+              //                   children: [
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text(
+              //                           'ลำดับ : ${i + 1}',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                         Text(
+              //                           'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     SizedBox(
+              //                       height: 5,
+              //                     ),
+              //                     Row(
+              //                       children: [
+              //                         Text(
+              //                           'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     SizedBox(
+              //                       height: 5,
+              //                     ),
+              //                     Row(
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.start,
+              //                       children: [
+              //                         Text(
+              //                           'ชื่อลูกค้า : ',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                         Expanded(
+              //                           child: Text(
+              //                             '${list_dataBuyTyle[i]['custName']}',
+              //                             overflow: TextOverflow.clip,
+              //                             style: MyContant().h4normalStyle(),
+              //                           ),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     SizedBox(
+              //                       height: 5,
+              //                     ),
+              //                     Row(
+              //                       crossAxisAlignment:
+              //                           CrossAxisAlignment.start,
+              //                       children: [
+              //                         Text(
+              //                           'รายการสินค้า : ',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                         Expanded(
+              //                           child: Text(
+              //                             '${list_dataBuyTyle[i]['itemName']}',
+              //                             overflow: TextOverflow.clip,
+              //                             style: MyContant().h4normalStyle(),
+              //                           ),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     SizedBox(
+              //                       height: 5,
+              //                     ),
+              //                     Row(
+              //                       mainAxisAlignment:
+              //                           MainAxisAlignment.spaceBetween,
+              //                       children: [
+              //                         Text(
+              //                           'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                         Text(
+              //                           'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                     SizedBox(
+              //                       height: 5,
+              //                     ),
+              //                     Row(
+              //                       children: [
+              //                         Text(
+              //                           'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
+              //                           style: MyContant().h4normalStyle(),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              //   SizedBox(
+              //     height: 25,
+              //   ),
+              // ],
             ],
           ),
         ),
@@ -1086,13 +1071,26 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             showProgressDialog(context, 'แจ้งเตือน',
                                 'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
                           } else {
-                            var newStratDate =
+                            var newStartDate =
                                 start_date.text.replaceAll('-', '');
                             var newEndDate = end_date.text.replaceAll('-', '');
-                            print('s==>> $newStratDate');
+                            print('s==>> $newStartDate');
                             print('e==>> $newEndDate');
-                            showProgressLoading(context);
-                            getData_buyList(newStratDate, newEndDate);
+                            // showProgressLoading(context);
+                            // getData_buyList(newStratDate, newEndDate);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Purchase_info_list(
+                                    custId.text,
+                                    select_index_saletype,
+                                    smartId.text,
+                                    custName.text,
+                                    lastname_cust.text,
+                                    newStartDate,
+                                    newEndDate),
+                              ),
+                            );
                           }
                         },
                         child: const Text('ค้นหา'),
@@ -1313,45 +1311,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  // Expanded select_searchCus(sizeIcon, border) {
-  //   return Expanded(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(1),
-  //       child: Container(
-  //         height: MediaQuery.of(context).size.width * 0.07,
-  //         padding: EdgeInsets.all(4),
-  //         decoration: BoxDecoration(
-  //             color: Colors.white, borderRadius: BorderRadius.circular(5)),
-  //         child: DropdownButton(
-  //           items: dropdown_customer
-  //               .map((value) => DropdownMenuItem(
-  //                     child: Text(value['name'],
-  //                         style: TextStyle(fontSize: 14, color: Colors.black)),
-  //                     value: value['id'],
-  //                   ))
-  //               .toList(),
-  //           onChanged: (newvalue) {
-  //             print(newvalue);
-  //             setState(() {
-  //               selectValue_customer = newvalue;
-  //             });
-  //           },
-  //           value: selectValue_customer,
-  //           isExpanded: true,
-  //           underline: SizedBox(),
-  //           hint: Align(
-  //             child: Text(
-  //               'กรุณาเลือกข้อมูล',
-  //               style: TextStyle(
-  //                   fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Expanded input_searchCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
@@ -1499,22 +1458,3 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 }
-
-// class load_data extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 30,
-//       color: Colors.blue,
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Text(
-//             'กำลังโหลด',
-//             style: MyContant().TextInputStyle(),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
