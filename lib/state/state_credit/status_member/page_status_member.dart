@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/state/state_credit/status_member/detail_member_cust.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utility/my_constant.dart';
@@ -51,75 +52,75 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     });
   }
 
-  Future<void> getData_CusMember() async {
-    print(tokenId);
-    print(custId.text);
-    try {
-      var respose = await http.post(
-        Uri.parse('${beta_api_test}customer/member'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-        body: jsonEncode(<String, String>{
-          'custId': custId.text,
-          'smartId': smartId.text,
-          'firstName': custName.text,
-          'lastName': lastnamecust.text,
-          'page': '1',
-          'limit': '20',
-        }),
-      );
+  // Future<void> getData_CusMember() async {
+  //   print(tokenId);
+  //   print(custId.text);
+  //   try {
+  //     var respose = await http.post(
+  //       Uri.parse('${beta_api_test}customer/member'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': tokenId.toString(),
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'custId': custId.text,
+  //         'smartId': smartId.text,
+  //         'firstName': custName.text,
+  //         'lastName': lastnamecust.text,
+  //         'page': '1',
+  //         'limit': '20',
+  //       }),
+  //     );
 
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> dataMemberList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+  //     if (respose.statusCode == 200) {
+  //       Map<String, dynamic> dataMemberList =
+  //           new Map<String, dynamic>.from(json.decode(respose.body));
 
-        valueaddress = dataMemberList['data'][0];
-        setState(() {
-          list_dataMember = dataMemberList['data'];
-          list_address = valueaddress['address'];
-        });
-        Navigator.pop(context);
-        print(list_address);
-      } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
-      } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-      } else {
-        print(respose.statusCode);
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
+  //       valueaddress = dataMemberList['data'][0];
+  //       setState(() {
+  //         list_dataMember = dataMemberList['data'];
+  //         list_address = valueaddress['address'];
+  //       });
+  //       Navigator.pop(context);
+  //       print(list_address);
+  //     } else if (respose.statusCode == 400) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_400(
+  //           context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 401) {
+  //       print(respose.statusCode);
+  //       SharedPreferences preferences = await SharedPreferences.getInstance();
+  //       preferences.clear();
+  //       Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => Authen(),
+  //         ),
+  //         (Route<dynamic> route) => false,
+  //       );
+  //       showProgressDialog_401(
+  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+  //     } else if (respose.statusCode == 404) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_404(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
+  //     } else if (respose.statusCode == 405) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 500) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_500(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+  //     } else {
+  //       print(respose.statusCode);
+  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+  //     }
+  //   } catch (e) {
+  //     print("ไม่มีข้อมูล $e");
+  //     showProgressDialog_Notdata(
+  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+  //   }
+  // }
 
   Future<void> get_select_cus() async {
     try {
@@ -854,6 +855,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_namecustomer(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         Text(
                           'นามสกุล',
                           style: MyContant().h4normalStyle(),
@@ -1277,8 +1282,18 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                             showProgressDialog(context, 'แจ้งเตือน',
                                 'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
                           } else {
-                            showProgressLoading(context);
-                            getData_CusMember();
+                            // showProgressLoading(context);
+                            // getData_CusMember();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Detail_member_cust(
+                                    custId.text,
+                                    smartId.text,
+                                    custName.text,
+                                    lastnamecust.text),
+                              ),
+                            );
                           }
                         },
                         child: const Text('ค้นหา'),
