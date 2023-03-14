@@ -169,7 +169,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     double size = MediaQuery.of(context).size.width;
     double size_h = MediaQuery.of(context).size.height;
     return Scaffold(
-      // backgroundColor: Colors.grey[50],
+      resizeToAvoidBottomInset: false,
       appBar: Appbar(),
       body: Container(
         child: _widgetOptions.elementAt(_selectedIndex),

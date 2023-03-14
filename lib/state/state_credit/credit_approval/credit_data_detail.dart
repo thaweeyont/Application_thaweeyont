@@ -216,9 +216,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                         ),
                                       ],
                                     ),
-                                    // SizedBox(
-                                    //   height: 5,
-                                    // ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -229,9 +226,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                         ),
                                       ],
                                     ),
-                                    // SizedBox(
-                                    //   height: 5,
-                                    // ),
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -249,9 +243,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                         ),
                                       ],
                                     ),
-                                    // SizedBox(
-                                    //   height: 5,
-                                    // ),
                                     Row(
                                       children: [
                                         Text(

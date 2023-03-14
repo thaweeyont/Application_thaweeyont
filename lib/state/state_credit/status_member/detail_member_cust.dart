@@ -433,8 +433,8 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                         if (list_address.isNotEmpty) ...[
                           for (var i = 0; i < list_address.length; i++) ...[
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
+                              padding: const EdgeInsets.only(
+                                  bottom: 8, left: 8, right: 8),
                               child: Container(
                                 padding: EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
@@ -559,7 +559,7 @@ Padding lineNext() {
         child: new Container(
             margin: const EdgeInsets.only(left: 10.0, right: 20.0),
             child: Divider(
-              thickness: 2.0,
+              thickness: 1.0,
               color: Colors.black,
               height: 30,
             )),
@@ -572,7 +572,7 @@ Padding lineNext() {
         child: new Container(
             margin: const EdgeInsets.only(left: 20.0, right: 10.0),
             child: Divider(
-              thickness: 2.0,
+              thickness: 1.0,
               color: Colors.black,
               height: 30,
             )),

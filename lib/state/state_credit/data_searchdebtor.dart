@@ -2356,7 +2356,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       ),
     );
     return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.74,
       child: ListView(
         children: [
           if (list_payDetail.isNotEmpty) ...[
@@ -2402,93 +2402,85 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ],
                         ),
-                        // SizedBox(
-                        //   height: 5,
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     Text(
-                        //       'เลขที่ใบเสร็จ : ${list_payDetail[i]['receiptTranId']}',
-                        //       style: MyContant().h4normalStyle(),
-                        //     ),
-                        //   ],
-                        // ),
                         SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'เงินต้น : ${list_payDetail[i]['periodPrice']}',
-                              style: MyContant().h4normalStyle(),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.16,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.7),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
                             ),
-                            Text(
-                              'คงเหลือ : ${list_payDetail[i]['remainPrice']}',
-                              style: MyContant().h4normalStyle(),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'เงินต้น : ${list_payDetail[i]['periodPrice']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Text(
+                                        'คงเหลือ : ${list_payDetail[i]['remainPrice']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ค่าปรับ : ${list_payDetail[i]['finePrice']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  line(),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'วันที่ชำระ : ${list_payDetail[i]['payDate']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ชำระเงินต้น : ${list_payDetail[i]['payPrice']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Text(
+                                        'ชำระค่าปรับ : ${list_payDetail[i]['payFine']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'ค่าปรับ : ${list_payDetail[i]['finePrice']}',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            // Text(
-                            //   'คงเหลือ : ${list_payDetail[i]['finePrice']}',
-                            //   style: MyContant().h4normalStyle(),
-                            // ),
-                          ],
-                        ),
-                        // SizedBox(
-                        //   height: 5,
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     Expanded(
-                        //       child: Text(
-                        //         'ประเภทการรับ : ${list_payDetail[i]['payBy']}',
-                        //         overflow: TextOverflow.clip,
-                        //         style: MyContant().h4normalStyle(),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        line(),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'วันที่ชำระ : ${list_payDetail[i]['payDate']}',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'ชำระเงินต้น : ${list_payDetail[i]['payPrice']}',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            Text(
-                              'ชำระค่าปรับ : ${list_payDetail[i]['payFine']}',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),

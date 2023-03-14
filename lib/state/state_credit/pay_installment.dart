@@ -169,7 +169,10 @@ class _Pay_installmentState extends State<Pay_installment> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('ค้นหาข้อมูล'),
+        title: Text(
+          'รายการชำระค่างวด',
+          style: MyContant().TitleStyle(),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -181,7 +184,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                 ),
                 color: Color.fromRGBO(255, 218, 249, 1),
               ),
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsets.all(8),
               padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -207,17 +210,38 @@ class _Pay_installmentState extends State<Pay_installment> {
                         ),
                         height: MediaQuery.of(context).size.height * 0.15,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ยังไม่มีการชำระเงิน',
-                                  style: MyContant().h4normalStyle(),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.13,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
                                 ),
-                              ],
-                            )
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'ยังไม่มีการชำระเงิน',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -248,44 +272,64 @@ class _Pay_installmentState extends State<Pay_installment> {
                           SizedBox(
                             height: 5,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'เลขที่ใบเสร็จ : ${payDetail['receiptTranId']}',
-                                style: MyContant().h4normalStyle(),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.16,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.7),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'จำนวนเงิน : ${payDetail['payPrice']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Text(
-                                'ค่าปรับ : ${payDetail['payFine']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  'ประเภทการรับ : ${payDetail['payBy']}',
-                                  style: MyContant().h4normalStyle(),
-                                  overflow: TextOverflow.clip,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'เลขที่ใบเสร็จ : ${payDetail['receiptTranId']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'จำนวนเงิน : ${payDetail['payPrice']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Text(
+                                          'ค่าปรับ : ${payDetail['payFine']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'ประเภทการรับ : ${payDetail['payBy']}',
+                                            style: MyContant().h4normalStyle(),
+                                            overflow: TextOverflow.clip,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       ),

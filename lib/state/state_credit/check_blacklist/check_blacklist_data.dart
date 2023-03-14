@@ -327,9 +327,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     searchData.clear();
     nameSearchBl.clear();
     lastnameSearchBl.clear();
-    setState(() {
-      list_dataSearch_bl = [];
-    });
   }
 
   clearValue_search_district() {

@@ -298,108 +298,133 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.50,
-                    child: Scrollbar(
-                      child: ListView(
-                        children: [
-                          if (list_detail.isNotEmpty) ...[
-                            for (var i = 0; i < list_detail.length; i++) ...[
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(162, 181, 252, 1),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
+                  if (list_detail.isNotEmpty) ...[
+                    for (var i = 0; i < list_detail.length; i++) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(162, 181, 252, 1),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'รายละเอียด :',
+                                    style: MyContant().h4normalStyle(),
                                   ),
-                                  child: Column(
+                                  // Expanded(
+                                  //   child: Text(
+                                  //     '${list_detail[i]['blDetail']}',
+                                  //     style: MyContant().h4normalStyle(),
+                                  //     overflow: TextOverflow.clip,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.15,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                child: Scrollbar(
+                                  child: ListView(
                                     children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'รายละเอียด : ',
-                                            style: MyContant().h4normalStyle(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_detail[i]['blDetail']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_detail[i]['blDetail']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                              overflow: TextOverflow.clip,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'เลขที่สัญญา : ${list_detail[i]['signId']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'วันที่บันทึก : ${list_detail[i]['createDate']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ฝ่ายที่บันทึก : ${list_detail[i]['createDepart']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ผู้บันทึกข้อมูล : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_detail[i]['createName']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                              overflow: TextOverflow.clip,
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'เลขที่สัญญา : ${list_detail[i]['signId']}',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'วันที่บันทึก : ${list_detail[i]['createDate']}',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'ฝ่ายที่บันทึก : ${list_detail[i]['createDepart']}',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'ผู้บันทึกข้อมูล : ',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      '${list_detail[i]['createName']}',
+                                      style: MyContant().h4normalStyle(),
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
-                          ],
-                        ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    ],
+                  ],
                 ],
               ),
             ),
