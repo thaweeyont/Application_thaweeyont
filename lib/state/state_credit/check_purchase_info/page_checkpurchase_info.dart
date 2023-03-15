@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
+// import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 
 import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
@@ -1395,7 +1395,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             );
             if (pickeddate != null) {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
-              var newDate = pickeddate.yearInBuddhistCalendar;
+              // var newDate = pickeddate.yearInBuddhistCalendar;
+              var newDate = 0;
               print('===>> $newDate');
               print(formattedDate);
               setState(() {
@@ -1443,7 +1444,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             );
             if (pickeddate != null) {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
-              var newDate = pickeddate.yearInBuddhistCalendar;
+              // var newDate = pickeddate.yearInBuddhistCalendar;
+              var newDate = 0;
               print('===>> $newDate');
               // print('${newDate}${formattedDate}');
               setState(() {

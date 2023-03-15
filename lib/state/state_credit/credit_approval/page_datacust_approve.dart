@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1311,7 +1312,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               Container(
                                 height: list_detail!['approveStatus'] == '3'
                                     ? MediaQuery.of(context).size.height * 0.5
-                                    : MediaQuery.of(context).size.height * 0.44,
+                                    : MediaQuery.of(context).size.height * 0.46,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
                                   borderRadius: BorderRadius.all(
@@ -1398,12 +1399,12 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             input_NameApprove(sizeIcon, border),
                                           ],
                                         ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
                                         if (list_detail!['approveStatus'] ==
                                                 '3' &&
                                             allowApproveStatus == true) ...[
+                                          SizedBox(
+                                            height: 20,
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -1417,10 +1418,43 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                       style: MyContant()
                                                           .myButtonSubmitStyle(),
                                                       onPressed: () {
-                                                        print('click');
-                                                        showProgressLoading(
-                                                            context);
-                                                        ApproveCredit();
+                                                        print('click_submit');
+                                                        if (select_approveTypeList ==
+                                                            '1') {
+                                                          if (select_approveReasonList ==
+                                                                  null ||
+                                                              select_approveReasonList ==
+                                                                  "") {
+                                                            showProgressDialog(
+                                                                context,
+                                                                'แจ้งเตือน',
+                                                                'กรุณาเลือกการอนุมัติสินเชื่อ');
+                                                          } else {
+                                                            showProgressLoading(
+                                                                context);
+                                                            ApproveCredit();
+                                                          }
+                                                        } else if (select_approveTypeList ==
+                                                            '2') {
+                                                          if (select_NotapproveReasonList ==
+                                                                  null ||
+                                                              select_NotapproveReasonList ==
+                                                                  '') {
+                                                            showProgressDialog(
+                                                                context,
+                                                                'แจ้งเตือน',
+                                                                'กรุณาเลือกการอนุมัติสินเชื่อ');
+                                                          } else {
+                                                            showProgressLoading(
+                                                                context);
+                                                            ApproveCredit();
+                                                          }
+                                                        } else {
+                                                          showProgressDialog(
+                                                              context,
+                                                              'แจ้งเตือน',
+                                                              'กรุณาเปลี่ยนผลการพิจารณาสินเชื่อ');
+                                                        }
                                                       },
                                                       child:
                                                           const Text('บันทึก'),

@@ -194,7 +194,7 @@ class MyContant {
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );
   ButtonStyle myButtonSubmitStyle() => ElevatedButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: Color.fromARGB(255, 238, 238, 238),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
@@ -544,32 +544,27 @@ Future<Null> showProgressLoading(BuildContext context) async {
   showDialog(
     context: context,
     barrierColor: Colors.transparent,
-    builder: (context) => WillPopScope(
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // CircularProgressIndicator(),
-              Image.asset(cupertinoActivityIndicator, scale: 4),
-              Text(
-                'กำลังโหลด',
-                style: MyContant().textLoading(),
-              ),
-            ],
+    builder: (context) => Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
           ),
         ),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // CircularProgressIndicator(),
+            Image.asset(cupertinoActivityIndicator, scale: 4),
+            Text(
+              'กำลังโหลด',
+              style: MyContant().textLoading(),
+            ),
+          ],
+        ),
       ),
-      onWillPop: () async {
-        return false;
-      },
     ),
   );
 }

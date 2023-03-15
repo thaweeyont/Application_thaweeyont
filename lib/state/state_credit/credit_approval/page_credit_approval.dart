@@ -7,7 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
+// import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 
 import '../../authen.dart';
 import 'page_check_blacklist.dart';
@@ -78,9 +78,9 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     print('สิทธิ์อนุมัติ->>${allowApproveStatus}');
     get_select_branch();
     get_select_statusApprove();
-    var formattedDate = DateFormat('-MM-dd').format(selectedDate);
-    var newDate = selectedDate.yearInBuddhistCalendar;
-    start_date.text = '${newDate}' + formattedDate;
+    var formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+    // var newDate = selectedDate.yearInBuddhistCalendar;
+    start_date.text = formattedDate;
     print('date_now>>${start_date.text}');
   }
 
@@ -1441,12 +1441,14 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               lastDate: DateTime(2101),
             );
             if (pickeddate != null) {
-              var formattedDate = DateFormat('-MM-dd').format(pickeddate);
-              var newDate = pickeddate.yearInBuddhistCalendar;
-              print('===>> $newDate');
+              var formattedDate = DateFormat('yyyy-MM-dd').format(pickeddate);
+              // var newDate = pickeddate.yearInBuddhistCalendar;
+              // print('===>> $newDate');
               print(formattedDate);
               setState(() {
-                start_date.text = '${newDate}' +
+                // start_date.text = '${newDate}' +
+                //     formattedDate;
+                start_date.text =
                     formattedDate; //set output date to TextField value.
                 print(start_date.text);
               });
@@ -1484,18 +1486,24 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           onTap: () async {
             DateTime? pickeddate = await showDatePicker(
               context: context,
+              locale: const Locale("th", "TH"),
               initialDate: DateTime.now(),
               firstDate: DateTime(2000),
               lastDate: DateTime(2101),
             );
             if (pickeddate != null) {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
-              var newDate = pickeddate.yearInBuddhistCalendar;
-              print('===>> $newDate');
+              var formattedyear = DateFormat('yyyy').format(pickeddate);
+              // var newDate = pickeddate.yearInBuddhistCalendar;
+              var year = int.parse(formattedyear);
+              final newYear =
+                  [year, 543].reduce((value, element) => value + element);
+              // var newDate = '';
+              print('===>> $year');
               // print('${newDate}${formattedDate}');
               setState(() {
-                end_date.text = '${newDate}' +
-                    formattedDate; //set output date to TextField value.
+                end_date.text =
+                    '${newYear}$formattedDate'; //set output date to TextField value.
                 print(end_date.text);
               });
             } else {}

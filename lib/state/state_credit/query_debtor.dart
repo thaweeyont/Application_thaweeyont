@@ -614,7 +614,6 @@ class _Query_debtorState extends State<Query_debtor> {
       select_debtorType = null;
       select_signStatus = null;
       select_branchlist = null;
-      list_dataDebtor = [];
       debtorStatuscode = null;
     });
   }

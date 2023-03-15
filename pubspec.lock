@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  buddhist_datetime_dateformat:
-    dependency: "direct main"
-    description:
-      name: buddhist_datetime_dateformat
-      sha256: "00bf0de5579d17825049f2d6a955e74e7a49bc5e51c018df2243736d8b702cb1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
   cached_network_image:
     dependency: "direct main"
     description:
@@ -222,6 +214,19 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  flutter_localization:
+    dependency: "direct main"
+    description:
+      name: flutter_localization
+      sha256: "331698b371173f5e49812d5b3829a73b5a0b8d22c5fdd1270c8bd6d03d653716"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.10"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -252,10 +257,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: "4691515bb3f68ebbc4776bc97a84d429bb8e8c141a77b5ab988a4b02adb1747a"
+      sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
       url: "https://pub.dev"
     source: hosted
-    version: "0.16.1"
+    version: "0.17.0"
   js:
     dependency: transitive
     description:

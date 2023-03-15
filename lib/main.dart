@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:application_thaweeyont/api.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => Authen(),
@@ -50,42 +51,23 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('th'),
+        Locale('en'),
+      ],
       theme: ThemeData(
         primarySwatch: color_theme(),
-        // scaffoldBackgroundColor: Colors.tealAccent,
       ),
       title: MyContant.appName,
       routes: map,
       initialRoute: initlalRounte,
       // home: TapControl("0"),
     );
-    // MultiProvider(
-    //   providers: [
-    //     ChangeNotifierProvider(create: (context) {
-    //       return ControllerProvider();
-    //     }),
-    //     ChangeNotifierProvider(create: (context) {
-    //       return ProductProvider();
-    //     }),
-    //     ChangeNotifierProvider(create: (context) {
-    //       return ProducthotProvider();
-    //     }),
-    //     ChangeNotifierProvider(create: (context) {
-    //       return Promotion();
-    //     })
-    //   ],
-    //   child: MaterialApp(
-    //     debugShowCheckedModeBanner: false,
-    //     theme: ThemeData(
-    //       primarySwatch: color_theme(),
-    //       // scaffoldBackgroundColor: Colors.tealAccent,
-    //     ),
-    //     title: MyContant.appName,
-    //     routes: map,
-    //     // initialRoute: initlalRounte,
-    //     home: TapControl("0"),
-    //   ),
-    // );
   }
 
   MaterialColor color_theme() {

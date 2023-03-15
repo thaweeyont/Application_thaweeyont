@@ -35,8 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.5
-  intl: ^0.16.1
-  buddhist_datetime_dateformat: ^1.0.6
+  intl: ^0.17.0
+  # buddhist_datetime_dateformat: ^1.0.6
   package_info_plus: ^3.0.1
   carousel_slider: ^4.2.1
   cached_network_image: ^3.2.3
@@ -47,6 +47,7 @@ dependencies:
   flutter_animated_dialog: ^2.0.1
   animated_text_kit: ^4.2.2
   loading_gifs: ^0.3.0
+  flutter_localization: ^0.1.10
   
 
 dev_dependencies:

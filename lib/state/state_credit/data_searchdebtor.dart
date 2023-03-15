@@ -2406,7 +2406,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           height: 5,
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.16,
+                          height: MediaQuery.of(context).size.height * 0.165,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
                             borderRadius: BorderRadius.all(
