@@ -1311,8 +1311,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ),
                               Container(
                                 height: list_detail!['approveStatus'] == '3'
-                                    ? MediaQuery.of(context).size.height * 0.5
-                                    : MediaQuery.of(context).size.height * 0.46,
+                                    ? MediaQuery.of(context).size.height * 0.43
+                                    : MediaQuery.of(context).size.height * 0.43,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
                                   borderRadius: BorderRadius.all(
@@ -1320,8 +1320,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 16, horizontal: 8),
+                                  padding: const EdgeInsets.only(
+                                      top: 16, bottom: 8, left: 8, right: 8),
                                   child: Container(
                                     child: Column(
                                       children: [
@@ -1399,77 +1399,92 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             input_NameApprove(sizeIcon, border),
                                           ],
                                         ),
-                                        if (list_detail!['approveStatus'] ==
-                                                '3' &&
-                                            allowApproveStatus == true) ...[
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Container(
-                                                    height: 30,
-                                                    width: 120,
-                                                    child: TextButton(
-                                                      style: MyContant()
-                                                          .myButtonSubmitStyle(),
-                                                      onPressed: () {
-                                                        print('click_submit');
-                                                        if (select_approveTypeList ==
-                                                            '1') {
-                                                          if (select_approveReasonList ==
-                                                                  null ||
-                                                              select_approveReasonList ==
-                                                                  "") {
-                                                            showProgressDialog(
-                                                                context,
-                                                                'แจ้งเตือน',
-                                                                'กรุณาเลือกการอนุมัติสินเชื่อ');
-                                                          } else {
-                                                            showProgressLoading(
-                                                                context);
-                                                            ApproveCredit();
-                                                          }
-                                                        } else if (select_approveTypeList ==
-                                                            '2') {
-                                                          if (select_NotapproveReasonList ==
-                                                                  null ||
-                                                              select_NotapproveReasonList ==
-                                                                  '') {
-                                                            showProgressDialog(
-                                                                context,
-                                                                'แจ้งเตือน',
-                                                                'กรุณาเลือกการอนุมัติสินเชื่อ');
-                                                          } else {
-                                                            showProgressLoading(
-                                                                context);
-                                                            ApproveCredit();
-                                                          }
-                                                        } else {
-                                                          showProgressDialog(
-                                                              context,
-                                                              'แจ้งเตือน',
-                                                              'กรุณาเปลี่ยนผลการพิจารณาสินเชื่อ');
-                                                        }
-                                                      },
-                                                      child:
-                                                          const Text('บันทึก'),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ],
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
+                              if (list_detail!['approveStatus'] == '3' &&
+                                  allowApproveStatus == true) ...[
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Column(
+                                  children: [
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.07,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(5),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                height: 35,
+                                                width: 120,
+                                                child: ElevatedButton(
+                                                  style: MyContant()
+                                                      .myButtonSubmitStyle(),
+                                                  onPressed: () {
+                                                    print('click_submit');
+                                                    if (select_approveTypeList ==
+                                                        '1') {
+                                                      if (select_approveReasonList ==
+                                                              null ||
+                                                          select_approveReasonList ==
+                                                              "") {
+                                                        showProgressDialog(
+                                                            context,
+                                                            'แจ้งเตือน',
+                                                            'กรุณาเลือกการอนุมัติสินเชื่อ');
+                                                      } else {
+                                                        showProgressLoading(
+                                                            context);
+                                                        ApproveCredit();
+                                                      }
+                                                    } else if (select_approveTypeList ==
+                                                        '2') {
+                                                      if (select_NotapproveReasonList ==
+                                                              null ||
+                                                          select_NotapproveReasonList ==
+                                                              '') {
+                                                        showProgressDialog(
+                                                            context,
+                                                            'แจ้งเตือน',
+                                                            'กรุณาเลือกการอนุมัติสินเชื่อ');
+                                                      } else {
+                                                        showProgressLoading(
+                                                            context);
+                                                        ApproveCredit();
+                                                      }
+                                                    } else {
+                                                      showProgressDialog(
+                                                          context,
+                                                          'แจ้งเตือน',
+                                                          'กรุณาเปลี่ยนผลการพิจารณาสินเชื่อ');
+                                                    }
+                                                  },
+                                                  child: const Text('บันทึก'),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             ],
                           ),
                         ),

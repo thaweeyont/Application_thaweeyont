@@ -558,7 +558,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -566,8 +566,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 30,
-                                  child: TextButton(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.034,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  child: ElevatedButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       if (selectValue_bl.toString() == "2") {
@@ -994,14 +997,20 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ),
                             ]),
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 30,
-                                  child: TextButton(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.034,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  child: ElevatedButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       if (selectValue_province == null) {
@@ -1693,13 +1702,9 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                 Row(
                   children: [
                     Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
                           if (idblacklist.text.isEmpty &&
@@ -1764,13 +1769,9 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                     ),
                     SizedBox(width: 10),
                     Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonCancelStyle(),
                         onPressed: () {
                           clear_data_blacklist();

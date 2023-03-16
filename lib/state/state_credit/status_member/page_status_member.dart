@@ -320,9 +320,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         width: 30,
                                         height: 30,
                                         decoration: BoxDecoration(
-                                            color:
-                                                Color.fromRGBO(18, 108, 108, 1),
-                                            shape: BoxShape.circle),
+                                          color:
+                                              Color.fromRGBO(18, 108, 108, 1),
+                                          shape: BoxShape.circle,
+                                        ),
                                         child: Icon(
                                           Icons.close,
                                           color: Colors.white,
@@ -473,18 +474,20 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               ],
                             ]),
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  child: TextButton(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.034,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  child: ElevatedButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       // getData_search();
@@ -1268,11 +1271,9 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                 Row(
                   children: [
                     Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
                           if (custId.text.isEmpty &&
@@ -1301,11 +1302,9 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                     ),
                     SizedBox(width: 10),
                     Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonCancelStyle(),
                         onPressed: () {
                           clearValuemembar();

@@ -903,14 +903,20 @@ class _Query_debtorState extends State<Query_debtor> {
                               ),
                             ]),
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 30,
-                                  child: TextButton(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.034,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  child: ElevatedButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       if (selectValue_province == null) {
@@ -1242,19 +1248,20 @@ class _Query_debtorState extends State<Query_debtor> {
                               ),
                             ]),
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Color.fromRGBO(76, 83, 146, 1),
-                                  ),
-                                  child: TextButton(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.034,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  child: ElevatedButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       if (searchNameItemtype.text.isEmpty) {
@@ -1438,30 +1445,6 @@ class _Query_debtorState extends State<Query_debtor> {
           showProgressDialog_500(
               context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
         }
-        // else {
-        //   setState(() {
-        //     valueNotdata = respose.statusCode;
-        //   });
-        //   Navigator.pop(context);
-        //   print(respose.statusCode);
-        //   print('ไม่พบข้อมูล');
-        // Map<String, dynamic> check_list =
-        //     new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(respose.statusCode);
-        // print(check_list['message']);
-        // if (check_list['message'] == "Token Unauthorized") {
-        //   SharedPreferences preferences =
-        //       await SharedPreferences.getInstance();
-        //   preferences.clear();
-        //   Navigator.pushAndRemoveUntil(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Authen(),
-        //     ),
-        //     (Route<dynamic> route) => false,
-        //   );
-        // }
-        // }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
         showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -1687,7 +1670,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             ]),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -1695,8 +1678,11 @@ class _Query_debtorState extends State<Query_debtor> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 30,
-                                  child: TextButton(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.034,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  child: ElevatedButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       if (id == '1') {
@@ -2330,8 +2316,9 @@ class _Query_debtorState extends State<Query_debtor> {
                 Row(
                   children: [
                     Container(
-                      height: 30,
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
                           // showProgressLoading(context);
@@ -2366,8 +2353,9 @@ class _Query_debtorState extends State<Query_debtor> {
                     ),
                     SizedBox(width: 10),
                     Container(
-                      height: 30,
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonCancelStyle(),
                         onPressed: clearTextInputAll,
                         child: const Text('ยกเลิก'),

@@ -178,7 +178,7 @@ class MyContant {
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(76, 83, 146, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
         ),
         foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
@@ -187,14 +187,14 @@ class MyContant {
   ButtonStyle myButtonCancelStyle() => ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(248, 40, 78, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(15),
         ),
         foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );
   ButtonStyle myButtonSubmitStyle() => ElevatedButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 238, 238, 238),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),

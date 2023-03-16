@@ -600,7 +600,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             ]),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -608,8 +608,11 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                  height: 30,
-                                  child: TextButton(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.036,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
+                                  child: ElevatedButton(
                                     style: MyContant().myButtonSearchStyle(),
                                     onPressed: () {
                                       if (id == '1') {
@@ -1059,8 +1062,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                 Row(
                   children: [
                     Container(
-                      height: 30,
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.036,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
                           print(selectvalue_saletype);
@@ -1098,8 +1102,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                     ),
                     SizedBox(width: 10),
                     Container(
-                      height: 30,
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.036,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonCancelStyle(),
                         onPressed: () {
                           clearValueBuylist();
@@ -1376,7 +1381,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               Icons.calendar_today,
               color: Colors.black,
             ),
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1389,22 +1394,24 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           onTap: () async {
             DateTime? pickeddate = await showDatePicker(
               context: context,
+              locale: const Locale("th", "TH"),
               initialDate: DateTime.now(),
               firstDate: DateTime(2000),
               lastDate: DateTime(2101),
             );
             if (pickeddate != null) {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var formattedyear = DateFormat('yyyy').format(pickeddate);
               // var newDate = pickeddate.yearInBuddhistCalendar;
-              var newDate = 0;
-              print('===>> $newDate');
-              print(formattedDate);
+              var year = int.parse(formattedyear);
+              final newYear =
+                  [year, 543].reduce((value, element) => value + element);
+              print('===>> $year');
               setState(() {
-                start_date.text = '${newDate}' +
-                    formattedDate; //set output date to TextField value.
+                start_date.text =
+                    '$newYear$formattedDate'; //set output date to TextField value.
                 print(start_date.text);
               });
-              // print('<=>>> ${start_date.text.replaceAll(RegExp("-"), "")}');
             } else {}
           },
         ),
@@ -1425,7 +1432,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               Icons.calendar_today,
               color: Colors.black,
             ),
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1438,19 +1445,22 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           onTap: () async {
             DateTime? pickeddate = await showDatePicker(
               context: context,
+              locale: const Locale("th", "TH"),
               initialDate: DateTime.now(),
               firstDate: DateTime(2000),
               lastDate: DateTime(2101),
             );
             if (pickeddate != null) {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var formattedyear = DateFormat('yyyy').format(pickeddate);
               // var newDate = pickeddate.yearInBuddhistCalendar;
-              var newDate = 0;
-              print('===>> $newDate');
-              // print('${newDate}${formattedDate}');
+              var year = int.parse(formattedyear);
+              final newYear =
+                  [year, 543].reduce((value, element) => value + element);
+              print('===>> $year');
               setState(() {
-                end_date.text = '${newDate}' +
-                    formattedDate; //set output date to TextField value.
+                end_date.text =
+                    '$newYear$formattedDate'; //set output date to TextField value.
                 print(end_date.text);
               });
             } else {}
