@@ -74,7 +74,7 @@ class _Query_debtorState extends State<Query_debtor> {
       valueSignId,
       status_e = false;
 
-  var selectValue_customer, valueNotdata, Texthint;
+  var selectValue_customer, valueNotdata, Texthint, text_search;
   var signStatus, branch, debtorType, tumbol, amphur, province;
 
   @override
@@ -1867,24 +1867,37 @@ class _Query_debtorState extends State<Query_debtor> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_idcustomer(sizeIcon, border),
-                        InkWell(
-                          onTap: () {
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: Color.fromRGBO(202, 71, 150, 1),
+                          ),
+                          onPressed: () {
                             search_idcustomer();
                             get_select_cus();
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(202, 71, 150, 1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
+                          child: const Icon(
+                            Icons.search,
                           ),
-                        )
+                        ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     search_idcustomer();
+                        //     get_select_cus();
+                        //   },
+                        //   child: Container(
+                        //     width: 30,
+                        //     height: 30,
+                        //     decoration: BoxDecoration(
+                        //       color: Color.fromRGBO(202, 71, 150, 1),
+                        //       shape: BoxShape.circle,
+                        //     ),
+                        //     child: Icon(
+                        //       Icons.search,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                     Row(
@@ -1960,23 +1973,36 @@ class _Query_debtorState extends State<Query_debtor> {
                             style: MyContant().h4normalStyle(),
                           ),
                           input_district(sizeIcon, border),
-                          InkWell(
-                            onTap: () {
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              // padding: EdgeInsets.all(5),
+                              backgroundColor: Color.fromRGBO(202, 71, 150, 1),
+                            ),
+                            onPressed: () {
                               search_district(sizeIcon, border);
                             },
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(202, 71, 150, 1),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.white,
-                              ),
+                            child: const Icon(
+                              Icons.search,
                             ),
-                          )
+                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     search_district(sizeIcon, border);
+                          //   },
+                          //   child: Container(
+                          //     width: 30,
+                          //     height: 30,
+                          //     decoration: BoxDecoration(
+                          //       color: Color.fromRGBO(202, 71, 150, 1),
+                          //       shape: BoxShape.circle,
+                          //     ),
+                          //     child: Icon(
+                          //       Icons.search,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       ),
                       Row(
@@ -2032,22 +2058,35 @@ class _Query_debtorState extends State<Query_debtor> {
                             style: MyContant().h4normalStyle(),
                           ),
                           input_contractType(sizeIcon, border),
-                          InkWell(
-                            onTap: () {
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              // padding: EdgeInsets.all(5),
+                              backgroundColor: Color.fromRGBO(202, 71, 150, 1),
+                            ),
+                            onPressed: () {
                               search_conType(sizeIcon, border);
                             },
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(202, 71, 150, 1),
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.white,
-                              ),
+                            child: const Icon(
+                              Icons.search,
                             ),
-                          )
+                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     search_conType(sizeIcon, border);
+                          //   },
+                          //   child: Container(
+                          //     width: 30,
+                          //     height: 30,
+                          //     decoration: BoxDecoration(
+                          //         color: Color.fromRGBO(202, 71, 150, 1),
+                          //         shape: BoxShape.circle),
+                          //     child: Icon(
+                          //       Icons.search,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       ),
                     ],
@@ -2296,13 +2335,17 @@ class _Query_debtorState extends State<Query_debtor> {
                   child: Container(
                     child: Row(
                       children: [
-                        Text(
-                          'ค้นหาแบบละเอียด',
-                          style: MyContant().TextsearchStyle(),
-                        ),
                         if (filter == true) ...[
+                          Text(
+                            'ค้นหาแบบย่อย',
+                            style: MyContant().TextsearchStyle(),
+                          ),
                           Icon(Icons.arrow_drop_up),
                         ] else ...[
+                          Text(
+                            'ค้นหาแบบละเอียด',
+                            style: MyContant().TextsearchStyle(),
+                          ),
                           Icon(Icons.arrow_drop_down),
                         ],
                       ],
@@ -2387,7 +2430,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded input_idcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
           controller: custId,
           maxLength: 13,
@@ -2600,7 +2643,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded input_district(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
           controller: district,
           readOnly: true,
@@ -2821,7 +2864,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded input_contractType(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
           controller: itemTypelist,
           readOnly: true,

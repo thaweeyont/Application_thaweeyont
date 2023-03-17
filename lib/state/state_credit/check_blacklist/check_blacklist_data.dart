@@ -1176,23 +1176,36 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_idblacklist(sizeIcon, border),
-                        InkWell(
-                          onTap: () {
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            // padding: EdgeInsets.all(5),
+                            backgroundColor: Color.fromRGBO(82, 119, 255, 1),
+                          ),
+                          onPressed: () {
                             search_id_blacklist();
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(82, 119, 255, 1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
+                          child: const Icon(
+                            Icons.search,
                           ),
                         ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     search_id_blacklist();
+                        //   },
+                        //   child: Container(
+                        //     width: 30,
+                        //     height: 30,
+                        //     decoration: BoxDecoration(
+                        //       color: Color.fromRGBO(82, 119, 255, 1),
+                        //       shape: BoxShape.circle,
+                        //     ),
+                        //     child: Icon(
+                        //       Icons.search,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     Row(
@@ -1202,13 +1215,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_name_show_bl(sizeIcon, border),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Color.fromRGBO(162, 181, 252, 1),
-                          ),
-                        ),
                       ],
                     ),
                     Row(
@@ -1259,24 +1265,38 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_district_bl(sizeIcon, border),
-                        InkWell(
-                          onTap: () {
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            // padding: EdgeInsets.all(5),
+                            backgroundColor: Color.fromRGBO(82, 119, 255, 1),
+                          ),
+                          onPressed: () {
                             search_district(context, border);
                             get_select_province();
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(82, 119, 255, 1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
+                          child: const Icon(
+                            Icons.search,
                           ),
                         ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     search_district(context, border);
+                        //     get_select_province();
+                        //   },
+                        //   child: Container(
+                        //     width: 30,
+                        //     height: 30,
+                        //     decoration: BoxDecoration(
+                        //       color: Color.fromRGBO(82, 119, 255, 1),
+                        //       shape: BoxShape.circle,
+                        //     ),
+                        //     child: Icon(
+                        //       Icons.search,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     Row(
@@ -1416,7 +1436,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded input_idblacklist(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
           controller: idblacklist,
           onChanged: (keyword) {},
@@ -1609,7 +1629,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded input_district_bl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
           controller: district,
           onChanged: (keyword) {},

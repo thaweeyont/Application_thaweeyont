@@ -33,6 +33,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       select_branchlist,
       select_index_approve,
       select_status;
+
   var filter_search = false;
   List list_datavalue = [],
       dropdown_customer = [],
@@ -783,24 +784,38 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_idcustomer(sizeIcon, border),
-                        InkWell(
-                          onTap: () {
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            // padding: const EdgeInsets.all(5),
+                            backgroundColor: Color.fromRGBO(173, 106, 3, 1),
+                          ),
+                          onPressed: () {
                             search_idcustomer();
                             get_select_cus();
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(173, 106, 3, 1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
+                          child: const Icon(
+                            Icons.search,
                           ),
                         ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     search_idcustomer();
+                        //     get_select_cus();
+                        //   },
+                        //   child: Container(
+                        //     width: 30,
+                        //     height: 30,
+                        //     decoration: BoxDecoration(
+                        //       color: Color.fromRGBO(173, 106, 3, 1),
+                        //       shape: BoxShape.circle,
+                        //     ),
+                        //     child: Icon(
+                        //       Icons.search,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     Row(
@@ -1122,7 +1137,11 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded input_idcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(
+          top: 8,
+          bottom: 8,
+          left: 8,
+        ),
         child: TextField(
           controller: custId,
           onChanged: (keyword) {},
@@ -1333,18 +1352,22 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           height: MediaQuery.of(context).size.width * 0.1,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
               items: dropdown_branch
-                  .map((value) => DropdownMenuItem(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().TextInputStyle(),
-                        ),
-                        value: value['id'],
-                      ))
+                  .map(
+                    (value) => DropdownMenuItem(
+                      child: Text(
+                        value['name'],
+                        style: MyContant().TextInputStyle(),
+                      ),
+                      value: value['id'],
+                    ),
+                  )
                   .toList(),
               onChanged: (newvalue) {
                 setState(() {

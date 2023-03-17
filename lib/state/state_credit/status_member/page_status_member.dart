@@ -822,24 +822,38 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           style: MyContant().h4normalStyle(),
                         ),
                         input_idcustomer(sizeIcon, border),
-                        InkWell(
-                          onTap: () {
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            // padding: EdgeInsets.all(5),
+                            backgroundColor: Color.fromRGBO(18, 108, 108, 1),
+                          ),
+                          onPressed: () {
                             search_idcustomer();
                             get_select_cus();
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(18, 108, 108, 1),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
+                          child: const Icon(
+                            Icons.search,
                           ),
                         ),
+                        // InkWell(
+                        //   onTap: () {
+                        //     search_idcustomer();
+                        //     get_select_cus();
+                        //   },
+                        //   child: Container(
+                        //     width: 30,
+                        //     height: 30,
+                        //     decoration: BoxDecoration(
+                        //       color: Color.fromRGBO(18, 108, 108, 1),
+                        //       shape: BoxShape.circle,
+                        //     ),
+                        //     child: Icon(
+                        //       Icons.search,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     Row(
@@ -1350,7 +1364,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Expanded input_idcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
           controller: custId,
           onChanged: (keyword) {},

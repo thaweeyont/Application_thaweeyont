@@ -31,11 +31,15 @@ class _Home_creditState extends State<Home_credit> {
           childAspectRatio: size_h,
           children: <Widget>[
             check_information(size),
-            check_information_n(size),
-            check_buyproduct_n(size),
-            check_approve_n(size),
-            check_statususer_n(size),
-            check_blacklist_n(size)
+            check_buyproduct(size),
+            check_approve(size),
+            check_statususer(size),
+            check_blacklist(size),
+            // check_information_n(size),
+            // check_buyproduct_n(size),
+            // check_approve_n(size),
+            // check_statususer_n(size),
+            // check_blacklist_n(size),
           ],
         ),
       ),
@@ -68,12 +72,7 @@ class _Home_creditState extends State<Home_credit> {
           'เช็คผลการพิจารณาสินเชื่อ',
           overflow: TextOverflow.clip,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Prompt',
-            fontSize: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.normal,
-          ),
+          style: MyContant().TextMenulist(),
         ), //label text
         style: ElevatedButton.styleFrom(
             backgroundColor: Color.fromRGBO(
@@ -83,6 +82,151 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 
+  Container check_buyproduct(double size) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      // height: size * 300,
+      // alignment: Alignment.center,
+      // padding: EdgeInsets.all(20),
+      child: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Navigator_bar_credit('1'),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        },
+        icon: Icon(
+          Icons.shopping_basket_rounded,
+          size: size * 0.12,
+        ),
+        label: Text(
+          'ตรวจสอบข้อมูลการซื้อสินค้า',
+          overflow: TextOverflow.clip,
+          textAlign: TextAlign.center,
+          style: MyContant().TextMenulist(),
+        ), //label text
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromRGBO(
+                212, 151, 233, 1) //elevated btton background color
+            ),
+      ),
+    );
+  }
+
+  Container check_approve(double size) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      // height: size * 300,
+      // alignment: Alignment.center,
+      // padding: EdgeInsets.all(20),
+      child: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Navigator_bar_credit('3'),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        },
+        icon: Icon(
+          Icons.manage_accounts_rounded,
+          size: size * 0.12,
+        ),
+        label: Text(
+          'เช็คผลการพิจารณาสินเชื่อ',
+          overflow: TextOverflow.clip,
+          textAlign: TextAlign.center,
+          style: MyContant().TextMenulist(),
+        ), //label text
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromRGBO(
+                251, 713, 55, 1) //elevated btton background color
+            ),
+      ),
+    );
+  }
+
+  Container check_statususer(double size) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      // height: size * 300,
+      // alignment: Alignment.center,
+      // padding: EdgeInsets.all(20),
+      child: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Navigator_bar_credit('4'),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        },
+        icon: Icon(
+          Icons.switch_account_outlined,
+          size: size * 0.12,
+        ),
+        label: Text(
+          'สถานะสมาชิกทวียนต์',
+          overflow: TextOverflow.clip,
+          textAlign: TextAlign.center,
+          style: MyContant().TextMenulist(),
+        ), //label text
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromRGBO(
+                64, 203, 203, 1) //elevated btton background color
+            ),
+      ),
+    );
+  }
+
+  Container check_blacklist(double size) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      // height: size * 300,
+      // alignment: Alignment.center,
+      // padding: EdgeInsets.all(20),
+      child: ElevatedButton.icon(
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Navigator_bar_credit('5'),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        },
+        icon: Icon(
+          Icons.person_off_rounded,
+          size: size * 0.12,
+        ),
+        label: Text(
+          'สอบถามรายละเอียด BlackList',
+          overflow: TextOverflow.clip,
+          textAlign: TextAlign.center,
+          style: MyContant().TextMenulist(),
+        ), //label text
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromRGBO(
+                162, 181, 252, 1) //elevated btton background color
+            ),
+      ),
+    );
+  }
+
+//-----------------------------เมนูเดิม----------------------------------------------------------------------
   InkWell check_approve_n(double size) {
     return InkWell(
       onTap: () => Navigator.pushAndRemoveUntil(

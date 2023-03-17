@@ -175,6 +175,13 @@ class MyContant {
         fontFamily: 'Prompt',
       );
 
+  TextStyle TextMenulist() => TextStyle(
+        fontSize: 20,
+        color: Colors.white,
+        fontFamily: 'Prompt',
+        fontWeight: FontWeight.normal,
+      );
+
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: Color.fromRGBO(76, 83, 146, 1),
         shape: RoundedRectangleBorder(
