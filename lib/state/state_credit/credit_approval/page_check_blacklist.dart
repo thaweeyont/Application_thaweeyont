@@ -92,8 +92,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล Blacklist');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -279,13 +278,9 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                 Row(
                   children: [
                     Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonSearchStyle(),
                         onPressed: () {
                           if (idcard.text.isEmpty) {
@@ -301,13 +296,9 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                     ),
                     SizedBox(width: 10),
                     Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: TextButton(
+                      height: MediaQuery.of(context).size.height * 0.034,
+                      width: MediaQuery.of(context).size.width * 0.22,
+                      child: ElevatedButton(
                         style: MyContant().myButtonCancelStyle(),
                         onPressed: () {
                           clearValueblacklist();

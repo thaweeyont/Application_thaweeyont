@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/state/state_credit/credit_approval/credit_data_detail.dart';
 import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';

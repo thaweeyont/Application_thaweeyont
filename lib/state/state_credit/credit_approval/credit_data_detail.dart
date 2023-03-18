@@ -116,8 +116,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
