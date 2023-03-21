@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_credit/credit_approval/credit_data_detail.dart';
+import 'package:application_thaweeyont/state/state_credit/credit_approval/data_list_quarantee.dart';
 import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -43,7 +44,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       dropdown_NotapproveReasonList = [],
       dropdown_approveTypeList = [],
       dropdownTest = [];
-  var valueapprove, value_approveDetail, valueStatus, status = false;
+  var valueapprove,
+      value_approveDetail,
+      valueStatus,
+      status = false,
+      status_error401 = false;
 
   TextEditingController note_approve = TextEditingController();
   TextEditingController name_approve = TextEditingController();
@@ -54,6 +59,22 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     // TODO: implement initState
     super.initState();
     getdata();
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+      allowApproveStatus = preferences.getBool('allowApproveStatus');
+    });
+    getData_Creditdetail();
+    get_approveReasonList();
+    get_approveTypeList();
+    get_notApproveReasonList();
   }
 
   Future<void> getData_Creditdetail() async {
@@ -113,14 +134,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           } else if (get_valueapprov == '2') {
             select_NotapproveReasonList = get_valueReason;
           }
-          // active_cl1 = true;
-          // active_cl2 = false;
-          // active_cl3 = false;
         });
 
-        print('#===> ${list_detail!.length}');
         print('data=>>${dataCreditdetail['status']}');
-        // Navigator.pop(context);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -140,8 +156,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -235,86 +250,68 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
-  Future<Null> getdata() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-      allowApproveStatus = preferences.getBool('allowApproveStatus');
-    });
-    getData_Creditdetail();
-    get_approveReasonList();
-    get_approveTypeList();
-    get_notApproveReasonList();
-    getData_quarantee();
-  }
+  // Future<void> getData_quarantee() async {
+  //   print(tokenId);
+  //   print(widget.custId.toString());
 
-  Future<void> getData_quarantee() async {
-    print(tokenId);
-    print(widget.custId.toString());
+  //   try {
+  //     var respose = await http.post(
+  //       Uri.parse('${beta_api_test}credit/quarantee'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': tokenId.toString(),
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'custId': widget.custId.toString(),
+  //       }),
+  //     );
 
-    list_quarantee = [];
-    try {
-      var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/quarantee'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-        body: jsonEncode(<String, String>{
-          'custId': widget.custId.toString(),
-        }),
-      );
+  //     if (respose.statusCode == 200) {
+  //       Map<String, dynamic> dataQuarantee =
+  //           new Map<String, dynamic>.from(json.decode(respose.body));
 
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> dataQuarantee =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+  //       setState(() {
+  //         list_quarantee = dataQuarantee['data'];
+  //       });
 
-        setState(() {
-          list_quarantee = dataQuarantee['data'];
-        });
-
-        // print(list_quarantee);
-      } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-      } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-      } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
+  //       print('data_1->>${list_quarantee}');
+  //     } else if (respose.statusCode == 400) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_400(
+  //           context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 401) {
+  //       print(respose.statusCode);
+  //       SharedPreferences preferences = await SharedPreferences.getInstance();
+  //       preferences.clear();
+  //       Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => Authen(),
+  //         ),
+  //         (Route<dynamic> route) => false,
+  //       );
+  //       showProgressDialog_401(
+  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+  //     } else if (respose.statusCode == 404) {
+  //       print(respose.statusCode);
+  //       status_error401 = true;
+  //       // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลผู้ค้ำ!');
+  //     } else if (respose.statusCode == 405) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+  //     } else if (respose.statusCode == 500) {
+  //       print(respose.statusCode);
+  //       showProgressDialog_500(
+  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+  //     } else {
+  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+  //     }
+  //   } catch (e) {
+  //     print("ไม่มีข้อมูล $e");
+  //     showProgressDialog_Notdata(
+  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+  //   }
+  // }
 
   Future<void> get_approveTypeList() async {
     print(tokenId);
@@ -396,7 +393,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           dropdown_approveReasonList = dataapproveReasonList['data'];
         });
 
-        // Navigator.pop(context);
         print(dropdown_approveReasonList);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
@@ -1388,7 +1384,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                           ],
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          height: 15,
                                         ),
                                         Row(
                                           children: [
@@ -1528,7 +1524,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             children: [
               InkWell(
                 onTap: () {
-                  // menu_list("list_content1");
                   sign_Detail(sizeIcon, border);
                 },
                 child: Container(
@@ -1538,9 +1533,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       Radius.circular(8),
                     ),
                     color: Color.fromRGBO(251, 173, 55, 1),
-                    // color: active_cl1 == true
-                    //     ? Color.fromRGBO(202, 121, 0, 1)
-                    //     : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'ตรวจสอบหนี้สิน',
@@ -1550,10 +1542,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               ),
               InkWell(
                 onTap: () {
-                  // menu_list("list_content2");
-                  // showProgressLoading(context);
-                  // getData_quarantee();
-                  quarantee(sizeIcon, border);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DataListQuarantee(
+                          widget.custId.toString(),
+                        ),
+                      ));
+                  // quarantee(sizeIcon, border);
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
@@ -1563,9 +1559,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       Radius.circular(8),
                     ),
                     color: Color.fromRGBO(251, 173, 55, 1),
-                    // color: active_cl2 == true
-                    //     ? Color.fromRGBO(202, 121, 0, 1)
-                    //     : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'รายละเอียดผู้ค้ำ',
@@ -1591,9 +1584,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       Radius.circular(8),
                     ),
                     color: Color.fromRGBO(251, 173, 55, 1),
-                    // color: active_cl3 == true
-                    //     ? Color.fromRGBO(202, 121, 0, 1)
-                    //     : Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'เช็ค Blacklist',
@@ -1608,221 +1598,221 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Container content_list1(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: Scrollbar(
-        child: ListView(
-          children: [
-            if (list_signDetail.isNotEmpty) ...[
-              for (var i = 0; i < list_signDetail.length; i++) ...[
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Page_Info_Consider_Cus(
-                            list_signDetail[i]['signId']),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 6),
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'วันทำสัญญา : ${list_signDetail[i]['signDate']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'เลขที่สัญญา : ${list_signDetail[i]['signId']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'ชื่อสินค้า : ',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '${list_signDetail[i]['itemName']}',
-                                  overflow: TextOverflow.clip,
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'รหัสเขต : ${list_signDetail[i]['followAreaName']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Text(
-                                'สถานะ : ${list_signDetail[i]['signStatusName']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ],
-        ),
-      ),
-    );
-  }
+  // Container content_list1(BuildContext context) {
+  //   return Container(
+  //     height: MediaQuery.of(context).size.height * 0.5,
+  //     child: Scrollbar(
+  //       child: ListView(
+  //         children: [
+  //           if (list_signDetail.isNotEmpty) ...[
+  //             for (var i = 0; i < list_signDetail.length; i++) ...[
+  //               InkWell(
+  //                 onTap: () {
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                       builder: (context) => Page_Info_Consider_Cus(
+  //                           list_signDetail[i]['signId']),
+  //                     ),
+  //                   );
+  //                 },
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.symmetric(horizontal: 8),
+  //                   child: Container(
+  //                     margin: EdgeInsets.symmetric(vertical: 6),
+  //                     padding: EdgeInsets.all(8.0),
+  //                     decoration: BoxDecoration(
+  //                       borderRadius: BorderRadius.all(Radius.circular(5)),
+  //                       color: Color.fromRGBO(251, 173, 55, 1),
+  //                     ),
+  //                     child: Column(
+  //                       children: [
+  //                         Row(
+  //                           children: [
+  //                             Text(
+  //                               'วันทำสัญญา : ${list_signDetail[i]['signDate']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 5,
+  //                         ),
+  //                         Row(
+  //                           children: [
+  //                             Text(
+  //                               'เลขที่สัญญา : ${list_signDetail[i]['signId']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 5,
+  //                         ),
+  //                         Row(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Text(
+  //                               'ชื่อสินค้า : ',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                             Expanded(
+  //                               child: Text(
+  //                                 '${list_signDetail[i]['itemName']}',
+  //                                 overflow: TextOverflow.clip,
+  //                                 style: MyContant().h4normalStyle(),
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 5,
+  //                         ),
+  //                         Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           children: [
+  //                             Text(
+  //                               'รหัสเขต : ${list_signDetail[i]['followAreaName']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                             Text(
+  //                               'สถานะ : ${list_signDetail[i]['signStatusName']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ],
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Container content_list2(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: Scrollbar(
-        child: ListView(
-          children: [
-            if (list_quarantee.isNotEmpty) ...[
-              for (var i = 0; i < list_quarantee.length; i++) ...[
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            Page_Info_Consider_Cus(list_quarantee[i]['signId']),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 6),
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'เลขที่สัญญา : ${list_quarantee[i]['signId']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'ชื่อ-สกุล : ',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '${list_quarantee[i]['custName']}',
-                                  overflow: TextOverflow.clip,
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'ชื่อ-สกุลในสัญญา : ',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '${list_quarantee[i]['signCustName']}',
-                                  overflow: TextOverflow.clip,
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'ยอดคงเหลือ : ${list_quarantee[i]['remainPrice']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Text(
-                                'สถานะ : ${list_quarantee[i]['personStatusName']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'เขตติดตาม : ${list_quarantee[i]['followName']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Text(
-                                'สถานะสัญญา : ${list_quarantee[i]['signStatusName']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ],
-        ),
-      ),
-    );
-  }
+  // Container content_list2(BuildContext context) {
+  //   return Container(
+  //     height: MediaQuery.of(context).size.height * 0.5,
+  //     child: Scrollbar(
+  //       child: ListView(
+  //         children: [
+  //           if (list_quarantee.isNotEmpty) ...[
+  //             for (var i = 0; i < list_quarantee.length; i++) ...[
+  //               InkWell(
+  //                 onTap: () {
+  //                   Navigator.push(
+  //                     context,
+  //                     MaterialPageRoute(
+  //                       builder: (context) =>
+  //                           Page_Info_Consider_Cus(list_quarantee[i]['signId']),
+  //                     ),
+  //                   );
+  //                 },
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.symmetric(horizontal: 8),
+  //                   child: Container(
+  //                     margin: EdgeInsets.symmetric(vertical: 6),
+  //                     padding: EdgeInsets.all(8.0),
+  //                     decoration: BoxDecoration(
+  //                       borderRadius: BorderRadius.all(Radius.circular(5)),
+  //                       color: Color.fromRGBO(251, 173, 55, 1),
+  //                     ),
+  //                     child: Column(
+  //                       children: [
+  //                         Row(
+  //                           children: [
+  //                             Text(
+  //                               'เลขที่สัญญา : ${list_quarantee[i]['signId']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 5,
+  //                         ),
+  //                         Row(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Text(
+  //                               'ชื่อ-สกุล : ',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                             Expanded(
+  //                               child: Text(
+  //                                 '${list_quarantee[i]['custName']}',
+  //                                 overflow: TextOverflow.clip,
+  //                                 style: MyContant().h4normalStyle(),
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 5,
+  //                         ),
+  //                         Row(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Text(
+  //                               'ชื่อ-สกุลในสัญญา : ',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                             Expanded(
+  //                               child: Text(
+  //                                 '${list_quarantee[i]['signCustName']}',
+  //                                 overflow: TextOverflow.clip,
+  //                                 style: MyContant().h4normalStyle(),
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 5,
+  //                         ),
+  //                         Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           children: [
+  //                             Text(
+  //                               'ยอดคงเหลือ : ${list_quarantee[i]['remainPrice']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                             Text(
+  //                               'สถานะ : ${list_quarantee[i]['personStatusName']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 5,
+  //                         ),
+  //                         Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           children: [
+  //                             Text(
+  //                               'เขตติดตาม : ${list_quarantee[i]['followName']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                             Text(
+  //                               'สถานะสัญญา : ${list_quarantee[i]['signStatusName']}',
+  //                               style: MyContant().h4normalStyle(),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ],
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Future<Null> sign_Detail(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
@@ -2022,244 +2012,261 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Future<Null> quarantee(sizeIcon, border) async {
-    double size = MediaQuery.of(context).size.width;
-    // bool btn_edit = false;
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        behavior: HitTestBehavior.opaque,
-        child: StatefulBuilder(
-          builder: (context, setState) => Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Column(
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    elevation: 0,
-                    color: Colors.white,
-                    child: Container(
-                      height: size * 1.5,
-                      margin: EdgeInsets.all(5),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'รายละเอียดผู้ค้ำ',
-                                            style:
-                                                MyContant().TextTitleDialog(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 4),
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 182, 182, 182),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.63,
-                            child: Scrollbar(
-                              child: ListView(
-                                children: [
-                                  if (list_quarantee.isNotEmpty) ...[
-                                    for (var i = 0;
-                                        i < list_quarantee.length;
-                                        i++) ...[
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Page_Info_Consider_Cus(
-                                                      list_quarantee[i]
-                                                          ['signId']),
-                                            ),
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 4),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5),
-                                              ),
-                                              color: Color.fromRGBO(
-                                                  251, 173, 55, 1),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'เลขที่สัญญา : ${list_quarantee[i]['signId']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        'ชื่อ-สกุล : ',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          '${list_quarantee[i]['custName']}',
-                                                          overflow:
-                                                              TextOverflow.clip,
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        'ชื่อ-สกุลในสัญญา : ',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          '${list_quarantee[i]['signCustName']}',
-                                                          overflow:
-                                                              TextOverflow.clip,
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'ยอดคงเหลือ : ${list_quarantee[i]['remainPrice']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                      Text(
-                                                        'สถานะ : ${list_quarantee[i]['personStatusName']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        'เขตติดตาม : ${list_quarantee[i]['followName']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                      Text(
-                                                        'สถานะสัญญา : ${list_quarantee[i]['signStatusName']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ],
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Future<Null> quarantee(sizeIcon, border) async {
+  //   double size = MediaQuery.of(context).size.width;
+  //   // bool btn_edit = false;
+  //   showDialog(
+  //     barrierDismissible: false,
+  //     context: context,
+  //     builder: (context) => GestureDetector(
+  //       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+  //       behavior: HitTestBehavior.opaque,
+  //       child: StatefulBuilder(
+  //         builder: (context, setState) => Container(
+  //           alignment: Alignment.center,
+  //           padding: EdgeInsets.all(5),
+  //           child: SingleChildScrollView(
+  //             padding: EdgeInsets.only(
+  //                 bottom: MediaQuery.of(context).viewInsets.bottom),
+  //             child: Column(
+  //               children: [
+  //                 Card(
+  //                   shape: RoundedRectangleBorder(
+  //                     borderRadius: BorderRadius.circular(15),
+  //                   ),
+  //                   elevation: 0,
+  //                   color: Colors.white,
+  //                   child: Container(
+  //                     height: size * 1.5,
+  //                     margin: EdgeInsets.all(5),
+  //                     child: Column(
+  //                       children: [
+  //                         Stack(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Container(
+  //                                 child: Column(
+  //                                   children: [
+  //                                     Row(
+  //                                       mainAxisAlignment:
+  //                                           MainAxisAlignment.center,
+  //                                       children: [
+  //                                         Text(
+  //                                           'รายละเอียดผู้ค้ำ',
+  //                                           style:
+  //                                               MyContant().TextTitleDialog(),
+  //                                         ),
+  //                                       ],
+  //                                     ),
+  //                                   ],
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                             Positioned(
+  //                               right: 0,
+  //                               child: InkWell(
+  //                                 onTap: () {
+  //                                   Navigator.pop(context);
+  //                                 },
+  //                                 child: Padding(
+  //                                   padding: const EdgeInsets.symmetric(
+  //                                       vertical: 4, horizontal: 4),
+  //                                   child: Container(
+  //                                     width: 30,
+  //                                     height: 30,
+  //                                     decoration: BoxDecoration(
+  //                                         color: Color.fromARGB(
+  //                                             255, 182, 182, 182),
+  //                                         shape: BoxShape.circle),
+  //                                     child: Icon(
+  //                                       Icons.close,
+  //                                       color: Colors.white,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                         SizedBox(
+  //                           height: 15,
+  //                         ),
+  //                         Container(
+  //                           height: MediaQuery.of(context).size.height * 0.63,
+  //                           child: status_error401 == true
+  //                               ? Container(
+  //                                   child: Column(
+  //                                     children: [
+  //                                       Row(
+  //                                         children: [
+  //                                           Text('ไม่มีข้อมูล'),
+  //                                         ],
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 )
+  //                               : Scrollbar(
+  //                                   child: ListView(
+  //                                     children: [
+  //                                       // if (list_quarantee.isNotEmpty) ...[
+  //                                       for (var i = 0;
+  //                                           i < list_quarantee.length;
+  //                                           i++) ...[
+  //                                         InkWell(
+  //                                           onTap: () {
+  //                                             Navigator.push(
+  //                                               context,
+  //                                               MaterialPageRoute(
+  //                                                 builder: (context) =>
+  //                                                     Page_Info_Consider_Cus(
+  //                                                         list_quarantee[i]
+  //                                                             ['signId']),
+  //                                               ),
+  //                                             );
+  //                                           },
+  //                                           child: Padding(
+  //                                             padding:
+  //                                                 const EdgeInsets.symmetric(
+  //                                                     vertical: 4,
+  //                                                     horizontal: 4),
+  //                                             child: Container(
+  //                                               decoration: BoxDecoration(
+  //                                                 borderRadius:
+  //                                                     BorderRadius.all(
+  //                                                   Radius.circular(5),
+  //                                                 ),
+  //                                                 color: Color.fromRGBO(
+  //                                                     251, 173, 55, 1),
+  //                                               ),
+  //                                               child: Padding(
+  //                                                 padding:
+  //                                                     const EdgeInsets.all(8.0),
+  //                                                 child: Column(
+  //                                                   children: [
+  //                                                     Row(
+  //                                                       children: [
+  //                                                         Text(
+  //                                                           'เลขที่สัญญา : ${list_quarantee[i]['signId']}',
+  //                                                           style: MyContant()
+  //                                                               .h4normalStyle(),
+  //                                                         ),
+  //                                                       ],
+  //                                                     ),
+  //                                                     SizedBox(
+  //                                                       height: 5,
+  //                                                     ),
+  //                                                     Row(
+  //                                                       crossAxisAlignment:
+  //                                                           CrossAxisAlignment
+  //                                                               .start,
+  //                                                       children: [
+  //                                                         Text(
+  //                                                           'ชื่อ-สกุล : ',
+  //                                                           style: MyContant()
+  //                                                               .h4normalStyle(),
+  //                                                         ),
+  //                                                         Expanded(
+  //                                                           child: Text(
+  //                                                             '${list_quarantee[i]['custName']}',
+  //                                                             overflow:
+  //                                                                 TextOverflow
+  //                                                                     .clip,
+  //                                                             style: MyContant()
+  //                                                                 .h4normalStyle(),
+  //                                                           ),
+  //                                                         ),
+  //                                                       ],
+  //                                                     ),
+  //                                                     SizedBox(
+  //                                                       height: 5,
+  //                                                     ),
+  //                                                     Row(
+  //                                                       crossAxisAlignment:
+  //                                                           CrossAxisAlignment
+  //                                                               .start,
+  //                                                       children: [
+  //                                                         Text(
+  //                                                           'ชื่อ-สกุลในสัญญา : ',
+  //                                                           style: MyContant()
+  //                                                               .h4normalStyle(),
+  //                                                         ),
+  //                                                         Expanded(
+  //                                                           child: Text(
+  //                                                             '${list_quarantee[i]['signCustName']}',
+  //                                                             overflow:
+  //                                                                 TextOverflow
+  //                                                                     .clip,
+  //                                                             style: MyContant()
+  //                                                                 .h4normalStyle(),
+  //                                                           ),
+  //                                                         ),
+  //                                                       ],
+  //                                                     ),
+  //                                                     SizedBox(
+  //                                                       height: 5,
+  //                                                     ),
+  //                                                     Row(
+  //                                                       mainAxisAlignment:
+  //                                                           MainAxisAlignment
+  //                                                               .spaceBetween,
+  //                                                       children: [
+  //                                                         Text(
+  //                                                           'ยอดคงเหลือ : ${list_quarantee[i]['remainPrice']}',
+  //                                                           style: MyContant()
+  //                                                               .h4normalStyle(),
+  //                                                         ),
+  //                                                         Text(
+  //                                                           'สถานะ : ${list_quarantee[i]['personStatusName']}',
+  //                                                           style: MyContant()
+  //                                                               .h4normalStyle(),
+  //                                                         ),
+  //                                                       ],
+  //                                                     ),
+  //                                                     SizedBox(
+  //                                                       height: 5,
+  //                                                     ),
+  //                                                     Row(
+  //                                                       mainAxisAlignment:
+  //                                                           MainAxisAlignment
+  //                                                               .spaceBetween,
+  //                                                       children: [
+  //                                                         Text(
+  //                                                           'เขตติดตาม : ${list_quarantee[i]['followName']}',
+  //                                                           style: MyContant()
+  //                                                               .h4normalStyle(),
+  //                                                         ),
+  //                                                         Text(
+  //                                                           'สถานะสัญญา : ${list_quarantee[i]['signStatusName']}',
+  //                                                           style: MyContant()
+  //                                                               .h4normalStyle(),
+  //                                                         ),
+  //                                                       ],
+  //                                                     ),
+  //                                                   ],
+  //                                                 ),
+  //                                               ),
+  //                                             ),
+  //                                           ),
+  //                                         ),
+  //                                       ],
+  //                                       // ],
+  //                                     ],
+  //                                   ),
+  //                                 ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Expanded select_TypeList(sizeIcon, border) {
     return Expanded(

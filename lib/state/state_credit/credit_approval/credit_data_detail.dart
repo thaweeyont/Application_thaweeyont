@@ -96,7 +96,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           list_approve = data_approve['data'];
         });
         status = true;
-        // Navigator.pop(context);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
