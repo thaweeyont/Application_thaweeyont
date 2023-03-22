@@ -1445,9 +1445,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                             'แจ้งเตือน',
                                                             'กรุณาเลือกการอนุมัติสินเชื่อ');
                                                       } else {
-                                                        showProgressLoading(
+                                                        // showProgressLoading(
+                                                        //     context);
+                                                        Dialog_submitAlert(
                                                             context);
-                                                        ApproveCredit();
+                                                        // ApproveCredit();
                                                       }
                                                     } else if (select_approveTypeList ==
                                                         '2') {
@@ -1460,9 +1462,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                             'แจ้งเตือน',
                                                             'กรุณาเลือกการอนุมัติสินเชื่อ');
                                                       } else {
-                                                        showProgressLoading(
+                                                        // showProgressLoading(
+                                                        //     context);
+                                                        Dialog_submitAlert(
                                                             context);
-                                                        ApproveCredit();
+                                                        // ApproveCredit();
                                                       }
                                                     } else {
                                                       showProgressDialog(
@@ -2502,6 +2506,60 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Divider(
         color: Color.fromARGB(255, 34, 34, 34),
       ),
+    );
+  }
+
+  Dialog_submitAlert(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "ยกเลิก",
+        style: TextStyle(
+            fontFamily: 'Prompt',
+            fontSize: 16,
+            color: Colors.black,
+            fontWeight: FontWeight.normal),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "ตกลง",
+        style: TextStyle(
+            fontFamily: 'Prompt',
+            fontSize: 16,
+            color: Colors.black,
+            fontWeight: FontWeight.normal),
+      ),
+      onPressed: () {
+        // Navigator.pop(context);
+        // Navigator.pop(context);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "แจ้งเตือนอนุมัติสินเชื่อ",
+        style: TextStyle(
+            fontFamily: 'Prompt', fontSize: 18, fontWeight: FontWeight.w600),
+      ),
+      content: Text(
+        "คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?",
+        style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

@@ -595,7 +595,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               logout_system();
             },
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(14),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -603,7 +603,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: const [
                   Icon(Icons.exit_to_app_rounded),
                   SizedBox(width: 5),
                   Text(

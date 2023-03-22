@@ -23,14 +23,19 @@ class Page_Credit_Approval extends StatefulWidget {
 }
 
 class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
-  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  String userId = '',
+      empId = '',
+      firstName = '',
+      lastName = '',
+      tokenId = '',
+      branchId = '',
+      branchName = '';
   bool? allowApproveStatus;
-  String? id = '1', thaidate = '543';
+  String? id = '1', value_branch, select_branchlist;
   bool st_customer = true, st_employee = false;
   var status = false, valueStatus, Texthint, valueNotdata, new_branch;
   var selectValue_customer,
       selectvalue_saletype,
-      select_branchlist,
       select_index_approve,
       select_status;
 
@@ -74,12 +79,19 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       firstName = preferences.getString('firstName')!;
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
+      branchId = preferences.getString('branchId')!;
+      branchName = preferences.getString('branchName')!;
       allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
+
     print('สิทธิ์อนุมัติ->>${allowApproveStatus}');
     get_select_branch();
     get_select_statusApprove();
     selectDatenow();
+    if (allowApproveStatus == false) {
+      select_branchlist = branchId;
+    }
+    print('branch>>${select_branchlist}');
   }
 
   void selectDatenow() {
@@ -268,6 +280,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     setState(() {
       selectDatenow();
       select_branchlist = null;
+      select_index_approve = dropdown_status[3]['id'];
     });
   }
 
@@ -1205,23 +1218,27 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton(
-              items: dropdown_branch
-                  .map(
-                    (value) => DropdownMenuItem(
-                      child: Text(
-                        value['name'],
-                        style: MyContant().TextInputStyle(),
-                      ),
-                      value: value['id'],
-                    ),
-                  )
-                  .toList(),
-              onChanged: (newvalue) {
-                setState(() {
-                  select_branchlist = newvalue;
-                });
-              },
+            child: DropdownButton<String>(
+              items: dropdown_branch.isEmpty
+                  ? []
+                  : dropdown_branch
+                      .map(
+                        (value) => DropdownMenuItem<String>(
+                          child: Text(
+                            value['name'],
+                            style: MyContant().TextInputStyle(),
+                          ),
+                          value: value['id'].toString(),
+                        ),
+                      )
+                      .toList(),
+              onChanged: allowApproveStatus == true
+                  ? (String? newvalue) {
+                      setState(() {
+                        select_branchlist = newvalue;
+                      });
+                    }
+                  : null,
               value: select_branchlist,
               isExpanded: true,
               underline: SizedBox(),

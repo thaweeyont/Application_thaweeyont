@@ -79,6 +79,8 @@ class _AuthenState extends State<Authen> {
           var firstName = data['data']['firstName'];
           var lastName = data['data']['lastName'];
           var tokenId = data['data']['tokenId'];
+          var branchId = data['data']['branchId'];
+          var branchName = data['data']['branchName'];
           bool allowApproveStatus = data['data']['allowApproveStatus'];
 
           SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -87,6 +89,8 @@ class _AuthenState extends State<Authen> {
           preferences.setString('firstName', firstName!);
           preferences.setString('lastName', lastName!);
           preferences.setString('tokenId', tokenId!);
+          preferences.setString('branchId', branchId);
+          preferences.setString('branchName', branchName);
           preferences.setBool('allowApproveStatus', allowApproveStatus);
 
           print(data['data']);
@@ -99,11 +103,24 @@ class _AuthenState extends State<Authen> {
           print('ไม่มีข้อมูล');
           // showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
         }
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
         Map<String, dynamic> check_list =
             new Map<String, dynamic>.from(json.decode(respose.body));
         print(respose.statusCode);
-        print(check_list['message']); 
+        print(check_list['message']);
         if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
           print('ไม่พบชื่อเข้าใช้ระบบ');
           showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบชื่อเข้าใช้ระบบ');

@@ -249,11 +249,15 @@ Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
             },
             child: Column(
               children: [
-                Text("ตกลง",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Prompt',
-                        color: Colors.black)),
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ],
             ),
           ),
@@ -299,11 +303,15 @@ Future<Null> showProgressDialog_Notdata(
             },
             child: Column(
               children: [
-                Text("ตกลง",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Prompt',
-                        color: Colors.black)),
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ],
             ),
           ),
@@ -346,11 +354,15 @@ Future<Null> showProgressDialog_400(
             },
             child: Column(
               children: [
-                Text("ตกลง",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Prompt',
-                        color: Colors.black)),
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ],
             ),
           ),
@@ -392,11 +404,15 @@ Future<Null> showProgressDialog_401(
             },
             child: Column(
               children: [
-                Text("ตกลง",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Prompt',
-                        color: Colors.black)),
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ],
             ),
           ),
@@ -439,11 +455,15 @@ Future<Null> showProgressDialog_404(
             },
             child: Column(
               children: [
-                Text("ตกลง",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Prompt',
-                        color: Colors.black)),
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ],
             ),
           ),
@@ -486,11 +506,15 @@ Future<Null> showProgressDialog_405(
             },
             child: Column(
               children: [
-                Text("ตกลง",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Prompt',
-                        color: Colors.black)),
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ],
             ),
           ),
@@ -533,11 +557,15 @@ Future<Null> showProgressDialog_500(
             },
             child: Column(
               children: [
-                Text("ตกลง",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Prompt',
-                        color: Colors.black)),
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
               ],
             ),
           ),
