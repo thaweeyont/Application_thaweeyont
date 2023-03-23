@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/credit_data_detail.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/data_list_quarantee.dart';
 import 'package:application_thaweeyont/widgets/show_progress.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1445,11 +1446,18 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                             'แจ้งเตือน',
                                                             'กรุณาเลือกการอนุมัติสินเชื่อ');
                                                       } else {
-                                                        // showProgressLoading(
-                                                        //     context);
-                                                        Dialog_submitAlert(
-                                                            context);
-                                                        // ApproveCredit();
+                                                        if (note_approve
+                                                            .text.isEmpty) {
+                                                          showProgressDialog(
+                                                              context,
+                                                              'แจ้งเตือน',
+                                                              'กรุณากรอกหมายเหตุ');
+                                                        } else {
+                                                          // showProgressLoading(
+                                                          //     context);
+                                                          showAlertDialog();
+                                                          // ApproveCredit();
+                                                        }
                                                       }
                                                     } else if (select_approveTypeList ==
                                                         '2') {
@@ -1462,17 +1470,24 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                             'แจ้งเตือน',
                                                             'กรุณาเลือกการอนุมัติสินเชื่อ');
                                                       } else {
-                                                        // showProgressLoading(
-                                                        //     context);
-                                                        Dialog_submitAlert(
-                                                            context);
-                                                        // ApproveCredit();
+                                                        if (note_approve
+                                                            .text.isEmpty) {
+                                                          showProgressDialog(
+                                                              context,
+                                                              'แจ้งเตือน',
+                                                              'กรุณากรอกหมายเหตุ');
+                                                        } else {
+                                                          // showProgressLoading(
+                                                          //     context);
+                                                          showAlertDialog();
+                                                          // ApproveCredit();
+                                                        }
                                                       }
                                                     } else {
                                                       showProgressDialog(
                                                           context,
                                                           'แจ้งเตือน',
-                                                          'กรุณาเปลี่ยนผลการพิจารณาสินเชื่อ');
+                                                          'กรุณาเลือกผลการพิจารณาสินเชื่อ');
                                                     }
                                                   },
                                                   child: const Text('บันทึก'),
@@ -2540,15 +2555,29 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(
-        "แจ้งเตือนอนุมัติสินเชื่อ",
-        style: TextStyle(
-            fontFamily: 'Prompt', fontSize: 18, fontWeight: FontWeight.w600),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            "อนุมัติสินเชื่อ",
+            style: TextStyle(
+              fontFamily: 'Prompt',
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
-      content: Text(
-        "คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?",
-        style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            "คุณต้องการบันทึกข้อมูลใช่หรือไม่?",
+            style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          ),
+        ],
       ),
+      actionsAlignment: MainAxisAlignment.spaceAround,
       actions: [
         cancelButton,
         continueButton,
@@ -2559,6 +2588,116 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       context: context,
       builder: (BuildContext context) {
         return alert;
+      },
+    );
+  }
+
+  showDialogTest() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return Theme(
+          data: ThemeData(dialogBackgroundColor: Colors.orange),
+          child: CupertinoAlertDialog(
+            title: const Text(
+              'แจ้งเตือน',
+              style: TextStyle(
+                fontFamily: 'Prompt',
+                fontSize: 18,
+                color: Colors.black,
+                // fontWeight: FontWeight.normal,
+              ),
+            ),
+            content: const Text(
+              'คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?',
+              style: TextStyle(
+                fontFamily: 'Prompt',
+                fontSize: 16,
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'ยกเลิก',
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'ตกลง',
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  showAlertDialog() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+          title: Row(
+            children: [
+              Text(
+                "อนุมัติสินเชื่อ",
+                style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Image.asset('images/question.gif',
+                  width: 30, height: 30, fit: BoxFit.contain),
+            ],
+          ),
+          content: Text(
+            "คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?",
+            style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'ยกเลิก',
+                style: TextStyle(
+                    fontFamily: 'Prompt', fontSize: 16, color: Colors.black),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                'ตกลง',
+                style: TextStyle(
+                    fontFamily: 'Prompt', fontSize: 16, color: Colors.black),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
       },
     );
   }

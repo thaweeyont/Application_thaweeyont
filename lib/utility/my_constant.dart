@@ -218,51 +218,121 @@ class MyContant {
       );
 }
 
+showAlertDialogTest(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        title:
+            // ListTile(
+            //   title: Row(
+            //     children: [
+            //       Image.asset('images/error_log.gif',
+            //           width: 60, height: 60, fit: BoxFit.contain),
+            //       Text(
+            //         title,
+            //         style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            //       ),
+            //     ],
+            //   ),
+            //   subtitle: Text(
+            //     subtitle,
+            //     style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            //   ),
+            // ),
+
+            Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt', fontSize: 16, color: Colors.black),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
-    builder: (context) => Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
+    builder: (context) => SimpleDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
       ),
-      child: SimpleDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20.0),
-          ),
-        ),
-        title: ListTile(
-          leading: Image.asset('images/error_log.gif'),
-          title: Text(
-            title,
-            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
-          ),
-          subtitle: Text(
-            subtitle,
-            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
-          ),
-        ),
-        children: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Column(
-              children: [
-                Text(
-                  "ตกลง",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Prompt',
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
+      title: ListTile(
+        contentPadding: EdgeInsets.zero,
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 45, height: 45, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
-          ),
-        ],
+          ],
+        ),
+        subtitle: Row(
+          children: [
+            Text(
+              subtitle,
+              style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            ),
+          ],
+        ),
       ),
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "ตกลง",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Prompt',
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     ),
     // animationType: DialogTransitionType.fadeScale,
     // curve: Curves.fastOutSlowIn,

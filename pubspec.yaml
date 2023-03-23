@@ -85,6 +85,8 @@ flutter:
     - images/TWYLOGO.png
     - images/TWY.png
     - images/logo_home.png
+    - images/question.gif
+    - images/success.gif
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
