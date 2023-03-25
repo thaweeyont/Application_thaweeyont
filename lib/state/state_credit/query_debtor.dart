@@ -87,139 +87,6 @@ class _Query_debtorState extends State<Query_debtor> {
     getdata();
   }
 
-  // Future<void> getData_debtorList() async {
-  //   if (select_signStatus == null) {
-  //     signStatus = '';
-  //   } else {
-  //     signStatus = select_signStatus;
-  //   }
-
-  //   if (select_branchlist == null) {
-  //     branch = '';
-  //   } else {
-  //     branch = select_branchlist;
-  //   }
-
-  //   if (select_debtorType == null) {
-  //     debtorType = '';
-  //   } else {
-  //     debtorType = select_debtorType;
-  //   }
-
-  //   if (tumbolId == null) {
-  //     tumbol = '';
-  //     amphur = '';
-  //     province = '';
-  //   } else {
-  //     tumbol = tumbolId;
-  //     amphur = selectValue_amphoe.toString().split("_")[0];
-  //     province = selectValue_province.toString().split("_")[0];
-  //   }
-
-  //   print(tokenId);
-  //   print(firstname_c.text);
-  //   print(lastname.text);
-  //   print(select_addreessType.toString());
-  //   list_dataDebtor = [];
-  //   try {
-  //     var respose = await http.post(
-  //       Uri.parse('${beta_api_test}debtor/list'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': tokenId.toString(),
-  //       },
-  //       body: jsonEncode(<String, String>{
-  //         'custId': custId.text,
-  //         'homeNo': homeNo.text,
-  //         'moo': moo.text,
-  //         'tumbolId': tumbol.toString(),
-  //         'amphurId': amphur.toString(),
-  //         'provId': province.toString(),
-  //         'firstName': firstname_c.text,
-  //         'lastName': lastname_c.text,
-  //         'addressType': select_addreessType.toString(),
-  //         'debtorType': debtorType.toString(),
-  //         'smartId': idcard.text,
-  //         'telephone': telephone.text,
-  //         'branchId': branch.toString(),
-  //         'signId': signId.text,
-  //         'signStatus': signStatus.toString(),
-  //         'itemType': itemTypelist.text,
-  //         'page': '1',
-  //         'limit': '20'
-  //       }),
-  //     );
-
-  //     if (respose.statusCode == 200) {
-  //       Map<String, dynamic> datadebtorList =
-  //           new Map<String, dynamic>.from(json.decode(respose.body));
-
-  //       setState(() {
-  //         list_dataDebtor = datadebtorList['data'];
-  //       });
-  //       Navigator.pop(context);
-
-  //       print(list_dataDebtor);
-  //     } else if (respose.statusCode == 400) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 401) {
-  //       print(respose.statusCode);
-  //       SharedPreferences preferences = await SharedPreferences.getInstance();
-  //       preferences.clear();
-  //       Navigator.pushAndRemoveUntil(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Authen(),
-  //         ),
-  //         (Route<dynamic> route) => false,
-  //       );
-  //       showProgressDialog_401(
-  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-  //     } else if (respose.statusCode == 404) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_404(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 405) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 500) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_500(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-  //     } else {
-  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-  //       // setState(() {
-  //       //   debtorStatuscode = respose.statusCode;
-  //       // });
-  //       // Navigator.pop(context);
-  //       // print(respose.body);
-  //       // print(respose.statusCode);
-  //       // print('ไม่พบข้อมูล');
-  //       // Map<String, dynamic> check_list =
-  //       //     new Map<String, dynamic>.from(json.decode(respose.body));
-  //       // print(respose.statusCode);
-  //       // print(check_list['message']);
-  //       // if (check_list['message'] == "Token Unauthorized") {
-  //       //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //       //   preferences.clear();
-  //       //   Navigator.pushAndRemoveUntil(
-  //       //     context,
-  //       //     MaterialPageRoute(
-  //       //       builder: (context) => Authen(),
-  //       //     ),
-  //       //     (Route<dynamic> route) => false,
-  //       //   );
-  //       // }
-  //     }
-  //   } catch (e) {
-  //     Navigator.pop(context);
-  //     print("ไม่มีข้อมูล $e");
-  //     showProgressDialog(
-  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-  //   }
-  // }
-
   Future<void> get_select_province() async {
     print(tokenId);
     try {
@@ -239,12 +106,11 @@ class _Query_debtorState extends State<Query_debtor> {
           dropdown_province = data_provice['data'];
         });
 
-        // print(data_provice['data']);
         print(dropdown_province);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -260,18 +126,18 @@ class _Query_debtorState extends State<Query_debtor> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
         print(respose.statusCode);
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -314,7 +180,7 @@ class _Query_debtorState extends State<Query_debtor> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print('select_district >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -330,22 +196,20 @@ class _Query_debtorState extends State<Query_debtor> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        // Navigator.pop(context);
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
-      // Navigator.pop(context);
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -389,7 +253,6 @@ class _Query_debtorState extends State<Query_debtor> {
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
         },
-        // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
       );
 
       if (respose.statusCode == 200) {
@@ -402,12 +265,11 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pop(context);
         Navigator.pop(context);
         search_conType(sizeIcon, border);
-        // print(data_provice['data']);
         print(list_itemType);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
@@ -419,15 +281,15 @@ class _Query_debtorState extends State<Query_debtor> {
         );
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ถูกยกเลิกสัญญา');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else {
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
@@ -448,7 +310,6 @@ class _Query_debtorState extends State<Query_debtor> {
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
         },
-        // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
       );
 
       if (respose.statusCode == 200) {
@@ -460,8 +321,15 @@ class _Query_debtorState extends State<Query_debtor> {
         });
 
         print('>>${select_addreessType}');
-      } else {
+      } else if (respose.statusCode == 401) {
         print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -479,7 +347,6 @@ class _Query_debtorState extends State<Query_debtor> {
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
         },
-        // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
       );
 
       if (respose.statusCode == 200) {
@@ -490,8 +357,15 @@ class _Query_debtorState extends State<Query_debtor> {
         });
 
         print(dropdown_branch);
-      } else {
+      } else if (respose.statusCode == 401) {
         print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -519,8 +393,15 @@ class _Query_debtorState extends State<Query_debtor> {
         });
         print(respose.statusCode);
         print(dropdown_debtorType);
-      } else {
+      } else if (respose.statusCode == 401) {
         print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -587,8 +468,15 @@ class _Query_debtorState extends State<Query_debtor> {
         setState(() {
           dropdown_customer = data['data'];
         });
-      } else {
+      } else if (respose.statusCode == 401) {
         print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -1044,126 +932,6 @@ class _Query_debtorState extends State<Query_debtor> {
       ),
     );
   }
-
-  // Expanded select_amphoeDia(BuildContext context, StateSetter setState) {
-  //   return Expanded(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: Container(
-  //         height: MediaQuery.of(context).size.width * 0.07,
-  //         padding: EdgeInsets.all(4),
-  //         decoration: BoxDecoration(
-  //             color: Colors.white, borderRadius: BorderRadius.circular(5)),
-  //         child: DropdownButton(
-  //           items: dropdownamphoe
-  //               .map((value) => DropdownMenuItem(
-  //                     child: Text(
-  //                       value,
-  //                       style: TextStyle(fontSize: 14, color: Colors.black),
-  //                     ),
-  //                     value: value,
-  //                   ))
-  //               .toList(),
-  //           onChanged: (selected_Amphoe) {
-  //             setState(() {
-  //               selectamphoe = selected_Amphoe;
-  //             });
-  //           },
-  //           value: selectamphoe,
-  //           isExpanded: true,
-  //           underline: SizedBox(),
-  //           hint: Align(
-  //             child: Text(
-  //               'เลือกอำเภอ',
-  //               style: TextStyle(
-  //                   fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Expanded select_provincnDia(BuildContext context, StateSetter setState) {
-  //   return Expanded(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: Container(
-  //         height: MediaQuery.of(context).size.width * 0.07,
-  //         padding: EdgeInsets.all(4),
-  //         decoration: BoxDecoration(
-  //             color: Colors.white, borderRadius: BorderRadius.circular(5)),
-  //         child: DropdownButton(
-  //           items: dropdownprovince
-  //               .map((value) => DropdownMenuItem(
-  //                     child: Text(
-  //                       value,
-  //                       style: TextStyle(fontSize: 14, color: Colors.black),
-  //                     ),
-  //                     value: value,
-  //                   ))
-  //               .toList(),
-  //           onChanged: (selected_Provincn) {
-  //             setState(() {
-  //               selectprovince = selected_Provincn;
-  //             });
-  //           },
-  //           value: selectprovince,
-  //           isExpanded: true,
-  //           underline: SizedBox(),
-  //           hint: Align(
-  //             child: Text(
-  //               'เลือกจังหวัด',
-  //               style: TextStyle(
-  //                   fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Expanded select_sectorDia(BuildContext context, StateSetter setState) {
-  //   return Expanded(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: Container(
-  //         height: MediaQuery.of(context).size.width * 0.07,
-  //         padding: EdgeInsets.all(4),
-  //         decoration: BoxDecoration(
-  //             color: Colors.white, borderRadius: BorderRadius.circular(5)),
-  //         child: DropdownButton(
-  //           items: dropdownsector
-  //               .map((value) => DropdownMenuItem(
-  //                     child: Text(
-  //                       value,
-  //                       style: TextStyle(fontSize: 14, color: Colors.black),
-  //                     ),
-  //                     value: value,
-  //                   ))
-  //               .toList(),
-  //           onChanged: (selected_Sector) {
-  //             setState(() {
-  //               selectsector = selected_Sector;
-  //             });
-  //           },
-  //           value: selectsector,
-  //           isExpanded: true,
-  //           underline: SizedBox(),
-  //           hint: Align(
-  //             child: Text(
-  //               'เลือกภาค',
-  //               style: TextStyle(
-  //                   fontSize: 14, color: Color.fromRGBO(106, 106, 106, 1)),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Future<Null> search_conType(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
@@ -1857,7 +1625,6 @@ class _Query_debtorState extends State<Query_debtor> {
                   color: Color.fromRGBO(255, 218, 249, 1),
                 ),
                 width: double.infinity,
-                // height: 250,
                 child: Column(
                   children: [
                     Row(
@@ -1976,7 +1743,6 @@ class _Query_debtorState extends State<Query_debtor> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
-                              // padding: EdgeInsets.all(5),
                               backgroundColor: Color.fromRGBO(202, 71, 150, 1),
                             ),
                             onPressed: () {

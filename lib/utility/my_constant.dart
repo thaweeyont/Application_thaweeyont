@@ -218,32 +218,61 @@ class MyContant {
       );
 }
 
-showAlertDialogTest(BuildContext context, title, subtitle) async {
+showProgressDialog(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
 
     builder: (context) {
       return AlertDialog(
-        title:
-            // ListTile(
-            //   title: Row(
-            //     children: [
-            //       Image.asset('images/error_log.gif',
-            //           width: 60, height: 60, fit: BoxFit.contain),
-            //       Text(
-            //         title,
-            //         style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
-            //       ),
-            //     ],
-            //   ),
-            //   subtitle: Text(
-            //     subtitle,
-            //     style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
-            //   ),
-            // ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Prompt',
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
-            Row(
+showProgressDialog_Notdata(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
@@ -257,15 +286,19 @@ showAlertDialogTest(BuildContext context, title, subtitle) async {
           subtitle,
           style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
-        actionsAlignment: MainAxisAlignment.center,
+        actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
           TextButton(
             child: const Text(
               'ตกลง',
               style: TextStyle(
-                  fontFamily: 'Prompt', fontSize: 16, color: Colors.black),
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
             ),
             onPressed: () {
+              Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
           ),
@@ -275,7 +308,8 @@ showAlertDialogTest(BuildContext context, title, subtitle) async {
   );
 }
 
-Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
+Future<Null> showProgressDialog555(
+    BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => SimpleDialog(
@@ -298,9 +332,12 @@ Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
         ),
         subtitle: Row(
           children: [
-            Text(
-              subtitle,
-              style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            Expanded(
+              child: Text(
+                subtitle,
+                overflow: TextOverflow.clip,
+                style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+              ),
             ),
           ],
         ),
@@ -340,7 +377,7 @@ Future<Null> showProgressDialog(BuildContext context, title, subtitle) async {
   );
 }
 
-Future<Null> showProgressDialog_Notdata(
+Future<Null> showProgressDialog_Notdata555(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
@@ -391,7 +428,7 @@ Future<Null> showProgressDialog_Notdata(
   );
 }
 
-Future<Null> showProgressDialog_400(
+Future<Null> showProgressDialog_4000(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
@@ -442,7 +479,7 @@ Future<Null> showProgressDialog_400(
   );
 }
 
-Future<Null> showProgressDialog_401(
+Future<Null> showProgressDialog_4011(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
@@ -492,7 +529,293 @@ Future<Null> showProgressDialog_401(
   );
 }
 
-Future<Null> showProgressDialog_404(
+Future<Null> showProgressDialog_4044(
+    BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    builder: (context) => Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+      ),
+      child: SimpleDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        title: ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Row(
+            children: [
+              Image.asset('images/error_log.gif',
+                  width: 45, height: 45, fit: BoxFit.contain),
+              Text(
+                title,
+                style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              ),
+            ],
+          ),
+          subtitle: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  subtitle,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+                ),
+              ),
+            ],
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: Column(
+              children: [
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'Prompt',
+                    // color: Colors.black,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+showProgressDialog_400(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+showProgressDialog_401(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Prompt',
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+showProgressDialog_404(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+showProgressDialog_405(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+showProgressDialog_500(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<Null> showProgressDialog_4055(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
@@ -543,58 +866,7 @@ Future<Null> showProgressDialog_404(
   );
 }
 
-Future<Null> showProgressDialog_405(
-    BuildContext context, title, subtitle) async {
-  showDialog(
-    context: context,
-    builder: (context) => Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-      ),
-      child: SimpleDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20.0),
-          ),
-        ),
-        title: ListTile(
-          leading: Image.asset('images/error_log.gif'),
-          title: Text(
-            title,
-            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
-          ),
-          subtitle: Text(
-            subtitle,
-            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
-          ),
-        ),
-        children: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: Column(
-              children: [
-                Text(
-                  "ตกลง",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Prompt',
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Future<Null> showProgressDialog_500(
+Future<Null> showProgressDialog_5000(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,

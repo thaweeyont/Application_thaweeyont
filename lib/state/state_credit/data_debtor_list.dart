@@ -21,15 +21,14 @@ class Data_debtor_list extends StatefulWidget {
       firstname_c,
       lastname_c,
       select_addreessType,
-      select_debtorType,
       idcard,
       telephone,
       select_branchlist,
       signId,
-      select_signStatus,
       itemTypelist,
       selectValue_amphoe,
       selectValue_province;
+  final int? select_debtorType, select_signStatus;
   Data_debtor_list(
       this.custId,
       this.homeNo,
@@ -115,10 +114,22 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
       province = widget.selectValue_province.toString().split("_")[0];
     }
 
-    print(tokenId);
-    print(widget.firstname_c);
-    print(widget.lastname_c);
-    print(widget.select_addreessType.toString());
+    // print('1>${widget.custId.toString()}');
+    // print('2>${widget.homeNo.toString()}');
+    // print('3>${widget.moo.toString()}');
+    // print('4>${tumbol.toString()}');
+    // print('5>${amphur.toString()}');
+    // print('6>${province.toString()}');
+    // print('7>${widget.firstname_c.toString()}');
+    // print('8>${widget.lastname_c.toString()}');
+    // print('9>${widget.select_addreessType.toString()}');
+    // print('10>${debtorType.toString()}');
+    // print('11>${widget.idcard.toString()}');
+    // print('12>${widget.telephone.toString()}');
+    // print('13>${branch.toString()}');
+    // print('14>${widget.signId.toString()}');
+    // print('15>${signStatus.toString()}');
+    // print('16>${widget.itemTypelist.toString()}');
     try {
       var respose = await http.post(
         Uri.parse('${beta_api_test}debtor/list'),
@@ -156,12 +167,12 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           list_dataDebtor = datadebtorList['data'];
         });
         status = true;
-        // Navigator.pop(context);
 
         print('testData->>${list_dataDebtor}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
-        showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -177,15 +188,15 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }

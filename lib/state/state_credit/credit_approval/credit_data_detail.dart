@@ -99,7 +99,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -115,17 +115,18 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา!');
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
         print(respose.statusCode);
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -183,7 +184,15 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                 MaterialPageRoute(
                                   builder: (context) => Data_Cust_Approve(
                                       list_approve[i]['custId'],
-                                      list_approve[i]['tranId']),
+                                      list_approve[i]['tranId'],
+                                      widget.custId.toString(),
+                                      widget.idcard.toString(),
+                                      widget.custName.toString(),
+                                      widget.lastname_cust.toString(),
+                                      widget.select_branchlist.toString(),
+                                      widget.start_date.toString(),
+                                      widget.end_date.toString(),
+                                      widget.select_index_approve),
                                 ),
                               );
                             },

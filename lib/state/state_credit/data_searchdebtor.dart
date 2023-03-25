@@ -51,6 +51,18 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     getdata();
   }
 
+  Future<Null> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    getData_debtorDetail();
+  }
+
   Future<void> getData_debtorDetail() async {
     print(tokenId);
     print(widget.signId.toString());
@@ -125,7 +137,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         print('ss >> ${list_paydetailsum}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
-        showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -140,62 +153,23 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        if (widget.signStatusName == "ยกเลิก") {
-          print(widget.signStatusName);
-          print(respose.statusCode);
-          showProgressDialog_404(
-              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-        } else {
-          print(respose.statusCode);
-          showProgressDialog_404(
-              context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-        }
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
-      // else {
-      //   print(respose.statusCode);
-      //   print('ไม่พบข้อมูล');
-      // Map<String, dynamic> check_list =
-      //     new Map<String, dynamic>.from(json.decode(respose.body));
-      // print(respose.statusCode);
-      // print(check_list['message']);
-      // if (check_list['message'] == "Token Unauthorized") {
-      //   SharedPreferences preferences = await SharedPreferences.getInstance();
-      //   preferences.clear();
-      //   Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => Authen(),
-      //     ),
-      //     (Route<dynamic> route) => false,
-      //   );
-      // }
-      // }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
-  }
-
-  Future<Null> getdata() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-    });
-    getData_debtorDetail();
   }
 
   void menu_list(page) {
@@ -263,15 +237,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     elevation: 0,
                     color: Colors.white,
                     child: Container(
-                      // height: MediaQuery.of(context).size.height * 0.7,
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       child: Column(
                         children: [
                           SizedBox(
                             height: size * 0.03,
                           ),
                           Container(
-                            padding: EdgeInsets.only(left: 15, right: 15),
+                            padding: const EdgeInsets.only(left: 15, right: 15),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -650,7 +623,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(255, 218, 249, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
@@ -667,7 +640,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           style: MyContant().h4normalStyle()),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(

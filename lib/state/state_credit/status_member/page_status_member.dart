@@ -135,7 +135,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
             new Map<String, dynamic>.from(json.decode(respose.body));
-        // print(data['data'][1]['id']);
         setState(() {
           dropdown_customer = data['data'];
         });
@@ -221,7 +220,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
-              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+              context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 401) {
           print(respose.statusCode);
           SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -237,17 +236,17 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
               context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
         } else if (respose.statusCode == 404) {
           print(respose.statusCode);
-          showProgressDialog_404(
-              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
+          showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
-          showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+          showProgressDialog_405(
+              context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 500) {
           print(respose.statusCode);
           showProgressDialog_500(
-              context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+              context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
         } else {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
         }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
@@ -525,8 +524,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               ),
                             ],
                           ),
-                          SizedBox(
-                              height: 10), //Color.fromRGBO(64, 203, 203, 1),
+                          SizedBox(height: 10),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.4,
                             child: Scrollbar(
@@ -624,154 +622,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               ),
                             ),
                           )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<Null> view_card_id(sizeIcon, border) async {
-    double size = MediaQuery.of(context).size.width;
-    // bool btn_edit = false;
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => GestureDetector(
-        child: StatefulBuilder(
-          builder: (context, setState) => Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Column(
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    elevation: 0,
-                    color: Colors.white,
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: size * 0.03,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 15, right: 15, bottom: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Navigator.pop(context),
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey,
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: size * 0.8,
-                            child: ShowImage(path: MyContant.idcard),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<Null> view_map_cus(sizeIcon, border) async {
-    double size = MediaQuery.of(context).size.width;
-    // bool btn_edit = false;
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => GestureDetector(
-        child: StatefulBuilder(
-          builder: (context, setState) => Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Column(
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    elevation: 0,
-                    color: Colors.white,
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: size * 0.03,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 15, right: 15, bottom: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () => Navigator.pop(context),
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey,
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: size * 0.8,
-                            child: ShowImage(path: MyContant.map),
-                          ),
                         ],
                       ),
                     ),

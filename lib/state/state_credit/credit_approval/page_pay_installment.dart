@@ -90,7 +90,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
-            context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -113,11 +113,12 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
             context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน งวดที่ ${period}');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
-        showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
+            context, 'แจ้งเตือน', ' ข้อมูลผิดพลาด! (${respose.statusCode})');
       } else {
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
@@ -177,57 +178,59 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
               child: status == false
                   ? Center(
                       child: Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(251, 173, 55, 1),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
-                      ),
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * 0.13,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.7),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
+                        height: MediaQuery.of(context).size.height * 0.15,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'ยังไม่มีการชำระเงิน',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                height:
+                                    MediaQuery.of(context).size.height * 0.13,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'ยังไม่มีการชำระเงิน',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: [
-                          //     Text(
-                          //       'ยังไม่มีการชำระเงิน',
-                          //       style: MyContant().h4normalStyle(),
-                          //     ),
-                          //   ],
-                          // )
-                        ],
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Text(
+                            //       'ยังไม่มีการชำระเงิน',
+                            //       style: MyContant().h4normalStyle(),
+                            //     ),
+                            //   ],
+                            // )
+                          ],
+                        ),
                       ),
-                    ))
+                    )
                   : Container(
                       padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
@@ -255,7 +258,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                             height: 5,
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.16,
+                            height: MediaQuery.of(context).size.height * 0.18,
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.7),
                               borderRadius: BorderRadius.all(

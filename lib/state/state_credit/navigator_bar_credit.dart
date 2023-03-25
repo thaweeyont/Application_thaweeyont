@@ -592,10 +592,11 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           alignment: FractionalOffset.bottomCenter,
           child: InkWell(
             onTap: () async {
-              logout_system();
+              showAlertDialog_exit();
+              // logout_system();
             },
             child: Container(
-              padding: EdgeInsets.all(14),
+              padding: EdgeInsets.all(16),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -710,6 +711,68 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           ],
         ),
       ),
+    );
+  }
+
+  showAlertDialog_exit() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+          title: Row(
+            children: [
+              const Text(
+                "ออกจากระบบ",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Prompt',
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Image.asset('images/question.gif',
+                  width: 30, height: 30, fit: BoxFit.contain),
+            ],
+          ),
+          content: Text(
+            "คุณต้องการออกจากระบบใช่หรือไหม ?",
+            style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'ยกเลิก',
+                style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                'ตกลง',
+                style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
+              onPressed: () {
+                logout_system();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
