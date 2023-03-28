@@ -58,6 +58,13 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
     getData_approve();
   }
 
+  void func() {
+    print('Hello Word');
+    // setState(() {
+    //   getData_approve();
+    // });
+  }
+
   Future<void> getData_approve() async {
     print(widget.custId);
     print(widget.idcard);
@@ -179,6 +186,8 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                         for (var i = 0; i < list_approve.length; i++) ...[
                           InkWell(
                             onTap: () {
+                              print('click go to next page');
+                              // String refresh = await
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -194,7 +203,13 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                       widget.end_date.toString(),
                                       widget.select_index_approve),
                                 ),
-                              );
+                              ).then((_) => getdata());
+                              // if (refresh == 'refresh') {
+                              //   setState(() {
+                              //     print('refresh data');
+                              //     getdata();
+                              //   });
+                              // }
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),

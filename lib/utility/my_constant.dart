@@ -1,3 +1,4 @@
+import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -718,7 +719,13 @@ showProgressDialog_404(BuildContext context, title, subtitle) async {
             ),
             onPressed: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              // Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Page_Credit_Approval(),
+                ),
+              );
             },
           ),
         ],

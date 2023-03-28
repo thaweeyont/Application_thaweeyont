@@ -13,6 +13,7 @@ import '../../../utility/my_constant.dart';
 import '../../authen.dart';
 import 'page_check_blacklist.dart';
 import 'package:http/http.dart' as http;
+import 'package:application_thaweeyont/state/state_credit/credit_approval/credit_data_detail.dart';
 
 import 'page_info_consider_cus.dart';
 import 'package:application_thaweeyont/api.dart';
@@ -96,14 +97,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     get_approveReasonList();
     get_approveTypeList();
     get_notApproveReasonList();
-    print('1>${widget.Idcust}');
-    print('2>${widget.idcard}');
-    print('3>${widget.custName}');
-    print('4>${widget.lastname_cust}');
-    print('5>${widget.select_branchlist}');
-    print('6>${widget.start_date}');
-    print('7>${widget.end_date}');
-    print('8>${widget.select_index_approve}');
+    // print('1>${widget.Idcust}');
+    // print('2>${widget.idcard}');
+    // print('3>${widget.custName}');
+    // print('4>${widget.lastname_cust}');
+    // print('5>${widget.select_branchlist}');
+    // print('6>${widget.start_date}');
+    // print('7>${widget.end_date}');
+    // print('8>${widget.select_index_approve}');
   }
 
   Future<void> getData_Creditdetail() async {
@@ -2706,6 +2707,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     fontWeight: FontWeight.normal),
               ),
               onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                // Navigator.pop(context, 'refresh');
+
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(
@@ -2721,12 +2726,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 //     ),
                 //   ),
                 // );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Page_Credit_Approval(),
-                  ),
-                );
               },
             ),
           ],

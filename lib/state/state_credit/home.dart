@@ -69,7 +69,7 @@ class _Home_creditState extends State<Home_credit> {
           size: size * 0.12,
         ),
         label: Text(
-          'เช็คผลการพิจารณาสินเชื่อ',
+          'สอบถามรายละเอียดลูกหนี้',
           overflow: TextOverflow.clip,
           textAlign: TextAlign.center,
           style: MyContant().TextMenulist(),
