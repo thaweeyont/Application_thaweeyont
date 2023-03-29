@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:application_thaweeyont/api.dart';
@@ -21,8 +22,8 @@ class Page_Pay_Installment extends StatefulWidget {
 class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String dropdownValue = '1';
-  var payDetail, status = false, debtorStatuscode;
-  // late String? periodNo = widget.list_payDetail.toString();
+  var payDetail, debtorStatuscode;
+  bool statusLoad404 = false, statusLoading = false;
   List<String> datalist = [];
 
   @override
@@ -33,7 +34,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
     setListdropdown();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -42,7 +43,6 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    showProgressLoading(context);
     getData_payDetail(widget.signId, widget.list_payDetail);
   }
 
@@ -81,12 +81,13 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
             new Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
-          status = true;
           payDetail = dataPayDetail['data'][0];
         });
+        statusLoading = true;
+        print('2>$statusLoading');
 
-        Navigator.pop(context);
-        print(payDetail);
+        // Navigator.pop(context);
+        print('data=>$payDetail');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -106,11 +107,12 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         setState(() {
-          status = false;
+          statusLoading = true;
+          statusLoad404 = true;
         });
         print(respose.statusCode);
-        showProgressDialog_404(
-            context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน งวดที่ ${period}');
+        // showProgressDialog_404(
+        //     context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน งวดที่ ${period}');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(
@@ -175,150 +177,172 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: status == false
+              child: statusLoading == false
                   ? Center(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Color.fromRGBO(251, 173, 55, 1),
+                          color:
+                              Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
                           ),
                         ),
-                        height: MediaQuery.of(context).size.height * 0.15,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                         child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(251, 173, 55, 1),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.13,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.7),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                    ),
+                                    child: Container(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'ยังไม่มีการชำระเงิน',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(251, 173, 55, 1),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'งวดที่ : ${dropdownValue}',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                  Text(
+                                    'วันที่ใบเสร็จ : ${payDetail['payDate']}',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.13,
+                                    MediaQuery.of(context).size.height * 0.20,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(5),
                                   ),
                                 ),
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'ยังไม่มีการชำระเงิน',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'เลขที่ใบเสร็จ : ${payDetail['receiptTranId']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'จำนวนเงิน : ${payDetail['payPrice']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Text(
+                                              'ค่าปรับ : ${payDetail['payFine']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                'ประเภทการรับ : ${payDetail['payBy']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                                overflow: TextOverflow.clip,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     Text(
-                            //       'ยังไม่มีการชำระเงิน',
-                            //       style: MyContant().h4normalStyle(),
-                            //     ),
-                            //   ],
-                            // )
-                          ],
-                        ),
-                      ),
-                    )
-                  : Container(
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'งวดที่ : ${dropdownValue}',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              Text(
-                                'วันที่ใบเสร็จ : ${payDetail['payDate']}',
-                                style: MyContant().h4normalStyle(),
-                              ),
                             ],
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.18,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.7),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'เลขที่ใบเสร็จ : ${payDetail['receiptTranId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'จำนวนเงิน : ${payDetail['payPrice']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'ค่าปรับ : ${payDetail['payFine']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            'ประเภทการรับ : ${payDetail['payBy']}',
-                                            style: MyContant().h4normalStyle(),
-                                            overflow: TextOverflow.clip,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
             ),
           ],
         ),
@@ -350,8 +374,10 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
-                  showProgressLoading(context);
                   getData_payDetail(widget.signId, dropdownValue);
+                  statusLoading = false;
+                  statusLoad404 = false;
+                  print('1>$statusLoading');
                 });
 
                 print('#1==>${widget.signId} #2==> $dropdownValue');

@@ -4,6 +4,7 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../state/authen.dart';
+import '../state/state_credit/navigator_bar_credit.dart';
 
 class MyContant {
   // Genernal
@@ -49,19 +50,19 @@ class MyContant {
 
   //Style
   //TitleBar
-  TextStyle TitleStyle() => TextStyle(
+  TextStyle TitleStyle() => const TextStyle(
         fontSize: 21,
         color: Colors.white,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle h1MenuStyle() => TextStyle(
+  TextStyle h1MenuStyle() => const TextStyle(
         fontSize: 16,
         color: Colors.white,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle h1MenuStyle_click() => TextStyle(
+  TextStyle h1MenuStyle_click() => const TextStyle(
         fontSize: 16,
         color: Colors.blue,
         fontWeight: FontWeight.normal,
@@ -80,37 +81,44 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle h3Style() => TextStyle(
+  TextStyle h3Style() => const TextStyle(
         fontSize: 14,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextsearchStyle() => TextStyle(
+  TextStyle TextsearchStyle() => const TextStyle(
         fontSize: 14,
         color: Color.fromRGBO(9, 123, 237, 1),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle h4normalStyle() => TextStyle(
+  TextStyle h4normalStyle() => const TextStyle(
         fontSize: 16,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle textLoading() => TextStyle(
+  TextStyle h5NotData() => const TextStyle(
+        fontSize: 20,
+        color: Color.fromARGB(255, 158, 158, 158),
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
+
+  TextStyle textLoading() => const TextStyle(
         fontSize: 16,
         color: Colors.white,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextTitleDialog() => TextStyle(
+  TextStyle TextTitleDialog() => const TextStyle(
         fontSize: 18,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextInputStyle() => TextStyle(
+  TextStyle TextInputStyle() => const TextStyle(
         //ตัวหนังสือใน input
         fontSize: 16,
         color: Colors.black,
@@ -118,41 +126,41 @@ class MyContant {
         fontFamily: 'Prompt',
         height: 1.7,
       );
-  TextStyle TextInputDate() => TextStyle(
+  TextStyle TextInputDate() => const TextStyle(
         //ตัวหนังสือใน input date
         fontSize: 14,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextInputSelect() => TextStyle(
+  TextStyle TextInputSelect() => const TextStyle(
         //ตัวหนังสือใน dropdown
         fontSize: 16,
         color: Color.fromRGBO(106, 106, 106, 1),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextSmallStyle() => TextStyle(
+  TextStyle TextSmallStyle() => const TextStyle(
         //ตัวหนังสือเล็กหนา
         fontSize: 12,
         color: Colors.black,
         fontWeight: FontWeight.bold,
         fontFamily: 'Prompt',
       );
-  TextStyle TextSmalldebNote() => TextStyle(
+  TextStyle TextSmalldebNote() => const TextStyle(
         // ตัวหนังสือบันทึกหมายเหตุ
         fontSize: 15,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextcolorBlue() => TextStyle(
+  TextStyle TextcolorBlue() => const TextStyle(
         fontSize: 15,
         color: Color.fromRGBO(0, 14, 131, 1),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle Textversion() => TextStyle(
+  TextStyle Textversion() => const TextStyle(
         fontSize: 12,
         color: Color.fromARGB(255, 163, 163, 163),
         fontWeight: FontWeight.normal,
@@ -176,7 +184,7 @@ class MyContant {
         fontFamily: 'Prompt',
       );
 
-  TextStyle TextMenulist() => TextStyle(
+  TextStyle TextMenulist() => const TextStyle(
         fontSize: 20,
         color: Colors.white,
         fontFamily: 'Prompt',
@@ -184,7 +192,7 @@ class MyContant {
       );
 
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
-        backgroundColor: Color.fromRGBO(76, 83, 146, 1),
+        backgroundColor: const Color.fromRGBO(76, 83, 146, 1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -193,7 +201,7 @@ class MyContant {
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );
   ButtonStyle myButtonCancelStyle() => ElevatedButton.styleFrom(
-        backgroundColor: Color.fromRGBO(248, 40, 78, 1),
+        backgroundColor: const Color.fromRGBO(248, 40, 78, 1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -202,11 +210,11 @@ class MyContant {
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );
   ButtonStyle myButtonSubmitStyle() => ElevatedButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        foregroundColor: Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
         padding: const EdgeInsets.all(0),
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );
@@ -233,7 +241,7 @@ showProgressDialog(BuildContext context, title, subtitle) async {
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 18,
                   fontFamily: 'Prompt',
                   fontWeight: FontWeight.bold),
@@ -242,7 +250,7 @@ showProgressDialog(BuildContext context, title, subtitle) async {
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -272,14 +280,14 @@ showProgressDialog_Notdata(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
           ],
         ),
@@ -719,12 +727,62 @@ showProgressDialog_404(BuildContext context, title, subtitle) async {
             ),
             onPressed: () {
               Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const Page_Credit_Approval(),
+              //   ),
+              // );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+showDialog_404_approve(BuildContext context, title, subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+
+    builder: (context) {
+      return AlertDialog(
+        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        title: Row(
+          children: [
+            Image.asset('images/error_log.gif',
+                width: 50, height: 50, fit: BoxFit.contain),
+            Text(
+              title,
+              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actions: <Widget>[
+          TextButton(
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
               // Navigator.of(context).pop();
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Page_Credit_Approval(),
+                  builder: (context) => Navigator_bar_credit('3'),
                 ),
+                (Route<dynamic> route) => false,
               );
             },
           ),
@@ -924,19 +982,19 @@ Future<Null> showProgressDialog_5000(
   );
 }
 
-Future<Null> showProgressLoading(BuildContext context) async {
+Future<void> showProgressLoading(BuildContext context) async {
   showDialog(
     context: context,
     barrierColor: Colors.transparent,
     builder: (context) => Center(
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-          borderRadius: BorderRadius.all(
+          color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+          borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
         ),
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
