@@ -40,7 +40,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   int sumbill = 0;
   // ProductTypeEum? _productTypeEum;
   String? id = '1';
-  bool st_customer = true, st_employee = false;
+  bool st_customer = true, st_employee = false, statusLoad404condition = false;
   var filter_search = false;
   TextEditingController custId = TextEditingController();
   TextEditingController custName = TextEditingController();
@@ -267,7 +267,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     get_select_saleType();
   }
 
-  clearValue() {
+  clearValueDialog() {
     setState(() {
       id = '1';
       st_customer = true;
@@ -276,6 +276,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       list_datavalue = [];
       valueNotdata = null;
       Texthint = '';
+      statusLoad404condition = false;
     });
     searchData.clear();
     firstname_em.clear();
@@ -321,7 +322,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           body: jsonEncode(<String, String>{
             'custType': custType.toString(),
             'conditionType': conditionType.toString(),
-            'searchData': searchData.toString(), // M011911761883
+            'searchData': searchData.toString(),
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
@@ -337,7 +338,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             list_datavalue = dataList['data'];
           });
 
-          Navigator.pop(context);
           Navigator.pop(context);
           search_idcustomer();
           print(respose.statusCode);
@@ -359,8 +359,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           showProgressDialog_401(
               context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
         } else if (respose.statusCode == 404) {
+          setState(() {
+            Navigator.pop(context);
+            statusLoad404condition = true;
+          });
           print(respose.statusCode);
-          showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(
@@ -438,7 +442,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                     InkWell(
                                       onTap: () {
                                         Navigator.pop(context);
-                                        clearValue();
+                                        clearValueDialog();
                                       },
                                       child: Container(
                                         width: 30,
@@ -483,6 +487,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                           st_customer = true;
                                           st_employee = false;
                                           id = value.toString();
+                                          statusLoad404condition = false;
+                                          searchData.clear();
                                         });
                                         print(value);
                                       },
@@ -501,6 +507,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                           st_customer = false;
                                           st_employee = true;
                                           id = value.toString();
+                                          statusLoad404condition = false;
+                                          searchData.clear();
                                         });
                                         print(value);
                                       },
@@ -569,6 +577,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                                   } else {
                                                     Texthint = '';
                                                   }
+                                                  statusLoad404condition =
+                                                      false;
+                                                  searchData.clear();
                                                 });
                                               },
                                               value: selectValue_customer,
@@ -742,33 +753,36 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                         ),
                                       ),
                                     ],
-                                  ] else ...[
-                                    if (valueNotdata == 404) ...[
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.4,
-                                        // color: Colors.blue,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'ไม่พบข้อมูล',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
+                                  ] else if (statusLoad404condition ==
+                                      true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 100),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'images/Nodata.png',
+                                                width: 55,
+                                                height: 55,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'ไม่พบรายการข้อมูล',
+                                                style: MyContant().h5NotData(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    ] else
-                                      ...[],
+                                    ),
                                   ],
                                 ],
                               ),

@@ -32,7 +32,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       branchName = '';
   bool? allowApproveStatus;
   String? id = '1', value_branch, select_branchlist;
-  bool st_customer = true, st_employee = false;
+  bool st_customer = true, st_employee = false, statusLoad404approve = false;
   var status = false, valueStatus, Texthint, valueNotdata, new_branch;
   var selectValue_customer,
       selectvalue_saletype,
@@ -214,7 +214,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     });
   }
 
-  clearValue() {
+  clearValueDialog() {
     setState(() {
       id = '1';
       st_customer = true;
@@ -223,6 +223,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       list_datavalue = [];
       valueNotdata = null;
       Texthint = '';
+      statusLoad404approve = false;
     });
     searchData.clear();
     firstname_em.clear();
@@ -254,7 +255,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           body: jsonEncode(<String, String>{
             'custType': custType.toString(),
             'conditionType': conditionType.toString(),
-            'searchData': searchData.toString(), // M011911761883
+            'searchData': searchData.toString(),
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
@@ -269,7 +270,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           setState(() {
             list_datavalue = dataList['data'];
           });
-          Navigator.pop(context);
+
           Navigator.pop(context);
           search_idcustomer();
           // print(list_datavalue);
@@ -291,8 +292,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           showProgressDialog_401(
               context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
         } else if (respose.statusCode == 404) {
+          setState(() {
+            Navigator.pop(context);
+            statusLoad404approve = true;
+          });
           print(respose.statusCode);
-          showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(
@@ -370,7 +375,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                     InkWell(
                                       onTap: () {
                                         Navigator.pop(context);
-                                        clearValue();
+                                        clearValueDialog();
                                       },
                                       child: Container(
                                         width: 30,
@@ -415,6 +420,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                           st_customer = true;
                                           st_employee = false;
                                           id = value.toString();
+                                          statusLoad404approve = false;
+                                          searchData.clear();
                                         });
                                         print(value);
                                       },
@@ -433,6 +440,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                           st_customer = false;
                                           st_employee = true;
                                           id = value.toString();
+                                          statusLoad404approve = false;
+                                          searchData.clear();
                                         });
                                         print(value);
                                       },
@@ -501,6 +510,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                                   } else {
                                                     Texthint = '';
                                                   }
+                                                  statusLoad404approve = false;
+                                                  searchData.clear();
                                                 });
                                               },
                                               value: selectValue_customer,
@@ -671,6 +682,35 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                         ),
                                       ),
                                     ],
+                                  ] else if (statusLoad404approve == true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 100),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'images/Nodata.png',
+                                                width: 55,
+                                                height: 55,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'ไม่พบรายการข้อมูล',
+                                                style: MyContant().h5NotData(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ],
                               ),

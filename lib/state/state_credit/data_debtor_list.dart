@@ -63,7 +63,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
       text_amphoe = '';
 
   List list_dataDebtor = [];
-  var status = false;
+  bool statusLoading = false, statusLoad404 = false;
 
   @override
   void initState() {
@@ -114,22 +114,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
       province = widget.selectValue_province.toString().split("_")[0];
     }
 
-    // print('1>${widget.custId.toString()}');
-    // print('2>${widget.homeNo.toString()}');
-    // print('3>${widget.moo.toString()}');
-    // print('4>${tumbol.toString()}');
-    // print('5>${amphur.toString()}');
-    // print('6>${province.toString()}');
-    // print('7>${widget.firstname_c.toString()}');
-    // print('8>${widget.lastname_c.toString()}');
-    // print('9>${widget.select_addreessType.toString()}');
-    // print('10>${debtorType.toString()}');
-    // print('11>${widget.idcard.toString()}');
-    // print('12>${widget.telephone.toString()}');
-    // print('13>${branch.toString()}');
-    // print('14>${widget.signId.toString()}');
-    // print('15>${signStatus.toString()}');
-    // print('16>${widget.itemTypelist.toString()}');
+    
     try {
       var respose = await http.post(
         Uri.parse('${beta_api_test}debtor/list'),
@@ -166,7 +151,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
         setState(() {
           list_dataDebtor = datadebtorList['data'];
         });
-        status = true;
+        statusLoading = true;
 
         print('testData->>${list_dataDebtor}');
       } else if (respose.statusCode == 400) {
@@ -187,8 +172,12 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoad404 = true;
+          statusLoading = true;
+        });
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(
@@ -218,7 +207,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           style: MyContant().TitleStyle(),
         ),
       ),
-      body: status == false
+      body: statusLoading == false
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
@@ -231,7 +220,6 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',
@@ -241,204 +229,264 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                 ),
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.9,
-                child: Scrollbar(
-                  child: ListView(
-                    children: [
-                      if (list_dataDebtor.isNotEmpty) ...[
-                        for (var i = 0; i < list_dataDebtor.length; i++) ...[
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Data_SearchDebtor(
-                                        list_dataDebtor[i]['signId'],
-                                        list_dataDebtor[i]['signStatusName'])),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromRGBO(255, 218, 249, 1),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
+          : statusLoad404 == true
+              ? Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'images/Nodata.png',
+                                    width: 55,
+                                    height: 55,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'ไม่พบรายการข้อมูล',
+                                    style: MyContant().h5NotData(),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.9,
+                    child: Scrollbar(
+                      child: ListView(
+                        children: [
+                          if (list_dataDebtor.isNotEmpty) ...[
+                            for (var i = 0;
+                                i < list_dataDebtor.length;
+                                i++) ...[
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Data_SearchDebtor(
+                                            list_dataDebtor[i]['signId'],
+                                            list_dataDebtor[i]
+                                                ['signStatusName'])),
+                                  );
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: Container(
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
+                                      color: Color.fromRGBO(255, 218, 249, 1),
+                                    ),
+                                    child: Column(
                                       children: [
-                                        Text(
-                                          'สาขาที่ออกขาย : ${list_dataDebtor[i]['branchName']}',
-                                          style: MyContant().h4normalStyle(),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'สาขาที่ออกขาย : ${list_dataDebtor[i]['branchName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'เลขบัตรประชาชน : ${list_dataDebtor[i]['smartId']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'ชื่อลูกค้าในสัญญา : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '${list_dataDebtor[i]['custName']}',
+                                                overflow: TextOverflow.clip,
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'สินค้าที่ซื้อ : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '${list_dataDebtor[i]['itemName']}',
+                                                overflow: TextOverflow.clip,
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'เงินดาวน์/งวดแรก : ${list_dataDebtor[i]['downPrice']}  บาท',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'ส่งเดือนละ : ${list_dataDebtor[i]['periodPrice']}  บาท',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'ระยเวลา : ${list_dataDebtor[i]['periodCount']}  งวด',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'กำหนดชำระทุกวันที่ : ${list_dataDebtor[i]['periodDay']}  ของเดือน',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'หมายเหตุ : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                'เกินกำหนดชำระค่างวด 3 วัน มีเบี้ยปรับ+ค่าทวงถาม',
+                                                overflow: TextOverflow.clip,
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'เลขบัตรประชาชน : ${list_dataDebtor[i]['smartId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'ชื่อลูกค้าในสัญญา : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${list_dataDebtor[i]['custName']}',
-                                            overflow: TextOverflow.clip,
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'สินค้าที่ซื้อ : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${list_dataDebtor[i]['itemName']}',
-                                            overflow: TextOverflow.clip,
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'เงินดาวน์/งวดแรก : ${list_dataDebtor[i]['downPrice']}  บาท',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ส่งเดือนละ : ${list_dataDebtor[i]['periodPrice']}  บาท',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ระยเวลา : ${list_dataDebtor[i]['periodCount']}  งวด',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'กำหนดชำระทุกวันที่ : ${list_dataDebtor[i]['periodDay']}  ของเดือน',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'หมายเหตุ : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            'เกินกำหนดชำระค่างวด 3 วัน มีเบี้ยปรับ+ค่าทวงถาม',
-                                            overflow: TextOverflow.clip,
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
+                            ],
+                          ],
                         ],
-                      ],
-                    ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
     );
   }
 }

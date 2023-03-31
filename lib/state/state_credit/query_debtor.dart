@@ -49,7 +49,10 @@ class _Query_debtorState extends State<Query_debtor> {
   TextEditingController lastname_em = TextEditingController();
   TextEditingController custId = TextEditingController();
 
-  bool st_customer = true, st_employee = false;
+  bool st_customer = true,
+      st_employee = false,
+      statusLoad404itemTypeList = false,
+      statusLoad404 = false;
   List dropdown_province = [], list_dataDebtor = [];
   List dropdown_amphoe = [],
       dropdown_addresstype = [],
@@ -263,7 +266,6 @@ class _Query_debtorState extends State<Query_debtor> {
         });
 
         Navigator.pop(context);
-        Navigator.pop(context);
         search_conType(sizeIcon, border);
         print(list_itemType);
       } else if (respose.statusCode == 400) {
@@ -280,8 +282,12 @@ class _Query_debtorState extends State<Query_debtor> {
           (Route<dynamic> route) => false,
         );
       } else if (respose.statusCode == 404) {
+        setState(() {
+          Navigator.pop(context);
+          statusLoad404itemTypeList = true;
+        });
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(
@@ -521,7 +527,7 @@ class _Query_debtorState extends State<Query_debtor> {
     searchNameItemtype.clear();
   }
 
-  clearValue() {
+  clearValueDialog() {
     setState(() {
       id = '1';
       st_customer = true;
@@ -530,6 +536,7 @@ class _Query_debtorState extends State<Query_debtor> {
       list_datavalue = [];
       valueNotdata = null;
       Texthint = '';
+      statusLoad404 = false;
     });
     searchData.clear();
     firstname_em.clear();
@@ -935,7 +942,6 @@ class _Query_debtorState extends State<Query_debtor> {
 
   Future<Null> search_conType(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
-    // bool btn_edit = false;
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -977,6 +983,9 @@ class _Query_debtorState extends State<Query_debtor> {
                                       onTap: () {
                                         Navigator.pop(context);
                                         clearValue_search_conType();
+                                        setState(() {
+                                          statusLoad404itemTypeList = false;
+                                        });
                                       },
                                       child: Container(
                                         width: 30,
@@ -1056,7 +1065,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           ),
                           SizedBox(height: 10),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.45,
                             child: Scrollbar(
                               child: ListView(
                                 children: [
@@ -1123,6 +1132,36 @@ class _Query_debtorState extends State<Query_debtor> {
                                         ),
                                       ),
                                     ],
+                                  ] else if (statusLoad404itemTypeList ==
+                                      true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 100),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'images/Nodata.png',
+                                                width: 55,
+                                                height: 55,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'ไม่พบรายการข้อมูล',
+                                                style: MyContant().h5NotData(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ],
                               ),
@@ -1181,7 +1220,7 @@ class _Query_debtorState extends State<Query_debtor> {
             list_datavalue = dataList['data'];
           });
           print(respose.statusCode);
-          Navigator.pop(context);
+          // Navigator.pop(context);
           Navigator.pop(context);
           search_idcustomer();
         } else if (respose.statusCode == 400) {
@@ -1202,9 +1241,13 @@ class _Query_debtorState extends State<Query_debtor> {
           showProgressDialog_401(
               context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
         } else if (respose.statusCode == 404) {
+          setState(() {
+            Navigator.pop(context);
+            statusLoad404 = true;
+          });
           print(respose.statusCode);
-          showProgressDialog_404(
-              context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
+          // showProgressDialog_404(
+          //     context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
@@ -1281,7 +1324,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                     InkWell(
                                       onTap: () {
                                         Navigator.pop(context);
-                                        clearValue();
+                                        clearValueDialog();
                                       },
                                       child: Container(
                                         width: 30,
@@ -1326,6 +1369,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           st_customer = true;
                                           st_employee = false;
                                           id = value.toString();
+                                          searchData.clear();
+                                          statusLoad404 = false;
                                         });
                                         print(value);
                                       },
@@ -1344,6 +1389,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           st_customer = false;
                                           st_employee = true;
                                           id = value.toString();
+                                          searchData.clear();
+                                          statusLoad404 = false;
                                         });
                                         print(value);
                                       },
@@ -1410,6 +1457,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                                   } else {
                                                     Texthint = '';
                                                   }
+                                                  searchData.clear();
+                                                  statusLoad404 = false;
                                                 });
                                               },
                                               value: selectValue_customer,
@@ -1580,6 +1629,35 @@ class _Query_debtorState extends State<Query_debtor> {
                                         ),
                                       ),
                                     ],
+                                  ] else if (statusLoad404 == true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 100),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'images/Nodata.png',
+                                                width: 55,
+                                                height: 55,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'ไม่พบรายการข้อมูล',
+                                                style: MyContant().h5NotData(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ],
                               ),

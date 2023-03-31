@@ -192,6 +192,16 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  Image.asset(
+                                    'images/Nodata.png',
+                                    width: 55,
+                                    height: 55,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
                                   Text(
                                     'ไม่พบรายการข้อมูล',
                                     style: MyContant().h5NotData(),

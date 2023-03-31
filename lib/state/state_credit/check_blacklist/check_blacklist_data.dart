@@ -31,6 +31,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
       list_district = [],
       dropdown_amphoe = [],
       list_data_blacklist = [];
+  bool statusLoad404 = false;
 
   TextEditingController idblacklist = TextEditingController();
   TextEditingController name_show = TextEditingController();
@@ -322,6 +323,9 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   }
 
   clear_value_search() {
+    setState(() {
+      statusLoad404 = false;
+    });
     searchData.clear();
     nameSearchBl.clear();
     lastnameSearchBl.clear();
@@ -374,8 +378,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           setState(() {
             list_dataSearch_bl = data_list['data'];
           });
-
-          Navigator.pop(context);
+          print(('f>>$statusLoad404'));
+          // Navigator.pop(context);
           Navigator.pop(context);
           search_id_blacklist();
           print('ข้อมูล => $list_dataSearch_bl');
@@ -397,8 +401,13 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           showProgressDialog_401(
               context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
         } else if (respose.statusCode == 404) {
+          setState(() {
+            Navigator.pop(context);
+            statusLoad404 = true;
+            print(('t>>$statusLoad404'));
+          });
           print(respose.statusCode);
-          showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(
@@ -529,6 +538,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                   nameSearchBl.clear();
                                                   lastnameSearchBl.clear();
                                                   list_dataSearch_bl = [];
+                                                  statusLoad404 = false;
                                                 });
                                               },
                                               value: selectValue_bl,
@@ -722,6 +732,35 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                         ),
                                       ),
                                     ],
+                                  ] else if (statusLoad404 == true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 100),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'images/Nodata.png',
+                                                width: 55,
+                                                height: 55,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'ไม่พบรายการข้อมูล',
+                                                style: MyContant().h5NotData(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ],
                               ),

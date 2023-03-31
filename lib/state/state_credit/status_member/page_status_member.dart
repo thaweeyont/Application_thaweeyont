@@ -19,7 +19,7 @@ class Page_Status_Member extends StatefulWidget {
 class _Page_Status_MemberState extends State<Page_Status_Member> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
 
-  bool st_customer = true, st_employee = false;
+  bool st_customer = true, st_employee = false, statusLoad404member = false;
   String? id = '1';
   List list_datavalue = [], list_dataMember = [], dropdown_customer = [];
   List list_address = [];
@@ -166,6 +166,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       selectValue_customer = null;
       list_datavalue = [];
       Texthint = '';
+      statusLoad404member = false;
     });
     searchData.clear();
     firstname_em.clear();
@@ -213,7 +214,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           setState(() {
             list_datavalue = dataList['data'];
           });
-          Navigator.pop(context);
+
           Navigator.pop(context);
           search_idcustomer();
           // print(list_datavalue);
@@ -235,8 +236,12 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           showProgressDialog_401(
               context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
         } else if (respose.statusCode == 404) {
+          setState(() {
+            Navigator.pop(context);
+            statusLoad404member = true;
+          });
           print(respose.statusCode);
-          showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
           print(respose.statusCode);
           showProgressDialog_405(
@@ -359,6 +364,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           st_customer = true;
                                           st_employee = false;
                                           id = value.toString();
+                                          statusLoad404member = false;
+                                          searchData.clear();
                                         });
                                         print(value);
                                       },
@@ -377,6 +384,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           st_customer = false;
                                           st_employee = true;
                                           id = value.toString();
+                                          statusLoad404member = false;
+                                          searchData.clear();
                                         });
                                         print(value);
                                       },
@@ -445,6 +454,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                   } else {
                                                     Texthint = '';
                                                   }
+                                                  statusLoad404member = false;
+                                                  searchData.clear();
                                                 });
                                               },
                                               value: selectValue_customer,
@@ -617,6 +628,35 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         ),
                                       ),
                                     ],
+                                  ] else if (statusLoad404member == true) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 100),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'images/Nodata.png',
+                                                width: 55,
+                                                height: 55,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'ไม่พบรายการข้อมูล',
+                                                style: MyContant().h5NotData(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ]
                                 ],
                               ),
