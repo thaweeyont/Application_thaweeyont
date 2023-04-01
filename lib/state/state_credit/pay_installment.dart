@@ -166,7 +166,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
-                color: Color.fromRGBO(255, 218, 249, 1),
+                color: Color.fromRGBO(255, 203, 246, 1),
               ),
               margin: EdgeInsets.all(8),
               padding: EdgeInsets.all(8.0),
@@ -211,7 +211,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                       ? Center(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Color.fromRGBO(255, 218, 249, 1),
+                              color: Color.fromRGBO(255, 203, 246, 1),
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
@@ -257,7 +257,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                         )
                       : Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(255, 218, 249, 1),
+                            color: Color.fromRGBO(255, 203, 246, 1),
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
                             ),

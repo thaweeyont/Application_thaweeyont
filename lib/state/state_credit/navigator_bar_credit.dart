@@ -386,6 +386,131 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         });
   }
 
+  showContactsupport() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.only(
+              //   topLeft: Radius.circular(16.0),
+              //   topRight: Radius.circular(16.0),
+              // ),
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 0,
+                ),
+                SizedBox(
+                  height: (56 * 6).toDouble(),
+                  child: Container(
+                    child: Stack(
+                      alignment: Alignment(0, 0),
+                      children: <Widget>[
+                        Positioned(
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            children: <Widget>[
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: <Color>[
+                                      Color.fromRGBO(238, 208, 110, 1),
+                                      Color.fromRGBO(250, 227, 152, 0.9),
+                                      Color.fromRGBO(212, 163, 51, 0.8),
+                                      Color.fromRGBO(250, 227, 152, 0.9),
+                                      Color.fromRGBO(164, 128, 44, 1),
+                                    ],
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.contact_support_outlined,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'ช่วยเหลือ',
+                                          style: MyContant().TextTitleDialog(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับแอปพลิเคชั่นนี้ หรือสอบถามเกี่ยวกับแอปพลิเคชั่น มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
+                                              overflow: TextOverflow.clip,
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            'images/thankyou.png',
+                                            width: 130,
+                                            height: 130,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                // Container(
+                //   height: 56,
+                //   color: Color.fromARGB(255, 202, 107, 107),
+                // )
+              ],
+            ),
+          );
+        });
+  }
+
   AppBar Appbar() {
     return AppBar(
       centerTitle: true,
@@ -455,7 +580,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   });
                   break;
                 case 2:
-                  setState(() {});
+                  setState(() {
+                    showContactsupport();
+                  });
                   break;
               }
             },
@@ -464,7 +591,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   icon: Icon(Icons.view_list_rounded), label: ''),
               BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.settings_applications), label: ''),
+                  icon: Icon(Icons.contact_support_outlined), label: ''),
             ],
           ),
         ),

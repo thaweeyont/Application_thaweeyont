@@ -114,7 +114,6 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
       province = widget.selectValue_province.toString().split("_")[0];
     }
 
-    
     try {
       var respose = await http.post(
         Uri.parse('${beta_api_test}debtor/list'),
@@ -300,7 +299,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                     decoration: BoxDecoration(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5)),
-                                      color: Color.fromRGBO(255, 218, 249, 1),
+                                      color: Color.fromRGBO(255, 203, 246, 1),
                                     ),
                                     child: Column(
                                       children: [

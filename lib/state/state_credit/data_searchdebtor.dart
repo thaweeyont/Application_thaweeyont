@@ -278,7 +278,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
-                              color: Color.fromRGBO(255, 218, 249, 1),
+                              color: Color.fromRGBO(255, 203, 246, 1),
                             ),
                             margin: EdgeInsets.symmetric(vertical: 10),
                             padding: EdgeInsets.all(8.0),
@@ -368,7 +368,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
-                              color: Color.fromRGBO(255, 218, 249, 1),
+                              color: Color.fromRGBO(255, 203, 246, 1),
                             ),
                             padding: EdgeInsets.all(8.0),
                             child: Column(
@@ -540,7 +540,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                     color: active_l1 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                        : Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
                     'รายการสินค้า',
@@ -562,7 +562,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                     color: active_l2 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                        : Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text('หมายเหตุพิจารณาสินเชื่อ',
                       style: MyContant().h4normalStyle()),
@@ -582,7 +582,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                     color: active_l3 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                        : Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text('บันทึกหมายเหตุ',
                       style: MyContant().h4normalStyle()),
@@ -602,7 +602,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                     color: active_l4 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 218, 249, 1),
+                        : Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text('ชำระค่างวด', style: MyContant().h4normalStyle()),
                 ),
@@ -624,7 +624,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: const BoxDecoration(
-                color: Color.fromRGBO(255, 218, 249, 1),
+                color: Color.fromRGBO(255, 203, 246, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
@@ -747,7 +747,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 218, 249, 1),
+                      color: Color.fromRGBO(255, 203, 246, 1),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
@@ -768,7 +768,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.25,
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 218, 249, 1),
+                      color: Color.fromRGBO(255, 203, 246, 1),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
@@ -1371,7 +1371,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 218, 249, 1),
+                color: Color.fromRGBO(255, 203, 246, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
@@ -1506,7 +1506,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 218, 249, 1),
+                color: Color.fromRGBO(255, 203, 246, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
@@ -1648,7 +1648,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
               decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 218, 249, 1),
+                color: Color.fromRGBO(255, 203, 246, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
@@ -1770,7 +1770,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
               decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 218, 249, 1),
+                color: Color.fromRGBO(255, 203, 246, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
@@ -2329,7 +2329,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       ),
     );
     return Container(
-      height: MediaQuery.of(context).size.height * 0.74,
+      height: MediaQuery.of(context).size.height * 0.72,
       child: ListView(
         children: [
           if (list_payDetail.isNotEmpty) ...[
@@ -2352,7 +2352,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 218, 249, 1),
+                      color: Color.fromRGBO(255, 203, 246, 1),
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
