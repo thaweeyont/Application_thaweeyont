@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/show_image.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:application_thaweeyont/api.dart';
@@ -23,6 +24,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   var valueStatus;
   List list_Blacklist = [];
+  bool statusLoad404 = false, statusLoading = false;
   TextEditingController idcard = TextEditingController();
 
   @override
@@ -42,7 +44,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    showProgressLoading(context);
+    // showProgressLoading(context);
     getData_blacklist();
   }
 
@@ -70,8 +72,9 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         setState(() {
           list_Blacklist = dataBlacklist['data'];
         });
+        statusLoading = true;
 
-        Navigator.pop(context);
+        // Navigator.pop(context);
         print(list_Blacklist);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
@@ -91,8 +94,12 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoad404 = true;
+          statusLoading = true;
+        });
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล Blacklist');
+        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล Blacklist');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(
@@ -182,84 +189,161 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             Container(
               height: MediaQuery.of(context).size.height * 0.6,
               child: Scrollbar(
-                child: ListView(
-                  children: [
-                    if (list_Blacklist.isNotEmpty) ...[
-                      for (var i = 0; i < list_Blacklist.length; i++) ...[
-                        InkWell(
-                          onTap: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 2),
-                            child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                                color: Color.fromRGBO(251, 173, 55, 1),
+                child: statusLoading == false
+                    ? Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 24, 24, 24)
+                                .withOpacity(0.9),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 30),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(cupertinoActivityIndicator, scale: 4),
+                              Text(
+                                'กำลังโหลด',
+                                style: MyContant().textLoading(),
                               ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : statusLoad404 == true
+                        ? Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              height: MediaQuery.of(context).size.height * 0.15,
                               child: Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'รหัสลูกค้า : ${list_Blacklist[i]['blId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'ชื่อลูกค้า : ${list_Blacklist[i]['custName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ที่อยู่ : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${list_Blacklist[i]['custAddress']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'images/Nodata.png',
+                                              width: 55,
+                                              height: 55,
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'สถานะ : ${list_Blacklist[i]['blStatus']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'ไม่พบรายการข้อมูล',
+                                              style: MyContant().h5NotData(),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
+                          )
+                        : ListView(
+                            children: [
+                              if (list_Blacklist.isNotEmpty) ...[
+                                for (var i = 0;
+                                    i < list_Blacklist.length;
+                                    i++) ...[
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 2),
+                                      child: Container(
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 5),
+                                        padding: EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color:
+                                              Color.fromRGBO(251, 173, 55, 1),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'รหัสลูกค้า : ${list_Blacklist[i]['blId']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'ชื่อลูกค้า : ${list_Blacklist[i]['custName']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'ที่อยู่ : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${list_Blacklist[i]['custAddress']}',
+                                                    overflow: TextOverflow.clip,
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'สถานะ : ${list_Blacklist[i]['blStatus']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ],
                           ),
-                        ),
-                      ],
-                    ],
-                  ],
-                ),
               ),
             )
           ],
@@ -289,7 +373,11 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                             showProgressDialog(context, 'แจ้งเตือน',
                                 'กรุณากรอกเลขบัตรประชาชน!');
                           } else {
-                            showProgressLoading(context);
+                            // showProgressLoading(context);
+                            setState(() {
+                              statusLoading = false;
+                              statusLoad404 = false;
+                            });
                             getData_blacklist();
                           }
                         },

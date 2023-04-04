@@ -20,8 +20,8 @@ class Detail_member_cust extends StatefulWidget {
 
 class _Detail_member_custState extends State<Detail_member_cust> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
-  List list_dataMember = [], list_address = [];
-  var valueaddress;
+  List list_dataMember = [], list_address = [], list_data = [];
+  var valueaddress, dataaddress;
   bool statusLoading = false, statusLoad404 = false;
   Map<String, dynamic>? listvalueAddreses;
 
@@ -74,10 +74,22 @@ class _Detail_member_custState extends State<Detail_member_cust> {
         valueaddress = dataMemberList['data'];
         setState(() {
           list_dataMember = dataMemberList['data'];
-          // list_address = list_dataMember[0];
+          list_address = valueaddress;
         });
+
+        for (var i = 0; i < list_dataMember.length; i++) {
+          // print('data${i}=>${list_dataMember[i]['address']}');
+          list_data = list_dataMember[i]['address'];
+          for (var c = 0; c < list_data.length; c++) {
+            print('type${c}=>${list_data[c]['type']}');
+            print('detail${c}=>${list_data[c]['detail']}');
+            print('tel${c}=>${list_data[c]['tel']}');
+            print('fax${c}=>${list_data[c]['fax']}');
+          }
+          // print('address->>${list_data}');
+        }
         statusLoading = true;
-        print('address->>${list_address}');
+        // print('address->>${list_data}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -486,132 +498,129 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                               child: Row(
                                 children: [
                                   Text(
-                                    'ข้อมูลที่อยู่ ${list_address.length}',
+                                    'ข้อมูลที่อยู่ ',
                                     style: MyContant().h2Style(),
                                   ),
                                 ],
                               ),
                             ),
-                            if (list_address.isNotEmpty) ...[
-                              for (var i = 0; i < list_address.length; i++) ...[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 8, left: 8, right: 8),
-                                  child: Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: Color.fromRGBO(64, 203, 203, 1),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '${i + 1}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'ประเภท : ${list_address[i]['type']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.15,
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.7),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(5),
-                                            ),
-                                          ),
-                                          child: Scrollbar(
-                                              child: ListView(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            'ที่อยู่ : ',
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                          Expanded(
-                                                            child: Text(
-                                                              '${list_address[i]['detail']}',
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .clip,
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            'เบอร์โทรศัพท์ : ${list_address[i]['tel']}',
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            'เบอร์แฟกซ์ : ${list_address[i]['fax']}',
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                        ),
-                                      ],
+                            // if (list_data == list_dataMember[i]['address']) ...[
+                            // list_data = list_dataMember[i]['address'],
+                            for (var n = 0; n < list_data.length; n++) ...[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 8, left: 8, right: 8),
+                                child: Container(
+                                  padding: EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(64, 203, 203, 1),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
                                     ),
                                   ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${n + 1}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'ประเภท : ${list_data[n]['type']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.15,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.7),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                        ),
+                                        child: Scrollbar(
+                                            child: ListView(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'ที่อยู่ : ',
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            '${list_data[n]['detail']}',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          'เบอร์โทรศัพท์ : ${list_data[n]['tel']}',
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          'เบอร์แฟกซ์ : ${list_data[n]['fax']}',
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
+                              ),
                             ],
-                            if (list_dataMember.length > 1) ...[
-                              lineNext(),
-                            ],
+                          ],
+                          if (list_dataMember.length > 1) ...[
+                            lineNext(),
                           ],
                         ],
                       ],
+                      // ],
                     ),
                   ),
                 ),

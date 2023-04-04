@@ -518,27 +518,23 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container slidemenu(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.065,
-      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+      height: MediaQuery.of(context).size.height * 0.067,
+      // padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: () {
-                  menu_list("list_content1");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_l1 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content1");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_l1 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 203, 246, 1),
                   ),
@@ -548,65 +544,144 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  menu_list("list_content2");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_l2 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content2");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_l2 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 203, 246, 1),
                   ),
-                  child: Text('หมายเหตุพิจารณาสินเชื่อ',
-                      style: MyContant().h4normalStyle()),
+                  child: Text(
+                    'หมายเหตุพิจารณาสินเชื่อ',
+                    style: MyContant().h4normalStyle(),
+                  ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  menu_list("list_content3");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_l3 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content3");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_l3 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 203, 246, 1),
                   ),
-                  child: Text('บันทึกหมายเหตุ',
-                      style: MyContant().h4normalStyle()),
+                  child: Text(
+                    'บันทึกหมายเหตุ',
+                    style: MyContant().h4normalStyle(),
+                  ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  menu_list("list_content4");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_l4 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content4");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_l4 == true
                         ? Color.fromRGBO(202, 71, 150, 1)
                         : Color.fromRGBO(255, 203, 246, 1),
                   ),
-                  child: Text('ชำระค่างวด', style: MyContant().h4normalStyle()),
+                  child: Text(
+                    'ชำระค่างวด',
+                    style: MyContant().h4normalStyle(),
+                  ),
                 ),
               ),
+              SizedBox(
+                width: 6,
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content1");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_l1 == true
+              //           ? Color.fromRGBO(202, 71, 150, 1)
+              //           : Color.fromRGBO(255, 203, 246, 1),
+              //     ),
+              //     child: Text(
+              //       'รายการสินค้า',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content2");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_l2 == true
+              //           ? Color.fromRGBO(202, 71, 150, 1)
+              //           : Color.fromRGBO(255, 203, 246, 1),
+              //     ),
+              //     child: Text('หมายเหตุพิจารณาสินเชื่อ',
+              //         style: MyContant().h4normalStyle()),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content3");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_l3 == true
+              //           ? Color.fromRGBO(202, 71, 150, 1)
+              //           : Color.fromRGBO(255, 203, 246, 1),
+              //     ),
+              //     child: Text('บันทึกหมายเหตุ',
+              //         style: MyContant().h4normalStyle()),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content4");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_l4 == true
+              //           ? Color.fromRGBO(202, 71, 150, 1)
+              //           : Color.fromRGBO(255, 203, 246, 1),
+              //     ),
+              //     child: Text('ชำระค่างวด', style: MyContant().h4normalStyle()),
+              //   ),
+              // ),
             ],
           )
         ],
@@ -616,7 +691,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container content_list_1(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: ListView(
         children: [
           Padding(
@@ -1641,7 +1716,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container content_list_2(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: ListView(
         children: [
           Padding(
@@ -1763,7 +1838,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container content_list_3(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: ListView(
         children: [
           Padding(
@@ -2329,7 +2404,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       ),
     );
     return Container(
-      height: MediaQuery.of(context).size.height * 0.72,
+      height: MediaQuery.of(context).size.height * 0.74,
       child: ListView(
         children: [
           if (list_payDetail.isNotEmpty) ...[

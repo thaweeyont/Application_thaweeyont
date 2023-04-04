@@ -1882,7 +1882,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     elevation: 0,
                     color: Colors.white,
                     child: Container(
-                      height: size * 1.5,
+                      height: MediaQuery.of(context).size.height * 0.85,
                       margin: EdgeInsets.all(5),
                       child: Column(
                         children: [
@@ -1933,6 +1933,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ),
                             ],
+                          ),
+                          new Divider(
+                            color: Color.fromARGB(255, 182, 182, 182),
                           ),
                           SizedBox(
                             height: 15,
@@ -2629,7 +2632,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             ],
           ),
           content: Text(
-            "คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?",
+            "คุณต้องการบันทึกข้อมูลใช่หรือไม่",
             style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
           ),
           actions: <Widget>[

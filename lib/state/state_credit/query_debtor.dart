@@ -1701,15 +1701,6 @@ class _Query_debtorState extends State<Query_debtor> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Color.fromRGBO(255, 203, 246, 1),
-                  // gradient: LinearGradient(
-                  //   colors: <Color>[
-                  //     Color.fromRGBO(252, 197, 243, 1),
-                  //     Color.fromRGBO(250, 184, 239, 1),
-                  //     Color.fromRGBO(253, 123, 232, 1),
-                  //     Color.fromRGBO(255, 196, 245, 1),
-                  //     Color.fromRGBO(241, 139, 224, 1),
-                  //   ],
-                  // ),
                 ),
                 width: double.infinity,
                 child: Column(

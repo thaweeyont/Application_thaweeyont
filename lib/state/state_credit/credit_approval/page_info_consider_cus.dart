@@ -315,12 +315,12 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu1(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: ListView(
         children: [
           Padding(
             padding:
-                const EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+                const EdgeInsets.only(top: 0, bottom: 0, left: 8, right: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -411,10 +411,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: 5,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'อาชีพ : ${Debtordetail['debtorCareer']}',
+                        'อาชีพ : ',
                         style: MyContant().h4normalStyle(),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${Debtordetail['debtorCareer']}',
+                          overflow: TextOverflow.clip,
+                          style: MyContant().h4normalStyle(),
+                        ),
                       ),
                     ],
                   ),
@@ -1033,7 +1041,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -1258,11 +1266,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu2(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
+            padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -1377,11 +1385,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu3(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.82,
       child: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
+            padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
               padding: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -2069,26 +2077,22 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
   Container slidemenu(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.065,
-      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+      // padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: () {
-                  menu_list("list_content_mu1");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_mu1 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content_mu1");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_mu1 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
                         : Color.fromRGBO(251, 173, 55, 1),
                   ),
@@ -2098,19 +2102,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  menu_list("list_content_mu2");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_mu2 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content_mu2");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_mu2 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
                         : Color.fromRGBO(251, 173, 55, 1),
                   ),
@@ -2120,19 +2120,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  menu_list("list_content_mu3");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_mu3 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content_mu3");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_mu3 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
                         : Color.fromRGBO(251, 173, 55, 1),
                   ),
@@ -2142,19 +2138,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  menu_list("list_content_mu4");
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  height: 35,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: active_mu4 == true
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                child: ElevatedButton(
+                  onPressed: () {
+                    menu_list("list_content_mu4");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: active_mu4 == true
                         ? Color.fromRGBO(202, 121, 0, 1)
                         : Color.fromRGBO(251, 173, 55, 1),
                   ),
@@ -2164,6 +2156,97 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                 ),
               ),
+              SizedBox(
+                width: 6,
+              )
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content_mu1");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_mu1 == true
+              //           ? Color.fromRGBO(202, 121, 0, 1)
+              //           : Color.fromRGBO(251, 173, 55, 1),
+              //     ),
+              //     child: Text(
+              //       'รายการสินค้า',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content_mu2");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_mu2 == true
+              //           ? Color.fromRGBO(202, 121, 0, 1)
+              //           : Color.fromRGBO(251, 173, 55, 1),
+              //     ),
+              //     child: Text(
+              //       'หมายเหตุพิจารณาสินเชื่อ',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content_mu3");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_mu3 == true
+              //           ? Color.fromRGBO(202, 121, 0, 1)
+              //           : Color.fromRGBO(251, 173, 55, 1),
+              //     ),
+              //     child: Text(
+              //       'บันทึกหมายเหตุ',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     menu_list("list_content_mu4");
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.all(5),
+              //     height: 35,
+              //     padding: EdgeInsets.all(5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: active_mu4 == true
+              //           ? Color.fromRGBO(202, 121, 0, 1)
+              //           : Color.fromRGBO(251, 173, 55, 1),
+              //     ),
+              //     child: Text(
+              //       'ชำระค่างวด',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
             ],
           )
         ],
