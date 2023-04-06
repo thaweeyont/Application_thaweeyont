@@ -50,6 +50,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
+    get_select_cus();
   }
 
   // Future<void> getData_CusMember() async {
@@ -216,7 +217,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           });
 
           Navigator.pop(context);
-          search_idcustomer();
+          // search_idcustomer();
           // print(list_datavalue);
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
@@ -300,195 +301,242 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                     elevation: 0,
                     color: Colors.white,
                     child: Container(
-                      margin: EdgeInsets.all(10),
+                      // margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: size * 0.03,
+                          Stack(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 12, bottom: 6),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'ค้นหาข้อมูลลูกค้า',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                child: InkWell(
+                                  onTap: () {
+                                    print('exit');
+                                    Navigator.pop(context);
+                                    clearDialog();
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 4),
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 30,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 15, right: 15, bottom: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
+                          const Divider(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                          ),
+                          // SizedBox(
+                          //   height: size * 0.03,
+                          // ),
+                          // Container(
+                          //   padding: EdgeInsets.only(
+                          //       left: 15, right: 15, bottom: 15),
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.end,
+                          //     mainAxisAlignment: MainAxisAlignment.end,
+                          //     children: [
+                          //       Row(
+                          //         children: [
+                          //           InkWell(
+                          //             onTap: () {
+                          //               Navigator.pop(context);
+                          //               clearDialog();
+                          //             },
+                          //             child: Container(
+                          //               width: 30,
+                          //               height: 30,
+                          //               decoration: BoxDecoration(
+                          //                 color:
+                          //                     Color.fromRGBO(18, 108, 108, 1),
+                          //                 shape: BoxShape.circle,
+                          //               ),
+                          //               child: Icon(
+                          //                 Icons.close,
+                          //                 color: Colors.white,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                                color: Color.fromRGBO(64, 203, 203, 1),
+                              ),
+                              padding: EdgeInsets.all(8),
+                              width: double.infinity,
+                              child: Column(children: [
                                 Row(
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                        clearDialog();
-                                      },
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(18, 108, 108, 1),
-                                          shape: BoxShape.circle,
+                                    Expanded(
+                                      child: RadioListTile(
+                                        contentPadding: EdgeInsets.all(0.0),
+                                        value: '1',
+                                        groupValue: id,
+                                        title: Text(
+                                          'ลูกค้าทั่วไป',
+                                          style: MyContant().h4normalStyle(),
                                         ),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: Colors.white,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            st_customer = true;
+                                            st_employee = false;
+                                            id = value.toString();
+                                            statusLoad404member = false;
+                                            searchData.clear();
+                                          });
+                                          print(value);
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: RadioListTile(
+                                        value: '2',
+                                        groupValue: id,
+                                        title: Text(
+                                          'พนักงาน',
+                                          style: MyContant().h4normalStyle(),
                                         ),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            st_customer = false;
+                                            st_employee = true;
+                                            id = value.toString();
+                                            statusLoad404member = false;
+                                            searchData.clear();
+                                          });
+                                          print(value);
+                                        },
                                       ),
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: Color.fromRGBO(64, 203, 203, 1),
-                            ),
-                            padding: EdgeInsets.all(8),
-                            width: double.infinity,
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: RadioListTile(
-                                      contentPadding: EdgeInsets.all(0.0),
-                                      value: '1',
-                                      groupValue: id,
-                                      title: Text(
-                                        'ลูกค้าทั่วไป',
+                                if (st_employee == true) ...[
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ชื่อ',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          st_customer = true;
-                                          st_employee = false;
-                                          id = value.toString();
-                                          statusLoad404member = false;
-                                          searchData.clear();
-                                        });
-                                        print(value);
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: RadioListTile(
-                                      value: '2',
-                                      groupValue: id,
-                                      title: Text(
-                                        'พนักงาน',
+                                      input_nameEmploDia(sizeIcon, border),
+                                      Text(
+                                        'สกุล',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          st_customer = false;
-                                          st_employee = true;
-                                          id = value.toString();
-                                          statusLoad404member = false;
-                                          searchData.clear();
-                                        });
-                                        print(value);
-                                      },
-                                    ),
+                                      input_lastNameEmploDia(sizeIcon, border),
+                                    ],
                                   ),
                                 ],
-                              ),
-                              if (st_employee == true) ...[
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ชื่อ',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    input_nameEmploDia(sizeIcon, border),
-                                    Text(
-                                      'สกุล',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    input_lastNameEmploDia(sizeIcon, border),
-                                  ],
-                                ),
-                              ],
-                              if (st_customer == true) ...[
-                                Row(
-                                  children: [
-                                    // Text('ชื่อ'),
-                                    // select_searchCus(sizeIcon, border),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(1),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.085,
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 4),
-                                            child: DropdownButton(
-                                              items: dropdown_customer
-                                                  .map((value) =>
-                                                      DropdownMenuItem(
-                                                        child: Text(
-                                                          value['name'],
-                                                          style: MyContant()
-                                                              .TextInputStyle(),
-                                                        ),
-                                                        value: value['id'],
-                                                      ))
-                                                  .toList(),
-                                              onChanged: (newvalue) {
-                                                print(newvalue);
-                                                setState(() {
-                                                  selectValue_customer =
-                                                      newvalue;
-                                                  if (selectValue_customer
-                                                          .toString() ==
-                                                      "2") {
-                                                    Texthint = 'ชื่อ';
-                                                  } else {
-                                                    Texthint = '';
-                                                  }
-                                                  statusLoad404member = false;
-                                                  searchData.clear();
-                                                });
-                                              },
-                                              value: selectValue_customer,
-                                              isExpanded: true,
-                                              underline: SizedBox(),
-                                              hint: Align(
-                                                child: Text(
-                                                  'กรุณาเลือกข้อมูล',
-                                                  style: MyContant()
-                                                      .TextInputSelect(),
+                                if (st_customer == true) ...[
+                                  Row(
+                                    children: [
+                                      // Text('ชื่อ'),
+                                      // select_searchCus(sizeIcon, border),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(1),
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.085,
+                                            padding: EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4),
+                                              child: DropdownButton(
+                                                items: dropdown_customer
+                                                    .map((value) =>
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                            value['name'],
+                                                            style: MyContant()
+                                                                .TextInputStyle(),
+                                                          ),
+                                                          value: value['id'],
+                                                        ))
+                                                    .toList(),
+                                                onChanged: (newvalue) {
+                                                  print(newvalue);
+                                                  setState(() {
+                                                    selectValue_customer =
+                                                        newvalue;
+                                                    if (selectValue_customer
+                                                            .toString() ==
+                                                        "2") {
+                                                      Texthint = 'ชื่อ';
+                                                    } else {
+                                                      Texthint = '';
+                                                    }
+                                                    statusLoad404member = false;
+                                                    searchData.clear();
+                                                  });
+                                                },
+                                                value: selectValue_customer,
+                                                isExpanded: true,
+                                                underline: SizedBox(),
+                                                hint: Align(
+                                                  child: Text(
+                                                    'กรุณาเลือกข้อมูล',
+                                                    style: MyContant()
+                                                        .TextInputSelect(),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    // Text('สกุล'),
-                                    input_searchCus(sizeIcon, border),
-                                    if (selectValue_customer.toString() ==
-                                        "2") ...[
-                                      input_lastnameCus(sizeIcon, border)
+                                      // Text('สกุล'),
+                                      input_searchCus(sizeIcon, border),
+                                      if (selectValue_customer.toString() ==
+                                          "2") ...[
+                                        input_lastnameCus(sizeIcon, border)
+                                      ],
                                     ],
-                                  ],
-                                ),
-                              ],
-                            ]),
+                                  ),
+                                ],
+                              ]),
+                            ),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -527,17 +575,20 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'รายการที่ค้นหา',
-                                style: MyContant().h2Style(),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'รายการที่ค้นหา',
+                                  style: MyContant().h2Style(),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(height: 10),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
                               child: ListView(
                                 children: [
@@ -555,75 +606,79 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           );
                                           Navigator.pop(context);
                                         },
-                                        child: Container(
-                                          margin:
-                                              EdgeInsets.symmetric(vertical: 5),
-                                          padding: EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color:
-                                                Color.fromRGBO(64, 203, 203, 1),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'รหัส : ${list_datavalue[i]['custId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'ชื่อ : ${list_datavalue[i]['custName']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'ที่อยู่ : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${list_datavalue[i]['address']}',
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 2, horizontal: 8),
+                                          child: Container(
+                                            // margin:
+                                            //     EdgeInsets.symmetric(vertical: 5),
+                                            padding: EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5)),
+                                              color: Color.fromRGBO(
+                                                  64, 203, 203, 1),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'รหัส : ${list_datavalue[i]['custId']}',
                                                       style: MyContant()
                                                           .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'โทร : ${list_datavalue[i]['telephone']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'ชื่อ : ${list_datavalue[i]['custName']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'ที่อยู่ : ',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${list_datavalue[i]['address']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'โทร : ${list_datavalue[i]['telephone']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -661,6 +716,9 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                 ],
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 20,
                           )
                         ],
                       ),
@@ -720,7 +778,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           ),
                           onPressed: () {
                             search_idcustomer();
-                            get_select_cus();
                           },
                           child: const Icon(
                             Icons.search,

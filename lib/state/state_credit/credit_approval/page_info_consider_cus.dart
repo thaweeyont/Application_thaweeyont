@@ -315,7 +315,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu1(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.82,
+      height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
@@ -1266,7 +1266,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu2(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.82,
+      height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
@@ -1385,7 +1385,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu3(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.82,
+      height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
@@ -1941,7 +1941,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Container content_list_mu4(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.73,
+      height: MediaQuery.of(context).size.height * 0.72,
       child: ListView(
         children: [
           for (var i = 0; i < list_payDetail.length; i++) ...[

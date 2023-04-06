@@ -1883,13 +1883,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     color: Colors.white,
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.85,
-                      margin: EdgeInsets.all(5),
+                      // margin: const EdgeInsets.all(5),
                       child: Column(
                         children: [
                           Stack(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding:
+                                    const EdgeInsets.only(top: 12, bottom: 6),
                                 child: Container(
                                   child: Column(
                                     children: [
@@ -1899,8 +1900,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                         children: [
                                           Text(
                                             'ตรวจสอบหนี้สิน',
-                                            style:
-                                                MyContant().TextTitleDialog(),
+                                            style: MyContant().h4normalStyle(),
                                           ),
                                         ],
                                       ),
@@ -1916,32 +1916,35 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 4),
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 182, 182, 182),
-                                          shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                      ),
+                                        vertical: 8, horizontal: 4),
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 30,
+                                      color: Color.fromARGB(255, 0, 0, 0),
                                     ),
+                                    // child: Container(
+                                    //   width: 30,
+                                    //   height: 30,
+                                    //   // decoration: BoxDecoration(
+                                    //   //   color:
+                                    //   //       Color.fromARGB(255, 112, 112, 112),
+                                    //   //   shape: BoxShape.circle,
+                                    //   // ),
+
+                                    // ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          new Divider(
-                            color: Color.fromARGB(255, 182, 182, 182),
+                          Divider(
+                            color: Color.fromARGB(255, 185, 185, 185),
                           ),
                           SizedBox(
-                            height: 15,
+                            height: 10,
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.63,
+                            height: MediaQuery.of(context).size.height * 0.7,
                             child: Scrollbar(
                               child: ListView(
                                 children: [
@@ -1963,7 +1966,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 4),
+                                              vertical: 4, horizontal: 8),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(

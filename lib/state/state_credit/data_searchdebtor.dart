@@ -691,7 +691,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container content_list_1(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.82,
+      height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
@@ -1716,7 +1716,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container content_list_2(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.82,
+      height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
@@ -1838,7 +1838,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Container content_list_3(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.82,
+      height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
@@ -2404,7 +2404,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       ),
     );
     return Container(
-      height: MediaQuery.of(context).size.height * 0.74,
+      height: MediaQuery.of(context).size.height * 0.73,
       child: ListView(
         children: [
           if (list_payDetail.isNotEmpty) ...[

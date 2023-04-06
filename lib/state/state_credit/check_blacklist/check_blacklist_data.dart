@@ -325,6 +325,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   clear_value_search() {
     setState(() {
       statusLoad404 = false;
+      list_dataSearch_bl = [];
     });
     searchData.clear();
     nameSearchBl.clear();
@@ -353,7 +354,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
     Future<void> getData_search_bl(searchType, String? searchData,
         String? firstName, String? lastName) async {
-      list_dataSearch_bl = [];
       try {
         var respose = await http.post(
           Uri.parse('${beta_api_test}credit/blacklist'),
@@ -379,9 +379,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             list_dataSearch_bl = data_list['data'];
           });
           print(('f>>$statusLoad404'));
-          // Navigator.pop(context);
           Navigator.pop(context);
-          search_id_blacklist();
+          // search_id_blacklist();
           print('ข้อมูล => $list_dataSearch_bl');
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
@@ -445,131 +444,182 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                 children: [
                   Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(15),
+                      ),
                     ),
                     elevation: 0,
                     color: Colors.white,
                     child: Container(
-                      margin: EdgeInsets.all(10),
+                      // margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: size * 0.03,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 15, right: 15, bottom: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Row(
+                          Stack(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 12, bottom: 6),
+                                child: Column(
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                        clear_value_search();
-                                      },
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color:
-                                              Color.fromRGBO(82, 119, 255, 1),
-                                          shape: BoxShape.circle,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'ค้นหาข้อมูลลูกค้า',
+                                          style: MyContant().h4normalStyle(),
                                         ),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(162, 181, 252, 1),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
                               ),
-                            ),
-                            padding: EdgeInsets.all(8),
-                            width: double.infinity,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.095,
-                                          padding: EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 4),
-                                            child: DropdownButton(
-                                              items: dropdown_search_bl
-                                                  .map(
-                                                    (value) => DropdownMenuItem(
-                                                      child: Text(
-                                                        value['name'],
-                                                        style: MyContant()
-                                                            .TextInputStyle(),
+                              Positioned(
+                                right: 0,
+                                child: InkWell(
+                                  onTap: () {
+                                    print('exit');
+                                    Navigator.pop(context);
+                                    clear_value_search();
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 4),
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 30,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Divider(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                          ),
+                          // SizedBox(
+                          //   height: size * 0.03,
+                          // ),
+                          // Container(
+                          //   padding: EdgeInsets.only(
+                          //       left: 15, right: 15, bottom: 15),
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.end,
+                          //     mainAxisAlignment: MainAxisAlignment.end,
+                          //     children: [
+                          //       Row(
+                          //         children: [
+                          //           InkWell(
+                          //             onTap: () {
+                          //               Navigator.pop(context);
+                          //               clear_value_search();
+                          //             },
+                          //             child: Container(
+                          //               width: 30,
+                          //               height: 30,
+                          //               decoration: BoxDecoration(
+                          //                 color:
+                          //                     Color.fromRGBO(82, 119, 255, 1),
+                          //                 shape: BoxShape.circle,
+                          //               ),
+                          //               child: Icon(
+                          //                 Icons.close,
+                          //                 color: Colors.white,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(162, 181, 252, 1),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              padding: EdgeInsets.all(8),
+                              width: double.infinity,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.095,
+                                            padding: EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4),
+                                              child: DropdownButton(
+                                                items: dropdown_search_bl
+                                                    .map(
+                                                      (value) =>
+                                                          DropdownMenuItem(
+                                                        child: Text(
+                                                          value['name'],
+                                                          style: MyContant()
+                                                              .TextInputStyle(),
+                                                        ),
+                                                        value: value['id'],
                                                       ),
-                                                      value: value['id'],
-                                                    ),
-                                                  )
-                                                  .toList(),
-                                              onChanged: (newvalue) {
-                                                setState(() {
-                                                  selectValue_bl = newvalue;
-                                                  searchData.clear();
-                                                  nameSearchBl.clear();
-                                                  lastnameSearchBl.clear();
-                                                  list_dataSearch_bl = [];
-                                                  statusLoad404 = false;
-                                                });
-                                              },
-                                              value: selectValue_bl,
-                                              isExpanded: true,
-                                              underline: SizedBox(),
+                                                    )
+                                                    .toList(),
+                                                onChanged: (newvalue) {
+                                                  setState(() {
+                                                    selectValue_bl = newvalue;
+                                                    searchData.clear();
+                                                    nameSearchBl.clear();
+                                                    lastnameSearchBl.clear();
+                                                    list_dataSearch_bl = [];
+                                                    statusLoad404 = false;
+                                                  });
+                                                },
+                                                value: selectValue_bl,
+                                                isExpanded: true,
+                                                underline: SizedBox(),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    if (selectValue_bl.toString() == "2") ...[
-                                      input_name_search_bl(sizeIcon, border),
-                                      SizedBox(width: 10),
-                                      input_lastname_search_bl(sizeIcon, border)
-                                    ] else ...[
-                                      input_search_data(sizeIcon, border),
-                                    ]
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      if (selectValue_bl.toString() == "2") ...[
+                                        input_name_search_bl(sizeIcon, border),
+                                        SizedBox(width: 10),
+                                        input_lastname_search_bl(
+                                            sizeIcon, border)
+                                      ] else ...[
+                                        input_search_data(sizeIcon, border),
+                                      ]
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -617,17 +667,20 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'รายการที่ค้นหา',
-                                style: MyContant().h2Style(),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'รายการที่ค้นหา',
+                                  style: MyContant().h2Style(),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(height: 10),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.45,
+                            height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
                               child: ListView(
                                 children: [
@@ -646,88 +699,90 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           });
                                           Navigator.pop(context);
                                         },
-                                        child: Container(
-                                          margin:
-                                              EdgeInsets.symmetric(vertical: 5),
-                                          padding: EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                162, 181, 252, 1),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(5),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 2, horizontal: 8),
+                                          child: Container(
+                                            padding: EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              color: Color.fromRGBO(
+                                                  162, 181, 252, 1),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ),
                                             ),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'รหัส : ${list_dataSearch_bl[i]['blId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'ชื่อ-สกุล : ${list_dataSearch_bl[i]['custName']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'เลขบัตรประชนชน : ${list_dataSearch_bl[i]['smartId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'สถานะ : ${list_dataSearch_bl[i]['blStatus']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'เบอร์โทรศัพท์ : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${list_dataSearch_bl[i]['telephone']}',
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'รหัส : ${list_dataSearch_bl[i]['blId']}',
                                                       style: MyContant()
                                                           .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'ชื่อ-สกุล : ${list_dataSearch_bl[i]['custName']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'เลขบัตรประชนชน : ${list_dataSearch_bl[i]['smartId']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'สถานะ : ${list_dataSearch_bl[i]['blStatus']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'เบอร์โทรศัพท์ : ',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${list_dataSearch_bl[i]['telephone']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -766,6 +821,9 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 20,
+                          )
                         ],
                       ),
                     ),
@@ -798,247 +856,299 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                 children: [
                   Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     elevation: 0,
                     color: Colors.white,
                     child: Container(
-                      margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: size * 0.03,
+                          Stack(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 12, bottom: 6),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'ค้นหาข้อมูล',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                child: InkWell(
+                                  onTap: () {
+                                    print('exit');
+                                    Navigator.pop(context);
+                                    clearValue_search_district();
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 4),
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 30,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 15, right: 15, bottom: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
+                          const Divider(
+                            color: Color.fromARGB(255, 138, 138, 138),
+                          ),
+                          // SizedBox(
+                          //   height: size * 0.03,
+                          // ),
+                          // Container(
+                          //   padding: EdgeInsets.only(
+                          //       left: 15, right: 15, bottom: 15),
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.end,
+                          //     mainAxisAlignment: MainAxisAlignment.end,
+                          //     children: [
+                          //       Row(
+                          //         children: [
+                          //           InkWell(
+                          //             onTap: () {
+                          //               Navigator.pop(context);
+                          //               clearValue_search_district();
+                          //             },
+                          //             child: Container(
+                          //               width: 30,
+                          //               height: 30,
+                          //               decoration: BoxDecoration(
+                          //                   color:
+                          //                       Color.fromRGBO(82, 119, 255, 1),
+                          //                   shape: BoxShape.circle),
+                          //               child: Icon(
+                          //                 Icons.close,
+                          //                 color: Colors.white,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: Color.fromRGBO(162, 181, 252, 1),
+                              ),
+                              padding: EdgeInsets.all(8),
+                              width: double.infinity,
+                              child: Column(children: [
                                 Row(
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                        clearValue_search_district();
-                                      },
-                                      child: Container(
-                                        width: 30,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                            color:
-                                                Color.fromRGBO(82, 119, 255, 1),
-                                            shape: BoxShape.circle),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: Colors.white,
+                                    Text(
+                                      'จังหวัด',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.09,
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 4),
+                                            child: DropdownButton(
+                                              items: dropdown_province
+                                                  .map((value) =>
+                                                      DropdownMenuItem(
+                                                        child: Text(
+                                                          value['name'],
+                                                          style: MyContant()
+                                                              .TextInputStyle(),
+                                                        ),
+                                                        value:
+                                                            "${value['id']}_${value['name']}",
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (newvalue) async {
+                                                list_district = [];
+                                                setState(() {
+                                                  var dfvalue = newvalue;
+                                                  selectValue_province =
+                                                      dfvalue;
+                                                  text_province = dfvalue
+                                                      .toString()
+                                                      .split("_")[1];
+
+                                                  selectValue_amphoe = null;
+                                                });
+
+                                                try {
+                                                  var respose = await http.get(
+                                                    Uri.parse(
+                                                        '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                    headers: <String, String>{
+                                                      'Content-Type':
+                                                          'application/json',
+                                                      'Authorization':
+                                                          tokenId.toString(),
+                                                    },
+                                                  );
+
+                                                  if (respose.statusCode ==
+                                                      200) {
+                                                    Map<String, dynamic>
+                                                        data_amphoe = new Map<
+                                                                String,
+                                                                dynamic>.from(
+                                                            json.decode(
+                                                                respose.body));
+                                                    setState(() {
+                                                      dropdown_amphoe =
+                                                          data_amphoe['data'];
+                                                    });
+                                                    print(
+                                                        'อำเภอ =>${dropdown_amphoe}');
+                                                  } else if (respose
+                                                          .statusCode ==
+                                                      401) {
+                                                    SharedPreferences
+                                                        preferences =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    preferences.clear();
+                                                    Navigator
+                                                        .pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Authen(),
+                                                      ),
+                                                      (Route<dynamic> route) =>
+                                                          false,
+                                                    );
+                                                    showProgressDialog_401(
+                                                        context,
+                                                        'แจ้งเตือน',
+                                                        'กรุณา Login เข้าสู่ระบบใหม่');
+                                                  } else {
+                                                    print(respose.statusCode);
+                                                  }
+                                                } catch (e) {
+                                                  print("ไม่มีข้อมูล $e");
+                                                  showProgressDialog_Notdata(
+                                                      context,
+                                                      'แจ้งเตือน',
+                                                      'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
+                                                }
+                                                // print(selectValue_province);
+                                              },
+                                              value: selectValue_province,
+                                              isExpanded: true,
+                                              underline: SizedBox(),
+                                              hint: Align(
+                                                child: Text(
+                                                  'เลือกจังหวัด',
+                                                  style: MyContant()
+                                                      .TextInputSelect(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Color.fromRGBO(162, 181, 252, 1),
-                            ),
-                            padding: EdgeInsets.all(8),
-                            width: double.infinity,
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'จังหวัด',
-                                    style: MyContant().h4normalStyle(),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.08,
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 4),
-                                          child: DropdownButton(
-                                            items: dropdown_province
-                                                .map(
-                                                    (value) => DropdownMenuItem(
-                                                          child: Text(
-                                                            value['name'],
-                                                            style: MyContant()
-                                                                .TextInputStyle(),
-                                                          ),
-                                                          value:
-                                                              "${value['id']}_${value['name']}",
-                                                        ))
-                                                .toList(),
-                                            onChanged: (newvalue) async {
-                                              list_district = [];
-                                              setState(() {
-                                                var dfvalue = newvalue;
-                                                selectValue_province = dfvalue;
-                                                text_province = dfvalue
-                                                    .toString()
-                                                    .split("_")[1];
-
-                                                selectValue_amphoe = null;
-                                              });
-
-                                              try {
-                                                var respose = await http.get(
-                                                  Uri.parse(
-                                                      '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
-                                                  headers: <String, String>{
-                                                    'Content-Type':
-                                                        'application/json',
-                                                    'Authorization':
-                                                        tokenId.toString(),
-                                                  },
-                                                );
-
-                                                if (respose.statusCode == 200) {
-                                                  Map<String, dynamic>
-                                                      data_amphoe = new Map<
-                                                              String,
-                                                              dynamic>.from(
-                                                          json.decode(
-                                                              respose.body));
-                                                  setState(() {
-                                                    dropdown_amphoe =
-                                                        data_amphoe['data'];
-                                                  });
-                                                  print(
-                                                      'อำเภอ =>${dropdown_amphoe}');
-                                                } else if (respose.statusCode ==
-                                                    401) {
-                                                  SharedPreferences
-                                                      preferences =
-                                                      await SharedPreferences
-                                                          .getInstance();
-                                                  preferences.clear();
-                                                  Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Authen(),
-                                                    ),
-                                                    (Route<dynamic> route) =>
-                                                        false,
-                                                  );
-                                                  showProgressDialog_401(
-                                                      context,
-                                                      'แจ้งเตือน',
-                                                      'กรุณา Login เข้าสู่ระบบใหม่');
-                                                } else {
-                                                  print(respose.statusCode);
-                                                }
-                                              } catch (e) {
-                                                print("ไม่มีข้อมูล $e");
-                                                showProgressDialog_Notdata(
-                                                    context,
-                                                    'แจ้งเตือน',
-                                                    'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
-                                              }
-                                              // print(selectValue_province);
-                                            },
-                                            value: selectValue_province,
-                                            isExpanded: true,
-                                            underline: SizedBox(),
-                                            hint: Align(
-                                              child: Text(
-                                                'เลือกจังหวัด',
-                                                style: MyContant()
-                                                    .TextInputSelect(),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '​อำเภอ',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    // select_amphoeDia(context, setState),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.09,
+                                          padding: EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 4),
+                                            child: DropdownButton(
+                                              items: dropdown_amphoe
+                                                  .map((value) =>
+                                                      DropdownMenuItem(
+                                                        child: Text(
+                                                          value['name'],
+                                                          style: MyContant()
+                                                              .TextInputStyle(),
+                                                        ),
+                                                        value:
+                                                            "${value['id']}_${value['name']}",
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (newvalue) {
+                                                setState(() {
+                                                  var dfvalue = newvalue;
+                                                  selectValue_amphoe = dfvalue;
+                                                  text_amphoe = dfvalue
+                                                      .toString()
+                                                      .split("_")[1];
+                                                });
+                                                list_district = [];
+                                              },
+                                              value: selectValue_amphoe,
+                                              isExpanded: true,
+                                              underline: SizedBox(),
+                                              hint: Align(
+                                                child: Text(
+                                                  'เลือกอำเภอ',
+                                                  style: MyContant()
+                                                      .TextInputSelect(),
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '​อำเภอ',
-                                    style: MyContant().h4normalStyle(),
-                                  ),
-                                  // select_amphoeDia(context, setState),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.width *
-                                                0.08,
-                                        padding: EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 4),
-                                          child: DropdownButton(
-                                            items: dropdown_amphoe
-                                                .map(
-                                                    (value) => DropdownMenuItem(
-                                                          child: Text(
-                                                            value['name'],
-                                                            style: MyContant()
-                                                                .TextInputStyle(),
-                                                          ),
-                                                          value:
-                                                              "${value['id']}_${value['name']}",
-                                                        ))
-                                                .toList(),
-                                            onChanged: (newvalue) {
-                                              setState(() {
-                                                var dfvalue = newvalue;
-                                                selectValue_amphoe = dfvalue;
-                                                text_amphoe = dfvalue
-                                                    .toString()
-                                                    .split("_")[1];
-                                              });
-                                              list_district = [];
-                                            },
-                                            value: selectValue_amphoe,
-                                            isExpanded: true,
-                                            underline: SizedBox(),
-                                            hint: Align(
-                                              child: Text(
-                                                'เลือกอำเภอ',
-                                                style: MyContant()
-                                                    .TextInputSelect(),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ]),
+                                    )
+                                  ],
+                                ),
+                              ]),
+                            ),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -1067,17 +1177,20 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ],
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                'รายการที่ค้นหา',
-                                style: MyContant().h2Style(),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'รายการที่ค้นหา',
+                                  style: MyContant().h2Style(),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(height: 10),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
                               child: ListView(
                                 children: [
@@ -1099,61 +1212,63 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           );
                                           Navigator.pop(context);
                                         },
-                                        child: Container(
-                                          margin:
-                                              EdgeInsets.symmetric(vertical: 5),
-                                          padding: EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color: Color.fromRGBO(
-                                                162, 181, 252, 1),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'จังหวัด : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Text(
-                                                    "$text_province",
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'อำเภอ : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Text(
-                                                    '$text_amphoe',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'ตำบล : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Text(
-                                                    '${list_district[i]['name']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 2, horizontal: 8),
+                                          child: Container(
+                                            padding: EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5)),
+                                              color: Color.fromRGBO(
+                                                  162, 181, 252, 1),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'จังหวัด : ',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                    Text(
+                                                      "$text_province",
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'อำเภอ : ',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                    Text(
+                                                      '$text_amphoe',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      'ตำบล : ',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                    Text(
+                                                      '${list_district[i]['name']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1162,7 +1277,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 ],
                               ),
                             ),
-                          )
+                          ),
+                          SizedBox(height: 20),
                         ],
                       ),
                     ),
