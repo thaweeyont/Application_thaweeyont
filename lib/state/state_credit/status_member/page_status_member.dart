@@ -139,6 +139,17 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         setState(() {
           dropdown_customer = data['data'];
         });
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
         print(respose.statusCode);
       }

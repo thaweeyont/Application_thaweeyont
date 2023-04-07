@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/api.dart';
+import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
@@ -289,7 +290,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                                       : MyContant().h1MenuStyle(),
                                 ),
                                 leading: Icon(
-                                  Icons.shopping_basket_rounded,
+                                  Icons.local_mall_rounded,
                                   color: _selectedIndex == 1
                                       ? Colors.blue
                                       : Colors.white,
@@ -406,7 +407,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   height: 0,
                 ),
                 SizedBox(
-                  height: (56 * 6).toDouble(),
+                  height: (60 * 6).toDouble(),
                   child: Container(
                     child: Stack(
                       alignment: Alignment(0, 0),
@@ -437,7 +438,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Icon(
-                                          Icons.contact_support_outlined,
+                                          Icons.help_outline_sharp,
                                         ),
                                         SizedBox(
                                           width: 5,
@@ -591,7 +592,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   icon: Icon(Icons.view_list_rounded), label: ''),
               BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.contact_support_outlined), label: ''),
+                  icon: Icon(Icons.help_outline_sharp), label: ''),
             ],
           ),
         ),
@@ -678,7 +679,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.people), label: ''),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.shopping_basket_rounded), label: ''),
+                    icon: Icon(Icons.local_mall_rounded), label: ''),
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.manage_accounts_rounded), label: ''),
@@ -697,13 +698,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         child: Container(
           color: Color.fromRGBO(7, 15, 82, 1),
           child: Column(
-            // padding: EdgeInsets.zeros
             children: [
-              // drawerheader(size),
               drawerIcon(size),
-              // SizedBox(height: 45),
               navigator_cradit(context, size),
-              // ShowVersion(),
+              about(context, size),
               btn_exit()
             ],
           ),
@@ -732,7 +730,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: const [
-                  Icon(Icons.exit_to_app_rounded),
+                  Icon(Icons.logout_outlined),
                   SizedBox(width: 5),
                   Text(
                     "ออกจากระบบ",
@@ -812,7 +810,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   InkWell navigator_cradit(BuildContext context, double size) {
     return InkWell(
       onTap: () {
-        Navigator.pop(context);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('2'),
+          ),
+          (Route<dynamic> route) => false,
+        );
       },
       child: Container(
         margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
@@ -830,6 +834,43 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 SizedBox(width: 10),
                 Text(
                   "สินเชื่อ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell about(BuildContext context, double size) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const About(),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.info_outline_rounded),
+                SizedBox(width: 10),
+                Text(
+                  "เกี่ยวกับ",
                   style: TextStyle(
                       color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
                 ),
@@ -867,7 +908,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             ],
           ),
           content: Text(
-            "คุณต้องการออกจากระบบใช่หรือไหม ?",
+            "คุณต้องการออกจากระบบใช่หรือไหม",
             style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
           ),
           actions: <Widget>[

@@ -93,6 +93,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle TextAbout() => const TextStyle(
+        fontSize: 14,
+        color: Color.fromARGB(255, 148, 148, 148),
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle h4normalStyle() => const TextStyle(
         fontSize: 16,
         color: Colors.black,

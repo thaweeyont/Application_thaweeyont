@@ -1541,7 +1541,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   SizedBox spaceText() {
-    return SizedBox(
+    return const SizedBox(
       height: 3,
     );
   }
@@ -1565,17 +1565,17 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         children: [
           Row(
             children: [
-              InkWell(
-                onTap: () {
-                  sign_Detail(sizeIcon, border);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: Color.fromRGBO(251, 173, 55, 1),
+              SizedBox(
+                width: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    sign_Detail(sizeIcon, border);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'ตรวจสอบหนี้สิน',
@@ -1583,25 +1583,21 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => DataListQuarantee(
                           widget.custId.toString(),
                         ),
-                      ));
-                  // quarantee(sizeIcon, border);
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: Color.fromRGBO(251, 173, 55, 1),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'รายละเอียดผู้ค้ำ',
@@ -1609,24 +1605,20 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          Page_Check_Blacklist(valueapprove['smartId']),
-                    ),
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                    color: Color.fromRGBO(251, 173, 55, 1),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Page_Check_Blacklist(valueapprove['smartId']),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'เช็ค Blacklist',
@@ -1634,6 +1626,75 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
               ),
+              // InkWell(
+              //   onTap: () {
+              //     sign_Detail(sizeIcon, border);
+              //   },
+              //   child: Container(
+              //     padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: Color.fromRGBO(251, 173, 55, 1),
+              //     ),
+              //     child: Text(
+              //       'ตรวจสอบหนี้สิน',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => DataListQuarantee(
+              //             widget.custId.toString(),
+              //           ),
+              //         ));
+              //     // quarantee(sizeIcon, border);
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.only(left: 10),
+              //     padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: Color.fromRGBO(251, 173, 55, 1),
+              //     ),
+              //     child: Text(
+              //       'รายละเอียดผู้ค้ำ',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) =>
+              //             Page_Check_Blacklist(valueapprove['smartId']),
+              //       ),
+              //     );
+              //   },
+              //   child: Container(
+              //     margin: EdgeInsets.only(left: 10),
+              //     padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //       color: Color.fromRGBO(251, 173, 55, 1),
+              //     ),
+              //     child: Text(
+              //       'เช็ค Blacklist',
+              //       style: MyContant().h4normalStyle(),
+              //     ),
+              //   ),
+              // ),
             ],
           )
         ],

@@ -28,6 +28,14 @@ class _AuthenState extends State<Authen> {
   TextEditingController password = TextEditingController();
   late String name;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getprofile_user();
+    _initPackageInfo();
+  }
+
   Future<Null> getprofile_user() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -136,14 +144,6 @@ class _AuthenState extends State<Authen> {
     } catch (e) {
       print("ไม่มีข้อมูล $e");
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getprofile_user();
-    _initPackageInfo();
   }
 
   Future<PackageInfo> _getPackageInfo() {

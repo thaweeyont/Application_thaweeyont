@@ -80,6 +80,17 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         setState(() {
           dropdown_customer = data['data'];
         });
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
         print(respose.statusCode);
       }

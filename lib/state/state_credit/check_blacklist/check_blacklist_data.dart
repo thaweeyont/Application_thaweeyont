@@ -168,6 +168,17 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           selectValue_bl = dropdown_search_bl[0]['id'];
         });
         print('ข้อมูล => $dropdown_search_bl');
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
         print(respose.statusCode);
       }

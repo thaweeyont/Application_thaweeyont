@@ -90,6 +90,23 @@ class _Query_debtorState extends State<Query_debtor> {
     getdata();
   }
 
+  Future<Null> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    get_select_province();
+    get_select_addressTypelist();
+    get_select_branch();
+    get_select_debtorType();
+    get_select_signStatus();
+    get_select_cus();
+  }
+
   Future<void> get_select_province() async {
     print(tokenId);
     try {
@@ -217,23 +234,6 @@ class _Query_debtorState extends State<Query_debtor> {
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
-  }
-
-  Future<Null> getdata() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-    });
-    get_select_province();
-    get_select_addressTypelist();
-    get_select_branch();
-    get_select_debtorType();
-    get_select_signStatus();
-    get_select_cus();
   }
 
   Future<void> get_itemTypelist() async {
