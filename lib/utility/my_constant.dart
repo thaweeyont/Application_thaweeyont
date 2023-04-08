@@ -132,6 +132,12 @@ class MyContant {
         fontFamily: 'Prompt',
         height: 1.7,
       );
+  TextStyle TextBottomSheet() => const TextStyle(
+        fontSize: 16,
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle TextInputDate() => const TextStyle(
         //ตัวหนังสือใน input date
         fontSize: 14,

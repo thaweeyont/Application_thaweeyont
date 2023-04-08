@@ -2404,7 +2404,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       ),
     );
     return Container(
-      height: MediaQuery.of(context).size.height * 0.73,
+      height: MediaQuery.of(context).size.height * 0.715,
       child: ListView(
         children: [
           if (list_payDetail.isNotEmpty) ...[
@@ -2530,6 +2530,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 15,
+                        )
                       ],
                     ),
                   ),

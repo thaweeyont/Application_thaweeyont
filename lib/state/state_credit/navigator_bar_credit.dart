@@ -234,282 +234,494 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   showMenu() {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context) {
-          return Container(
-            decoration: BoxDecoration(
-              // borderRadius: BorderRadius.only(
-              //   topLeft: Radius.circular(16.0),
-              //   topRight: Radius.circular(16.0),
-              // ),
-              color: Color.fromARGB(255, 22, 30, 94),
-            ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return SizedBox(
+            height: (54 * 6).toDouble(),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Container(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: (56 * 6).toDouble(),
-                  child: Container(
-                    child: Stack(
-                      alignment: Alignment(0, 0),
-                      children: <Widget>[
-                        Positioned(
-                          child: ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(
-                                  "สอบถามรายละเอียดลูกหนี้",
-                                  style: _selectedIndex == 0
-                                      ? MyContant().h1MenuStyle_click()
-                                      : MyContant().h1MenuStyle(),
-                                ),
-                                leading: Icon(
-                                  Icons.people,
-                                  color: _selectedIndex == 0
-                                      ? Colors.blue
-                                      : Colors.white,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 0;
-                                    title_head = "สอบถามรายละเอียดลูกหนี้";
-                                    status = false;
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              ListTile(
-                                title: Text(
-                                  "ตรวจสอบข้อมูลการซื้อสินค้า",
-                                  style: _selectedIndex == 1
-                                      ? MyContant().h1MenuStyle_click()
-                                      : MyContant().h1MenuStyle(),
-                                ),
-                                leading: Icon(
-                                  Icons.local_mall_rounded,
-                                  color: _selectedIndex == 1
-                                      ? Colors.blue
-                                      : Colors.white,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 1;
-                                    title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
-                                    status = false;
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              ListTile(
-                                title: Text(
-                                  "เช็คผลการพิจารณาสินเชื่อ",
-                                  style: _selectedIndex == 3
-                                      ? MyContant().h1MenuStyle_click()
-                                      : MyContant().h1MenuStyle(),
-                                ),
-                                leading: Icon(
-                                  Icons.manage_accounts_rounded,
-                                  color: _selectedIndex == 3
-                                      ? Colors.blue
-                                      : Colors.white,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 3;
-                                    title_head = "เช็คผลการพิจารณาสินเชื่อ";
-                                    status = false;
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              ListTile(
-                                title: Text(
-                                  "สถานะสมาชิกทวียนต์",
-                                  style: _selectedIndex == 4
-                                      ? MyContant().h1MenuStyle_click()
-                                      : MyContant().h1MenuStyle(),
-                                ),
-                                leading: Icon(
-                                  Icons.switch_account_outlined,
-                                  color: _selectedIndex == 4
-                                      ? Colors.blue
-                                      : Colors.white,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 4;
-                                    title_head = "สถานะสมาชิกทวียนต์";
-                                    status = false;
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              ListTile(
-                                title: Text(
-                                  "สอบถามรายละเอียด BlackList",
-                                  style: _selectedIndex == 5
-                                      ? MyContant().h1MenuStyle_click()
-                                      : MyContant().h1MenuStyle(),
-                                ),
-                                leading: Icon(
-                                  Icons.person_off_rounded,
-                                  color: _selectedIndex == 5
-                                      ? Colors.blue
-                                      : Colors.white,
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex = 5;
-                                    title_head = "สอบถามรายละเอียด BlackList";
-                                    status = false;
-                                  });
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                const SizedBox(height: 15),
+                ListTile(
+                  title: Text(
+                    "สอบถามรายละเอียดลูกหนี้",
+                    style: _selectedIndex == 0
+                        ? MyContant().h1MenuStyle_click()
+                        : MyContant().h2Style(),
                   ),
+                  leading: Icon(
+                    Icons.people,
+                    color: _selectedIndex == 0 ? Colors.blue : Colors.grey[700],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 0;
+                      title_head = "สอบถามรายละเอียดลูกหนี้";
+                      status = false;
+                    });
+                    Navigator.pop(context);
+                  },
                 ),
-                // Container(
-                //   height: 56,
-                //   color: Color.fromARGB(255, 255, 255, 255),
-                // )
+                ListTile(
+                  title: Text(
+                    "ตรวจสอบข้อมูลการซื้อสินค้า",
+                    style: _selectedIndex == 1
+                        ? MyContant().h1MenuStyle_click()
+                        : MyContant().h2Style(),
+                  ),
+                  leading: Icon(
+                    Icons.local_mall_rounded,
+                    color: _selectedIndex == 1 ? Colors.blue : Colors.grey[700],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 1;
+                      title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
+                      status = false;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    "เช็คผลการพิจารณาสินเชื่อ",
+                    style: _selectedIndex == 3
+                        ? MyContant().h1MenuStyle_click()
+                        : MyContant().h2Style(),
+                  ),
+                  leading: Icon(
+                    Icons.manage_accounts_rounded,
+                    color: _selectedIndex == 3 ? Colors.blue : Colors.grey[700],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 3;
+                      title_head = "เช็คผลการพิจารณาสินเชื่อ";
+                      status = false;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    "สถานะสมาชิกทวียนต์",
+                    style: _selectedIndex == 4
+                        ? MyContant().h1MenuStyle_click()
+                        : MyContant().h2Style(),
+                  ),
+                  leading: Icon(
+                    Icons.switch_account_outlined,
+                    color: _selectedIndex == 4 ? Colors.blue : Colors.grey[700],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 4;
+                      title_head = "สถานะสมาชิกทวียนต์";
+                      status = false;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    "สอบถามรายละเอียด BlackList",
+                    style: _selectedIndex == 5
+                        ? MyContant().h1MenuStyle_click()
+                        : MyContant().h2Style(),
+                  ),
+                  leading: Icon(
+                    Icons.person_off_rounded,
+                    color: _selectedIndex == 5 ? Colors.blue : Colors.grey[700],
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 5;
+                      title_head = "สอบถามรายละเอียด BlackList";
+                      status = false;
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
           );
         });
+    // showModalBottomSheet(
+    //     context: context,
+    //     shape: const RoundedRectangleBorder(
+    //       // <-- SEE HERE
+    //       borderRadius: BorderRadius.only(
+    //         topLeft: Radius.circular(16.0),
+    //         topRight: Radius.circular(16.0),
+    //       ),
+    //     ),
+    //     builder: (BuildContext context) {
+    //       return Container(
+    //         color: Color.fromARGB(255, 22, 30, 94),
+    //         // decoration: BoxDecoration(
+    //         //   borderRadius: BorderRadius.only(
+    //         //     topLeft: Radius.circular(16.0),
+    //         //     topRight: Radius.circular(16.0),
+    //         //   ),
+    //         //   color: Color.fromARGB(255, 22, 30, 94),
+    //         // ),
+    //         child: Column(
+    //           mainAxisSize: MainAxisSize.min,
+    //           crossAxisAlignment: CrossAxisAlignment.end,
+    //           children: <Widget>[
+    //             Container(
+    //               height: 20,
+    //             ),
+    //             SizedBox(
+    //               height: (56 * 6).toDouble(),
+    //               child: Container(
+    //                 child: Stack(
+    //                   alignment: Alignment(0, 0),
+    //                   children: <Widget>[
+    //                     Positioned(
+    //                       child: ListView(
+    //                         physics: NeverScrollableScrollPhysics(),
+    //                         children: <Widget>[
+    //                           ListTile(
+    //                             title: Text(
+    //                               "สอบถามรายละเอียดลูกหนี้",
+    //                               style: _selectedIndex == 0
+    //                                   ? MyContant().h1MenuStyle_click()
+    //                                   : MyContant().h1MenuStyle(),
+    //                             ),
+    //                             leading: Icon(
+    //                               Icons.people,
+    //                               color: _selectedIndex == 0
+    //                                   ? Colors.blue
+    //                                   : Colors.white,
+    //                             ),
+    //                             onTap: () {
+    //                               setState(() {
+    //                                 _selectedIndex = 0;
+    //                                 title_head = "สอบถามรายละเอียดลูกหนี้";
+    //                                 status = false;
+    //                               });
+    //                               Navigator.pop(context);
+    //                             },
+    //                           ),
+    //                           ListTile(
+    //                             title: Text(
+    //                               "ตรวจสอบข้อมูลการซื้อสินค้า",
+    //                               style: _selectedIndex == 1
+    //                                   ? MyContant().h1MenuStyle_click()
+    //                                   : MyContant().h1MenuStyle(),
+    //                             ),
+    //                             leading: Icon(
+    //                               Icons.local_mall_rounded,
+    //                               color: _selectedIndex == 1
+    //                                   ? Colors.blue
+    //                                   : Colors.white,
+    //                             ),
+    //                             onTap: () {
+    //                               setState(() {
+    //                                 _selectedIndex = 1;
+    //                                 title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
+    //                                 status = false;
+    //                               });
+    //                               Navigator.pop(context);
+    //                             },
+    //                           ),
+    //                           ListTile(
+    //                             title: Text(
+    //                               "เช็คผลการพิจารณาสินเชื่อ",
+    //                               style: _selectedIndex == 3
+    //                                   ? MyContant().h1MenuStyle_click()
+    //                                   : MyContant().h1MenuStyle(),
+    //                             ),
+    //                             leading: Icon(
+    //                               Icons.manage_accounts_rounded,
+    //                               color: _selectedIndex == 3
+    //                                   ? Colors.blue
+    //                                   : Colors.white,
+    //                             ),
+    //                             onTap: () {
+    //                               setState(() {
+    //                                 _selectedIndex = 3;
+    //                                 title_head = "เช็คผลการพิจารณาสินเชื่อ";
+    //                                 status = false;
+    //                               });
+    //                               Navigator.pop(context);
+    //                             },
+    //                           ),
+    //                           ListTile(
+    //                             title: Text(
+    //                               "สถานะสมาชิกทวียนต์",
+    //                               style: _selectedIndex == 4
+    //                                   ? MyContant().h1MenuStyle_click()
+    //                                   : MyContant().h1MenuStyle(),
+    //                             ),
+    //                             leading: Icon(
+    //                               Icons.switch_account_outlined,
+    //                               color: _selectedIndex == 4
+    //                                   ? Colors.blue
+    //                                   : Colors.white,
+    //                             ),
+    //                             onTap: () {
+    //                               setState(() {
+    //                                 _selectedIndex = 4;
+    //                                 title_head = "สถานะสมาชิกทวียนต์";
+    //                                 status = false;
+    //                               });
+    //                               Navigator.pop(context);
+    //                             },
+    //                           ),
+    //                           ListTile(
+    //                             title: Text(
+    //                               "สอบถามรายละเอียด BlackList",
+    //                               style: _selectedIndex == 5
+    //                                   ? MyContant().h1MenuStyle_click()
+    //                                   : MyContant().h1MenuStyle(),
+    //                             ),
+    //                             leading: Icon(
+    //                               Icons.person_off_rounded,
+    //                               color: _selectedIndex == 5
+    //                                   ? Colors.blue
+    //                                   : Colors.white,
+    //                             ),
+    //                             onTap: () {
+    //                               setState(() {
+    //                                 _selectedIndex = 5;
+    //                                 title_head = "สอบถามรายละเอียด BlackList";
+    //                                 status = false;
+    //                               });
+    //                               Navigator.pop(context);
+    //                             },
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     )
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //             // Container(
+    //             //   height: 56,
+    //             //   color: Color.fromARGB(255, 255, 255, 255),
+    //             // )
+    //           ],
+    //         ),
+    //       );
+    //     });
   }
 
   showContactsupport() {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context) {
-          return Container(
-            decoration: BoxDecoration(
-              // borderRadius: BorderRadius.only(
-              //   topLeft: Radius.circular(16.0),
-              //   topRight: Radius.circular(16.0),
-              // ),
-              color: Color.fromARGB(255, 255, 255, 255),
-            ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return SizedBox(
+            height: (60 * 6).toDouble(),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  height: 0,
-                ),
-                SizedBox(
-                  height: (60 * 6).toDouble(),
-                  child: Container(
-                    child: Stack(
-                      alignment: Alignment(0, 0),
-                      children: <Widget>[
-                        Positioned(
-                          child: ListView(
-                            physics: NeverScrollableScrollPhysics(),
-                            children: <Widget>[
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: <Color>[
-                                      Color.fromRGBO(238, 208, 110, 1),
-                                      Color.fromRGBO(250, 227, 152, 0.9),
-                                      Color.fromRGBO(212, 163, 51, 0.8),
-                                      Color.fromRGBO(250, 227, 152, 0.9),
-                                      Color.fromRGBO(164, 128, 44, 1),
-                                    ],
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.help_outline_sharp,
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          'ช่วยเหลือ',
-                                          style: MyContant().TextTitleDialog(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับแอปพลิเคชั่นนี้ หรือสอบถามเกี่ยวกับแอปพลิเคชั่น มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
-                                              overflow: TextOverflow.clip,
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            'images/thankyou.png',
-                                            width: 130,
-                                            height: 130,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color.fromRGBO(238, 208, 110, 1),
+                        Color.fromRGBO(250, 227, 152, 0.9),
+                        Color.fromRGBO(212, 163, 51, 0.8),
+                        Color.fromRGBO(250, 227, 152, 0.9),
+                        Color.fromRGBO(164, 128, 44, 1),
                       ],
                     ),
                   ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.help_outline_sharp,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'ช่วยเหลือ',
+                            style: MyContant().TextTitleDialog(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                // Container(
-                //   height: 56,
-                //   color: Color.fromARGB(255, 202, 107, 107),
-                // )
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับแอปพลิเคชั่นนี้ หรือสอบถามเกี่ยวกับแอปพลิเคชั่น มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
+                              overflow: TextOverflow.clip,
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'images/thankyou.png',
+                            width: 130,
+                            height: 130,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           );
         });
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return Container(
+    //         color: Color.fromARGB(255, 255, 255, 255),
+    //         child: Column(
+    //           mainAxisSize: MainAxisSize.min,
+    //           crossAxisAlignment: CrossAxisAlignment.end,
+    //           children: <Widget>[
+    //             Container(
+    //               height: 0,
+    //             ),
+    //             SizedBox(
+    //               height: (60 * 6).toDouble(),
+    //               child: Container(
+    //                 child: Stack(
+    //                   alignment: Alignment(0, 0),
+    //                   children: <Widget>[
+    //                     Positioned(
+    //                       child: ListView(
+    //                         physics: NeverScrollableScrollPhysics(),
+    //                         children: <Widget>[
+    //                           Container(
+    //                             height:
+    //                                 MediaQuery.of(context).size.height * 0.05,
+    //                             decoration: BoxDecoration(
+    //                               gradient: LinearGradient(
+    //                                 colors: <Color>[
+    //                                   Color.fromRGBO(238, 208, 110, 1),
+    //                                   Color.fromRGBO(250, 227, 152, 0.9),
+    //                                   Color.fromRGBO(212, 163, 51, 0.8),
+    //                                   Color.fromRGBO(250, 227, 152, 0.9),
+    //                                   Color.fromRGBO(164, 128, 44, 1),
+    //                                 ],
+    //                               ),
+    //                             ),
+    //                             child: Column(
+    //                               mainAxisAlignment: MainAxisAlignment.center,
+    //                               children: [
+    //                                 Row(
+    //                                   mainAxisAlignment:
+    //                                       MainAxisAlignment.center,
+    //                                   children: [
+    //                                     Icon(
+    //                                       Icons.help_outline_sharp,
+    //                                     ),
+    //                                     SizedBox(
+    //                                       width: 5,
+    //                                     ),
+    //                                     Text(
+    //                                       'ช่วยเหลือ',
+    //                                       style: MyContant().TextTitleDialog(),
+    //                                     ),
+    //                                   ],
+    //                                 ),
+    //                               ],
+    //                             ),
+    //                           ),
+    //                           Container(
+    //                             child: Column(
+    //                               children: [
+    //                                 Padding(
+    //                                   padding: const EdgeInsets.all(16),
+    //                                   child: Row(
+    //                                     mainAxisAlignment:
+    //                                         MainAxisAlignment.center,
+    //                                     children: [
+    //                                       Expanded(
+    //                                         child: Text(
+    //                                           '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับแอปพลิเคชั่นนี้ หรือสอบถามเกี่ยวกับแอปพลิเคชั่น มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
+    //                                           overflow: TextOverflow.clip,
+    //                                           style:
+    //                                               MyContant().h4normalStyle(),
+    //                                         ),
+    //                                       ),
+    //                                     ],
+    //                                   ),
+    //                                 ),
+    //                               ],
+    //                             ),
+    //                           ),
+    //                           Container(
+    //                             child: Column(
+    //                               children: [
+    //                                 Padding(
+    //                                   padding: const EdgeInsets.all(16),
+    //                                   child: Row(
+    //                                     mainAxisAlignment:
+    //                                         MainAxisAlignment.center,
+    //                                     children: [
+    //                                       Image.asset(
+    //                                         'images/thankyou.png',
+    //                                         width: 130,
+    //                                         height: 130,
+    //                                       ),
+    //                                     ],
+    //                                   ),
+    //                                 ),
+    //                               ],
+    //                             ),
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     )
+    //                   ],
+    //                 ),
+    //               ),
+    //             ),
+    //             // Container(
+    //             //   height: 56,
+    //             //   color: Color.fromARGB(255, 202, 107, 107),
+    //             // )
+    //           ],
+    //         ),
+    //       );
+    //     });
   }
 
   AppBar Appbar() {
