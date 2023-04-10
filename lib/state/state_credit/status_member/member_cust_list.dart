@@ -1,0 +1,292 @@
+import 'dart:convert';
+
+import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:flutter/material.dart';
+import 'package:loading_gifs/loading_gifs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../api.dart';
+import 'package:http/http.dart' as http;
+
+import '../../authen.dart';
+import 'detail_member_cust.dart';
+
+class MemberCustList extends StatefulWidget {
+  // const MemberCustList({Key? key}) : super(key: key);
+  final String? custId, smartId, custName, lastnamecust;
+  MemberCustList(this.custId, this.smartId, this.custName, this.lastnamecust);
+
+  @override
+  State<MemberCustList> createState() => _MemberCustListState();
+}
+
+class _MemberCustListState extends State<MemberCustList> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  List list_dataMember = [];
+  bool statusLoading = false, statusLoad404 = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    getData_CusMember();
+  }
+
+  Future<void> getData_CusMember() async {
+    print(tokenId);
+    print('1>${widget.custId}');
+    print('2>${widget.smartId}');
+    print('3>${widget.custName}');
+    print('4>${widget.lastnamecust}');
+    try {
+      var respose = await http.post(
+        Uri.parse('${beta_api_test}customer/memberList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, String>{
+          'custId': widget.custId.toString(),
+          'smartId': widget.smartId.toString(),
+          'firstName': widget.custName.toString(),
+          'lastName': widget.lastnamecust.toString(),
+          'page': '1',
+          'limit': '20',
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataMemberList =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          list_dataMember = dataMemberList['data'];
+        });
+        statusLoading = true;
+        print('data>>${list_dataMember}');
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        print(respose.statusCode);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoad404 = true;
+          statusLoading = true;
+        });
+        print(respose.statusCode);
+        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'รายการค้นหา',
+          style: MyContant().TitleStyle(),
+        ),
+      ),
+      body: statusLoading == false
+          ? Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // CircularProgressIndicator(),
+                    Image.asset(cupertinoActivityIndicator, scale: 4),
+                    Text(
+                      'กำลังโหลด',
+                      style: MyContant().textLoading(),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : statusLoad404 == true
+              ? Center(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    child: Column(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/Nodata.png',
+                                  width: 55,
+                                  height: 55,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ไม่พบรายการข้อมูล',
+                                  style: MyContant().h5NotData(),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Scrollbar(
+                    child: ListView(
+                      children: [
+                        for (var i = 0; i < list_dataMember.length; i++) ...[
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Detail_member_cust(
+                                    list_dataMember[i]['custId'],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  color: Color.fromRGBO(64, 203, 203, 1),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'สาขา : ${list_dataMember[i]['branchName']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'รหัสลูกค้า : ${list_dataMember[i]['custId']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'ชื่อ-นามสกุล : ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_dataMember[i]['custName']}',
+                                            style: MyContant().h4normalStyle(),
+                                            overflow: TextOverflow.clip,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'เลขที่บัตร : ${list_dataMember[i]['smartId']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'เบอร์โทรศัพท์ : ${list_dataMember[i]['telephone']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ที่มา : ${list_dataMember[i]['sourceName']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+    );
+  }
+}

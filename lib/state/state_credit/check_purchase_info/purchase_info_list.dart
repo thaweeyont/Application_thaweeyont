@@ -198,123 +198,120 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.85,
-                    child: Scrollbar(
-                      child: ListView(
-                        children: [
-                          for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromRGBO(229, 188, 244, 1),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'ลำดับ : ${i + 1}',
+                  child: Scrollbar(
+                    child: ListView(
+                      children: [
+                        for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                                color: Color.fromRGBO(229, 188, 244, 1),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ลำดับ : ${i + 1}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Text(
+                                        'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'ชื่อลูกค้า : ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_dataBuyTyle[i]['custName']}',
+                                          overflow: TextOverflow.clip,
                                           style: MyContant().h4normalStyle(),
                                         ),
-                                        Text(
-                                          'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'รายการสินค้า : ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_dataBuyTyle[i]['itemName']}',
+                                          overflow: TextOverflow.clip,
                                           style: MyContant().h4normalStyle(),
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'ชื่อลูกค้า : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${list_dataBuyTyle[i]['custName']}',
-                                            overflow: TextOverflow.clip,
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'รายการสินค้า : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${list_dataBuyTyle[i]['itemName']}',
-                                            overflow: TextOverflow.clip,
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Text(
+                                        'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ],
-                      ),
+                      ],
                     ),
                   ),
                 ),

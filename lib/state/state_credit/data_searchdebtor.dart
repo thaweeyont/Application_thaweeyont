@@ -146,7 +146,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -224,7 +224,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -258,11 +258,11 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       child: Container(
                                         width: 30,
                                         height: 30,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                             color:
                                                 Color.fromRGBO(202, 71, 150, 1),
                                             shape: BoxShape.circle),
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.close,
                                           color: Colors.white,
                                         ),
@@ -274,14 +274,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ),
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
                               color: Color.fromRGBO(255, 203, 246, 1),
                             ),
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            padding: EdgeInsets.all(8.0),
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
                                 Row(
@@ -300,7 +300,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                   .size
                                                   .width *
                                               0.07,
-                                          padding: EdgeInsets.all(4),
+                                          padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -345,7 +345,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                               },
                                               value: select_payDetail,
                                               isExpanded: true,
-                                              underline: SizedBox(),
+                                              underline: const SizedBox(),
                                               hint: Align(
                                                 child: Text(
                                                   'ไม่มี',
@@ -364,13 +364,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ),
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
                               color: Color.fromRGBO(255, 203, 246, 1),
                             ),
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
                                 Row(
@@ -387,7 +387,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
@@ -398,7 +398,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
@@ -412,7 +412,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],
@@ -442,12 +442,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -462,55 +463,53 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
               ),
             )
           : GestureDetector(
-              child: Container(
-                child: Column(
-                  children: [
-                    slidemenu(context),
-                    if (active_l1 == true) ...[
-                      content_list_1(context),
-                    ],
-                    if (active_l2 == true) ...[
-                      content_list_2(context),
-                    ],
-                    if (active_l3 == true) ...[
-                      content_list_3(context),
-                    ],
-                    if (active_l4 == true) ...[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'รายการชำระค่างวด',
-                                  style: MyContant().h3Style(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
-                                  style: MyContant().h3Style(),
-                                ),
-                                Text(
-                                  'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
-                                  style: MyContant().h3Style(),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      content_list_4(context),
-                    ],
+              child: Column(
+                children: [
+                  slidemenu(context),
+                  if (active_l1 == true) ...[
+                    content_list_1(context),
                   ],
-                ),
+                  if (active_l2 == true) ...[
+                    content_list_2(context),
+                  ],
+                  if (active_l3 == true) ...[
+                    content_list_3(context),
+                  ],
+                  if (active_l4 == true) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'รายการชำระค่างวด',
+                                style: MyContant().h3Style(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
+                                style: MyContant().h3Style(),
+                              ),
+                              Text(
+                                'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
+                                style: MyContant().h3Style(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    content_list_4(context),
+                  ],
+                ],
               ),
             ),
     );
@@ -535,8 +534,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l1 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 203, 246, 1),
+                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
                     'รายการสินค้า',
@@ -553,8 +552,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l2 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 203, 246, 1),
+                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
                     'หมายเหตุพิจารณาสินเชื่อ',
@@ -571,8 +570,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l3 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 203, 246, 1),
+                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
                     'บันทึกหมายเหตุ',
@@ -589,8 +588,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l4 == true
-                        ? Color.fromRGBO(202, 71, 150, 1)
-                        : Color.fromRGBO(255, 203, 246, 1),
+                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
                     'ชำระค่างวด',
@@ -598,7 +597,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 6,
               ),
               // InkWell(
@@ -692,1024 +691,1026 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   Container content_list_1(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.79,
-      child: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(255, 203, 246, 1),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+      child: Scrollbar(
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(255, 203, 246, 1),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
-              ),
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('เลขที่สัญญา : ${Debtordetail['signId']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('เลขบัตรประชาชน : ${Debtordetail['debtorSmartId']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'ชื่อ-สกุล : ',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      Expanded(
-                        child: Text(
-                          '${Debtordetail['debtorName']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('ที่อยู่ : ', style: MyContant().h4normalStyle()),
-                      Expanded(
-                        child: Text(
-                          '${Debtordetail['debtorAddress']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('สถานที่ทำงาน : ',
-                          style: MyContant().h4normalStyle()),
-                      Expanded(
-                        child: Text(
-                          '${Debtordetail['debtorWorkAddress']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'อาชีพ : ',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      Expanded(
-                        child: Text(
-                          '${Debtordetail['debtorCareer']}',
-                          overflow: TextOverflow.clip,
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                          'สถานที่ใกล้เคียง : ${Debtordetail['debtorNearPlace']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-            child: DefaultTabController(
-              length: 3,
-              initialIndex: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 203, 246, 1),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                      ),
-                    ),
-                    child: TabBar(
-                      labelColor: Color.fromRGBO(202, 71, 150, 1),
-                      labelStyle: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
-                      unselectedLabelColor: Colors.black,
-                      tabs: [
-                        Tab(text: 'ผู้ค้ำที่ 1'),
-                        Tab(text: 'ผู้ค้ำที่ 2'),
-                        Tab(text: 'ผู้ค้ำที่ 3'),
-                      ],
-                    ),
-                  ),
-                  line(),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 203, 246, 1),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
-                    ),
-                    child: TabBarView(children: <Widget>[
-                      //ผู้ค้ำที1
-                      SingleChildScrollView(
-                        child: list_quarantee1 == null
-                            ? Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.23,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(5),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'ไม่มีผู้ค้ำ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Container(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.23,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.7),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(5),
-                                        ),
-                                      ),
-                                      child: Scrollbar(
-                                        child: ListView(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                            'เลขบัตรประชาชน : ${list_quarantee1!['smartId']}',
-                                                            style: MyContant()
-                                                                .h4normalStyle()),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'ชื่อ-สกุล : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee1!['name']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'ที่อยู่ : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee1!['address']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'สถานที่ทำงาน : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee1!['workADdress']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'อาชีพ : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee1!['career']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                            'สถานที่ใกล้เคียง : ${list_quarantee1!['nearPlace']}',
-                                                            style: MyContant()
-                                                                .h4normalStyle()),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                      ),
-                      //ผู้ค้ำที่2
-                      SingleChildScrollView(
-                        child: list_quarantee2 == null
-                            ? Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.23,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(5),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'ไม่มีผู้ค้ำ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Container(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.23,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.7),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(5),
-                                        ),
-                                      ),
-                                      child: Scrollbar(
-                                        child: ListView(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                            'เลขบัตรประชาชน : ${list_quarantee2!['smartId']}',
-                                                            style: MyContant()
-                                                                .h4normalStyle()),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'ชื่อ-สกุล : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee2!['name']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'ที่อยู่ : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee2!['address']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'สถานที่ทำงาน : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                              '${list_quarantee2!['workADdress']}'),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'อาชีพ : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee2!['career']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                            'สถานที่ใกล้เคียง : ${list_quarantee2!['nearPlace']}',
-                                                            style: MyContant()
-                                                                .h4normalStyle()),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                      ),
-                      //ผู้ค้ำที่3
-                      SingleChildScrollView(
-                        child: list_quarantee3 == null
-                            ? Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.23,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(5),
-                                          ),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'ไม่มีผู้ค้ำ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Container(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.23,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.7),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(5),
-                                        ),
-                                      ),
-                                      child: Scrollbar(
-                                        child: ListView(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                            'เลขบัตรประชาชน : ${list_quarantee3!['smartId']}',
-                                                            style: MyContant()
-                                                                .h4normalStyle()),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'ชื่อ-สกุล : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee3!['name']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'ที่อยู่ : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee3!['address']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'สถานที่ทำงาน : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee3!['workADdress']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'อาชีพ : ',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_quarantee3!['career']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'สถานที่ใกล้เคียง : ${list_quarantee3!['nearPlace']}',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                      ),
-                    ]),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 203, 246, 1),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              padding: EdgeInsets.all(8.0),
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                      // height: MediaQuery.of(context).size.height * 0.06,
-                      ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Text(
-                      //   'รายละเอียดสัญญา : ',
-                      //   style: MyContant().h4normalStyle(),
-                      // ),
-                      Expanded(
-                        child: Text(
-                            'รายละเอียดสัญญา : ${Debtordetail['signDetail']}',
-                            // overflow: TextOverflow.clip,
-                            style: MyContant().h4normalStyle()),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('วันที่ทำสัญญา : ${Debtordetail['signDate']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'ราคาเช่าซื้อ : ${Debtordetail['leaseTotal']}',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'ดอกเบี้ย ${Debtordetail['interest']} %',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('ชำระแล้ว : ${Debtordetail['periodNo']} งวด',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('รหัสเขต : ${Debtordetail['followAreaName']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'สถานะสัญญา : ${Debtordetail['signStatus']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'พนักงานขาย : ${Debtordetail['saleName']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                            'ผู้ตรวจสอบเครดิต : ${Debtordetail['creditName']}',
-                            style: MyContant().h4normalStyle(),
-                            overflow: TextOverflow.clip),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                          'ผู้อนุมัติสินเชื่อ : ${Debtordetail['approveName']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(255, 203, 246, 1),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              padding: EdgeInsets.all(8.0),
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       'รายการสินค้า (หมายเหตุ สินค้าปกติ สินค้าเปลี่ยน สินค้ารับคืน)',
-                  //       style: MyContant().TextSmallStyle(),
-                  //     ),
-                  //   ],
-                  // ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('รายการ : ', style: MyContant().h4normalStyle()),
-                      Expanded(
-                        child: Text(
-                          '${list_itemDetail!['name']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('ยี่ห้อ : ${list_itemDetail!['brandName']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('ขนาด : ${list_itemDetail!['sizeName']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'รุ่น/แบบ : ',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      Expanded(
-                        child: Text(
-                          '${list_itemDetail!['modelName']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('หมายเลขเครื่อง : ',
-                          style: MyContant().h4normalStyle()),
-                      Expanded(
-                        child: Text(
-                          '${list_itemDetail!['serialId']}',
-                          style: MyContant().h4normalStyle(),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text('จำนวน : ${list_itemDetail!['qty']}',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Column(
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'หมายเหตุการขาย : ${list_itemDetail!['saleNote']}',
-                                style: MyContant().h4normalStyle(),
-                                overflow: TextOverflow.clip,
-                              ),
-                            ),
-                          ],
-                        )
+                        Text('เลขที่สัญญา : ${Debtordetail['signId']}',
+                            style: MyContant().h4normalStyle()),
                       ],
                     ),
-                  )
-                ],
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                            'เลขบัตรประชาชน : ${Debtordetail['debtorSmartId']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'ชื่อ-สกุล : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        Expanded(
+                          child: Text(
+                            '${Debtordetail['debtorName']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('ที่อยู่ : ', style: MyContant().h4normalStyle()),
+                        Expanded(
+                          child: Text(
+                            '${Debtordetail['debtorAddress']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('สถานที่ทำงาน : ',
+                            style: MyContant().h4normalStyle()),
+                        Expanded(
+                          child: Text(
+                            '${Debtordetail['debtorWorkAddress']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'อาชีพ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        Expanded(
+                          child: Text(
+                            '${Debtordetail['debtorCareer']}',
+                            overflow: TextOverflow.clip,
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                            'สถานที่ใกล้เคียง : ${Debtordetail['debtorNearPlace']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-        ],
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: DefaultTabController(
+                length: 3,
+                initialIndex: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Color.fromRGBO(255, 203, 246, 1),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      child: const TabBar(
+                        labelColor: Color.fromRGBO(202, 71, 150, 1),
+                        labelStyle:
+                            TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+                        unselectedLabelColor: Colors.black,
+                        tabs: [
+                          Tab(text: 'ผู้ค้ำที่ 1'),
+                          Tab(text: 'ผู้ค้ำที่ 2'),
+                          Tab(text: 'ผู้ค้ำที่ 3'),
+                        ],
+                      ),
+                    ),
+                    line(),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      decoration: const BoxDecoration(
+                        color: Color.fromRGBO(255, 203, 246, 1),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        ),
+                      ),
+                      child: TabBarView(children: <Widget>[
+                        //ผู้ค้ำที1
+                        SingleChildScrollView(
+                          child: list_quarantee1 == null
+                              ? Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.23,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.7),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(5),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'ไม่มีผู้ค้ำ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.23,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.7),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                        ),
+                                        child: Scrollbar(
+                                          child: ListView(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              'เลขบัตรประชาชน : ${list_quarantee1!['smartId']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle()),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'ชื่อ-สกุล : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee1!['name']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'ที่อยู่ : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee1!['address']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'สถานที่ทำงาน : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee1!['workADdress']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'อาชีพ : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee1!['career']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              'สถานที่ใกล้เคียง : ${list_quarantee1!['nearPlace']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle()),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                        //ผู้ค้ำที่2
+                        SingleChildScrollView(
+                          child: list_quarantee2 == null
+                              ? Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.23,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.7),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(5),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'ไม่มีผู้ค้ำ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.23,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.7),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                        ),
+                                        child: Scrollbar(
+                                          child: ListView(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              'เลขบัตรประชาชน : ${list_quarantee2!['smartId']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle()),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'ชื่อ-สกุล : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee2!['name']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'ที่อยู่ : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee2!['address']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'สถานที่ทำงาน : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                                '${list_quarantee2!['workADdress']}'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'อาชีพ : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee2!['career']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              'สถานที่ใกล้เคียง : ${list_quarantee2!['nearPlace']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle()),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                        //ผู้ค้ำที่3
+                        SingleChildScrollView(
+                          child: list_quarantee3 == null
+                              ? Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.23,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.7),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(5),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'ไม่มีผู้ค้ำ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.23,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.7),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                        ),
+                                        child: Scrollbar(
+                                          child: ListView(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              'เลขบัตรประชาชน : ${list_quarantee3!['smartId']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle()),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'ชื่อ-สกุล : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee3!['name']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'ที่อยู่ : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee3!['address']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'สถานที่ทำงาน : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee3!['workADdress']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'อาชีพ : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee3!['career']}',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'สถานที่ใกล้เคียง : ${list_quarantee3!['nearPlace']}',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                        ),
+                      ]),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(255, 203, 246, 1),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                padding: const EdgeInsets.all(8.0),
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'รายละเอียดสัญญา : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        Expanded(
+                          child: Text('${Debtordetail['signDetail']}',
+                              overflow: TextOverflow.clip,
+                              style: MyContant().h4normalStyle()),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text('วันที่ทำสัญญา : ${Debtordetail['signDate']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'ราคาเช่าซื้อ : ${Debtordetail['leaseTotal']}',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'ดอกเบี้ย ${Debtordetail['interest']} %',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text('ชำระแล้ว : ${Debtordetail['periodNo']} งวด',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text('รหัสเขต : ${Debtordetail['followAreaName']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'สถานะสัญญา : ${Debtordetail['signStatus']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'พนักงานขาย : ${Debtordetail['saleName']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                              'ผู้ตรวจสอบเครดิต : ${Debtordetail['creditName']}',
+                              style: MyContant().h4normalStyle(),
+                              overflow: TextOverflow.clip),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                            'ผู้อนุมัติสินเชื่อ : ${Debtordetail['approveName']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(255, 203, 246, 1),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                padding: const EdgeInsets.all(8.0),
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('รายการ : ', style: MyContant().h4normalStyle()),
+                        Expanded(
+                          child: Text(
+                            '${list_itemDetail!['name']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text('ยี่ห้อ : ${list_itemDetail!['brandName']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text('ขนาด : ${list_itemDetail!['sizeName']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'รุ่น/แบบ : ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        Expanded(
+                          child: Text(
+                            '${list_itemDetail!['modelName']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('หมายเลขเครื่อง : ',
+                            style: MyContant().h4normalStyle()),
+                        Expanded(
+                          child: Text(
+                            '${list_itemDetail!['serialId']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text('จำนวน : ${list_itemDetail!['qty']}',
+                            style: MyContant().h4normalStyle()),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.7),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'หมายเหตุการขาย : ${list_itemDetail!['saleNote']}',
+                                  style: MyContant().h4normalStyle(),
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1722,13 +1723,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
           Padding(
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(255, 203, 246, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
               ),
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               width: double.infinity,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1741,14 +1742,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1777,7 +1778,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ]),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
@@ -1786,14 +1787,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           style: MyContant().h4normalStyle()),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1824,7 +1825,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                 ],
@@ -1844,13 +1845,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
           Padding(
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(255, 203, 246, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
               ),
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               width: double.infinity,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1875,15 +1876,15 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1923,7 +1924,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -1940,7 +1941,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1963,15 +1964,15 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -2011,7 +2012,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -2028,7 +2029,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -2051,15 +2052,15 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
-                    padding: EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(2.0),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -2099,7 +2100,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -2116,7 +2117,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -2139,15 +2140,15 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -2187,7 +2188,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -2204,7 +2205,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -2227,15 +2228,15 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -2275,7 +2276,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -2292,7 +2293,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -2315,15 +2316,15 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -2363,7 +2364,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -2380,7 +2381,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],
@@ -2393,14 +2394,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   }
 
   Container content_list_4(BuildContext context) {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     return Container(
@@ -2426,13 +2427,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color.fromRGBO(255, 203, 246, 1),
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
                     ),
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     width: double.infinity,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -2450,14 +2451,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.165,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.all(
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(5),
                             ),
                           ),
@@ -2480,7 +2481,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -2493,11 +2494,11 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   line(),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -2508,7 +2509,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -2530,7 +2531,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         )
                       ],
@@ -2546,7 +2547,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   }
 
   SizedBox line() {
-    return SizedBox(
+    return const SizedBox(
       height: 0,
       width: double.infinity,
       child: Divider(

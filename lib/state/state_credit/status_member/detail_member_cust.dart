@@ -10,9 +10,8 @@ import '../../../api.dart';
 
 class Detail_member_cust extends StatefulWidget {
   // const Detail_member_cust({Key? key}) : super(key: key);
-  final String? custId, smartId, custName, lastnamecust;
-  Detail_member_cust(
-      this.custId, this.smartId, this.custName, this.lastnamecust);
+  final String? custId;
+  Detail_member_cust(this.custId);
 
   @override
   State<Detail_member_cust> createState() => _Detail_member_custState();
@@ -20,7 +19,10 @@ class Detail_member_cust extends StatefulWidget {
 
 class _Detail_member_custState extends State<Detail_member_cust> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
-  List list_dataMember = [], list_address = [], list_data = [];
+  List listdataMemberDetail = [],
+      listaddress = [],
+      listdata = [],
+      listinfo = [];
   var valueaddress, dataaddress;
   bool statusLoading = false, statusLoad404 = false;
   Map<String, dynamic>? listvalueAddreses;
@@ -41,15 +43,12 @@ class _Detail_member_custState extends State<Detail_member_cust> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_CusMember();
+    getDataCusMemberDetail();
   }
 
-  Future<void> getData_CusMember() async {
+  Future<void> getDataCusMemberDetail() async {
     print(tokenId);
-    print('1>${widget.custId}');
-    print('2>${widget.smartId}');
-    print('3>${widget.custName}');
-    print('4>${widget.lastnamecust}');
+    print(widget.custId);
     try {
       var respose = await http.post(
         Uri.parse('${beta_api_test}customer/member'),
@@ -59,37 +58,21 @@ class _Detail_member_custState extends State<Detail_member_cust> {
         },
         body: jsonEncode(<String, String>{
           'custId': widget.custId.toString(),
-          'smartId': widget.smartId.toString(),
-          'firstName': widget.custName.toString(),
-          'lastName': widget.lastnamecust.toString(),
-          'page': '1',
-          'limit': '20',
         }),
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataMemberList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+        Map<String, dynamic> dataMemberDetail =
+            Map<String, dynamic>.from(json.decode(respose.body));
 
-        valueaddress = dataMemberList['data'];
+        valueaddress = dataMemberDetail['data'][0]['address'];
         setState(() {
-          list_dataMember = dataMemberList['data'];
-          list_address = valueaddress;
+          listdataMemberDetail = dataMemberDetail['data'];
+          listaddress = valueaddress;
         });
-
-        for (var i = 0; i < list_dataMember.length; i++) {
-          // print('data${i}=>${list_dataMember[i]['address']}');
-          list_data = list_dataMember[i]['address'];
-          for (var c = 0; c < list_data.length; c++) {
-            print('type${c}=>${list_data[c]['type']}');
-            print('detail${c}=>${list_data[c]['detail']}');
-            print('tel${c}=>${list_data[c]['tel']}');
-            print('fax${c}=>${list_data[c]['fax']}');
-          }
-          // print('address->>${list_data}');
-        }
         statusLoading = true;
-        // print('address->>${list_data}');
+        print('data>>${listdataMemberDetail}');
+        print('address>>${listaddress}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -101,7 +84,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -147,12 +130,13 @@ class _Detail_member_custState extends State<Detail_member_cust> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -168,7 +152,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
           : statusLoad404 == true
               ? Center(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -176,31 +160,29 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                     height: MediaQuery.of(context).size.height * 0.15,
                     child: Column(
                       children: [
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'images/Nodata.png',
-                                    width: 55,
-                                    height: 55,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'ไม่พบรายการข้อมูล',
-                                    style: MyContant().h5NotData(),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/Nodata.png',
+                                  width: 55,
+                                  height: 55,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ไม่พบรายการข้อมูล',
+                                  style: MyContant().h5NotData(),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ],
                     ),
@@ -211,13 +193,15 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                   child: Scrollbar(
                     child: ListView(
                       children: [
-                        if (list_dataMember.isNotEmpty) ...[
-                          for (var i = 0; i < list_dataMember.length; i++) ...[
+                        if (listdataMemberDetail.isNotEmpty) ...[
+                          for (var i = 0;
+                              i < listdataMemberDetail.length;
+                              i++) ...[
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: const BoxDecoration(
                                   color: Color.fromRGBO(64, 203, 203, 1),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10),
@@ -228,12 +212,12 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                     Row(
                                       children: [
                                         Text(
-                                          'รหัสลูกค้า : ${list_dataMember[i]['custId']}',
+                                          'รหัสลูกค้า : ${listdataMemberDetail[i]['custId']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
@@ -246,14 +230,14 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            '${list_dataMember[i]['custName']}',
+                                            '${listdataMemberDetail[i]['custName']}',
                                             overflow: TextOverflow.clip,
                                             style: MyContant().h4normalStyle(),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
@@ -261,20 +245,20 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'ชื่อเล่น : ${list_dataMember[i]['nickName']}',
+                                          'ชื่อเล่น : ${listdataMemberDetail[i]['nickName']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                         Text(
-                                          'เพศ : ${list_dataMember[i]['gender']}',
+                                          'เพศ : ${listdataMemberDetail[i]['gender']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                         Text(
-                                          'สถานภาพ : ${list_dataMember[i]['marryStatus']}',
+                                          'สถานภาพ : ${listdataMemberDetail[i]['marryStatus']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
@@ -282,20 +266,20 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'ศาสนา : ${list_dataMember[i]['religionName']}',
+                                          'ศาสนา : ${listdataMemberDetail[i]['religionName']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                         Text(
-                                          'เชื้อชาติ : ${list_dataMember[i]['raceName']}',
+                                          'เชื้อชาติ : ${listdataMemberDetail[i]['raceName']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                         Text(
-                                          'สัญชาติ : ${list_dataMember[i]['nationName']}',
+                                          'สัญชาติ : ${listdataMemberDetail[i]['nationName']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
@@ -303,88 +287,88 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'วันเกิด : ${list_dataMember[i]['birthday']}',
+                                          'วันเกิด : ${listdataMemberDetail[i]['birthday']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                         Text(
-                                          'อายุ : ${list_dataMember[i]['age']} ปี',
+                                          'อายุ : ${listdataMemberDetail[i]['age']} ปี',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          'เบอร์โทรศัพท์ : ${list_dataMember[i]['mobile']}',
+                                          'เบอร์โทรศัพท์ : ${listdataMemberDetail[i]['mobile']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          'บัตร : ${list_dataMember[i]['cardTypeName']}',
+                                          'บัตร : ${listdataMemberDetail[i]['cardTypeName']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          'เลขที่ : ${list_dataMember[i]['smartId']}',
+                                          'เลขที่ : ${listdataMemberDetail[i]['smartId']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          'Email : ${list_dataMember[i]['email']}',
+                                          'Email : ${listdataMemberDetail[i]['email']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          'Website : ${list_dataMember[i]['website']}',
+                                          'Website : ${listdataMemberDetail[i]['website']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          'Line Id : ${list_dataMember[i]['lineId']}',
+                                          'Line Id : ${listdataMemberDetail[i]['lineId']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 3,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          'วันที่หมดอายุ : ${list_dataMember[i]['smartExpireDate']}',
+                                          'วันที่หมดอายุ : ${listdataMemberDetail[i]['smartExpireDate']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
@@ -397,8 +381,8 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: const BoxDecoration(
                                   color: Color.fromRGBO(64, 203, 203, 1),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10),
@@ -414,7 +398,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     Container(
@@ -423,7 +407,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                               0.15,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.7),
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),
                                       ),
@@ -439,43 +423,43 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          'รหัสบัตร : ${list_dataMember[i]['memberCardId']}',
+                                                          'รหัสบัตร : ${listdataMemberDetail[i]['memberCardId']}',
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
                                                       ],
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 5,
                                                     ),
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          'สถานะบัตรสมาชิก : ${list_dataMember[i]['memberCardName']}',
+                                                          'สถานะบัตรสมาชิก : ${listdataMemberDetail[i]['memberCardName']}',
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
                                                       ],
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 5,
                                                     ),
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          'ผู้ตรวจสอบ : ${list_dataMember[i]['auditName']}',
+                                                          'ผู้ตรวจสอบ : ${listdataMemberDetail[i]['auditName']}',
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
                                                       ],
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 5,
                                                     ),
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          'วันที่ออกบัตร : ${list_dataMember[i]['applyDate']}',
+                                                          'วันที่ออกบัตร : ${listdataMemberDetail[i]['applyDate']}',
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
@@ -495,24 +479,32 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'ข้อมูลที่อยู่ ',
-                                    style: MyContant().h2Style(),
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5),
                                   ),
-                                ],
+                                  color: Color.fromRGBO(64, 203, 203, 1),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ข้อมูลที่อยู่ของลูกค้า',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            // if (list_data == list_dataMember[i]['address']) ...[
-                            // list_data = list_dataMember[i]['address'],
-                            for (var n = 0; n < list_data.length; n++) ...[
+                            for (var c = 0; c < listaddress.length; c++) ...[
                               Padding(
                                 padding: const EdgeInsets.only(
                                     bottom: 8, left: 8, right: 8),
                                 child: Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: const BoxDecoration(
                                     color: Color.fromRGBO(64, 203, 203, 1),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10),
@@ -525,16 +517,16 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            '${n + 1}',
+                                            '',
                                             style: MyContant().h4normalStyle(),
                                           ),
                                           Text(
-                                            'ประเภท : ${list_data[n]['type']}',
+                                            'ประเภท : ${listaddress[c]['type']}',
                                             style: MyContant().h4normalStyle(),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Container(
@@ -543,7 +535,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                                 0.15,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.7),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
                                         ),
@@ -553,57 +545,54 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'ที่อยู่ : ',
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'ที่อยู่ : ',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${listaddress[c]['detail']}',
+                                                          overflow:
+                                                              TextOverflow.clip,
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            '${list_data[n]['detail']}',
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            style: MyContant()
-                                                                .h4normalStyle(),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'เบอร์โทรศัพท์ : ${list_data[n]['tel']}',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          'เบอร์แฟกซ์ : ${list_data[n]['fax']}',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'เบอร์โทรศัพท์ : ${listaddress[c]['tel']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'เบอร์แฟกซ์ : ${listaddress[c]['fax']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
@@ -615,12 +604,8 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                               ),
                             ],
                           ],
-                          if (list_dataMember.length > 1) ...[
-                            lineNext(),
-                          ],
                         ],
                       ],
-                      // ],
                     ),
                   ),
                 ),
@@ -635,7 +620,7 @@ Padding lineNext() {
       Expanded(
         child: new Container(
             margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-            child: Divider(
+            child: const Divider(
               thickness: 1.0,
               color: Colors.black,
               height: 30,
@@ -648,7 +633,7 @@ Padding lineNext() {
       Expanded(
         child: new Container(
             margin: const EdgeInsets.only(left: 20.0, right: 10.0),
-            child: Divider(
+            child: const Divider(
               thickness: 1.0,
               color: Colors.black,
               height: 30,

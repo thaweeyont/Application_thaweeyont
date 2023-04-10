@@ -47,7 +47,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -217,118 +217,110 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.9,
-                    child: Scrollbar(
-                      child: ListView(
-                        children: [
-                          if (list_approve.isNotEmpty) ...[
-                            for (var i = 0; i < list_approve.length; i++) ...[
-                              InkWell(
-                                onTap: () {
-                                  print('click go to next page');
-                                  // String refresh = await
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Data_Cust_Approve(
-                                          list_approve[i]['custId'],
-                                          list_approve[i]['tranId'],
-                                          widget.custId.toString(),
-                                          widget.idcard.toString(),
-                                          widget.custName.toString(),
-                                          widget.lastname_cust.toString(),
-                                          widget.select_branchlist.toString(),
-                                          widget.start_date.toString(),
-                                          widget.end_date.toString(),
-                                          widget.select_index_approve),
-                                    ),
-                                  ).then((_) => getdata());
-                                  // if (refresh == 'refresh') {
-                                  //   setState(() {
-                                  //     print('refresh data');
-                                  //     getdata();
-                                  //   });
-                                  // }
-                                },
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5)),
-                                      color: Color.fromRGBO(251, 173, 55, 1),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'สาขา : ${list_approve[i]['branchName']}',
+                  child: Scrollbar(
+                    child: ListView(
+                      children: [
+                        if (list_approve.isNotEmpty) ...[
+                          for (var i = 0; i < list_approve.length; i++) ...[
+                            InkWell(
+                              onTap: () {
+                                print('click go to next page');
+                                // String refresh = await
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Data_Cust_Approve(
+                                        list_approve[i]['custId'],
+                                        list_approve[i]['tranId'],
+                                        widget.custId.toString(),
+                                        widget.idcard.toString(),
+                                        widget.custName.toString(),
+                                        widget.lastname_cust.toString(),
+                                        widget.select_branchlist.toString(),
+                                        widget.start_date.toString(),
+                                        widget.end_date.toString(),
+                                        widget.select_index_approve),
+                                  ),
+                                ).then((_) => getdata());
+                                // if (refresh == 'refresh') {
+                                //   setState(() {
+                                //     print('refresh data');
+                                //     getdata();
+                                //   });
+                                // }
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromRGBO(251, 173, 55, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'สาขา : ${list_approve[i]['branchName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'วันที่ : ${list_approve[i]['tranDate']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'ชื่อ : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${list_approve[i]['custName']}',
+                                              overflow: TextOverflow.clip,
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'วันที่ : ${list_approve[i]['tranDate']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'ชื่อ : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${list_approve[i]['custName']}',
-                                                overflow: TextOverflow.clip,
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'สถานะ : ${list_approve[i]['approveStatus']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'สถานะ : ${list_approve[i]['approveStatus']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              )
-                            ],
+                              ),
+                            )
                           ],
                         ],
-                      ),
+                      ],
                     ),
                   ),
                 ),

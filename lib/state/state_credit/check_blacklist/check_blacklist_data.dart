@@ -1900,8 +1900,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               district.text.isEmpty &&
                               amphoe.text.isEmpty &&
                               province.text.isEmpty) {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอกข้อมูลลูกค้าที่ต้องการค้นหา');
+                            showProgressDialog(
+                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
                           } else {
                             if (home_no.text.isNotEmpty ||
                                 moo_no.text.isNotEmpty) {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_credit/status_member/detail_member_cust.dart';
+import 'package:application_thaweeyont/state/state_credit/status_member/member_cust_list.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utility/my_constant.dart';
@@ -1184,7 +1185,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             //     ],
             //   ],
             // ],
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
           ],
@@ -1257,10 +1258,22 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           } else {
                             // showProgressLoading(context);
                             // getData_CusMember();
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => Detail_member_cust(
+                            //         custId.text,
+                            //         smartId.text,
+                            //         custName.text,
+                            //         lastnamecust.text
+                            // ),
+                            //   ),
+                            // );
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Detail_member_cust(
+                                builder: (context) => MemberCustList(
                                     custId.text,
                                     smartId.text,
                                     custName.text,

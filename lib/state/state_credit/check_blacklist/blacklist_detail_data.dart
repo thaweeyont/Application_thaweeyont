@@ -286,14 +286,24 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                   ],
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 8, right: 8, bottom: 2),
-                    child: Row(
-                      children: [
-                        Text(
-                          'รายละเอียดของลูกค้า Blacklist',
-                          style: MyContant().h2Style(),
+                        const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
                         ),
-                      ],
+                        color: Color.fromRGBO(162, 181, 252, 1),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'รายละเอียดของลูกค้า Blacklist',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   if (list_detail.isNotEmpty) ...[
@@ -423,6 +433,9 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                       ),
                     ],
                   ],
+                  const SizedBox(
+                    height: 10,
+                  )
                 ],
               ),
             ),
