@@ -170,7 +170,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -245,7 +245,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -306,7 +306,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -365,7 +365,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -425,7 +425,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -476,14 +476,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     return Scaffold(
@@ -498,12 +498,13 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -534,13 +535,13 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: Color.fromRGBO(251, 173, 55, 1),
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   )),
-                              child: TabBar(
+                              child: const TabBar(
                                 labelColor: Color.fromRGBO(110, 66, 0, 1),
                                 labelStyle: TextStyle(
                                     fontSize: 16, fontFamily: 'Prompt'),
@@ -555,7 +556,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             line(),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.22,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color.fromRGBO(251, 173, 55, 1),
                                 borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(10),
@@ -567,7 +568,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   //ข้อมูลลูกค้า
                                   SingleChildScrollView(
                                     child: Container(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
                                           Container(
@@ -578,7 +579,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             decoration: BoxDecoration(
                                               color:
                                                   Colors.white.withOpacity(0.7),
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(5),
                                               ),
                                             ),
@@ -601,7 +603,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               ),
                                                             ],
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 5,
                                                           ),
                                                           Row(
@@ -626,7 +628,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               ),
                                                             ],
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 5,
                                                           ),
                                                           Row(
@@ -636,7 +638,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                                 style: MyContant()
                                                                     .h4normalStyle(),
                                                               ),
-                                                              SizedBox(
+                                                              const SizedBox(
                                                                 width: 15,
                                                               ),
                                                               Text(
@@ -646,7 +648,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               )
                                                             ],
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 5,
                                                           ),
                                                           Row(
@@ -673,7 +675,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   //ที่อยู่ลูกค้า
                                   SingleChildScrollView(
                                     child: Container(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
                                           Container(
@@ -684,7 +686,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             decoration: BoxDecoration(
                                               color:
                                                   Colors.white.withOpacity(0.7),
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(5),
                                               ),
                                             ),
@@ -720,7 +723,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               ),
                                                             ],
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 10,
                                                           ),
                                                           Row(
@@ -753,7 +756,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                         ],
@@ -763,7 +766,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   //อาชีพ
                                   SingleChildScrollView(
                                     child: Container(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
                                           Container(
@@ -774,7 +777,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             decoration: BoxDecoration(
                                               color:
                                                   Colors.white.withOpacity(0.7),
-                                              borderRadius: BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(5),
                                               ),
                                             ),
@@ -810,7 +814,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               ),
                                                             ],
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 5,
                                                           ),
                                                           Row(
@@ -835,7 +839,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               ),
                                                             ],
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 5,
                                                           ),
                                                         ],
@@ -846,7 +850,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                         ],
@@ -874,7 +878,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.only(left: 8, right: 8, bottom: 4),
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Color.fromRGBO(251, 173, 55, 1),
                           borderRadius: BorderRadius.all(
                             Radius.circular(5),
@@ -931,7 +935,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
@@ -1045,7 +1049,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
@@ -1063,14 +1067,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.1,
+                              height: MediaQuery.of(context).size.height * 0.2,
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.7),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
                               ),
@@ -1111,7 +1115,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
@@ -1129,14 +1133,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.15,
+                              height: MediaQuery.of(context).size.height * 0.2,
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.7),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
                               ),
@@ -1177,7 +1181,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
@@ -1195,14 +1199,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.15,
+                              height: MediaQuery.of(context).size.height * 0.2,
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.7),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
                               ),
@@ -1244,7 +1248,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color.fromRGBO(251, 173, 55, 1),
                           borderRadius: BorderRadius.all(
                             Radius.circular(5),
@@ -1263,107 +1267,120 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Container(
                                 height: list_detail!['approveStatus'] == '3'
-                                    ? MediaQuery.of(context).size.height * 0.43
-                                    : MediaQuery.of(context).size.height * 0.43,
+                                    ? MediaQuery.of(context).size.height * 0.68
+                                    : MediaQuery.of(context).size.height * 0.65,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
                                   ),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 16, bottom: 8, left: 8, right: 8),
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 8),
-                                              child: Text(
-                                                'ผลการพิจารณา : ',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                            ),
-                                            select_TypeList(sizeIcon, border),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'การอนุมัติสินเชื่อ : ',
+                                      top: 8, bottom: 8, left: 8, right: 8),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Text(
+                                              'ผลการพิจารณา : ',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            if (select_approveTypeList ==
-                                                '1') ...[
-                                              select_ReasonList(
-                                                  sizeIcon, border),
-                                            ] else if (select_approveTypeList ==
-                                                '2') ...[
-                                              select_notReasonList(
-                                                  sizeIcon, border),
-                                            ] else ...[
-                                              SizedBox(
-                                                height: 48,
-                                              )
-                                            ]
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'หมายเหตุ : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Row(
-                                          children: [
-                                            input_note_approve(
+                                          ),
+                                          select_TypeList(sizeIcon, border),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'การอนุมัติสินเชื่อ : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          if (select_approveTypeList ==
+                                              '1') ...[
+                                            select_ReasonList(sizeIcon, border),
+                                          ] else if (select_approveTypeList ==
+                                              '2') ...[
+                                            select_notReasonList(
                                                 sizeIcon, border),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'ผู้อนุมัติสินเชื่อ : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            input_NameApprove(sizeIcon, border),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                          ] else ...[
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.14,
+                                            )
+                                          ]
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'หมายเหตุ : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          input_note_approve(sizeIcon, border),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'ผู้อนุมัติสินเชื่อ : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          input_NameApprove(sizeIcon, border),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               if (list_detail!['approveStatus'] == '3' &&
                                   allowApproveStatus == true) ...[
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Column(
@@ -1371,10 +1388,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                     Container(
                                       height:
                                           MediaQuery.of(context).size.height *
-                                              0.07,
+                                              0.1,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.7),
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),
                                       ),
@@ -1460,7 +1477,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       ),
                     ),
                   ],
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],
@@ -1476,25 +1493,25 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Container slidemenu(BuildContext context) {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     return Container(
       height: MediaQuery.of(context).size.height * 0.07,
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Padding(
@@ -1859,7 +1876,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -1904,8 +1921,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
                                         vertical: 8, horizontal: 4),
                                     child: Icon(
                                       Icons.close,
@@ -1927,10 +1944,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                             color: Color.fromARGB(255, 185, 185, 185),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -1958,7 +1975,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 4, horizontal: 8),
                                           child: Container(
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(5),
                                               ),
@@ -2313,7 +2330,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
@@ -2346,7 +2363,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     }
                   : null,
               isExpanded: true,
-              underline: SizedBox(),
+              underline: const SizedBox(),
               hint: Align(
                 child: Text(
                   '',
@@ -2365,23 +2382,39 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
-          padding: EdgeInsets.all(4),
+          height: MediaQuery.of(context).size.height * 0.14,
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: DropdownButton<String>(
               items: dropdown_approveReasonList.isEmpty
                   ? []
                   : dropdown_approveReasonList
-                      .map((value) => DropdownMenuItem<String>(
+                      .map(
+                        (value) => DropdownMenuItem<String>(
+                          value: value['id'].toString(),
+                          child: Container(
+                            width: double.infinity,
+                            // alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  color: Color.fromARGB(255, 209, 209, 209),
+                                ),
+                              ),
+                            ),
                             child: Text(
                               value['name'],
                               style: MyContant().TextInputStyle(),
                             ),
-                            value: value['id'].toString(),
-                          ))
+                          ),
+                        ),
+                      )
                       .toList(),
               onChanged: list_detail!['approveStatus'] == '3'
                   ? (String? newvalue) {
@@ -2392,8 +2425,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   : null,
               value: select_approveReasonList,
               isExpanded: true,
-              underline: SizedBox(),
+              itemHeight: null,
+              // underline: SizedBox(),
               hint: Align(
+                alignment: Alignment.center,
                 child: Text(
                   'กรุณาเลือกข้อมูล',
                   style: MyContant().TextInputSelect(),
@@ -2411,22 +2446,34 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
-          padding: EdgeInsets.all(4),
+          height: MediaQuery.of(context).size.height * 0.1,
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: DropdownButton<String>(
               items: dropdown_NotapproveReasonList.isEmpty
                   ? []
                   : dropdown_NotapproveReasonList
                       .map((value) => DropdownMenuItem<String>(
-                            child: Text(
-                              value['name'],
-                              style: MyContant().TextInputStyle(),
-                            ),
                             value: value['id'].toString(),
+                            child: Container(
+                              width: double.infinity,
+                              padding:
+                                  const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(
+                                    color: Color.fromARGB(255, 209, 209, 209),
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                value['name'],
+                                style: MyContant().TextInputStyle(),
+                              ),
+                            ),
                           ))
                       .toList(),
               onChanged: list_detail!['approveStatus'] == '3'
@@ -2438,8 +2485,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   : null,
               value: select_NotapproveReasonList,
               isExpanded: true,
-              underline: SizedBox(),
+              itemHeight: null,
+              // underline: SizedBox(),
               hint: Align(
+                alignment: Alignment.center,
                 child: Text(
                   'กรุณาเลือกข้อมูล',
                   style: MyContant().TextInputSelect(),
@@ -2459,11 +2508,12 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         child: TextField(
           controller: note_approve,
           onChanged: (keyword) {},
-          minLines: 4,
+          minLines: 5,
           maxLines: null,
           readOnly: list_detail!['approveStatus'] == '3' ? false : true,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2491,7 +2541,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           maxLines: null,
           readOnly: true,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(4),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2517,7 +2567,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           onChanged: (keyword) {},
           readOnly: true,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2535,7 +2585,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   SizedBox line() {
-    return SizedBox(
+    return const SizedBox(
       height: 0,
       width: double.infinity,
       child: Divider(
@@ -2688,7 +2738,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               ),
             ],
           ),
-          content: Text(
+          content: const Text(
             "บันทึกข้อมูลสำเร็จเรียบร้อย",
             style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
           ),

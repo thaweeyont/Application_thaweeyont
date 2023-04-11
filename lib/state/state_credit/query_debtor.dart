@@ -138,7 +138,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -167,14 +167,14 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_select_district() async {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     try {
@@ -208,7 +208,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -237,14 +237,14 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_itemTypelist() async {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     print(searchNameItemtype.text);
@@ -277,7 +277,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -334,7 +334,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -372,7 +372,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -410,7 +410,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -450,7 +450,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -487,7 +487,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -565,7 +565,7 @@ class _Query_debtorState extends State<Query_debtor> {
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -672,12 +672,12 @@ class _Query_debtorState extends State<Query_debtor> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                                 color: Color.fromRGBO(255, 203, 246, 1),
                               ),
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               width: double.infinity,
                               child: Column(children: [
                                 Row(
@@ -694,8 +694,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.09,
-                                          padding: EdgeInsets.all(4),
+                                              0.1,
+                                          padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -767,7 +767,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Authen(),
+                                                            const Authen(),
                                                       ),
                                                       (Route<dynamic> route) =>
                                                           false,
@@ -790,7 +790,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                               },
                                               value: selectValue_province,
                                               isExpanded: true,
-                                              underline: SizedBox(),
+                                              underline: const SizedBox(),
                                               hint: Align(
                                                 child: Text(
                                                   'เลือกจังหวัด',
@@ -818,8 +818,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.09,
-                                          padding: EdgeInsets.all(4),
+                                              0.1,
+                                          padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -852,7 +852,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                               },
                                               value: selectValue_amphoe,
                                               isExpanded: true,
-                                              underline: SizedBox(),
+                                              underline: const SizedBox(),
                                               hint: Align(
                                                 child: Text(
                                                   'เลือกอำเภอ',
@@ -870,7 +870,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ]),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Padding(
@@ -914,7 +914,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
@@ -944,8 +944,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           child: Container(
                                             // margin:
                                             //     EdgeInsets.symmetric(vertical: 5),
-                                            padding: EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5)),
                                               color: Color.fromRGBO(
@@ -1006,7 +1006,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           )
                         ],
@@ -1023,14 +1023,14 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> search_conType(sizeIcon, border) async {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     double size = MediaQuery.of(context).size.width;
@@ -1043,7 +1043,7 @@ class _Query_debtorState extends State<Query_debtor> {
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -1145,12 +1145,12 @@ class _Query_debtorState extends State<Query_debtor> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5)),
                                 color: Color.fromRGBO(255, 203, 246, 1),
                               ),
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               width: double.infinity,
                               child: Column(children: [
                                 Row(
@@ -1165,7 +1165,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ]),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Padding(
@@ -1234,8 +1234,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           child: Container(
                                             // margin:
                                             //     EdgeInsets.symmetric(vertical: 5),
-                                            padding: EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5)),
                                               color: Color.fromRGBO(
@@ -1252,7 +1252,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(height: 5),
+                                                const SizedBox(height: 5),
                                                 Row(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -1314,7 +1314,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           )
                         ],
@@ -1373,7 +1373,7 @@ class _Query_debtorState extends State<Query_debtor> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => Authen(),
+              builder: (context) => const Authen(),
             ),
             (Route<dynamic> route) => false,
           );
@@ -1536,19 +1536,19 @@ class _Query_debtorState extends State<Query_debtor> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5)),
                               color: Color.fromRGBO(255, 203, 246, 1),
                             ),
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             width: double.infinity,
                             child: Column(children: [
                               Row(
                                 children: [
                                   Expanded(
                                     child: RadioListTile(
-                                      contentPadding: EdgeInsets.all(0.0),
+                                      contentPadding: const EdgeInsets.all(0.0),
                                       value: '1',
                                       groupValue: id,
                                       title: Text(
@@ -1615,8 +1615,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.085,
-                                          padding: EdgeInsets.all(4),
+                                              0.1,
+                                          padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -1654,7 +1654,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                               },
                                               value: selectValue_customer,
                                               isExpanded: true,
-                                              underline: SizedBox(),
+                                              underline: const SizedBox(),
                                               hint: Align(
                                                 child: Text(
                                                   'กรุณาเลือกข้อมูล',
@@ -1678,7 +1678,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             ]),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Padding(
@@ -1732,7 +1732,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
@@ -1759,8 +1759,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                         child: Container(
                                           // margin:
                                           // EdgeInsets.symmetric(vertical: 5),
-                                          padding: EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5)),
                                             color: Color.fromRGBO(
@@ -1777,7 +1777,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 5,
                                               ),
                                               Row(
@@ -1789,7 +1789,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 5,
                                               ),
                                               Row(
@@ -1812,7 +1812,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 5,
                                               ),
                                               Row(
@@ -1864,7 +1864,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         )
                       ],
@@ -1881,14 +1881,14 @@ class _Query_debtorState extends State<Query_debtor> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     return Scaffold(
@@ -1900,8 +1900,8 @@ class _Query_debtorState extends State<Query_debtor> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(8.0),
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: Color.fromRGBO(255, 203, 246, 1),
                 ),
@@ -1918,7 +1918,8 @@ class _Query_debtorState extends State<Query_debtor> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
-                            backgroundColor: Color.fromRGBO(202, 71, 150, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(202, 71, 150, 1),
                           ),
                           onPressed: () {
                             search_idcustomer(sizeIcon, border);
@@ -2023,7 +2024,8 @@ class _Query_debtorState extends State<Query_debtor> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
-                              backgroundColor: Color.fromRGBO(202, 71, 150, 1),
+                              backgroundColor:
+                                  const Color.fromRGBO(202, 71, 150, 1),
                             ),
                             onPressed: () {
                               search_district(sizeIcon, border);
@@ -2108,7 +2110,8 @@ class _Query_debtorState extends State<Query_debtor> {
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               // padding: EdgeInsets.all(5),
-                              backgroundColor: Color.fromRGBO(202, 71, 150, 1),
+                              backgroundColor:
+                                  const Color.fromRGBO(202, 71, 150, 1),
                             ),
                             onPressed: () {
                               search_conType(sizeIcon, border);
@@ -2348,7 +2351,7 @@ class _Query_debtorState extends State<Query_debtor> {
             //     ),
             //   ),
             // ),
-            SizedBox(
+            const SizedBox(
               height: 70,
             ),
           ],
@@ -2386,13 +2389,13 @@ class _Query_debtorState extends State<Query_debtor> {
                             'ค้นหาแบบย่อย',
                             style: MyContant().TextsearchStyle(),
                           ),
-                          Icon(Icons.arrow_drop_up),
+                          const Icon(Icons.arrow_drop_up),
                         ] else ...[
                           Text(
                             'ค้นหาแบบละเอียด',
                             style: MyContant().TextsearchStyle(),
                           ),
-                          Icon(Icons.arrow_drop_down),
+                          const Icon(Icons.arrow_drop_down),
                         ],
                       ],
                     ),
@@ -2440,7 +2443,7 @@ class _Query_debtorState extends State<Query_debtor> {
                         child: const Text('ค้นหา'),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.034,
                       width: MediaQuery.of(context).size.width * 0.22,
@@ -2461,8 +2464,8 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Padding line() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
       child: SizedBox(
         height: 5,
         width: double.infinity,
@@ -2483,7 +2486,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2509,7 +2512,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2532,7 +2535,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: firstname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2555,7 +2558,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2581,7 +2584,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2602,7 +2605,7 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(5),
@@ -2626,7 +2629,7 @@ class _Query_debtorState extends State<Query_debtor> {
               },
               value: select_addreessType,
               isExpanded: true,
-              underline: SizedBox(),
+              underline: const SizedBox(),
               hint: Align(
                 child: Text(
                   'ค้นหาจาก',
@@ -2648,7 +2651,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: homeNo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2671,7 +2674,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: moo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2695,7 +2698,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2719,7 +2722,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2743,7 +2746,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2764,7 +2767,7 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
@@ -2786,7 +2789,7 @@ class _Query_debtorState extends State<Query_debtor> {
               },
               value: select_branchlist,
               isExpanded: true,
-              underline: SizedBox(),
+              underline: const SizedBox(),
               hint: Align(
                 child: Text(
                   'เลือกสาขา',
@@ -2808,7 +2811,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: signId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2829,7 +2832,7 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
@@ -2851,7 +2854,7 @@ class _Query_debtorState extends State<Query_debtor> {
               },
               value: select_debtorType,
               isExpanded: true,
-              underline: SizedBox(),
+              underline: const SizedBox(),
               hint: Align(
                 child: Text(
                   'เลือกประเภทลูกหนี้',
@@ -2871,7 +2874,7 @@ class _Query_debtorState extends State<Query_debtor> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
@@ -2893,7 +2896,7 @@ class _Query_debtorState extends State<Query_debtor> {
               },
               value: select_signStatus,
               isExpanded: true,
-              underline: SizedBox(),
+              underline: const SizedBox(),
               hint: Align(
                 child: Text(
                   'เลือกสถานะสัญญา',
@@ -2916,11 +2919,11 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -2942,11 +2945,11 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchNameItemtype,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -2968,11 +2971,11 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: firstname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -2994,11 +2997,11 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -3020,7 +3023,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -3045,7 +3048,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

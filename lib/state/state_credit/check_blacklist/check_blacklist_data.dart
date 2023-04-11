@@ -89,7 +89,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -134,7 +134,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -163,14 +163,14 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   }
 
   Future<void> get_select_district() async {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     try {
@@ -204,7 +204,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -268,14 +268,14 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   }
 
   Future<Null> search_id_blacklist() async {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
 
@@ -320,7 +320,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => Authen(),
+              builder: (context) => const Authen(),
             ),
             (Route<dynamic> route) => false,
           );
@@ -363,14 +363,14 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Column(
                 children: [
                   Card(
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(15),
                       ),
@@ -464,13 +464,13 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color.fromRGBO(162, 181, 252, 1),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(5),
                                 ),
                               ),
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               width: double.infinity,
                               child: Column(
                                 children: [
@@ -483,8 +483,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.095,
-                                            padding: EdgeInsets.all(4),
+                                                0.1,
+                                            padding: const EdgeInsets.all(4),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -518,7 +518,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                 },
                                                 value: selectValue_bl,
                                                 isExpanded: true,
-                                                underline: SizedBox(),
+                                                underline: const SizedBox(),
                                               ),
                                             ),
                                           ),
@@ -530,7 +530,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                     children: [
                                       if (selectValue_bl.toString() == "2") ...[
                                         input_name_search_bl(sizeIcon, border),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         input_lastname_search_bl(
                                             sizeIcon, border)
                                       ] else ...[
@@ -542,7 +542,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Padding(
@@ -605,7 +605,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
@@ -630,8 +630,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 2, horizontal: 8),
                                           child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: const BoxDecoration(
                                               color: Color.fromRGBO(
                                                   162, 181, 252, 1),
                                               borderRadius: BorderRadius.all(
@@ -649,7 +649,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 Row(
@@ -661,7 +661,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 Row(
@@ -673,7 +673,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 Row(
@@ -685,7 +685,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 Row(
@@ -748,7 +748,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           )
                         ],
@@ -775,7 +775,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -872,12 +872,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                                 color: Color.fromRGBO(162, 181, 252, 1),
                               ),
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               width: double.infinity,
                               child: Column(children: [
                                 Row(
@@ -893,8 +893,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.09,
-                                          padding: EdgeInsets.all(4),
+                                              0.1,
+                                          padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -967,7 +967,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Authen(),
+                                                            const Authen(),
                                                       ),
                                                       (Route<dynamic> route) =>
                                                           false,
@@ -990,7 +990,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                               },
                                               value: selectValue_province,
                                               isExpanded: true,
-                                              underline: SizedBox(),
+                                              underline: const SizedBox(),
                                               hint: Align(
                                                 child: Text(
                                                   'เลือกจังหวัด',
@@ -1019,8 +1019,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.09,
-                                          padding: EdgeInsets.all(4),
+                                              0.1,
+                                          padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -1053,7 +1053,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                               },
                                               value: selectValue_amphoe,
                                               isExpanded: true,
-                                              underline: SizedBox(),
+                                              underline: const SizedBox(),
                                               hint: Align(
                                                 child: Text(
                                                   'เลือกอำเภอ',
@@ -1071,7 +1071,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ]),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Padding(
@@ -1115,7 +1115,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
@@ -1143,8 +1143,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 2, horizontal: 8),
                                           child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5)),
                                               color: Color.fromRGBO(
@@ -1205,7 +1205,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
@@ -1221,14 +1221,14 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     return Scaffold(
@@ -1240,8 +1240,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
                   color: Color.fromRGBO(162, 181, 252, 1),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
@@ -1260,7 +1260,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
                             // padding: EdgeInsets.all(5),
-                            backgroundColor: Color.fromRGBO(82, 119, 255, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(82, 119, 255, 1),
                           ),
                           onPressed: () {
                             search_id_blacklist();
@@ -1349,7 +1350,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
                             // padding: EdgeInsets.all(5),
-                            backgroundColor: Color.fromRGBO(82, 119, 255, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(82, 119, 255, 1),
                           ),
                           onPressed: () {
                             search_district(context, border);
@@ -1504,7 +1506,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             //     ),
             //   ),
             // ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
           ],
@@ -1522,11 +1524,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1550,12 +1552,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
             hintText: 'สำหรับแสดง ชื่อ-สกุล ลูกค้า',
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1579,11 +1581,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1606,11 +1608,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1633,11 +1635,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1660,11 +1662,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1688,11 +1690,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1716,11 +1718,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1744,11 +1746,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1772,11 +1774,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1867,7 +1869,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                         child: const Text('ค้นหา'),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.034,
                       width: MediaQuery.of(context).size.width * 0.22,
@@ -1898,11 +1900,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1925,12 +1927,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
             hintText: 'ชื่อ',
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1953,12 +1955,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
             hintText: 'นามสกุล',
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,

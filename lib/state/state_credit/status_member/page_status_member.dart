@@ -75,7 +75,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -118,14 +118,14 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   }
 
   Future<Null> search_idcustomer() async {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
 
@@ -172,7 +172,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => Authen(),
+              builder: (context) => const Authen(),
             ),
             (Route<dynamic> route) => false,
           );
@@ -230,7 +230,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         child: StatefulBuilder(
           builder: (context, setState) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -329,19 +329,20 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5)),
                                 color: Color.fromRGBO(64, 203, 203, 1),
                               ),
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               width: double.infinity,
                               child: Column(children: [
                                 Row(
                                   children: [
                                     Expanded(
                                       child: RadioListTile(
-                                        contentPadding: EdgeInsets.all(0.0),
+                                        contentPadding:
+                                            const EdgeInsets.all(0.0),
                                         value: '1',
                                         groupValue: id,
                                         title: Text(
@@ -410,8 +411,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.085,
-                                            padding: EdgeInsets.all(4),
+                                                0.1,
+                                            padding: const EdgeInsets.all(4),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
@@ -449,7 +450,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                 },
                                                 value: selectValue_customer,
                                                 isExpanded: true,
-                                                underline: SizedBox(),
+                                                underline: const SizedBox(),
                                                 hint: Align(
                                                   child: Text(
                                                     'กรุณาเลือกข้อมูล',
@@ -474,7 +475,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               ]),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Padding(
@@ -528,7 +529,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
@@ -554,8 +555,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           child: Container(
                                             // margin:
                                             //     EdgeInsets.symmetric(vertical: 5),
-                                            padding: EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(5)),
                                               color: Color.fromRGBO(
@@ -572,7 +573,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 Row(
@@ -584,7 +585,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 Row(
@@ -607,7 +608,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 Row(
@@ -659,7 +660,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           )
                         ],
@@ -677,14 +678,14 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    final border = const OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     return Scaffold(
@@ -696,8 +697,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(8.0),
+                decoration: const BoxDecoration(
                   color: Color.fromRGBO(64, 203, 203, 1),
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
@@ -716,7 +717,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
                             // padding: EdgeInsets.all(5),
-                            backgroundColor: Color.fromRGBO(18, 108, 108, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(18, 108, 108, 1),
                           ),
                           onPressed: () {
                             search_idcustomer();
@@ -1129,17 +1131,17 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       Expanded(
         child: new Container(
             margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-            child: Divider(
+            child: const Divider(
               thickness: 2.0,
               color: Colors.black,
               height: 36,
             )),
       ),
-      Text('คนถัดไป'),
+      const Text('คนถัดไป'),
       Expanded(
         child: new Container(
             margin: const EdgeInsets.only(left: 20.0, right: 10.0),
-            child: Divider(
+            child: const Divider(
               thickness: 2.0,
               color: Colors.black,
               height: 36,
@@ -1149,8 +1151,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   }
 
   Padding line() {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
+    return const Padding(
+      padding: EdgeInsets.all(6.0),
       child: SizedBox(
         height: 10,
         width: double.infinity,
@@ -1215,7 +1217,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                         child: const Text('ค้นหา'),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Container(
                       height: MediaQuery.of(context).size.height * 0.034,
                       width: MediaQuery.of(context).size.width * 0.22,
@@ -1245,7 +1247,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1270,7 +1272,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           controller: custId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1296,7 +1298,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1320,11 +1322,11 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1347,11 +1349,11 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1373,7 +1375,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           controller: firstname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1396,11 +1398,11 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           controller: lastname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 14,
             ),
             prefixIconConstraints: sizeIcon,
@@ -1422,7 +1424,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(4),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
