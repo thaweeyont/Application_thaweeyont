@@ -48,7 +48,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
     print(widget.custId.toString());
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/quarantee'),
+        Uri.parse('${api}credit/quarantee'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

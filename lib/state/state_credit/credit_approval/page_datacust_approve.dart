@@ -97,14 +97,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     get_approveReasonList();
     get_approveTypeList();
     get_notApproveReasonList();
-    // print('1>${widget.Idcust}');
-    // print('2>${widget.idcard}');
-    // print('3>${widget.custName}');
-    // print('4>${widget.lastname_cust}');
-    // print('5>${widget.select_branchlist}');
-    // print('6>${widget.start_date}');
-    // print('7>${widget.end_date}');
-    // print('8>${widget.select_index_approve}');
   }
 
   Future<void> getData_Creditdetail() async {
@@ -114,7 +106,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/detail'),
+        Uri.parse('${api}credit/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -222,7 +214,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/approveCredit'),
+        Uri.parse('${api}credit/approveCredit'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -281,75 +273,12 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
-  // Future<void> getData_quarantee() async {
-  //   print(tokenId);
-  //   print(widget.custId.toString());
-
-  //   try {
-  //     var respose = await http.post(
-  //       Uri.parse('${beta_api_test}credit/quarantee'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': tokenId.toString(),
-  //       },
-  //       body: jsonEncode(<String, String>{
-  //         'custId': widget.custId.toString(),
-  //       }),
-  //     );
-
-  //     if (respose.statusCode == 200) {
-  //       Map<String, dynamic> dataQuarantee =
-  //           new Map<String, dynamic>.from(json.decode(respose.body));
-
-  //       setState(() {
-  //         list_quarantee = dataQuarantee['data'];
-  //       });
-
-  //       print('data_1->>${list_quarantee}');
-  //     } else if (respose.statusCode == 400) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_400(
-  //           context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 401) {
-  //       print(respose.statusCode);
-  //       SharedPreferences preferences = await SharedPreferences.getInstance();
-  //       preferences.clear();
-  //       Navigator.pushAndRemoveUntil(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Authen(),
-  //         ),
-  //         (Route<dynamic> route) => false,
-  //       );
-  //       showProgressDialog_401(
-  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-  //     } else if (respose.statusCode == 404) {
-  //       print(respose.statusCode);
-  //       status_error401 = true;
-  //       // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลผู้ค้ำ!');
-  //     } else if (respose.statusCode == 405) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 500) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_500(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-  //     } else {
-  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-  //     }
-  //   } catch (e) {
-  //     print("ไม่มีข้อมูล $e");
-  //     showProgressDialog_Notdata(
-  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-  //   }
-  // }
-
   Future<void> get_approveTypeList() async {
     print(tokenId);
 
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/approveTypeList'),
+        Uri.parse('${api}setup/approveTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -409,7 +338,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/approveReasonList'),
+        Uri.parse('${api}setup/approveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -468,7 +397,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/notApproveReasonList'),
+        Uri.parse('${api}setup/notApproveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -2695,7 +2624,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   width: 30, height: 30, fit: BoxFit.contain),
             ],
           ),
-          content: Text(
+          content: const Text(
             "คุณต้องการบันทึกข้อมูลใช่หรือไม่",
             style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
           ),

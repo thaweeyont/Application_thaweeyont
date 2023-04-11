@@ -66,7 +66,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -105,7 +105,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/saleType'),
+        Uri.parse('${api}setup/saleType'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -159,112 +159,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
-
-  // Future<void> getData_buyList(start_date, end_date) async {
-  //   setState(() {
-  //     list_dataBuyTyle = [];
-  //   });
-  //   try {
-  //     var respose = await http.post(
-  //       Uri.parse('${beta_api_test}sale/custBuyList'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': tokenId.toString(),
-  //       },
-  //       body: jsonEncode(<String, String>{
-  //         'custId': custId.text.toString(),
-  //         'saleTypeId': select_index_saletype.toString(),
-  //         'smartId': smartId.text,
-  //         'firstName': custName.text,
-  //         'lastName': lastname_cust.text,
-  //         'startDate': start_date,
-  //         'endDate': end_date,
-  //         'page': '1',
-  //         'limit': '250'
-  //       }),
-  //     );
-
-  //     if (respose.statusCode == 200) {
-  //       Map<String, dynamic> dataBuylist =
-  //           new Map<String, dynamic>.from(json.decode(respose.body));
-
-  //       setState(() {
-  //         list_dataBuyTyle = dataBuylist['data'];
-  //       });
-  //       Navigator.pop(context);
-
-  //       // ------ sum billTotal ---------------------------------------
-  //       totalbill = [];
-  //       List bill = list_dataBuyTyle.map((e) => e['billTotal']).toList();
-  //       bill.forEach((element) {
-  //         totalbill.add(element);
-  //       });
-  //       setState(() {
-  //         totalbill = totalbill;
-  //       });
-  //       print('bill >> ${totalbill}');
-  //       // List<int> ints = jsonDecode("[$totalbill]");
-
-  //       // print('sum >${ints}');
-  //       //-------------------------------------------------------------
-  //     } else if (respose.statusCode == 400) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_400(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 401) {
-  //       print('customer >>${respose.statusCode}');
-  //       SharedPreferences preferences = await SharedPreferences.getInstance();
-  //       preferences.clear();
-  //       Navigator.pushAndRemoveUntil(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Authen(),
-  //         ),
-  //         (Route<dynamic> route) => false,
-  //       );
-  //       showProgressDialog_401(
-  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-  //     } else if (respose.statusCode == 404) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_404(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 405) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 500) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_500(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-  //     } else {
-  //       // setState(() {
-  //       //   valueStatus = respose.statusCode;
-  //       // });
-  //       // Navigator.pop(context);
-  //       print(respose.statusCode);
-  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-  //       // print('ไม่พบข้อมูล');
-  //       // Map<String, dynamic> check_list =
-  //       //     new Map<String, dynamic>.from(json.decode(respose.body));
-  //       // print(respose.statusCode);
-  //       // print(check_list['message']);
-  //       // if (check_list['message'] == "Token Unauthorized") {
-  //       //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //       //   preferences.clear();
-  //       //   Navigator.pushAndRemoveUntil(
-  //       //     context,
-  //       //     MaterialPageRoute(
-  //       //       builder: (context) => Authen(),
-  //       //     ),
-  //       //     (Route<dynamic> route) => false,
-  //       //   );
-  //       // }
-  //     }
-  //   } catch (e) {
-  //     print("ไม่มีข้อมูล $e");
-  //     showProgressDialog(
-  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-  //   }
-  // }
 
   Future<Null> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -326,7 +220,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

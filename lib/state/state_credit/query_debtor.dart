@@ -111,7 +111,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -180,7 +180,7 @@ class _Query_debtorState extends State<Query_debtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${beta_api_test}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -252,7 +252,7 @@ class _Query_debtorState extends State<Query_debtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${beta_api_test}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
+            '${api}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -313,7 +313,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/addressTypeList'),
+        Uri.parse('${api}setup/addressTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -352,7 +352,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/branchList'),
+        Uri.parse('${api}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -390,7 +390,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/debtorTypeList'),
+        Uri.parse('${api}setup/debtorTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -428,7 +428,7 @@ class _Query_debtorState extends State<Query_debtor> {
     print(tokenId);
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/signStatusList'),
+        Uri.parse('${api}setup/signStatusList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -469,7 +469,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -731,7 +731,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                 try {
                                                   var respose = await http.get(
                                                     Uri.parse(
-                                                        '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                        '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                     headers: <String, String>{
                                                       'Content-Type':
                                                           'application/json',
@@ -1335,7 +1335,7 @@ class _Query_debtorState extends State<Query_debtor> {
         String searchData, String firstName, String lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

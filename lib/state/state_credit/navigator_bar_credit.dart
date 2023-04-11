@@ -34,7 +34,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     try {
       print(tokenId);
       var respose = await http.post(
-        Uri.parse('${beta_api_test}authen/logout'),
+        Uri.parse('${api}authen/logout'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId,

@@ -66,94 +66,10 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     get_select_province();
   }
 
-  // Future<void> getData_blacklist() async {
-  //   list_data_blacklist = [];
-  //   var tumbol, amphur, province;
-
-  //   if (districtId == null) {
-  //     tumbol = '';
-  //     amphur = '';
-  //     province = '';
-  //   } else {
-  //     tumbol = districtId;
-  //     amphur = selectValue_amphoe.toString().split("_")[0];
-  //     province = selectValue_province.toString().split("_")[0];
-  //   }
-
-  //   try {
-  //     var respose = await http.post(
-  //       Uri.parse('${beta_api_test}credit/checkBlacklist'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': tokenId.toString(),
-  //       },
-  //       body: jsonEncode(<String, String>{
-  //         'blId': idblacklist.text,
-  //         'smartId': smartId.text,
-  //         'firstName': name.text,
-  //         'lastName': lastname.text,
-  //         'homeNo': home_no.text,
-  //         'moo': moo_no.text,
-  //         'tumbolId': tumbol.toString(),
-  //         'amphurId': amphur.toString(),
-  //         'provId': province.toString(),
-  //       }),
-  //     );
-  //     print('ตอจ >$districtId>> $tumbol,$amphur,$province');
-
-  //     if (respose.statusCode == 200) {
-  //       Map<String, dynamic> data_blacklist =
-  //           new Map<String, dynamic>.from(json.decode(respose.body));
-
-  //       setState(() {
-  //         list_data_blacklist = data_blacklist['data'];
-  //       });
-
-  //       Navigator.pop(context);
-  //       // Navigator.pop(context);
-  //       print('ข้อมูล => $list_data_blacklist');
-  //     } else if (respose.statusCode == 400) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_400(
-  //           context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 401) {
-  //       print(respose.statusCode);
-  //       SharedPreferences preferences = await SharedPreferences.getInstance();
-  //       preferences.clear();
-  //       Navigator.pushAndRemoveUntil(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Authen(),
-  //         ),
-  //         (Route<dynamic> route) => false,
-  //       );
-  //       showProgressDialog_401(
-  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-  //     } else if (respose.statusCode == 404) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_404(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 405) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 500) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_500(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-  //     } else {
-  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-  //     }
-  //   } catch (e) {
-  //     print("ไม่มีข้อมูล $e");
-  //     showProgressDialog_Notdata(
-  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-  //   }
-  // }
-
   Future<void> get_select_bl_search() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/blSearchList'),
+        Uri.parse('${api}setup/blSearchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -192,7 +108,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Future<void> get_select_province() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -260,7 +176,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${beta_api_test}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -367,7 +283,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         String? firstName, String? lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}credit/blacklist'),
+          Uri.parse('${api}credit/blacklist'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -1015,7 +931,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                 try {
                                                   var respose = await http.get(
                                                     Uri.parse(
-                                                        '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                        '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                     headers: <String, String>{
                                                       'Content-Type':
                                                           'application/json',

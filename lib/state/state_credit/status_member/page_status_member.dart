@@ -54,80 +54,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     get_select_cus();
   }
 
-  // Future<void> getData_CusMember() async {
-  //   print(tokenId);
-  //   print(custId.text);
-  //   try {
-  //     var respose = await http.post(
-  //       Uri.parse('${beta_api_test}customer/member'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': tokenId.toString(),
-  //       },
-  //       body: jsonEncode(<String, String>{
-  //         'custId': custId.text,
-  //         'smartId': smartId.text,
-  //         'firstName': custName.text,
-  //         'lastName': lastnamecust.text,
-  //         'page': '1',
-  //         'limit': '20',
-  //       }),
-  //     );
-
-  //     if (respose.statusCode == 200) {
-  //       Map<String, dynamic> dataMemberList =
-  //           new Map<String, dynamic>.from(json.decode(respose.body));
-
-  //       valueaddress = dataMemberList['data'][0];
-  //       setState(() {
-  //         list_dataMember = dataMemberList['data'];
-  //         list_address = valueaddress['address'];
-  //       });
-  //       Navigator.pop(context);
-  //       print(list_address);
-  //     } else if (respose.statusCode == 400) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_400(
-  //           context, 'แจ้งเตือน', 'Error ${respose.statusCode} ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 401) {
-  //       print(respose.statusCode);
-  //       SharedPreferences preferences = await SharedPreferences.getInstance();
-  //       preferences.clear();
-  //       Navigator.pushAndRemoveUntil(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => Authen(),
-  //         ),
-  //         (Route<dynamic> route) => false,
-  //       );
-  //       showProgressDialog_401(
-  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-  //     } else if (respose.statusCode == 404) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_404(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
-  //     } else if (respose.statusCode == 405) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
-  //     } else if (respose.statusCode == 500) {
-  //       print(respose.statusCode);
-  //       showProgressDialog_500(
-  //           context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
-  //     } else {
-  //       print(respose.statusCode);
-  //       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-  //     }
-  //   } catch (e) {
-  //     print("ไม่มีข้อมูล $e");
-  //     showProgressDialog_Notdata(
-  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-  //   }
-  // }
-
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -204,7 +134,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

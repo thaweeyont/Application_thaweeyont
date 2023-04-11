@@ -60,17 +60,9 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
   }
 
   Future<void> getData_approve() async {
-    print(widget.custId);
-    print(widget.idcard);
-    print(widget.custName);
-    print(widget.lastname_cust);
-    print('สาขา>>${widget.select_branchlist}');
-    print('date->${widget.start_date}');
-    print(widget.end_date);
-    print(widget.select_index_approve);
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/approve'),
+        Uri.parse('${api}credit/approve'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

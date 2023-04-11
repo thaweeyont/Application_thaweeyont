@@ -69,7 +69,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/detail'),
+        Uri.parse('${api}debtor/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
