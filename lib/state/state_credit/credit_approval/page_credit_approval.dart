@@ -273,8 +273,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           });
 
           Navigator.pop(context);
-          // search_idcustomer();
-          // print(list_datavalue);
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
@@ -358,7 +356,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     elevation: 0,
                     color: Colors.white,
                     child: Container(
-                      // margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
                           Stack(

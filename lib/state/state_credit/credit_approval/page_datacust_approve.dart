@@ -261,7 +261,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})'); 
       } else {
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
