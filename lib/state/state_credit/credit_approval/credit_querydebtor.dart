@@ -1,26 +1,31 @@
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:application_thaweeyont/state/state_credit/data_debtor_list.dart';
-import 'package:application_thaweeyont/widgets/show_progress.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../model/login_model.dart';
-import '../authen.dart';
-import 'data_searchdebtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
-import 'package:application_thaweeyont/api.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class Query_debtor extends StatefulWidget {
-  const Query_debtor({Key? key}) : super(key: key);
+import '../../../api.dart';
+import '../../authen.dart';
+import 'list_credit_querydebtor.dart';
+
+class CreditQueryDebtor extends StatefulWidget {
+  // const CreditQueryDebtor(valueapprove, {Key? key}) : super(key: key);
+  final String? address, homeNo, moo, provId, amphurId, tunbolId;
+  CreditQueryDebtor(
+    this.address,
+    this.homeNo,
+    this.moo,
+    this.provId,
+    this.amphurId,
+    this.tunbolId,
+  );
 
   @override
-  State<Query_debtor> createState() => _Query_debtorState();
+  State<CreditQueryDebtor> createState() => _CreditQueryDebtorState();
 }
 
-class _Query_debtorState extends State<Query_debtor> {
+class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   String userId = '',
       empId = '',
       firstName = '',
@@ -31,6 +36,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
   String? id = '1';
   var filter = false;
+
   TextEditingController idcard = TextEditingController();
   TextEditingController firstname_c = TextEditingController();
   TextEditingController lastname_c = TextEditingController();
@@ -54,43 +60,43 @@ class _Query_debtorState extends State<Query_debtor> {
       statusLoad404itemTypeList = false,
       statusLoad404 = false;
   List dropdown_province = [], list_dataDebtor = [];
+  List drProvince = [], drAmphur = [], drTumbol = [];
   List dropdown_amphoe = [],
       dropdown_addresstype = [],
       dropdown_branch = [],
       dropdown_debtorType = [],
       dropdown_signStatus = [],
       dropdown_customer = [];
-  List list_district = [],
-      list_itemType = [],
-      list_Debtordetail = [],
-      list_datavalue = [];
+  List list_district = [], list_itemType = [], list_datavalue = [];
+
   var selectValue_province,
       selectValue_amphoe,
       select_addreessType,
       select_branchlist,
       select_debtorType,
       select_signStatus,
-      checkStatuscode,
       debtorStatuscode,
       tumbolId,
-      itemType,
-      valueSignId,
-      status_e = false;
+      itemType;
 
   var selectValue_customer, valueNotdata, Texthint, text_search;
   var signStatus, branch, debtorType, tumbol, amphur, province;
+  var selectProvince, selectAmphur, selectTumbol;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       id = '1';
     });
     getdata();
+    print('sp>>$selectValue_province');
+    print('sa>>$selectValue_amphoe');
+    print('st>>$tumbolId');
+    print('address>>${widget.address}');
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -99,6 +105,17 @@ class _Query_debtorState extends State<Query_debtor> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
+    homeNo.text = widget.homeNo.toString();
+    moo.text = widget.moo.toString();
+    selectProvince = widget.provId.toString();
+    selectAmphur = widget.amphurId.toString();
+    selectTumbol = widget.tunbolId.toString();
+    print('p>$selectProvince');
+    print('a>$selectAmphur');
+    print('t>$selectTumbol');
+    get_province();
+    get_amphor();
+    get_district();
     get_select_province();
     get_select_addressTypelist();
     get_select_branch();
@@ -116,7 +133,6 @@ class _Query_debtorState extends State<Query_debtor> {
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
         },
-        // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
       );
 
       if (respose.statusCode == 200) {
@@ -126,7 +142,7 @@ class _Query_debtorState extends State<Query_debtor> {
           dropdown_province = data_provice['data'];
         });
 
-        print(dropdown_province);
+        print('จ.->${dropdown_province}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -166,9 +182,198 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
+  Future<void> get_province() async {
+    print(tokenId);
+    try {
+      var respose = await http.get(
+        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataProvice =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          drProvince = dataProvice['data'];
+        });
+        provincn.text = drProvince
+            .where((element) => element['id'] == selectProvince)
+            .first['name']
+            .toString();
+
+        print('จจ.->${drProvince}');
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        print('error =>> ${respose.statusCode}');
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        print(respose.statusCode);
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> get_amphor() async {
+    print(tokenId);
+    try {
+      var respose = await http.get(
+        Uri.parse(
+            '${beta_api_test}setup/amphurList?pId=${selectProvince.toString().split("_")[0]}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataAmphur =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          drAmphur = dataAmphur['data'];
+        });
+
+        amphoe.text = drAmphur
+            .where((element) => element['id'] == selectAmphur)
+            .first['name']
+            .toString();
+
+        print('อ.->${drAmphur}');
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        print('error =>> ${respose.statusCode}');
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        print(respose.statusCode);
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> get_district() async {
+    try {
+      var respose = await http.get(
+        Uri.parse(
+            '${beta_api_test}setup/districtList?pId=${selectProvince.toString().split("_")[0]}&aId=${selectAmphur.toString().split("_")[0]}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataTumbol =
+            new Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          drTumbol = dataTumbol['data'];
+        });
+        district.text = drTumbol
+            .where((element) => element['id'] == selectTumbol)
+            .first['name']
+            .toString();
+
+        print('ต.->${drTumbol}');
+      } else if (respose.statusCode == 400) {
+        print(respose.statusCode);
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        print('select_district >>${respose.statusCode}');
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        print(respose.statusCode);
+        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+      } else if (respose.statusCode == 405) {
+        print(respose.statusCode);
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        print(respose.statusCode);
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
   Future<void> get_select_district() async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -577,440 +782,380 @@ class _Query_debtorState extends State<Query_debtor> {
                     ),
                     elevation: 0,
                     color: Colors.white,
-                    child: Container(
-                      // margin: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 12, bottom: 6),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'ค้นหาข้อมูล',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 12, bottom: 6),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'ค้นหาข้อมูล',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  clearValue_search_district();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 4),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 30,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
                                 ),
                               ),
-                              Positioned(
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    print('exit');
-                                    Navigator.pop(context);
-                                    clearValue_search_district();
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 4),
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 30,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                    // child: Container(
-                                    //   width: 30,
-                                    //   height: 30,
-                                    //   // decoration: BoxDecoration(
-                                    //   //   color:
-                                    //   //       Color.fromARGB(255, 112, 112, 112),
-                                    //   //   shape: BoxShape.circle,
-                                    //   // ),
-                                    // ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Color.fromRGBO(251, 173, 55, 1),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            width: double.infinity,
+                            child: Column(children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'จังหวัด',
+                                    style: MyContant().h4normalStyle(),
                                   ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 4),
+                                          child: DropdownButton(
+                                            items: dropdown_province
+                                                .map(
+                                                    (value) => DropdownMenuItem(
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
+                                                          child: Text(
+                                                            value['name'],
+                                                            style: MyContant()
+                                                                .TextInputStyle(),
+                                                          ),
+                                                        ))
+                                                .toList(),
+                                            onChanged: (newvalue) async {
+                                              list_district = [];
+                                              setState(() {
+                                                var dfvalue = newvalue;
+                                                selectValue_province = dfvalue;
+                                                text_province = dfvalue
+                                                    .toString()
+                                                    .split("_")[1];
+                                                selectValue_amphoe = null;
+                                              });
+
+                                              try {
+                                                var respose = await http.get(
+                                                  Uri.parse(
+                                                      '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                  headers: <String, String>{
+                                                    'Content-Type':
+                                                        'application/json',
+                                                    'Authorization':
+                                                        tokenId.toString(),
+                                                  },
+                                                );
+
+                                                if (respose.statusCode == 200) {
+                                                  Map<String, dynamic>
+                                                      data_amphoe = new Map<
+                                                              String,
+                                                              dynamic>.from(
+                                                          json.decode(
+                                                              respose.body));
+                                                  setState(() {
+                                                    dropdown_amphoe =
+                                                        data_amphoe['data'];
+                                                  });
+                                                } else if (respose.statusCode ==
+                                                    401) {
+                                                  SharedPreferences
+                                                      preferences =
+                                                      await SharedPreferences
+                                                          .getInstance();
+                                                  preferences.clear();
+                                                  Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Authen(),
+                                                    ),
+                                                    (Route<dynamic> route) =>
+                                                        false,
+                                                  );
+                                                  showProgressDialog_401(
+                                                      context,
+                                                      'แจ้งเตือน',
+                                                      'กรุณา Login เข้าสู่ระบบใหม่');
+                                                } else {
+                                                  print(respose.statusCode);
+                                                }
+                                              } catch (e) {
+                                                print("ไม่มีข้อมูล $e");
+                                                showProgressDialog_Notdata(
+                                                    context,
+                                                    'แจ้งเตือน',
+                                                    'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
+                                              }
+                                              // print(selectValue_province);
+                                            },
+                                            value: selectValue_province,
+                                            isExpanded: true,
+                                            underline: const SizedBox(),
+                                            hint: Align(
+                                              child: Text(
+                                                'เลือกจังหวัด',
+                                                style: MyContant()
+                                                    .TextInputSelect(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    '​อำเภอ',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 4),
+                                          child: DropdownButton(
+                                            items: dropdown_amphoe
+                                                .map(
+                                                    (value) => DropdownMenuItem(
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
+                                                          child: Text(
+                                                            value['name'],
+                                                            style: MyContant()
+                                                                .TextInputStyle(),
+                                                          ),
+                                                        ))
+                                                .toList(),
+                                            onChanged: (newvalue) {
+                                              setState(() {
+                                                print('111>>$newvalue');
+                                                var dfvalue = newvalue;
+                                                selectValue_amphoe = dfvalue;
+                                                text_amphoe = dfvalue
+                                                    .toString()
+                                                    .split("_")[1];
+                                              });
+                                              list_district = [];
+                                            },
+                                            value: selectValue_amphoe,
+                                            isExpanded: true,
+                                            underline: const SizedBox(),
+                                            hint: Align(
+                                              child: Text(
+                                                'เลือกอำเภอ',
+                                                style: MyContant()
+                                                    .TextInputSelect(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ]),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.034,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                child: ElevatedButton(
+                                  style: MyContant().myButtonSearchStyle(),
+                                  onPressed: () {
+                                    if (selectValue_province == null) {
+                                      showProgressDialog(context, 'แจ้งเตือน',
+                                          'กรุณาเลือกจังหวัด');
+                                    } else if (selectValue_amphoe == null) {
+                                      showProgressDialog(context, 'แจ้งเตือน',
+                                          'กรุณาเลือกอำเภอ');
+                                    } else {
+                                      showProgressLoading(context);
+                                      get_select_district();
+                                    }
+                                  },
+                                  child: const Text('ค้นหา'),
                                 ),
                               ),
                             ],
                           ),
-                          const Divider(
-                            color: Color.fromARGB(255, 138, 138, 138),
-                          ),
-                          // SizedBox(
-                          //   height: size * 0.03,
-                          // ),
-                          // Container(
-                          //   padding: EdgeInsets.only(
-                          //       left: 15, right: 15, bottom: 15),
-                          //   child: Row(
-                          //     crossAxisAlignment: CrossAxisAlignment.end,
-                          //     mainAxisAlignment: MainAxisAlignment.end,
-                          //     children: [
-                          //       Row(
-                          //         children: [
-                          //           InkWell(
-                          //             onTap: () {
-                          //               Navigator.pop(context);
-                          //               clearValue_search_district();
-                          //             },
-                          //             child: Container(
-                          //               width: 30,
-                          //               height: 30,
-                          //               decoration: BoxDecoration(
-                          //                   color:
-                          //                       Color.fromRGBO(202, 71, 150, 1),
-                          //                   shape: BoxShape.circle),
-                          //               child: Icon(
-                          //                 Icons.close,
-                          //                 color: Colors.white,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Color.fromRGBO(255, 203, 246, 1),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              Text(
+                                'รายการที่ค้นหา',
+                                style: MyContant().h2Style(),
                               ),
-                              padding: const EdgeInsets.all(8),
-                              width: double.infinity,
-                              child: Column(children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'จังหวัด',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    // select_provincnDia(context, setState),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
-                                          padding: const EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 4),
-                                            child: DropdownButton(
-                                              items: dropdown_province
-                                                  .map((value) =>
-                                                      DropdownMenuItem(
-                                                        child: Text(
-                                                          value['name'],
-                                                          style: MyContant()
-                                                              .TextInputStyle(),
-                                                        ),
-                                                        value:
-                                                            "${value['id']}_${value['name']}",
-                                                      ))
-                                                  .toList(),
-                                              onChanged: (newvalue) async {
-                                                list_district = [];
-                                                setState(() {
-                                                  var dfvalue = newvalue;
-                                                  selectValue_province =
-                                                      dfvalue;
-                                                  text_province = dfvalue
-                                                      .toString()
-                                                      .split("_")[1];
-                                                  selectValue_amphoe = null;
-                                                });
-
-                                                try {
-                                                  var respose = await http.get(
-                                                    Uri.parse(
-                                                        '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
-                                                    headers: <String, String>{
-                                                      'Content-Type':
-                                                          'application/json',
-                                                      'Authorization':
-                                                          tokenId.toString(),
-                                                    },
-                                                    // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
-                                                  );
-
-                                                  if (respose.statusCode ==
-                                                      200) {
-                                                    Map<String, dynamic>
-                                                        data_amphoe = new Map<
-                                                                String,
-                                                                dynamic>.from(
-                                                            json.decode(
-                                                                respose.body));
-                                                    setState(() {
-                                                      dropdown_amphoe =
-                                                          data_amphoe['data'];
-                                                    });
-                                                    print(data_amphoe['data']);
-                                                  } else if (respose
-                                                          .statusCode ==
-                                                      401) {
-                                                    SharedPreferences
-                                                        preferences =
-                                                        await SharedPreferences
-                                                            .getInstance();
-                                                    preferences.clear();
-                                                    Navigator
-                                                        .pushAndRemoveUntil(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const Authen(),
-                                                      ),
-                                                      (Route<dynamic> route) =>
-                                                          false,
-                                                    );
-                                                    showProgressDialog_401(
-                                                        context,
-                                                        'แจ้งเตือน',
-                                                        'กรุณา Login เข้าสู่ระบบใหม่');
-                                                  } else {
-                                                    print(respose.statusCode);
-                                                  }
-                                                } catch (e) {
-                                                  print("ไม่มีข้อมูล $e");
-                                                  showProgressDialog_Notdata(
-                                                      context,
-                                                      'แจ้งเตือน',
-                                                      'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
-                                                }
-                                                // print(selectValue_province);
-                                              },
-                                              value: selectValue_province,
-                                              isExpanded: true,
-                                              underline: const SizedBox(),
-                                              hint: Align(
-                                                child: Text(
-                                                  'เลือกจังหวัด',
-                                                  style: MyContant()
-                                                      .TextInputSelect(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '​อำเภอ',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
-                                          padding: const EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 4),
-                                            child: DropdownButton(
-                                              items: dropdown_amphoe
-                                                  .map((value) =>
-                                                      DropdownMenuItem(
-                                                        value:
-                                                            "${value['id']}_${value['name']}",
-                                                        child: Text(
-                                                          value['name'],
-                                                          style: MyContant()
-                                                              .TextInputStyle(),
-                                                        ),
-                                                      ))
-                                                  .toList(),
-                                              onChanged: (newvalue) {
-                                                setState(() {
-                                                  var dfvalue = newvalue;
-                                                  selectValue_amphoe = dfvalue;
-                                                  text_amphoe = dfvalue
-                                                      .toString()
-                                                      .split("_")[1];
-                                                });
-                                                list_district = [];
-                                              },
-                                              value: selectValue_amphoe,
-                                              isExpanded: true,
-                                              underline: const SizedBox(),
-                                              hint: Align(
-                                                child: Text(
-                                                  'เลือกอำเภอ',
-                                                  style: MyContant()
-                                                      .TextInputSelect(),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ]),
-                            ),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Scrollbar(
+                            child: ListView(
                               children: [
-                                Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.034,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.22,
-                                  child: ElevatedButton(
-                                    style: MyContant().myButtonSearchStyle(),
-                                    onPressed: () {
-                                      if (selectValue_province == null) {
-                                        showProgressDialog(context, 'แจ้งเตือน',
-                                            'กรุณาเลือกจังหวัด');
-                                      } else if (selectValue_amphoe == null) {
-                                        showProgressDialog(context, 'แจ้งเตือน',
-                                            'กรุณาเลือกอำเภอ');
-                                      } else {
-                                        showProgressLoading(context);
-                                        get_select_district();
-                                      }
-                                    },
-                                    child: const Text('ค้นหา'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'รายการที่ค้นหา',
-                                  style: MyContant().h2Style(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            child: Scrollbar(
-                              child: ListView(
-                                children: [
-                                  if (list_district.isNotEmpty) ...[
-                                    for (var i = 0;
-                                        i < list_district.length;
-                                        i++) ...[
-                                      InkWell(
-                                        onTap: () {
-                                          setState(
-                                            () {
-                                              district.text =
-                                                  '${list_district[i]['name']}';
-                                              amphoe.text = '$text_amphoe';
-                                              provincn.text = '$text_province';
-                                              tumbolId =
-                                                  '${list_district[i]['id']}';
-                                            },
-                                          );
-                                          Navigator.pop(context);
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 2, horizontal: 8),
-                                          child: Container(
-                                            // margin:
-                                            //     EdgeInsets.symmetric(vertical: 5),
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              color: Color.fromRGBO(
-                                                  255, 218, 249, 1),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'จังหวัด : ',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                    Text(
-                                                      "$text_province",
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'อำเภอ : ',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                    Text(
-                                                      '$text_amphoe',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'ตำบล : ',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                    Text(
-                                                      '${list_district[i]['name']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                if (list_district.isNotEmpty) ...[
+                                  for (var i = 0;
+                                      i < list_district.length;
+                                      i++) ...[
+                                    InkWell(
+                                      onTap: () {
+                                        setState(
+                                          () {
+                                            district.text =
+                                                '${list_district[i]['name']}';
+                                            amphoe.text = '$text_amphoe';
+                                            provincn.text = '$text_province';
+                                            tumbolId =
+                                                '${list_district[i]['id']}';
+                                          },
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 8),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                            color:
+                                                Color.fromRGBO(251, 173, 55, 1),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'จังหวัด : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    "$text_province",
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'อำเภอ : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    '$text_amphoe',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'ตำบล : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    '${list_district[i]['name']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ],
                                 ],
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -1023,8 +1168,8 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> search_conType(sizeIcon, border) async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -1055,270 +1200,226 @@ class _Query_debtorState extends State<Query_debtor> {
                     ),
                     elevation: 0,
                     color: Colors.white,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 12, bottom: 6),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'ค้นหาข้อมูลประเภทสินค้า',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 12, bottom: 6),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'ค้นหาข้อมูลประเภทสินค้า',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  clearValue_search_conType();
+                                  setState(() {
+                                    statusLoad404itemTypeList = false;
+                                  });
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 4),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 30,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
                                 ),
                               ),
-                              Positioned(
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    clearValue_search_conType();
-                                    setState(() {
-                                      statusLoad404itemTypeList = false;
-                                    });
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 4),
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 30,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Color.fromRGBO(251, 173, 55, 1),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            width: double.infinity,
+                            child: Column(children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'ชื่อประเภท',
+                                    style: MyContant().h4normalStyle(),
                                   ),
+                                  input_nameDia(sizeIcon, border),
+                                ],
+                              ),
+                            ]),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.034,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                child: ElevatedButton(
+                                  style: MyContant().myButtonSearchStyle(),
+                                  onPressed: () {
+                                    if (searchNameItemtype.text.isEmpty) {
+                                      showProgressDialog(context, 'แจ้งเตือน',
+                                          'กรุณากรอกชื่อประเภท');
+                                    } else {
+                                      showProgressLoading(context);
+                                      get_itemTypelist();
+                                    }
+                                  },
+                                  child: const Text('ค้นหา'),
                                 ),
                               ),
                             ],
                           ),
-                          const Divider(
-                            color: Color.fromARGB(255, 138, 138, 138),
-                          ),
-                          // SizedBox(
-                          //   height: size * 0.03,
-                          // ),
-                          // Container(
-                          //   padding: EdgeInsets.only(
-                          //       left: 15, right: 15, bottom: 15),
-                          //   child: Row(
-                          //     crossAxisAlignment: CrossAxisAlignment.end,
-                          //     mainAxisAlignment: MainAxisAlignment.end,
-                          //     children: [
-                          //       Row(
-                          //         children: [
-                          //           InkWell(
-                          //             onTap: () {
-                          //               Navigator.pop(context);
-                          //               clearValue_search_conType();
-                          //               setState(() {
-                          //                 statusLoad404itemTypeList = false;
-                          //               });
-                          //             },
-                          //             child: Container(
-                          //               width: 30,
-                          //               height: 30,
-                          //               decoration: BoxDecoration(
-                          //                   color:
-                          //                       Color.fromRGBO(202, 71, 150, 1),
-                          //                   shape: BoxShape.circle),
-                          //               child: Icon(
-                          //                 Icons.close,
-                          //                 color: Colors.white,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                                color: Color.fromRGBO(255, 203, 246, 1),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              Text(
+                                'รายการที่ค้นหา',
+                                style: MyContant().h2Style(),
                               ),
-                              padding: const EdgeInsets.all(8),
-                              width: double.infinity,
-                              child: Column(children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ชื่อประเภท',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    input_nameDia(sizeIcon, border),
-                                  ],
-                                ),
-                              ]),
-                            ),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Scrollbar(
+                            child: ListView(
                               children: [
-                                Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.034,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.22,
-                                  child: ElevatedButton(
-                                    style: MyContant().myButtonSearchStyle(),
-                                    onPressed: () {
-                                      if (searchNameItemtype.text.isEmpty) {
-                                        showProgressDialog(context, 'แจ้งเตือน',
-                                            'กรุณากรอกชื่อประเภท');
-                                      } else {
-                                        showProgressLoading(context);
-                                        get_itemTypelist();
-                                      }
-                                    },
-                                    child: const Text('ค้นหา'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'รายการที่ค้นหา',
-                                  style: MyContant().h2Style(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            child: Scrollbar(
-                              child: ListView(
-                                children: [
-                                  if (list_itemType.isNotEmpty) ...[
-                                    for (var i = 0;
-                                        i < list_itemType.length;
-                                        i++) ...[
-                                      InkWell(
-                                        onTap: () {
-                                          setState(
-                                            () {
-                                              itemTypelist.text =
-                                                  '${list_itemType[i]['name']}';
-                                              itemType =
-                                                  '${list_itemType[i]['id']}';
-                                              Navigator.pop(context);
-                                            },
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 2, horizontal: 8),
-                                          child: Container(
-                                            // margin:
-                                            //     EdgeInsets.symmetric(vertical: 5),
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              color: Color.fromRGBO(
-                                                  255, 218, 249, 1),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'รหัส : ${list_itemType[i]['id']}',
+                                if (list_itemType.isNotEmpty) ...[
+                                  for (var i = 0;
+                                      i < list_itemType.length;
+                                      i++) ...[
+                                    InkWell(
+                                      onTap: () {
+                                        setState(
+                                          () {
+                                            itemTypelist.text =
+                                                '${list_itemType[i]['name']}';
+                                            itemType =
+                                                '${list_itemType[i]['id']}';
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 8),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                            color:
+                                                Color.fromRGBO(251, 173, 55, 1),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'รหัส : ${list_itemType[i]['id']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'ชื่อ : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_itemType[i]['name']}',
+                                                      overflow:
+                                                          TextOverflow.clip,
                                                       style: MyContant()
                                                           .h4normalStyle(),
                                                     ),
-                                                  ],
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'ชื่อ : ',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        '${list_itemType[i]['name']}',
-                                                        overflow:
-                                                            TextOverflow.clip,
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ] else if (statusLoad404itemTypeList ==
-                                      true) ...[
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 100),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                'images/Nodata.png',
-                                                width: 55,
-                                                height: 55,
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'ไม่พบรายการข้อมูล',
-                                                style: MyContant().h5NotData(),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
                                     ),
                                   ],
+                                ] else if (statusLoad404itemTypeList ==
+                                    true) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 100),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'images/Nodata.png',
+                                              width: 55,
+                                              height: 55,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'ไม่พบรายการข้อมูล',
+                                              style: MyContant().h5NotData(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -1359,9 +1460,7 @@ class _Query_debtorState extends State<Query_debtor> {
             list_datavalue = dataList['data'];
           });
           print(respose.statusCode);
-          // Navigator.pop(context);
           Navigator.pop(context);
-          // search_idcustomer();
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
@@ -1469,7 +1568,6 @@ class _Query_debtorState extends State<Query_debtor> {
                               right: 0,
                               child: InkWell(
                                 onTap: () {
-                                  print('exit');
                                   Navigator.pop(context);
                                   clearValueDialog();
                                 },
@@ -1481,15 +1579,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                     size: 30,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                   ),
-                                  // child: Container(
-                                  //   width: 30,
-                                  //   height: 30,
-                                  //   // decoration: BoxDecoration(
-                                  //   //   color:
-                                  //   //       Color.fromARGB(255, 112, 112, 112),
-                                  //   //   shape: BoxShape.circle,
-                                  //   // ),
-                                  // ),
                                 ),
                               ),
                             ),
@@ -1498,48 +1587,13 @@ class _Query_debtorState extends State<Query_debtor> {
                         const Divider(
                           color: Color.fromARGB(255, 138, 138, 138),
                         ),
-                        // SizedBox(
-                        //   height: size * 0.03,
-                        // ),
-                        // Container(
-                        //   padding: EdgeInsets.only(
-                        //       left: 15, right: 15, bottom: 15),
-                        //   child: Row(
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     children: [
-                        //       Row(
-                        //         children: [
-                        //           InkWell(
-                        //             onTap: () {
-                        //               Navigator.pop(context);
-                        //               clearValueDialog();
-                        //             },
-                        //             child: Container(
-                        //               width: 30,
-                        //               height: 30,
-                        //               decoration: BoxDecoration(
-                        //                   color:
-                        //                       Color.fromRGBO(202, 71, 150, 1),
-                        //                   shape: BoxShape.circle),
-                        //               child: Icon(
-                        //                 Icons.close,
-                        //                 color: Colors.white,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: const BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5)),
-                              color: Color.fromRGBO(255, 203, 246, 1),
+                              color: Color.fromRGBO(251, 173, 55, 1),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -1757,14 +1811,12 @@ class _Query_debtorState extends State<Query_debtor> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 2, horizontal: 8),
                                         child: Container(
-                                          // margin:
-                                          // EdgeInsets.symmetric(vertical: 5),
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5)),
-                                            color: Color.fromRGBO(
-                                                255, 218, 249, 1),
+                                            color:
+                                                Color.fromRGBO(251, 173, 55, 1),
                                           ),
                                           child: Column(
                                             children: [
@@ -1881,8 +1933,8 @@ class _Query_debtorState extends State<Query_debtor> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -1892,6 +1944,13 @@ class _Query_debtorState extends State<Query_debtor> {
       ),
     );
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'สอบถามลูกหนี้',
+          style: MyContant().TitleStyle(),
+        ),
+      ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
@@ -1903,7 +1962,7 @@ class _Query_debtorState extends State<Query_debtor> {
                 padding: const EdgeInsets.all(8.0),
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color.fromRGBO(255, 203, 246, 1),
+                  color: Color.fromRGBO(251, 173, 55, 1),
                 ),
                 width: double.infinity,
                 child: Column(
@@ -1919,7 +1978,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
                             backgroundColor:
-                                const Color.fromRGBO(202, 71, 150, 1),
+                                const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
                             search_idcustomer(sizeIcon, border);
@@ -1928,24 +1987,6 @@ class _Query_debtorState extends State<Query_debtor> {
                             Icons.search,
                           ),
                         ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     search_idcustomer();
-                        //     get_select_cus();
-                        //   },
-                        //   child: Container(
-                        //     width: 30,
-                        //     height: 30,
-                        //     decoration: BoxDecoration(
-                        //       color: Color.fromRGBO(202, 71, 150, 1),
-                        //       shape: BoxShape.circle,
-                        //     ),
-                        //     child: Icon(
-                        //       Icons.search,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // )
                       ],
                     ),
                     Row(
@@ -1998,79 +2039,62 @@ class _Query_debtorState extends State<Query_debtor> {
                         select_search(sizeIcon, border),
                       ],
                     ),
+                    line(),
+                    Row(
+                      children: [
+                        Text(
+                          'บ้านเลขที่',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_numberhome(sizeIcon, border),
+                        Text(
+                          'หมู่',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_moo(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'ตำบล',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_district(sizeIcon, border),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor:
+                                const Color.fromRGBO(173, 106, 3, 1),
+                          ),
+                          onPressed: () {
+                            search_district(sizeIcon, border);
+                          },
+                          child: const Icon(
+                            Icons.search,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'อำเภอ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_amphoe(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'จังหวัด',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        input_province(sizeIcon, border),
+                      ],
+                    ),
                     if (filter == true) ...[
-                      line(),
-                      Row(
-                        children: [
-                          Text(
-                            'บ้านเลขที่',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          input_numberhome(sizeIcon, border),
-                          Text(
-                            'หมู่',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          input_moo(sizeIcon, border),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'ตำบล',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          input_district(sizeIcon, border),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromRGBO(202, 71, 150, 1),
-                            ),
-                            onPressed: () {
-                              search_district(sizeIcon, border);
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     search_district(sizeIcon, border);
-                          //   },
-                          //   child: Container(
-                          //     width: 30,
-                          //     height: 30,
-                          //     decoration: BoxDecoration(
-                          //       color: Color.fromRGBO(202, 71, 150, 1),
-                          //       shape: BoxShape.circle,
-                          //     ),
-                          //     child: Icon(
-                          //       Icons.search,
-                          //       color: Colors.white,
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'อำเภอ',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          input_amphoe(sizeIcon, border),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'จังหวัด',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          input_province(sizeIcon, border),
-                        ],
-                      ),
                       line(),
                       Row(
                         children: [
@@ -2109,9 +2133,8 @@ class _Query_debtorState extends State<Query_debtor> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
-                              // padding: EdgeInsets.all(5),
                               backgroundColor:
-                                  const Color.fromRGBO(202, 71, 150, 1),
+                                  const Color.fromRGBO(173, 106, 3, 1),
                             ),
                             onPressed: () {
                               search_conType(sizeIcon, border);
@@ -2120,22 +2143,6 @@ class _Query_debtorState extends State<Query_debtor> {
                               Icons.search,
                             ),
                           ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     search_conType(sizeIcon, border);
-                          //   },
-                          //   child: Container(
-                          //     width: 30,
-                          //     height: 30,
-                          //     decoration: BoxDecoration(
-                          //         color: Color.fromRGBO(202, 71, 150, 1),
-                          //         shape: BoxShape.circle),
-                          //     child: Icon(
-                          //       Icons.search,
-                          //       color: Colors.white,
-                          //     ),
-                          //   ),
-                          // )
                         ],
                       ),
                     ],
@@ -2410,30 +2417,39 @@ class _Query_debtorState extends State<Query_debtor> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        // showProgressLoading(context);
-                        // getData_debtorList();
+                        setState(() {
+                          selectValue_province ??= selectProvince;
+                          selectValue_amphoe ??= selectAmphur;
+                          tumbolId ??= selectTumbol;
+                        });
+                        print('test_value_p>>$selectValue_province');
+                        print('test_value_a>>$selectValue_amphoe');
+                        print('test_value_t>>$tumbolId');
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Data_debtor_list(
-                                custId.text,
-                                homeNo.text,
-                                moo.text,
-                                tumbolId,
-                                amphur.toString(),
-                                province.toString(),
-                                firstname_c.text,
-                                lastname_c.text,
-                                select_addreessType.toString(),
-                                select_debtorType,
-                                idcard.text,
-                                telephone.text,
-                                select_branchlist,
-                                signId.text,
-                                select_signStatus,
-                                itemTypelist.text,
-                                selectValue_amphoe,
-                                selectValue_province),
+                            builder: (context) => ListCreditQueryDebtor(
+                              custId.text,
+                              homeNo.text,
+                              moo.text,
+                              tumbolId,
+                              amphur.toString(),
+                              province.toString(),
+                              firstname_c.text,
+                              lastname_c.text,
+                              select_addreessType.toString(),
+                              select_debtorType,
+                              idcard.text,
+                              telephone.text,
+                              select_branchlist,
+                              signId.text,
+                              select_signStatus,
+                              itemTypelist.text,
+                              selectValue_amphoe,
+                              selectValue_province,
+                              widget.address,
+                            ),
                           ),
                         );
                       },
@@ -2441,7 +2457,7 @@ class _Query_debtorState extends State<Query_debtor> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.034,
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
@@ -2482,7 +2498,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2508,7 +2524,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2531,7 +2547,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: firstname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2554,7 +2570,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2580,7 +2596,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2610,13 +2626,15 @@ class _Query_debtorState extends State<Query_debtor> {
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
               items: dropdown_addresstype
-                  .map((value) => DropdownMenuItem(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        value: value['id'],
-                      ))
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value['id'],
+                      child: Text(
+                        value['name'],
+                        style: MyContant().h4normalStyle(),
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (newvalue) {
                 setState(() {
@@ -2647,7 +2665,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: homeNo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2670,7 +2688,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: moo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2694,7 +2712,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2718,7 +2736,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2742,7 +2760,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2770,13 +2788,15 @@ class _Query_debtorState extends State<Query_debtor> {
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
               items: dropdown_branch
-                  .map((value) => DropdownMenuItem(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().TextInputStyle(),
-                        ),
-                        value: value['id'],
-                      ))
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value['id'],
+                      child: Text(
+                        value['name'],
+                        style: MyContant().TextInputStyle(),
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (newvalue) {
                 setState(() {
@@ -2799,6 +2819,188 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
+  Expanded provin(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.1,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton<String>(
+              value: selectProvince,
+              items: drProvince.isEmpty
+                  ? []
+                  : drProvince
+                      .map(
+                        (value) => DropdownMenuItem(
+                          value: value['id'].toString(),
+                          child: Text(
+                            value['name'],
+                            style: MyContant().TextInputStyle(),
+                          ),
+                        ),
+                      )
+                      .toList(),
+              onChanged: (newvalue) async {
+                setState(() {
+                  var dfvalue = newvalue;
+                  selectProvince = dfvalue;
+                  // provincn.text = dfvalue.toString().split("_")[1];
+                  // selectValue_amphoe = null;
+                });
+
+                // try {
+                //   var respose = await http.get(
+                //     Uri.parse(
+                //         '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                //     headers: <String, String>{
+                //       'Content-Type': 'application/json',
+                //       'Authorization': tokenId.toString(),
+                //     },
+                //   );
+
+                //   if (respose.statusCode == 200) {
+                //     Map<String, dynamic> data_amphoe =
+                //         new Map<String, dynamic>.from(
+                //             json.decode(respose.body));
+                //     setState(() {
+                //       dropdown_amphoe = data_amphoe['data'];
+                //     });
+                //     print(data_amphoe['data']);
+                //   } else if (respose.statusCode == 401) {
+                //     SharedPreferences preferences =
+                //         await SharedPreferences.getInstance();
+                //     preferences.clear();
+                //     Navigator.pushAndRemoveUntil(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) => const Authen(),
+                //       ),
+                //       (Route<dynamic> route) => false,
+                //     );
+                //     showProgressDialog_401(
+                //         context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+                //   } else {
+                //     print(respose.statusCode);
+                //   }
+                // } catch (e) {
+                //   print("ไม่มีข้อมูล $e");
+                //   showProgressDialog_Notdata(context, 'แจ้งเตือน',
+                //       'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
+                // }
+                // print(selectValue_province);
+              },
+              isExpanded: true,
+              underline: const SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกจังหวัด',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded amphor(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.1,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton<String>(
+              value: selectAmphur,
+              items: drAmphur.isEmpty
+                  ? []
+                  : drAmphur
+                      .map((value) => DropdownMenuItem(
+                            value: value['id'].toString(),
+                            child: Text(
+                              value['name'],
+                              style: MyContant().TextInputStyle(),
+                            ),
+                          ))
+                      .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  var dfvalue = newvalue;
+                  selectAmphur = dfvalue;
+                  // text_amphoe = dfvalue.toString().split("_")[1];
+                });
+              },
+              isExpanded: true,
+              underline: const SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกอำเภอ',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded tumbole(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.1,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton<String>(
+              value: selectTumbol,
+              items: drTumbol.isEmpty
+                  ? []
+                  : drTumbol
+                      .map((value) => DropdownMenuItem(
+                            value: value['id'].toString(),
+                            child: Text(
+                              value['name'],
+                              style: MyContant().TextInputStyle(),
+                            ),
+                          ))
+                      .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  var dfvalue = newvalue;
+                  selectTumbol = dfvalue;
+                  // text_amphoe = dfvalue.toString().split("_")[1];
+                });
+              },
+              isExpanded: true,
+              underline: const SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกอำเภอ',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Expanded input_signId(sizeIcon, border) {
     return Expanded(
       child: Padding(
@@ -2807,7 +3009,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: signId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2915,7 +3117,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2941,7 +3143,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchNameItemtype,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2967,7 +3169,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: firstname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2993,7 +3195,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -3019,7 +3221,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -3044,7 +3246,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

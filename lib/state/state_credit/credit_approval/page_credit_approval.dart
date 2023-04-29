@@ -108,7 +108,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_branch() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/branchList'),
+        Uri.parse('${beta_api_test}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -149,7 +149,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_statusApprove() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/approveStatus'),
+        Uri.parse('${beta_api_test}setup/approveStatus'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -178,7 +178,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/custCondition'),
+        Uri.parse('${beta_api_test}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -248,7 +248,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         String searchData, String firstName, String lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${api}customer/list'),
+          Uri.parse('${beta_api_test}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -355,431 +355,423 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     ),
                     elevation: 0,
                     color: Colors.white,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 12, bottom: 6),
-                                child: Container(
-                                  child: Column(
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 12, bottom: 6),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'ค้นหาข้อมูลลูกค้า',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
+                                      Text(
+                                        'ค้นหาข้อมูลลูกค้า',
+                                        style: MyContant().h4normalStyle(),
                                       ),
                                     ],
                                   ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  clearValueDialog();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 4),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 30,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
                                 ),
                               ),
-                              Positioned(
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    clearValueDialog();
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 4),
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 30,
-                                      color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: Color.fromARGB(255, 185, 185, 185),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        // SizedBox(
+                        //   height: size * 0.03,
+                        // ),
+                        // Container(
+                        //   padding: EdgeInsets.only(
+                        //       left: 15, right: 15, bottom: 15),
+                        //   child: Row(
+                        //     crossAxisAlignment: CrossAxisAlignment.end,
+                        //     mainAxisAlignment: MainAxisAlignment.end,
+                        //     children: [
+                        //       Row(
+                        //         children: [
+                        //           InkWell(
+                        //             onTap: () {
+                        //               Navigator.pop(context);
+                        //               clearValueDialog();
+                        //             },
+                        //             child: Container(
+                        //               width: 30,
+                        //               height: 30,
+                        //               decoration: BoxDecoration(
+                        //                   color:
+                        //                       Color.fromRGBO(173, 106, 3, 1),
+                        //                   shape: BoxShape.circle),
+                        //               child: Icon(
+                        //                 Icons.close,
+                        //                 color: Colors.white,
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Color.fromRGBO(251, 173, 55, 1),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            width: double.infinity,
+                            child: Column(children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: RadioListTile(
+                                      contentPadding: const EdgeInsets.all(0.0),
+                                      value: '1',
+                                      groupValue: id,
+                                      title: Text(
+                                        'ลูกค้าทั่วไป',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          st_customer = true;
+                                          st_employee = false;
+                                          id = value.toString();
+                                          statusLoad404approve = false;
+                                          searchData.clear();
+                                        });
+                                        print(value);
+                                      },
                                     ),
                                   ),
+                                  Expanded(
+                                    child: RadioListTile(
+                                      value: '2',
+                                      groupValue: id,
+                                      title: Text(
+                                        'พนักงาน',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          st_customer = false;
+                                          st_employee = true;
+                                          id = value.toString();
+                                          statusLoad404approve = false;
+                                          searchData.clear();
+                                        });
+                                        print(value);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (st_employee == true) ...[
+                                Row(
+                                  children: [
+                                    Text(
+                                      'ชื่อ',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    input_nameEmploDia(sizeIcon, border),
+                                    Text(
+                                      'สกุล',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    input_lastNameEmploDia(sizeIcon, border),
+                                  ],
+                                ),
+                              ],
+                              if (st_customer == true) ...[
+                                Row(
+                                  children: [
+                                    // Text('ชื่อ'),
+                                    // select_searchCus(sizeIcon, border),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 4),
+                                            child: DropdownButton(
+                                              items: dropdown_customer
+                                                  .map((value) =>
+                                                      DropdownMenuItem(
+                                                        value: value['id'],
+                                                        child: Text(
+                                                          value['name'],
+                                                          style: MyContant()
+                                                              .TextInputStyle(),
+                                                        ),
+                                                      ))
+                                                  .toList(),
+                                              onChanged: (newvalue) {
+                                                print(newvalue);
+                                                setState(() {
+                                                  selectValue_customer =
+                                                      newvalue;
+                                                  if (selectValue_customer
+                                                          .toString() ==
+                                                      "2") {
+                                                    Texthint = 'ชื่อ';
+                                                  } else {
+                                                    Texthint = '';
+                                                  }
+                                                  statusLoad404approve = false;
+                                                  searchData.clear();
+                                                });
+                                              },
+                                              value: selectValue_customer,
+                                              isExpanded: true,
+                                              underline: const SizedBox(),
+                                              hint: Align(
+                                                child: Text(
+                                                  'กรุณาเลือกข้อมูล',
+                                                  style: MyContant()
+                                                      .TextInputSelect(),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    input_searchCus(sizeIcon, border),
+                                    if (selectValue_customer.toString() ==
+                                        "2") ...[
+                                      input_lastnameCus(sizeIcon, border)
+                                    ],
+                                  ],
+                                ),
+                              ],
+                            ]),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.034,
+                                width: MediaQuery.of(context).size.width * 0.22,
+                                child: ElevatedButton(
+                                  style: MyContant().myButtonSearchStyle(),
+                                  onPressed: () {
+                                    if (id == '1') {
+                                      print('1==>> $id');
+                                      if (selectValue_customer == null ||
+                                          searchData.text.isEmpty) {
+                                        showProgressDialog(context, 'แจ้งเตือน',
+                                            'กรุณากรอกข้อมูล');
+                                      } else {
+                                        getData_search();
+                                      }
+                                    } else {
+                                      print('2==>> $id');
+                                      if (firstname_em.text.isEmpty &&
+                                          lastname_em.text.isEmpty) {
+                                        showProgressDialog(context, 'แจ้งเตือน',
+                                            'กรุณากรอกข้อมูล');
+                                      } else {
+                                        getData_search();
+                                      }
+                                    }
+                                  },
+                                  child: const Text('ค้นหา'),
                                 ),
                               ),
                             ],
                           ),
-                          const Divider(
-                            color: Color.fromARGB(255, 185, 185, 185),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          // SizedBox(
-                          //   height: size * 0.03,
-                          // ),
-                          // Container(
-                          //   padding: EdgeInsets.only(
-                          //       left: 15, right: 15, bottom: 15),
-                          //   child: Row(
-                          //     crossAxisAlignment: CrossAxisAlignment.end,
-                          //     mainAxisAlignment: MainAxisAlignment.end,
-                          //     children: [
-                          //       Row(
-                          //         children: [
-                          //           InkWell(
-                          //             onTap: () {
-                          //               Navigator.pop(context);
-                          //               clearValueDialog();
-                          //             },
-                          //             child: Container(
-                          //               width: 30,
-                          //               height: 30,
-                          //               decoration: BoxDecoration(
-                          //                   color:
-                          //                       Color.fromRGBO(173, 106, 3, 1),
-                          //                   shape: BoxShape.circle),
-                          //               child: Icon(
-                          //                 Icons.close,
-                          //                 color: Colors.white,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                                color: Color.fromRGBO(251, 173, 55, 1),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              Text(
+                                'รายการที่ค้นหา',
+                                style: MyContant().h2Style(),
                               ),
-                              padding: const EdgeInsets.all(8),
-                              width: double.infinity,
-                              child: Column(children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: RadioListTile(
-                                        contentPadding:
-                                            const EdgeInsets.all(0.0),
-                                        value: '1',
-                                        groupValue: id,
-                                        title: Text(
-                                          'ลูกค้าทั่วไป',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            st_customer = true;
-                                            st_employee = false;
-                                            id = value.toString();
-                                            statusLoad404approve = false;
-                                            searchData.clear();
-                                          });
-                                          print(value);
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: RadioListTile(
-                                        value: '2',
-                                        groupValue: id,
-                                        title: Text(
-                                          'พนักงาน',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            st_customer = false;
-                                            st_employee = true;
-                                            id = value.toString();
-                                            statusLoad404approve = false;
-                                            searchData.clear();
-                                          });
-                                          print(value);
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                if (st_employee == true) ...[
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'ชื่อ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      input_nameEmploDia(sizeIcon, border),
-                                      Text(
-                                        'สกุล',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      input_lastNameEmploDia(sizeIcon, border),
-                                    ],
-                                  ),
-                                ],
-                                if (st_customer == true) ...[
-                                  Row(
-                                    children: [
-                                      // Text('ชื่อ'),
-                                      // select_searchCus(sizeIcon, border),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(1),
-                                          child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.1,
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4),
-                                              child: DropdownButton(
-                                                items: dropdown_customer
-                                                    .map((value) =>
-                                                        DropdownMenuItem(
-                                                          value: value['id'],
-                                                          child: Text(
-                                                            value['name'],
-                                                            style: MyContant()
-                                                                .TextInputStyle(),
-                                                          ),
-                                                        ))
-                                                    .toList(),
-                                                onChanged: (newvalue) {
-                                                  print(newvalue);
-                                                  setState(() {
-                                                    selectValue_customer =
-                                                        newvalue;
-                                                    if (selectValue_customer
-                                                            .toString() ==
-                                                        "2") {
-                                                      Texthint = 'ชื่อ';
-                                                    } else {
-                                                      Texthint = '';
-                                                    }
-                                                    statusLoad404approve =
-                                                        false;
-                                                    searchData.clear();
-                                                  });
-                                                },
-                                                value: selectValue_customer,
-                                                isExpanded: true,
-                                                underline: const SizedBox(),
-                                                hint: Align(
-                                                  child: Text(
-                                                    'กรุณาเลือกข้อมูล',
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Scrollbar(
+                            child: ListView(
+                              children: [
+                                if (list_datavalue.isNotEmpty) ...[
+                                  for (var i = 0;
+                                      i < list_datavalue.length;
+                                      i++) ...[
+                                    InkWell(
+                                      onTap: () {
+                                        setState(
+                                          () {
+                                            custId.text =
+                                                list_datavalue[i]['custId'];
+                                            Navigator.pop(context);
+                                            clearValueDialog();
+                                          },
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 8),
+                                        child: Container(
+                                          // margin:
+                                          //     EdgeInsets.symmetric(vertical: 5),
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)),
+                                            color:
+                                                Color.fromRGBO(251, 173, 55, 1),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'รหัส : ${list_datavalue[i]['custId']}',
                                                     style: MyContant()
-                                                        .TextInputSelect(),
+                                                        .h4normalStyle(),
                                                   ),
-                                                ),
+                                                ],
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      input_searchCus(sizeIcon, border),
-                                      if (selectValue_customer.toString() ==
-                                          "2") ...[
-                                        input_lastnameCus(sizeIcon, border)
-                                      ],
-                                    ],
-                                  ),
-                                ],
-                              ]),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.034,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.22,
-                                  child: ElevatedButton(
-                                    style: MyContant().myButtonSearchStyle(),
-                                    onPressed: () {
-                                      if (id == '1') {
-                                        print('1==>> $id');
-                                        if (selectValue_customer == null ||
-                                            searchData.text.isEmpty) {
-                                          showProgressDialog(context,
-                                              'แจ้งเตือน', 'กรุณากรอกข้อมูล');
-                                        } else {
-                                          getData_search();
-                                        }
-                                      } else {
-                                        print('2==>> $id');
-                                        if (firstname_em.text.isEmpty &&
-                                            lastname_em.text.isEmpty) {
-                                          showProgressDialog(context,
-                                              'แจ้งเตือน', 'กรุณากรอกข้อมูล');
-                                        } else {
-                                          getData_search();
-                                        }
-                                      }
-                                    },
-                                    child: const Text('ค้นหา'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'รายการที่ค้นหา',
-                                  style: MyContant().h2Style(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            child: Scrollbar(
-                              child: ListView(
-                                children: [
-                                  if (list_datavalue.isNotEmpty) ...[
-                                    for (var i = 0;
-                                        i < list_datavalue.length;
-                                        i++) ...[
-                                      InkWell(
-                                        onTap: () {
-                                          setState(
-                                            () {
-                                              custId.text =
-                                                  list_datavalue[i]['custId'];
-                                              Navigator.pop(context);
-                                              clearValueDialog();
-                                            },
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 2, horizontal: 8),
-                                          child: Container(
-                                            // margin:
-                                            //     EdgeInsets.symmetric(vertical: 5),
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              color: Color.fromRGBO(
-                                                  251, 173, 55, 1),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'รหัส : ${list_datavalue[i]['custId']}',
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'ชื่อ : ${list_datavalue[i]['custName']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'ที่อยู่ : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_datavalue[i]['address']}',
                                                       style: MyContant()
                                                           .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
                                                     ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'ชื่อ : ${list_datavalue[i]['custName']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'ที่อยู่ : ',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        '${list_datavalue[i]['address']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                        overflow:
-                                                            TextOverflow.clip,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'โทร : ${list_datavalue[i]['telephone']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ] else if (statusLoad404approve == true) ...[
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 100),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                'images/Nodata.png',
-                                                width: 55,
-                                                height: 55,
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'โทร : ${list_datavalue[i]['telephone']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'ไม่พบรายการข้อมูล',
-                                                style: MyContant().h5NotData(),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ],
+                                ] else if (statusLoad404approve == true) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 100),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'images/Nodata.png',
+                                              width: 55,
+                                              height: 55,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'ไม่พบรายการข้อมูล',
+                                              style: MyContant().h5NotData(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -793,8 +785,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -831,7 +823,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
-                            // padding: const EdgeInsets.all(5),
                             backgroundColor:
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
@@ -842,24 +833,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                             Icons.search,
                           ),
                         ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     search_idcustomer();
-                        //     get_select_cus();
-                        //   },
-                        //   child: Container(
-                        //     width: 30,
-                        //     height: 30,
-                        //     decoration: BoxDecoration(
-                        //       color: Color.fromRGBO(173, 106, 3, 1),
-                        //       shape: BoxShape.circle,
-                        //     ),
-                        //     child: Icon(
-                        //       Icons.search,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     Row(
@@ -935,85 +908,82 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Padding group_btnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.034,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonSearchStyle(),
-                        onPressed: () {
-                          var newStratDate =
-                              start_date.text.replaceAll('-', '');
-                          var newEndDate = end_date.text.replaceAll('-', '');
-                          print('s==>> $newStratDate');
-                          print('e==>> $newEndDate');
-                          if (select_branchlist == null) {
-                            new_branch = "";
-                          } else {
-                            new_branch = select_branchlist;
-                          }
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Credit_data_detail(
-                                custId.text,
-                                idcard.text,
-                                custName.text,
-                                lastname_cust.text,
-                                new_branch,
-                                newStratDate,
-                                newEndDate,
-                                select_index_approve,
-                              ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.034,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        var newStratDate = start_date.text.replaceAll('-', '');
+                        var newEndDate = end_date.text.replaceAll('-', '');
+                        print('s==>> $newStratDate');
+                        print('e==>> $newEndDate');
+                        if (select_branchlist == null) {
+                          new_branch = "";
+                        } else {
+                          new_branch = select_branchlist;
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Credit_data_detail(
+                              custId.text,
+                              idcard.text,
+                              custName.text,
+                              lastname_cust.text,
+                              new_branch,
+                              newStratDate,
+                              newEndDate,
+                              select_index_approve,
                             ),
-                          );
-                          // if (custId.text.isEmpty &&
-                          //     idcard.text.isEmpty &&
-                          //     custName.text.isEmpty &&
-                          //     lastname_cust.text.isEmpty) {
-                          //   showProgressDialog(context, 'แจ้งเตือน',
-                          //       'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
-                          // } else {
-                          //   var newStratDate =
-                          //       start_date.text.replaceAll('-', '');
-                          //   var newEndDate = end_date.text.replaceAll('-', '');
-                          //   print('s==>> $newStratDate');
-                          //   print('e==>> $newEndDate');
-                          //   showProgressLoading(context);
-                          //   getData_approve(newStratDate, newEndDate);
-                          // }
-                          // showProgressLoading(context);
+                          ),
+                        );
+                        // if (custId.text.isEmpty &&
+                        //     idcard.text.isEmpty &&
+                        //     custName.text.isEmpty &&
+                        //     lastname_cust.text.isEmpty) {
+                        //   showProgressDialog(context, 'แจ้งเตือน',
+                        //       'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
+                        // } else {
+                        //   var newStratDate =
+                        //       start_date.text.replaceAll('-', '');
+                        //   var newEndDate = end_date.text.replaceAll('-', '');
+                        //   print('s==>> $newStratDate');
+                        //   print('e==>> $newEndDate');
+                        //   showProgressLoading(context);
+                        //   getData_approve(newStratDate, newEndDate);
+                        // }
+                        // showProgressLoading(context);
 
-                          // getData_approve(newStratDate, newEndDate);
-                        },
-                        child: const Text('ค้นหา'),
-                      ),
+                        // getData_approve(newStratDate, newEndDate);
+                      },
+                      child: const Text('ค้นหา'),
                     ),
-                    const SizedBox(width: 10),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.034,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonCancelStyle(),
-                        onPressed: () {
-                          clearValueapprove();
-                        },
-                        child: const Text('ยกเลิก'),
-                      ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.034,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        clearValueapprove();
+                      },
+                      child: const Text('ยกเลิก'),
                     ),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }

@@ -62,7 +62,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
   Future<void> getData_approve() async {
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/approve'),
+        Uri.parse('${beta_api_test}credit/approve'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -100,7 +100,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -147,12 +147,13 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -169,7 +170,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           : status_load404 == true
               ? Center(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -177,31 +178,29 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                     height: MediaQuery.of(context).size.height * 0.15,
                     child: Column(
                       children: [
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'images/Nodata.png',
-                                    width: 55,
-                                    height: 55,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'ไม่พบรายการข้อมูล',
-                                    style: MyContant().h5NotData(),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/Nodata.png',
+                                  width: 55,
+                                  height: 55,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ไม่พบรายการข้อมูล',
+                                  style: MyContant().h5NotData(),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ],
                     ),
@@ -216,7 +215,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                           for (var i = 0; i < list_approve.length; i++) ...[
                             InkWell(
                               onTap: () {
-                                print('click go to next page');
                                 // String refresh = await
                                 Navigator.push(
                                   context,
@@ -245,8 +243,8 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4),
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5)),
                                     color: Color.fromRGBO(251, 173, 55, 1),

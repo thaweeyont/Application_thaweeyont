@@ -72,7 +72,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -116,7 +116,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${api}debtor/list'),
+        Uri.parse('${beta_api_test}debtor/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -151,8 +151,6 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           list_dataDebtor = datadebtorList['data'];
         });
         statusLoading = true;
-
-        print('testData->>${list_dataDebtor}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(

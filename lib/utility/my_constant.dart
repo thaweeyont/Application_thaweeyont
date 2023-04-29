@@ -231,6 +231,16 @@ class MyContant {
         textStyle: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
       );
 
+  ButtonStyle myButtonQuaranteeStyle() => ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+        padding: const EdgeInsets.all(0),
+        textStyle: const TextStyle(fontSize: 15, fontFamily: 'Prompt'),
+      );
+
   SizedBox space_box(double height) => SizedBox(
         height: height,
         child: Container(

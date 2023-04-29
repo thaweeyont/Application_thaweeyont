@@ -53,7 +53,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -69,7 +69,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Future<void> get_select_bl_search() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/blSearchList'),
+        Uri.parse('${beta_api_test}setup/blSearchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -108,7 +108,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Future<void> get_select_province() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -176,7 +176,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${beta_api_test}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -283,7 +283,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         String? firstName, String? lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${api}credit/blacklist'),
+          Uri.parse('${beta_api_test}credit/blacklist'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -931,7 +931,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                 try {
                                                   var respose = await http.get(
                                                     Uri.parse(
-                                                        '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                        '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                     headers: <String, String>{
                                                       'Content-Type':
                                                           'application/json',

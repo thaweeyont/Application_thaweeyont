@@ -69,7 +69,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${api}debtor/detail'),
+        Uri.parse('${beta_api_test}debtor/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -143,7 +143,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -238,13 +238,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     )
                   : Container(
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                        borderRadius: BorderRadius.all(
+                        color: const Color.fromARGB(255, 24, 24, 24)
+                            .withOpacity(0.9),
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(10),
                         ),
                       ),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 30),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -259,55 +260,53 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     ),
             )
           : GestureDetector(
-              child: Container(
-                child: Column(
-                  children: [
-                    slidemenu(context),
-                    if (active_mu1 == true) ...[
-                      content_list_mu1(context),
-                    ],
-                    if (active_mu2 == true) ...[
-                      content_list_mu2(context),
-                    ],
-                    if (active_mu3 == true) ...[
-                      content_list_mu3(context),
-                    ],
-                    if (active_mu4 == true) ...[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'รายการชำระค่างวด',
-                                  style: MyContant().h3Style(),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
-                                  style: MyContant().h3Style(),
-                                ),
-                                Text(
-                                  'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
-                                  style: MyContant().h3Style(),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      content_list_mu4(context),
-                    ],
+              child: Column(
+                children: [
+                  slidemenu(context),
+                  if (active_mu1 == true) ...[
+                    content_list_mu1(context),
                   ],
-                ),
+                  if (active_mu2 == true) ...[
+                    content_list_mu2(context),
+                  ],
+                  if (active_mu3 == true) ...[
+                    content_list_mu3(context),
+                  ],
+                  if (active_mu4 == true) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'รายการชำระค่างวด',
+                                style: MyContant().h3Style(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
+                                style: MyContant().h3Style(),
+                              ),
+                              Text(
+                                'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
+                                style: MyContant().h3Style(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    content_list_mu4(context),
+                  ],
+                ],
               ),
             ),
     );
@@ -322,8 +321,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             padding:
                 const EdgeInsets.only(top: 0, bottom: 0, left: 8, right: 8),
             child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(8.0),
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
@@ -339,7 +338,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -350,7 +349,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -369,7 +368,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -388,7 +387,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -407,7 +406,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -426,7 +425,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -450,13 +449,13 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
                         )),
-                    child: TabBar(
+                    child: const TabBar(
                       labelColor: Color.fromRGBO(110, 66, 0, 1),
                       labelStyle: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
                       unselectedLabelColor: Colors.black,
@@ -470,7 +469,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   line(),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.25,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color.fromRGBO(251, 173, 55, 1),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -497,7 +496,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                           decoration: BoxDecoration(
                                             color:
                                                 Colors.white.withOpacity(0.7),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(5),
                                             ),
                                           ),
@@ -524,7 +524,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 )
                               : Container(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     children: [
                                       Container(
@@ -533,7 +533,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                 0.23,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.7),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
                                         ),
@@ -554,7 +554,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                   .h4normalStyle()),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -579,7 +579,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           )
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -604,7 +604,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -629,7 +629,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -640,7 +640,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                   .h4normalStyle()),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -681,7 +681,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                           decoration: BoxDecoration(
                                             color:
                                                 Colors.white.withOpacity(0.7),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(5),
                                             ),
                                           ),
@@ -708,7 +709,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 )
                               : Container(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     children: [
                                       Container(
@@ -717,7 +718,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                 0.23,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.7),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
                                         ),
@@ -738,7 +739,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                   .h4normalStyle()),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -763,7 +764,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           )
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -788,7 +789,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -813,7 +814,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -824,7 +825,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                   .h4normalStyle()),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -865,7 +866,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                           decoration: BoxDecoration(
                                             color:
                                                 Colors.white.withOpacity(0.7),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(5),
                                             ),
                                           ),
@@ -892,7 +894,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 )
                               : Container(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     children: [
                                       Container(
@@ -901,7 +903,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                 0.23,
                                         decoration: BoxDecoration(
                                           color: Colors.white.withOpacity(0.7),
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
                                         ),
@@ -922,7 +924,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                   .h4normalStyle()),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -947,7 +949,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -972,7 +974,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -997,7 +999,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -1009,7 +1011,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Row(
@@ -1043,8 +1045,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(8.0),
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
@@ -1060,7 +1062,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1069,7 +1071,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         'ราคาเช่าซื้อ : ${Debtordetail['leaseTotal']} บาท',
                         style: MyContant().h4normalStyle(),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -1078,7 +1080,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1089,7 +1091,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1100,7 +1102,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1111,7 +1113,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1129,8 +1131,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(8.0),
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
@@ -1138,7 +1140,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               ),
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1157,7 +1159,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1168,7 +1170,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1179,7 +1181,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1198,7 +1200,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1217,7 +1219,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1228,14 +1230,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(10),
                       ),
                     ),
@@ -1272,8 +1274,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(8.0),
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
@@ -1290,14 +1292,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1328,7 +1330,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1339,14 +1341,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1391,8 +1393,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(8.0),
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
@@ -1421,15 +1423,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1469,7 +1471,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -1486,7 +1488,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   // H010105220554415
@@ -1510,15 +1512,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1558,7 +1560,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -1575,7 +1577,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1598,15 +1600,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
-                    padding: EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(2.0),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1646,7 +1648,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -1663,7 +1665,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1686,15 +1688,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1734,7 +1736,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -1751,7 +1753,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1774,15 +1776,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1822,7 +1824,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -1839,7 +1841,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1862,15 +1864,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
                     ),
@@ -1910,7 +1912,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -1927,7 +1929,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   )
                 ],
@@ -1960,8 +1962,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: const BoxDecoration(
                     color: Color.fromRGBO(251, 173, 55, 1),
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
@@ -1983,14 +1985,14 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.165,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.7),
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(5),
                           ),
                         ),
@@ -2013,7 +2015,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
@@ -2026,11 +2028,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 line(),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
@@ -2041,7 +2043,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Row(
@@ -2077,7 +2079,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
   Container slidemenu(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.065,
-      // padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -2093,8 +2094,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu1 == true
-                        ? Color.fromRGBO(202, 121, 0, 1)
-                        : Color.fromRGBO(251, 173, 55, 1),
+                        ? const Color.fromRGBO(202, 121, 0, 1)
+                        : const Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'รายการสินค้า',
@@ -2111,8 +2112,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu2 == true
-                        ? Color.fromRGBO(202, 121, 0, 1)
-                        : Color.fromRGBO(251, 173, 55, 1),
+                        ? const Color.fromRGBO(202, 121, 0, 1)
+                        : const Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'หมายเหตุพิจารณาสินเชื่อ',
@@ -2129,8 +2130,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu3 == true
-                        ? Color.fromRGBO(202, 121, 0, 1)
-                        : Color.fromRGBO(251, 173, 55, 1),
+                        ? const Color.fromRGBO(202, 121, 0, 1)
+                        : const Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'บันทึกหมายเหตุ',
@@ -2147,8 +2148,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu4 == true
-                        ? Color.fromRGBO(202, 121, 0, 1)
-                        : Color.fromRGBO(251, 173, 55, 1),
+                        ? const Color.fromRGBO(202, 121, 0, 1)
+                        : const Color.fromRGBO(251, 173, 55, 1),
                   ),
                   child: Text(
                     'ชำระค่างวด',
@@ -2156,7 +2157,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 6,
               )
               // InkWell(
@@ -2255,7 +2256,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
   }
 
   SizedBox line() {
-    return SizedBox(
+    return const SizedBox(
       height: 0,
       width: double.infinity,
       child: Divider(

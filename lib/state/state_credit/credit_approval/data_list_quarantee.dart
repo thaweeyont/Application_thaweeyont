@@ -48,7 +48,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
     print(widget.custId.toString());
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/quarantee'),
+        Uri.parse('${beta_api_test}credit/quarantee'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -79,7 +79,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -120,12 +120,12 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -141,7 +141,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
             )
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.9,
                 child: Scrollbar(
                   child: ListView(
@@ -161,8 +161,8 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
                             child: Container(
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8),
+                              decoration: const BoxDecoration(
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(5),
                                   ),
@@ -177,7 +177,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -197,7 +197,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -217,7 +217,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -234,7 +234,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(

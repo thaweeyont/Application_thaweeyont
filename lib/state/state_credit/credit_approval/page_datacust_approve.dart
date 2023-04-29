@@ -11,6 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utility/my_constant.dart';
 import '../../authen.dart';
+import 'approve_creditquarantee.dart';
+import 'credit_debtordetail.dart';
+import 'credit_querydebtor.dart';
 import 'page_check_blacklist.dart';
 import 'package:http/http.dart' as http;
 import 'package:application_thaweeyont/state/state_credit/credit_approval/credit_data_detail.dart';
@@ -40,7 +43,6 @@ class Data_Cust_Approve extends StatefulWidget {
       this.start_date,
       this.end_date,
       this.select_index_approve);
-  // const Data_Cust_Approve({super.key});
 
   @override
   State<Data_Cust_Approve> createState() => _Data_Cust_ApproveState();
@@ -78,7 +80,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdata();
   }
@@ -106,7 +107,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/detail'),
+        Uri.parse('${beta_api_test}credit/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -158,7 +159,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           }
         });
 
-        print('data=>>${dataCreditdetail['status']}');
+        print('data=>>${valueapprove}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(
@@ -214,7 +215,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/approveCredit'),
+        Uri.parse('${beta_api_test}credit/approveCredit'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -261,7 +262,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       } else if (respose.statusCode == 500) {
         print(respose.statusCode);
         showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})'); 
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
         print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
@@ -278,7 +279,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/approveTypeList'),
+        Uri.parse('${beta_api_test}setup/approveTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -338,7 +339,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/approveReasonList'),
+        Uri.parse('${beta_api_test}setup/approveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -397,7 +398,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/notApproveReasonList'),
+        Uri.parse('${beta_api_test}setup/notApproveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -476,8 +477,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -591,77 +592,75 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                     padding:
                                                         const EdgeInsets.all(
                                                             8.0),
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                'เลขบัตรประชาชน : ${valueapprove['smartId']}',
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              'เลขบัตรประชาชน : ${valueapprove['smartId']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'ชื่อลูกค้า : ',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                '${valueapprove['custName']}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 style: MyContant()
                                                                     .h4normalStyle(),
                                                               ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'ชื่อลูกค้า : ',
-                                                                style: MyContant()
-                                                                    .h4normalStyle(),
-                                                              ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  '${valueapprove['custName']}',
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  style: MyContant()
-                                                                      .h4normalStyle(),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                'เกิดวันที่ : ${valueapprove['birthday']}',
-                                                                style: MyContant()
-                                                                    .h4normalStyle(),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 15,
-                                                              ),
-                                                              Text(
-                                                                'อายุ : ${valueapprove['age']} ปี',
-                                                                style: MyContant()
-                                                                    .h4normalStyle(),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                'ชื่อรอง : ${valueapprove['nickName']}',
-                                                                style: MyContant()
-                                                                    .h4normalStyle(),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              'เกิดวันที่ : ${valueapprove['birthday']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 15,
+                                                            ),
+                                                            Text(
+                                                              'อายุ : ${valueapprove['age']} ปี',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              'ชื่อรอง : ${valueapprove['nickName']}',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ],
@@ -698,58 +697,56 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                     padding:
                                                         const EdgeInsets.all(
                                                             8.0),
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'ที่อยู่ : ',
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'ที่อยู่ : ',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                '${valueapprove['address']}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 style: MyContant()
                                                                     .h4normalStyle(),
                                                               ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  '${valueapprove['address']}',
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  style: MyContant()
-                                                                      .h4normalStyle(),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'ที่อยู่ใช้สินค้า : ',
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'ที่อยู่ใช้สินค้า : ',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                '${valueapprove['address']}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 style: MyContant()
                                                                     .h4normalStyle(),
                                                               ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  '${valueapprove['address']}',
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  style: MyContant()
-                                                                      .h4normalStyle(),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ],
@@ -789,61 +786,59 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                     padding:
                                                         const EdgeInsets.all(
                                                             8.0),
-                                                    child: Container(
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'อาชีพ : ',
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'อาชีพ : ',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                '${valueapprove['career']}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 style: MyContant()
                                                                     .h4normalStyle(),
                                                               ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  '${valueapprove['career']}',
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  style: MyContant()
-                                                                      .h4normalStyle(),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                'สถานที่ทำงาน : ',
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'สถานที่ทำงาน : ',
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                            ),
+                                                            Expanded(
+                                                              child: Text(
+                                                                '${valueapprove['workPlace']}',
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .clip,
                                                                 style: MyContant()
                                                                     .h4normalStyle(),
                                                               ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  '${valueapprove['workPlace']}',
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .clip,
-                                                                  style: MyContant()
-                                                                      .h4normalStyle(),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                        ],
-                                                      ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ],
@@ -865,15 +860,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       ),
                     ),
                   ],
-                  // if (list_signDetail.isNotEmpty) ...[
                   slidemenu(context),
-                  // if (active_cl1 == true) ...[
-                  //   // content_list1(context),
-                  // ],
-                  // if (active_cl2 == true) ...[
-                  //   content_list2(context),
-                  // ],
-                  // ],
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 8, right: 8, bottom: 4),
@@ -1081,26 +1068,24 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               child: Scrollbar(
                                 child: ListView(
                                   children: [
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_detail!['considerName']}',
-                                                    overflow: TextOverflow.clip,
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  '${list_detail!['considerName']}',
+                                                  overflow: TextOverflow.clip,
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
                                                 ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -1147,26 +1132,24 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               child: Scrollbar(
                                 child: ListView(
                                   children: [
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_detail!['creditNote']}',
-                                                    overflow: TextOverflow.clip,
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  '${list_detail!['creditNote']}',
+                                                  overflow: TextOverflow.clip,
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
                                                 ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -1213,26 +1196,24 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               child: Scrollbar(
                                 child: ListView(
                                   children: [
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_detail!['headNote']}',
-                                                    overflow: TextOverflow.clip,
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  '${list_detail!['headNote']}',
+                                                  overflow: TextOverflow.clip,
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
                                                 ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -1403,7 +1384,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Container(
+                                              SizedBox(
                                                 height: 35,
                                                 width: 120,
                                                 child: ElevatedButton(
@@ -1493,8 +1474,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Container slidemenu(BuildContext context) {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -1514,64 +1495,142 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               const SizedBox(
                 width: 8,
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: ElevatedButton(
-                  onPressed: () {
-                    sign_Detail(sizeIcon, border);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
-                  ),
-                  child: Text(
-                    'ตรวจสอบหนี้สิน',
-                    style: MyContant().h4normalStyle(),
+              if (allowApproveStatus == true) ...[
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // sign_Detail(sizeIcon, border);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CreditDebtorDetail(widget.custId),
+                          ));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Text(
+                      'ตรวจสอบหนี้สิน',
+                      style: MyContant().h4normalStyle(),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DataListQuarantee(
-                          widget.custId.toString(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DataListQuarantee(
+                            widget.custId.toString(),
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
-                  ),
-                  child: Text(
-                    'รายละเอียดผู้ค้ำ',
-                    style: MyContant().h4normalStyle(),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            Page_Check_Blacklist(valueapprove['smartId']),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
-                  ),
-                  child: Text(
-                    'เช็ค Blacklist',
-                    style: MyContant().h4normalStyle(),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Text(
+                      'รายละเอียดผู้ค้ำ',
+                      style: MyContant().h4normalStyle(),
+                    ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Page_Check_Blacklist(valueapprove['smartId']),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Text(
+                      'เช็ค Blacklist',
+                      style: MyContant().h4normalStyle(),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreditQueryDebtor(
+                            valueapprove['address'],
+                            valueapprove['homeNo'],
+                            valueapprove['moo'],
+                            valueapprove['provId'],
+                            valueapprove['amphurId'],
+                            valueapprove['tumbolId'],
+                          ),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Text(
+                      'สอบถามลูกหนี้',
+                      style: MyContant().h4normalStyle(),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ApproveCreditQuarantee(widget.tranId.toString()),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Text(
+                      'บันทึกผู้ค้ำประกัน',
+                      style: MyContant().h4normalStyle(),
+                    ),
+                  ),
+                ),
+              ] else ...[
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ApproveCreditQuarantee(widget.tranId.toString()),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                    ),
+                    child: Text(
+                      'บันทึกผู้ค้ำประกัน',
+                      style: MyContant().h4normalStyle(),
+                    ),
+                  ),
+                ),
+              ]
               // InkWell(
               //   onTap: () {
               //     sign_Detail(sizeIcon, border);
@@ -1888,7 +1947,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     ),
                     elevation: 0,
                     color: Colors.white,
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.85,
                       // margin: const EdgeInsets.all(5),
                       child: Column(
@@ -1898,21 +1957,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 12, bottom: 6),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'ตรวจสอบหนี้สิน',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'ตรวจสอบหนี้สิน',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                               Positioned(
@@ -1929,16 +1986,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       size: 30,
                                       color: Color.fromARGB(255, 0, 0, 0),
                                     ),
-                                    // child: Container(
-                                    //   width: 30,
-                                    //   height: 30,
-                                    //   // decoration: BoxDecoration(
-                                    //   //   color:
-                                    //   //       Color.fromARGB(255, 112, 112, 112),
-                                    //   //   shape: BoxShape.circle,
-                                    //   // ),
-
-                                    // ),
                                   ),
                                 ),
                               ),
@@ -2342,11 +2389,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   : dropdown_approveTypeList
                       .map(
                         (value) => DropdownMenuItem<String>(
+                          value: value['id'].toString(),
                           child: Text(
                             value['name'],
                             style: MyContant().TextInputStyle(),
                           ),
-                          value: value['id'].toString(),
                         ),
                       )
                       .toList(),

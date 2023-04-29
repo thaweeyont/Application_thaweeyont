@@ -51,7 +51,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
     print(widget.custId);
     try {
       var respose = await http.post(
-        Uri.parse('${api}customer/member'),
+        Uri.parse('${beta_api_test}customer/member'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
