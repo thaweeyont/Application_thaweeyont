@@ -1524,7 +1524,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1552,7 +1552,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1581,7 +1581,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1608,7 +1608,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1635,7 +1635,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1662,7 +1662,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1690,7 +1690,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1718,7 +1718,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1746,7 +1746,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1774,7 +1774,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1900,7 +1900,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1927,7 +1927,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1955,7 +1955,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

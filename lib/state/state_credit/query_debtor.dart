@@ -1404,18 +1404,15 @@ class _Query_debtorState extends State<Query_debtor> {
     Future<Null> getData_search() async {
       if (id == '1') {
         print(id);
-        list_datavalue = [];
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
           getData_condition(
               id, selectValue_customer, '', searchData.text, lastname.text);
         } else {
-          list_datavalue = [];
           getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
         print(id);
-        list_datavalue = [];
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
       }
@@ -1615,7 +1612,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.1,
+                                              0.095,
                                           padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
@@ -1628,12 +1625,12 @@ class _Query_debtorState extends State<Query_debtor> {
                                               items: dropdown_customer
                                                   .map((value) =>
                                                       DropdownMenuItem(
+                                                        value: value['id'],
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
                                                               .TextInputStyle(),
                                                         ),
-                                                        value: value['id'],
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
@@ -2482,7 +2479,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2508,7 +2505,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2531,7 +2528,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: firstname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2554,7 +2551,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname_c,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2580,7 +2577,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2611,11 +2608,11 @@ class _Query_debtorState extends State<Query_debtor> {
             child: DropdownButton(
               items: dropdown_addresstype
                   .map((value) => DropdownMenuItem(
+                        value: value['id'],
                         child: Text(
                           value['name'],
                           style: MyContant().h4normalStyle(),
                         ),
-                        value: value['id'],
                       ))
                   .toList(),
               onChanged: (newvalue) {
@@ -2647,7 +2644,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: homeNo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2670,7 +2667,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: moo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2694,7 +2691,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2718,7 +2715,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2742,7 +2739,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2807,7 +2804,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: signId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2915,7 +2912,7 @@ class _Query_debtorState extends State<Query_debtor> {
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2941,7 +2938,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchNameItemtype,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2967,7 +2964,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: firstname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2993,7 +2990,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -3019,7 +3016,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -3044,7 +3041,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

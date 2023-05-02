@@ -5,6 +5,7 @@ import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home_credit extends StatefulWidget {
   const Home_credit({Key? key}) : super(key: key);
@@ -14,6 +15,27 @@ class Home_credit extends StatefulWidget {
 }
 
 class _Home_creditState extends State<Home_credit> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  bool? allowApproveStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+      allowApproveStatus = preferences.getBool('allowApproveStatus');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.width;
@@ -35,11 +57,6 @@ class _Home_creditState extends State<Home_credit> {
             check_approve(size),
             check_statususer(size),
             check_blacklist(size),
-            // check_information_n(size),
-            // check_buyproduct_n(size),
-            // check_approve_n(size),
-            // check_statususer_n(size),
-            // check_blacklist_n(size),
           ],
         ),
       ),
@@ -75,7 +92,7 @@ class _Home_creditState extends State<Home_credit> {
           style: MyContant().TextMenulist(),
         ), //label text
         style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromRGBO(
+            backgroundColor: const Color.fromRGBO(
                 255, 152, 238, 1) //elevated btton background color
             ),
       ),
@@ -111,7 +128,7 @@ class _Home_creditState extends State<Home_credit> {
           style: MyContant().TextMenulist(),
         ), //label text
         style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromRGBO(
+            backgroundColor: const Color.fromRGBO(
                 212, 151, 233, 1) //elevated btton background color
             ),
       ),
@@ -140,14 +157,21 @@ class _Home_creditState extends State<Home_credit> {
           Icons.manage_accounts_rounded,
           size: size * 0.12,
         ),
-        label: Text(
-          'เช็คผลการพิจารณาสินเชื่อ',
-          overflow: TextOverflow.clip,
-          textAlign: TextAlign.center,
-          style: MyContant().TextMenulist(),
-        ), //label text
+        label: allowApproveStatus == true
+            ? Text(
+                'บันทึกพิจารณาอนุมัติสินเชื่อ',
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
+                style: MyContant().TextMenulist(),
+              )
+            : Text(
+                'ตรวจสอบผลการพิจารณาสินเชื่อ',
+                overflow: TextOverflow.clip,
+                textAlign: TextAlign.center,
+                style: MyContant().TextMenulist(),
+              ), //label text
         style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromRGBO(
+            backgroundColor: const Color.fromRGBO(
                 251, 713, 55, 1) //elevated btton background color
             ),
       ),
@@ -183,7 +207,7 @@ class _Home_creditState extends State<Home_credit> {
           style: MyContant().TextMenulist(),
         ), //label text
         style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromRGBO(
+            backgroundColor: const Color.fromRGBO(
                 64, 203, 203, 1) //elevated btton background color
             ),
       ),
@@ -219,7 +243,7 @@ class _Home_creditState extends State<Home_credit> {
           style: MyContant().TextMenulist(),
         ), //label text
         style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromRGBO(
+            backgroundColor: const Color.fromRGBO(
                 162, 181, 252, 1) //elevated btton background color
             ),
       ),
@@ -237,7 +261,7 @@ class _Home_creditState extends State<Home_credit> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromRGBO(251, 713, 55, 1),
+          color: const Color.fromRGBO(251, 713, 55, 1),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -250,8 +274,8 @@ class _Home_creditState extends State<Home_credit> {
                   size: size * 0.12,
                   color: Colors.white,
                 ),
-                SizedBox(width: 15),
-                Text(
+                const SizedBox(width: 15),
+                const Text(
                   'เช็คผลการพิจารณาสินเชื่อ',
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
@@ -280,7 +304,7 @@ class _Home_creditState extends State<Home_credit> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromRGBO(64, 203, 203, 1),
+          color: const Color.fromRGBO(64, 203, 203, 1),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -293,8 +317,8 @@ class _Home_creditState extends State<Home_credit> {
                   size: size * 0.12,
                   color: Colors.white,
                 ),
-                SizedBox(width: 15),
-                Text(
+                const SizedBox(width: 15),
+                const Text(
                   'สถานะสมาชิกทวียนต์',
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
@@ -323,7 +347,7 @@ class _Home_creditState extends State<Home_credit> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromRGBO(212, 151, 233, 1),
+          color: const Color.fromRGBO(212, 151, 233, 1),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -336,8 +360,8 @@ class _Home_creditState extends State<Home_credit> {
                   size: size * 0.12,
                   color: Colors.white,
                 ),
-                SizedBox(width: 15),
-                Text(
+                const SizedBox(width: 15),
+                const Text(
                   'ตรวจสอบข้อมูลการซื้อสินค้า',
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
@@ -366,7 +390,7 @@ class _Home_creditState extends State<Home_credit> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromRGBO(162, 181, 252, 1),
+          color: const Color.fromRGBO(162, 181, 252, 1),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -379,8 +403,8 @@ class _Home_creditState extends State<Home_credit> {
                   size: size * 0.12,
                   color: Colors.white,
                 ),
-                SizedBox(width: 15),
-                Text(
+                const SizedBox(width: 15),
+                const Text(
                   'สอบถามรายละเอียด BlackList',
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
@@ -411,7 +435,7 @@ class _Home_creditState extends State<Home_credit> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromRGBO(255, 152, 238, 1),
+          color: const Color.fromRGBO(255, 152, 238, 1),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -424,8 +448,8 @@ class _Home_creditState extends State<Home_credit> {
                   size: size * 0.12,
                   color: Colors.white,
                 ),
-                SizedBox(width: 15),
-                Text(
+                const SizedBox(width: 15),
+                const Text(
                   'สอบถามรายละเอียดลูกหนี้',
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,

@@ -203,9 +203,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     });
   }
 
-  Future<Null> search_idcustomer() async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+  Future<void> search_idcustomer() async {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -488,8 +488,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 if (st_customer == true) ...[
                                   Row(
                                     children: [
-                                      // Text('ชื่อ'),
-                                      // select_searchCus(sizeIcon, border),
                                       Expanded(
                                         child: Padding(
                                           padding: const EdgeInsets.all(1),
@@ -497,7 +495,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.1,
+                                                0.095,
                                             padding: const EdgeInsets.all(4),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -510,12 +508,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                                 items: dropdown_customer
                                                     .map((value) =>
                                                         DropdownMenuItem(
+                                                          value: value['id'],
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
                                                                 .TextInputStyle(),
                                                           ),
-                                                          value: value['id'],
                                                         ))
                                                     .toList(),
                                                 onChanged: (newvalue) {
@@ -550,10 +548,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                           ),
                                         ),
                                       ),
-                                      // Text('สกุล'),
                                       input_searchCus(sizeIcon, border),
-                                      //lastname
-                                      // Text(selectValue_customer),
                                       if (selectValue_customer.toString() ==
                                           "2") ...[
                                         input_lastnameCus(sizeIcon, border)
@@ -1122,7 +1117,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1146,7 +1141,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1170,7 +1165,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1237,7 +1232,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           controller: firstname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1263,7 +1258,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           controller: lastname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1289,7 +1284,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1314,7 +1309,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

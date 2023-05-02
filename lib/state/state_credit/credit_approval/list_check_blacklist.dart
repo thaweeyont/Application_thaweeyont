@@ -110,9 +110,6 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
           list_Blacklist = dataBlacklist['data'];
         });
         statusLoading = true;
-
-        // Navigator.pop(context);
-        print(list_Blacklist);
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
         showProgressDialog_400(

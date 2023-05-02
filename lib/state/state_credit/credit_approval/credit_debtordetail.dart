@@ -98,7 +98,8 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลผู้ค้ำประกัน');
+        showProgressDialog_404(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(
@@ -165,13 +166,22 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              'ชื่อลูกค้า : ${listDataDebtor!['custName']}',
-                              style: MyContant().h4normalStyle(),
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(5),
                             ),
-                          ],
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'ชื่อลูกค้า : ${listDataDebtor!['custName']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -274,11 +284,21 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                                           height: 5,
                                         ),
                                         Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'ชื่อสินค้า : ${listCreditdebtor[i]['itemName']}',
+                                              'ชื่อสินค้า : ',
                                               style:
                                                   MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '${listCreditdebtor[i]['itemName']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                                overflow: TextOverflow.clip,
+                                              ),
                                             ),
                                           ],
                                         ),

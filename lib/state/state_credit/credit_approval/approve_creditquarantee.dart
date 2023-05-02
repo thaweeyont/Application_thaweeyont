@@ -87,7 +87,11 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+        setState(() {
+          statusLoad404 = true;
+          statusLoading = true;
+        });
+        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
         print(respose.statusCode);
         showProgressDialog_405(
@@ -141,252 +145,321 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                 ),
               ),
             )
-          : GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: ListView(
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  for (var i = 0; i < ListCreditquarantee.length; i++) ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 8),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                          color: Color.fromRGBO(251, 173, 55, 1),
-                        ),
-                        child: Column(
+          : statusLoad404 == true
+              ? Center(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    child: Column(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  'ผู้ค้ำที่ ${i + 1}',
-                                  style: MyContant().h4normalStyle(),
+                                Image.asset(
+                                  'images/Nodata.png',
+                                  width: 55,
+                                  height: 55,
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ไม่พบรายการข้อมูล',
+                                  style: MyContant().h5NotData(),
                                 ),
-                                color: Colors.white.withOpacity(0.7),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'รหัสลูกค้า : ${ListCreditquarantee[i]['custId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'ชื่อลูกค้า : ${ListCreditquarantee[i]['custName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'บัตรประชาชน : ${ListCreditquarantee[i]['smartId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ที่อยู่ : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${ListCreditquarantee[i]['address']}',
-                                          style: MyContant().h4normalStyle(),
-                                          overflow: TextOverflow.clip,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'เบอร์โทร : ${ListCreditquarantee[i]['tel']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'อาชีพ : ${ListCreditquarantee[i]['career']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'สถานะทางทะเบียนบ้าน : ${ListCreditquarantee[i]['govAddrStatus']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'วันเกิด : ${ListCreditquarantee[i]['birthDate']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Text(
-                                        'อายุ : ${ListCreditquarantee[i]['age']} ปี',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.08,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                                color: Colors.white.withOpacity(0.7),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: 35,
-                                        width: 112,
-                                        child: ElevatedButton(
-                                          style: MyContant()
-                                              .myButtonQuaranteeStyle(),
-                                          onPressed: () {
-                                            print(
-                                                'value>>>${ListCreditquarantee[i]}');
-                                            if (ListCreditquarantee[i] != "") {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CreditDebtorDetail(
-                                                            ListCreditquarantee[
-                                                                i]['custId']),
-                                                  ));
-                                            } else {}
-                                          },
-                                          child: const Text('ตรวจสอบหนี้สิน'),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      SizedBox(
-                                        height: 35,
-                                        width: 112,
-                                        child: ElevatedButton(
-                                          style: MyContant()
-                                              .myButtonQuaranteeStyle(),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DataListQuarantee(
-                                                  ListCreditquarantee[i]
-                                                      ['custId'],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: const Text('รายละเอียดผู้ค้ำ'),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      SizedBox(
-                                        height: 35,
-                                        width: 112,
-                                        child: ElevatedButton(
-                                          style: MyContant()
-                                              .myButtonQuaranteeStyle(),
-                                          onPressed: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Page_Check_Blacklist(
-                                                        ListCreditquarantee[i]
-                                                            ['smartId']),
-                                              ),
-                                            );
-                                          },
-                                          child: const Text('เช็ค Blacklist'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                              ],
                             ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ],
-              ),
-            ),
+                  ),
+                )
+              : GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: ListView(
+                    children: [
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      for (var i = 0; i < ListCreditquarantee.length; i++) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                              color: Color.fromRGBO(251, 173, 55, 1),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ผู้ค้ำที่ ${i + 1}',
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
+                                    color: Colors.white.withOpacity(0.7),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'รหัสลูกค้า : ${ListCreditquarantee[i]['custId']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'ชื่อลูกค้า : ${ListCreditquarantee[i]['custName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'บัตรประชาชน : ${ListCreditquarantee[i]['smartId']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'ที่อยู่ : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${ListCreditquarantee[i]['address']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                              overflow: TextOverflow.clip,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'เบอร์โทร : ${ListCreditquarantee[i]['tel']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'อาชีพ : ${ListCreditquarantee[i]['career']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'สถานะทางทะเบียนบ้าน : ${ListCreditquarantee[i]['govAddrStatus']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'วันเกิด : ${ListCreditquarantee[i]['birthDate']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'อายุ : ${ListCreditquarantee[i]['age']} ปี',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                if (allowApproveStatus == true) ...[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.08,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                      color: Colors.white.withOpacity(0.7),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              height: 35,
+                                              width: 112,
+                                              child: ElevatedButton(
+                                                style: MyContant()
+                                                    .myButtonQuaranteeStyle(),
+                                                onPressed: () {
+                                                  if (ListCreditquarantee[i]
+                                                              ['custId'] !=
+                                                          "" &&
+                                                      ListCreditquarantee[i]
+                                                              ['custId'] !=
+                                                          "NO") {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CreditDebtorDetail(
+                                                                  ListCreditquarantee[
+                                                                          i][
+                                                                      'custId']),
+                                                        ));
+                                                    print('Yes');
+                                                  } else {
+                                                    print('No');
+                                                  }
+                                                },
+                                                child: const Text(
+                                                    'ตรวจสอบหนี้สิน'),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            SizedBox(
+                                              height: 35,
+                                              width: 112,
+                                              child: ElevatedButton(
+                                                style: MyContant()
+                                                    .myButtonQuaranteeStyle(),
+                                                onPressed: () {
+                                                  if (ListCreditquarantee[i]
+                                                              ['custId'] !=
+                                                          "" &&
+                                                      ListCreditquarantee[i]
+                                                              ['custId'] !=
+                                                          "NO") {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            DataListQuarantee(
+                                                          ListCreditquarantee[i]
+                                                              ['custId'],
+                                                        ),
+                                                      ),
+                                                    );
+                                                    print('Yes');
+                                                  } else {
+                                                    print('No');
+                                                  }
+                                                },
+                                                child: const Text(
+                                                    'รายละเอียดผู้ค้ำ'),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            SizedBox(
+                                              height: 35,
+                                              width: 112,
+                                              child: ElevatedButton(
+                                                style: MyContant()
+                                                    .myButtonQuaranteeStyle(),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Page_Check_Blacklist(
+                                                              ListCreditquarantee[
+                                                                      i]
+                                                                  ['smartId']),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text(
+                                                    'เช็ค Blacklist'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ),
     );
   }
 }

@@ -521,7 +521,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.1,
+                                              0.095,
                                           padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                               color: Colors.white,
@@ -1011,7 +1011,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1040,7 +1040,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1067,7 +1067,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1114,7 +1114,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1139,7 +1139,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           controller: firstname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1165,7 +1165,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           controller: lastname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1191,7 +1191,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1227,11 +1227,11 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                   : dropdown_branch
                       .map(
                         (value) => DropdownMenuItem<String>(
+                          value: value['id'].toString(),
                           child: Text(
                             value['name'],
                             style: MyContant().TextInputStyle(),
                           ),
-                          value: value['id'].toString(),
                         ),
                       )
                       .toList(),
@@ -1274,11 +1274,11 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             child: DropdownButton(
               items: dropdown_status
                   .map((value) => DropdownMenuItem(
+                        value: value['id'],
                         child: Text(
                           value['name'],
                           style: MyContant().TextInputStyle(),
                         ),
-                        value: value['id'],
                       ))
                   .toList(),
               onChanged: (newvalue) {

@@ -84,9 +84,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
           payDetail = dataPayDetail['data'][0];
         });
         statusLoading = true;
-        print('2>$statusLoading');
 
-        // Navigator.pop(context);
         print('data=>$payDetail');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
@@ -99,7 +97,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -134,14 +132,14 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = BoxConstraints(minWidth: 20, minHeight: 20);
-    final border = OutlineInputBorder(
-      borderSide: const BorderSide(
+    const sizeIcon = BoxConstraints(minWidth: 20, minHeight: 20);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: const BorderRadius.all(
-        const Radius.circular(4.0),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
       ),
     );
     return Scaffold(
@@ -155,24 +153,27 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                color: Color.fromRGBO(251, 173, 55, 1),
-              ),
-              margin: EdgeInsets.all(8),
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'งวดที่ : ',
-                    style: MyContant().h4normalStyle(),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 15, bottom: 4, left: 8, right: 8),
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
                   ),
-                  input_pay_installment(sizeIcon, border),
-                ],
+                  color: Color.fromRGBO(251, 173, 55, 1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'งวดที่ : ',
+                      style: MyContant().h4normalStyle(),
+                    ),
+                    input_pay_installment(sizeIcon, border),
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -181,14 +182,14 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                   ? Center(
                       child: Container(
                         decoration: BoxDecoration(
-                          color:
-                              Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                          borderRadius: BorderRadius.all(
+                          color: const Color.fromARGB(255, 24, 24, 24)
+                              .withOpacity(0.9),
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
                         ),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -204,44 +205,42 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                   : statusLoad404 == true
                       ? Center(
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color.fromRGBO(251, 173, 55, 1),
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
                             ),
-                            height: MediaQuery.of(context).size.height * 0.15,
+                            height: MediaQuery.of(context).size.height * 0.18,
                             child: Column(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.13,
+                                        0.16,
                                     decoration: BoxDecoration(
                                       color: Colors.white.withOpacity(0.7),
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
                                     ),
-                                    child: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'ยังไม่มีการชำระเงิน',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'ยังไม่มีการชำระเงิน',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -250,8 +249,8 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                           ),
                         )
                       : Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: const BoxDecoration(
                             color: Color.fromRGBO(251, 173, 55, 1),
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
@@ -259,12 +258,15 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                           ),
                           child: Column(
                             children: [
+                              const SizedBox(
+                                height: 5,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'งวดที่ : ${dropdownValue}',
+                                    'งวดที่ : $dropdownValue',
                                     style: MyContant().h4normalStyle(),
                                   ),
                                   Text(
@@ -273,7 +275,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Container(
@@ -281,62 +283,60 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                     MediaQuery.of(context).size.height * 0.20,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
                                   ),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'เลขที่ใบเสร็จ : ${payDetail['receiptTranId']}',
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'เลขที่ใบเสร็จ : ${payDetail['receiptTranId']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'จำนวนเงิน : ${payDetail['payPrice']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'ค่าปรับ : ${payDetail['payFine']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              'ประเภทการรับ : ${payDetail['payBy']}',
                                               style:
                                                   MyContant().h4normalStyle(),
+                                              overflow: TextOverflow.clip,
                                             ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'จำนวนเงิน : ${payDetail['payPrice']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'ค่าปรับ : ${payDetail['payFine']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                'ประเภทการรับ : ${payDetail['payBy']}',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                                overflow: TextOverflow.clip,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -356,7 +356,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.08,
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
@@ -384,7 +384,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
               },
               value: dropdownValue,
               isExpanded: true,
-              underline: SizedBox(),
+              underline: const SizedBox(),
               hint: Align(
                 child: Text(
                   '',

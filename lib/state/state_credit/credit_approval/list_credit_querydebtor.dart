@@ -288,21 +288,28 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                         ),
                         child: Column(
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'ที่อยู่ : ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '${widget.address}',
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white.withOpacity(0.7),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'ที่อยู่ : ',
                                     style: MyContant().h4normalStyle(),
-                                    overflow: TextOverflow.clip,
                                   ),
-                                ),
-                              ],
+                                  Expanded(
+                                    child: Text(
+                                      '${widget.address}',
+                                      style: MyContant().h4normalStyle(),
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
