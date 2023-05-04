@@ -1695,7 +1695,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                     if (id == '1') {
                                       print('1==>> $id');
                                       if (selectValue_customer == null ||
-                                          searchData.text.isEmpty) {
+                                          searchData.text.isEmpty &&
+                                              lastname.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',
                                             'กรุณากรอกข้อมูล');
                                       } else {

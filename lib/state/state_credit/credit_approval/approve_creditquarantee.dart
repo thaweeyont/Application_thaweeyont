@@ -25,7 +25,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   bool? allowApproveStatus;
   List ListCreditquarantee = [];
-  bool statusLoading = false, statusLoad404 = false;
+  bool statusLoading = false, statusLoadNotdata = false;
 
   @override
   void initState() {
@@ -70,8 +70,12 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
         print('data>>${ListCreditquarantee}');
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+        setState(() {
+          statusLoadNotdata = true;
+          statusLoading = true;
+        });
+        // showProgressDialog_400(
+        //     context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -88,7 +92,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
       } else if (respose.statusCode == 404) {
         print(respose.statusCode);
         setState(() {
-          statusLoad404 = true;
+          statusLoadNotdata = true;
           statusLoading = true;
         });
         // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
@@ -145,7 +149,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                 ),
               ),
             )
-          : statusLoad404 == true
+          : statusLoadNotdata == true
               ? Center(
                   child: Container(
                     decoration: const BoxDecoration(
@@ -239,10 +243,20 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                         height: 5,
                                       ),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'ชื่อลูกค้า : ${ListCreditquarantee[i]['custName']}',
+                                            'ชื่อลูกค้า : ',
                                             style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${ListCreditquarantee[i]['custName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                              overflow: TextOverflow.clip,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -293,10 +307,20 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                         height: 5,
                                       ),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'อาชีพ : ${ListCreditquarantee[i]['career']}',
+                                            'อาชีพ : ',
                                             style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${ListCreditquarantee[i]['career']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                              overflow: TextOverflow.clip,
+                                            ),
                                           ),
                                         ],
                                       ),

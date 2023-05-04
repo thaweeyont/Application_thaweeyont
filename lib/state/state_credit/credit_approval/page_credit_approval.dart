@@ -117,7 +117,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_branch =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_branch = data_branch['data'];
         });
@@ -158,7 +158,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_statusApprove =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_status = data_statusApprove['data'];
           select_index_approve = dropdown_status[3]['id'];
@@ -187,7 +187,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_customer = data['data'];
         });
@@ -233,8 +233,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   }
 
   Future<void> search_idcustomer() async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -266,13 +266,14 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
         if (respose.statusCode == 200) {
           Map<String, dynamic> dataList =
-              new Map<String, dynamic>.from(json.decode(respose.body));
+              Map<String, dynamic>.from(json.decode(respose.body));
 
           setState(() {
             list_datavalue = dataList['data'];
           });
 
           Navigator.pop(context);
+          print('data1>>$list_datavalue');
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
@@ -315,7 +316,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       }
     }
 
-    Future<Null> getData_search() async {
+    Future<void> getData_search() async {
       if (id == '1') {
         print(id);
         showProgressLoading(context);
@@ -592,7 +593,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -602,7 +603,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                     if (id == '1') {
                                       print('1==>> $id');
                                       if (selectValue_customer == null ||
-                                          searchData.text.isEmpty) {
+                                          searchData.text.isEmpty &&
+                                              lastname.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',
                                             'กรุณากรอกข้อมูล');
                                       } else {
@@ -637,7 +639,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(
@@ -915,7 +917,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             children: [
               Row(
                 children: [
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.034,
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(

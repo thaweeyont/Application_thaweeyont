@@ -222,14 +222,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                     builder: (context) => Data_Cust_Approve(
                                         list_approve[i]['custId'],
                                         list_approve[i]['tranId'],
-                                        widget.custId.toString(),
-                                        widget.idcard.toString(),
-                                        widget.custName.toString(),
-                                        widget.lastname_cust.toString(),
-                                        widget.select_branchlist.toString(),
-                                        widget.start_date.toString(),
-                                        widget.end_date.toString(),
-                                        widget.select_index_approve),
+                                  ),
                                   ),
                                 ).then((_) => getdata());
                                 // if (refresh == 'refresh') {

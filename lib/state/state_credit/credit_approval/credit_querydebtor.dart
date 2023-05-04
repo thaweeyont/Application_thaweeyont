@@ -199,11 +199,11 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
         setState(() {
           drProvince = dataProvice['data'];
+          provincn.text = drProvince
+              .where((element) => element['id'] == selectProvince)
+              .first['name']
+              .toString();
         });
-        provincn.text = drProvince
-            .where((element) => element['id'] == selectProvince)
-            .first['name']
-            .toString();
 
         print('จจ.->${drProvince}');
       } else if (respose.statusCode == 400) {
@@ -262,12 +262,11 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             new Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           drAmphur = dataAmphur['data'];
+          amphoe.text = drAmphur
+              .where((element) => element['id'] == selectAmphur)
+              .first['name']
+              .toString();
         });
-
-        amphoe.text = drAmphur
-            .where((element) => element['id'] == selectAmphur)
-            .first['name']
-            .toString();
 
         print('อ.->${drAmphur}');
       } else if (respose.statusCode == 400) {
@@ -325,11 +324,11 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             new Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           drTumbol = dataTumbol['data'];
+          district.text = drTumbol
+              .where((element) => element['id'] == selectTumbol)
+              .first['name']
+              .toString();
         });
-        district.text = drTumbol
-            .where((element) => element['id'] == selectTumbol)
-            .first['name']
-            .toString();
 
         print('ต.->${drTumbol}');
       } else if (respose.statusCode == 400) {

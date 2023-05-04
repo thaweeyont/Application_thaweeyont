@@ -90,7 +90,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -136,12 +136,13 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -158,7 +159,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
           : statusLoad404 == true
               ? Center(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -205,8 +206,8 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 4),
                             child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5)),
                                 color: Color.fromRGBO(229, 188, 244, 1),
@@ -227,7 +228,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -238,7 +239,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -258,7 +259,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
@@ -278,24 +279,29 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
                                         style: MyContant().h4normalStyle(),
                                       ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
                                       Text(
                                         'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Row(

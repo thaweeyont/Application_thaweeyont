@@ -534,7 +534,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l1 == true
-                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        ? const Color.fromARGB(255, 235, 121, 189)
                         : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
@@ -552,7 +552,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l2 == true
-                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        ? const Color.fromARGB(255, 235, 121, 189)
                         : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
@@ -570,7 +570,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l3 == true
-                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        ? const Color.fromARGB(255, 235, 121, 189)
                         : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
@@ -588,7 +588,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l4 == true
-                        ? const Color.fromRGBO(202, 71, 150, 1)
+                        ? const Color.fromARGB(255, 235, 121, 189)
                         : const Color.fromRGBO(255, 203, 246, 1),
                   ),
                   child: Text(
@@ -1189,7 +1189,10 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                         Expanded(
                                                           child: Text(
-                                                              '${list_quarantee2!['workADdress']}'),
+                                                            '${list_quarantee2!['workADdress']}',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -1467,15 +1470,18 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'รายละเอียดสัญญา : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
                         Expanded(
-                          child: Text('${Debtordetail['signDetail']}',
-                              overflow: TextOverflow.clip,
-                              style: MyContant().h4normalStyle()),
+                          child: Text(
+                            'รายละเอียดสัญญา : ${Debtordetail['signDetail']}',
+                            style: MyContant().h4normalStyle(),
+                            overflow: TextOverflow.fade,
+                          ),
                         ),
+                        // Expanded(
+                        //   child: Text('',
+                        //       overflow: TextOverflow.clip,
+                        //       style: MyContant().h4normalStyle()),
+                        // ),
                       ],
                     ),
                     const SizedBox(
@@ -1686,10 +1692,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       child: Column(
                         children: [
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text(
+                                'หมายเหตุการขาย : ',
+                                style: MyContant().h4normalStyle(),
+                                overflow: TextOverflow.clip,
+                              ),
                               Expanded(
                                 child: Text(
-                                  'หมายเหตุการขาย : ${list_itemDetail!['saleNote']}',
+                                  '${list_itemDetail!['saleNote']}',
                                   style: MyContant().h4normalStyle(),
                                   overflow: TextOverflow.clip,
                                 ),

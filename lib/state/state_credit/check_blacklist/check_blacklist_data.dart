@@ -78,7 +78,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_search_bl = data['data'];
           selectValue_bl = dropdown_search_bl[0]['id'];
@@ -117,7 +117,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_provice =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_province = data_provice['data'];
         });
@@ -185,7 +185,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_district =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           list_district = data_district['data'];
         });
@@ -267,9 +267,9 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     });
   }
 
-  Future<Null> search_id_blacklist() async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+  Future<void> search_id_blacklist() async {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -300,7 +300,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
         if (respose.statusCode == 200) {
           Map<String, dynamic> data_list =
-              new Map<String, dynamic>.from(json.decode(respose.body));
+              Map<String, dynamic>.from(json.decode(respose.body));
 
           setState(() {
             list_dataSearch_bl = data_list['data'];
@@ -943,7 +943,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                   if (respose.statusCode ==
                                                       200) {
                                                     Map<String, dynamic>
-                                                        data_amphoe = new Map<
+                                                        data_amphoe = Map<
                                                                 String,
                                                                 dynamic>.from(
                                                             json.decode(

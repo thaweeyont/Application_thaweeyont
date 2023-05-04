@@ -567,7 +567,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Container(
+                                SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.036,
                                   width:
@@ -578,7 +578,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       if (id == '1') {
                                         print('1==>> $id');
                                         if (selectValue_customer == null ||
-                                            searchData.text.isEmpty) {
+                                            searchData.text.isEmpty &&
+                                                lastname.text.isEmpty) {
                                           showProgressDialog(context,
                                               'แจ้งเตือน', 'กรุณากรอกข้อมูล');
                                         } else {
@@ -613,7 +614,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * 0.5,
                             child: Scrollbar(
                               child: ListView(
@@ -1046,7 +1047,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
               children: [
                 Row(
                   children: [
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.036,
                       width: MediaQuery.of(context).size.width * 0.22,
                       child: ElevatedButton(
@@ -1086,7 +1087,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.036,
                       width: MediaQuery.of(context).size.width * 0.22,
                       child: ElevatedButton(

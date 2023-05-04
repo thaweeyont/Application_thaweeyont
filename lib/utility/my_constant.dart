@@ -40,13 +40,13 @@ class MyContant {
   static String idcard = 'images/idcard.png';
 
   //Color
-  static Color primary = Color(0xff87861d);
-  static Color dark = Color(0xff575900);
-  static Color light = Color(0xffb9b64e);
-  static Color load = Color(0xffe6b980);
+  static Color primary = const Color(0xff87861d);
+  static Color dark = const Color(0xff575900);
+  static Color light = const Color(0xffb9b64e);
+  static Color load = const Color(0xffe6b980);
 
   // size icon input
-  final sizeIcon = BoxConstraints(minWidth: 45, minHeight: 45);
+  final sizeIcon = const BoxConstraints(minWidth: 45, minHeight: 45);
 
   //Style
   //TitleBar
@@ -256,7 +256,7 @@ showProgressDialog(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
@@ -315,7 +315,7 @@ showProgressDialog_Notdata(BuildContext context, title, subtitle) async {
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -339,12 +339,12 @@ showProgressDialog_Notdata(BuildContext context, title, subtitle) async {
   );
 }
 
-Future<Null> showProgressDialog555(
+Future<void> showProgressDialog555(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => SimpleDialog(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(5),
         ),
@@ -357,7 +357,7 @@ Future<Null> showProgressDialog555(
                 width: 45, height: 45, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
           ],
         ),
@@ -367,7 +367,7 @@ Future<Null> showProgressDialog555(
               child: Text(
                 subtitle,
                 overflow: TextOverflow.clip,
-                style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+                style: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
               ),
             ),
           ],
@@ -385,7 +385,7 @@ Future<Null> showProgressDialog555(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
+                    const Text(
                       "ตกลง",
                       style: TextStyle(
                         fontSize: 16,
@@ -408,16 +408,16 @@ Future<Null> showProgressDialog555(
   );
 }
 
-Future<Null> showProgressDialog_Notdata555(
+Future<void> showProgressDialog_Notdata555(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
       ),
       child: SimpleDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
@@ -426,11 +426,11 @@ Future<Null> showProgressDialog_Notdata555(
           leading: Image.asset('images/error_log.gif'),
           title: Text(
             title,
-            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
           ),
           subtitle: Text(
             subtitle,
-            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
           ),
         ),
         children: [
@@ -441,7 +441,7 @@ Future<Null> showProgressDialog_Notdata555(
             },
             child: Column(
               children: [
-                Text(
+                const Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -459,16 +459,16 @@ Future<Null> showProgressDialog_Notdata555(
   );
 }
 
-Future<Null> showProgressDialog_4000(
+Future<void> showProgressDialog_4000(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
       ),
       child: SimpleDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
@@ -477,11 +477,11 @@ Future<Null> showProgressDialog_4000(
           leading: Image.asset('images/error_log.gif'),
           title: Text(
             title,
-            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
           ),
           subtitle: Text(
             subtitle,
-            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
           ),
         ),
         children: [
@@ -492,7 +492,7 @@ Future<Null> showProgressDialog_4000(
             },
             child: Column(
               children: [
-                Text(
+                const Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -510,16 +510,16 @@ Future<Null> showProgressDialog_4000(
   );
 }
 
-Future<Null> showProgressDialog_4011(
+Future<void> showProgressDialog_4011(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
       ),
       child: SimpleDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
@@ -528,11 +528,11 @@ Future<Null> showProgressDialog_4011(
           leading: Image.asset('images/error_log.gif'),
           title: Text(
             title,
-            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
           ),
           subtitle: Text(
             subtitle,
-            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
           ),
         ),
         children: [
@@ -542,7 +542,7 @@ Future<Null> showProgressDialog_4011(
             },
             child: Column(
               children: [
-                Text(
+                const Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -560,16 +560,16 @@ Future<Null> showProgressDialog_4011(
   );
 }
 
-Future<Null> showProgressDialog_4044(
+Future<void> showProgressDialog_4044(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
       ),
       child: SimpleDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
@@ -582,7 +582,7 @@ Future<Null> showProgressDialog_4044(
                   width: 45, height: 45, fit: BoxFit.contain),
               Text(
                 title,
-                style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+                style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
               ),
             ],
           ),
@@ -592,7 +592,7 @@ Future<Null> showProgressDialog_4044(
                 child: Text(
                   subtitle,
                   overflow: TextOverflow.clip,
-                  style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+                  style: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
                 ),
               ),
             ],
@@ -606,7 +606,7 @@ Future<Null> showProgressDialog_4044(
             },
             child: Column(
               children: [
-                Text(
+                const Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -631,20 +631,20 @@ showProgressDialog_400(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
           ],
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -675,14 +675,14 @@ showProgressDialog_401(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 18,
                   fontFamily: 'Prompt',
                   fontWeight: FontWeight.bold),
@@ -691,7 +691,7 @@ showProgressDialog_401(BuildContext context, title, subtitle) async {
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -721,20 +721,20 @@ showProgressDialog_404(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
           ],
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -771,20 +771,20 @@ showDialog_404_approve(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
           ],
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -821,20 +821,20 @@ showProgressDialog_405(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
           ],
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -865,20 +865,20 @@ showProgressDialog_500(BuildContext context, title, subtitle) async {
 
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.symmetric(horizontal: 40),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
             Image.asset('images/error_log.gif',
                 width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+              style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
             ),
           ],
         ),
         content: Text(
           subtitle,
-          style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
         ),
         actionsAlignment: MainAxisAlignment.end,
         actions: <Widget>[
@@ -902,16 +902,16 @@ showProgressDialog_500(BuildContext context, title, subtitle) async {
   );
 }
 
-Future<Null> showProgressDialog_4055(
+Future<void> showProgressDialog_4055(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
       ),
       child: SimpleDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
@@ -920,11 +920,11 @@ Future<Null> showProgressDialog_4055(
           leading: Image.asset('images/error_log.gif'),
           title: Text(
             title,
-            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
           ),
           subtitle: Text(
             subtitle,
-            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
           ),
         ),
         children: [
@@ -935,7 +935,7 @@ Future<Null> showProgressDialog_4055(
             },
             child: Column(
               children: [
-                Text(
+                const Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -953,16 +953,16 @@ Future<Null> showProgressDialog_4055(
   );
 }
 
-Future<Null> showProgressDialog_5000(
+Future<void> showProgressDialog_5000(
     BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     builder: (context) => Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.rectangle,
       ),
       child: SimpleDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
@@ -971,11 +971,11 @@ Future<Null> showProgressDialog_5000(
           leading: Image.asset('images/error_log.gif'),
           title: Text(
             title,
-            style: TextStyle(fontSize: 18, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
           ),
           subtitle: Text(
             subtitle,
-            style: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
+            style: const TextStyle(fontSize: 16, fontFamily: 'Prompt'),
           ),
         ),
         children: [
@@ -986,7 +986,7 @@ Future<Null> showProgressDialog_5000(
             },
             child: Column(
               children: [
-                Text(
+                const Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -1035,7 +1035,7 @@ Future<void> showProgressLoading(BuildContext context) async {
 
 Center notData(BuildContext context) {
   return Center(
-    child: Container(
+    child: SizedBox(
       height: MediaQuery.of(context).size.height * 0.25,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1043,8 +1043,7 @@ Center notData(BuildContext context) {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                // width: 50,
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.2,
                 child: Image.asset('images/searc_unscreen.gif'),
               ),

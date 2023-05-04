@@ -22,27 +22,9 @@ import 'page_info_consider_cus.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Data_Cust_Approve extends StatefulWidget {
-  final String? custId,
-      tranId,
-      Idcust,
-      idcard,
-      custName,
-      lastname_cust,
-      select_branchlist,
-      start_date,
-      end_date;
-  final int? select_index_approve;
-  Data_Cust_Approve(
-      this.custId,
-      this.tranId,
-      this.Idcust,
-      this.idcard,
-      this.custName,
-      this.lastname_cust,
-      this.select_branchlist,
-      this.start_date,
-      this.end_date,
-      this.select_index_approve);
+  final String? custId, tranId;
+
+  Data_Cust_Approve(this.custId, this.tranId);
 
   @override
   State<Data_Cust_Approve> createState() => _Data_Cust_ApproveState();
@@ -77,6 +59,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   TextEditingController note_approve = TextEditingController();
   TextEditingController name_approve = TextEditingController();
   TextEditingController show_approve_credit = TextEditingController();
+  TextEditingController showNamecredit = TextEditingController();
 
   @override
   void initState() {
@@ -120,7 +103,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataCreditdetail =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         status = true;
         valueapprove = dataCreditdetail['data'];
@@ -129,11 +112,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             list_signDetail = valueapprove['signDetail'];
           }
           if (valueapprove['approveDetail']['itemDetail'].toString() != "") {
-            list_itemDetail = new Map<String, dynamic>.from(
+            list_itemDetail = Map<String, dynamic>.from(
                 valueapprove['approveDetail']['itemDetail']);
           }
           if (valueapprove['approveDetail']['detail'].toString() != "[]") {
-            list_detail = new Map<String, dynamic>.from(
+            list_detail = Map<String, dynamic>.from(
                 valueapprove['approveDetail']['detail']);
           }
 
@@ -157,6 +140,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           } else if (get_valueapprov == '2') {
             select_NotapproveReasonList = get_valueReason;
           }
+
+          showNamecredit.text = list_detail!['approveReasonName'];
         });
 
         print('data=>>${valueapprove}');
@@ -288,7 +273,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_approveTypeList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           dropdown_approveTypeList = data_approveTypeList['data'];
@@ -348,7 +333,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataapproveReasonList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           dropdown_approveReasonList = dataapproveReasonList['data'];
@@ -407,7 +392,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> datanotReasonList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           dropdown_NotapproveReasonList = datanotReasonList['data'];
@@ -1295,25 +1280,39 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Row(
-                                        children: [
-                                          if (select_approveTypeList ==
-                                              '1') ...[
-                                            select_ReasonList(sizeIcon, border),
-                                          ] else if (select_approveTypeList ==
-                                              '2') ...[
-                                            select_notReasonList(
+                                      if (list_detail!['approveStatus'] ==
+                                          '3') ...[
+                                        Row(
+                                          children: [
+                                            if (select_approveTypeList ==
+                                                '1') ...[
+                                              select_ReasonList(
+                                                  sizeIcon, border),
+                                            ] else if (select_approveTypeList ==
+                                                '2') ...[
+                                              select_notReasonList(
+                                                  sizeIcon, border),
+                                            ] else ...[
+                                              SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.14,
+                                              )
+                                            ]
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                      ] else ...[
+                                        Row(
+                                          children: [
+                                            inputshowNamecredit(
                                                 sizeIcon, border),
-                                          ] else ...[
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.14,
-                                            )
-                                          ]
-                                        ],
-                                      ),
+                                          ],
+                                        ),
+                                      ],
                                       const SizedBox(
                                         height: 15,
                                       ),
@@ -2548,6 +2547,34 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
+  Expanded inputshowNamecredit(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(0),
+        child: TextField(
+          controller: showNamecredit,
+          onChanged: (keyword) {},
+          minLines: 4,
+          maxLines: null,
+          readOnly: true,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(6),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintText: '',
+            hintStyle: MyContant().hintTextStyle(),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
   Expanded input_note_approve(sizeIcon, border) {
     return Expanded(
       child: Padding(
@@ -2803,22 +2830,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 Navigator.pop(context);
                 Navigator.pop(context);
                 // Navigator.pop(context, 'refresh');
-
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => Credit_data_detail(
-                //       widget.Idcust.toString(),
-                //       widget.idcard.toString(),
-                //       widget.custName.toString(),
-                //       widget.lastname_cust.toString(),
-                //       widget.select_branchlist.toString(),
-                //       widget.start_date.toString(),
-                //       widget.end_date.toString(),
-                //       widget.select_index_approve,
-                //     ),
-                //   ),
-                // );
               },
             ),
           ],

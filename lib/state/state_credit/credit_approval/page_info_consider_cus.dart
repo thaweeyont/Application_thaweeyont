@@ -80,7 +80,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       );
       if (respose.statusCode == 200) {
         Map<String, dynamic> datadebtorDetail =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         Debtordetail = datadebtorDetail['data'];
 
@@ -89,48 +89,48 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
           if (Debtordetail['quarantee']['1'].toString() != "[]") {
             list_quarantee1 =
-                new Map<String, dynamic>.from(Debtordetail['quarantee']['1']);
+                Map<String, dynamic>.from(Debtordetail['quarantee']['1']);
           }
           if (Debtordetail['quarantee']['2'].toString() != "[]") {
             list_quarantee2 =
-                new Map<String, dynamic>.from(Debtordetail['quarantee']['2']);
+                Map<String, dynamic>.from(Debtordetail['quarantee']['2']);
           }
           if (Debtordetail['quarantee']['3'].toString() != "[]") {
             list_quarantee3 =
-                new Map<String, dynamic>.from(Debtordetail['quarantee']['3']);
+                Map<String, dynamic>.from(Debtordetail['quarantee']['3']);
           }
           list_itemDetail =
-              new Map<String, dynamic>.from(Debtordetail['itemDetail']);
+              Map<String, dynamic>.from(Debtordetail['itemDetail']);
 
           if (Debtordetail['debtNote']['service'].toString() != "[]") {
-            list_service = new Map<String, dynamic>.from(
-                Debtordetail['debtNote']['service']);
+            list_service =
+                Map<String, dynamic>.from(Debtordetail['debtNote']['service']);
           }
           if (Debtordetail['debtNote']['finance'].toString() != "[]") {
-            list_finance = new Map<String, dynamic>.from(
-                Debtordetail['debtNote']['finance']);
+            list_finance =
+                Map<String, dynamic>.from(Debtordetail['debtNote']['finance']);
           }
           if (Debtordetail['debtNote']['debt'].toString() != "[]") {
             list_debNote =
-                new Map<String, dynamic>.from(Debtordetail['debtNote']['debt']);
+                Map<String, dynamic>.from(Debtordetail['debtNote']['debt']);
           }
           if (Debtordetail['debtNote']['law'].toString() != "[]") {
             list_law =
-                new Map<String, dynamic>.from(Debtordetail['debtNote']['law']);
+                Map<String, dynamic>.from(Debtordetail['debtNote']['law']);
           }
           if (Debtordetail['debtNote']['regis'].toString() != "[]") {
-            list_regis = new Map<String, dynamic>.from(
-                Debtordetail['debtNote']['regis']);
+            list_regis =
+                Map<String, dynamic>.from(Debtordetail['debtNote']['regis']);
           }
           if (Debtordetail['debtNote']['checker'].toString() != "[]") {
-            list_checker = new Map<String, dynamic>.from(
-                Debtordetail['debtNote']['checker']);
+            list_checker =
+                Map<String, dynamic>.from(Debtordetail['debtNote']['checker']);
           }
 
           list_payDetail = Debtordetail['payDetail'];
 
           list_paydetailsum =
-              new Map<String, dynamic>.from(Debtordetail['payDetailSummary']);
+              Map<String, dynamic>.from(Debtordetail['payDetailSummary']);
         });
       } else if (respose.statusCode == 400) {
         print(respose.statusCode);
@@ -219,7 +219,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       body: status == false
           ? Center(
               child: status_check404 == true
-                  ? Container(
+                  ? SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -314,9 +314,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Expanded content_list_mu1(BuildContext context) {
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
+          const SizedBox(
+            height: 5,
+          ),
           Padding(
             padding:
                 const EdgeInsets.only(top: 0, bottom: 0, left: 8, right: 8),
@@ -632,11 +634,25 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                       height: 5,
                                                     ),
                                                     Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
-                                                            'อาชีพ : ${list_quarantee1!['career']}',
+                                                          'อาชีพ : ',
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            '${list_quarantee1!['career']}',
                                                             style: MyContant()
-                                                                .h4normalStyle()),
+                                                                .h4normalStyle(),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                     const SizedBox(
@@ -816,11 +832,25 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         height: 5,
                                                       ),
                                                       Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Text(
-                                                              'อาชีพ : ${list_quarantee2!['career']}',
+                                                            'อาชีพ : ',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              '${list_quarantee2!['career']}',
                                                               style: MyContant()
-                                                                  .h4normalStyle()),
+                                                                  .h4normalStyle(),
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .clip,
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
                                                       const SizedBox(
@@ -1000,11 +1030,24 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                       height: 5,
                                                     ),
                                                     Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
-                                                          'อาชีพ : ${list_quarantee3!['career']}',
+                                                          'อาชีพ : ',
                                                           style: MyContant()
                                                               .h4normalStyle(),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            '${list_quarantee3!['career']}',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -1243,10 +1286,15 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     child: Column(
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text(
+                              'หมายเหตุการขาย : ',
+                              style: MyContant().TextSmalldebNote(),
+                            ),
                             Expanded(
                               child: Text(
-                                'หมายเหตุการขาย : ${list_itemDetail!['saleNote']}',
+                                '${list_itemDetail!['saleNote']}',
                                 overflow: TextOverflow.clip,
                                 style: MyContant().TextSmalldebNote(),
                               ),
@@ -1270,9 +1318,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Expanded content_list_mu2(BuildContext context) {
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
+          const SizedBox(
+            height: 5,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
@@ -1391,9 +1441,11 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Expanded content_list_mu3(BuildContext context) {
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
+          const SizedBox(
+            height: 5,
+          ),
           Padding(
             padding:
                 const EdgeInsets.only(top: 0, left: 8, right: 8, bottom: 8),
@@ -1951,7 +2003,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   Expanded content_list_mu4(BuildContext context) {
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.72,
       child: ListView(
         children: [
           for (var i = 0; i < list_payDetail.length; i++) ...[
@@ -2085,8 +2136,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     );
   }
 
-  Container slidemenu(BuildContext context) {
-    return Container(
+  SizedBox slidemenu(BuildContext context) {
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.065,
       child: ListView(
         scrollDirection: Axis.horizontal,
