@@ -34,7 +34,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     try {
       print(tokenId);
       var respose = await http.post(
-        Uri.parse('${beta_api_test}authen/logout'),
+        Uri.parse('${api}authen/logout'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId,
@@ -1108,7 +1108,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               const Text(
                 "ออกจากระบบ",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   fontFamily: 'Prompt',
                 ),
               ),
@@ -1116,7 +1116,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 width: 5,
               ),
               Image.asset('images/question.gif',
-                  width: 30, height: 30, fit: BoxFit.contain),
+                  width: 25, height: 25, fit: BoxFit.contain),
             ],
           ),
           content: Text(
@@ -1129,7 +1129,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 'ยกเลิก',
                 style: TextStyle(
                     fontFamily: 'Prompt',
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.normal),
               ),
@@ -1142,7 +1142,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 'ตกลง',
                 style: TextStyle(
                     fontFamily: 'Prompt',
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.normal),
               ),

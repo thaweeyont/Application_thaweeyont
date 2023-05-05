@@ -116,7 +116,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/list'),
+        Uri.parse('${api}debtor/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -162,7 +162,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -208,12 +208,13 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -229,7 +230,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           : statusLoad404 == true
               ? Center(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -289,8 +290,8 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 4),
                                 child: Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5)),
                                     color: Color.fromRGBO(255, 203, 246, 1),
@@ -305,7 +306,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -316,7 +317,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -327,7 +328,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -338,7 +339,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -359,7 +360,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           )
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -380,7 +381,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -391,7 +392,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -402,7 +403,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -413,7 +414,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -424,7 +425,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -445,7 +446,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(

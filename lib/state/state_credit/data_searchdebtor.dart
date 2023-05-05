@@ -69,7 +69,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/detail'),
+        Uri.parse('${api}debtor/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

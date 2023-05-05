@@ -44,7 +44,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
     print(widget.blId);
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/blacklistDetail'),
+        Uri.parse('${api}credit/blacklistDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

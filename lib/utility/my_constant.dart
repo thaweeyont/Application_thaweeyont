@@ -281,7 +281,7 @@ showProgressDialog(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
@@ -324,7 +324,7 @@ showProgressDialog_Notdata(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
@@ -385,7 +385,7 @@ Future<void> showProgressDialog555(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
+                    Text(
                       "ตกลง",
                       style: TextStyle(
                         fontSize: 16,
@@ -653,7 +653,7 @@ showProgressDialog_400(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
@@ -700,7 +700,7 @@ showProgressDialog_401(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
@@ -743,19 +743,13 @@ showProgressDialog_404(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const Page_Credit_Approval(),
-              //   ),
-              // );
             },
           ),
         ],
@@ -793,7 +787,7 @@ showDialog_404_approve(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
@@ -843,7 +837,7 @@ showProgressDialog_405(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
@@ -887,7 +881,7 @@ showProgressDialog_500(BuildContext context, title, subtitle) async {
               'ตกลง',
               style: TextStyle(
                   fontFamily: 'Prompt',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),

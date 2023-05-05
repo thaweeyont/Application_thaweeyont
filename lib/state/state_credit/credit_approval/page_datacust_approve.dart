@@ -90,7 +90,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/detail'),
+        Uri.parse('${api}credit/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -111,11 +111,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           if (valueapprove['signDetail'].toString() != "") {
             list_signDetail = valueapprove['signDetail'];
           }
-          if (valueapprove['approveDetail']['itemDetail'].toString() != "") {
+          if (valueapprove['approveDetail']['itemDetail'].toString() != "[]") {
             list_itemDetail = Map<String, dynamic>.from(
                 valueapprove['approveDetail']['itemDetail']);
           }
-          if (valueapprove['approveDetail']['detail'].toString() != "[]") {
+          if (valueapprove['approveDetail']['detail'].toString() != "") {
             list_detail = Map<String, dynamic>.from(
                 valueapprove['approveDetail']['detail']);
           }
@@ -130,9 +130,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             name_approve.text = ' ${list_detail!['approveId']}'
                 ' ${list_detail!['approveName']}';
           } else {
-            name_approve.text = ' ${empId}'
-                ' ${firstName}'
-                ' ${lastName}';
+            name_approve.text = ' $empId'
+                ' $firstName'
+                ' $lastName';
           }
 
           if (get_valueapprov == '1') {
@@ -200,7 +200,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/approveCredit'),
+        Uri.parse('${api}credit/approveCredit'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -264,7 +264,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/approveTypeList'),
+        Uri.parse('${api}setup/approveTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -324,7 +324,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/approveReasonList'),
+        Uri.parse('${api}setup/approveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -383,7 +383,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/notApproveReasonList'),
+        Uri.parse('${api}setup/notApproveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -849,59 +849,99 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 8, right: 8, bottom: 4),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Color.fromRGBO(251, 173, 55, 1),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          )),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'ชื่อสินค้า : ',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '${list_itemDetail!['itemName']}',
-                                    style: MyContant().h4normalStyle(),
-                                    overflow: TextOverflow.clip,
+                    child: list_itemDetail == null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.13,
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(251, 173, 55, 1),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.11,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.7),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'ไม่พบรายการสินค้า',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            spaceText(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'ราคา/หน่วย : ${list_itemDetail!['unitPrice']}',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                Text(
-                                  'จำนวน : ${list_itemDetail!['qty']}',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
+                          )
+                        : Container(
+                            decoration: const BoxDecoration(
+                                color: Color.fromRGBO(251, 173, 55, 1),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                )),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'ชื่อสินค้า : ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${list_itemDetail!['itemName']}',
+                                          style: MyContant().h4normalStyle(),
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  spaceText(),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'ราคา/หน่วย : ${list_itemDetail!['unitPrice']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      Text(
+                                        'จำนวน : ${list_itemDetail!['qty']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  spaceText(),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'จำนวนเงิน : ${list_itemDetail!['totalPrice']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                            spaceText(),
-                            Row(
-                              children: [
-                                Text(
-                                  'จำนวนเงิน : ${list_itemDetail!['totalPrice']}',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
                   ),
                   Padding(
                     padding:
@@ -2737,7 +2777,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               const Text(
                 "อนุมัติสินเชื่อ",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   fontFamily: 'Prompt',
                 ),
               ),
@@ -2745,7 +2785,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 width: 5,
               ),
               Image.asset('images/question.gif',
-                  width: 30, height: 30, fit: BoxFit.contain),
+                  width: 25, height: 25, fit: BoxFit.contain),
             ],
           ),
           content: const Text(
@@ -2758,7 +2798,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 'ยกเลิก',
                 style: TextStyle(
                     fontFamily: 'Prompt',
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.normal),
               ),
@@ -2771,7 +2811,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 'ตกลง',
                 style: TextStyle(
                     fontFamily: 'Prompt',
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.normal),
               ),
@@ -2806,7 +2846,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               const Text(
                 "สำเร็จ",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                   fontFamily: 'Prompt',
                 ),
               ),
@@ -2822,7 +2862,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 'ตกลง',
                 style: TextStyle(
                     fontFamily: 'Prompt',
-                    fontSize: 16,
+                    fontSize: 15,
                     color: Colors.black,
                     fontWeight: FontWeight.normal),
               ),

@@ -66,7 +66,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
     print(tokenId);
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/payDetail'),
+        Uri.parse('${api}debtor/payDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

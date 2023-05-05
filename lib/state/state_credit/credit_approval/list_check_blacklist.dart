@@ -84,7 +84,7 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
     // print('9>${province}');
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/checkBlacklist'),
+        Uri.parse('${api}credit/checkBlacklist'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

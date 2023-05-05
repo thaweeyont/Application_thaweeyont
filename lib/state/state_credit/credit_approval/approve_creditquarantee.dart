@@ -50,7 +50,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
     print('tranId>>${widget.tranId}');
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/approveCreditQuarantee'),
+        Uri.parse('${api}credit/approveCreditQuarantee'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

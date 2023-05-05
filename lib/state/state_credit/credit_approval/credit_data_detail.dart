@@ -62,7 +62,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
   Future<void> getData_approve() async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/approve'),
+        Uri.parse('${api}credit/approve'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -77,7 +77,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           'endDate': widget.end_date.toString(),
           'approveStatus': widget.select_index_approve.toString(),
           'page': '1',
-          'limit': '80'
+          'limit': '200'
         }),
       );
 
@@ -220,9 +220,9 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => Data_Cust_Approve(
-                                        list_approve[i]['custId'],
-                                        list_approve[i]['tranId'],
-                                  ),
+                                      list_approve[i]['custId'],
+                                      list_approve[i]['tranId'],
+                                    ),
                                   ),
                                 ).then((_) => getdata());
                                 // if (refresh == 'refresh') {

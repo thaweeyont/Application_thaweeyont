@@ -64,7 +64,7 @@ class _Pay_installmentState extends State<Pay_installment> {
   Future<void> getData_payDetail(signId, String period) async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/payDetail'),
+        Uri.parse('${api}debtor/payDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
