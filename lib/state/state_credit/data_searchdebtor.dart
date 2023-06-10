@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../model/login_model.dart';
 import '../authen.dart';
 import 'pay_installment.dart';
 import 'package:application_thaweeyont/api.dart';

@@ -2,14 +2,10 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_credit/check_purchase_info/purchase_info_list.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
-import 'package:application_thaweeyont/widgets/show_progress.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-// import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 
 import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
@@ -1338,7 +1334,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(6),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

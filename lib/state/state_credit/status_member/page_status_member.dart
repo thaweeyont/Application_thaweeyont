@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/status_member/detail_member_cust.dart';
 import 'package:application_thaweeyont/state/state_credit/status_member/member_cust_list.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utility/my_constant.dart';
-import '../../../widgets/show_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:application_thaweeyont/api.dart';
 import '../../authen.dart';

@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/credit_approval/credit_data_detail.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/data_list_quarantee.dart';
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
-import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -16,7 +13,6 @@ import 'credit_debtordetail.dart';
 import 'credit_querydebtor.dart';
 import 'page_check_blacklist.dart';
 import 'package:http/http.dart' as http;
-import 'package:application_thaweeyont/state/state_credit/credit_approval/credit_data_detail.dart';
 
 import 'page_info_consider_cus.dart';
 import 'package:application_thaweeyont/api.dart';

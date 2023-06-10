@@ -1,9 +1,6 @@
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../state/authen.dart';
 import '../state/state_credit/navigator_bar_credit.dart';
 
 class MyContant {

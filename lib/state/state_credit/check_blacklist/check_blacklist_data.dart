@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/blacklist_cust_list.dart';
-import 'package:application_thaweeyont/state/state_credit/check_blacklist/blacklist_detail_data.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

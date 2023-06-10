@@ -14,7 +14,6 @@ import 'package:http/http.dart' as http;
 
 import '../authen.dart';
 import 'check_purchase_info/page_checkpurchase_info.dart';
-import 'package:application_thaweeyont/widgets/show_version.dart';
 
 // import 'package:custom_navigator/custom_navigator.dart';
 
@@ -47,7 +46,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -62,7 +61,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => Authen(),
+              builder: (context) => const Authen(),
             ),
             (Route<dynamic> route) => false,
           );
@@ -156,12 +155,12 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    Query_debtor(),
-    Page_Checkpurchase_info(),
-    Home_credit(),
-    Page_Credit_Approval(),
-    Page_Status_Member(),
-    Check_Blacklist_Data(),
+    const Query_debtor(),
+    const Page_Checkpurchase_info(),
+    const Home_credit(),
+    const Page_Credit_Approval(),
+    const Page_Status_Member(),
+    const Check_Blacklist_Data(),
   ];
 
   @override
@@ -179,8 +178,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       bottomNavigationBar: bottonNavigator_new(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor:
-            _selectedIndex == 2 ? Colors.blue : Color.fromARGB(255, 22, 30, 94),
+        backgroundColor: _selectedIndex == 2
+            ? Colors.blue
+            : const Color.fromARGB(255, 22, 30, 94),
         child: const Icon(Icons.home),
         onPressed: () {
           setState(() {
@@ -351,167 +351,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             ),
           );
         });
-    // showModalBottomSheet(
-    //     context: context,
-    //     shape: const RoundedRectangleBorder(
-    //       // <-- SEE HERE
-    //       borderRadius: BorderRadius.only(
-    //         topLeft: Radius.circular(16.0),
-    //         topRight: Radius.circular(16.0),
-    //       ),
-    //     ),
-    //     builder: (BuildContext context) {
-    //       return Container(
-    //         color: Color.fromARGB(255, 22, 30, 94),
-    //         // decoration: BoxDecoration(
-    //         //   borderRadius: BorderRadius.only(
-    //         //     topLeft: Radius.circular(16.0),
-    //         //     topRight: Radius.circular(16.0),
-    //         //   ),
-    //         //   color: Color.fromARGB(255, 22, 30, 94),
-    //         // ),
-    //         child: Column(
-    //           mainAxisSize: MainAxisSize.min,
-    //           crossAxisAlignment: CrossAxisAlignment.end,
-    //           children: <Widget>[
-    //             Container(
-    //               height: 20,
-    //             ),
-    //             SizedBox(
-    //               height: (56 * 6).toDouble(),
-    //               child: Container(
-    //                 child: Stack(
-    //                   alignment: Alignment(0, 0),
-    //                   children: <Widget>[
-    //                     Positioned(
-    //                       child: ListView(
-    //                         physics: NeverScrollableScrollPhysics(),
-    //                         children: <Widget>[
-    //                           ListTile(
-    //                             title: Text(
-    //                               "สอบถามรายละเอียดลูกหนี้",
-    //                               style: _selectedIndex == 0
-    //                                   ? MyContant().h1MenuStyle_click()
-    //                                   : MyContant().h1MenuStyle(),
-    //                             ),
-    //                             leading: Icon(
-    //                               Icons.people,
-    //                               color: _selectedIndex == 0
-    //                                   ? Colors.blue
-    //                                   : Colors.white,
-    //                             ),
-    //                             onTap: () {
-    //                               setState(() {
-    //                                 _selectedIndex = 0;
-    //                                 title_head = "สอบถามรายละเอียดลูกหนี้";
-    //                                 status = false;
-    //                               });
-    //                               Navigator.pop(context);
-    //                             },
-    //                           ),
-    //                           ListTile(
-    //                             title: Text(
-    //                               "ตรวจสอบข้อมูลการซื้อสินค้า",
-    //                               style: _selectedIndex == 1
-    //                                   ? MyContant().h1MenuStyle_click()
-    //                                   : MyContant().h1MenuStyle(),
-    //                             ),
-    //                             leading: Icon(
-    //                               Icons.local_mall_rounded,
-    //                               color: _selectedIndex == 1
-    //                                   ? Colors.blue
-    //                                   : Colors.white,
-    //                             ),
-    //                             onTap: () {
-    //                               setState(() {
-    //                                 _selectedIndex = 1;
-    //                                 title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
-    //                                 status = false;
-    //                               });
-    //                               Navigator.pop(context);
-    //                             },
-    //                           ),
-    //                           ListTile(
-    //                             title: Text(
-    //                               "เช็คผลการพิจารณาสินเชื่อ",
-    //                               style: _selectedIndex == 3
-    //                                   ? MyContant().h1MenuStyle_click()
-    //                                   : MyContant().h1MenuStyle(),
-    //                             ),
-    //                             leading: Icon(
-    //                               Icons.manage_accounts_rounded,
-    //                               color: _selectedIndex == 3
-    //                                   ? Colors.blue
-    //                                   : Colors.white,
-    //                             ),
-    //                             onTap: () {
-    //                               setState(() {
-    //                                 _selectedIndex = 3;
-    //                                 title_head = "เช็คผลการพิจารณาสินเชื่อ";
-    //                                 status = false;
-    //                               });
-    //                               Navigator.pop(context);
-    //                             },
-    //                           ),
-    //                           ListTile(
-    //                             title: Text(
-    //                               "สถานะสมาชิกทวียนต์",
-    //                               style: _selectedIndex == 4
-    //                                   ? MyContant().h1MenuStyle_click()
-    //                                   : MyContant().h1MenuStyle(),
-    //                             ),
-    //                             leading: Icon(
-    //                               Icons.switch_account_outlined,
-    //                               color: _selectedIndex == 4
-    //                                   ? Colors.blue
-    //                                   : Colors.white,
-    //                             ),
-    //                             onTap: () {
-    //                               setState(() {
-    //                                 _selectedIndex = 4;
-    //                                 title_head = "สถานะสมาชิกทวียนต์";
-    //                                 status = false;
-    //                               });
-    //                               Navigator.pop(context);
-    //                             },
-    //                           ),
-    //                           ListTile(
-    //                             title: Text(
-    //                               "สอบถามรายละเอียด BlackList",
-    //                               style: _selectedIndex == 5
-    //                                   ? MyContant().h1MenuStyle_click()
-    //                                   : MyContant().h1MenuStyle(),
-    //                             ),
-    //                             leading: Icon(
-    //                               Icons.person_off_rounded,
-    //                               color: _selectedIndex == 5
-    //                                   ? Colors.blue
-    //                                   : Colors.white,
-    //                             ),
-    //                             onTap: () {
-    //                               setState(() {
-    //                                 _selectedIndex = 5;
-    //                                 title_head = "สอบถามรายละเอียด BlackList";
-    //                                 status = false;
-    //                               });
-    //                               Navigator.pop(context);
-    //                             },
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     )
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //             // Container(
-    //             //   height: 56,
-    //             //   color: Color.fromARGB(255, 255, 255, 255),
-    //             // )
-    //           ],
-    //         ),
-    //       );
-    //     });
   }
 
   showContactsupport() {
@@ -551,10 +390,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.help_outline_sharp,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
@@ -754,13 +593,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   BottomAppBar bottonNavigator_new() {
     return BottomAppBar(
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       clipBehavior: Clip.antiAlias,
       child: Container(
         height: kBottomNavigationBarHeight,
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             border: Border(
               top: BorderSide(
@@ -775,7 +614,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
             // currentIndex: _selectedIndex,
-            backgroundColor: Color.fromARGB(255, 22, 30, 94),
+            backgroundColor: const Color.fromARGB(255, 22, 30, 94),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
             onTap: (index) {
@@ -800,10 +639,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               }
             },
             items: [
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                   icon: Icon(Icons.view_list_rounded), label: ''),
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+              const BottomNavigationBarItem(
                   icon: Icon(Icons.help_outline_sharp), label: ''),
             ],
           ),
@@ -814,13 +653,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   BottomAppBar bottonNavigator() {
     return BottomAppBar(
-      shape: CircularNotchedRectangle(),
+      shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       clipBehavior: Clip.antiAlias,
       child: Container(
         height: kBottomNavigationBarHeight,
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             border: Border(
               top: BorderSide(
@@ -835,7 +674,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               showUnselectedLabels: false,
               type: BottomNavigationBarType.fixed,
               currentIndex: _selectedIndex,
-              backgroundColor: Color.fromARGB(255, 22, 30, 94),
+              backgroundColor: const Color.fromARGB(255, 22, 30, 94),
               selectedItemColor: Colors.blue,
               unselectedItemColor: Colors.white,
               onTap: (index) {
@@ -889,13 +728,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 });
               },
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.people), label: ''),
-                BottomNavigationBarItem(
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.people), label: ''),
+                const BottomNavigationBarItem(
                     icon: Icon(Icons.local_mall_rounded), label: ''),
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-                BottomNavigationBarItem(
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.home), label: ''),
+                const BottomNavigationBarItem(
                     icon: Icon(Icons.manage_accounts_rounded), label: ''),
-                BottomNavigationBarItem(
+                const BottomNavigationBarItem(
                     icon: Icon(Icons.switch_account_outlined), label: ''),
               ]),
         ),
@@ -908,7 +749,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       width: size * 0.65,
       child: Drawer(
         child: Container(
-          color: Color.fromRGBO(7, 15, 82, 1),
+          color: const Color.fromRGBO(7, 15, 82, 1),
           child: Column(
             children: [
               drawerIcon(size),
@@ -924,33 +765,31 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   Expanded btn_exit() {
     return Expanded(
-      child: Container(
-        child: Align(
-          alignment: FractionalOffset.bottomCenter,
-          child: InkWell(
-            onTap: () async {
-              showAlertDialog_exit();
-              // logout_system();
-            },
-            child: Container(
-              padding: EdgeInsets.all(16),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  Icon(Icons.logout_outlined),
-                  SizedBox(width: 5),
-                  Text(
-                    "ออกจากระบบ",
-                    style: TextStyle(
-                        color: Colors.red, fontSize: 18, fontFamily: 'Prompt'),
-                  ),
-                ],
-              ),
+      child: Align(
+        alignment: FractionalOffset.bottomCenter,
+        child: InkWell(
+          onTap: () async {
+            showAlertDialog_exit();
+            // logout_system();
+          },
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Icon(Icons.logout_outlined),
+                SizedBox(width: 5),
+                Text(
+                  "ออกจากระบบ",
+                  style: TextStyle(
+                      color: Colors.red, fontSize: 18, fontFamily: 'Prompt'),
+                ),
+              ],
             ),
           ),
         ),
@@ -960,26 +799,26 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   Container drawerIcon(double size) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.symmetric(vertical: 30),
       child: Column(
         children: <Widget>[
           Image.asset(
             'images/logo.png',
             width: size * 0.4,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.account_box_rounded,
                 color: Colors.white,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
                 "$firstName $lastName",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white, fontSize: 18, fontFamily: 'Prompt'),
               ),
             ],
@@ -998,19 +837,19 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             'images/logo.png',
             width: size * 0.2,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.account_box_rounded,
                 color: Colors.white,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
                 "$firstName $lastName",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: const TextStyle(color: Colors.white, fontSize: 18),
               ),
             ],
           )
@@ -1032,8 +871,8 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       },
       child: Container(
         margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(12),
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
           color: Colors.white,
@@ -1042,9 +881,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           children: [
             Row(
               children: [
-                Icon(Icons.credit_card_outlined),
-                SizedBox(width: 10),
-                Text(
+                const Icon(Icons.credit_card_outlined),
+                const SizedBox(width: 10),
+                const Text(
                   "สินเชื่อ",
                   style: TextStyle(
                       color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
@@ -1069,8 +908,8 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       },
       child: Container(
         margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(12),
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
           color: Colors.white,
@@ -1079,9 +918,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           children: [
             Row(
               children: [
-                Icon(Icons.info_outline_rounded),
-                SizedBox(width: 10),
-                Text(
+                const Icon(Icons.info_outline_rounded),
+                const SizedBox(width: 10),
+                const Text(
                   "เกี่ยวกับ",
                   style: TextStyle(
                       color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
@@ -1119,7 +958,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   width: 25, height: 25, fit: BoxFit.contain),
             ],
           ),
-          content: Text(
+          content: const Text(
             "คุณต้องการออกจากระบบใช่หรือไหม",
             style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
           ),

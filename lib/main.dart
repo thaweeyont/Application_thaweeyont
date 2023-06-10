@@ -1,42 +1,30 @@
-import 'package:application_thaweeyont/Tap.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_credit/check_purchase_info/page_checkpurchase_info.dart';
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_check_blacklist.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
-import 'package:application_thaweeyont/state/state_credit/data_searchdebtor.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
 import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
-import 'package:application_thaweeyont/state/state_credit/pay_installment.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
-import 'package:application_thaweeyont/api.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final Map<String, WidgetBuilder> map = {
-  '/authen': (BuildContext context) => Authen(),
-  '/state_credit/home': (BuildContext context) => Home_credit(),
+  '/authen': (BuildContext context) => const Authen(),
+  '/state_credit/home': (BuildContext context) => const Home_credit(),
   '/state_credit/navigator_bar_credit': (BuildContext context) =>
       Navigator_bar_credit('2'),
-  '/state_credit/query_debtor': (BuildContext context) => Query_debtor(),
-  // '/state_credit/pay_installment': (BuildContext context) => Pay_installment(),
+  '/state_credit/query_debtor': (BuildContext context) => const Query_debtor(),
   '/state_credit/check_purchase_info/page_checkpurchase_info':
-      (BuildContext context) => Page_Checkpurchase_info(),
+      (BuildContext context) => const Page_Checkpurchase_info(),
   '/state_credit/credit_approval/page_credit_approval':
-      (BuildContext context) => Page_Credit_Approval(),
-  // '/state_credit/credit_approval/page_check_blacklist':
-  //     (BuildContext context) => Page_Check_Blacklist(),
-  // '/salerService': (BuildContext context) => SalerService(),
-  // '/riderService': (BuildContext context) => RiderService(),
+      (BuildContext context) => const Page_Credit_Approval(),
 };
 
 String? initlalRounte;
 
 void main() {
   initlalRounte = MyContant.routeAuthen;
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -71,9 +59,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   MaterialColor color_theme() {
-    return MaterialColor(
+    return const MaterialColor(
       0xFF050C45, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
-      const <int, Color>{
+      <int, Color>{
         50: Color.fromRGBO(5, 12, 69, 1), //10%
         100: Color.fromRGBO(5, 12, 69, 1), //10%
         200: Color.fromRGBO(5, 12, 69, 1), //10%

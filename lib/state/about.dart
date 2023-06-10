@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';

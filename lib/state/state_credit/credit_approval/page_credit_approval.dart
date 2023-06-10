@@ -7,12 +7,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-// import 'package:buddhist_datetime_dateformat/buddhist_datetime_dateformat.dart';
 
 import '../../authen.dart';
-import 'page_check_blacklist.dart';
-import 'page_datacust_approve.dart';
-import 'page_info_consider_cus.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Page_Credit_Approval extends StatefulWidget {

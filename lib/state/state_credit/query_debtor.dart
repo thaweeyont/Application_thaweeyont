@@ -1,15 +1,11 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:application_thaweeyont/state/state_credit/data_debtor_list.dart';
-import 'package:application_thaweeyont/widgets/show_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../model/login_model.dart';
 import '../authen.dart';
-import 'data_searchdebtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/api.dart';
 
