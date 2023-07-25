@@ -188,7 +188,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                     ),
                   ),
                 )
-              : Container(
+              : SizedBox(
                   height: MediaQuery.of(context).size.height * 0.9,
                   child: Scrollbar(
                     child: ListView(
@@ -207,173 +207,183 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                     Radius.circular(10),
                                   ),
                                 ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'รหัสลูกค้า : ${listdataMemberDetail[i]['custId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.7),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(5),
                                     ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'ชื่อ-นามสกุล : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${listdataMemberDetail[i]['custName']}',
-                                            overflow: TextOverflow.clip,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'รหัสลูกค้า : ${listdataMemberDetail[i]['custId']}',
                                             style: MyContant().h4normalStyle(),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'ชื่อเล่น : ${listdataMemberDetail[i]['nickName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'เพศ : ${listdataMemberDetail[i]['gender']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'สถานภาพ : ${listdataMemberDetail[i]['marryStatus']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'ศาสนา : ${listdataMemberDetail[i]['religionName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'เชื้อชาติ : ${listdataMemberDetail[i]['raceName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'สัญชาติ : ${listdataMemberDetail[i]['nationName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'วันเกิด : ${listdataMemberDetail[i]['birthday']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'อายุ : ${listdataMemberDetail[i]['age']} ปี',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'เบอร์โทรศัพท์ : ${listdataMemberDetail[i]['mobile']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'บัตร : ${listdataMemberDetail[i]['cardTypeName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'เลขที่ : ${listdataMemberDetail[i]['smartId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Email : ${listdataMemberDetail[i]['email']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Website : ${listdataMemberDetail[i]['website']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Line Id : ${listdataMemberDetail[i]['lineId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'วันที่หมดอายุ : ${listdataMemberDetail[i]['smartExpireDate']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'ชื่อ-นามสกุล : ',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${listdataMemberDetail[i]['custName']}',
+                                              overflow: TextOverflow.clip,
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'ชื่อเล่น : ${listdataMemberDetail[i]['nickName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'เพศ : ${listdataMemberDetail[i]['gender']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'สถานภาพ : ${listdataMemberDetail[i]['marryStatus']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'ศาสนา : ${listdataMemberDetail[i]['religionName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'เชื้อชาติ : ${listdataMemberDetail[i]['raceName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'สัญชาติ : ${listdataMemberDetail[i]['nationName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'วันเกิด : ${listdataMemberDetail[i]['birthday']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                          Text(
+                                            'อายุ : ${listdataMemberDetail[i]['age']} ปี',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'เบอร์โทรศัพท์ : ${listdataMemberDetail[i]['mobile']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'บัตร : ${listdataMemberDetail[i]['cardTypeName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'เลขที่ : ${listdataMemberDetail[i]['smartId']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Email : ${listdataMemberDetail[i]['email']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Website : ${listdataMemberDetail[i]['website']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Line Id : ${listdataMemberDetail[i]['lineId']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'วันที่หมดอายุ : ${listdataMemberDetail[i]['smartExpireDate']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

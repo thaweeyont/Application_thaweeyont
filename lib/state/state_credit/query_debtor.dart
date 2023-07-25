@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_credit/data_debtor_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../authen.dart';
@@ -78,7 +77,6 @@ class _Query_debtorState extends State<Query_debtor> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       id = '1';
@@ -86,7 +84,7 @@ class _Query_debtorState extends State<Query_debtor> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -112,12 +110,11 @@ class _Query_debtorState extends State<Query_debtor> {
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
         },
-        // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
       );
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_provice =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_province = data_provice['data'];
         });
@@ -163,8 +160,8 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_select_district() async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -185,7 +182,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_district =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           list_district = data_district['data'];
         });
@@ -257,7 +254,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_itemTypelist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           list_itemType = data_itemTypelist['data'];
         });
@@ -318,7 +315,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_addressTypelist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_addresstype = data_addressTypelist['data'];
           select_addreessType = dropdown_addresstype[0]['id'];
@@ -357,7 +354,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_branch =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_branch = data_branch['data'];
         });
@@ -395,7 +392,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_debtorType =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_debtorType = data_debtorType['data'];
         });
@@ -433,7 +430,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_signStatusList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_signStatus = data_signStatusList['data'];
         });
@@ -474,7 +471,7 @@ class _Query_debtorState extends State<Query_debtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_customer = data['data'];
         });
@@ -740,7 +737,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                   if (respose.statusCode ==
                                                       200) {
                                                     Map<String, dynamic>
-                                                        data_amphoe = new Map<
+                                                        data_amphoe = Map<
                                                                 String,
                                                                 dynamic>.from(
                                                             json.decode(
@@ -1019,8 +1016,8 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> search_conType(sizeIcon, border) async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -1349,15 +1346,13 @@ class _Query_debtorState extends State<Query_debtor> {
 
         if (respose.statusCode == 200) {
           Map<String, dynamic> dataList =
-              new Map<String, dynamic>.from(json.decode(respose.body));
+              Map<String, dynamic>.from(json.decode(respose.body));
 
           setState(() {
             list_datavalue = dataList['data'];
           });
           print(respose.statusCode);
-          // Navigator.pop(context);
           Navigator.pop(context);
-          // search_idcustomer();
         } else if (respose.statusCode == 400) {
           print(respose.statusCode);
           showProgressDialog_400(
@@ -1875,8 +1870,8 @@ class _Query_debtorState extends State<Query_debtor> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,

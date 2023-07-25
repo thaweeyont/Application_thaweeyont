@@ -381,7 +381,7 @@ Future<void> showProgressDialog555(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
+                  children: const [
                     Text(
                       "ตกลง",
                       style: TextStyle(
@@ -437,8 +437,8 @@ Future<void> showProgressDialog_Notdata555(
               Navigator.pop(context);
             },
             child: Column(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -488,8 +488,8 @@ Future<void> showProgressDialog_4000(
               Navigator.pop(context);
             },
             child: Column(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -538,8 +538,8 @@ Future<void> showProgressDialog_4011(
               Navigator.pop(context);
             },
             child: Column(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -602,8 +602,8 @@ Future<void> showProgressDialog_4044(
               Navigator.pop(context);
             },
             child: Column(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -621,11 +621,10 @@ Future<void> showProgressDialog_4044(
   );
 }
 
-showProgressDialog_400(BuildContext context, title, subtitle) async {
+showProgressDialog_400(BuildContext context, title, subtitle) {
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
-
     builder: (context) {
       return AlertDialog(
         contentPadding: const EdgeInsets.symmetric(horizontal: 40),
@@ -925,8 +924,8 @@ Future<void> showProgressDialog_4055(
               Navigator.pop(context);
             },
             child: Column(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -976,8 +975,8 @@ Future<void> showProgressDialog_5000(
               Navigator.pop(context);
             },
             child: Column(
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "ตกลง",
                   style: TextStyle(
                     fontSize: 16,
@@ -1024,33 +1023,5 @@ Future<void> showProgressLoading(BuildContext context) async {
   );
 }
 
-Center notData(BuildContext context) {
-  return Center(
-    child: SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2,
-                child: Image.asset('images/searc_unscreen.gif'),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'ไม่พบข้อมูล',
-                style: MyContant().h4normalStyle(),
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
-  );
-}
+
+

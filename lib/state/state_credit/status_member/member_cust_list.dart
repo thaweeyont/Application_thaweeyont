@@ -62,7 +62,7 @@ class _MemberCustListState extends State<MemberCustList> {
           'firstName': widget.custName.toString(),
           'lastName': widget.lastnamecust.toString(),
           'page': '1',
-          'limit': '20',
+          'limit': '50',
         }),
       );
 
@@ -262,10 +262,19 @@ class _MemberCustListState extends State<MemberCustList> {
                                       ],
                                     ),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'เบอร์โทรศัพท์ : ${list_dataMember[i]['telephone']}',
+                                          'เบอร์โทรศัพท์ : ',
                                           style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_dataMember[i]['telephone']}',
+                                            style: MyContant().h4normalStyle(),
+                                            overflow: TextOverflow.clip,
+                                          ),
                                         ),
                                       ],
                                     ),
