@@ -99,7 +99,6 @@ class _AuthenState extends State<Authen> {
           preferences.setString('branchName', branchName);
           preferences.setBool('allowApproveStatus', allowApproveStatus);
 
-          print(data['data']);
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => Navigator_bar_credit('2')),
@@ -107,10 +106,9 @@ class _AuthenState extends State<Authen> {
           );
         } else {
           print('ไม่มีข้อมูล');
-          // showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบข้อมูลของ User นี้');
         }
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
+        
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -125,7 +123,7 @@ class _AuthenState extends State<Authen> {
       } else {
         Map<String, dynamic> check_list =
             new Map<String, dynamic>.from(json.decode(respose.body));
-        print(respose.statusCode);
+        
         print(check_list['message']);
         if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
           print('ไม่พบชื่อเข้าใช้ระบบ');

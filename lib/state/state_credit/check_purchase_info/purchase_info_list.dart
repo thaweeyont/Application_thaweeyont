@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,7 +38,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -81,13 +80,10 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
           setbillTotal();
         });
         statusLoading = true;
-
-        // print('billtotal >> ${listbill}');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('customer >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -104,18 +100,13 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
           statusLoad404 = true;
           statusLoading = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -130,20 +121,16 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
     billtotal.forEach((element) {
       listbilltotal.add(element);
     });
-    print('billTotal => $listbilltotal');
 
     listbilltotal.forEach((element) => print(element.runtimeType));
 
     for (var c = 0; c < listbilltotal.length; c++) {
       res += double.parse(listbilltotal[c].toString().replaceAll(',', ''));
     }
-    print('result >> $res length > ${listbilltotal.length}');
-    // NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
-    // number = numberFormat.format(res);
     lengthbill = listbilltotal.length;
     var f = NumberFormat('###,###.00', 'en_US');
     number = f.format(res);
-    print('formatNumber =>> $number');
+ 
   }
 
   @override
@@ -170,7 +157,6 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',

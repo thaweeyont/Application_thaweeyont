@@ -102,7 +102,6 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_select_province() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -118,14 +117,10 @@ class _Query_debtorState extends State<Query_debtor> {
         setState(() {
           dropdown_province = data_provice['data'];
         });
-
-        print(dropdown_province);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -138,18 +133,14 @@ class _Query_debtorState extends State<Query_debtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -189,13 +180,10 @@ class _Query_debtorState extends State<Query_debtor> {
         Navigator.pop(context);
         Navigator.pop(context);
         search_district(sizeIcon, border);
-        print(data_district['data']);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('select_district >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -208,18 +196,14 @@ class _Query_debtorState extends State<Query_debtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -240,8 +224,7 @@ class _Query_debtorState extends State<Query_debtor> {
         Radius.circular(4.0),
       ),
     );
-    print(searchNameItemtype.text);
-    print(tokenId);
+
     try {
       var respose = await http.get(
         Uri.parse(
@@ -260,13 +243,10 @@ class _Query_debtorState extends State<Query_debtor> {
         });
 
         Navigator.pop(context);
-        print(list_itemType);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -281,18 +261,13 @@ class _Query_debtorState extends State<Query_debtor> {
           Navigator.pop(context);
           statusLoad404itemTypeList = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -303,7 +278,6 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_select_addressTypelist() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/addressTypeList'),
@@ -320,10 +294,7 @@ class _Query_debtorState extends State<Query_debtor> {
           dropdown_addresstype = data_addressTypelist['data'];
           select_addreessType = dropdown_addresstype[0]['id'];
         });
-
-        print('>>${select_addreessType}');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -342,7 +313,6 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_select_branch() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/branchList'),
@@ -358,10 +328,7 @@ class _Query_debtorState extends State<Query_debtor> {
         setState(() {
           dropdown_branch = data_branch['data'];
         });
-
-        print(dropdown_branch);
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -380,7 +347,6 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_select_debtorType() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/debtorTypeList'),
@@ -396,10 +362,7 @@ class _Query_debtorState extends State<Query_debtor> {
         setState(() {
           dropdown_debtorType = data_debtorType['data'];
         });
-        print(respose.statusCode);
-        print(dropdown_debtorType);
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -418,7 +381,6 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> get_select_signStatus() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/signStatusList'),
@@ -433,11 +395,9 @@ class _Query_debtorState extends State<Query_debtor> {
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_signStatus = data_signStatusList['data'];
+          select_signStatus = dropdown_signStatus[0]['id'];
         });
-
-        print(dropdown_signStatus);
       } else if (respose.statusCode == 401) {
-        print('signStatus >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -449,9 +409,7 @@ class _Query_debtorState extends State<Query_debtor> {
         );
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else {
-        print(respose.statusCode);
-      }
+      } else {}
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialog_Notdata(
@@ -476,7 +434,6 @@ class _Query_debtorState extends State<Query_debtor> {
           dropdown_customer = data['data'];
         });
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -509,9 +466,10 @@ class _Query_debtorState extends State<Query_debtor> {
     itemTypelist.clear();
     setState(() {
       select_debtorType = null;
-      select_signStatus = null;
       select_branchlist = null;
       debtorStatuscode = null;
+      get_select_signStatus();
+      get_select_addressTypelist();
     });
   }
 
@@ -598,7 +556,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                 right: 0,
                                 child: InkWell(
                                   onTap: () {
-                                    print('exit');
                                     Navigator.pop(context);
                                     clearValue_search_district();
                                   },
@@ -731,7 +688,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                                       'Authorization':
                                                           tokenId.toString(),
                                                     },
-                                                    // body: jsonEncode(<String, String>{'page': '1', 'limit': '100'}),
                                                   );
 
                                                   if (respose.statusCode ==
@@ -746,7 +702,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                                       dropdown_amphoe =
                                                           data_amphoe['data'];
                                                     });
-                                                    print(data_amphoe['data']);
                                                   } else if (respose
                                                           .statusCode ==
                                                       401) {
@@ -779,7 +734,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                                       'แจ้งเตือน',
                                                       'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
                                                 }
-                                                // print(selectValue_province);
                                               },
                                               value: selectValue_province,
                                               isExpanded: true,
@@ -1340,7 +1294,7 @@ class _Query_debtorState extends State<Query_debtor> {
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
-            'limit': '20'
+            'limit': '100'
           }),
         );
 
@@ -1351,14 +1305,12 @@ class _Query_debtorState extends State<Query_debtor> {
           setState(() {
             list_datavalue = dataList['data'];
           });
-          print(respose.statusCode);
+
           Navigator.pop(context);
         } else if (respose.statusCode == 400) {
-          print(respose.statusCode);
           showProgressDialog_400(
               context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
         } else if (respose.statusCode == 401) {
-          print('${respose.statusCode}');
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.clear();
           Navigator.pushAndRemoveUntil(
@@ -1375,14 +1327,9 @@ class _Query_debtorState extends State<Query_debtor> {
             Navigator.pop(context);
             statusLoad404 = true;
           });
-          print(respose.statusCode);
-          // showProgressDialog_404(
-          //     context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
         } else if (respose.statusCode == 405) {
-          print(respose.statusCode);
           showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
         } else if (respose.statusCode == 500) {
-          print(respose.statusCode);
           showProgressDialog_500(
               context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
         }
@@ -1394,7 +1341,6 @@ class _Query_debtorState extends State<Query_debtor> {
 
     Future<Null> getData_search() async {
       if (id == '1') {
-        print(id);
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
           getData_condition(
@@ -1403,7 +1349,6 @@ class _Query_debtorState extends State<Query_debtor> {
           getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
-        print(id);
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
       }
@@ -1457,7 +1402,6 @@ class _Query_debtorState extends State<Query_debtor> {
                               right: 0,
                               child: InkWell(
                                 onTap: () {
-                                  print('exit');
                                   Navigator.pop(context);
                                   clearValueDialog();
                                 },
@@ -1551,7 +1495,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                           searchData.clear();
                                           statusLoad404 = false;
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -1571,7 +1514,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                           searchData.clear();
                                           statusLoad404 = false;
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -1625,7 +1567,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
-                                                print(newvalue);
                                                 setState(() {
                                                   selectValue_customer =
                                                       newvalue;
@@ -1682,9 +1623,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
-                                    print('data>>>$list_datavalue');
                                     if (id == '1') {
-                                      print('1==>> $id');
                                       if (selectValue_customer == null ||
                                           searchData.text.isEmpty &&
                                               lastname.text.isEmpty) {
@@ -1694,7 +1633,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                         getData_search();
                                       }
                                     } else {
-                                      print('2==>> $id');
                                       if (firstname_em.text.isEmpty &&
                                           lastname_em.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',
@@ -1722,7 +1660,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(
@@ -1746,8 +1684,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 2, horizontal: 8),
                                         child: Container(
-                                          // margin:
-                                          // EdgeInsets.symmetric(vertical: 5),
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
@@ -2023,23 +1959,6 @@ class _Query_debtorState extends State<Query_debtor> {
                               Icons.search,
                             ),
                           ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     search_district(sizeIcon, border);
-                          //   },
-                          //   child: Container(
-                          //     width: 30,
-                          //     height: 30,
-                          //     decoration: BoxDecoration(
-                          //       color: Color.fromRGBO(202, 71, 150, 1),
-                          //       shape: BoxShape.circle,
-                          //     ),
-                          //     child: Icon(
-                          //       Icons.search,
-                          //       color: Colors.white,
-                          //     ),
-                          //   ),
-                          // )
                         ],
                       ),
                       Row(
@@ -2109,22 +2028,6 @@ class _Query_debtorState extends State<Query_debtor> {
                               Icons.search,
                             ),
                           ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     search_conType(sizeIcon, border);
-                          //   },
-                          //   child: Container(
-                          //     width: 30,
-                          //     height: 30,
-                          //     decoration: BoxDecoration(
-                          //         color: Color.fromRGBO(202, 71, 150, 1),
-                          //         shape: BoxShape.circle),
-                          //     child: Icon(
-                          //       Icons.search,
-                          //       color: Colors.white,
-                          //     ),
-                          //   ),
-                          // )
                         ],
                       ),
                     ],
@@ -2133,213 +2036,6 @@ class _Query_debtorState extends State<Query_debtor> {
               ),
             ),
             group_btnsearch(),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       Text(
-            //         'รายการที่ค้นหา',
-            //         style: MyContant().h2Style(),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.6,
-            //   child: Scrollbar(
-            //     child: ListView(
-            //       children: [
-            //         if (list_dataDebtor.isNotEmpty) ...[
-            //           for (var i = 0; i < list_dataDebtor.length; i++) ...[
-            //             InkWell(
-            //               onTap: () {
-            //                 Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                       builder: (context) => Data_SearchDebtor(
-            //                           list_dataDebtor[i]['signId'],
-            //                           list_dataDebtor[i]['signStatusName'])),
-            //                 );
-            //               },
-            //               child: Padding(
-            //                 padding: const EdgeInsets.symmetric(horizontal: 8),
-            //                 child: Container(
-            //                   margin: EdgeInsets.symmetric(vertical: 5),
-            //                   padding: EdgeInsets.all(8.0),
-            //                   decoration: BoxDecoration(
-            //                     borderRadius:
-            //                         BorderRadius.all(Radius.circular(5)),
-            //                     color: Color.fromRGBO(255, 218, 249, 1),
-            //                   ),
-            //                   child: Column(
-            //                     children: [
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'สาขาที่ออกขาย : ${list_dataDebtor[i]['branchName']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'เลขบัตรประชาชน : ${list_dataDebtor[i]['smartId']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'ชื่อลูกค้าในสัญญา : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               '${list_dataDebtor[i]['custName']}',
-            //                               overflow: TextOverflow.clip,
-            //                               style: MyContant().h4normalStyle(),
-            //                             ),
-            //                           )
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'สินค้าที่ซื้อ : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               '${list_dataDebtor[i]['itemName']}',
-            //                               overflow: TextOverflow.clip,
-            //                               style: MyContant().h4normalStyle(),
-            //                             ),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'เงินดาวน์/งวดแรก : ${list_dataDebtor[i]['downPrice']}  บาท',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'ส่งเดือนละ : ${list_dataDebtor[i]['periodPrice']}  บาท',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'ระยเวลา : ${list_dataDebtor[i]['periodCount']}  งวด',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'กำหนดชำระทุกวันที่ : ${list_dataDebtor[i]['periodDay']}  ของเดือน',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'หมายเหตุ : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               'เกินกำหนดชำระค่างวด 3 วัน มีเบี้ยปรับ+ค่าทวงถาม',
-            //                               overflow: TextOverflow.clip,
-            //                               style: MyContant().h4normalStyle(),
-            //                             ),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ],
-            //       ],
-            //     ),
-            //   ),
-            // ),
             const SizedBox(
               height: 70,
             ),
@@ -2399,8 +2095,6 @@ class _Query_debtorState extends State<Query_debtor> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        // showProgressLoading(context);
-                        // getData_debtorList();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -2430,7 +2124,7 @@ class _Query_debtorState extends State<Query_debtor> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.034,
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
@@ -2825,11 +2519,11 @@ class _Query_debtorState extends State<Query_debtor> {
             child: DropdownButton(
               items: dropdown_debtorType
                   .map((value) => DropdownMenuItem(
+                        value: value['id'],
                         child: Text(
                           value['name'],
                           style: MyContant().TextInputStyle(),
                         ),
-                        value: value['id'],
                       ))
                   .toList(),
               onChanged: (newvalue) {
@@ -2867,11 +2561,11 @@ class _Query_debtorState extends State<Query_debtor> {
             child: DropdownButton(
               items: dropdown_signStatus
                   .map((value) => DropdownMenuItem(
+                        value: value['id'],
                         child: Text(
                           value['name'],
                           style: MyContant().TextInputStyle(),
                         ),
-                        value: value['id'],
                       ))
                   .toList(),
               onChanged: (newvalue) {

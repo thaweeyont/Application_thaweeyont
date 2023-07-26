@@ -40,7 +40,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -69,7 +69,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           dropdown_customer = data['data'];
         });
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -115,7 +114,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     lastname.clear();
   }
 
-  Future<Null> search_idcustomer() async {
+  Future<void> search_idcustomer() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -140,11 +139,11 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           body: jsonEncode(<String, String>{
             'custType': custType.toString(),
             'conditionType': conditionType.toString(),
-            'searchData': searchData.toString(), // M011911761883
+            'searchData': searchData.toString(),
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
-            'limit': '40'
+            'limit': '100'
           }),
         );
 
@@ -157,14 +156,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           });
 
           Navigator.pop(context);
-          // search_idcustomer();
-          // print(list_datavalue);
         } else if (respose.statusCode == 400) {
-          print(respose.statusCode);
           showProgressDialog_400(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 401) {
-          print(respose.statusCode);
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.clear();
           Navigator.pushAndRemoveUntil(
@@ -181,14 +176,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             Navigator.pop(context);
             statusLoad404member = true;
           });
-          print(respose.statusCode);
-          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
-          print(respose.statusCode);
           showProgressDialog_405(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 500) {
-          print(respose.statusCode);
           showProgressDialog_500(
               context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
         } else {
@@ -201,9 +192,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       }
     }
 
-    Future<Null> getData_search() async {
+    Future<void> getData_search() async {
       if (id == '1') {
-        print(id);
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
           getData_condition(
@@ -212,7 +202,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
-        print(id);
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
       }
@@ -265,7 +254,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               right: 0,
                               child: InkWell(
                                 onTap: () {
-                                  print('exit');
                                   Navigator.pop(context);
                                   clearDialog();
                                 },
@@ -351,7 +339,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           statusLoad404member = false;
                                           searchData.clear();
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -371,7 +358,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           statusLoad404member = false;
                                           searchData.clear();
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -427,7 +413,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
-                                                print(newvalue);
                                                 setState(() {
                                                   selectValue_customer =
                                                       newvalue;
@@ -484,9 +469,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
-                                    // getData_search();
                                     if (id == '1') {
-                                      print('1==>> $id');
                                       if (selectValue_customer == null ||
                                           searchData.text.isEmpty &&
                                               lastname.text.isEmpty) {
@@ -496,7 +479,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         getData_search();
                                       }
                                     } else {
-                                      print('2==>> $id');
                                       if (firstname_em.text.isEmpty &&
                                           lastname_em.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',

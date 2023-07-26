@@ -44,8 +44,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
   }
 
   Future<void> getData_quarantee() async {
-    print(tokenId);
-    print(widget.custId.toString());
+  
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/quarantee'),
@@ -67,13 +66,13 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
         });
         statusLoading = true;
 
-        print('data=>>${list_quarantee}');
+  
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
+        
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
+ 
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -86,18 +85,17 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
+   
         setState(() {
           statusLoad404 = true;
           statusLoading = true;
         });
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลผู้ค้ำประกัน');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
+  
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
+       
         showProgressDialog_500(context, 'แจ้งเตือน',
             '${respose.statusCode} ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {

@@ -48,7 +48,6 @@ class _Pay_installmentState extends State<Pay_installment> {
 
   setListdropdown() {
     List<dynamic> no = widget.period.map((e) => e["periodNo"]).toList();
-    print(widget.list_payDetail);
     no.forEach((element) {
       datalist.add(element);
     });
@@ -57,8 +56,6 @@ class _Pay_installmentState extends State<Pay_installment> {
       dropdownValue =
           datalist.firstWhere((element) => element == widget.list_payDetail);
     });
-    print('#==>> $datalist');
-    print('==>>> ${widget.period}');
   }
 
   Future<void> getData_payDetail(signId, String period) async {
@@ -83,17 +80,11 @@ class _Pay_installmentState extends State<Pay_installment> {
         setState(() {
           datapayDetail = dataPayDetail['data'];
           statusLoading200 = true;
-          // payDetail = dataPayDetail['data'][0];
         });
-        print('data=>$payDetail');
-        print('data22=>$datapayDetail');
-        print('#data# $period == >> $payDetail');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -110,19 +101,13 @@ class _Pay_installmentState extends State<Pay_installment> {
           statusLoading200 = true;
           statusLoad404 = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(
-        //     context, 'แจ้งเตือน', 'ยังไม่มีการชำระเงิน งวดที่ ${period}');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -430,13 +415,10 @@ class _Pay_installmentState extends State<Pay_installment> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
-                  // showProgressLoading(context);
                   statusLoading200 = false;
                   statusLoad404 = false;
                   getData_payDetail(widget.signId, dropdownValue);
                 });
-
-                print('#1==>${widget.signId} #2==> $dropdownValue');
               },
               value: dropdownValue,
               isExpanded: true,

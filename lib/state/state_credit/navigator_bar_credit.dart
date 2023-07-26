@@ -53,7 +53,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       } else {
         Map<String, dynamic> check_list =
             new Map<String, dynamic>.from(json.decode(respose.body));
-        print(respose.statusCode);
+
         print(check_list['message']);
         if (check_list['message'] == "Token Unauthorized") {
           SharedPreferences preferences = await SharedPreferences.getInstance();

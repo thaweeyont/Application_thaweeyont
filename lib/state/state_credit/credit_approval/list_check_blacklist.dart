@@ -72,16 +72,6 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
       amphur = widget.selectValue_amphoe.toString().split("_")[0];
       province = widget.selectValue_province.toString().split("_")[0];
     }
-    print(tokenId);
-    // print('1>${widget.idblacklist}');
-    // print('2>${widget.idcard}');
-    // print('3>${widget.name}');
-    // print('4>${widget.lastname}');
-    // print('5>${widget.homeNo}');
-    // print('6>${widget.mooNo}');
-    // print('7>${tumbol}');
-    // print('8>${amphur}');
-    // print('9>${province}');
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/checkBlacklist'),
@@ -111,11 +101,9 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
         });
         statusLoading = true;
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -132,14 +120,10 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
           statusLoad404 = true;
           statusLoading = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล Blacklist');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       }

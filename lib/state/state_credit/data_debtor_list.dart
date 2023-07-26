@@ -139,7 +139,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           'signStatus': signStatus.toString(),
           'itemType': widget.itemTypelist.toString(),
           'page': '1',
-          'limit': '20'
+          'limit': '100'
         }),
       );
 
@@ -152,11 +152,11 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
         });
         statusLoading = true;
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
+        
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
+        
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -173,14 +173,13 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           statusLoad404 = true;
           statusLoading = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+        
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
+        
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
+       
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {

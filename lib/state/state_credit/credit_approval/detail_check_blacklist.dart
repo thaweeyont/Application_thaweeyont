@@ -41,7 +41,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
   }
 
   Future<void> getData_detail_bl() async {
-    print(widget.blId);
+   
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/blacklistDetail'),
@@ -64,13 +64,13 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
           list_detail = list_detail_bl[0]['detail'];
         });
 
-        print('ข้อมูล => $list_detail');
+    
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
+     
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode} )');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
+  
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -83,18 +83,17 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
+
         setState(() {
           status_data = true;
           statusLoad404 = true;
         });
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
+  
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
+       
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {

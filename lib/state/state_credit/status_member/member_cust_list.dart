@@ -44,11 +44,6 @@ class _MemberCustListState extends State<MemberCustList> {
   }
 
   Future<void> getData_CusMember() async {
-    print(tokenId);
-    print('1>${widget.custId}');
-    print('2>${widget.smartId}');
-    print('3>${widget.custName}');
-    print('4>${widget.lastnamecust}');
     try {
       var respose = await http.post(
         Uri.parse('${api}customer/memberList'),
@@ -62,7 +57,7 @@ class _MemberCustListState extends State<MemberCustList> {
           'firstName': widget.custName.toString(),
           'lastName': widget.lastnamecust.toString(),
           'page': '1',
-          'limit': '50',
+          'limit': '100',
         }),
       );
 
@@ -74,13 +69,10 @@ class _MemberCustListState extends State<MemberCustList> {
           list_dataMember = dataMemberList['data'];
         });
         statusLoading = true;
-        print('data>>${list_dataMember}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -97,18 +89,13 @@ class _MemberCustListState extends State<MemberCustList> {
           statusLoad404 = true;
           statusLoading = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -142,7 +129,6 @@ class _MemberCustListState extends State<MemberCustList> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',

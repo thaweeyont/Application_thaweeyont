@@ -114,9 +114,6 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
       tumbol = widget.tumbolId;
       amphur = widget.selectValue_amphoe.toString().split("_")[0];
       province = widget.selectValue_province.toString().split("_")[0];
-      print('1=>$province');
-      print('2=>$amphur');
-      print('3=>$tumbol');
     }
 
     try {
@@ -144,7 +141,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
           'signStatus': signStatus.toString(),
           'itemType': widget.itemTypelist.toString(),
           'page': '1',
-          'limit': '20'
+          'limit': '100'
         }),
       );
 
@@ -156,14 +153,10 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
           list_dataDebtor = datadebtorList['data'];
         });
         statusLoading = true;
-
-        print('testData->>${list_dataDebtor}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -180,14 +173,10 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
           statusLoad404 = true;
           statusLoading = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {

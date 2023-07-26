@@ -63,7 +63,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Future<void> getData_debtorDetail() async {
     print(tokenId);
-    print(widget.signId.toString());
 
     try {
       var respose = await http.post(
@@ -84,7 +83,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
         Debtordetail = datadebtorDetail['data'];
 
         setState(() {
-          print(Debtordetail['quarantee']);
           status = true;
           if (Debtordetail['quarantee']['1'].toString() != "[]") {
             list_quarantee1 =
@@ -132,13 +130,10 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
           list_paydetailsum =
               Map<String, dynamic>.from(Debtordetail['payDetailSummary']);
         });
-        print('ss >> ${list_paydetailsum}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -153,11 +148,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       } else if (respose.statusCode == 404) {
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {

@@ -90,10 +90,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       id = '1';
     });
     getdata();
-    print('sp>>$selectValue_province');
-    print('sa>>$selectValue_amphoe');
-    print('st>>$tumbolId');
-    print('address>>${widget.address}');
   }
 
   Future<void> getdata() async {
@@ -110,9 +106,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     selectProvince = widget.provId.toString();
     selectAmphur = widget.amphurId.toString();
     selectTumbol = widget.tunbolId.toString();
-    print('p>$selectProvince');
-    print('a>$selectAmphur');
-    print('t>$selectTumbol');
+
     get_province();
     get_amphor();
     get_district();
@@ -125,7 +119,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   }
 
   Future<void> get_select_province() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -141,14 +134,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         setState(() {
           dropdown_province = data_provice['data'];
         });
-
-        print('จ.->${dropdown_province}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -161,18 +150,14 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -183,7 +168,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   }
 
   Future<void> get_province() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -204,14 +188,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
               .first['name']
               .toString();
         });
-
-        print('จจ.->${drProvince}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -224,18 +204,14 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -246,7 +222,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   }
 
   Future<void> get_amphor() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse(
@@ -267,14 +242,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
               .first['name']
               .toString();
         });
-
-        print('อ.->${drAmphur}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -287,18 +258,14 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -329,14 +296,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
               .first['name']
               .toString();
         });
-
-        print('ต.->${drTumbol}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('select_district >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -349,18 +312,14 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -400,13 +359,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         Navigator.pop(context);
         Navigator.pop(context);
         search_district(sizeIcon, border);
-        print(data_district['data']);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('select_district >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -419,18 +375,14 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -451,8 +403,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         Radius.circular(4.0),
       ),
     );
-    print(searchNameItemtype.text);
-    print(tokenId);
+
     try {
       var respose = await http.get(
         Uri.parse(
@@ -471,13 +422,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         });
 
         Navigator.pop(context);
-        print(list_itemType);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -492,18 +440,13 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
           Navigator.pop(context);
           statusLoad404itemTypeList = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -514,7 +457,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   }
 
   Future<void> get_select_addressTypelist() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/addressTypeList'),
@@ -531,10 +473,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
           dropdown_addresstype = data_addressTypelist['data'];
           select_addreessType = dropdown_addresstype[0]['id'];
         });
-
-        print('>>${select_addreessType}');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -553,7 +492,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   }
 
   Future<void> get_select_branch() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/branchList'),
@@ -569,10 +507,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         setState(() {
           dropdown_branch = data_branch['data'];
         });
-
-        print(dropdown_branch);
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -591,7 +526,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   }
 
   Future<void> get_select_debtorType() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/debtorTypeList'),
@@ -607,10 +541,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         setState(() {
           dropdown_debtorType = data_debtorType['data'];
         });
-        print(respose.statusCode);
-        print(dropdown_debtorType);
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -629,7 +560,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   }
 
   Future<void> get_select_signStatus() async {
-    print(tokenId);
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/signStatusList'),
@@ -645,10 +575,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         setState(() {
           dropdown_signStatus = data_signStatusList['data'];
         });
-
-        print(dropdown_signStatus);
       } else if (respose.statusCode == 401) {
-        print('signStatus >>${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -687,7 +614,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
           dropdown_customer = data['data'];
         });
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -934,7 +860,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                     'แจ้งเตือน',
                                                     'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
                                               }
-                                              // print(selectValue_province);
                                             },
                                             value: selectValue_province,
                                             isExpanded: true,
@@ -989,7 +914,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                 .toList(),
                                             onChanged: (newvalue) {
                                               setState(() {
-                                                print('111>>$newvalue');
                                                 var dfvalue = newvalue;
                                                 selectValue_amphoe = dfvalue;
                                                 text_amphoe = dfvalue
@@ -1447,7 +1371,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
-            'limit': '20'
+            'limit': '100'
           }),
         );
 
@@ -1458,14 +1382,12 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
           setState(() {
             list_datavalue = dataList['data'];
           });
-          print(respose.statusCode);
+
           Navigator.pop(context);
         } else if (respose.statusCode == 400) {
-          print(respose.statusCode);
           showProgressDialog_400(
               context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล!');
         } else if (respose.statusCode == 401) {
-          print('${respose.statusCode}');
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.clear();
           Navigator.pushAndRemoveUntil(
@@ -1482,14 +1404,9 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             Navigator.pop(context);
             statusLoad404 = true;
           });
-          print(respose.statusCode);
-          // showProgressDialog_404(
-          //     context, 'แจ้งเตือน', '${respose.statusCode} ไม่พบข้อมูล');
         } else if (respose.statusCode == 405) {
-          print(respose.statusCode);
           showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
         } else if (respose.statusCode == 500) {
-          print(respose.statusCode);
           showProgressDialog_500(
               context, 'แจ้งเตือน', '${respose.statusCode} ข้อมูลผิดพลาด!');
         }
@@ -1501,7 +1418,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
     Future<Null> getData_search() async {
       if (id == '1') {
-        print(id);
         list_datavalue = [];
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
@@ -1512,7 +1428,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
           getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
-        print(id);
         list_datavalue = [];
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
@@ -1616,7 +1531,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                           searchData.clear();
                                           statusLoad404 = false;
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -1636,7 +1550,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                           searchData.clear();
                                           statusLoad404 = false;
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -1690,7 +1603,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
-                                                print(newvalue);
                                                 setState(() {
                                                   selectValue_customer =
                                                       newvalue;
@@ -1747,9 +1659,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
-                                    print('data>>>$list_datavalue');
                                     if (id == '1') {
-                                      print('1==>> $id');
                                       if (selectValue_customer == null ||
                                           searchData.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',
@@ -1758,7 +1668,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                         getData_search();
                                       }
                                     } else {
-                                      print('2==>> $id');
                                       if (firstname_em.text.isEmpty &&
                                           lastname_em.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',
@@ -2421,9 +2330,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                           selectValue_amphoe ??= selectAmphur;
                           tumbolId ??= selectTumbol;
                         });
-                        print('test_value_p>>$selectValue_province');
-                        print('test_value_a>>$selectValue_amphoe');
-                        print('test_value_t>>$tumbolId');
 
                         Navigator.push(
                           context,
@@ -2848,50 +2754,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                 setState(() {
                   var dfvalue = newvalue;
                   selectProvince = dfvalue;
-                  // provincn.text = dfvalue.toString().split("_")[1];
-                  // selectValue_amphoe = null;
                 });
-
-                // try {
-                //   var respose = await http.get(
-                //     Uri.parse(
-                //         '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
-                //     headers: <String, String>{
-                //       'Content-Type': 'application/json',
-                //       'Authorization': tokenId.toString(),
-                //     },
-                //   );
-
-                //   if (respose.statusCode == 200) {
-                //     Map<String, dynamic> data_amphoe =
-                //         new Map<String, dynamic>.from(
-                //             json.decode(respose.body));
-                //     setState(() {
-                //       dropdown_amphoe = data_amphoe['data'];
-                //     });
-                //     print(data_amphoe['data']);
-                //   } else if (respose.statusCode == 401) {
-                //     SharedPreferences preferences =
-                //         await SharedPreferences.getInstance();
-                //     preferences.clear();
-                //     Navigator.pushAndRemoveUntil(
-                //       context,
-                //       MaterialPageRoute(
-                //         builder: (context) => const Authen(),
-                //       ),
-                //       (Route<dynamic> route) => false,
-                //     );
-                //     showProgressDialog_401(
-                //         context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-                //   } else {
-                //     print(respose.statusCode);
-                //   }
-                // } catch (e) {
-                //   print("ไม่มีข้อมูล $e");
-                //   showProgressDialog_Notdata(context, 'แจ้งเตือน',
-                //       'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
-                // }
-                // print(selectValue_province);
               },
               isExpanded: true,
               underline: const SizedBox(),

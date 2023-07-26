@@ -80,7 +80,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
 
-    print('สิทธิ์อนุมัติ->>${allowApproveStatus}');
     get_select_branch();
     get_select_statusApprove();
     selectDatenow();
@@ -88,17 +87,15 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     if (allowApproveStatus == false) {
       select_branchlist = branchId;
     }
-    print('branch>>${select_branchlist}');
   }
 
   void selectDatenow() {
     var formattedDate = DateFormat('-MM-dd').format(selectedDate);
     var formattedYear = DateFormat('yyyy').format(selectedDate);
-    // var newDate = selectedDate.yearInBuddhistCalendar;
+
     var yearnow = int.parse(formattedYear);
     final year = [yearnow, 543].reduce((value, element) => value + element);
     start_date.text = '$year$formattedDate';
-    print('date_now>>${start_date.text}');
   }
 
   Future<void> get_select_branch() async {
@@ -117,10 +114,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         setState(() {
           dropdown_branch = data_branch['data'];
         });
-
-        print(dropdown_branch);
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -159,8 +153,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           dropdown_status = data_statusApprove['data'];
           select_index_approve = dropdown_status[3]['id'];
         });
-
-        print(dropdown_status);
       } else {
         print(respose.statusCode);
       }
@@ -187,7 +179,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         setState(() {
           dropdown_customer = data['data'];
         });
-        print(dropdown_customer);
       } else {
         print(respose.statusCode);
       }
@@ -260,7 +251,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
-            'limit': '20'
+            'limit': '100'
           }),
         );
 
@@ -273,13 +264,10 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           });
 
           Navigator.pop(context);
-          print('data1>>$list_datavalue');
         } else if (respose.statusCode == 400) {
-          print(respose.statusCode);
           showProgressDialog_400(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 401) {
-          print(respose.statusCode);
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.clear();
           Navigator.pushAndRemoveUntil(
@@ -296,14 +284,10 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             Navigator.pop(context);
             statusLoad404approve = true;
           });
-          print(respose.statusCode);
-          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
-          print(respose.statusCode);
           showProgressDialog_405(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 500) {
-          print(respose.statusCode);
           showProgressDialog_500(
               context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
         } else {
@@ -318,7 +302,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
     Future<void> getData_search() async {
       if (id == '1') {
-        print(id);
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
           getData_condition(
@@ -327,7 +310,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           getData_condition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
-        print(id);
         showProgressLoading(context);
         getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
       }
@@ -468,7 +450,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                           statusLoad404approve = false;
                                           searchData.clear();
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -488,7 +469,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                           statusLoad404approve = false;
                                           searchData.clear();
                                         });
-                                        print(value);
                                       },
                                     ),
                                   ),
@@ -544,7 +524,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
-                                                print(newvalue);
                                                 setState(() {
                                                   selectValue_customer =
                                                       newvalue;
@@ -601,7 +580,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
                                     if (id == '1') {
-                                      print('1==>> $id');
                                       if (selectValue_customer == null ||
                                           searchData.text.isEmpty &&
                                               lastname.text.isEmpty) {
@@ -611,7 +589,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                         getData_search();
                                       }
                                     } else {
-                                      print('2==>> $id');
                                       if (firstname_em.text.isEmpty &&
                                           lastname_em.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',
@@ -925,8 +902,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                       onPressed: () {
                         var newStratDate = start_date.text.replaceAll('-', '');
                         var newEndDate = end_date.text.replaceAll('-', '');
-                        print('s==>> $newStratDate');
-                        print('e==>> $newEndDate');
+
                         if (select_branchlist == null) {
                           new_branch = "";
                         } else {
@@ -947,24 +923,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                             ),
                           ),
                         );
-                        // if (custId.text.isEmpty &&
-                        //     idcard.text.isEmpty &&
-                        //     custName.text.isEmpty &&
-                        //     lastname_cust.text.isEmpty) {
-                        //   showProgressDialog(context, 'แจ้งเตือน',
-                        //       'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
-                        // } else {
-                        //   var newStratDate =
-                        //       start_date.text.replaceAll('-', '');
-                        //   var newEndDate = end_date.text.replaceAll('-', '');
-                        //   print('s==>> $newStratDate');
-                        //   print('e==>> $newEndDate');
-                        //   showProgressLoading(context);
-                        //   getData_approve(newStratDate, newEndDate);
-                        // }
-                        // showProgressLoading(context);
-
-                        // getData_approve(newStratDate, newEndDate);
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -1338,16 +1296,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             if (pickeddate != null) {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
               var formattedyear = DateFormat('yyyy').format(pickeddate);
-              // var newDate = pickeddate.yearInBuddhistCalendar;
               var year = int.parse(formattedyear);
               final newYear =
                   [year, 543].reduce((value, element) => value + element);
-              print('===>> $year');
-              print(formattedDate);
+
               setState(() {
                 start_date.text =
                     '$newYear$formattedDate'; //set output date to TextField value.
-                print(start_date.text);
               });
             } else {}
           },
@@ -1390,15 +1345,14 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             if (pickeddate != null) {
               var formattedDate = DateFormat('-MM-dd').format(pickeddate);
               var formattedyear = DateFormat('yyyy').format(pickeddate);
-              // var newDate = pickeddate.yearInBuddhistCalendar;
+
               var year = int.parse(formattedyear);
               final newYear =
                   [year, 543].reduce((value, element) => value + element);
-              print('===>> $year');
+
               setState(() {
                 end_date.text =
                     '$newYear$formattedDate'; //set output date to TextField value.
-                print(end_date.text);
               });
             } else {}
           },

@@ -80,10 +80,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Future<void> getData_Creditdetail() async {
-    print(tokenId);
-    print(widget.custId.toString());
-    print(widget.tranId.toString());
-
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/detail'),
@@ -118,7 +114,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
           get_valueapprov = list_detail!['approveStatus'];
           get_valueReason = list_detail!['approveReasonId'];
-          print('value->${get_valueReason}');
+
           select_approveTypeList = get_valueapprov;
           note_approve.text = list_detail!['approveNote'];
 
@@ -139,14 +135,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
           showNamecredit.text = list_detail!['approveReasonName'];
         });
-
-        print('data=>>${valueapprove}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -159,18 +151,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -182,17 +170,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
   Future<void> ApproveCredit() async {
     if (select_approveReasonList == "" || select_approveReasonList == null) {
-      print('1=>>$select_approveReasonList');
       valueSelectApprove = select_NotapproveReasonList;
     } else if (select_NotapproveReasonList == "" ||
         select_NotapproveReasonList == null) {
-      print('2=>>$select_NotapproveReasonList');
       valueSelectApprove = select_approveReasonList;
     }
-    print(widget.tranId);
-    print(select_approveTypeList);
-    print(valueSelectApprove);
-    print(note_approve.text);
 
     try {
       var respose = await http.post(
@@ -210,18 +192,15 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       );
 
       if (respose.statusCode == 200) {
-        print('data=>>${respose.body}');
         setState(() {
           Navigator.pop(context);
           getData_Creditdetail();
         });
         showAlertDialog_success();
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่สำเร็จ (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -234,18 +213,14 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'บันทึกข้อมูลไม่สำเร็จ');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(context, 'แจ้งเตือน',
             'บันทึกข้อมูลไม่สำเร็จ (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -256,8 +231,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Future<void> get_approveTypeList() async {
-    print(tokenId);
-
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/approveTypeList'),
@@ -274,15 +247,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         setState(() {
           dropdown_approveTypeList = data_approveTypeList['data'];
         });
-
-        // Navigator.pop(context);
-        print(dropdown_approveTypeList);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -295,14 +263,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ${respose.statusCode}');
       } else {
@@ -316,8 +281,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Future<void> get_approveReasonList() async {
-    print(tokenId);
-
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/approveReasonList'),
@@ -334,14 +297,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         setState(() {
           dropdown_approveReasonList = dataapproveReasonList['data'];
         });
-
-        print(dropdown_approveReasonList);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -354,14 +313,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
@@ -375,8 +331,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Future<void> get_notApproveReasonList() async {
-    print(tokenId);
-
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/notApproveReasonList'),
@@ -393,15 +347,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         setState(() {
           dropdown_NotapproveReasonList = datanotReasonList['data'];
         });
-
-        // Navigator.pop(context);
-        print(dropdown_approveReasonList);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -414,14 +363,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
@@ -1426,7 +1372,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                   style: MyContant()
                                                       .myButtonSubmitStyle(),
                                                   onPressed: () {
-                                                    print('click_submit');
                                                     if (select_approveTypeList ==
                                                         '1') {
                                                       if (select_approveReasonList ==

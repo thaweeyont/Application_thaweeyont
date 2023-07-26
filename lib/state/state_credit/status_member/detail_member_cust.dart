@@ -47,8 +47,6 @@ class _Detail_member_custState extends State<Detail_member_cust> {
   }
 
   Future<void> getDataCusMemberDetail() async {
-    print(tokenId);
-    print(widget.custId);
     try {
       var respose = await http.post(
         Uri.parse('${api}customer/member'),
@@ -71,14 +69,10 @@ class _Detail_member_custState extends State<Detail_member_cust> {
           listaddress = valueaddress;
         });
         statusLoading = true;
-        print('data>>${listdataMemberDetail}');
-        print('address>>${listaddress}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -95,18 +89,13 @@ class _Detail_member_custState extends State<Detail_member_cust> {
           statusLoad404 = true;
           statusLoading = true;
         });
-        print(respose.statusCode);
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {

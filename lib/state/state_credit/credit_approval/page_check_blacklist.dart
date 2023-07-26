@@ -89,11 +89,9 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
           dropdown_province = data_provice['data'];
         });
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -106,18 +104,14 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -157,13 +151,10 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         Navigator.pop(context);
         Navigator.pop(context);
         search_district(sizeIcon, border);
-        // print(data_district['data']);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -176,18 +167,14 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ${respose.statusCode}');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -214,9 +201,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
           dropdown_search_bl = data['data'];
           selectValue_bl = dropdown_search_bl[0]['id'];
         });
-        print('ข้อมูล => $dropdown_search_bl');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -226,9 +211,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         );
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else {
-        print(respose.statusCode);
-      }
+      } else {}
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialog(
@@ -263,7 +246,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
-            'limit': '30'
+            'limit': '100'
           }),
         );
 
@@ -274,16 +257,12 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
           setState(() {
             list_dataSearch_bl = data_list['data'];
           });
-          print(('f>>$statusLoad404'));
+
           Navigator.pop(context);
-          // search_id_blacklist();
-          print('ข้อมูล => $list_dataSearch_bl');
         } else if (respose.statusCode == 400) {
-          print(respose.statusCode);
           showProgressDialog_400(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 401) {
-          print(respose.statusCode);
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.clear();
           Navigator.pushAndRemoveUntil(
@@ -299,16 +278,11 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
           setState(() {
             Navigator.pop(context);
             statusLoad404 = true;
-            print(('t>>$statusLoad404'));
           });
-          print(respose.statusCode);
-          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
-          print(respose.statusCode);
           showProgressDialog_405(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 500) {
-          print(respose.statusCode);
           showProgressDialog_500(
               context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
         } else {
@@ -346,346 +320,340 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                     ),
                     elevation: 0,
                     color: Colors.white,
-                    child: Container(
-                      // margin: EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 12, bottom: 6),
-                                child: Column(
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 12, bottom: 6),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'ค้นหาข้อมูลลูกค้า',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  clear_value_search();
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 4),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 30,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: Color.fromARGB(255, 138, 138, 138),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(251, 173, 55, 1),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'ค้นหาข้อมูลลูกค้า',
-                                          style: MyContant().h4normalStyle(),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4),
+                                            child: DropdownButton(
+                                              items: dropdown_search_bl
+                                                  .map(
+                                                    (value) =>
+                                                        DropdownMenuItem(
+                                                      value: value['id'],
+                                                      child: Text(
+                                                        value['name'],
+                                                        style: MyContant()
+                                                            .TextInputStyle(),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                              onChanged: (newvalue) {
+                                                setState(() {
+                                                  selectValue_bl = newvalue;
+                                                  searchData.clear();
+                                                  nameSearchBl.clear();
+                                                  lastnameSearchBl.clear();
+                                                  list_dataSearch_bl = [];
+                                                  statusLoad404 = false;
+                                                });
+                                              },
+                                              value: selectValue_bl,
+                                              isExpanded: true,
+                                              underline: const SizedBox(),
+                                            ),
+                                          ),
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              Positioned(
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    print('exit');
-                                    Navigator.pop(context);
-                                    clear_value_search();
+                                Row(
+                                  children: [
+                                    if (selectValue_bl.toString() == "2") ...[
+                                      input_name_search_bl(sizeIcon, border),
+                                      const SizedBox(width: 10),
+                                      input_lastname_search_bl(
+                                          sizeIcon, border)
+                                    ] else ...[
+                                      input_search_data(sizeIcon, border),
+                                    ]
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height *
+                                    0.034,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.22,
+                                child: ElevatedButton(
+                                  style: MyContant().myButtonSearchStyle(),
+                                  onPressed: () {
+                                    if (selectValue_bl.toString() == "2") {
+                                      if (nameSearchBl.text.isEmpty &&
+                                          lastnameSearchBl.text.isEmpty) {
+                                        showProgressDialog(
+                                            context,
+                                            'แจ้งเตือน',
+                                            'กรุณากรอก ชื่อ-นามสกุล');
+                                      } else {
+                                        showProgressLoading(context);
+                                        getData_search_bl(
+                                            selectValue_bl,
+                                            '',
+                                            nameSearchBl.text,
+                                            lastnameSearchBl.text);
+                                      }
+                                    } else {
+                                      if (searchData.text.isEmpty) {
+                                        showProgressDialog(
+                                            context,
+                                            'แจ้งเตือน',
+                                            'กรุณากรอกข้อมูลที่ต้องการค้นหา');
+                                      } else {
+                                        showProgressLoading(context);
+                                        getData_search_bl(selectValue_bl,
+                                            searchData.text, '', '');
+                                      }
+                                    }
                                   },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 4),
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 30,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ),
+                                  child: const Text('ค้นหา'),
                                 ),
                               ),
                             ],
                           ),
-                          const Divider(
-                            color: Color.fromARGB(255, 138, 138, 138),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(251, 173, 55, 1),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              Text(
+                                'รายการที่ค้นหา',
+                                style: MyContant().h2Style(),
                               ),
-                              padding: const EdgeInsets.all(8),
-                              width: double.infinity,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.1,
-                                            padding: const EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(5)),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4),
-                                              child: DropdownButton(
-                                                items: dropdown_search_bl
-                                                    .map(
-                                                      (value) =>
-                                                          DropdownMenuItem(
-                                                        value: value['id'],
-                                                        child: Text(
-                                                          value['name'],
-                                                          style: MyContant()
-                                                              .TextInputStyle(),
-                                                        ),
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                                onChanged: (newvalue) {
-                                                  setState(() {
-                                                    selectValue_bl = newvalue;
-                                                    searchData.clear();
-                                                    nameSearchBl.clear();
-                                                    lastnameSearchBl.clear();
-                                                    list_dataSearch_bl = [];
-                                                    statusLoad404 = false;
-                                                  });
-                                                },
-                                                value: selectValue_bl,
-                                                isExpanded: true,
-                                                underline: const SizedBox(),
-                                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Scrollbar(
+                            child: ListView(
+                              children: [
+                                if (list_dataSearch_bl.isNotEmpty) ...[
+                                  for (var i = 0;
+                                      i < list_dataSearch_bl.length;
+                                      i++) ...[
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          idblacklist.text =
+                                              list_dataSearch_bl[i]['blId'];
+                                          name_show.text =
+                                              list_dataSearch_bl[i]
+                                                  ['custName'];
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 8),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: const BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                251, 173, 55, 1),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(5),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      if (selectValue_bl.toString() == "2") ...[
-                                        input_name_search_bl(sizeIcon, border),
-                                        const SizedBox(width: 10),
-                                        input_lastname_search_bl(
-                                            sizeIcon, border)
-                                      ] else ...[
-                                        input_search_data(sizeIcon, border),
-                                      ]
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.034,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.22,
-                                  child: ElevatedButton(
-                                    style: MyContant().myButtonSearchStyle(),
-                                    onPressed: () {
-                                      if (selectValue_bl.toString() == "2") {
-                                        if (nameSearchBl.text.isEmpty &&
-                                            lastnameSearchBl.text.isEmpty) {
-                                          showProgressDialog(
-                                              context,
-                                              'แจ้งเตือน',
-                                              'กรุณากรอก ชื่อ-นามสกุล');
-                                        } else {
-                                          showProgressLoading(context);
-                                          getData_search_bl(
-                                              selectValue_bl,
-                                              '',
-                                              nameSearchBl.text,
-                                              lastnameSearchBl.text);
-                                        }
-                                        print(
-                                            'data >$selectValue_bl,${nameSearchBl.text},${lastnameSearchBl.text}');
-                                      } else {
-                                        if (searchData.text.isEmpty) {
-                                          showProgressDialog(
-                                              context,
-                                              'แจ้งเตือน',
-                                              'กรุณากรอกข้อมูลที่ต้องการค้นหา');
-                                        } else {
-                                          showProgressLoading(context);
-                                          getData_search_bl(selectValue_bl,
-                                              searchData.text, '', '');
-                                        }
-                                      }
-                                    },
-                                    child: const Text('ค้นหา'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'รายการที่ค้นหา',
-                                  style: MyContant().h2Style(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            child: Scrollbar(
-                              child: ListView(
-                                children: [
-                                  if (list_dataSearch_bl.isNotEmpty) ...[
-                                    for (var i = 0;
-                                        i < list_dataSearch_bl.length;
-                                        i++) ...[
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            idblacklist.text =
-                                                list_dataSearch_bl[i]['blId'];
-                                            name_show.text =
-                                                list_dataSearch_bl[i]
-                                                    ['custName'];
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 2, horizontal: 8),
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: const BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  251, 173, 55, 1),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(5),
-                                              ),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'รหัส : ${list_dataSearch_bl[i]['blId']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'ชื่อ-สกุล : ${list_dataSearch_bl[i]['custName']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'เลขบัตรประชนชน : ${list_dataSearch_bl[i]['smartId']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'สถานะ : ${list_dataSearch_bl[i]['blStatus']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'เบอร์โทรศัพท์ : ',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        '${list_dataSearch_bl[i]['telephone']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                        overflow:
-                                                            TextOverflow.clip,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ] else if (statusLoad404 == true) ...[
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 100),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                          child: Column(
                                             children: [
-                                              Image.asset(
-                                                'images/Nodata.png',
-                                                width: 55,
-                                                height: 55,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'รหัส : ${list_dataSearch_bl[i]['blId']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'ชื่อ-สกุล : ${list_dataSearch_bl[i]['custName']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'เลขบัตรประชนชน : ${list_dataSearch_bl[i]['smartId']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'สถานะ : ${list_dataSearch_bl[i]['blStatus']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'เบอร์โทรศัพท์ : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_dataSearch_bl[i]['telephone']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'ไม่พบรายการข้อมูล',
-                                                style: MyContant().h5NotData(),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ],
+                                ] else if (statusLoad404 == true) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 100),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'images/Nodata.png',
+                                              width: 55,
+                                              height: 55,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'ไม่พบรายการข้อมูล',
+                                              style: MyContant().h5NotData(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
-                              ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          )
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -835,17 +803,14 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
 
                                                 if (respose.statusCode == 200) {
                                                   Map<String, dynamic>
-                                                      data_amphoe = new Map<
-                                                              String,
-                                                              dynamic>.from(
+                                                      data_amphoe =
+                                                      Map<String, dynamic>.from(
                                                           json.decode(
                                                               respose.body));
                                                   setState(() {
                                                     dropdown_amphoe =
                                                         data_amphoe['data'];
                                                   });
-                                                  print(
-                                                      'อำเภอ =>${dropdown_amphoe}');
                                                 } else if (respose.statusCode ==
                                                     401) {
                                                   SharedPreferences
@@ -870,13 +835,11 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                                   print(respose.statusCode);
                                                 }
                                               } catch (e) {
-                                                print("ไม่มีข้อมูล $e");
                                                 showProgressDialog_Notdata(
                                                     context,
                                                     'แจ้งเตือน',
                                                     'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
                                               }
-                                              // print(selectValue_province);
                                             },
                                             value: selectValue_province,
                                             isExpanded: true,
@@ -901,7 +864,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                     '​อำเภอ',
                                     style: MyContant().h4normalStyle(),
                                   ),
-                                  // select_amphoeDia(context, setState),
                                   Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),

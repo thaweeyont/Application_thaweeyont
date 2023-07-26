@@ -11,7 +11,6 @@ import 'page_datacust_approve.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
 class Credit_data_detail extends StatefulWidget {
-  // const Credit_data_detail({Key? key}) : super(key: key);
   final String? custId,
       idcard,
       custName,
@@ -42,7 +41,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdata();
   }
@@ -90,11 +88,9 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
         });
         status_loading = true;
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -110,20 +106,14 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
         setState(() {
           status_loading = true;
           status_load404 = true;
-          print('>>$status_load404');
         });
-        print(respose.statusCode);
-        // showDialog_404_approve(context, 'แจ้งเตือน', 'ไม่พบรายการข้อมูล');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -157,7 +147,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',
@@ -215,7 +204,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                           for (var i = 0; i < list_approve.length; i++) ...[
                             InkWell(
                               onTap: () {
-                                // String refresh = await
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -225,12 +213,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                     ),
                                   ),
                                 ).then((_) => getdata());
-                                // if (refresh == 'refresh') {
-                                //   setState(() {
-                                //     print('refresh data');
-                                //     getdata();
-                                //   });
-                                // }
                               },
                               child: Padding(
                                 padding:

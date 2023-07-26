@@ -82,9 +82,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           dropdown_search_bl = data['data'];
           selectValue_bl = dropdown_search_bl[0]['id'];
         });
-        print('ข้อมูล => $dropdown_search_bl');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -120,14 +118,10 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         setState(() {
           dropdown_province = data_provice['data'];
         });
-
-        // print(dropdown_province);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('error =>> ${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -140,18 +134,14 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -191,13 +181,10 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         Navigator.pop(context);
         Navigator.pop(context);
         search_district(sizeIcon, border);
-        // print(data_district['data']);
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print('${respose.statusCode}');
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -210,18 +197,14 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ${respose.statusCode}');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -293,7 +276,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             'firstName': firstName.toString(),
             'lastName': lastName.toString(),
             'page': '1',
-            'limit': '30'
+            'limit': '100'
           }),
         );
 
@@ -304,16 +287,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           setState(() {
             list_dataSearch_bl = data_list['data'];
           });
-          print(('f>>$statusLoad404'));
+
           Navigator.pop(context);
-          // search_id_blacklist();
-          print('ข้อมูล => $list_dataSearch_bl');
         } else if (respose.statusCode == 400) {
-          print(respose.statusCode);
           showProgressDialog_400(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 401) {
-          print(respose.statusCode);
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.clear();
           Navigator.pushAndRemoveUntil(
@@ -329,16 +308,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           setState(() {
             Navigator.pop(context);
             statusLoad404 = true;
-            print(('t>>$statusLoad404'));
           });
-          print(respose.statusCode);
-          // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
         } else if (respose.statusCode == 405) {
-          print(respose.statusCode);
           showProgressDialog_405(
               context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
         } else if (respose.statusCode == 500) {
-          print(respose.statusCode);
           showProgressDialog_500(
               context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
         } else {
@@ -404,7 +378,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 right: 0,
                                 child: InkWell(
                                   onTap: () {
-                                    print('exit');
+                           
                                     Navigator.pop(context);
                                     clear_value_search();
                                   },
@@ -572,8 +546,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                               nameSearchBl.text,
                                               lastnameSearchBl.text);
                                         }
-                                        print(
-                                            'data >$selectValue_bl,${nameSearchBl.text},${lastnameSearchBl.text}');
+                                       
                                       } else {
                                         if (searchData.text.isEmpty) {
                                           showProgressDialog(
@@ -813,7 +786,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 right: 0,
                                 child: InkWell(
                                   onTap: () {
-                                    print('exit');
+                              
                                     Navigator.pop(context);
                                     clearValue_search_district();
                                   },
@@ -951,8 +924,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                       dropdown_amphoe =
                                                           data_amphoe['data'];
                                                     });
-                                                    print(
-                                                        'อำเภอ =>${dropdown_amphoe}');
+                                                   
                                                   } else if (respose
                                                           .statusCode ==
                                                       401) {
@@ -985,7 +957,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                       'แจ้งเตือน',
                                                       'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
                                                 }
-                                                // print(selectValue_province);
+                                               
                                               },
                                               value: selectValue_province,
                                               isExpanded: true,

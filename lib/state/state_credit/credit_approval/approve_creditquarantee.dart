@@ -47,7 +47,6 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
   }
 
   Future<void> getDataCreditQuarantee() async {
-    print('tranId>>${widget.tranId}');
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/approveCreditQuarantee'),
@@ -67,17 +66,12 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
           ListCreditquarantee = dataCreditQuarantee['data'][0];
         });
         statusLoading = true;
-        print('data>>${ListCreditquarantee}');
       } else if (respose.statusCode == 400) {
-        print(respose.statusCode);
         setState(() {
           statusLoadNotdata = true;
           statusLoading = true;
         });
-        // showProgressDialog_400(
-        //     context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -90,22 +84,17 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print(respose.statusCode);
         setState(() {
           statusLoadNotdata = true;
           statusLoading = true;
         });
-        // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
-        print(respose.statusCode);
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-        print(respose.statusCode);
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -390,17 +379,15 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                                               ['custId'] !=
                                                           "NO") {
                                                     Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              CreditDebtorDetail(
-                                                                  ListCreditquarantee[
-                                                                          i][
-                                                                      'custId']),
-                                                        ));
-                                                    print('Yes');
-                                                  } else {
-                                                    print('No');
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            CreditDebtorDetail(
+                                                                ListCreditquarantee[
+                                                                        i]
+                                                                    ['custId']),
+                                                      ),
+                                                    );
                                                   }
                                                 },
                                                 child: const Text(
@@ -433,9 +420,6 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                                         ),
                                                       ),
                                                     );
-                                                    print('Yes');
-                                                  } else {
-                                                    print('No');
                                                   }
                                                 },
                                                 child: const Text(

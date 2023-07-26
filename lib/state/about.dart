@@ -69,9 +69,7 @@ class _AboutState extends State<About> {
           listValue = data['data'];
         });
         statusLoading = true;
-        print('Text->>${listValue[0]}');
       } else if (respose.statusCode == 401) {
-        print(respose.statusCode);
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
