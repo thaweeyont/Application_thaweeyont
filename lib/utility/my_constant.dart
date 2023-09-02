@@ -199,6 +199,30 @@ class MyContant {
         fontFamily: 'Prompt',
         fontWeight: FontWeight.normal,
       );
+  TextStyle TextshowHome() => const TextStyle(
+        fontSize: 36,
+        color: Colors.white,
+        fontFamily: 'Prompt',
+        fontWeight: FontWeight.bold,
+      );
+  TextStyle TextshowHome2() => const TextStyle(
+        fontSize: 26,
+        color: Colors.white,
+        fontFamily: 'Prompt',
+        fontWeight: FontWeight.bold,
+      );
+  TextStyle TextshowHome3() => const TextStyle(
+        fontSize: 16,
+        color: Colors.white,
+        fontFamily: 'Prompt',
+        fontWeight: FontWeight.bold,
+      );
+  TextStyle Textbold() => const TextStyle(
+        fontSize: 20,
+        color: Color.fromARGB(255, 163, 163, 163),
+        fontFamily: 'Prompt',
+        fontWeight: FontWeight.w400,
+      );
 
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: const Color.fromRGBO(76, 83, 146, 1),
@@ -1022,6 +1046,3 @@ Future<void> showProgressLoading(BuildContext context) async {
     ),
   );
 }
-
-
-

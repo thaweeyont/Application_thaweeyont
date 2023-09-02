@@ -46,7 +46,7 @@ class _MemberCustListState extends State<MemberCustList> {
   Future<void> getData_CusMember() async {
     try {
       var respose = await http.post(
-        Uri.parse('${api}customer/memberList'),
+        Uri.parse('${beta_api_test}customer/memberList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -78,7 +78,7 @@ class _MemberCustListState extends State<MemberCustList> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -195,14 +195,22 @@ class _MemberCustListState extends State<MemberCustList> {
                               );
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              padding: const EdgeInsets.symmetric(vertical: 6),
                               child: Container(
                                 padding: const EdgeInsets.all(8),
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
                                   ),
-                                  color: Color.fromRGBO(64, 203, 203, 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 0.5,
+                                      blurRadius: 1,
+                                      offset: const Offset(0, 1),
+                                    )
+                                  ],
+                                  color: const Color.fromRGBO(64, 203, 203, 1),
                                 ),
                                 child: Column(
                                   children: [

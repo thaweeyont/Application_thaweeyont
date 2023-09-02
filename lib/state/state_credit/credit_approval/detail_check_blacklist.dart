@@ -44,7 +44,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
    
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/blacklistDetail'),
+        Uri.parse('${beta_api_test}credit/blacklistDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

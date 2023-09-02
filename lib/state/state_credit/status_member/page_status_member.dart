@@ -55,7 +55,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/custCondition'),
+        Uri.parse('${beta_api_test}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -131,7 +131,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${api}customer/list'),
+          Uri.parse('${beta_api_test}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -273,49 +273,22 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                         const Divider(
                           color: Color.fromARGB(255, 138, 138, 138),
                         ),
-                        // SizedBox(
-                        //   height: size * 0.03,
-                        // ),
-                        // Container(
-                        //   padding: EdgeInsets.only(
-                        //       left: 15, right: 15, bottom: 15),
-                        //   child: Row(
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     children: [
-                        //       Row(
-                        //         children: [
-                        //           InkWell(
-                        //             onTap: () {
-                        //               Navigator.pop(context);
-                        //               clearDialog();
-                        //             },
-                        //             child: Container(
-                        //               width: 30,
-                        //               height: 30,
-                        //               decoration: BoxDecoration(
-                        //                 color:
-                        //                     Color.fromRGBO(18, 108, 108, 1),
-                        //                 shape: BoxShape.circle,
-                        //               ),
-                        //               child: Icon(
-                        //                 Icons.close,
-                        //                 color: Colors.white,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: Color.fromRGBO(64, 203, 203, 1),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
+                              color: const Color.fromRGBO(64, 203, 203, 1),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -673,11 +646,19 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 padding: const EdgeInsets.all(8.0),
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(64, 203, 203, 1),
-                  borderRadius: BorderRadius.all(
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(64, 203, 203, 1),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.5,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
                 ),
                 child: Column(
                   children: [
@@ -691,7 +672,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
-                            // padding: EdgeInsets.all(5),
                             backgroundColor:
                                 const Color.fromRGBO(18, 108, 108, 1),
                           ),

@@ -48,6 +48,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   loading_gifs: ^0.3.0
   flutter_localization: ^0.1.10
+  equatable: ^2.0.5
   
 
 dev_dependencies:
@@ -89,6 +90,7 @@ flutter:
     - images/success.gif
     - images/Nodata.png
     - images/thankyou.png
+    - images/megaphone.png
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

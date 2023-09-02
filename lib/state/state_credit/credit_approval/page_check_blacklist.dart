@@ -75,7 +75,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
   Future<void> get_select_province() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -135,7 +135,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${beta_api_test}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -187,7 +187,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
   Future<void> get_select_bl_search() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/blSearchList'),
+        Uri.parse('${beta_api_test}setup/blSearchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -235,7 +235,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         String? firstName, String? lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${api}credit/blacklist'),
+          Uri.parse('${beta_api_test}credit/blacklist'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -792,7 +792,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                               try {
                                                 var respose = await http.get(
                                                   Uri.parse(
-                                                      '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                      '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                   headers: <String, String>{
                                                     'Content-Type':
                                                         'application/json',

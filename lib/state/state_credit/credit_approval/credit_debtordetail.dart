@@ -48,7 +48,7 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
    
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/debtorDetail'),
+        Uri.parse('${beta_api_test}credit/debtorDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

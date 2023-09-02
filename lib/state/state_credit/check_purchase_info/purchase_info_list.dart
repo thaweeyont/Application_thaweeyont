@@ -53,7 +53,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
   Future<void> getData_buyList() async {
     try {
       var respose = await http.post(
-        Uri.parse('${api}sale/custBuyList'),
+        Uri.parse('${beta_api_test}sale/custBuyList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -121,6 +121,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
     billtotal.forEach((element) {
       listbilltotal.add(element);
     });
+    print('bill>> $listbilltotal');
 
     listbilltotal.forEach((element) => print(element.runtimeType));
 
@@ -130,7 +131,6 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
     lengthbill = listbilltotal.length;
     var f = NumberFormat('###,###.00', 'en_US');
     number = f.format(res);
- 
   }
 
   @override
@@ -173,11 +173,19 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                       top: 8, bottom: 8, left: 8, right: 8),
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
-                      color: Color.fromRGBO(229, 188, 244, 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.5,
+                          blurRadius: 1,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                      color: const Color.fromRGBO(229, 188, 244, 1),
                     ),
                     child: Column(
                       children: [
@@ -261,13 +269,23 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                 i++) ...[
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
+                                    vertical: 6, horizontal: 8),
                                 child: Container(
                                   padding: const EdgeInsets.all(8.0),
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromRGBO(229, 188, 244, 1),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 0.5,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(229, 188, 244, 1),
                                   ),
                                   child: Column(
                                     children: [

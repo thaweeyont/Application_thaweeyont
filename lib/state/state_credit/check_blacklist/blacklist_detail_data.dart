@@ -43,7 +43,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
   Future<void> getData_detail_bl() async {
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/blacklistDetail'),
+        Uri.parse('${beta_api_test}credit/blacklistDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

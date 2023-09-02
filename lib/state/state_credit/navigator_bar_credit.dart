@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
@@ -26,14 +27,45 @@ class Navigator_bar_credit extends StatefulWidget {
 }
 
 class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
-  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  String userId = '',
+      empId = '',
+      firstName = '',
+      lastName = '',
+      tokenId = '',
+      branchName = '';
+  bool? allowApproveStatus, allowedTest;
+  List<String>? allowedMenu;
+  List<Map<String, String>> result = [];
+
   var status = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getprofile_user();
+  }
+
+  Future<void> getprofile_user() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+      branchName = preferences.getString('branchName')!;
+      allowApproveStatus = preferences.getBool('allowApproveStatus');
+      allowedMenu = preferences.getStringList('allowedMenu');
+    });
+    checkIndex();
+    handleMenuItemSelected(allowedMenu!);
+  }
 
   Future<void> logout_system() async {
     try {
       print(tokenId);
       var respose = await http.post(
-        Uri.parse('${api}authen/logout'),
+        Uri.parse('${beta_api_test}authen/logout'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId,
@@ -72,10 +104,11 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     }
   }
 
-  void check_index() {
-    var index_page = widget.index;
+  void checkIndex() async {
+    print('SA>>$allowApproveStatus');
+    var indexPage = widget.index;
     status = true;
-    switch (index_page) {
+    switch (indexPage) {
       case "0":
         setState(() {
           _selectedIndex = 0;
@@ -100,7 +133,11 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "3":
         setState(() {
           _selectedIndex = 3;
-          title_head = "เช็คผลการพิจารณาสินเชื่อ";
+          if (allowApproveStatus == true) {
+            title_head = "บันทึกพิจารณาอนุมัติสินเชื่อ";
+          } else {
+            title_head = "ตรวจสอบผลอนุมัติสินเชื่อ";
+          }
           status = false;
         });
         break;
@@ -130,27 +167,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     }
   }
 
-  Future<Null> getprofile_user() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    check_index();
-    getprofile_user();
-  }
-
   int _selectedIndex = 0;
   String title_head = "";
+  String nameMenu = '';
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
@@ -174,7 +193,8 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       body: Container(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      drawer: drawer(size, context),
+      drawer: drawerList(size),
+      // drawer(size, context),
       bottomNavigationBar: bottonNavigator_new(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -185,7 +205,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         onPressed: () {
           setState(() {
             _selectedIndex = 2;
-            // title_head = "ทวียนต์ 222";
             status = true;
           });
         },
@@ -231,7 +250,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  showMenu() {
+  showMenuList() {
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -353,6 +372,105 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         });
   }
 
+  showMenuList2() {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return SizedBox(
+            height: (54 * 6).toDouble(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const SizedBox(height: 15),
+                if (result.isNotEmpty)
+                  for (var i = 0; i < result.length; i++)
+                    ListTile(
+                      title: Text(
+                        "${result[i]['nameMenu']}",
+                        style: _selectedIndex ==
+                                getselectmenuBottom(result[i]['id'])
+                            ? MyContant().h1MenuStyle_click()
+                            : MyContant().h2Style(),
+                      ),
+                      leading: Icon(
+                        getMenuIcon(result[i]['id']),
+                        color: _selectedIndex ==
+                                getselectmenuBottom(result[i]['id'])
+                            ? Colors.blue
+                            : Colors.grey[700],
+                      ),
+                      onTap: () {
+                        setState(() {
+                          title_head = getTitlemenuBottom(result[i]['id']);
+                          _selectedIndex = getselectmenuBottom(result[i]['id']);
+                          status = false;
+                          print('t> $title_head s> $_selectedIndex');
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+              ],
+            ),
+          );
+        });
+  }
+
+  getselectmenuBottom(id) {
+    print('id>$id');
+    var selectIndex;
+    switch (id) {
+      case '001':
+        selectIndex = 3;
+        break;
+      case '002':
+        selectIndex = 0;
+        break;
+      case '003':
+        selectIndex = 5;
+        break;
+      case '004':
+        selectIndex = 4;
+        break;
+      case '005':
+        selectIndex = 1;
+        break;
+    }
+    return selectIndex;
+  }
+
+  getTitlemenuBottom(id) {
+    var title, text;
+    if (allowApproveStatus == true) {
+      text = 'บันทึกพิจารณาอนุมัติสินเชื่อ';
+    } else {
+      text = 'ตรวจสอบผลอนุมัติสินเชื่อ';
+    }
+    switch (id) {
+      case '001':
+        title = text;
+        break;
+      case '002':
+        title = "สอบถามรายละเอียดลูกหนี้";
+        break;
+      case '003':
+        title = "สอบถามรายละเอียด BlackList";
+        break;
+      case '004':
+        title = "สถานะสมาชิกทวียนต์";
+        break;
+      case '005':
+        title = "ตรวจสอบข้อมูลการซื้อสินค้า";
+        break;
+    }
+    return title;
+  }
+
   showContactsupport() {
     showModalBottomSheet(
         context: context,
@@ -414,7 +532,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                         children: [
                           Expanded(
                             child: Text(
-                              '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับแอปพลิเคชั่นนี้ หรือสอบถามเกี่ยวกับแอปพลิเคชั่น มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
+                              '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับการใช้งานแอปพลิเคชั่น หรือสอบถามเพิ่มเติม มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
                               overflow: TextOverflow.clip,
                               style: MyContant().h4normalStyle(),
                             ),
@@ -566,11 +684,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   AppBar Appbar() {
     return AppBar(
       centerTitle: true,
+      elevation: status == true ? 0 : 4,
       title: status == true
-          ? Image.asset(
-              'images/TWYLOGO.png',
-              height: 40,
-            )
+          ? null
+          // Image.asset(
+          //     'images/TWYLOGO.png',
+          //     height: 40,
+          //   )
           : Text(
               title_head,
               style: MyContant().TitleStyle(),
@@ -596,7 +716,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       clipBehavior: Clip.antiAlias,
-      child: Container(
+      child: SizedBox(
         height: kBottomNavigationBarHeight,
         child: Container(
           decoration: const BoxDecoration(
@@ -614,14 +734,14 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
             // currentIndex: _selectedIndex,
-            backgroundColor: const Color.fromARGB(255, 22, 30, 94),
+            backgroundColor: const Color.fromRGBO(5, 12, 69, 1),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
             onTap: (index) {
               switch (index) {
                 case 0:
                   setState(() {
-                    showMenu();
+                    showMenuList2();
                   });
                   break;
                 case 1:
@@ -638,11 +758,11 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   break;
               }
             },
-            items: [
-              const BottomNavigationBarItem(
+            items: const [
+              BottomNavigationBarItem(
                   icon: Icon(Icons.view_list_rounded), label: ''),
-              const BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-              const BottomNavigationBarItem(
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+              BottomNavigationBarItem(
                   icon: Icon(Icons.help_outline_sharp), label: ''),
             ],
           ),
@@ -656,7 +776,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
       clipBehavior: Clip.antiAlias,
-      child: Container(
+      child: SizedBox(
         height: kBottomNavigationBarHeight,
         child: Container(
           decoration: const BoxDecoration(
@@ -727,16 +847,14 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   _selectedIndex = index;
                 });
               },
-              items: [
-                const BottomNavigationBarItem(
-                    icon: Icon(Icons.people), label: ''),
-                const BottomNavigationBarItem(
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.people), label: ''),
+                BottomNavigationBarItem(
                     icon: Icon(Icons.local_mall_rounded), label: ''),
-                const BottomNavigationBarItem(
-                    icon: Icon(Icons.home), label: ''),
-                const BottomNavigationBarItem(
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+                BottomNavigationBarItem(
                     icon: Icon(Icons.manage_accounts_rounded), label: ''),
-                const BottomNavigationBarItem(
+                BottomNavigationBarItem(
                     icon: Icon(Icons.switch_account_outlined), label: ''),
               ]),
         ),
@@ -744,19 +862,95 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  Container drawer(double size, BuildContext context) {
-    return Container(
-      width: size * 0.65,
+  SizedBox drawer(double size, BuildContext context) {
+    return SizedBox(
+      width: size * 0.80,
       child: Drawer(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(40),
+          ),
+        ),
         child: Container(
-          color: const Color.fromRGBO(7, 15, 82, 1),
-          child: Column(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(40),
+            ),
+            color: Color.fromRGBO(7, 15, 82, 1),
+          ),
+          child: Stack(
             children: [
-              drawerIcon(size),
-              navigator_cradit(context, size),
-              about(context, size),
-              btn_exit()
+              closeDrawer(context),
+              Column(
+                children: [
+                  drawerIcon(size),
+                  // navigator_cradit(context, size),
+                  listMenu(context, size),
+                  about(context, size),
+                  btn_exit()
+                ],
+              ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Drawer drawerList(
+    double size,
+  ) {
+    return Drawer(
+      width: size * 0.80,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(40),
+        ),
+      ),
+      backgroundColor: const Color.fromRGBO(7, 15, 82, 1),
+      child: SingleChildScrollView(
+        child: SizedBox(
+          child: Stack(
+            children: [
+              closeDrawer(context),
+              Column(
+                children: [
+                  drawerIcon(size),
+                  listMenu(context, size),
+                  about(context, size),
+                  btnLogout(context, size),
+                  const SizedBox(height: 10),
+                  // btn_exit()
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Positioned closeDrawer(BuildContext context) {
+    return Positioned(
+      top: 50,
+      right: 0,
+      child: Container(
+        width: 50,
+        height: 40,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+          ),
+          color: Colors.white,
+        ),
+        child: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.black,
+          icon: const Icon(
+            Icons.close_rounded,
           ),
         ),
       ),
@@ -822,6 +1016,23 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                     color: Colors.white, fontSize: 18, fontFamily: 'Prompt'),
               ),
             ],
+          ),
+          const SizedBox(height: 5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.location_on_rounded,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 10),
+              Text(
+                branchName,
+                style: const TextStyle(
+                    color: Colors.white, fontSize: 18, fontFamily: 'Prompt'),
+              ),
+            ],
           )
         ],
       ),
@@ -858,6 +1069,195 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
+  void handleMenuItemSelected(allowedMenu) {
+    print('status> $allowApproveStatus');
+    List<String> listallowedMenu = allowedMenu;
+    String textNamemenu;
+    if (allowApproveStatus == true) {
+      textNamemenu = "บันทึกพิจารณาอนุมัติสินเชื่อ";
+    } else {
+      textNamemenu = "ตรวจสอบผลอนุมัติสินเชื่อ";
+    }
+    print('text>>$textNamemenu');
+    List<Map<String, String>> menuList = [
+      {
+        "id": "001",
+        "nameMenu": textNamemenu,
+      },
+      {
+        "id": "002",
+        "nameMenu": "สอบถามรายละเอียดลูกหนี้",
+      },
+      {
+        "id": "003",
+        "nameMenu": "สอบถามรายละเอียด BlackList",
+      },
+      {
+        "id": "004",
+        "nameMenu": "สถานะสมาชิกทวียนต์",
+      },
+      {
+        "id": "005",
+        "nameMenu": "ตรวจสอบข้อมูลการซื้อสินค้า",
+      },
+    ];
+    for (var menuItem in menuList) {
+      for (var allowedItem in listallowedMenu) {
+        if (menuItem['id'] == allowedItem) {
+          result.add(menuItem);
+        }
+      }
+    }
+  }
+
+  Column listMenu(BuildContext context, double size) {
+    return Column(
+      children: [
+        if (result.isNotEmpty)
+          for (var i = 0; i < result.length; i++)
+            InkWell(
+              onTap: () {
+                menuOntap(result[i]['id']);
+              },
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: size * 0.10, bottom: 15),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        bottomLeft: Radius.circular(30),
+                      ),
+                      color: getMenuColor(result[i]['id']),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              getMenuIcon(result[i]['id']),
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "${result[i]['nameMenu']}",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontFamily: 'Prompt',
+                                    overflow: TextOverflow.clip),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+      ],
+    );
+  }
+
+  menuOntap(id) {
+    var OnTap;
+    switch (id) {
+      case '001':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('3'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
+      case '002':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('0'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
+      case '003':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('5'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
+      case '004':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('4'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
+      case '005':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('1'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
+    }
+    return OnTap;
+  }
+
+  getMenuColor(menuColor) {
+    var color;
+    switch (menuColor) {
+      case '001':
+        color = const Color.fromRGBO(251, 713, 55, 1);
+        break;
+      case '002':
+        color = const Color.fromRGBO(255, 152, 238, 1);
+        break;
+      case '003':
+        color = const Color.fromRGBO(162, 181, 252, 1);
+        break;
+      case '004':
+        color = const Color.fromRGBO(64, 203, 203, 1);
+        break;
+      case '005':
+        color = const Color.fromRGBO(212, 151, 233, 1);
+        break;
+    }
+    return color;
+  }
+
+  getMenuIcon(menuId) {
+    var icon;
+    switch (menuId) {
+      case '001':
+        icon = Icons.manage_accounts_rounded;
+        break;
+      case '002':
+        icon = Icons.people;
+        break;
+      case '003':
+        icon = Icons.person_off_rounded;
+        break;
+      case '004':
+        icon = Icons.switch_account_outlined;
+        break;
+      case '005':
+        icon = Icons.local_mall_rounded;
+        break;
+    }
+    return icon;
+  }
+
   InkWell navigator_cradit(BuildContext context, double size) {
     return InkWell(
       onTap: () {
@@ -869,29 +1269,36 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           (Route<dynamic> route) => false,
         );
       },
-      child: Container(
-        margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
-        padding: const EdgeInsets.all(12),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
-          color: Colors.white,
-        ),
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
+            padding: const EdgeInsets.all(12),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  bottomLeft: Radius.circular(30)),
+              color: Colors.white,
+            ),
+            child: Column(
               children: [
-                const Icon(Icons.credit_card_outlined),
-                const SizedBox(width: 10),
-                const Text(
-                  "สินเชื่อ",
-                  style: TextStyle(
-                      color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
+                Row(
+                  children: const [
+                    Icon(Icons.credit_card_outlined),
+                    SizedBox(width: 10),
+                    Text(
+                      "สินเชื่อ",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: 'Prompt'),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -907,7 +1314,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         );
       },
       child: Container(
-        margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
+        margin: EdgeInsets.only(left: size * 0.10, bottom: 15),
         padding: const EdgeInsets.all(12),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -917,11 +1324,43 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         child: Column(
           children: [
             Row(
-              children: [
-                const Icon(Icons.info_outline_rounded),
-                const SizedBox(width: 10),
-                const Text(
+              children: const [
+                Icon(Icons.info_outline_rounded),
+                SizedBox(width: 10),
+                Text(
                   "เกี่ยวกับ",
+                  style: TextStyle(
+                      color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  InkWell btnLogout(BuildContext context, double size) {
+    return InkWell(
+      onTap: () {
+        showAlertDialog_exit();
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: size * 0.10, bottom: 15),
+        padding: const EdgeInsets.all(12),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: const [
+                Icon(Icons.login_rounded),
+                SizedBox(width: 10),
+                Text(
+                  "ออกจากระบบ",
                   style: TextStyle(
                       color: Colors.black, fontSize: 16, fontFamily: 'Prompt'),
                 ),

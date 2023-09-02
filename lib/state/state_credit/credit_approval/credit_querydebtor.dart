@@ -121,7 +121,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   Future<void> get_select_province() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -170,7 +170,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   Future<void> get_province() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -225,7 +225,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/amphurList?pId=${selectProvince.toString().split("_")[0]}'),
+            '${beta_api_test}setup/amphurList?pId=${selectProvince.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -279,7 +279,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/districtList?pId=${selectProvince.toString().split("_")[0]}&aId=${selectAmphur.toString().split("_")[0]}'),
+            '${beta_api_test}setup/districtList?pId=${selectProvince.toString().split("_")[0]}&aId=${selectAmphur.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -343,7 +343,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${beta_api_test}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -407,7 +407,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
+            '${beta_api_test}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -459,7 +459,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   Future<void> get_select_addressTypelist() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/addressTypeList'),
+        Uri.parse('${beta_api_test}setup/addressTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -494,7 +494,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   Future<void> get_select_branch() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/branchList'),
+        Uri.parse('${beta_api_test}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -528,7 +528,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   Future<void> get_select_debtorType() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/debtorTypeList'),
+        Uri.parse('${beta_api_test}setup/debtorTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -562,7 +562,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   Future<void> get_select_signStatus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/signStatusList'),
+        Uri.parse('${beta_api_test}setup/signStatusList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -600,7 +600,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/custCondition'),
+        Uri.parse('${beta_api_test}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -810,7 +810,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                               try {
                                                 var respose = await http.get(
                                                   Uri.parse(
-                                                      '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                      '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                   headers: <String, String>{
                                                     'Content-Type':
                                                         'application/json',
@@ -1359,7 +1359,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         String searchData, String firstName, String lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${api}customer/list'),
+          Uri.parse('${beta_api_test}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),

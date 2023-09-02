@@ -28,13 +28,12 @@ class _AuthenState extends State<Authen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getprofile_user();
     _initPackageInfo();
   }
 
-  Future<Null> getprofile_user() async {
+  Future<void> getprofile_user() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     if (preferences.getString('userId') != null) {
@@ -65,7 +64,7 @@ class _AuthenState extends State<Authen> {
   Future<void> login_user() async {
     try {
       var respose = await http.post(
-        Uri.parse('${api}authen/'),
+        Uri.parse('${beta_api_test}authen/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
@@ -78,7 +77,8 @@ class _AuthenState extends State<Authen> {
       if (respose.statusCode == 200) {
         print(respose.statusCode);
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
+
         if (data['status'] == 'success') {
           var userId = data['data']['userId'];
           var empId = data['data']['empId'];
@@ -88,6 +88,11 @@ class _AuthenState extends State<Authen> {
           var branchId = data['data']['branchId'];
           var branchName = data['data']['branchName'];
           bool allowApproveStatus = data['data']['allowApproveStatus'];
+          List dataMenu = data['data']['allowedMenu'];
+          final List<String> allowedMenu =
+              dataMenu.map((e) => e.toString()).toList();
+
+          print(allowedMenu.runtimeType);
 
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.setString('userId', userId!);
@@ -98,6 +103,9 @@ class _AuthenState extends State<Authen> {
           preferences.setString('branchId', branchId);
           preferences.setString('branchName', branchName);
           preferences.setBool('allowApproveStatus', allowApproveStatus);
+          preferences.setStringList('allowedMenu', allowedMenu);
+
+          print('dataMenu >> $allowedMenu');
 
           Navigator.pushAndRemoveUntil(
             context,
@@ -108,13 +116,12 @@ class _AuthenState extends State<Authen> {
           print('ไม่มีข้อมูล');
         }
       } else if (respose.statusCode == 401) {
-        
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -123,7 +130,7 @@ class _AuthenState extends State<Authen> {
       } else {
         Map<String, dynamic> check_list =
             new Map<String, dynamic>.from(json.decode(respose.body));
-        
+
         print(check_list['message']);
         if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
           print('ไม่พบชื่อเข้าใช้ระบบ');
@@ -151,7 +158,7 @@ class _AuthenState extends State<Authen> {
     double size = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        color: Color.fromRGBO(5, 12, 69, 1),
+        color: const Color.fromRGBO(5, 12, 69, 1),
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           behavior: HitTestBehavior.opaque,
@@ -174,7 +181,7 @@ class _AuthenState extends State<Authen> {
 
   Container buildform(double size) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -194,7 +201,7 @@ class _AuthenState extends State<Authen> {
                 Expanded(
                   child: TextField(
                     controller: username,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       prefixIcon: Icon(
                         Icons.account_circle_rounded,
                         color: Color.fromRGBO(7, 15, 82, 1),
@@ -223,22 +230,22 @@ class _AuthenState extends State<Authen> {
                       });
                     },
                     icon: statusRedEye
-                        ? Icon(
+                        ? const Icon(
                             Icons.remove_red_eye,
                             color: Colors.grey,
                           )
-                        : Icon(
+                        : const Icon(
                             Icons.remove_red_eye_outlined,
                             color: Colors.grey,
                           ),
                   ),
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.key,
                     color: Color.fromRGBO(7, 15, 82, 1),
                   ),
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   hintText: 'Password',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     fontSize: 16,
                     fontFamily: 'Prompt',
                   ),
@@ -250,7 +257,7 @@ class _AuthenState extends State<Authen> {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Color.fromRGBO(7, 15, 82, 1),
+                color: const Color.fromRGBO(7, 15, 82, 1),
               ),
               child: TextButton(
                 style: TextButton.styleFrom(
@@ -312,7 +319,7 @@ class _AuthenState extends State<Authen> {
               // SizedBox(
               //   height: MediaQuery.of(context).size.height * 0.1,
               // ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: ShowImage(path: MyContant.logo_login),
               ),

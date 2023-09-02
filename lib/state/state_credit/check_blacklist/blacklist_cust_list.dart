@@ -73,7 +73,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${api}credit/checkBlacklist'),
+        Uri.parse('${beta_api_test}credit/checkBlacklist'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -108,7 +108,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -149,12 +149,13 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -171,7 +172,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
           : statusLoad404 == true
               ? Center(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -179,31 +180,29 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                     height: MediaQuery.of(context).size.height * 0.15,
                     child: Column(
                       children: [
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'images/Nodata.png',
-                                    width: 55,
-                                    height: 55,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'ไม่พบรายการข้อมูล',
-                                    style: MyContant().h5NotData(),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/Nodata.png',
+                                  width: 55,
+                                  height: 55,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ไม่พบรายการข้อมูล',
+                                  style: MyContant().h5NotData(),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ],
                     ),
@@ -230,14 +229,23 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                               },
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
+                                    const EdgeInsets.symmetric(vertical: 6),
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: Color.fromRGBO(162, 181, 252, 1),
-                                    borderRadius: BorderRadius.all(
+                                    color:
+                                        const Color.fromRGBO(162, 181, 252, 1),
+                                    borderRadius: const BorderRadius.all(
                                       Radius.circular(5),
                                     ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 0.5,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
                                   ),
                                   child: Column(
                                     children: [
@@ -249,7 +257,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -260,7 +268,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
@@ -281,7 +289,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Row(
