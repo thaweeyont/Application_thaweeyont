@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../authen.dart';
 import 'pay_installment.dart';
 import 'package:application_thaweeyont/api.dart';
 
@@ -66,7 +66,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/detail'),
+        Uri.parse('${api}debtor/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

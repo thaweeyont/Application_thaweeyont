@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/data_debtor_list.dart';
+import 'package:application_thaweeyont/state/state_credit/query_debtor/data_debtor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../authen.dart';
+import '../../authen.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/api.dart';
 
@@ -111,7 +111,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_province() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -173,7 +173,7 @@ class _Query_debtorState extends State<Query_debtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${beta_api_test}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -237,7 +237,7 @@ class _Query_debtorState extends State<Query_debtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${beta_api_test}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
+            '${api}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -289,7 +289,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_addressTypelist() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/addressTypeList'),
+        Uri.parse('${api}setup/addressTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -324,7 +324,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_branch() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/branchList'),
+        Uri.parse('${api}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -358,7 +358,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_debtorType() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/debtorTypeList'),
+        Uri.parse('${api}setup/debtorTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -392,7 +392,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_signStatus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/signStatusList'),
+        Uri.parse('${api}setup/signStatusList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -429,7 +429,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -650,7 +650,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                               try {
                                                 var respose = await http.get(
                                                   Uri.parse(
-                                                      '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                      '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                   headers: <String, String>{
                                                     'Content-Type':
                                                         'application/json',
@@ -1211,7 +1211,7 @@ class _Query_debtorState extends State<Query_debtor> {
         String searchData, String firstName, String lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -2036,7 +2036,7 @@ class _Query_debtorState extends State<Query_debtor> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
+                    height: MediaQuery.of(context).size.height * 0.038,
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
@@ -2071,7 +2071,7 @@ class _Query_debtorState extends State<Query_debtor> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
+                    height: MediaQuery.of(context).size.height * 0.038,
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),

@@ -101,7 +101,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_branch() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/branchList'),
+        Uri.parse('${api}setup/branchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -139,7 +139,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_statusApprove() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/approveStatus'),
+        Uri.parse('${api}setup/approveStatus'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -166,7 +166,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -239,7 +239,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
         String searchData, String firstName, String lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -912,7 +912,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
+                    height: MediaQuery.of(context).size.height * 0.038,
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
@@ -946,7 +946,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
+                    height: MediaQuery.of(context).size.height * 0.038,
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),

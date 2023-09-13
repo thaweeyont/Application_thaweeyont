@@ -46,7 +46,7 @@ class _MemberCustListState extends State<MemberCustList> {
   Future<void> getData_CusMember() async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}customer/memberList'),
+        Uri.parse('${api}customer/memberList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

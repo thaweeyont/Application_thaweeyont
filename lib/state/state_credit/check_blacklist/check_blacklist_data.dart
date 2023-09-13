@@ -68,7 +68,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Future<void> get_select_bl_search() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/blSearchList'),
+        Uri.parse('${api}setup/blSearchList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -105,7 +105,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Future<void> get_select_province() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/provinceList?page=1&limit=100'),
+        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -165,7 +165,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${beta_api_test}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -265,7 +265,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         String? firstName, String? lastName) async {
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}credit/blacklist'),
+          Uri.parse('${api}credit/blacklist'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -830,7 +830,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                               try {
                                                 var respose = await http.get(
                                                   Uri.parse(
-                                                      '${beta_api_test}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
+                                                      '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
                                                   headers: <String, String>{
                                                     'Content-Type':
                                                         'application/json',
@@ -1675,59 +1675,37 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Padding group_btnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.034,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonSearchStyle(),
-                        onPressed: () {
-                          if (idblacklist.text.isEmpty &&
-                              smartId.text.isEmpty &&
-                              name.text.isEmpty &&
-                              lastname.text.isEmpty &&
-                              home_no.text.isEmpty &&
-                              moo_no.text.isEmpty &&
-                              district.text.isEmpty &&
-                              amphoe.text.isEmpty &&
-                              province.text.isEmpty) {
-                            showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
-                          } else {
-                            if (home_no.text.isNotEmpty ||
-                                moo_no.text.isNotEmpty) {
-                              if (district.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือก ตำบล อำเภอ จังหวัด');
-                              } else {
-                                // showProgressLoading(context);
-                                // getData_blacklist();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Blacklist_cust_list(
-                                        idblacklist.text,
-                                        smartId.text,
-                                        name.text,
-                                        lastname.text,
-                                        home_no.text,
-                                        moo_no.text,
-                                        districtId,
-                                        selectValue_amphoe,
-                                        selectValue_province),
-                                  ),
-                                );
-                              }
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.038,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        if (idblacklist.text.isEmpty &&
+                            smartId.text.isEmpty &&
+                            name.text.isEmpty &&
+                            lastname.text.isEmpty &&
+                            home_no.text.isEmpty &&
+                            moo_no.text.isEmpty &&
+                            district.text.isEmpty &&
+                            amphoe.text.isEmpty &&
+                            province.text.isEmpty) {
+                          showProgressDialog(
+                              context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
+                        } else {
+                          if (home_no.text.isNotEmpty ||
+                              moo_no.text.isNotEmpty) {
+                            if (district.text.isEmpty) {
+                              showProgressDialog(context, 'แจ้งเตือน',
+                                  'กรุณาเลือก ตำบล อำเภอ จังหวัด');
                             } else {
-                              // showProgressLoading(context);
-                              // getData_blacklist();
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -1744,29 +1722,45 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 ),
                               );
                             }
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Blacklist_cust_list(
+                                    idblacklist.text,
+                                    smartId.text,
+                                    name.text,
+                                    lastname.text,
+                                    home_no.text,
+                                    moo_no.text,
+                                    districtId,
+                                    selectValue_amphoe,
+                                    selectValue_province),
+                              ),
+                            );
                           }
-                        },
-                        child: const Text('ค้นหา'),
-                      ),
+                        }
+                      },
+                      child: const Text('ค้นหา'),
                     ),
-                    const SizedBox(width: 10),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.034,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonCancelStyle(),
-                        onPressed: () {
-                          clear_data_blacklist();
-                        },
-                        child: const Text('ยกเลิก'),
-                      ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.038,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        clear_data_blacklist();
+                      },
+                      child: const Text('ยกเลิก'),
                     ),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }

@@ -55,7 +55,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -131,7 +131,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -1122,74 +1122,58 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Padding group_btnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.034,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonSearchStyle(),
-                        onPressed: () {
-                          if (custId.text.isEmpty &&
-                              smartId.text.isEmpty &&
-                              custName.text.isEmpty &&
-                              lastnamecust.text.isEmpty) {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
-                          } else {
-                            // showProgressLoading(context);
-                            // getData_CusMember();
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => Detail_member_cust(
-                            //         custId.text,
-                            //         smartId.text,
-                            //         custName.text,
-                            //         lastnamecust.text
-                            // ),
-                            //   ),
-                            // );
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MemberCustList(
-                                    custId.text,
-                                    smartId.text,
-                                    custName.text,
-                                    lastnamecust.text),
-                              ),
-                            );
-                          }
-                        },
-                        child: const Text('ค้นหา'),
-                      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.038,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        if (custId.text.isEmpty &&
+                            smartId.text.isEmpty &&
+                            custName.text.isEmpty &&
+                            lastnamecust.text.isEmpty) {
+                          showProgressDialog(context, 'แจ้งเตือน',
+                              'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MemberCustList(
+                                  custId.text,
+                                  smartId.text,
+                                  custName.text,
+                                  lastnamecust.text),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('ค้นหา'),
                     ),
-                    const SizedBox(width: 10),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.034,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonCancelStyle(),
-                        onPressed: () {
-                          clearValuemembar();
-                        },
-                        child: const Text('ยกเลิก'),
-                      ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.038,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        clearValuemembar();
+                      },
+                      child: const Text('ยกเลิก'),
                     ),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }

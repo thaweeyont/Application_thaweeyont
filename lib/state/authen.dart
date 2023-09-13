@@ -64,7 +64,7 @@ class _AuthenState extends State<Authen> {
   Future<void> login_user() async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}authen/'),
+        Uri.parse('${api}authen/'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
@@ -92,7 +92,7 @@ class _AuthenState extends State<Authen> {
           final List<String> allowedMenu =
               dataMenu.map((e) => e.toString()).toList();
 
-          print(allowedMenu.runtimeType);
+          print(data);
 
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.setString('userId', userId!);
@@ -104,8 +104,6 @@ class _AuthenState extends State<Authen> {
           preferences.setString('branchName', branchName);
           preferences.setBool('allowApproveStatus', allowApproveStatus);
           preferences.setStringList('allowedMenu', allowedMenu);
-
-          print('dataMenu >> $allowedMenu');
 
           Navigator.pushAndRemoveUntil(
             context,

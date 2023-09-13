@@ -49,7 +49,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
   Future<void> getDataCusMemberDetail() async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}customer/member'),
+        Uri.parse('${api}customer/member'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

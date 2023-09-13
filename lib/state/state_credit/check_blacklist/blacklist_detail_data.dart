@@ -43,7 +43,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
   Future<void> getData_detail_bl() async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/blacklistDetail'),
+        Uri.parse('${api}credit/blacklistDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -71,7 +71,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => Authen(),
+            builder: (context) => const Authen(),
           ),
           (Route<dynamic> route) => false,
         );
@@ -109,16 +109,16 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-                  borderRadius: BorderRadius.all(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',
@@ -136,8 +136,8 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(8),
+                        decoration: const BoxDecoration(
                           color: Color.fromRGBO(162, 181, 252, 1),
                           borderRadius: BorderRadius.all(
                             Radius.circular(5),
@@ -153,14 +153,14 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.3,
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.7),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
                               ),
@@ -169,102 +169,100 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'รหัส Blacklist : ${list_detail_bl[0]['blId']}',
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'รหัส Blacklist : ${list_detail_bl[0]['blId']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'รหัสลูกค้า : ${list_detail_bl[0]['custId']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'เลขที่บัตรประชาชน : ${list_detail_bl[0]['smartId']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'ชื่อลูกค้า : ${list_detail_bl[0]['custName']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'ที่อยู่ลูกค้า : ',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  '${list_detail_bl[0]['custAddress']}',
                                                   style: MyContant()
                                                       .h4normalStyle(),
+                                                  overflow: TextOverflow.clip,
                                                 ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'รหัสลูกค้า : ${list_detail_bl[0]['custId']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'เลขที่บัตรประชาชน : ${list_detail_bl[0]['smartId']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'ชื่อลูกค้า : ${list_detail_bl[0]['custName']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'ที่อยู่ลูกค้า : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_detail_bl[0]['custAddress']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                    overflow: TextOverflow.clip,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'เบอร์โทรศัพท์ : ${list_detail_bl[0]['telephone']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'เบอร์มือถือ : ${list_detail_bl[0]['mobile']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'เบอร์โทรศัพท์ : ${list_detail_bl[0]['telephone']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'เบอร์มือถือ : ${list_detail_bl[0]['mobile']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -280,8 +278,8 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                     padding:
                         const EdgeInsets.only(left: 8, right: 8, bottom: 4),
                     child: Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
                         ),
@@ -304,8 +302,8 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         child: Container(
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
                             color: Color.fromRGBO(162, 181, 252, 1),
                             borderRadius: BorderRadius.all(
                               Radius.circular(5),
@@ -320,13 +318,6 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                     'รายละเอียด :',
                                     style: MyContant().h4normalStyle(),
                                   ),
-                                  // Expanded(
-                                  //   child: Text(
-                                  //     '${list_detail[i]['blDetail']}',
-                                  //     style: MyContant().h4normalStyle(),
-                                  //     overflow: TextOverflow.clip,
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                               Container(
@@ -334,7 +325,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                     MediaQuery.of(context).size.height * 0.15,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
                                   ),
                                 ),
@@ -343,31 +334,28 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${list_detail[i]['blDetail']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
-                                                    ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    '${list_detail[i]['blDetail']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                    overflow: TextOverflow.clip,
                                                   ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
@@ -378,7 +366,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Row(
@@ -389,7 +377,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Row(
@@ -400,7 +388,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Row(

@@ -53,7 +53,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
   Future<void> getData_buyList() async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}sale/custBuyList'),
+        Uri.parse('${api}sale/custBuyList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

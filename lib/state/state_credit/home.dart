@@ -45,8 +45,6 @@ class _Home_creditState extends State<Home_credit> {
 
     var yearnow = int.parse(formattedYear);
     year = [yearnow, 543].reduce((value, element) => value + element);
-
-    print('$formattedDate $year');
   }
 
   @override
@@ -151,66 +149,60 @@ class _Home_creditState extends State<Home_credit> {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 300),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'images/megaphone.png',
-                        width: 25,
-                        height: 25,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        'ประกาศข่าวสาร',
-                        style: MyContant().Textbold(),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: Colors.grey.withOpacity(0.5),
-                      //     spreadRadius: 0.2,
-                      //     blurRadius: 1,
-                      //     offset: const Offset(0, 1),
-                      //   )
-                      // ],
-                      color: const Color.fromARGB(236, 240, 242, 255),
-                    ),
-                    child: Column(
+          SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.only(top: 300),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              '30 สิงหาคม 2566',
-                              style: MyContant().TextAbout(),
-                            ),
-                          ],
+                        Image.asset(
+                          'images/megaphone.png',
+                          width: 25,
+                          height: 25,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'ประกาศจากนักพัฒนาระบบ ขณะนี้ทางนักพัฒนาระบบได้ทำการย้ายเมนูทั้งหมดเข้าไปอยู่ในแถบด้านซ้ายทั้งหมด โดยให้ผู้ใช้เข้าเมนูจากแถบด้านซ้ายและแถบด้านหลัง',
-                                style: MyContant().TextInputStyle(),
-                                overflow: TextOverflow.clip,
-                              ),
-                            ),
-                          ],
-                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'ประกาศข่าวสาร',
+                          style: MyContant().Textbold(),
+                        )
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color.fromARGB(236, 240, 242, 255),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                '13 กันยายน 2566',
+                                style: MyContant().TextAbout(),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'เรียนผู้ใช้งานระบบทุกท่าน ทางนักพัฒนาระบบได้ทำการย้ายรายการเมนูทั้งหมดเข้าไปอยู่ในแถบด้านซ้ายทั้งหมด โดยให้ผู้ใช้ทุกท่านเข้ารายการเมนูจากแถบด้านซ้ายและแถบด้านล่าง',
+                                  style: MyContant().TextInputStyle(),
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

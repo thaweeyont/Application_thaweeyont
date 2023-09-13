@@ -55,7 +55,7 @@ class _AboutState extends State<About> {
   Future<void> getAbout() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}about/db'),
+        Uri.parse('${api}about/db'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

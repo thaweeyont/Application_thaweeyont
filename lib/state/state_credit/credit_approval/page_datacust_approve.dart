@@ -82,7 +82,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   Future<void> getData_Creditdetail() async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/detail'),
+        Uri.parse('${api}credit/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -178,7 +178,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}credit/approveCredit'),
+        Uri.parse('${api}credit/approveCredit'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -233,7 +233,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   Future<void> get_approveTypeList() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/approveTypeList'),
+        Uri.parse('${api}setup/approveTypeList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -283,7 +283,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   Future<void> get_approveReasonList() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/approveReasonList'),
+        Uri.parse('${api}setup/approveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -333,7 +333,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   Future<void> get_notApproveReasonList() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/notApproveReasonList'),
+        Uri.parse('${api}setup/notApproveReasonList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

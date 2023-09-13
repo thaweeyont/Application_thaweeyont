@@ -5,8 +5,8 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../../utility/my_constant.dart';
-import '../authen.dart';
+import '../../../utility/my_constant.dart';
+import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Pay_installment extends StatefulWidget {
@@ -61,7 +61,7 @@ class _Pay_installmentState extends State<Pay_installment> {
   Future<void> getData_payDetail(signId, String period) async {
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/payDetail'),
+        Uri.parse('${api}debtor/payDetail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

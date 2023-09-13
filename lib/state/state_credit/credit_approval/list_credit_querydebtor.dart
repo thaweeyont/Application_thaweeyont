@@ -118,7 +118,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/list'),
+        Uri.parse('${api}debtor/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

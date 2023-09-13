@@ -3,7 +3,7 @@ import 'package:application_thaweeyont/state/state_credit/check_purchase_info/pa
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
 import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
-import 'package:application_thaweeyont/state/state_credit/query_debtor.dart';
+import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

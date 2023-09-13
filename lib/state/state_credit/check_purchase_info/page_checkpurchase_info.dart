@@ -60,7 +60,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Future<void> get_select_cus() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/custCondition'),
+        Uri.parse('${api}setup/custCondition'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -97,7 +97,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Future<void> get_select_saleType() async {
     try {
       var respose = await http.get(
-        Uri.parse('${beta_api_test}setup/saleType'),
+        Uri.parse('${api}setup/saleType'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -192,7 +192,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       list_datavalue = [];
       try {
         var respose = await http.post(
-          Uri.parse('${beta_api_test}customer/list'),
+          Uri.parse('${api}customer/list'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': tokenId.toString(),
@@ -742,24 +742,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                               Icons.search,
                             ),
                           ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     search_idcustomer();
-                          //     get_select_cus();
-                          //   },
-                          //   child: Container(
-                          //     width: 30,
-                          //     height: 30,
-                          //     decoration: BoxDecoration(
-                          //       color: Color.fromRGBO(202, 71, 150, 1),
-                          //       shape: BoxShape.circle,
-                          //     ),
-                          //     child: Icon(
-                          //       Icons.search,
-                          //       color: Colors.white,
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                       Row(
@@ -970,67 +952,65 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Padding group_btnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.036,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonSearchStyle(),
-                        onPressed: () {
-                          if (custId.text.isEmpty &&
-                              smartId.text.isEmpty &&
-                              custName.text.isEmpty &&
-                              lastname_cust.text.isEmpty) {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
-                          } else {
-                            var newStartDate =
-                                start_date.text.replaceAll('-', '');
-                            var newEndDate = end_date.text.replaceAll('-', '');
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        if (custId.text.isEmpty &&
+                            smartId.text.isEmpty &&
+                            custName.text.isEmpty &&
+                            lastname_cust.text.isEmpty) {
+                          showProgressDialog(context, 'แจ้งเตือน',
+                              'กรุณากรอก รหัส หรือ เลขที่บัตร หรือ ชื่อ-สกุล ลูกค้า');
+                        } else {
+                          var newStartDate =
+                              start_date.text.replaceAll('-', '');
+                          var newEndDate = end_date.text.replaceAll('-', '');
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Purchase_info_list(
-                                    custId.text,
-                                    select_index_saletype,
-                                    smartId.text,
-                                    custName.text,
-                                    lastname_cust.text,
-                                    newStartDate,
-                                    newEndDate),
-                              ),
-                            );
-                          }
-                        },
-                        child: const Text('ค้นหา'),
-                      ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Purchase_info_list(
+                                  custId.text,
+                                  select_index_saletype,
+                                  smartId.text,
+                                  custName.text,
+                                  lastname_cust.text,
+                                  newStartDate,
+                                  newEndDate),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('ค้นหา'),
                     ),
-                    const SizedBox(width: 10),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.036,
-                      width: MediaQuery.of(context).size.width * 0.22,
-                      child: ElevatedButton(
-                        style: MyContant().myButtonCancelStyle(),
-                        onPressed: () {
-                          clearValueBuylist();
-                        },
-                        child: const Text('ยกเลิก'),
-                      ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.038,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        clearValueBuylist();
+                      },
+                      child: const Text('ยกเลิก'),
                     ),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }

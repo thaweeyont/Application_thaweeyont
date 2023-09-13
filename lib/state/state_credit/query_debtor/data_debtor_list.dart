@@ -1,14 +1,15 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/api.dart';
-import 'package:application_thaweeyont/state/state_credit/data_searchdebtor.dart';
+import 'package:application_thaweeyont/state/authen.dart';
+import 'package:application_thaweeyont/state/state_credit/query_debtor/data_searchdebtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../authen.dart';
+
 
 class Data_debtor_list extends StatefulWidget {
   // const Data_debtor_list({Key? key}) : super(key: key);
@@ -116,7 +117,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
 
     try {
       var respose = await http.post(
-        Uri.parse('${beta_api_test}debtor/list'),
+        Uri.parse('${api}debtor/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),

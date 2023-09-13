@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/state_credit/home.dart';
-import 'package:application_thaweeyont/state/state_credit/query_debtor.dart';
+import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
 import 'package:application_thaweeyont/state/state_credit/status_member/page_status_member.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,6 @@ import 'package:http/http.dart' as http;
 
 import '../authen.dart';
 import 'check_purchase_info/page_checkpurchase_info.dart';
-
-// import 'package:custom_navigator/custom_navigator.dart';
 
 class Navigator_bar_credit extends StatefulWidget {
   String? index;
@@ -65,7 +62,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     try {
       print(tokenId);
       var respose = await http.post(
-        Uri.parse('${beta_api_test}authen/logout'),
+        Uri.parse('${api}authen/logout'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId,
@@ -105,7 +102,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   }
 
   void checkIndex() async {
-    print('SA>>$allowApproveStatus');
     var indexPage = widget.index;
     status = true;
     switch (indexPage) {
@@ -410,7 +406,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                           title_head = getTitlemenuBottom(result[i]['id']);
                           _selectedIndex = getselectmenuBottom(result[i]['id']);
                           status = false;
-                          print('t> $title_head s> $_selectedIndex');
                         });
                         Navigator.pop(context);
                       },
@@ -422,7 +417,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   }
 
   getselectmenuBottom(id) {
-    print('id>$id');
     var selectIndex;
     switch (id) {
       case '001':
@@ -481,7 +475,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         ),
         builder: (context) {
           return SizedBox(
-            height: (60 * 6).toDouble(),
+            height: (55 * 6).toDouble(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -1070,7 +1064,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   }
 
   void handleMenuItemSelected(allowedMenu) {
-    print('status> $allowApproveStatus');
     List<String> listallowedMenu = allowedMenu;
     String textNamemenu;
     if (allowApproveStatus == true) {
@@ -1078,7 +1071,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     } else {
       textNamemenu = "ตรวจสอบผลอนุมัติสินเชื่อ";
     }
-    print('text>>$textNamemenu');
+
     List<Map<String, String>> menuList = [
       {
         "id": "001",
