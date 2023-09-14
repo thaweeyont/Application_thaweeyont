@@ -895,7 +895,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     double size,
   ) {
     return Drawer(
-      width: size * 0.80,
+      width: size * 1.0,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(40),
