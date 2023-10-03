@@ -1342,15 +1342,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                     size: 30,
                                     color: Color.fromARGB(255, 0, 0, 0),
                                   ),
-                                  // child: Container(
-                                  //   width: 30,
-                                  //   height: 30,
-                                  //   // decoration: BoxDecoration(
-                                  //   //   color:
-                                  //   //       Color.fromARGB(255, 112, 112, 112),
-                                  //   //   shape: BoxShape.circle,
-                                  //   // ),
-                                  // ),
                                 ),
                               ),
                             ),
@@ -1359,41 +1350,6 @@ class _Query_debtorState extends State<Query_debtor> {
                         const Divider(
                           color: Color.fromARGB(255, 138, 138, 138),
                         ),
-                        // SizedBox(
-                        //   height: size * 0.03,
-                        // ),
-                        // Container(
-                        //   padding: EdgeInsets.only(
-                        //       left: 15, right: 15, bottom: 15),
-                        //   child: Row(
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     children: [
-                        //       Row(
-                        //         children: [
-                        //           InkWell(
-                        //             onTap: () {
-                        //               Navigator.pop(context);
-                        //               clearValueDialog();
-                        //             },
-                        //             child: Container(
-                        //               width: 30,
-                        //               height: 30,
-                        //               decoration: BoxDecoration(
-                        //                   color:
-                        //                       Color.fromRGBO(202, 71, 150, 1),
-                        //                   shape: BoxShape.circle),
-                        //               child: Icon(
-                        //                 Icons.close,
-                        //                 color: Colors.white,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -1554,7 +1510,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -1799,24 +1755,6 @@ class _Query_debtorState extends State<Query_debtor> {
                             Icons.search,
                           ),
                         ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     search_idcustomer();
-                        //     get_select_cus();
-                        //   },
-                        //   child: Container(
-                        //     width: 30,
-                        //     height: 30,
-                        //     decoration: BoxDecoration(
-                        //       color: Color.fromRGBO(202, 71, 150, 1),
-                        //       shape: BoxShape.circle,
-                        //     ),
-                        //     child: Icon(
-                        //       Icons.search,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // )
                       ],
                     ),
                     Row(

@@ -57,7 +57,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Intl.defaultLocale = 'th';
     initializeDateFormatting();
