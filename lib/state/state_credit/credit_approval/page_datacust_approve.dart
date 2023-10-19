@@ -1220,8 +1220,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ),
                               Container(
                                 height: list_detail!['approveStatus'] == '3'
-                                    ? MediaQuery.of(context).size.height * 0.68
-                                    : MediaQuery.of(context).size.height * 0.65,
+                                    ? MediaQuery.of(context).size.height * 0.72
+                                    : MediaQuery.of(context).size.height * 0.75,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
                                   borderRadius: const BorderRadius.all(

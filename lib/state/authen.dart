@@ -75,7 +75,6 @@ class _AuthenState extends State<Authen> {
       );
 
       if (respose.statusCode == 200) {
-        print(respose.statusCode);
         Map<String, dynamic> data =
             Map<String, dynamic>.from(json.decode(respose.body));
 
@@ -186,7 +185,6 @@ class _AuthenState extends State<Authen> {
         ),
         color: Colors.white,
       ),
-      // color: Colors.white,
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.48,
       child: Padding(
@@ -275,7 +273,6 @@ class _AuthenState extends State<Authen> {
                 child: const Text('เข้าสู่ระบบ'),
               ),
             ),
-            // SizedBox(height: size * 0.04),
             showversion(),
           ],
         ),
@@ -283,25 +280,23 @@ class _AuthenState extends State<Authen> {
     );
   }
 
-  Container showversion() {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 30,
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'version ${_packageInfo.version}',
-                  style: MyContant().Textversion(),
-                ),
-              ],
-            ),
-          ],
-        ),
+  Padding showversion() {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 30,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'version ${_packageInfo.version}',
+                style: MyContant().Textversion(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -310,21 +305,18 @@ class _AuthenState extends State<Authen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50),
-          child: Column(
-            children: [
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height * 0.1,
-              // ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: ShowImage(path: MyContant.logo_login),
-              ),
-            ],
-          ),
+        Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.085,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: ShowImage(path: MyContant.logo_login),
+            ),
+          ],
         ),
       ],
     );
   }
-}
+}  
