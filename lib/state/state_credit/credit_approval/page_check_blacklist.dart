@@ -330,8 +330,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                               child: Column(
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
                                         'ค้นหาข้อมูลลูกค้า',
@@ -394,13 +393,12 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                               borderRadius:
                                                   BorderRadius.circular(5)),
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 4),
+                                            padding:
+                                                const EdgeInsets.only(left: 4),
                                             child: DropdownButton(
                                               items: dropdown_search_bl
                                                   .map(
-                                                    (value) =>
-                                                        DropdownMenuItem(
+                                                    (value) => DropdownMenuItem(
                                                       value: value['id'],
                                                       child: Text(
                                                         value['name'],
@@ -435,8 +433,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                     if (selectValue_bl.toString() == "2") ...[
                                       input_name_search_bl(sizeIcon, border),
                                       const SizedBox(width: 10),
-                                      input_lastname_search_bl(
-                                          sizeIcon, border)
+                                      input_lastname_search_bl(sizeIcon, border)
                                     ] else ...[
                                       input_search_data(sizeIcon, border),
                                     ]
@@ -455,19 +452,16 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               SizedBox(
-                                height: MediaQuery.of(context).size.height *
-                                    0.034,
-                                width:
-                                    MediaQuery.of(context).size.width * 0.22,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.034,
+                                width: MediaQuery.of(context).size.width * 0.22,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
                                     if (selectValue_bl.toString() == "2") {
                                       if (nameSearchBl.text.isEmpty &&
                                           lastnameSearchBl.text.isEmpty) {
-                                        showProgressDialog(
-                                            context,
-                                            'แจ้งเตือน',
+                                        showProgressDialog(context, 'แจ้งเตือน',
                                             'กรุณากรอก ชื่อ-นามสกุล');
                                       } else {
                                         showProgressLoading(context);
@@ -479,9 +473,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                       }
                                     } else {
                                       if (searchData.text.isEmpty) {
-                                        showProgressDialog(
-                                            context,
-                                            'แจ้งเตือน',
+                                        showProgressDialog(context, 'แจ้งเตือน',
                                             'กรุณากรอกข้อมูลที่ต้องการค้นหา');
                                       } else {
                                         showProgressLoading(context);
@@ -523,8 +515,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                           idblacklist.text =
                                               list_dataSearch_bl[i]['blId'];
                                           name_show.text =
-                                              list_dataSearch_bl[i]
-                                                  ['custName'];
+                                              list_dataSearch_bl[i]['custName'];
                                         });
                                         Navigator.pop(context);
                                       },
@@ -534,8 +525,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                         child: Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: const BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                251, 173, 55, 1),
+                                            color:
+                                                Color.fromRGBO(251, 173, 55, 1),
                                             borderRadius: BorderRadius.all(
                                               Radius.circular(5),
                                             ),
@@ -1133,11 +1124,19 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 padding: const EdgeInsets.all(8.0),
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(251, 173, 55, 1),
-                  borderRadius: BorderRadius.all(
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(251, 173, 55, 1),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
                 ),
                 child: Column(
                   children: [

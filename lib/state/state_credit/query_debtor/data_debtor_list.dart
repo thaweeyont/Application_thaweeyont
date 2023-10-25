@@ -9,8 +9,6 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-
-
 class Data_debtor_list extends StatefulWidget {
   // const Data_debtor_list({Key? key}) : super(key: key);
   final String? custId,
@@ -26,29 +24,32 @@ class Data_debtor_list extends StatefulWidget {
       telephone,
       select_branchlist,
       signId,
+      signRunning,
       itemTypelist,
       selectValue_amphoe,
       selectValue_province;
   final int? select_debtorType, select_signStatus;
   Data_debtor_list(
-      this.custId,
-      this.homeNo,
-      this.moo,
-      this.tumbolId,
-      this.amphur,
-      this.province,
-      this.firstname_c,
-      this.lastname_c,
-      this.select_addreessType,
-      this.select_debtorType,
-      this.idcard,
-      this.telephone,
-      this.select_branchlist,
-      this.signId,
-      this.select_signStatus,
-      this.itemTypelist,
-      this.selectValue_amphoe,
-      this.selectValue_province);
+    this.custId,
+    this.homeNo,
+    this.moo,
+    this.tumbolId,
+    this.amphur,
+    this.province,
+    this.firstname_c,
+    this.lastname_c,
+    this.select_addreessType,
+    this.select_debtorType,
+    this.idcard,
+    this.telephone,
+    this.select_branchlist,
+    this.signId,
+    this.signRunning,
+    this.select_signStatus,
+    this.itemTypelist,
+    this.selectValue_amphoe,
+    this.selectValue_province,
+  );
 
   @override
   State<Data_debtor_list> createState() => _Data_debtor_listState();
@@ -68,7 +69,6 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdata();
   }
@@ -87,6 +87,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
 
   Future<void> getData_debtorList() async {
     var signStatus, branch, debtorType, tumbol, amphur, province;
+
     if (widget.select_signStatus == null) {
       signStatus = '';
     } else {
@@ -136,6 +137,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           'smartId': widget.idcard.toString(),
           'telephone': widget.telephone.toString(),
           'branchId': branch.toString(),
+          'signRunning': widget.signRunning.toString(),
           'signId': widget.signId.toString(),
           'signStatus': signStatus.toString(),
           'itemType': widget.itemTypelist.toString(),
@@ -233,31 +235,29 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                     height: MediaQuery.of(context).size.height * 0.15,
                     child: Column(
                       children: [
-                        Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'images/Nodata.png',
-                                    width: 55,
-                                    height: 55,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'ไม่พบรายการข้อมูล',
-                                    style: MyContant().h5NotData(),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/Nodata.png',
+                                  width: 55,
+                                  height: 55,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ไม่พบรายการข้อมูล',
+                                  style: MyContant().h5NotData(),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ],
                     ),
@@ -317,6 +317,17 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                         children: [
                                           Text(
                                             'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'รันนิ่งสัญญา : ${list_dataDebtor[i]['signRunning']}',
                                             style: MyContant().h4normalStyle(),
                                           ),
                                         ],

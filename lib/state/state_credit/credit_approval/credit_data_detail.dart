@@ -15,6 +15,7 @@ class Credit_data_detail extends StatefulWidget {
       idcard,
       custName,
       lastname_cust,
+      signrunning,
       select_branchlist,
       start_date,
       end_date;
@@ -24,6 +25,7 @@ class Credit_data_detail extends StatefulWidget {
       this.idcard,
       this.custName,
       this.lastname_cust,
+      this.signrunning,
       this.select_branchlist,
       this.start_date,
       this.end_date,
@@ -70,6 +72,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           'smartId': widget.idcard.toString(),
           'firstName': widget.custName.toString(),
           'lastName': widget.lastname_cust.toString(),
+          'signRunning': widget.signrunning.toString(),
           'branchId': widget.select_branchlist.toString(),
           'startDate': widget.start_date.toString(),
           'endDate': widget.end_date.toString(),
@@ -239,6 +242,14 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                         children: [
                                           Text(
                                             'สาขา : ${list_approve[i]['branchName']}',
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'รันนิ่งสัญญา : ${list_approve[i]['signRunning']}',
                                             style: MyContant().h4normalStyle(),
                                           ),
                                         ],

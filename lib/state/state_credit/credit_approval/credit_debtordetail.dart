@@ -45,7 +45,6 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
   }
 
   Future<void> getDataCreditdebtor() async {
-   
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/debtorDetail'),
@@ -66,22 +65,17 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
 
         setState(() {
           if (listDataDebtor!['signDetail'].toString() != "") {
-   
             listCreditdebtor = listDataDebtor['signDetail'];
             statusNotsignDetail = false;
           } else {
-          
             statusNotsignDetail = true;
           }
         });
         statusLoading = true;
-  
       } else if (respose.statusCode == 400) {
-       
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
-      
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -94,15 +88,12 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
- 
         showProgressDialog_404(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 405) {
-    
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-    
         showProgressDialog_500(context, 'แจ้งเตือน',
             '${respose.statusCode} ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
@@ -155,11 +146,19 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                       top: 8, bottom: 8, left: 8, right: 8),
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
-                      color: Color.fromRGBO(251, 173, 55, 1),
+                      color: const Color.fromRGBO(251, 173, 55, 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
                     ),
                     child: Column(
                       children: [
@@ -248,11 +247,20 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(8),
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
-                                      color: Color.fromRGBO(251, 173, 55, 1),
+                                      color:
+                                          const Color.fromRGBO(251, 173, 55, 1),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 0.2,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 1),
+                                        )
+                                      ],
                                     ),
                                     child: Column(
                                       children: [

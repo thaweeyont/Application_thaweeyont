@@ -471,17 +471,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          // Row(
-                          //   children: [
-                          //     Text(
-                          //       'รายการชำระค่างวด',
-                          //       style: MyContant().h3Style(),
-                          //     ),
-                          //   ],
-                          // ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
@@ -2507,7 +2496,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           height: 5,
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.165,
+                          height: MediaQuery.of(context).size.height * 0.175,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
                             borderRadius: const BorderRadius.all(

@@ -270,19 +270,19 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          // Row(
-                          //   children: [
-                          //     Text(
-                          //       'รายการชำระค่างวด',
-                          //       style: MyContant().h3Style(),
-                          //     ),
-                          //   ],
-                          // ),
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: const Color.fromRGBO(251, 173, 55, 1),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
                             ),
                             child: Column(
                               children: [
@@ -348,11 +348,19 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 const EdgeInsets.only(top: 0, bottom: 0, left: 8, right: 8),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(251, 173, 55, 1),
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(251, 173, 55, 1),
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -484,12 +492,21 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Container(
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        )),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(251, 173, 55, 1),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                    ),
                     child: const TabBar(
                       labelColor: Color.fromRGBO(110, 66, 0, 1),
                       labelStyle: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
@@ -504,12 +521,20 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   line(),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.28,
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(251, 173, 55, 1),
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(251, 173, 55, 1),
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
                     ),
                     child: TabBarView(
                       children: <Widget>[
@@ -1116,11 +1141,19 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(251, 173, 55, 1),
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(251, 173, 55, 1),
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -1211,11 +1244,19 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(251, 173, 55, 1),
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(251, 173, 55, 1),
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               child: Column(
                 children: [
@@ -1364,11 +1405,19 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(251, 173, 55, 1),
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(251, 173, 55, 1),
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1488,11 +1537,19 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 const EdgeInsets.only(top: 0, left: 8, right: 8, bottom: 8),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(251, 173, 55, 1),
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(251, 173, 55, 1),
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -2059,11 +2116,19 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(251, 173, 55, 1),
-                    borderRadius: BorderRadius.all(
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(251, 173, 55, 1),
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(10),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 0.2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -2085,7 +2150,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         height: 5,
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.165,
+                        height: MediaQuery.of(context).size.height * 0.175,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.7),
                           borderRadius: const BorderRadius.all(

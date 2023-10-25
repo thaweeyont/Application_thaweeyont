@@ -463,12 +463,21 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Container(
-                              decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(251, 173, 55, 1),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    topRight: Radius.circular(10),
-                                  )),
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(251, 173, 55, 1),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 0.2,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  )
+                                ],
+                              ),
                               child: const TabBar(
                                 labelColor: Color.fromRGBO(110, 66, 0, 1),
                                 labelStyle: TextStyle(
@@ -830,11 +839,20 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             ),
                           )
                         : Container(
-                            decoration: const BoxDecoration(
-                                color: Color.fromRGBO(251, 173, 55, 1),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                )),
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(251, 173, 55, 1),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -889,16 +907,33 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(251, 173, 55, 1),
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(5),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'รันนิ่งสัญญา : ${list_detail!['signRunning']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            spaceText(),
                             Row(
                               children: [
                                 Text(
@@ -1003,11 +1038,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(251, 173, 55, 1),
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(5),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -1067,11 +1110,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(251, 173, 55, 1),
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(5),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -1131,11 +1182,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(251, 173, 55, 1),
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(251, 173, 55, 1),
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(5),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -1196,11 +1255,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(251, 173, 55, 1),
-                          borderRadius: BorderRadius.all(
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(251, 173, 55, 1),
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(5),
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 0.2,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

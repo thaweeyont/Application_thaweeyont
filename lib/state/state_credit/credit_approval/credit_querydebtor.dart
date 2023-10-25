@@ -777,9 +777,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                 0.1,
                                         padding: const EdgeInsets.all(4),
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
                                         child: Padding(
                                           padding:
                                               const EdgeInsets.only(left: 4),
@@ -1504,10 +1505,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              color: Color.fromRGBO(251, 173, 55, 1),
+                                  const BorderRadius.all(Radius.circular(5)),
+                              color: const Color.fromRGBO(251, 173, 55, 1),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -1652,7 +1661,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -1695,7 +1704,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(
@@ -1717,14 +1726,24 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color:
-                                                Color.fromRGBO(251, 173, 55, 1),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
+                                                251, 173, 55, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -1868,9 +1887,17 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 padding: const EdgeInsets.all(8.0),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color.fromRGBO(251, 173, 55, 1),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: const Color.fromRGBO(251, 173, 55, 1),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
                 ),
                 width: double.infinity,
                 child: Column(
@@ -2058,214 +2085,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                 ),
               ),
             ),
-            group_btnsearch(),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       Text(
-            //         'รายการที่ค้นหา',
-            //         style: MyContant().h2Style(),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.6,
-            //   child: Scrollbar(
-            //     child: ListView(
-            //       children: [
-            //         if (list_dataDebtor.isNotEmpty) ...[
-            //           for (var i = 0; i < list_dataDebtor.length; i++) ...[
-            //             InkWell(
-            //               onTap: () {
-            //                 Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                       builder: (context) => Data_SearchDebtor(
-            //                           list_dataDebtor[i]['signId'],
-            //                           list_dataDebtor[i]['signStatusName'])),
-            //                 );
-            //               },
-            //               child: Padding(
-            //                 padding: const EdgeInsets.symmetric(horizontal: 8),
-            //                 child: Container(
-            //                   margin: EdgeInsets.symmetric(vertical: 5),
-            //                   padding: EdgeInsets.all(8.0),
-            //                   decoration: BoxDecoration(
-            //                     borderRadius:
-            //                         BorderRadius.all(Radius.circular(5)),
-            //                     color: Color.fromRGBO(255, 218, 249, 1),
-            //                   ),
-            //                   child: Column(
-            //                     children: [
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'สาขาที่ออกขาย : ${list_dataDebtor[i]['branchName']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'เลขบัตรประชาชน : ${list_dataDebtor[i]['smartId']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'ชื่อลูกค้าในสัญญา : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               '${list_dataDebtor[i]['custName']}',
-            //                               overflow: TextOverflow.clip,
-            //                               style: MyContant().h4normalStyle(),
-            //                             ),
-            //                           )
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'สินค้าที่ซื้อ : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               '${list_dataDebtor[i]['itemName']}',
-            //                               overflow: TextOverflow.clip,
-            //                               style: MyContant().h4normalStyle(),
-            //                             ),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'เงินดาวน์/งวดแรก : ${list_dataDebtor[i]['downPrice']}  บาท',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'ส่งเดือนละ : ${list_dataDebtor[i]['periodPrice']}  บาท',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'ระยเวลา : ${list_dataDebtor[i]['periodCount']}  งวด',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'กำหนดชำระทุกวันที่ : ${list_dataDebtor[i]['periodDay']}  ของเดือน',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'หมายเหตุ : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               'เกินกำหนดชำระค่างวด 3 วัน มีเบี้ยปรับ+ค่าทวงถาม',
-            //                               overflow: TextOverflow.clip,
-            //                               style: MyContant().h4normalStyle(),
-            //                             ),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ],
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            groupBtnsearch(),
             const SizedBox(
               height: 70,
             ),
@@ -2275,7 +2095,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     );
   }
 
-  Padding group_btnsearch() {
+  Padding groupBtnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

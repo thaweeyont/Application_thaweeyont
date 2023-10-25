@@ -44,7 +44,6 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
   }
 
   Future<void> getData_quarantee() async {
-  
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/quarantee'),
@@ -65,14 +64,10 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
           list_quarantee = dataQuarantee['data'];
         });
         statusLoading = true;
-
-  
       } else if (respose.statusCode == 400) {
-        
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
- 
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -85,17 +80,14 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-   
         setState(() {
           statusLoad404 = true;
           statusLoading = true;
         });
       } else if (respose.statusCode == 405) {
-  
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-       
         showProgressDialog_500(context, 'แจ้งเตือน',
             '${respose.statusCode} ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
@@ -206,11 +198,21 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                                     const EdgeInsets.symmetric(vertical: 4),
                                 child: Container(
                                   padding: const EdgeInsets.all(8),
-                                  decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5),
-                                      ),
-                                      color: Color.fromRGBO(251, 173, 55, 1)),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
+                                    color:
+                                        const Color.fromRGBO(251, 173, 55, 1),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                  ),
                                   child: Column(
                                     children: [
                                       Row(

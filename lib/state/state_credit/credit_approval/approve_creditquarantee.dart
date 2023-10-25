@@ -190,11 +190,19 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                               vertical: 4, horizontal: 8),
                           child: Container(
                             padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(5),
                               ),
-                              color: Color.fromRGBO(251, 173, 55, 1),
+                              color: const Color.fromRGBO(251, 173, 55, 1),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
                             ),
                             child: Column(
                               children: [

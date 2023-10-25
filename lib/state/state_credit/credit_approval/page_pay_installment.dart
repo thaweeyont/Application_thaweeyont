@@ -147,11 +147,19 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
-                color: Color.fromRGBO(251, 173, 55, 1),
+                color: const Color.fromRGBO(251, 173, 55, 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -237,11 +245,19 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                               padding: const EdgeInsets.only(
                                   top: 6, bottom: 2, left: 8, right: 8),
                               child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(251, 173, 55, 1),
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(251, 173, 55, 1),
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
                                   ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    )
+                                  ],
                                 ),
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(

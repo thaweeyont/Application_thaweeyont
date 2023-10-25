@@ -442,7 +442,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     var title, text;
     if (allowApproveStatus == true) {
       text = 'บันทึกพิจารณาอนุมัติสินเชื่อ';
-    } else {
+    } else { 
       text = 'ตรวจสอบผลอนุมัติสินเชื่อ';
     }
     switch (id) {

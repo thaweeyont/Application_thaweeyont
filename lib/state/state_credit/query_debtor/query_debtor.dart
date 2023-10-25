@@ -29,8 +29,8 @@ class _Query_debtorState extends State<Query_debtor> {
   String? id = '1';
   var filter = false;
   TextEditingController idcard = TextEditingController();
-  TextEditingController firstname_c = TextEditingController();
-  TextEditingController lastname_c = TextEditingController();
+  TextEditingController firstnameCus = TextEditingController();
+  TextEditingController lastnameCus = TextEditingController();
   TextEditingController lastname = TextEditingController();
   TextEditingController district = TextEditingController();
   TextEditingController amphoe = TextEditingController();
@@ -40,10 +40,11 @@ class _Query_debtorState extends State<Query_debtor> {
   TextEditingController homeNo = TextEditingController();
   TextEditingController moo = TextEditingController();
   TextEditingController telephone = TextEditingController();
-  TextEditingController signId = TextEditingController();
+  TextEditingController signid = TextEditingController();
+  TextEditingController signrunning = TextEditingController();
   TextEditingController searchData = TextEditingController();
-  TextEditingController firstname_em = TextEditingController();
-  TextEditingController lastname_em = TextEditingController();
+  TextEditingController firstnameEm = TextEditingController();
+  TextEditingController lastnameEm = TextEditingController();
   TextEditingController custId = TextEditingController();
 
   bool st_customer = true,
@@ -475,15 +476,16 @@ class _Query_debtorState extends State<Query_debtor> {
   clearTextInputAll() {
     custId.clear();
     idcard.clear();
-    firstname_c.clear();
-    lastname_c.clear();
+    firstnameCus.clear();
+    lastnameCus.clear();
     telephone.clear();
     homeNo.clear();
     moo.clear();
     district.clear();
     amphoe.clear();
     provincn.clear();
-    signId.clear();
+    signid.clear();
+    signrunning.clear();
     itemTypelist.clear();
     setState(() {
       select_debtorType = null;
@@ -521,8 +523,8 @@ class _Query_debtorState extends State<Query_debtor> {
       statusLoad404 = false;
     });
     searchData.clear();
-    firstname_em.clear();
-    lastname_em.clear();
+    firstnameEm.clear();
+    lastnameEm.clear();
     lastname.clear();
   }
 
@@ -1291,7 +1293,7 @@ class _Query_debtorState extends State<Query_debtor> {
         }
       } else {
         showProgressLoading(context);
-        getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
+        getData_condition(id, '2', '', firstnameEm.text, lastnameEm.text);
       }
     }
 
@@ -1539,8 +1541,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                         getData_search();
                                       }
                                     } else {
-                                      if (firstname_em.text.isEmpty &&
-                                          lastname_em.text.isEmpty) {
+                                      if (firstnameEm.text.isEmpty &&
+                                          lastnameEm.text.isEmpty) {
                                         showProgressDialog(context, 'แจ้งเตือน',
                                             'กรุณากรอกข้อมูล');
                                       } else {
@@ -1795,6 +1797,15 @@ class _Query_debtorState extends State<Query_debtor> {
                     Row(
                       children: [
                         Text(
+                          'รันนิ่งสัญญา',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        inputSignRunning(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
                           'เลขที่สัญญา',
                           style: MyContant().h4normalStyle(),
                         ),
@@ -1995,24 +2006,26 @@ class _Query_debtorState extends State<Query_debtor> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Data_debtor_list(
-                                custId.text,
-                                homeNo.text,
-                                moo.text,
-                                tumbolId,
-                                amphur.toString(),
-                                province.toString(),
-                                firstname_c.text,
-                                lastname_c.text,
-                                select_addreessType.toString(),
-                                select_debtorType,
-                                idcard.text,
-                                telephone.text,
-                                select_branchlist,
-                                signId.text,
-                                select_signStatus,
-                                itemTypelist.text,
-                                selectValue_amphoe,
-                                selectValue_province),
+                              custId.text,
+                              homeNo.text,
+                              moo.text,
+                              tumbolId,
+                              amphur.toString(),
+                              province.toString(),
+                              firstnameCus.text,
+                              lastnameCus.text,
+                              select_addreessType.toString(),
+                              select_debtorType,
+                              idcard.text,
+                              telephone.text,
+                              select_branchlist,
+                              signid.text,
+                              signrunning.text,
+                              select_signStatus,
+                              itemTypelist.text,
+                              selectValue_amphoe,
+                              selectValue_province,
+                            ),
                           ),
                         );
                       },
@@ -2107,7 +2120,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: firstname_c,
+          controller: firstnameCus,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(6),
@@ -2130,7 +2143,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: lastname_c,
+          controller: lastnameCus,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(6),
@@ -2383,7 +2396,30 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: signId,
+          controller: signid,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(6),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputSignRunning(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: signrunning,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(6),
@@ -2543,7 +2579,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: firstname_em,
+          controller: firstnameEm,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(6),
@@ -2569,7 +2605,7 @@ class _Query_debtorState extends State<Query_debtor> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          controller: lastname_em,
+          controller: lastnameEm,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(6),

@@ -48,6 +48,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   TextEditingController firstname_em = TextEditingController();
   TextEditingController lastname_em = TextEditingController();
   TextEditingController lastname = TextEditingController();
+  TextEditingController signrunning = TextEditingController();
   TextEditingController start_date = TextEditingController();
   TextEditingController end_date = TextEditingController();
   TextEditingController idcard = TextEditingController();
@@ -193,6 +194,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     idcard.clear();
     custName.clear();
     lastname_cust.clear();
+    signrunning.clear();
     end_date.clear();
     setState(() {
       selectDatenow();
@@ -856,6 +858,15 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                     Row(
                       children: [
                         Text(
+                          'รันนิ่งสัญญา',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        inputSignRunning(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
                           'สาขา',
                           style: MyContant().h4normalStyle(),
                         ),
@@ -932,6 +943,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                               idcard.text,
                               custName.text,
                               lastname_cust.text,
+                              signrunning.text,
                               new_branch,
                               newStratDate,
                               newEndDate,
@@ -1071,6 +1083,34 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputSignRunning(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: signrunning,
+          keyboardType: TextInputType.number,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: const EdgeInsets.all(6),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintStyle: const TextStyle(
+              fontSize: 14,
+            ),
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
