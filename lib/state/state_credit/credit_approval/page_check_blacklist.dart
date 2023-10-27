@@ -1280,31 +1280,83 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        if (idcard.text.isEmpty) {
+                        if (idblacklist.text.isEmpty &&
+                            idcard.text.isEmpty &&
+                            name.text.isEmpty &&
+                            lastname.text.isEmpty &&
+                            home_no.text.isEmpty &&
+                            moo_no.text.isEmpty &&
+                            district.text.isEmpty &&
+                            amphoe.text.isEmpty &&
+                            province.text.isEmpty) {
                           showProgressDialog(
-                              context, 'แจ้งเตือน', 'กรุณากรอกเลขบัตรประชาชน!');
+                              context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
                         } else {
-                          setState(() {
-                            statusLoading = false;
-                            statusLoad404 = false;
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ListCheckBlacklist(
-                                idblacklist.text,
-                                idcard.text,
-                                name.text,
-                                lastname.text,
-                                home_no.text,
-                                moo_no.text,
-                                districtId,
-                                selectValue_amphoe,
-                                selectValue_province,
+                          if (home_no.text.isNotEmpty ||
+                              moo_no.text.isNotEmpty) {
+                            if (district.text.isEmpty) {
+                              showProgressDialog(context, 'แจ้งเตือน',
+                                  'กรุณาเลือก ตำบล อำเภอ จังหวัด');
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListCheckBlacklist(
+                                      idblacklist.text,
+                                      idcard.text,
+                                      name.text,
+                                      lastname.text,
+                                      home_no.text,
+                                      moo_no.text,
+                                      districtId,
+                                      selectValue_amphoe,
+                                      selectValue_province),
+                                ),
+                              );
+                            }
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ListCheckBlacklist(
+                                    idblacklist.text,
+                                    idcard.text,
+                                    name.text,
+                                    lastname.text,
+                                    home_no.text,
+                                    moo_no.text,
+                                    districtId,
+                                    selectValue_amphoe,
+                                    selectValue_province),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         }
+                        // if (idcard.text.isEmpty) {
+                        //   showProgressDialog(
+                        //       context, 'แจ้งเตือน', 'กรุณากรอกเลขบัตรประชาชน!');
+                        // } else {
+                        // setState(() {
+                        //   statusLoading = false;
+                        //   statusLoad404 = false;
+                        // });
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ListCheckBlacklist(
+                        //       idblacklist.text,
+                        //       idcard.text,
+                        //       name.text,
+                        //       lastname.text,
+                        //       home_no.text,
+                        //       moo_no.text,
+                        //       districtId,
+                        //       selectValue_amphoe,
+                        //       selectValue_province,
+                        //     ),
+                        //   ),
+                        // );
+                        // }
                       },
                       child: const Text('ค้นหา'),
                     ),

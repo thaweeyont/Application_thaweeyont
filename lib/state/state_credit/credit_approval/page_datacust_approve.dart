@@ -1003,10 +1003,18 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             ),
                             spaceText(),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'ผู้ตรวจสอบเครดิต : ${list_detail!['checkerName']}',
+                                  'ผู้ตรวจสอบเครดิต : ',
                                   style: MyContant().h4normalStyle(),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${list_detail!['checkerName']}',
+                                    overflow: TextOverflow.clip,
+                                    style: MyContant().h4normalStyle(),
+                                  ),
                                 ),
                               ],
                             ),
@@ -1021,10 +1029,18 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             ),
                             spaceText(),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'ผู้ส่งขออนุมัติสินเชื่อ : ${list_detail!['sendApproveName']}',
+                                  'ผู้ส่งขออนุมัติสินเชื่อ : ',
                                   style: MyContant().h4normalStyle(),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${list_detail!['sendApproveName']}',
+                                    overflow: TextOverflow.clip,
+                                    style: MyContant().h4normalStyle(),
+                                  ),
                                 ),
                               ],
                             ),

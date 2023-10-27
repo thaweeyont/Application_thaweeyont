@@ -147,7 +147,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> datadebtorList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           list_dataDebtor = datadebtorList['data'];

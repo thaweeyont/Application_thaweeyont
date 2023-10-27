@@ -153,7 +153,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
   Future<void> get_select_district() async {
     final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -437,12 +437,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                               items: dropdown_search_bl
                                                   .map(
                                                     (value) => DropdownMenuItem(
+                                                      value: value['id'],
                                                       child: Text(
                                                         value['name'],
                                                         style: MyContant()
                                                             .TextInputStyle(),
                                                       ),
-                                                      value: value['id'],
                                                     ),
                                                   )
                                                   .toList(),
@@ -489,7 +489,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -538,7 +538,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(
@@ -806,13 +806,13 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                             items: dropdown_province
                                                 .map(
                                                     (value) => DropdownMenuItem(
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
                                                                 .TextInputStyle(),
                                                           ),
-                                                          value:
-                                                              "${value['id']}_${value['name']}",
                                                         ))
                                                 .toList(),
                                             onChanged: (newvalue) async {
@@ -923,13 +923,13 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                             items: dropdown_amphoe
                                                 .map(
                                                     (value) => DropdownMenuItem(
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
                                                                 .TextInputStyle(),
                                                           ),
-                                                          value:
-                                                              "${value['id']}_${value['name']}",
                                                         ))
                                                 .toList(),
                                             onChanged: (newvalue) {
@@ -970,7 +970,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -1006,7 +1006,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(

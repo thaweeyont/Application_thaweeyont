@@ -621,7 +621,6 @@ class _Query_debtorState extends State<Query_debtor> {
                                     'จังหวัด',
                                     style: MyContant().h4normalStyle(),
                                   ),
-                                  // select_provincnDia(context, setState),
                                   Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -641,13 +640,13 @@ class _Query_debtorState extends State<Query_debtor> {
                                             items: dropdown_province
                                                 .map(
                                                     (value) => DropdownMenuItem(
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
                                                                 .TextInputStyle(),
                                                           ),
-                                                          value:
-                                                              "${value['id']}_${value['name']}",
                                                         ))
                                                 .toList(),
                                             onChanged: (newvalue) async {
@@ -2363,11 +2362,11 @@ class _Query_debtorState extends State<Query_debtor> {
             child: DropdownButton(
               items: dropdown_branch
                   .map((value) => DropdownMenuItem(
+                        value: value['id'],
                         child: Text(
                           value['name'],
                           style: MyContant().TextInputStyle(),
                         ),
-                        value: value['id'],
                       ))
                   .toList(),
               onChanged: (newvalue) {

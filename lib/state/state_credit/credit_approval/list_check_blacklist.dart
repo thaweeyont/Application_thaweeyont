@@ -223,58 +223,69 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
                                 ),
                               );
                             },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  color: const Color.fromRGBO(251, 173, 55, 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    )
+                                  ],
                                 ),
-                                color: Color.fromRGBO(251, 173, 55, 1),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'รหัสลูกค้า : ${list_Blacklist[i]['blId']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'ชื่อลูกค้า : ${list_Blacklist[i]['custName']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'ที่อยู่ : ',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '${list_Blacklist[i]['custAddress']}',
-                                          overflow: TextOverflow.clip,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'รหัสลูกค้า : ${list_Blacklist[i]['blId']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'สถานะ : ${list_Blacklist[i]['blStatus']}',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'ชื่อลูกค้า : ${list_Blacklist[i]['custName']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'ที่อยู่ : ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${list_Blacklist[i]['custAddress']}',
+                                            overflow: TextOverflow.clip,
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'สถานะ : ${list_Blacklist[i]['blStatus']}',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

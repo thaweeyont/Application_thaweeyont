@@ -11,14 +11,14 @@ import 'list_credit_querydebtor.dart';
 
 class CreditQueryDebtor extends StatefulWidget {
   // const CreditQueryDebtor(valueapprove, {Key? key}) : super(key: key);
-  final String? address, homeNo, moo, provId, amphurId, tunbolId;
+  final String? address, homeNo, moo, provId, amphurId, tumbolId;
   CreditQueryDebtor(
     this.address,
     this.homeNo,
     this.moo,
     this.provId,
     this.amphurId,
-    this.tunbolId,
+    this.tumbolId,
   );
 
   @override
@@ -76,12 +76,14 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       select_debtorType,
       select_signStatus,
       debtorStatuscode,
-      tumbolId,
+      selectTumbolId,
       itemType;
 
-  var selectValue_customer, valueNotdata, Texthint, text_search;
+  var selectValue_customer, valueNotdata, Texthint;
   var signStatus, branch, debtorType, tumbol, amphur, province;
-  var selectProvince, selectAmphur, selectTumbol;
+  var vProvince, vTumbol, vAmphor;
+
+  bool statusSetupAddress = false;
 
   @override
   void initState() {
@@ -103,13 +105,10 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     });
     homeNo.text = widget.homeNo.toString();
     moo.text = widget.moo.toString();
-    selectProvince = widget.provId.toString();
-    selectAmphur = widget.amphurId.toString();
-    selectTumbol = widget.tunbolId.toString();
 
-    get_province();
-    get_amphor();
-    get_district();
+    getProvince();
+    getAmphor();
+    getDistrict();
     get_select_province();
     get_select_addressTypelist();
     get_select_branch();
@@ -130,16 +129,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_provice =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_province = data_provice['data'];
         });
       } else if (respose.statusCode == 400) {
+        if (mounted) return;
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -150,14 +151,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        if (mounted) return;
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
+        if (mounted) return;
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
+        if (mounted) return;
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
+        if (mounted) return;
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -167,7 +172,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_province() async {
+  Future<void> getProvince() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -179,21 +184,23 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataProvice =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           drProvince = dataProvice['data'];
           provincn.text = drProvince
-              .where((element) => element['id'] == selectProvince)
+              .where((element) => element['id'] == widget.provId.toString())
               .first['name']
               .toString();
         });
       } else if (respose.statusCode == 400) {
+        if (mounted) return;
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -204,14 +211,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        if (mounted) return;
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
+        if (mounted) return;
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
+        if (mounted) return;
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
+        if (mounted) return;
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -221,11 +232,11 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_amphor() async {
+  Future<void> getAmphor() async {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/amphurList?pId=${selectProvince.toString().split("_")[0]}'),
+            '${api}setup/amphurList?pId=${widget.provId.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -234,20 +245,22 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataAmphur =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           drAmphur = dataAmphur['data'];
           amphoe.text = drAmphur
-              .where((element) => element['id'] == selectAmphur)
+              .where((element) => element['id'] == widget.amphurId.toString())
               .first['name']
               .toString();
         });
       } else if (respose.statusCode == 400) {
+        if (mounted) return;
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -258,14 +271,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        if (mounted) return;
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
+        if (mounted) return;
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
+        if (mounted) return;
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
+        if (mounted) return;
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
@@ -275,11 +292,11 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_district() async {
+  Future<void> getDistrict() async {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/districtList?pId=${selectProvince.toString().split("_")[0]}&aId=${selectAmphur.toString().split("_")[0]}'),
+            '${api}setup/districtList?pId=${widget.provId.toString().split("_")[0]}&aId=${widget.amphurId.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -288,20 +305,22 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataTumbol =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           drTumbol = dataTumbol['data'];
           district.text = drTumbol
-              .where((element) => element['id'] == selectTumbol)
+              .where((element) => element['id'] == widget.tumbolId.toString())
               .first['name']
               .toString();
         });
       } else if (respose.statusCode == 400) {
+        if (mounted) return;
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -312,14 +331,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        if (mounted) return;
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
+        if (mounted) return;
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
+        if (mounted) return;
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
+        if (mounted) return;
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -329,7 +352,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_select_district() async {
+  Future<void> get_select_district(province, amphor) async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -343,7 +366,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
+            '${api}setup/districtList?pId=${province.toString().split("_")[0]}&aId=${amphor.toString().split("_")[0]}'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -352,7 +375,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_district =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           list_district = data_district['data'];
         });
@@ -360,11 +383,13 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         Navigator.pop(context);
         search_district(sizeIcon, border);
       } else if (respose.statusCode == 400) {
+        if (mounted) return;
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -375,14 +400,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        if (mounted) return;
         showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
       } else if (respose.statusCode == 405) {
+        if (mounted) return;
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
+        if (mounted) return;
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
+        if (mounted) return;
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -416,16 +445,18 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_itemTypelist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           list_itemType = data_itemTypelist['data'];
         });
-
+        if (mounted) return;
         Navigator.pop(context);
       } else if (respose.statusCode == 400) {
+        if (mounted) return;
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -441,12 +472,15 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
           statusLoad404itemTypeList = true;
         });
       } else if (respose.statusCode == 405) {
+        if (mounted) return;
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
+        if (mounted) return;
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else {
+        if (mounted) return;
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
@@ -468,12 +502,13 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_addressTypelist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_addresstype = data_addressTypelist['data'];
           select_addreessType = dropdown_addresstype[0]['id'];
         });
       } else if (respose.statusCode == 401) {
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -503,11 +538,12 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_branch =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_branch = data_branch['data'];
         });
       } else if (respose.statusCode == 401) {
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -537,11 +573,12 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_debtorType =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_debtorType = data_debtorType['data'];
         });
       } else if (respose.statusCode == 401) {
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -571,13 +608,14 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_signStatusList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_signStatus = data_signStatusList['data'];
         });
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -609,11 +647,12 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_customer = data['data'];
         });
       } else if (respose.statusCode == 401) {
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -652,7 +691,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     });
   }
 
-  clearValue_search_district() {
+  clearValueSearchDistrict() {
     setState(() {
       selectValue_province = null;
       selectValue_amphoe = null;
@@ -660,7 +699,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     });
   }
 
-  clearValue_search_conType() {
+  clearValueSearchConType() {
     setState(() {
       list_itemType = [];
     });
@@ -733,7 +772,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clearValue_search_district();
+                                  clearValueSearchDistrict();
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
@@ -822,9 +861,8 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
                                                 if (respose.statusCode == 200) {
                                                   Map<String, dynamic>
-                                                      data_amphoe = new Map<
-                                                              String,
-                                                              dynamic>.from(
+                                                      data_amphoe =
+                                                      Map<String, dynamic>.from(
                                                           json.decode(
                                                               respose.body));
                                                   setState(() {
@@ -838,6 +876,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                       await SharedPreferences
                                                           .getInstance();
                                                   preferences.clear();
+                                                  if (mounted) return;
                                                   Navigator.pushAndRemoveUntil(
                                                     context,
                                                     MaterialPageRoute(
@@ -951,7 +990,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -966,7 +1005,8 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                           'กรุณาเลือกอำเภอ');
                                     } else {
                                       showProgressLoading(context);
-                                      get_select_district();
+                                      get_select_district(selectValue_province,
+                                          selectValue_amphoe);
                                     }
                                   },
                                   child: const Text('ค้นหา'),
@@ -987,7 +1027,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(
@@ -1000,11 +1040,12 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                       onTap: () {
                                         setState(
                                           () {
+                                            statusSetupAddress = true;
                                             district.text =
                                                 '${list_district[i]['name']}';
-                                            amphoe.text = '$text_amphoe';
-                                            provincn.text = '$text_province';
-                                            tumbolId =
+                                            amphoe.text = text_amphoe;
+                                            provincn.text = text_province;
+                                            selectTumbolId =
                                                 '${list_district[i]['id']}';
                                           },
                                         );
@@ -1031,7 +1072,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    "$text_province",
+                                                    text_province,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -1045,7 +1086,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    '$text_amphoe',
+                                                    text_amphoe,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -1150,7 +1191,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clearValue_search_conType();
+                                  clearValueSearchConType();
                                   setState(() {
                                     statusLoad404itemTypeList = false;
                                   });
@@ -1378,7 +1419,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
 
         if (respose.statusCode == 200) {
           Map<String, dynamic> dataList =
-              new Map<String, dynamic>.from(json.decode(respose.body));
+              Map<String, dynamic>.from(json.decode(respose.body));
 
           setState(() {
             list_datavalue = dataList['data'];
@@ -1603,12 +1644,12 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                               items: dropdown_customer
                                                   .map((value) =>
                                                       DropdownMenuItem(
+                                                        value: value['id'],
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
                                                               .TextInputStyle(),
                                                         ),
-                                                        value: value['id'],
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
@@ -2146,9 +2187,17 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
                         setState(() {
-                          selectValue_province ??= selectProvince;
-                          selectValue_amphoe ??= selectAmphur;
-                          tumbolId ??= selectTumbol;
+                          if (statusSetupAddress == false) {
+                            vProvince = widget.provId;
+                            vAmphor = widget.amphurId;
+                            vTumbol = widget.tumbolId;
+                          } else {
+                            vProvince =
+                                selectValue_province.toString().split("_")[0];
+                            vAmphor =
+                                selectValue_amphoe.toString().split("_")[0];
+                            vTumbol = selectTumbolId;
+                          }
                         });
 
                         Navigator.push(
@@ -2158,7 +2207,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                               custId.text,
                               homeNo.text,
                               moo.text,
-                              tumbolId,
+                              vTumbol,
                               amphur.toString(),
                               province.toString(),
                               firstname_c.text,
@@ -2171,8 +2220,8 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                               signId.text,
                               select_signStatus,
                               itemTypelist.text,
-                              selectValue_amphoe,
-                              selectValue_province,
+                              vAmphor,
+                              vProvince,
                               widget.address,
                             ),
                           ),
@@ -2544,145 +2593,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     );
   }
 
-  Expanded provin(sizeIcon, border) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton<String>(
-              value: selectProvince,
-              items: drProvince.isEmpty
-                  ? []
-                  : drProvince
-                      .map(
-                        (value) => DropdownMenuItem(
-                          value: value['id'].toString(),
-                          child: Text(
-                            value['name'],
-                            style: MyContant().TextInputStyle(),
-                          ),
-                        ),
-                      )
-                      .toList(),
-              onChanged: (newvalue) async {
-                setState(() {
-                  var dfvalue = newvalue;
-                  selectProvince = dfvalue;
-                });
-              },
-              isExpanded: true,
-              underline: const SizedBox(),
-              hint: Align(
-                child: Text(
-                  'เลือกจังหวัด',
-                  style: MyContant().TextInputSelect(),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded amphor(sizeIcon, border) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton<String>(
-              value: selectAmphur,
-              items: drAmphur.isEmpty
-                  ? []
-                  : drAmphur
-                      .map((value) => DropdownMenuItem(
-                            value: value['id'].toString(),
-                            child: Text(
-                              value['name'],
-                              style: MyContant().TextInputStyle(),
-                            ),
-                          ))
-                      .toList(),
-              onChanged: (newvalue) {
-                setState(() {
-                  var dfvalue = newvalue;
-                  selectAmphur = dfvalue;
-                  // text_amphoe = dfvalue.toString().split("_")[1];
-                });
-              },
-              isExpanded: true,
-              underline: const SizedBox(),
-              hint: Align(
-                child: Text(
-                  'เลือกอำเภอ',
-                  style: MyContant().TextInputSelect(),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded tumbole(sizeIcon, border) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton<String>(
-              value: selectTumbol,
-              items: drTumbol.isEmpty
-                  ? []
-                  : drTumbol
-                      .map((value) => DropdownMenuItem(
-                            value: value['id'].toString(),
-                            child: Text(
-                              value['name'],
-                              style: MyContant().TextInputStyle(),
-                            ),
-                          ))
-                      .toList(),
-              onChanged: (newvalue) {
-                setState(() {
-                  var dfvalue = newvalue;
-                  selectTumbol = dfvalue;
-                  // text_amphoe = dfvalue.toString().split("_")[1];
-                });
-              },
-              isExpanded: true,
-              underline: const SizedBox(),
-              hint: Align(
-                child: Text(
-                  'เลือกอำเภอ',
-                  style: MyContant().TextInputSelect(),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Expanded input_signId(sizeIcon, border) {
     return Expanded(
       child: Padding(
@@ -2719,13 +2629,15 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
               items: dropdown_debtorType
-                  .map((value) => DropdownMenuItem(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().TextInputStyle(),
-                        ),
-                        value: value['id'],
-                      ))
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value['id'],
+                      child: Text(
+                        value['name'],
+                        style: MyContant().TextInputStyle(),
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (newvalue) {
                 setState(() {
@@ -2761,13 +2673,15 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
               items: dropdown_signStatus
-                  .map((value) => DropdownMenuItem(
-                        child: Text(
-                          value['name'],
-                          style: MyContant().TextInputStyle(),
-                        ),
-                        value: value['id'],
-                      ))
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value['id'],
+                      child: Text(
+                        value['name'],
+                        style: MyContant().TextInputStyle(),
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (newvalue) {
                 setState(() {
