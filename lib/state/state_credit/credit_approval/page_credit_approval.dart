@@ -386,41 +386,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                         const SizedBox(
                           height: 10,
                         ),
-                        // SizedBox(
-                        //   height: size * 0.03,
-                        // ),
-                        // Container(
-                        //   padding: EdgeInsets.only(
-                        //       left: 15, right: 15, bottom: 15),
-                        //   child: Row(
-                        //     crossAxisAlignment: CrossAxisAlignment.end,
-                        //     mainAxisAlignment: MainAxisAlignment.end,
-                        //     children: [
-                        //       Row(
-                        //         children: [
-                        //           InkWell(
-                        //             onTap: () {
-                        //               Navigator.pop(context);
-                        //               clearValueDialog();
-                        //             },
-                        //             child: Container(
-                        //               width: 30,
-                        //               height: 30,
-                        //               decoration: BoxDecoration(
-                        //                   color:
-                        //                       Color.fromRGBO(173, 106, 3, 1),
-                        //                   shape: BoxShape.circle),
-                        //               child: Icon(
-                        //                 Icons.close,
-                        //                 color: Colors.white,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -503,8 +468,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                               if (st_customer == true) ...[
                                 Row(
                                   children: [
-                                    // Text('ชื่อ'),
-                                    // select_searchCus(sizeIcon, border),
                                     Expanded(
                                       child: Padding(
                                         padding: const EdgeInsets.all(1),
@@ -648,16 +611,24 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
-                                          // margin:
-                                          //     EdgeInsets.symmetric(vertical: 5),
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color:
-                                                Color.fromRGBO(251, 173, 55, 1),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
+                                                251, 173, 55, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [

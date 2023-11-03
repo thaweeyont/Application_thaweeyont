@@ -181,7 +181,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 0.5,
-                          blurRadius: 1,
+                          blurRadius: 2,
                           offset: const Offset(0, 1),
                         )
                       ],
@@ -269,7 +269,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                 i++) ...[
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 6, horizontal: 8),
+                                    vertical: 4, horizontal: 8),
                                 child: Container(
                                   padding: const EdgeInsets.all(8.0),
                                   decoration: BoxDecoration(
@@ -280,7 +280,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
                                         spreadRadius: 0.5,
-                                        blurRadius: 1,
+                                        blurRadius: 2,
                                         offset: const Offset(0, 1),
                                       )
                                     ],
@@ -306,88 +306,106 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ชื่อลูกค้า : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_dataBuyTyle[i]['custName']}',
-                                              overflow: TextOverflow.clip,
-                                              style:
-                                                  MyContant().h4normalStyle(),
+                                      Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.white.withOpacity(0.7),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'รายการสินค้า : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_dataBuyTyle[i]['itemName']}',
-                                              overflow: TextOverflow.clip,
-                                              style:
-                                                  MyContant().h4normalStyle(),
+                                            const SizedBox(
+                                              height: 5,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'ชื่อลูกค้า : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${list_dataBuyTyle[i]['custName']}',
+                                                    overflow: TextOverflow.clip,
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'รายการสินค้า : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${list_dataBuyTyle[i]['itemName']}',
+                                                    overflow: TextOverflow.clip,
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

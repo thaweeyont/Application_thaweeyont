@@ -493,12 +493,20 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             line(),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.22,
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(251, 173, 55, 1),
-                                borderRadius: BorderRadius.only(
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(251, 173, 55, 1),
+                                borderRadius: const BorderRadius.only(
                                   bottomLeft: Radius.circular(10),
                                   bottomRight: Radius.circular(10),
                                 ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 0.2,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  )
+                                ],
                               ),
                               child: TabBarView(
                                 children: <Widget>[
@@ -1563,7 +1571,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   padding: const EdgeInsets.only(right: 10),
                   child: ElevatedButton(
                     onPressed: () {
-                      // sign_Detail(sizeIcon, border);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

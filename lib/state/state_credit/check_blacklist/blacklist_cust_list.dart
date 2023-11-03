@@ -229,7 +229,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                               },
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 6),
+                                    const EdgeInsets.symmetric(vertical: 4),
                                 child: Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
@@ -241,8 +241,8 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0.5,
-                                        blurRadius: 1,
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
                                         offset: const Offset(0, 1),
                                       )
                                     ],

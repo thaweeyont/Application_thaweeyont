@@ -132,7 +132,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     }
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -253,7 +253,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       }
     }
 
-    Future<Null> getData_search() async {
+    Future<void> getData_search() async {
       if (id == '1') {
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
@@ -560,14 +560,24 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color: Color.fromRGBO(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
                                                 229, 188, 244, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -684,8 +694,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -731,7 +741,6 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
-                              // padding: EdgeInsets.all(5),
                               backgroundColor:
                                   const Color.fromRGBO(202, 71, 150, 1),
                             ),
@@ -756,7 +765,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       Row(
                         children: [
                           Text(
-                            'ชื่อ',
+                            'ชื่อลูกค้า',
                             style: MyContant().h4normalStyle(),
                           ),
                           input_namecustomer(sizeIcon, border),
@@ -774,7 +783,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       Row(
                         children: [
                           Text(
-                            'วันที่',
+                            'วันที่ขาย',
                             style: MyContant().h4normalStyle(),
                           ),
                           input_dateStart(sizeIcon, border),
@@ -803,145 +812,9 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                 ),
               ),
               group_btnsearch(),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         'รายการที่ค้นหา',
-              //         style: MyContant().h2Style(),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               const SizedBox(
                 height: 5,
               ),
-              // if (list_dataBuyTyle.isNotEmpty) ...[
-              //   Container(
-              //     height: MediaQuery.of(context).size.height * 0.6,
-              //     child: Scrollbar(
-              //       child: ListView(
-              //         children: [
-              //           for (var i = 0; i < list_dataBuyTyle.length; i++) ...[
-              //             Padding(
-              //               padding: const EdgeInsets.symmetric(
-              //                   horizontal: 8, vertical: 5),
-              //               child: Container(
-              //                 padding: EdgeInsets.all(8.0),
-              //                 decoration: BoxDecoration(
-              //                   borderRadius:
-              //                       BorderRadius.all(Radius.circular(5)),
-              //                   color: Color.fromRGBO(229, 188, 244, 1),
-              //                 ),
-              //                 child: Column(
-              //                   children: [
-              //                     Row(
-              //                       mainAxisAlignment:
-              //                           MainAxisAlignment.spaceBetween,
-              //                       children: [
-              //                         Text(
-              //                           'ลำดับ : ${i + 1}',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                         Text(
-              //                           'วันที่ขาย : ${list_dataBuyTyle[i]['saleDate']}',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                     SizedBox(
-              //                       height: 5,
-              //                     ),
-              //                     Row(
-              //                       children: [
-              //                         Text(
-              //                           'เลขที่เอกสาร : ${list_dataBuyTyle[i]['saleTranId']}',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                     SizedBox(
-              //                       height: 5,
-              //                     ),
-              //                     Row(
-              //                       crossAxisAlignment:
-              //                           CrossAxisAlignment.start,
-              //                       children: [
-              //                         Text(
-              //                           'ชื่อลูกค้า : ',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                         Expanded(
-              //                           child: Text(
-              //                             '${list_dataBuyTyle[i]['custName']}',
-              //                             overflow: TextOverflow.clip,
-              //                             style: MyContant().h4normalStyle(),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                     SizedBox(
-              //                       height: 5,
-              //                     ),
-              //                     Row(
-              //                       crossAxisAlignment:
-              //                           CrossAxisAlignment.start,
-              //                       children: [
-              //                         Text(
-              //                           'รายการสินค้า : ',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                         Expanded(
-              //                           child: Text(
-              //                             '${list_dataBuyTyle[i]['itemName']}',
-              //                             overflow: TextOverflow.clip,
-              //                             style: MyContant().h4normalStyle(),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                     SizedBox(
-              //                       height: 5,
-              //                     ),
-              //                     Row(
-              //                       mainAxisAlignment:
-              //                           MainAxisAlignment.spaceBetween,
-              //                       children: [
-              //                         Text(
-              //                           'ราคา : ${list_dataBuyTyle[i]['billTotal']}',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                         Text(
-              //                           'ประเภทการขาย : ${list_dataBuyTyle[i]['saleTypeName']}',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                     SizedBox(
-              //                       height: 5,
-              //                     ),
-              //                     Row(
-              //                       children: [
-              //                         Text(
-              //                           'พนักงานขาย : ${list_dataBuyTyle[i]['saleName']}',
-              //                           style: MyContant().h4normalStyle(),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           ],
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              //   SizedBox(
-              //     height: 25,
-              //   ),
-              // ],
             ],
           ),
         ),

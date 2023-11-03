@@ -152,7 +152,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   }
 
   Future<void> get_select_district() async {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
@@ -559,15 +559,25 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            color: Color.fromRGBO(
+                                          decoration: BoxDecoration(
+                                            color: const Color.fromRGBO(
                                                 162, 181, 252, 1),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(5),
                                             ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -694,7 +704,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Future<Null> search_district(sizeIcon, border) async {
+  Future<void> search_district(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -903,7 +913,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                     '​อำเภอ',
                                     style: MyContant().h4normalStyle(),
                                   ),
-                                  // select_amphoeDia(context, setState),
                                   Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -1021,8 +1030,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           () {
                                             district.text =
                                                 '${list_district[i]['name']}';
-                                            amphoe.text = '$text_amphoe';
-                                            province.text = '$text_province';
+                                            amphoe.text = text_amphoe;
+                                            province.text = text_province;
                                             districtId =
                                                 '${list_district[i]['id']}';
                                           },
@@ -1031,14 +1040,24 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color: Color.fromRGBO(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
                                                 162, 181, 252, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -1050,7 +1069,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    "$text_province",
+                                                    text_province,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -1064,7 +1083,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    '$text_amphoe',
+                                                    text_amphoe,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -1110,8 +1129,8 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
-    final border = const OutlineInputBorder(
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
         width: 0,
@@ -1138,7 +1157,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.5,
+                      spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
                     )
@@ -1190,7 +1209,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                     Row(
                       children: [
                         Text(
-                          'ชื่อ',
+                          'ชื่อลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
                         input_name_blacklist(sizeIcon, border),
@@ -1199,7 +1218,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                     Row(
                       children: [
                         Text(
-                          'สกุล',
+                          'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
                         input_lastname_blacklist(sizeIcon, border),
@@ -1229,7 +1248,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
-                            // padding: EdgeInsets.all(5),
                             backgroundColor:
                                 const Color.fromRGBO(82, 119, 255, 1),
                           ),

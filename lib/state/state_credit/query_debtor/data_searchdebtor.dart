@@ -44,12 +44,11 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -62,8 +61,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   }
 
   Future<void> getData_debtorDetail() async {
-    print(tokenId);
-
     try {
       var respose = await http.post(
         Uri.parse('${api}debtor/detail'),
@@ -198,7 +195,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     }
   }
 
-  Future<Null> show_paydetail(sizeIcon, border, periodNo) async {
+  Future<void> show_paydetail(sizeIcon, border, periodNo) async {
     var data_d = periodNo.toString().split('|');
     var perodNo_d = data_d[0].toString(),
         payDate_d = data_d[1].toString(),
@@ -476,6 +473,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(255, 203, 246, 1),
                               borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
                             ),
                             child: Column(
                               children: [
@@ -527,10 +532,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  Container slidemenu(BuildContext context) {
-    return Container(
+  SizedBox slidemenu(BuildContext context) {
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.067,
-      // padding: EdgeInsets.symmetric(vertical: 3, horizontal: 3),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -702,7 +706,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Expanded content_list_1(BuildContext context) {
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.79,
       child: Scrollbar(
         child: ListView(
           children: [
@@ -710,11 +713,19 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
               padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
               child: Container(
                 padding: const EdgeInsets.all(8.0),
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(255, 203, 246, 1),
-                  borderRadius: BorderRadius.all(
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(255, 203, 246, 1),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
                 ),
                 width: double.infinity,
                 child: Container(
@@ -844,12 +855,20 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 203, 246, 1),
-                        borderRadius: BorderRadius.only(
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(255, 203, 246, 1),
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
                       ),
                       child: const TabBar(
                         labelColor: Color.fromRGBO(202, 71, 150, 1),
@@ -865,13 +884,21 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                     line(),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.28,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 203, 246, 1),
-                        borderRadius: BorderRadius.only(
+                      height: MediaQuery.of(context).size.height * 0.285,
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(255, 203, 246, 1),
+                        borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(10),
                           bottomRight: Radius.circular(10),
                         ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
                       ),
                       child: TabBarView(children: <Widget>[
                         //ผู้ค้ำที1
@@ -879,7 +906,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           child: list_quarantee1 == null
                               ? SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.28,
+                                      MediaQuery.of(context).size.height * 0.29,
                                   child: Column(
                                     children: [
                                       Padding(
@@ -1076,7 +1103,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           child: list_quarantee2 == null
                               ? SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.28,
+                                      MediaQuery.of(context).size.height * 0.29,
                                   child: Column(
                                     children: [
                                       Padding(
@@ -1270,7 +1297,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           child: list_quarantee3 == null
                               ? SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.28,
+                                      MediaQuery.of(context).size.height * 0.29,
                                   child: Column(
                                     children: [
                                       Padding(
@@ -1475,11 +1502,19 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(255, 203, 246, 1),
-                  borderRadius: BorderRadius.all(
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(255, 203, 246, 1),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
                 ),
                 padding: const EdgeInsets.all(8.0),
                 width: double.infinity,
@@ -1618,11 +1653,19 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(255, 203, 246, 1),
-                  borderRadius: BorderRadius.all(
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(255, 203, 246, 1),
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
                 ),
                 padding: const EdgeInsets.all(8.0),
                 width: double.infinity,
@@ -1754,17 +1797,24 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Expanded content_list_2(BuildContext context) {
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
             child: Container(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(255, 203, 246, 1),
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(255, 203, 246, 1),
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               padding: const EdgeInsets.all(8.0),
               width: double.infinity,
@@ -1792,25 +1842,23 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                     child: Scrollbar(
                       child: ListView(children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '${Debtordetail['considerNote']}',
-                                        overflow: TextOverflow.clip,
-                                        style: MyContant().h4normalStyle(),
-                                      ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '${Debtordetail['considerNote']}',
+                                      overflow: TextOverflow.clip,
+                                      style: MyContant().h4normalStyle(),
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ]),
                     ),
@@ -1838,25 +1886,23 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     child: Scrollbar(
                       child: ListView(
                         children: [
-                          Container(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          '${Debtordetail['headNote']}',
-                                          overflow: TextOverflow.clip,
-                                          style: MyContant().h4normalStyle(),
-                                        ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        '${Debtordetail['headNote']}',
+                                        overflow: TextOverflow.clip,
+                                        style: MyContant().h4normalStyle(),
                                       ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),
@@ -1876,18 +1922,25 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   Expanded content_list_3(BuildContext context) {
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.79,
       child: ListView(
         children: [
           Padding(
             padding:
                 const EdgeInsets.only(top: 4, bottom: 8, left: 8, right: 8),
             child: Container(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(255, 203, 246, 1),
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(255, 203, 246, 1),
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               padding: const EdgeInsets.all(8.0),
               width: double.infinity,
@@ -2446,7 +2499,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       ),
     );
     return Expanded(
-      // height: MediaQuery.of(context).size.height * 0.715,
       child: ListView(
         children: [
           if (list_payDetail.isNotEmpty) ...[
@@ -2468,11 +2520,19 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(255, 203, 246, 1),
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(255, 203, 246, 1),
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(10),
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
                     ),
                     padding: const EdgeInsets.all(8.0),
                     width: double.infinity,
@@ -2496,7 +2556,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           height: 5,
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.175,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
                             borderRadius: const BorderRadius.all(

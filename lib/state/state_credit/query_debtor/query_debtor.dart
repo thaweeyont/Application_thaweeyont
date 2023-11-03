@@ -385,6 +385,7 @@ class _Query_debtorState extends State<Query_debtor> {
           dropdown_debtorType = data_debtorType['data'];
         });
       } else if (respose.statusCode == 401) {
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -491,6 +492,9 @@ class _Query_debtorState extends State<Query_debtor> {
       select_debtorType = null;
       select_branchlist = null;
       debtorStatuscode = null;
+      selectValue_amphoe = null;
+      tumbolId = null;
+      selectValue_province = null;
       get_select_signStatus();
       get_select_addressTypelist();
     });
@@ -802,7 +806,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -838,7 +842,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(
@@ -853,8 +857,8 @@ class _Query_debtorState extends State<Query_debtor> {
                                           () {
                                             district.text =
                                                 '${list_district[i]['name']}';
-                                            amphoe.text = '$text_amphoe';
-                                            provincn.text = '$text_province';
+                                            amphoe.text = text_amphoe;
+                                            provincn.text = text_province;
                                             tumbolId =
                                                 '${list_district[i]['id']}';
                                           },
@@ -863,16 +867,24 @@ class _Query_debtorState extends State<Query_debtor> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
-                                          // margin:
-                                          //     EdgeInsets.symmetric(vertical: 5),
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color: Color.fromRGBO(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
                                                 255, 218, 249, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -884,7 +896,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    "$text_province",
+                                                    text_province,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -898,7 +910,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    '$text_amphoe',
+                                                    text_amphoe,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -1120,16 +1132,24 @@ class _Query_debtorState extends State<Query_debtor> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
-                                          // margin:
-                                          //     EdgeInsets.symmetric(vertical: 5),
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color: Color.fromRGBO(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
                                                 255, 218, 249, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -1589,14 +1609,24 @@ class _Query_debtorState extends State<Query_debtor> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color: Color.fromRGBO(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
                                                 255, 218, 249, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -2001,6 +2031,26 @@ class _Query_debtorState extends State<Query_debtor> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
+                        // print('1>${custId.text}');
+                        // print('2>${homeNo.text}');
+                        // print('3>${moo.text}');
+                        // print('4>${tumbolId}');
+                        // print('5>${amphur}');
+                        // print('6>${province}');
+                        // print('7>${firstnameCus.text}');
+                        // print('8>${lastnameCus.text}');
+                        // print('9>${select_addreessType}');
+                        // print('10>${select_debtorType}');
+                        // print('11>${idcard.text}');
+                        // print('12>${telephone.text}');
+                        // print('13>${select_branchlist}');
+                        // print('14>${signid.text}');
+                        // print('15>${signrunning.text}');
+                        // print('16>${select_signStatus}');
+                        // print('17>${itemTypelist.text}');
+                        // print('18>${selectValue_amphoe}');
+                        // print('19>${selectValue_province}');
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(

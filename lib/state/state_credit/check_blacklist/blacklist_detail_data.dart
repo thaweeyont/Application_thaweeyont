@@ -28,7 +28,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -137,11 +137,19 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(162, 181, 252, 1),
-                          borderRadius: BorderRadius.all(
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(162, 181, 252, 1),
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(5),
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 0.2,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
                         ),
                         child: Column(
                           children: [
@@ -279,11 +287,19 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                         const EdgeInsets.only(left: 8, right: 8, bottom: 4),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(5),
                         ),
-                        color: Color.fromRGBO(162, 181, 252, 1),
+                        color: const Color.fromRGBO(162, 181, 252, 1),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -303,11 +319,19 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                             horizontal: 8, vertical: 4),
                         child: Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(162, 181, 252, 1),
-                            borderRadius: BorderRadius.all(
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(162, 181, 252, 1),
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(5),
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.2,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              )
+                            ],
                           ),
                           child: Column(
                             children: [

@@ -146,11 +146,19 @@ class _Pay_installmentState extends State<Pay_installment> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(10),
                 ),
-                color: Color.fromRGBO(255, 203, 246, 1),
+                color: const Color.fromRGBO(255, 203, 246, 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -228,50 +236,6 @@ class _Pay_installmentState extends State<Pay_installment> {
                           ),
                         ),
                       )
-                    // ? Padding(
-                    //     padding: const EdgeInsets.all(8.0),
-                    //     child: Container(
-                    //       decoration: const BoxDecoration(
-                    //         color: Color.fromRGBO(255, 203, 246, 1),
-                    //         borderRadius: BorderRadius.all(
-                    //           Radius.circular(10),
-                    //         ),
-                    //       ),
-                    //       height: MediaQuery.of(context).size.height * 0.18,
-                    //       child: Column(
-                    //         children: [
-                    //           Padding(
-                    //             padding: const EdgeInsets.all(8.0),
-                    //             child: Container(
-                    //               height:
-                    //                   MediaQuery.of(context).size.height * 0.16,
-                    //               decoration: BoxDecoration(
-                    //                 color: Colors.white.withOpacity(0.7),
-                    //                 borderRadius: const BorderRadius.all(
-                    //                   Radius.circular(5),
-                    //                 ),
-                    //               ),
-                    //               child: Column(
-                    //                 mainAxisAlignment: MainAxisAlignment.center,
-                    //                 children: [
-                    //                   Row(
-                    //                     mainAxisAlignment:
-                    //                         MainAxisAlignment.center,
-                    //                     children: [
-                    //                       Text(
-                    //                         'ยังไม่มีการชำระเงิน',
-                    //                         style: MyContant().h4normalStyle(),
-                    //                       ),
-                    //                     ],
-                    //                   )
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   )
                     : ListView(
                         shrinkWrap: true,
                         children: [
@@ -280,11 +244,19 @@ class _Pay_installmentState extends State<Pay_installment> {
                               padding: const EdgeInsets.only(
                                   top: 6, bottom: 2, left: 8, right: 8),
                               child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(255, 203, 246, 1),
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(255, 203, 246, 1),
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
                                   ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    )
+                                  ],
                                 ),
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(

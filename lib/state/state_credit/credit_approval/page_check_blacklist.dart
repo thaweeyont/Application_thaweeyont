@@ -874,13 +874,13 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                             items: dropdown_amphoe
                                                 .map(
                                                     (value) => DropdownMenuItem(
+                                                          value:
+                                                              "${value['id']}_${value['name']}",
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
                                                                 .TextInputStyle(),
                                                           ),
-                                                          value:
-                                                              "${value['id']}_${value['name']}",
                                                         ))
                                                 .toList(),
                                             onChanged: (newvalue) {
@@ -921,7 +921,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.034,
                                 width: MediaQuery.of(context).size.width * 0.22,
@@ -957,7 +957,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
                             child: ListView(
@@ -972,8 +972,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                           () {
                                             district.text =
                                                 '${list_district[i]['name']}';
-                                            amphoe.text = '$text_amphoe';
-                                            province.text = '$text_province';
+                                            amphoe.text = text_amphoe;
+                                            province.text = text_province;
                                             districtId =
                                                 '${list_district[i]['id']}';
                                           },
@@ -1001,7 +1001,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    "$text_province",
+                                                    text_province,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -1015,7 +1015,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                                         .h4normalStyle(),
                                                   ),
                                                   Text(
-                                                    '$text_amphoe',
+                                                    text_amphoe,
                                                     style: MyContant()
                                                         .h4normalStyle(),
                                                   ),
@@ -1071,7 +1071,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     amphoe.clear();
     province.clear();
     setState(() {
-      // list_data_blacklist = [];
       districtId = null;
       valueStatus = null;
     });
@@ -1299,20 +1298,19 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                   'กรุณาเลือก ตำบล อำเภอ จังหวัด');
                             } else {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ListCheckBlacklist(
-                                      idblacklist.text,
-                                      idcard.text,
-                                      name.text,
-                                      lastname.text,
-                                      home_no.text,
-                                      moo_no.text,
-                                      districtId,
-                                      selectValue_amphoe,
-                                      selectValue_province),
-                                ),
-                              );
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ListCheckBlacklist(
+                                        idblacklist.text,
+                                        idcard.text,
+                                        name.text,
+                                        lastname.text,
+                                        home_no.text,
+                                        moo_no.text,
+                                        districtId,
+                                        selectValue_amphoe,
+                                        selectValue_province),
+                                  ));
                             }
                           } else {
                             Navigator.push(

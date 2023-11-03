@@ -280,15 +280,16 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Data_SearchDebtor(
-                                          list_dataDebtor[i]['signId'],
-                                          list_dataDebtor[i]
-                                              ['signStatusName'])),
+                                    builder: (context) => Data_SearchDebtor(
+                                      list_dataDebtor[i]['signId'],
+                                      list_dataDebtor[i]['signStatusName'],
+                                    ),
+                                  ),
                                 );
                               },
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 6),
+                                    const EdgeInsets.symmetric(vertical: 4),
                                 child: Container(
                                   padding: const EdgeInsets.all(8.0),
                                   decoration: BoxDecoration(
@@ -298,7 +299,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
                                         spreadRadius: 0.5,
-                                        blurRadius: 1,
+                                        blurRadius: 2,
                                         offset: const Offset(0, 1),
                                       )
                                     ],

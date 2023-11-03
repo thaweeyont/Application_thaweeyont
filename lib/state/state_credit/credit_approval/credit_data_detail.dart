@@ -229,7 +229,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
                                         spreadRadius: 0.2,
-                                        blurRadius: 1,
+                                        blurRadius: 2,
                                         offset: const Offset(0, 1),
                                       )
                                     ],

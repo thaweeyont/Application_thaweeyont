@@ -195,7 +195,7 @@ class _MemberCustListState extends State<MemberCustList> {
                               );
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
@@ -206,7 +206,7 @@ class _MemberCustListState extends State<MemberCustList> {
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
                                       spreadRadius: 0.5,
-                                      blurRadius: 1,
+                                      blurRadius: 2,
                                       offset: const Offset(0, 1),
                                     )
                                   ],

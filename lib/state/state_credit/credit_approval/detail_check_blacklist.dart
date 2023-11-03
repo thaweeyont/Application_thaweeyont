@@ -41,7 +41,6 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
   }
 
   Future<void> getData_detail_bl() async {
-   
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/blacklistDetail'),
@@ -63,14 +62,10 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
           list_detail_bl = data_detail['data'];
           list_detail = list_detail_bl[0]['detail'];
         });
-
-    
       } else if (respose.statusCode == 400) {
-     
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode} )');
       } else if (respose.statusCode == 401) {
-  
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -83,17 +78,14 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-
         setState(() {
           status_data = true;
           statusLoad404 = true;
         });
       } else if (respose.statusCode == 405) {
-  
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 500) {
-       
         showProgressDialog_500(
             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
@@ -188,11 +180,19 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(5),
                               ),
-                              color: Color.fromRGBO(251, 173, 55, 1),
+                              color: const Color.fromRGBO(251, 173, 55, 1),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
                             ),
                             child: Column(
                               children: [
@@ -332,11 +332,19 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                             const EdgeInsets.only(left: 8, right: 8, bottom: 4),
                         child: Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(5),
                             ),
-                            color: Color.fromRGBO(251, 173, 55, 1),
+                            color: const Color.fromRGBO(251, 173, 55, 1),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.2,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              )
+                            ],
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -356,11 +364,19 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                                 horizontal: 8, vertical: 4),
                             child: Container(
                               padding: const EdgeInsets.all(8),
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(251, 173, 55, 1),
-                                borderRadius: BorderRadius.all(
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(251, 173, 55, 1),
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 0.2,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  )
+                                ],
                               ),
                               child: Column(
                                 children: [
@@ -372,13 +388,6 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                                         'รายละเอียด :',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                      // Expanded(
-                                      //   child: Text(
-                                      //     '${list_detail[i]['blDetail']}',
-                                      //     style: MyContant().h4normalStyle(),
-                                      //     overflow: TextOverflow.clip,
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                   Container(

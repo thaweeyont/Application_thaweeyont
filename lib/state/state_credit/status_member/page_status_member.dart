@@ -35,7 +35,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdata();
   }
@@ -355,8 +354,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                               if (st_customer == true) ...[
                                 Row(
                                   children: [
-                                    // Text('ชื่อ'),
-                                    // select_searchCus(sizeIcon, border),
                                     Expanded(
                                       child: Padding(
                                         padding: const EdgeInsets.all(1),
@@ -500,16 +497,24 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 2, horizontal: 8),
+                                            vertical: 4, horizontal: 8),
                                         child: Container(
-                                          // margin:
-                                          //     EdgeInsets.symmetric(vertical: 5),
                                           padding: const EdgeInsets.all(8.0),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color:
-                                                Color.fromRGBO(64, 203, 203, 1),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                            color: const Color.fromRGBO(
+                                                64, 203, 203, 1),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              )
+                                            ],
                                           ),
                                           child: Column(
                                             children: [
@@ -682,24 +687,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                             Icons.search,
                           ),
                         ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     search_idcustomer();
-                        //     get_select_cus();
-                        //   },
-                        //   child: Container(
-                        //     width: 30,
-                        //     height: 30,
-                        //     decoration: BoxDecoration(
-                        //       color: Color.fromRGBO(18, 108, 108, 1),
-                        //       shape: BoxShape.circle,
-                        //     ),
-                        //     child: Icon(
-                        //       Icons.search,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     Row(
@@ -714,7 +701,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                     Row(
                       children: [
                         Text(
-                          'ชื่อ',
+                          'ชื่อลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
                         input_namecustomer(sizeIcon, border),

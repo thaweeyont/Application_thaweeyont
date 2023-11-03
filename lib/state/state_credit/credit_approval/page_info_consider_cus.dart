@@ -2150,7 +2150,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         height: 5,
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.175,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.7),
                           borderRadius: const BorderRadius.all(
