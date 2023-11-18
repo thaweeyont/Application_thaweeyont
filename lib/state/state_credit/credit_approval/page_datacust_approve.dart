@@ -1777,7 +1777,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Future<Null> sign_Detail(sizeIcon, border) async {
+  Future<void> sign_Detail(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -1850,7 +1850,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * 0.7,
                             child: Scrollbar(
                               child: ListView(
@@ -2044,7 +2044,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                           child: Container(
                             width: double.infinity,
                             // alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 6.0),
+                            padding: const EdgeInsets.fromLTRB(0, 6.0, 0, 6.0),
                             decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(

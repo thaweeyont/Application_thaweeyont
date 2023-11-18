@@ -317,6 +317,7 @@ class _Query_debtorState extends State<Query_debtor> {
           select_addreessType = dropdown_addresstype[0]['id'];
         });
       } else if (respose.statusCode == 401) {
+        if (mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(

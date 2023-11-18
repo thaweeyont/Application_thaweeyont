@@ -412,6 +412,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                 ),
                               ),
                             ],
+                            const SizedBox(height: 10),
                           ],
                         ),
                 ),
