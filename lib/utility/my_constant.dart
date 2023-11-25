@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
-import '../state/state_credit/navigator_bar_credit.dart';
+import '../state/navigator_bar_credit.dart';
 
 class MyContant {
   // Genernal
@@ -11,9 +11,8 @@ class MyContant {
   // Route
   static String routeProductHome = '/product_home/product_home';
   static String routeAuthen = '/authen';
-  static String routeHomeCredit = '/state_credit/home';
-  static String routeNavigator_bar_credit =
-      '/state_credit/navigator_bar_credit';
+  static String routeHomeCredit = '/state/home';
+  static String routeNavigatorBarCredit = '/state/navigator_bar_credit';
   static String routeQueryDebtor = '/state_credit/query_debtor';
   static String routeDataSearchDebtor = '/state_credit/data_searchdebtor';
   static String routePayInstallment = '/state_credit/pay_installment';
@@ -32,7 +31,7 @@ class MyContant {
   static String image3 = 'images/image3.png';
   static String image4 = 'images/image4.png';
   static String avatar = 'images/avatar.png';
-  static String logo_login = 'images/logo.png';
+  static String logoLogin = 'images/logo.png';
   static String map = 'images/map.jpeg';
   static String idcard = 'images/idcard.png';
 

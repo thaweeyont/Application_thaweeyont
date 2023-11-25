@@ -1,8 +1,8 @@
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_credit/check_purchase_info/page_checkpurchase_info.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
-import 'package:application_thaweeyont/state/state_credit/home.dart';
-import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
+import 'package:application_thaweeyont/state/home.dart';
+import 'package:application_thaweeyont/state/navigator_bar_credit.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +10,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => const Authen(),
-  '/state_credit/home': (BuildContext context) => const Home_credit(),
-  '/state_credit/navigator_bar_credit': (BuildContext context) =>
+  '/state/home': (BuildContext context) => const Home_credit(),
+  '/state/navigator_bar_credit': (BuildContext context) =>
       Navigator_bar_credit('2'),
   '/state_credit/query_debtor': (BuildContext context) => const Query_debtor(),
   '/state_credit/check_purchase_info/page_checkpurchase_info':
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         Locale('en'),
       ],
       theme: ThemeData(
-        primarySwatch: color_theme(),
+        primarySwatch: colorTheme(),
       ),
       title: MyContant.appName,
       routes: map,
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  MaterialColor color_theme() {
+  MaterialColor colorTheme() {
     return const MaterialColor(
       0xFF050C45, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
       <int, Color>{

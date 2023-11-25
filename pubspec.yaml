@@ -49,6 +49,8 @@ dependencies:
   loading_gifs: ^0.3.0
   flutter_localization: ^0.1.10
   equatable: ^2.0.5
+  flutter_localizations:
+    sdk: flutter
   
 
 dev_dependencies:

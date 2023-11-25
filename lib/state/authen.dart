@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:application_thaweeyont/state/state_credit/navigator_bar_credit.dart';
+import 'package:application_thaweeyont/state/navigator_bar_credit.dart';
 import 'package:flutter/material.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/show_image.dart';
@@ -312,11 +312,11 @@ class _AuthenState extends State<Authen> {
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.7,
-              child: ShowImage(path: MyContant.logo_login),
+              child: ShowImage(path: MyContant.logoLogin),
             ),
           ],
         ),
       ],
     );
   }
-}  
+}

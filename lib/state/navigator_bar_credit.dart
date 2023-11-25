@@ -4,16 +4,17 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
-import 'package:application_thaweeyont/state/state_credit/home.dart';
+import 'package:application_thaweeyont/state/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
 import 'package:application_thaweeyont/state/state_credit/status_member/page_status_member.dart';
+import 'package:application_thaweeyont/state/state_sale/product_stock/product_stock_data.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../authen.dart';
-import 'check_purchase_info/page_checkpurchase_info.dart';
+import 'authen.dart';
+import 'state_credit/check_purchase_info/page_checkpurchase_info.dart';
 
 class Navigator_bar_credit extends StatefulWidget {
   String? index;
@@ -122,7 +123,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "2":
         setState(() {
           _selectedIndex = 2;
-          // title_head = "ทวียนต์ ";
           status = true;
         });
         break;
@@ -151,11 +151,17 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           status = false;
         });
         break;
+      case "6":
+        setState(() {
+          _selectedIndex = 6;
+          title_head = "สอบถามสินค้าในสต็อค";
+          status = false;
+        });
+        break;
       default:
         {
           setState(() {
             _selectedIndex = 0;
-            // title_head = "ทวียนต์ ";
             status = true;
           });
         }
@@ -176,6 +182,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     const Page_Credit_Approval(),
     const Page_Status_Member(),
     const Check_Blacklist_Data(),
+    const ProductStockData(),
   ];
 
   @override
@@ -205,44 +212,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           });
         },
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //   color: Color.fromARGB(255, 22, 30, 94),
-      //   shape: CircularNotchedRectangle(),
-      //   notchMargin: 6.0,
-      //   child: new Row(
-      //     mainAxisSize: MainAxisSize.max,
-      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //     children: <Widget>[
-      //       IconButton(
-      //         icon: Icon(Icons.view_list_rounded),
-      //         color: Colors.white,
-      //         onPressed: showMenu,
-      //       ),
-      //       IconButton(
-      //         icon: Icon(Icons.settings_applications),
-      //         color: Colors.white,
-      //         onPressed: () {},
-      //       )
-      //     ],
-      //   ),
-      // ),
-
-      // floatingActionButtonLocation:
-      //     FloatingActionButtonLocation.miniCenterDocked,
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.all(0),
-      //   child: FloatingActionButton(
-      //     backgroundColor: _selectedIndex == 2
-      //         ? Colors.blue
-      //         : Color.fromARGB(255, 22, 30, 94),
-      //     child: Icon(Icons.home),
-      //     onPressed: () => setState(() {
-      //       _selectedIndex = 2;
-      //       // title_head = "ทวียนต์ 222";
-      //       status = true;
-      //     }),
-      //   ),
-      // ),
     );
   }
 
@@ -378,7 +347,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         ),
         builder: (context) {
           return SizedBox(
-            height: (54 * 6).toDouble(),
+            height: (64 * 6).toDouble(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -434,6 +403,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case '005':
         selectIndex = 1;
         break;
+      case '006':
+        selectIndex = 6;
+        break;
     }
     return selectIndex;
   }
@@ -442,7 +414,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     var title, text;
     if (allowApproveStatus == true) {
       text = 'บันทึกพิจารณาอนุมัติสินเชื่อ';
-    } else { 
+    } else {
       text = 'ตรวจสอบผลอนุมัติสินเชื่อ';
     }
     switch (id) {
@@ -460,6 +432,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '005':
         title = "ตรวจสอบข้อมูลการซื้อสินค้า";
+        break;
+      case '006':
+        title = "สอบถามสินค้าในสต็อค";
         break;
     }
     return title;
@@ -741,7 +716,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 case 1:
                   setState(() {
                     _selectedIndex = 2;
-                    // title_head = "ทวียนต์ ";
                     status = true;
                   });
                   break;
@@ -1093,6 +1067,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         "id": "005",
         "nameMenu": "ตรวจสอบข้อมูลการซื้อสินค้า",
       },
+      {
+        "id": "006",
+        "nameMenu": "สอบถามสินค้าในสต็อค",
+      },
     ];
     for (var menuItem in menuList) {
       for (var allowedItem in listallowedMenu) {
@@ -1203,6 +1181,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           (Route<dynamic> route) => false,
         );
         break;
+      case '006':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('6'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
     }
     return OnTap;
   }
@@ -1225,6 +1212,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case '005':
         color = const Color.fromRGBO(212, 151, 233, 1);
         break;
+      case '006':
+        color = const Color.fromRGBO(176, 218, 255, 1);
+        break;
     }
     return color;
   }
@@ -1246,6 +1236,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '005':
         icon = Icons.local_mall_rounded;
+        break;
+      case '006':
+        icon = Icons.production_quantity_limits_sharp;
         break;
     }
     return icon;
