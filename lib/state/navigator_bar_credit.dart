@@ -40,10 +40,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   @override
   void initState() {
     super.initState();
-    getprofile_user();
+    getprofileUser();
   }
 
-  Future<void> getprofile_user() async {
+  Future<void> getprofileUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -59,7 +59,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     handleMenuItemSelected(allowedMenu!);
   }
 
-  Future<void> logout_system() async {
+  Future<void> logoutSystem() async {
     try {
       print(tokenId);
       var respose = await http.post(
@@ -82,7 +82,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         );
       } else {
         Map<String, dynamic> check_list =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         print(check_list['message']);
         if (check_list['message'] == "Token Unauthorized") {
@@ -198,7 +198,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       ),
       drawer: drawerList(size),
       // drawer(size, context),
-      bottomNavigationBar: bottonNavigator_new(),
+      bottomNavigationBar: bottonNavigatorNew(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: _selectedIndex == 2
@@ -215,6 +215,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
+// อันนี้ไม่ได้ใช้
   showMenuList() {
     showModalBottomSheet(
         context: context,
@@ -337,6 +338,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         });
   }
 
+// ใช้อันนี้
   showMenuList2() {
     showModalBottomSheet(
         context: context,
@@ -532,122 +534,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             ),
           );
         });
-    // showModalBottomSheet(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return Container(
-    //         color: Color.fromARGB(255, 255, 255, 255),
-    //         child: Column(
-    //           mainAxisSize: MainAxisSize.min,
-    //           crossAxisAlignment: CrossAxisAlignment.end,
-    //           children: <Widget>[
-    //             Container(
-    //               height: 0,
-    //             ),
-    //             SizedBox(
-    //               height: (60 * 6).toDouble(),
-    //               child: Container(
-    //                 child: Stack(
-    //                   alignment: Alignment(0, 0),
-    //                   children: <Widget>[
-    //                     Positioned(
-    //                       child: ListView(
-    //                         physics: NeverScrollableScrollPhysics(),
-    //                         children: <Widget>[
-    //                           Container(
-    //                             height:
-    //                                 MediaQuery.of(context).size.height * 0.05,
-    //                             decoration: BoxDecoration(
-    //                               gradient: LinearGradient(
-    //                                 colors: <Color>[
-    //                                   Color.fromRGBO(238, 208, 110, 1),
-    //                                   Color.fromRGBO(250, 227, 152, 0.9),
-    //                                   Color.fromRGBO(212, 163, 51, 0.8),
-    //                                   Color.fromRGBO(250, 227, 152, 0.9),
-    //                                   Color.fromRGBO(164, 128, 44, 1),
-    //                                 ],
-    //                               ),
-    //                             ),
-    //                             child: Column(
-    //                               mainAxisAlignment: MainAxisAlignment.center,
-    //                               children: [
-    //                                 Row(
-    //                                   mainAxisAlignment:
-    //                                       MainAxisAlignment.center,
-    //                                   children: [
-    //                                     Icon(
-    //                                       Icons.help_outline_sharp,
-    //                                     ),
-    //                                     SizedBox(
-    //                                       width: 5,
-    //                                     ),
-    //                                     Text(
-    //                                       'ช่วยเหลือ',
-    //                                       style: MyContant().TextTitleDialog(),
-    //                                     ),
-    //                                   ],
-    //                                 ),
-    //                               ],
-    //                             ),
-    //                           ),
-    //                           Container(
-    //                             child: Column(
-    //                               children: [
-    //                                 Padding(
-    //                                   padding: const EdgeInsets.all(16),
-    //                                   child: Row(
-    //                                     mainAxisAlignment:
-    //                                         MainAxisAlignment.center,
-    //                                     children: [
-    //                                       Expanded(
-    //                                         child: Text(
-    //                                           '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับแอปพลิเคชั่นนี้ หรือสอบถามเกี่ยวกับแอปพลิเคชั่น มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
-    //                                           overflow: TextOverflow.clip,
-    //                                           style:
-    //                                               MyContant().h4normalStyle(),
-    //                                         ),
-    //                                       ),
-    //                                     ],
-    //                                   ),
-    //                                 ),
-    //                               ],
-    //                             ),
-    //                           ),
-    //                           Container(
-    //                             child: Column(
-    //                               children: [
-    //                                 Padding(
-    //                                   padding: const EdgeInsets.all(16),
-    //                                   child: Row(
-    //                                     mainAxisAlignment:
-    //                                         MainAxisAlignment.center,
-    //                                     children: [
-    //                                       Image.asset(
-    //                                         'images/thankyou.png',
-    //                                         width: 130,
-    //                                         height: 130,
-    //                                       ),
-    //                                     ],
-    //                                   ),
-    //                                 ),
-    //                               ],
-    //                             ),
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     )
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //             // Container(
-    //             //   height: 56,
-    //             //   color: Color.fromARGB(255, 202, 107, 107),
-    //             // )
-    //           ],
-    //         ),
-    //       );
-    //     });
   }
 
   AppBar Appbar() {
@@ -656,10 +542,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       elevation: status == true ? 0 : 4,
       title: status == true
           ? null
-          // Image.asset(
-          //     'images/TWYLOGO.png',
-          //     height: 40,
-          //   )
           : Text(
               title_head,
               style: MyContant().TitleStyle(),
@@ -673,14 +555,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
-            // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           );
         },
       ),
     );
   }
 
-  BottomAppBar bottonNavigator_new() {
+  BottomAppBar bottonNavigatorNew() {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       notchMargin: 8.0,
@@ -783,7 +664,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   case 2:
                     setState(() {
                       _selectedIndex = 2;
-                      // title_head = "ทวียนต์";
                       status = true;
                     });
                     break;
@@ -805,7 +685,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                     {
                       setState(() {
                         _selectedIndex = 0;
-                        // title_head = "ทวียนต์";
                         status = true;
                       });
                     }
@@ -855,7 +734,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   // navigator_cradit(context, size),
                   listMenu(context, size),
                   about(context, size),
-                  btn_exit()
+                  btnExit()
                 ],
               ),
             ],
@@ -888,7 +767,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   about(context, size),
                   btnLogout(context, size),
                   const SizedBox(height: 10),
-                  // btn_exit()
                 ],
               ),
             ],
@@ -925,14 +803,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  Expanded btn_exit() {
+  Expanded btnExit() {
     return Expanded(
       child: Align(
         alignment: FractionalOffset.bottomCenter,
         child: InkWell(
           onTap: () async {
-            showAlertDialog_exit();
-            // logout_system();
+            showAlertDialogExit();
           },
           child: Container(
             padding: const EdgeInsets.all(16),
@@ -1244,7 +1121,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     return icon;
   }
 
-  InkWell navigator_cradit(BuildContext context, double size) {
+  InkWell navigatorCradit(BuildContext context, double size) {
     return InkWell(
       onTap: () {
         Navigator.pushAndRemoveUntil(
@@ -1329,7 +1206,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   InkWell btnLogout(BuildContext context, double size) {
     return InkWell(
       onTap: () {
-        showAlertDialog_exit();
+        showAlertDialogExit();
       },
       child: Container(
         margin: EdgeInsets.only(left: size * 0.10, bottom: 15),
@@ -1358,7 +1235,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  showAlertDialog_exit() async {
+  showAlertDialogExit() async {
     showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -1411,7 +1288,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                     fontWeight: FontWeight.normal),
               ),
               onPressed: () {
-                logout_system();
+                logoutSystem();
               },
             ),
           ],

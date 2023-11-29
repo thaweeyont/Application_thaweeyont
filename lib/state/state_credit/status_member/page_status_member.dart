@@ -148,7 +148,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
 
         if (respose.statusCode == 200) {
           Map<String, dynamic> dataList =
-              new Map<String, dynamic>.from(json.decode(respose.body));
+              Map<String, dynamic>.from(json.decode(respose.body));
 
           setState(() {
             list_datavalue = dataList['data'];
@@ -291,137 +291,149 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
-                            child: Column(children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: RadioListTile(
-                                      contentPadding: const EdgeInsets.all(0.0),
-                                      value: '1',
-                                      groupValue: id,
-                                      title: Text(
-                                        'ลูกค้าทั่วไป',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          st_customer = true;
-                                          st_employee = false;
-                                          id = value.toString();
-                                          statusLoad404member = false;
-                                          searchData.clear();
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: RadioListTile(
-                                      value: '2',
-                                      groupValue: id,
-                                      title: Text(
-                                        'พนักงาน',
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          st_customer = false;
-                                          st_employee = true;
-                                          id = value.toString();
-                                          statusLoad404member = false;
-                                          searchData.clear();
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              if (st_employee == true) ...[
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ชื่อ',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    input_nameEmploDia(sizeIcon, border),
-                                    Text(
-                                      'สกุล',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                    input_lastNameEmploDia(sizeIcon, border),
-                                  ],
-                                ),
-                              ],
-                              if (st_customer == true) ...[
+                            child: Column(
+                              children: [
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(1),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.095,
-                                          padding: const EdgeInsets.all(4),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 4),
-                                            child: DropdownButton(
-                                              items: dropdown_customer
-                                                  .map((value) =>
-                                                      DropdownMenuItem(
+                                      child: RadioListTile(
+                                        contentPadding:
+                                            const EdgeInsets.all(0.0),
+                                        value: '1',
+                                        groupValue: id,
+                                        title: Text(
+                                          'ลูกค้าทั่วไป',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(
+                                            () {
+                                              st_customer = true;
+                                              st_employee = false;
+                                              id = value.toString();
+                                              statusLoad404member = false;
+                                              searchData.clear();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: RadioListTile(
+                                        value: '2',
+                                        groupValue: id,
+                                        title: Text(
+                                          'พนักงาน',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(
+                                            () {
+                                              st_customer = false;
+                                              st_employee = true;
+                                              id = value.toString();
+                                              statusLoad404member = false;
+                                              searchData.clear();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                if (st_employee == true) ...[
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ชื่อ',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      input_nameEmploDia(sizeIcon, border),
+                                      Text(
+                                        'สกุล',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                      input_lastNameEmploDia(sizeIcon, border),
+                                    ],
+                                  ),
+                                ],
+                                if (st_customer == true) ...[
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(1),
+                                          child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.095,
+                                            padding: const EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4),
+                                              child: DropdownButton(
+                                                items: dropdown_customer
+                                                    .map(
+                                                      (value) =>
+                                                          DropdownMenuItem(
                                                         value: value['id'],
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
                                                               .TextInputStyle(),
                                                         ),
-                                                      ))
-                                                  .toList(),
-                                              onChanged: (newvalue) {
-                                                setState(() {
-                                                  selectValue_customer =
-                                                      newvalue;
-                                                  if (selectValue_customer
-                                                          .toString() ==
-                                                      "2") {
-                                                    Texthint = 'ชื่อ';
-                                                  } else {
-                                                    Texthint = '';
-                                                  }
-                                                  statusLoad404member = false;
-                                                  searchData.clear();
-                                                });
-                                              },
-                                              value: selectValue_customer,
-                                              isExpanded: true,
-                                              underline: const SizedBox(),
-                                              hint: Align(
-                                                child: Text(
-                                                  'กรุณาเลือกข้อมูล',
-                                                  style: MyContant()
-                                                      .TextInputSelect(),
+                                                      ),
+                                                    )
+                                                    .toList(),
+                                                onChanged: (newvalue) {
+                                                  setState(
+                                                    () {
+                                                      selectValue_customer =
+                                                          newvalue;
+                                                      if (selectValue_customer
+                                                              .toString() ==
+                                                          "2") {
+                                                        Texthint = 'ชื่อ';
+                                                      } else {
+                                                        Texthint = '';
+                                                      }
+                                                      statusLoad404member =
+                                                          false;
+                                                      searchData.clear();
+                                                    },
+                                                  );
+                                                },
+                                                value: selectValue_customer,
+                                                isExpanded: true,
+                                                underline: const SizedBox(),
+                                                hint: Align(
+                                                  child: Text(
+                                                    'กรุณาเลือกข้อมูล',
+                                                    style: MyContant()
+                                                        .TextInputSelect(),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    // Text('สกุล'),
-                                    input_searchCus(sizeIcon, border),
-                                    if (selectValue_customer.toString() ==
-                                        "2") ...[
-                                      input_lastnameCus(sizeIcon, border)
+                                      // Text('สกุล'),
+                                      input_searchCus(sizeIcon, border),
+                                      if (selectValue_customer.toString() ==
+                                          "2") ...[
+                                        input_lastnameCus(sizeIcon, border)
+                                      ],
                                     ],
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ],
-                            ]),
+                            ),
                           ),
                         ),
                         const SizedBox(
