@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
+import 'package:application_thaweeyont/state/state_sale/product_stock/stock_product_detail.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -52,10 +54,16 @@ class _StockProductListState extends State<StockProductList> {
       branchId = '',
       branchName = '';
   bool? allowApproveStatus;
-  bool statusLoading = false, statusLoad404 = false;
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoad = false,
+      isLoadendPage = false;
+  var newqty = 0;
   List dataStockList = [], totalStockList = [];
   Map<String, dynamic>? totalStock;
   var valueDetailStock, valueStockType = '';
+  final scrollControll = TrackingScrollController();
+  int offset = 30;
   @override
   void initState() {
     super.initState();
@@ -90,13 +98,30 @@ class _StockProductListState extends State<StockProductList> {
     // await Future.delayed(const Duration(milliseconds: 100));
     if (mounted) {
       setState(() {
-        getDataStockList();
+        getDataStockList(offset);
       });
       valueStockType = widget.selectStockTypeList.toString();
     }
+    myScroll(scrollControll, offset);
   }
 
-  Future<void> getDataStockList() async {
+  void myScroll(scrollControll, offset) {
+    scrollControll.addListener(() async {
+      // double currentScroll = scrollControll.position.pixels;
+      if (scrollControll.position.pixels ==
+          scrollControll.position.maxScrollExtent) {
+        setState(() {
+          isLoad = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 10;
+          getDataStockList(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getDataStockList(offset) async {
     try {
       var respose = await http.post(
         Uri.parse('${api}stock/list'),
@@ -119,7 +144,7 @@ class _StockProductListState extends State<StockProductList> {
           'sizeId': '${widget.idItemSize}',
           'colorId': '${widget.idItemColor}',
           'page': '1',
-          'limit': '100'
+          'limit': '$offset'
         }),
       );
 
@@ -131,10 +156,20 @@ class _StockProductListState extends State<StockProductList> {
           dataStockList = valueDetailStock['detail'];
           totalStock =
               Map<String, dynamic>.from(valueDetailStock['totalStock']);
+          statusLoading = true;
+          isLoad = false;
         });
-        statusLoading = true;
-        print('dataStockList>> $dataStockList');
-        print('totalStock>> $totalStock');
+        var news = int.parse(valueDetailStock['totalStock']['qty'].toString());
+        if (newqty < news) {
+          isLoadendPage = false;
+          newqty = news;
+        } else if (newqty >= news) {
+          setState(() {
+            isLoadendPage = true;
+          });
+        }
+        // print('dataStockList>> $dataStockList');
+        // print('totalStock>> $totalStock');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -244,120 +279,152 @@ class _StockProductListState extends State<StockProductList> {
                   ),
                 )
               : valueStockType == '1' || valueStockType == '2'
-                  ? GestureDetector(
-                      child: ListView(
+                  ? SingleChildScrollView(
+                      controller: scrollControll,
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      child: Column(
                         children: [
                           const SizedBox(height: 10),
                           if (dataStockList.isNotEmpty) ...[
                             for (var i = 0; i < dataStockList.length; i++) ...[
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StockProductDetail(
+                                        dataStockList[i]['branchId'],
+                                        dataStockList[i]['branchName'],
+                                        dataStockList[i]['whId'],
+                                        dataStockList[i]['whName'],
+                                        dataStockList[i]['itemId'],
+                                        dataStockList[i]['itemName'],
+                                        dataStockList[i]['itemTypeName'],
+                                        dataStockList[i]['brandName'],
+                                      ),
                                     ),
-                                    color:
-                                        const Color.fromRGBO(176, 218, 255, 1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0.2,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'สาขา : ${dataStockList[i]['branchName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'คลังสินค้า : ${dataStockList[i]['whName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 8),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(5),
                                       ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ประเภท : ${dataStockList[i]['itemTypeName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ยี่ห้อ : ${dataStockList[i]['brandName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'รุ่น : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${dataStockList[i]['itemName']}',
-                                              overflow: TextOverflow.clip,
+                                      color: const Color.fromRGBO(
+                                          176, 218, 255, 1),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 0.2,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 1),
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${dataStockList[i]['branchName']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const Divider(thickness: 1),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'คงเหลือ : ${dataStockList[i]['qty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'ยืม : ${dataStockList[i]['borrowQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'ส่งเคลม : ${dataStockList[i]['returnQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'รวม : ${dataStockList[i]['totalQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            Text(
+                                              'คลังสินค้า : ${dataStockList[i]['whName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'ประเภท : ${dataStockList[i]['itemTypeName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'ยี่ห้อ : ${dataStockList[i]['brandName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'รุ่น : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '${dataStockList[i]['itemName']}',
+                                                overflow: TextOverflow.clip,
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const Divider(thickness: 1),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'คงเหลือ : ${dataStockList[i]['qty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Text(
+                                              'ยืม : ${dataStockList[i]['borrowQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Text(
+                                              'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'ส่งเคลม : ${dataStockList[i]['returnQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Text(
+                                              'รวม : ${dataStockList[i]['totalQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -371,7 +438,8 @@ class _StockProductListState extends State<StockProductList> {
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
                                   ),
-                                  color: const Color.fromRGBO(176, 218, 255, 1),
+                                  color:
+                                      const Color.fromARGB(255, 130, 196, 255),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -391,6 +459,7 @@ class _StockProductListState extends State<StockProductList> {
                                         ),
                                       ],
                                     ),
+                                    const Divider(thickness: 1),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -427,107 +496,142 @@ class _StockProductListState extends State<StockProductList> {
                                 ),
                               ),
                             ),
+                            if (isLoad == true && isLoadendPage == false) ...[
+                              const LoadData(),
+                            ] else if (isLoadendPage == true) ...[
+                              EndPage()
+                            ]
                           ],
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 40),
                         ],
                       ),
                     )
-                  : GestureDetector(
-                      child: ListView(
+                  : SingleChildScrollView(
+                      controller: scrollControll,
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      child: Column(
                         children: [
                           const SizedBox(height: 10),
                           if (dataStockList.isNotEmpty) ...[
                             for (var i = 0; i < dataStockList.length; i++) ...[
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                    color:
-                                        const Color.fromRGBO(176, 218, 255, 1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0.2,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'สาขา : ${dataStockList[i]['branchName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'คลังสินค้า : ${dataStockList[i]['whName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => StockProductDetail(
+                                        dataStockList[i]['branchId'],
+                                        dataStockList[i]['branchName'],
+                                        dataStockList[i]['whId'],
+                                        dataStockList[i]['whName'],
+                                        dataStockList[i]['itemId'],
+                                        dataStockList[i]['itemName'],
+                                        dataStockList[i]['itemTypeName'],
+                                        dataStockList[i]['brandName'],
                                       ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ชื่อของแถม : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${dataStockList[i]['itemName']}',
-                                              overflow: TextOverflow.clip,
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 8),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                      color: const Color.fromRGBO(
+                                          176, 218, 255, 1),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 0.2,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 1),
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${dataStockList[i]['branchName']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const Divider(thickness: 1),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'คงเหลือ : ${dataStockList[i]['qty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'ยืม : ${dataStockList[i]['borrowQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'ส่งเคลม : ${dataStockList[i]['returnQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'รวม : ${dataStockList[i]['totalQty']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            Text(
+                                              'คลังสินค้า : ${dataStockList[i]['whName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '${dataStockList[i]['itemName']}',
+                                                overflow: TextOverflow.clip,
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const Divider(thickness: 1),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'คงเหลือ : ${dataStockList[i]['qty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Text(
+                                              'ยืม : ${dataStockList[i]['borrowQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Text(
+                                              'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'ส่งเคลม : ${dataStockList[i]['returnQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Text(
+                                              'รวม : ${dataStockList[i]['totalQty']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -541,7 +645,8 @@ class _StockProductListState extends State<StockProductList> {
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
                                   ),
-                                  color: const Color.fromRGBO(176, 218, 255, 1),
+                                  color:
+                                      const Color.fromARGB(255, 130, 196, 255),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -561,6 +666,7 @@ class _StockProductListState extends State<StockProductList> {
                                         ),
                                       ],
                                     ),
+                                    const Divider(thickness: 1),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -597,12 +703,86 @@ class _StockProductListState extends State<StockProductList> {
                                 ),
                               ),
                             ),
+                            if (isLoad == true && isLoadendPage == false) ...[
+                              const LoadData(),
+                            ] else if (isLoadendPage == true) ...[
+                              EndPage()
+                            ]
                           ],
-                          const SizedBox(height: 10),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 40),
                         ],
                       ),
                     ),
+    );
+  }
+}
+
+class LoadData extends StatelessWidget {
+  const LoadData({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 30,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "กำลังโหลด",
+            style: TextStyle(
+              color: Colors.red[400],
+              fontFamily: 'prompt',
+              fontSize: 14,
+            ),
+          ),
+          AnimatedTextKit(
+            animatedTexts: [
+              WavyAnimatedText(
+                '.......',
+                textStyle: TextStyle(
+                  color: Colors.red[400],
+                  fontFamily: 'prompt',
+                  fontSize: 16,
+                ),
+              ),
+              WavyAnimatedText(
+                '.......',
+                textStyle: TextStyle(
+                  color: Colors.red[400],
+                  fontFamily: 'prompt',
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EndPage extends StatelessWidget {
+  const EndPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 30,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "สิ้นสุดหน้า",
+            style: TextStyle(
+              color: Colors.red[400],
+              fontFamily: 'prompt',
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

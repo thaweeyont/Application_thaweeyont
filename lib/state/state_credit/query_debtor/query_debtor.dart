@@ -470,7 +470,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      
+
       showProgressDialog_Notdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
@@ -1760,6 +1760,7 @@ class _Query_debtorState extends State<Query_debtor> {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
         child: ListView(
+          shrinkWrap: true,
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -1955,7 +1956,6 @@ class _Query_debtorState extends State<Query_debtor> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
-                              // padding: EdgeInsets.all(5),
                               backgroundColor:
                                   const Color.fromRGBO(202, 71, 150, 1),
                             ),
@@ -1973,7 +1973,7 @@ class _Query_debtorState extends State<Query_debtor> {
                 ),
               ),
             ),
-            group_btnsearch(),
+            groupBtnsearch(),
             const SizedBox(
               height: 70,
             ),
@@ -1983,7 +1983,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Padding group_btnsearch() {
+  Padding groupBtnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -2033,26 +2033,6 @@ class _Query_debtorState extends State<Query_debtor> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        // print('1>${custId.text}');
-                        // print('2>${homeNo.text}');
-                        // print('3>${moo.text}');
-                        // print('4>${tumbolId}');
-                        // print('5>${amphur}');
-                        // print('6>${province}');
-                        // print('7>${firstnameCus.text}');
-                        // print('8>${lastnameCus.text}');
-                        // print('9>${select_addreessType}');
-                        // print('10>${select_debtorType}');
-                        // print('11>${idcard.text}');
-                        // print('12>${telephone.text}');
-                        // print('13>${select_branchlist}');
-                        // print('14>${signid.text}');
-                        // print('15>${signrunning.text}');
-                        // print('16>${select_signStatus}');
-                        // print('17>${itemTypelist.text}');
-                        // print('18>${selectValue_amphoe}');
-                        // print('19>${selectValue_province}');
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(

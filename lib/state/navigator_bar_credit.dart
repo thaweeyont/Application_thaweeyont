@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
@@ -197,21 +198,44 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       drawer: drawerList(size),
-      // drawer(size, context),
-      bottomNavigationBar: bottonNavigatorNew(),
+      bottomNavigationBar: bottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: _selectedIndex == 2
-            ? Colors.blue
-            : const Color.fromARGB(255, 22, 30, 94),
-        child: const Icon(Icons.home),
-        onPressed: () {
-          setState(() {
-            _selectedIndex = 2;
-            status = true;
-          });
-        },
+      floatingActionButton: Container(
+        margin: const EdgeInsets.only(top: 25),
+        child: FloatingActionButton(
+          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          elevation: 0,
+          onPressed: () {
+            setState(() {
+              _selectedIndex = 2;
+              status = true;
+            });
+          },
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(
+              width: 4,
+              color: Color.fromRGBO(5, 12, 69, 1),
+            ),
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: const Icon(
+            Icons.home,
+            color: Colors.blue,
+          ),
+        ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: _selectedIndex == 2
+      //       ? Colors.blue
+      //       : const Color.fromARGB(255, 22, 30, 94),
+      //   child: const Icon(Icons.home),
+      //   onPressed: () {
+      //     setState(() {
+      //       _selectedIndex = 2;
+      //       status = true;
+      //     });
+      //   },
+      // ),
     );
   }
 
@@ -557,6 +581,57 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             },
           );
         },
+      ),
+    );
+  }
+
+  Container bottomBar() {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 30,
+        right: 30,
+        bottom: Platform.isAndroid ? 14 : 0,
+      ),
+      child: BottomAppBar(
+        elevation: 0,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.055,
+            color: const Color.fromRGBO(5, 12, 69, 1),
+            child: Row(
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        showMenuList2();
+                      });
+                    },
+                    child: const Icon(
+                      Icons.view_list_rounded,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 40),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        showContactsupport();
+                      });
+                    },
+                    child: const Icon(
+                      Icons.help_outline_sharp,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

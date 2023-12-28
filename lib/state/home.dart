@@ -1,9 +1,13 @@
+import 'dart:async';
+
+import 'package:application_thaweeyont/state/disconnect.dart';
 import 'package:application_thaweeyont/state/navigator_bar_credit.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+export 'disconnect.dart';
 
 class Home_credit extends StatefulWidget {
   const Home_credit({Key? key}) : super(key: key);
@@ -18,13 +22,57 @@ class _Home_creditState extends State<Home_credit> {
   DateTime selectedDate = DateTime.now();
   var formattedDate, year;
 
+  // ConnectivityResult connectionStatus = ConnectivityResult.none;
+  // final Connectivity connectivity = Connectivity();
+  // late StreamSubscription<ConnectivityResult> connectivitySubscription;
+  bool statusConn = true;
+
   @override
   void initState() {
     super.initState();
+    // initConnectivity();
+    // connectivitySubscription =
+    //     connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     Intl.defaultLocale = 'th';
     initializeDateFormatting();
     getdata();
   }
+
+  // Future<void> initConnectivity() async {
+  //   late ConnectivityResult result;
+  //   // Platform messages may fail, so we use a try/catch PlatformException.
+  //   try {
+  //     result = await connectivity.checkConnectivity();
+  //   } on PlatformException catch (e) {
+  //     developer.log('Couldn\'t check connectivity status', error: e);
+  //     // print(e.toString());
+  //     return;
+  //   }
+
+  //   // If the widget was removed from the tree while the asynchronous platform
+  //   // message was in flight, we want to discard the reply rather than calling
+  //   // setState to update our non-existent appearance.
+  //   if (!mounted) {
+  //     return Future.value(null);
+  //   }
+
+  //   return _updateConnectionStatus(result);
+  // }
+
+  // Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  //   if (result == ConnectivityResult.none) {
+  //     setState(() {
+  //       statusConn = false;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       statusConn = true;
+  //     });
+  //   }
+  //   setState(() {
+  //     connectionStatus = result;
+  //   });
+  // }
 
   Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -632,3 +680,69 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 }
+
+// class DistConnect extends StatelessWidget {
+//   const DistConnect({
+//     Key? key,
+//     required this.size,
+//   }) : super(key: key);
+
+//   final size;
+
+//   @override
+//   Widget build(BuildContext context) => SafeArea(
+//         child: Stack(
+//           fit: StackFit.expand,
+//           children: [
+//             Positioned(
+//               left: 0.0,
+//               right: 0.0,
+//               height: size * 0.07,
+//               child: AnimatedContainer(
+//                 duration: const Duration(milliseconds: 300),
+//                 color: Colors.red[400],
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     const Text(
+//                       "OFFLINE",
+//                       style: TextStyle(
+//                         fontFamily: 'Prompt',
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                     const SizedBox(width: 8.0),
+//                     SizedBox(
+//                       width: 12.0,
+//                       height: size * 0.03,
+//                       child: const CircularProgressIndicator(
+//                         strokeWidth: 2.0,
+//                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+//                       ),
+//                     )
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Icon(
+//                     Icons.wifi_off,
+//                     color: Colors.grey[400],
+//                   ),
+//                   Text(
+//                     "ไม่มีการเชื่อมต่ออินเตอร์เน็ต",
+//                     style: TextStyle(
+//                         fontFamily: 'Prompt',
+//                         color: Colors.grey[400],
+//                         fontSize: 17),
+//                   ),
+//                 ],
+//               ),
+//             )
+//           ],
+//         ),
+//       );
+// }

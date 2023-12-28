@@ -25,6 +25,15 @@ class _ProductStockDataState extends State<ProductStockData> {
   TextEditingController itemColor = TextEditingController();
   TextEditingController itemWareHouse = TextEditingController();
   TextEditingController itemFree = TextEditingController();
+  TextEditingController idGroup = TextEditingController();
+  TextEditingController idType = TextEditingController();
+  TextEditingController idBrand = TextEditingController();
+  TextEditingController idModel = TextEditingController();
+  TextEditingController idStyle = TextEditingController();
+  TextEditingController idSize = TextEditingController();
+  TextEditingController idColor = TextEditingController();
+  TextEditingController idWareHouse = TextEditingController();
+  TextEditingController idFree = TextEditingController();
   TextEditingController nameProduct = TextEditingController();
   TextEditingController searchNameGroup = TextEditingController();
   TextEditingController searchNameType = TextEditingController();
@@ -56,6 +65,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       itemColorLoad = false,
       itemWarehouseLoad = false,
       itemFreeLoad = false;
+  var indexWareHouse = 1;
 
   var selectStockTypeList,
       selectBranchList,
@@ -69,7 +79,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       idItemColor = '',
       idItemWareHouse = '',
       idItemFree = '';
-  // var selectBranchList, selectGroupFreeList;
+
   var apiGroup = '', itemStatus = '';
   List itemGroupList = [],
       itemTypeList = [],
@@ -79,7 +89,9 @@ class _ProductStockDataState extends State<ProductStockData> {
       itemSizeList = [],
       itemColorList = [],
       itemWarehouseList = [],
-      itemFreeList = [];
+      itemFreeList = [],
+      itemList_m = [],
+      myListJson = [];
 
   @override
   void initState() {
@@ -182,9 +194,18 @@ class _ProductStockDataState extends State<ProductStockData> {
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataBranch =
             Map<String, dynamic>.from(json.decode(respose.body));
+
         setState(() {
-          dropdownBranch = dataBranch['data'];
+          // dropdownBranch = dataBranch['data'];
+          List df = [
+            {'id': 99, 'name': "กรุณาเลือกสาขา"}
+          ];
+          myListJson = List.from(df)..addAll(dataBranch['data']);
+          print('myList>>$myListJson');
+          dropdownBranch = myListJson;
         });
+        // print(df);
+        print(dropdownBranch);
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
@@ -243,6 +264,30 @@ class _ProductStockDataState extends State<ProductStockData> {
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
+  }
+
+  clearDataInputStock() {
+    itemGroup.clear();
+    itemType.clear();
+    itemBrand.clear();
+    itemModel.clear();
+    itemStyle.clear();
+    itemSize.clear();
+    itemColor.clear();
+    itemWareHouse.clear();
+    nameProduct.clear();
+    idItemGroup = '';
+    idItemType = '';
+    idItemBrand = '';
+    idItemModel = '';
+    idItemStyle = '';
+    idItemSize = '';
+    idItemColor = '';
+    idItemWareHouse = '';
+    idItemFree = '';
+    setState(() {
+      selectBranchList = null;
+    });
   }
 
   @override
@@ -306,7 +351,15 @@ class _ProductStockDataState extends State<ProductStockData> {
                             setState(() {
                               isCheckedPR = value!;
                             });
+                            if (isCheckedPR == true) {
+                              var promotion = 'pr';
+                              idItemWareHouse = promotion;
+                            } else {
+                              var promotion = '';
+                              idItemWareHouse = promotion;
+                            }
                             print(isCheckedPR);
+                            print(idItemWareHouse);
                           },
                         ),
                         Text(
@@ -321,16 +374,67 @@ class _ProductStockDataState extends State<ProductStockData> {
                       Row(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
+                            width: MediaQuery.of(context).size.width * 0.14,
                             child: Text(
-                              'กลุ่ม : ',
+                              'สาขา : ',
                               style: MyContant().h4normalStyle(),
                               textAlign: TextAlign.right,
                             ),
                           ),
-                          InputProductStock(
-                              textEditingController: itemGroup,
-                              textInput: 'true'),
+                          selectBranch(sizeIcon, border),
+                          const Padding(
+                            padding: EdgeInsets.all(13.0),
+                            child: SizedBox(width: 30),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child: Text(
+                          //     'คลัง : ',
+                          //     style: MyContant().h4normalStyle(),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          // ),
+                          inputIditem(context, idWareHouse, '1'),
+                          inputProductStock(itemWareHouse, 'true', 'คลัง'),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 56, 162, 255),
+                            ),
+                            onPressed: () {
+                              if (selectBranchList == '' ||
+                                  selectBranchList == null ||
+                                  selectBranchList == 99) {
+                                showProgressDialog(
+                                    context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
+                              } else {
+                                searchSetupItemWarehouse(searchNameWareHouse);
+                              }
+                            },
+                            child: const Icon(
+                              Icons.search,
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child:
+                          // Text(
+                          //   'กลุ่ม : ',
+                          //   style: MyContant().h4normalStyle(),
+                          //   textAlign: TextAlign.right,
+                          // ),
+                          // ),
+                          inputIditem(context, idGroup, '2'),
+                          inputProductStock(itemGroup, 'true', 'กลุ่ม'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -348,17 +452,17 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'ประเภท : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemType,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child:
+                          // Text(
+                          //   'ประเภท : ',
+                          //   style: MyContant().h4normalStyle(),
+                          //   textAlign: TextAlign.right,
+                          // ),
+                          // ),
+                          inputIditem(context, idType, '3'),
+                          inputProductStock(itemType, 'true', 'ประเภท'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -381,17 +485,17 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'ยี่ห้อ : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemBrand,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child:
+                          // Text(
+                          //   'ยี่ห้อ : ',
+                          //   style: MyContant().h4normalStyle(),
+                          //   textAlign: TextAlign.right,
+                          // ),
+                          // ),
+                          inputIditem(context, idBrand, '4'),
+                          inputProductStock(itemBrand, 'true', 'ยี่ห้อ'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -418,17 +522,16 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'รุ่น : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemModel,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child: Text(
+                          //     'รุ่น : ',
+                          //     style: MyContant().h4normalStyle(),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          // ),
+                          inputIditem(context, idModel, '5'),
+                          inputProductStock(itemModel, 'true', 'รุ่น'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -460,17 +563,16 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'แบบ : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemStyle,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child: Text(
+                          //     'แบบ : ',
+                          //     style: MyContant().h4normalStyle(),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          // ),
+                          inputIditem(context, idStyle, '6'),
+                          inputProductStock(itemStyle, 'true', 'แบบ'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -493,17 +595,16 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'ขนาด : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemSize,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child: Text(
+                          //     'ขนาด : ',
+                          //     style: MyContant().h4normalStyle(),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          // ),
+                          inputIditem(context, idSize, '7'),
+                          inputProductStock(itemSize, 'true', 'ขนาด'),
                           SizedBox(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -528,17 +629,16 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'สี : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemColor,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child: Text(
+                          //     'สี : ',
+                          //     style: MyContant().h4normalStyle(),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          // ),
+                          inputIditem(context, idColor, '8'),
+                          inputProductStock(itemColor, 'true', 'สี'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -559,65 +659,12 @@ class _ProductStockDataState extends State<ProductStockData> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.17,
                             child: Text(
-                              'สาขา : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          selectBranch(sizeIcon, border),
-                          const Padding(
-                            padding: EdgeInsets.all(13.0),
-                            child: SizedBox(width: 30),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'คลัง : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemWareHouse,
-                              textInput: 'true'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () {
-                              if (selectBranchList == '' ||
-                                  selectBranchList == null) {
-                                showProgressDialog(
-                                    context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
-                              } else {
-                                searchSetupItemWarehouse(searchNameWareHouse);
-                              }
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
                               'ชื่อสินค้า : ',
                               style: MyContant().h4normalStyle(),
                               textAlign: TextAlign.right,
                             ),
                           ),
-                          InputProductStock(
-                              textEditingController: nameProduct,
-                              textInput: 'false'),
+                          inputProductStock(nameProduct, 'false', 'ชื่อสินค้า'),
                           const Padding(
                             padding: EdgeInsets.all(17.0),
                             child: SizedBox(width: 30),
@@ -629,7 +676,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                       Row(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
+                            width: MediaQuery.of(context).size.width * 0.14,
                             child: Text(
                               'สาขา : ',
                               style: MyContant().h4normalStyle(),
@@ -645,17 +692,16 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: Text(
-                              'คลัง : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemWareHouse,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.17,
+                          //   child: Text(
+                          //     'คลัง : ',
+                          //     style: MyContant().h4normalStyle(),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          // ),
+                          inputIditem(context, idWareHouse, '1'),
+                          inputProductStock(itemWareHouse, 'true', 'คลัง'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -681,9 +727,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               textAlign: TextAlign.right,
                             ),
                           ),
-                          InputProductStock(
-                              textEditingController: nameProduct,
-                              textInput: 'false'),
+                          inputProductStock(nameProduct, 'false', 'ชื่อสินค้า'),
                           const Padding(
                             padding: EdgeInsets.all(17.0),
                             child: SizedBox(width: 30),
@@ -695,24 +739,22 @@ class _ProductStockDataState extends State<ProductStockData> {
                           Text(
                             'หมวดของแถม : ',
                             style: MyContant().h4normalStyle(),
-                            textAlign: TextAlign.left,
                           ),
                           selectGroupFree(sizeIcon, border),
                         ],
                       ),
                       Row(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.18,
-                            child: Text(
-                              'ของแถม :',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          InputProductStock(
-                              textEditingController: itemFree,
-                              textInput: 'true'),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.18,
+                          //   child: Text(
+                          //     'ของแถม :',
+                          //     style: MyContant().h4normalStyle(),
+                          //     textAlign: TextAlign.right,
+                          //   ),
+                          // ),
+                          inputIditem(context, idFree, '9'),
+                          inputProductStock(itemFree, 'true', 'ของแถม'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -758,11 +800,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
                         var branch, groupFree;
-                        if (isCheckedPR == true) {
-                          var promotion = 'pr';
-                          idItemWareHouse = promotion;
-                        }
-                        if (selectBranchList == null) {
+                        if (selectBranchList == null ||
+                            selectBranchList == 99) {
                           branch = '';
                         } else {
                           branch = selectBranchList;
@@ -851,7 +890,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
-                      onPressed: () {},
+                      onPressed: () {
+                        clearDataInputStock();
+                      },
                       child: const Text('ยกเลิก'),
                     ),
                   ),
@@ -943,7 +984,14 @@ class _ProductStockDataState extends State<ProductStockData> {
                   print('$selectBranchList');
                 });
                 // api warehouse
-                getDataItemWarehouseList('no');
+                if (selectBranchList != 99) {
+                  getDataItemWarehouseList('no');
+                } else {
+                  dropdownBranch.clear();
+                  itemWarehouseList.clear();
+                  getSelectBranch();
+                }
+
                 print(selectBranchList);
               },
               value: selectBranchList,
@@ -951,7 +999,7 @@ class _ProductStockDataState extends State<ProductStockData> {
               underline: const SizedBox(),
               hint: Align(
                 child: Text(
-                  'เลือกสาขา',
+                  'กรุณาเลือกสาขา',
                   style: MyContant().TextInputSelect(),
                 ),
               ),
@@ -991,7 +1039,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                 setState(() {
                   selectGroupFreeList = newvalue;
                 });
-                print(selectGroupFreeList);
               },
               value: selectGroupFreeList,
               isExpanded: true,
@@ -1094,7 +1141,8 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
   Future<void> searchSetupItemGroup(searchName) async {
-    showDialog(
+    await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => GestureDetector(
         onTap: () {
@@ -1102,7 +1150,7 @@ class _ProductStockDataState extends State<ProductStockData> {
         },
         behavior: HitTestBehavior.opaque,
         child: StatefulBuilder(
-          builder: (context, setState) => Container(
+          builder: (context, setStateSB) => Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(5),
             child: SingleChildScrollView(
@@ -1129,7 +1177,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหากลุ่มสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -1177,7 +1225,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -1194,9 +1242,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -1286,88 +1332,173 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemGroupList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemGroupList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemGroup.text =
-                                                        itemGroupList[i]
-                                                            ['name'];
-                                                    idItemGroup =
-                                                        itemGroupList[i]['id'];
-                                                  });
-                                                  getDataItemTypeList('no');
-                                                  searchNameGroup.clear();
-                                                  getDataItemGroupList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemGroupList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ${itemGroupList[i]['name']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อกลุ่มสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemGroupList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemGroupList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemGroup.text =
+                                                              itemGroupList[i]
+                                                                  ['name'];
+                                                          idGroup.text =
+                                                              itemGroupList[i]
+                                                                  ['id'];
+                                                          idItemGroup =
+                                                              itemGroupList[i]
+                                                                  ['id'];
+                                                        });
+                                                        getDataItemTypeList(
+                                                            'no');
+                                                        searchNameGroup.clear();
+                                                        getDataItemGroupList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemGroupList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemGroupList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ${itemGroupList[i]['name']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -1428,9 +1559,11 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data');
+        print('no data555');
         setState(() {
-          Navigator.pop(context);
+          if (nav == 'use') {
+            Navigator.pop(context);
+          }
           itemTypeLoad = true;
         });
       } else if (respose.statusCode == 405) {
@@ -1485,7 +1618,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหาประเภทสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -1533,7 +1666,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -1550,9 +1683,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -1642,102 +1773,190 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemTypeList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemTypeList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemType.text =
-                                                        itemTypeList[i]['name'];
-                                                    idItemType =
-                                                        itemTypeList[i]['id'];
-                                                  });
-                                                  getDataItemBrandList('no');
-                                                  getDataItemStyleList('no');
-                                                  getDataItemSizeList('no');
-                                                  searchNameType.clear();
-                                                  getDataItemTypeList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemTypeList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            ),
-                                                            Expanded(
-                                                              child: Text(
-                                                                '${itemTypeList[i]['name']}',
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .clip,
-                                                                style: MyContant()
-                                                                    .h4normalStyle(),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อประเภทสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemTypeList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemTypeList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemType.text =
+                                                              itemTypeList[i]
+                                                                  ['name'];
+                                                          idType.text =
+                                                              itemTypeList[i]
+                                                                  ['id'];
+                                                          idItemType =
+                                                              itemTypeList[i]
+                                                                  ['id'];
+                                                        });
+                                                        getDataItemBrandList(
+                                                            'no');
+                                                        getDataItemStyleList(
+                                                            'no');
+                                                        getDataItemSizeList(
+                                                            'no');
+                                                        searchNameType.clear();
+                                                        getDataItemTypeList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemTypeList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemTypeList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   crossAxisAlignment:
+                                                              //       CrossAxisAlignment
+                                                              //           .start,
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     ),
+                                                              //     Expanded(
+                                                              //       child: Text(
+                                                              //         '',
+                                                              //         overflow:
+                                                              //             TextOverflow
+                                                              //                 .clip,
+                                                              //         style: MyContant()
+                                                              //             .h4normalStyle(),
+                                                              //       ),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -1798,7 +2017,7 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data');
+        print('no data444');
         setState(() {
           Navigator.pop(context);
           itemBrandLoad = true;
@@ -1855,7 +2074,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหายี่ห้อสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -1903,7 +2122,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -1920,9 +2139,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -2012,88 +2229,182 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemBrandList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemBrandList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemBrand.text =
-                                                        itemBrandList[i]
-                                                            ['name'];
-                                                    idItemBrand =
-                                                        itemBrandList[i]['id'];
-                                                  });
-                                                  getDataItemModelList('no');
-                                                  searchNameBrand.clear();
-                                                  getDataItemBrandList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemBrandList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ${itemBrandList[i]['name']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อยี่ห้อสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemBrandList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemBrandList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemBrand.text =
+                                                              itemBrandList[i]
+                                                                  ['name'];
+                                                          idBrand.text =
+                                                              itemBrandList[i]
+                                                                  ['id'];
+                                                          idItemBrand =
+                                                              itemBrandList[i]
+                                                                  ['id'];
+                                                        });
+                                                        getDataItemModelList(
+                                                            'no', 'noload');
+                                                        searchNameBrand.clear();
+                                                        getDataItemBrandList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemBrandList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemBrandList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'รหัส : ${itemBrandList[i]['id']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ${itemBrandList[i]['name']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -2112,7 +2423,7 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemModelList
-  Future<void> getDataItemModelList(nav) async {
+  Future<void> getDataItemModelList(nav, load) async {
     print('stock_m>> $selectStockTypeList');
     print('status_m>> $itemStatus');
     itemModelList = [];
@@ -2156,7 +2467,9 @@ class _ProductStockDataState extends State<ProductStockData> {
       } else if (respose.statusCode == 404) {
         print('no data');
         setState(() {
-          Navigator.pop(context);
+          if (load == 'load') {
+            Navigator.pop(context);
+          }
           itemModelLoad = true;
         });
       } else if (respose.statusCode == 405) {
@@ -2211,7 +2524,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหารุ่นสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -2224,7 +2537,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               child: InkWell(
                                 onTap: () {
                                   searchNameModel.clear();
-                                  getDataItemModelList('no');
+                                  getDataItemModelList('no', 'noload');
                                   Navigator.pop(context);
                                   itemModelLoad = false;
                                 },
@@ -2259,7 +2572,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -2276,9 +2589,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -2302,7 +2613,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
                                     showProgressLoading(context);
-                                    getDataItemModelList('use');
+                                    getDataItemModelList('use', 'load');
                                   },
                                   child: const Text('ค้นหา'),
                                 ),
@@ -2368,87 +2679,180 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemModelList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemModelList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemModel.text =
-                                                        itemModelList[i]
-                                                            ['name'];
-                                                    idItemModel =
-                                                        itemModelList[i]['id'];
-                                                  });
-                                                  searchNameModel.clear();
-                                                  getDataItemModelList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemModelList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ${itemModelList[i]['name']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อรุ่นสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemModelList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemModelList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemModel.text =
+                                                              itemModelList[i]
+                                                                  ['name'];
+                                                          idModel.text =
+                                                              idItemModel =
+                                                                  itemModelList[
+                                                                      i]['id'];
+                                                          itemModelList[i]
+                                                              ['id'];
+                                                        });
+                                                        searchNameModel.clear();
+                                                        getDataItemModelList(
+                                                            'no', 'noload');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemModelList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemModelList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'รหัส : ${itemModelList[i]['id']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ${itemModelList[i]['name']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -2507,9 +2911,11 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data');
+        print('no data333');
         setState(() {
-          Navigator.pop(context);
+          if (nav == 'use') {
+            Navigator.pop(context);
+          }
           itemStyleLoad = true;
         });
       } else if (respose.statusCode == 405) {
@@ -2564,7 +2970,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหาแบบสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -2612,7 +3018,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -2629,9 +3035,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -2721,87 +3125,180 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemStyleList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemStyleList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemStyle.text =
-                                                        itemStyleList[i]
-                                                            ['name'];
-                                                    idItemStyle =
-                                                        itemStyleList[i]['id'];
-                                                  });
-                                                  searchNameStyle.clear();
-                                                  getDataItemStyleList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemStyleList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ${itemStyleList[i]['name']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อแบบสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemStyleList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemStyleList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemStyle.text =
+                                                              itemStyleList[i]
+                                                                  ['name'];
+                                                          idStyle.text =
+                                                              itemStyleList[i]
+                                                                  ['id'];
+                                                          idItemStyle =
+                                                              itemStyleList[i]
+                                                                  ['id'];
+                                                        });
+                                                        searchNameStyle.clear();
+                                                        getDataItemStyleList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemStyleList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemStyleList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'รหัส : ${itemStyleList[i]['id']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ${itemStyleList[i]['name']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -2862,7 +3359,9 @@ class _ProductStockDataState extends State<ProductStockData> {
       } else if (respose.statusCode == 404) {
         print('no data');
         setState(() {
-          Navigator.pop(context);
+          if (nav == 'use') {
+            Navigator.pop(context);
+          }
           itemSizeLoad = true;
         });
       } else if (respose.statusCode == 405) {
@@ -2917,7 +3416,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหาขนาดสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -2965,7 +3464,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -2982,9 +3481,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3074,86 +3571,180 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemSizeList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemSizeList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemSize.text =
-                                                        itemSizeList[i]['name'];
-                                                    idItemSize =
-                                                        itemSizeList[i]['id'];
-                                                  });
-                                                  searchNameSize.clear();
-                                                  getDataItemSizeList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemSizeList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ${itemSizeList[i]['name']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อขนาดสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemSizeList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemSizeList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemSize.text =
+                                                              itemSizeList[i]
+                                                                  ['name'];
+                                                          idSize.text =
+                                                              itemSizeList[i]
+                                                                  ['id'];
+                                                          idItemSize =
+                                                              itemSizeList[i]
+                                                                  ['id'];
+                                                        });
+                                                        searchNameSize.clear();
+                                                        getDataItemSizeList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemSizeList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemSizeList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'รหัส : ${itemSizeList[i]['id']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ${itemSizeList[i]['name']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -3213,7 +3804,9 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         setState(() {
-          Navigator.pop(context);
+          if (nav == 'use') {
+            Navigator.pop(context);
+          }
           itemColorLoad = true;
         });
       } else if (respose.statusCode == 405) {
@@ -3316,7 +3909,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -3333,9 +3926,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3425,87 +4016,180 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemColorList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemColorList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemColor.text =
-                                                        itemColorList[i]
-                                                            ['name'];
-                                                    idItemColor =
-                                                        itemColorList[i]['id'];
-                                                  });
-                                                  searchNameColor.clear();
-                                                  getDataItemColorList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemColorList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ${itemColorList[i]['name']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อสีสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemColorList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemColorList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemColor.text =
+                                                              itemColorList[i]
+                                                                  ['name'];
+                                                          idColor.text =
+                                                              itemColorList[i]
+                                                                  ['id'];
+                                                          idItemColor =
+                                                              itemColorList[i]
+                                                                  ['id'];
+                                                        });
+                                                        searchNameColor.clear();
+                                                        getDataItemColorList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemColorList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemColorList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'รหัส : ${itemColorList[i]['id']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ${itemColorList[i]['name']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -3564,8 +4248,11 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
+        print("dddddddddddddddddd");
         setState(() {
-          Navigator.pop(context);
+          if (nav == 'use') {
+            Navigator.pop(context);
+          }
           itemWarehouseLoad = true;
         });
       } else if (respose.statusCode == 405) {
@@ -3668,7 +4355,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -3685,9 +4372,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3777,89 +4462,183 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemWarehouseList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemWarehouseList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemWareHouse.text =
-                                                        itemWarehouseList[i]
-                                                            ['name'];
-                                                    idItemWareHouse =
-                                                        itemWarehouseList[i]
-                                                            ['id'];
-                                                  });
-                                                  searchNameWareHouse.clear();
-                                                  getDataItemWarehouseList(
-                                                      'no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemWarehouseList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ${itemWarehouseList[i]['name']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อคลังสินค้า',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemWarehouseList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i <
+                                                          itemWarehouseList
+                                                              .length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemWareHouse.text =
+                                                              itemWarehouseList[
+                                                                  i]['name'];
+                                                          idWareHouse.text =
+                                                              itemWarehouseList[
+                                                                  i]['id'];
+                                                          idItemWareHouse =
+                                                              itemWarehouseList[
+                                                                  i]['id'];
+                                                        });
+                                                        searchNameWareHouse
+                                                            .clear();
+                                                        getDataItemWarehouseList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemWarehouseList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '${itemWarehouseList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'รหัส : ${itemWarehouseList[i]['id']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ${itemWarehouseList[i]['name']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -3918,7 +4697,9 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         setState(() {
-          Navigator.pop(context);
+          if (nav == 'use') {
+            Navigator.pop(context);
+          }
           itemFreeLoad = true;
         });
       } else if (respose.statusCode == 405) {
@@ -4021,7 +4802,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   offset: const Offset(0, 1),
                                 )
                               ],
-                              color: const Color.fromRGBO(176, 218, 255, 1),
+                              color: const Color.fromARGB(255, 130, 196, 255),
                             ),
                             padding: const EdgeInsets.all(8),
                             width: double.infinity,
@@ -4038,9 +4819,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    InputProductStock(
-                                        textEditingController: searchName,
-                                        textInput: 'false'),
+                                    inputProductStock(searchName, 'false', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -4130,99 +4909,193 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     ),
                                   ),
                                 )
-                              : Scrollbar(
-                                  child: ListView(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          if (itemFreeList.isNotEmpty) ...[
-                                            for (var i = 0;
-                                                i < itemFreeList.length;
-                                                i++) ...[
-                                              InkWell(
-                                                onTap: () async {
-                                                  setState(() {
-                                                    itemFree.text =
-                                                        itemFreeList[i]['name'];
-                                                    idItemFree =
-                                                        itemFreeList[i]['id'];
-                                                  });
-                                                  searchNameItemFree.clear();
-                                                  getDataItemFreeList('no');
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 4,
-                                                      horizontal: 8),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                        Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.5),
-                                                          spreadRadius: 0.2,
-                                                          blurRadius: 2,
-                                                          offset: const Offset(
-                                                              0, 1),
-                                                        )
-                                                      ],
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              176, 218, 255, 1),
-                                                    ),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                              'รหัส : ${itemFreeList[i]['id']}',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              'ชื่อ : ',
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                            ),
-                                                            Expanded(
-                                                              child: Text(
-                                                                '${itemFreeList[i]['name']}',
-                                                                style: MyContant()
-                                                                    .h4normalStyle(),
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .clip,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                              : Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(5),
+                                          ),
+                                          color: const Color.fromARGB(
+                                              255, 130, 196, 255),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
                                           ],
-                                        ],
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '  รหัส      ชื่อของแถม',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(
+                                      child: Scrollbar(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                if (itemFreeList
+                                                    .isNotEmpty) ...[
+                                                  for (var i = 0;
+                                                      i < itemFreeList.length;
+                                                      i++) ...[
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          itemFree.text =
+                                                              '(${itemFreeList[i]['code']})${itemFreeList[i]['name']}';
+                                                          idFree.text =
+                                                              itemFreeList[i]
+                                                                  ['id'];
+                                                          idItemFree =
+                                                              itemFreeList[i]
+                                                                  ['id'];
+                                                        });
+                                                        searchNameItemFree
+                                                            .clear();
+                                                        getDataItemFreeList(
+                                                            'no');
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 4,
+                                                                horizontal: 8),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  5),
+                                                            ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .grey
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                                spreadRadius:
+                                                                    0.2,
+                                                                blurRadius: 2,
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 1),
+                                                              )
+                                                            ],
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                176,
+                                                                218,
+                                                                255,
+                                                                1),
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    color: const Color
+                                                                            .fromRGBO(
+                                                                        176,
+                                                                        218,
+                                                                        255,
+                                                                        1),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                        0.18,
+                                                                    child: Text(
+                                                                      '  ${itemFreeList[i]['id']}',
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      '(${itemFreeList[i]['code']})${itemFreeList[i]['name']}',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .clip,
+                                                                      style: MyContant()
+                                                                          .h4normalStyle(),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // Row(
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'รหัส : ${itemFreeList[i]['id']}',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     )
+                                                              //   ],
+                                                              // ),
+                                                              // Row(
+                                                              //   crossAxisAlignment:
+                                                              //       CrossAxisAlignment
+                                                              //           .start,
+                                                              //   children: [
+                                                              //     Text(
+                                                              //       'ชื่อ : ',
+                                                              //       style: MyContant()
+                                                              //           .h4normalStyle(),
+                                                              //     ),
+                                                              //     Expanded(
+                                                              //       child: Text(
+                                                              //         '${itemFreeList[i]['name']}',
+                                                              //         style: MyContant()
+                                                              //             .h4normalStyle(),
+                                                              //         overflow:
+                                                              //             TextOverflow
+                                                              //                 .clip,
+                                                              //       ),
+                                                              //     )
+                                                              //   ],
+                                                              // )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                         const SizedBox(
@@ -4239,17 +5112,12 @@ class _ProductStockDataState extends State<ProductStockData> {
       ),
     );
   }
-}
 
-class InputProductStock extends StatelessWidget {
-  final TextEditingController textEditingController;
-  final String textInput;
-  const InputProductStock(
-      {Key? key, required this.textEditingController, required this.textInput})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Expanded inputProductStock(
+    TextEditingController textEditingController,
+    String textInput,
+    String nameHint,
+  ) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -4266,7 +5134,453 @@ class InputProductStock extends StatelessWidget {
         child: TextField(
           readOnly: textInput == 'true' ? true : false,
           controller: textEditingController,
-          onChanged: (keyword) {},
+          onChanged: (key) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: const EdgeInsets.all(6),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintStyle: const TextStyle(
+              fontSize: 14,
+            ),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+            hintText: nameHint,
+          ),
+          style: MyContant().TextInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Future<void> getIdItemList(
+      keyId, TextEditingController controllerName, index) async {
+    print('index>>$index');
+    var nameApi = '', callBack = TextEditingController(), idlog;
+
+    switch (index) {
+      case "1":
+        if (selectBranchList == '' || selectBranchList == null) {
+          nameApi =
+              'warehouseList?searchId=${keyId.toString()}&page=1&limit=1&branchId=01';
+        } else {
+          nameApi =
+              'warehouseList?searchId=${keyId.toString()}&page=1&limit=1&branchId=$selectBranchList';
+          callBack = itemWareHouse;
+          idlog = idItemWareHouse;
+        }
+        break;
+      case "2":
+        nameApi = 'itemGroupList?searchId=${keyId.toString()}&page=1&limit=1';
+        callBack = itemGroup;
+        idlog = idItemGroup;
+        break;
+      case "3":
+        nameApi =
+            'itemTypeList?searchId=${keyId.toString()}&page=1&limit=1&itemGroupId=$idItemGroup&itemStatus=$itemStatus';
+        callBack = itemType;
+        idlog = idItemType;
+        break;
+      case "4":
+        nameApi =
+            'itemBrandList?searchId=${keyId.toString()}&page=1&limit=1&itemGroupId=$idItemGroup&itemTypeId=$idItemType&itemStatus=$itemStatus';
+        callBack = itemBrand;
+        idlog = idItemBrand;
+        break;
+      case "5":
+        nameApi =
+            'itemModelList?searchId=${keyId.toString()}&page=1&limit=1&itemGroupId=$idItemGroup&itemTypeId=$idItemType&itemBrandId=$idItemBrand&itemStatus=$itemStatus';
+        callBack = itemModel;
+        idlog = idItemModel;
+        break;
+      case "6":
+        nameApi =
+            'itemStyleList?searchId=${keyId.toString()}&page=1&limit=1&itemTypeId=$idItemType';
+        callBack = itemStyle;
+        idlog = idItemStyle;
+        break;
+      case "7":
+        nameApi =
+            'itemSizeList?searchId=${keyId.toString()}&page=1&limit=1&itemTypeId=$idItemType';
+        callBack = itemSize;
+        idlog = idItemSize;
+        break;
+      case "8":
+        nameApi = 'itemColorList?searchId=${keyId.toString()}&page=1&limit=1';
+        callBack = itemColor;
+        idlog = idItemColor;
+        break;
+      case "9":
+        nameApi =
+            'itemFreeList?searchId=${keyId.toString()}&page=1&limit=1&itemStatus=$itemStatus';
+        callBack = itemFree;
+        idlog = idItemFree;
+        break;
+      default:
+        break;
+    }
+    try {
+      var respose = await http
+          .get(Uri.parse('${api}setup/$nameApi'), headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': tokenId.toString(),
+      });
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataItem_m =
+            Map<String, dynamic>.from(json.decode(respose.body));
+
+        if (controllerName.text.isNotEmpty) {
+          itemList_m = dataItem_m['data'];
+
+          var check = itemList_m.where(
+              (oldValue) => keyId.toString() == (oldValue['id'].toString()));
+          if (check.isEmpty) {
+            // print("null------------->$check");
+            switch (index) {
+              case "1":
+                itemWareHouse.clear();
+                idItemWareHouse = '';
+                break;
+              case "2":
+                itemGroup.clear();
+                idItemGroup = '';
+                break;
+              case "3":
+                itemType.clear();
+                idItemType = '';
+                break;
+              case "4":
+                itemBrand.clear();
+                idItemBrand = '';
+                break;
+              case "5":
+                itemModel.clear();
+                idItemModel = '';
+                break;
+              case "6":
+                itemStyle.clear();
+                idItemStyle = '';
+                break;
+              case "7":
+                itemSize.clear();
+                idItemSize = '';
+                break;
+              case "8":
+                itemColor.clear();
+                idItemColor = '';
+                break;
+              case "9":
+                itemFree.clear();
+                idItemFree = '';
+                break;
+              default:
+                break;
+            }
+          } else {
+            // print("success------------->$check");
+            setState(() {
+              callBack.text = itemList_m[0]['name'];
+              if (index == '9') {
+                callBack.text =
+                    '(${itemList_m[0]['code']})${itemList_m[0]['name']}';
+              }
+
+              switch (index) {
+                case "1":
+                  idItemWareHouse = itemList_m[0]['id'];
+                  break;
+                case "2":
+                  idItemGroup = itemList_m[0]['id'];
+                  getDataItemTypeList('no');
+                  break;
+                case "3":
+                  idItemType = itemList_m[0]['id'];
+                  getDataItemBrandList('no');
+                  getDataItemStyleList('no');
+                  getDataItemSizeList('no');
+                  break;
+                case "4":
+                  idItemBrand = itemList_m[0]['id'];
+                  getDataItemModelList('no', 'noload');
+                  break;
+                case "5":
+                  idItemModel = itemList_m[0]['id'];
+                  break;
+                case "6":
+                  idItemStyle = itemList_m[0]['id'];
+                  break;
+                case "7":
+                  idItemSize = itemList_m[0]['id'];
+                  break;
+                case "8":
+                  idItemColor = itemList_m[0]['id'];
+                  break;
+                case "9":
+                  idItemFree = itemList_m[0]['id'];
+                  break;
+                default:
+                  break;
+              }
+            });
+          }
+        } else {
+          setState(() {});
+        }
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        // print("404");
+        switch (index) {
+          case "1":
+            itemWareHouse.clear();
+            idItemWareHouse = '';
+            break;
+          case "2":
+            itemGroup.clear();
+            idItemGroup = '';
+            break;
+          case "3":
+            itemType.clear();
+            idItemType = '';
+            break;
+          case "4":
+            itemBrand.clear();
+            idItemBrand = '';
+            break;
+          case "5":
+            itemModel.clear();
+            idItemModel = '';
+            break;
+          case "6":
+            itemStyle.clear();
+            idItemStyle = '';
+            break;
+          case "7":
+            itemSize.clear();
+            idItemSize = '';
+            break;
+          case "8":
+            itemColor.clear();
+            idItemColor = '';
+            break;
+          case "9":
+            itemFree.clear();
+            idItemFree = '';
+            break;
+          default:
+            break;
+        }
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  SizedBox inputIditem(BuildContext context,
+      TextEditingController textEditingController, String index) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.14,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        child: TextField(
+          controller: textEditingController,
+          keyboardType: TextInputType.number,
+          onChanged: (key) async {
+            switch (index) {
+              case "1":
+                if (selectBranchList == '' || selectBranchList == null) {
+                  showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
+                  textEditingController.clear();
+                  itemWareHouse.clear();
+                  idItemWareHouse = '';
+                } else {
+                  if (textEditingController.text.isNotEmpty) {
+                    getIdItemList(key, textEditingController, index);
+                  } else {
+                    textEditingController.clear();
+                    itemWareHouse.clear();
+                    idItemWareHouse = '';
+                  }
+                }
+                break;
+              case "2":
+                if (textEditingController.text.isNotEmpty) {
+                  getIdItemList(key, textEditingController, index);
+                } else {
+                  textEditingController.clear();
+                  itemGroup.clear();
+                  idItemGroup = '';
+                }
+                break;
+              case "3":
+                if (itemGroup.text.isEmpty) {
+                  showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่ม');
+                  textEditingController.clear();
+                  itemType.clear();
+                  idItemType = '';
+                } else {
+                  if (textEditingController.text.isNotEmpty) {
+                    getIdItemList(key, textEditingController, index);
+                  } else {
+                    print('empty');
+                    setState(() {
+                      textEditingController.clear();
+                      itemType.clear();
+                      idItemType = '';
+                    });
+                  }
+                }
+
+                break;
+              case "4":
+                if (itemGroup.text.isEmpty && itemType.text.isEmpty) {
+                  showProgressDialog(
+                      context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มและประเภท');
+                  textEditingController.clear();
+                  itemBrand.clear();
+                  idItemBrand = '';
+                } else {
+                  if (textEditingController.text.isNotEmpty) {
+                    getIdItemList(key, textEditingController, index);
+                  } else {
+                    textEditingController.clear();
+                    itemBrand.clear();
+                    idItemBrand = '';
+                  }
+                }
+                break;
+              case "5":
+                if (itemGroup.text.isEmpty &&
+                    itemType.text.isEmpty &&
+                    itemBrand.text.isEmpty) {
+                  showProgressDialog(context, 'แจ้งเตือน',
+                      'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
+                  textEditingController.clear();
+                  itemModel.clear();
+                  idItemModel = '';
+                } else if (itemType.text.isEmpty && itemBrand.text.isEmpty) {
+                  showProgressDialog(context, 'แจ้งเตือน',
+                      'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+                  textEditingController.clear();
+                  itemModel.clear();
+                  idItemModel = '';
+                } else if (itemBrand.text.isEmpty) {
+                  showProgressDialog(
+                      context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
+                  textEditingController.clear();
+                  itemModel.clear();
+                  idItemModel = '';
+                } else {
+                  if (textEditingController.text.isNotEmpty) {
+                    getIdItemList(key, textEditingController, index);
+                  } else {
+                    textEditingController.clear();
+                    itemModel.clear();
+                    idItemModel = '';
+                  }
+                }
+                break;
+              case "6":
+                if (itemType.text.isEmpty) {
+                  showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่ม');
+                  textEditingController.clear();
+                  itemStyle.clear();
+                  idItemStyle = '';
+                } else {
+                  if (textEditingController.text.isNotEmpty) {
+                    getIdItemList(key, textEditingController, index);
+                  } else {
+                    print('empty');
+                    setState(() {
+                      textEditingController.clear();
+                      itemStyle.clear();
+                      idItemStyle = '';
+                    });
+                  }
+                }
+                break;
+              case "7":
+                if (itemType.text.isEmpty) {
+                  showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่ม');
+                  textEditingController.clear();
+                  itemSize.clear();
+                  idItemSize = '';
+                } else {
+                  if (textEditingController.text.isNotEmpty) {
+                    getIdItemList(key, textEditingController, index);
+                  } else {
+                    print('empty');
+                    setState(() {
+                      textEditingController.clear();
+                      itemSize.clear();
+                      idItemSize = '';
+                    });
+                  }
+                }
+                break;
+              case "8":
+                if (textEditingController.text.isNotEmpty) {
+                  getIdItemList(key, textEditingController, index);
+                } else {
+                  setState(() {
+                    textEditingController.clear();
+                    itemColor.clear();
+                    idItemColor = '';
+                  });
+                }
+                break;
+              case "9":
+                if (textEditingController.text.isNotEmpty) {
+                  getIdItemList(key, textEditingController, index);
+                } else {
+                  setState(() {
+                    textEditingController.clear();
+                    itemFree.clear();
+                    idItemFree = '';
+                  });
+                }
+                break;
+              default:
+                break;
+            }
+          },
           decoration: const InputDecoration(
             counterText: "",
             contentPadding: EdgeInsets.all(6),
@@ -4280,6 +5594,7 @@ class InputProductStock extends StatelessWidget {
             suffixIconConstraints: sizeIcon,
             filled: true,
             fillColor: Colors.white,
+            hintText: 'รหัส',
           ),
           style: MyContant().TextInputStyle(),
         ),
