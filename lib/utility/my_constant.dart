@@ -122,7 +122,7 @@ class MyContant {
       );
   TextStyle TextInputStyle() => const TextStyle(
         //ตัวหนังสือใน input
-        fontSize: 16,
+        fontSize: 15,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
@@ -143,7 +143,14 @@ class MyContant {
       );
   TextStyle TextInputSelect() => const TextStyle(
         //ตัวหนังสือใน dropdown
-        fontSize: 16,
+        fontSize: 15,
+        color: Color.fromRGBO(106, 106, 106, 1),
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
+  TextStyle TextSelect2() => const TextStyle(
+        //ตัวหนังสือใน dropdown
+        fontSize: 15,
         color: Color.fromRGBO(106, 106, 106, 1),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',

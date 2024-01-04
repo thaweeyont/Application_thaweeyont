@@ -275,7 +275,17 @@ class _ProductStockDataState extends State<ProductStockData> {
     itemSize.clear();
     itemColor.clear();
     itemWareHouse.clear();
+    itemFree.clear();
     nameProduct.clear();
+    idWareHouse.clear();
+    idGroup.clear();
+    idType.clear();
+    idBrand.clear();
+    idModel.clear();
+    idStyle.clear();
+    idSize.clear();
+    idColor.clear();
+    idFree.clear();
     idItemGroup = '';
     idItemType = '';
     idItemBrand = '';
@@ -287,6 +297,7 @@ class _ProductStockDataState extends State<ProductStockData> {
     idItemFree = '';
     setState(() {
       selectBranchList = null;
+      selectGroupFreeList = null;
     });
   }
 
@@ -311,7 +322,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(5),
@@ -657,7 +668,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                       Row(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
+                            width: MediaQuery.of(context).size.width * 0.2,
                             child: Text(
                               'ชื่อสินค้า : ',
                               style: MyContant().h4normalStyle(),
@@ -709,7 +720,14 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   const Color.fromARGB(255, 56, 162, 255),
                             ),
                             onPressed: () {
-                              searchSetupItemWarehouse(searchNameWareHouse);
+                              if (selectBranchList == '' ||
+                                  selectBranchList == null ||
+                                  selectBranchList == 99) {
+                                showProgressDialog(
+                                    context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
+                              } else {
+                                searchSetupItemWarehouse(searchNameWareHouse);
+                              }
                             },
                             child: const Icon(
                               Icons.search,
@@ -720,7 +738,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                       Row(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.17,
+                            width: MediaQuery.of(context).size.width * 0.2,
                             child: Text(
                               'ชื่อสินค้า : ',
                               style: MyContant().h4normalStyle(),
@@ -736,11 +754,19 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          Text(
-                            'หมวดของแถม : ',
-                            style: MyContant().h4normalStyle(),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: Text(
+                              'หมวดของแถม : ',
+                              style: MyContant().h4normalStyle(),
+                              textAlign: TextAlign.right,
+                            ),
                           ),
                           selectGroupFree(sizeIcon, border),
+                          const Padding(
+                            padding: EdgeInsets.all(13.0),
+                            child: SizedBox(width: 30),
+                          )
                         ],
                       ),
                       Row(
@@ -973,7 +999,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                       value: value['id'],
                       child: Text(
                         value['name'],
-                        style: MyContant().TextInputStyle(),
+                        style: value['id'] == 99
+                            ? MyContant().TextSelect2()
+                            : MyContant().TextInputStyle(),
                       ),
                     ),
                   )
@@ -989,6 +1017,10 @@ class _ProductStockDataState extends State<ProductStockData> {
                 } else {
                   dropdownBranch.clear();
                   itemWarehouseList.clear();
+                  selectBranchList = null;
+                  idWareHouse.clear();
+                  itemWareHouse.clear();
+                  idItemWareHouse = '';
                   getSelectBranch();
                 }
 
@@ -5416,7 +5448,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       ),
     );
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.14,
+      width: MediaQuery.of(context).size.width * 0.15,
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
@@ -5447,6 +5479,21 @@ class _ProductStockDataState extends State<ProductStockData> {
                   textEditingController.clear();
                   itemGroup.clear();
                   idItemGroup = '';
+                  idType.clear();
+                  itemType.clear();
+                  idItemType = '';
+                  idBrand.clear();
+                  itemBrand.clear();
+                  idItemBrand = '';
+                  idModel.clear();
+                  itemModel.clear();
+                  idItemModel = '';
+                  idStyle.clear();
+                  itemStyle.clear();
+                  idItemStyle = '';
+                  idSize.clear();
+                  itemSize.clear();
+                  idItemSize = '';
                 }
                 break;
               case "3":

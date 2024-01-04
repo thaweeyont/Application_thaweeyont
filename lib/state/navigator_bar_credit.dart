@@ -594,6 +594,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       ),
       child: BottomAppBar(
         elevation: 0,
+        color: const Color.fromARGB(242, 246, 249, 255),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: Container(

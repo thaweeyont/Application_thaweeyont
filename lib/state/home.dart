@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:application_thaweeyont/state/disconnect.dart';
 import 'package:application_thaweeyont/state/navigator_bar_credit.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
@@ -22,57 +21,15 @@ class _Home_creditState extends State<Home_credit> {
   DateTime selectedDate = DateTime.now();
   var formattedDate, year;
 
-  // ConnectivityResult connectionStatus = ConnectivityResult.none;
-  // final Connectivity connectivity = Connectivity();
-  // late StreamSubscription<ConnectivityResult> connectivitySubscription;
   bool statusConn = true;
 
   @override
   void initState() {
     super.initState();
-    // initConnectivity();
-    // connectivitySubscription =
-    //     connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     Intl.defaultLocale = 'th';
     initializeDateFormatting();
     getdata();
   }
-
-  // Future<void> initConnectivity() async {
-  //   late ConnectivityResult result;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     result = await connectivity.checkConnectivity();
-  //   } on PlatformException catch (e) {
-  //     developer.log('Couldn\'t check connectivity status', error: e);
-  //     // print(e.toString());
-  //     return;
-  //   }
-
-  //   // If the widget was removed from the tree while the asynchronous platform
-  //   // message was in flight, we want to discard the reply rather than calling
-  //   // setState to update our non-existent appearance.
-  //   if (!mounted) {
-  //     return Future.value(null);
-  //   }
-
-  //   return _updateConnectionStatus(result);
-  // }
-
-  // Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-  //   if (result == ConnectivityResult.none) {
-  //     setState(() {
-  //       statusConn = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       statusConn = true;
-  //     });
-  //   }
-  //   setState(() {
-  //     connectionStatus = result;
-  //   });
-  // }
 
   Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -197,28 +154,38 @@ class _Home_creditState extends State<Home_credit> {
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.only(top: 300),
+          Container(
+            margin: const EdgeInsets.only(top: 300),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        'images/megaphone.png',
+                        width: 25,
+                        height: 25,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        'ประกาศข่าวสาร',
+                        style: MyContant().Textbold(),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 340),
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          'images/megaphone.png',
-                          width: 25,
-                          height: 25,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'ประกาศข่าวสาร',
-                          style: MyContant().Textbold(),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 5),
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -249,6 +216,7 @@ class _Home_creditState extends State<Home_credit> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -275,7 +243,7 @@ class _Home_creditState extends State<Home_credit> {
     // ),
   }
 
-  Container check_information(double size) {
+  Container checkInformation(double size) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -311,7 +279,7 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 
-  Container check_buyproduct(double size) {
+  Container checkBuyproduct(double size) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -347,7 +315,7 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 
-  Container check_approve(double size) {
+  Container checkApprove(double size) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -390,7 +358,7 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 
-  Container check_statususer(double size) {
+  Container checkStatususer(double size) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -426,7 +394,7 @@ class _Home_creditState extends State<Home_credit> {
     );
   }
 
-  Container check_blacklist(double size) {
+  Container checkBlacklist(double size) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -461,288 +429,4 @@ class _Home_creditState extends State<Home_credit> {
       ),
     );
   }
-
-//-----------------------------เมนูเดิม----------------------------------------------------------------------
-  InkWell check_approve_n(double size) {
-    return InkWell(
-      onTap: () => Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Navigator_bar_credit('3')),
-        (Route<dynamic> route) => false,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color.fromRGBO(251, 713, 55, 1),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.manage_accounts_rounded,
-                  size: size * 0.12,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 15),
-                const Text(
-                  'เช็คผลการพิจารณาสินเชื่อ',
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  InkWell check_statususer_n(double size) {
-    return InkWell(
-      onTap: () => Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Navigator_bar_credit('4')),
-        (Route<dynamic> route) => false,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color.fromRGBO(64, 203, 203, 1),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.switch_account_outlined,
-                  size: size * 0.12,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 15),
-                const Text(
-                  'สถานะสมาชิกทวียนต์',
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  InkWell check_buyproduct_n(double size) {
-    return InkWell(
-      onTap: () => Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Navigator_bar_credit('1')),
-        (Route<dynamic> route) => false,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color.fromRGBO(212, 151, 233, 1),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.shopping_basket_rounded,
-                  size: size * 0.12,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 15),
-                const Text(
-                  'ตรวจสอบข้อมูลการซื้อสินค้า',
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  InkWell check_blacklist_n(double size) {
-    return InkWell(
-      onTap: () => Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Navigator_bar_credit('5')),
-        (Route<dynamic> route) => false,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color.fromRGBO(162, 181, 252, 1),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.person_off_rounded,
-                  size: size * 0.12,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 15),
-                const Text(
-                  'สอบถามรายละเอียด BlackList',
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  InkWell check_information_n(double size) {
-    return InkWell(
-      onTap: () => Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Navigator_bar_credit('0'),
-        ),
-        (Route<dynamic> route) => false,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color.fromRGBO(255, 152, 238, 1),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.people,
-                  size: size * 0.12,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 15),
-                const Text(
-                  'สอบถามรายละเอียดลูกหนี้',
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }
-
-// class DistConnect extends StatelessWidget {
-//   const DistConnect({
-//     Key? key,
-//     required this.size,
-//   }) : super(key: key);
-
-//   final size;
-
-//   @override
-//   Widget build(BuildContext context) => SafeArea(
-//         child: Stack(
-//           fit: StackFit.expand,
-//           children: [
-//             Positioned(
-//               left: 0.0,
-//               right: 0.0,
-//               height: size * 0.07,
-//               child: AnimatedContainer(
-//                 duration: const Duration(milliseconds: 300),
-//                 color: Colors.red[400],
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     const Text(
-//                       "OFFLINE",
-//                       style: TextStyle(
-//                         fontFamily: 'Prompt',
-//                         color: Colors.white,
-//                       ),
-//                     ),
-//                     const SizedBox(width: 8.0),
-//                     SizedBox(
-//                       width: 12.0,
-//                       height: size * 0.03,
-//                       child: const CircularProgressIndicator(
-//                         strokeWidth: 2.0,
-//                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-//                       ),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Icon(
-//                     Icons.wifi_off,
-//                     color: Colors.grey[400],
-//                   ),
-//                   Text(
-//                     "ไม่มีการเชื่อมต่ออินเตอร์เน็ต",
-//                     style: TextStyle(
-//                         fontFamily: 'Prompt',
-//                         color: Colors.grey[400],
-//                         fontSize: 17),
-//                   ),
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       );
-// }
