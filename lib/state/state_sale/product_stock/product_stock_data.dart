@@ -4,6 +4,7 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_sale/product_stock/stock_product_list.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../../utility/my_constant.dart';
@@ -45,6 +46,16 @@ class _ProductStockDataState extends State<ProductStockData> {
   TextEditingController searchNameWareHouse = TextEditingController();
   TextEditingController searchNameItemFree = TextEditingController();
 
+  FocusNode nodeWareHouse = FocusNode();
+  FocusNode nodeGroup = FocusNode();
+  FocusNode nodeType = FocusNode();
+  FocusNode nodeBrand = FocusNode();
+  FocusNode nodeModel = FocusNode();
+  FocusNode nodeStyle = FocusNode();
+  FocusNode nodeSize = FocusNode();
+  FocusNode nodeColor = FocusNode();
+  FocusNode nodeFree = FocusNode();
+
   String userId = '',
       empId = '',
       firstName = '',
@@ -65,7 +76,6 @@ class _ProductStockDataState extends State<ProductStockData> {
       itemColorLoad = false,
       itemWarehouseLoad = false,
       itemFreeLoad = false;
-  var indexWareHouse = 1;
 
   var selectStockTypeList,
       selectBranchList,
@@ -91,7 +101,8 @@ class _ProductStockDataState extends State<ProductStockData> {
       itemWarehouseList = [],
       itemFreeList = [],
       itemList_m = [],
-      myListJson = [];
+      myListJson = [],
+      myGroupFreeJson = [];
 
   @override
   void initState() {
@@ -242,7 +253,9 @@ class _ProductStockDataState extends State<ProductStockData> {
         Map<String, dynamic> dataGroupFree =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
-          dropdownGroupFree = dataGroupFree['data'];
+          List dfGroup = ["เลือกหมวดของแถม"];
+          myGroupFreeJson = List.from(dfGroup)..addAll(dataGroupFree['data']);
+          dropdownGroupFree = myGroupFreeJson;
         });
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -314,9 +327,76 @@ class _ProductStockDataState extends State<ProductStockData> {
       ),
     );
     return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        behavior: HitTestBehavior.opaque,
+      body: KeyboardActions(
+        config: KeyboardActionsConfig(
+          keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
+          nextFocus: false,
+          actions: [
+            KeyboardActionsItem(
+              focusNode: nodeWareHouse,
+              onTapAction: () {
+                getDataSubmited('1');
+                print('nodeWareHouse');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeGroup,
+              onTapAction: () {
+                getDataSubmited('2');
+                print('nodeGroup');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeType,
+              onTapAction: () {
+                getDataSubmited('3');
+                print('nodeType');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeBrand,
+              onTapAction: () {
+                getDataSubmited('4');
+                print('nodeBrand');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeModel,
+              onTapAction: () {
+                getDataSubmited('5');
+                print('nodeModel');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeStyle,
+              onTapAction: () {
+                getDataSubmited('6');
+                print('nodeStyle');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeSize,
+              onTapAction: () {
+                getDataSubmited('7');
+                print('nodeSize');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeColor,
+              onTapAction: () {
+                getDataSubmited('8');
+                print('nodeColor');
+              },
+            ),
+            KeyboardActionsItem(
+              focusNode: nodeFree,
+              onTapAction: () {
+                getDataSubmited('9');
+                print('nodeFree');
+              },
+            ),
+          ],
+        ),
         child: ListView(
           children: [
             Padding(
@@ -401,16 +481,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child: Text(
-                          //     'คลัง : ',
-                          //     style: MyContant().h4normalStyle(),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          // ),
                           inputIditem(context, idWareHouse, '1'),
-                          inputProductStock(itemWareHouse, 'true', 'คลัง'),
+                          inputProductStock(itemWareHouse, 'true', 'คลัง', '1'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -435,17 +507,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child:
-                          // Text(
-                          //   'กลุ่ม : ',
-                          //   style: MyContant().h4normalStyle(),
-                          //   textAlign: TextAlign.right,
-                          // ),
-                          // ),
                           inputIditem(context, idGroup, '2'),
-                          inputProductStock(itemGroup, 'true', 'กลุ่ม'),
+                          inputProductStock(itemGroup, 'true', 'กลุ่ม', '2'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -463,17 +526,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child:
-                          // Text(
-                          //   'ประเภท : ',
-                          //   style: MyContant().h4normalStyle(),
-                          //   textAlign: TextAlign.right,
-                          // ),
-                          // ),
                           inputIditem(context, idType, '3'),
-                          inputProductStock(itemType, 'true', 'ประเภท'),
+                          inputProductStock(itemType, 'true', 'ประเภท', '3'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -496,17 +550,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child:
-                          // Text(
-                          //   'ยี่ห้อ : ',
-                          //   style: MyContant().h4normalStyle(),
-                          //   textAlign: TextAlign.right,
-                          // ),
-                          // ),
                           inputIditem(context, idBrand, '4'),
-                          inputProductStock(itemBrand, 'true', 'ยี่ห้อ'),
+                          inputProductStock(itemBrand, 'true', 'ยี่ห้อ', '4'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -533,16 +578,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child: Text(
-                          //     'รุ่น : ',
-                          //     style: MyContant().h4normalStyle(),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          // ),
                           inputIditem(context, idModel, '5'),
-                          inputProductStock(itemModel, 'true', 'รุ่น'),
+                          inputProductStock(itemModel, 'true', 'รุ่น', '5'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -574,16 +611,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child: Text(
-                          //     'แบบ : ',
-                          //     style: MyContant().h4normalStyle(),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          // ),
                           inputIditem(context, idStyle, '6'),
-                          inputProductStock(itemStyle, 'true', 'แบบ'),
+                          inputProductStock(itemStyle, 'true', 'แบบ', '6'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -606,16 +635,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child: Text(
-                          //     'ขนาด : ',
-                          //     style: MyContant().h4normalStyle(),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          // ),
                           inputIditem(context, idSize, '7'),
-                          inputProductStock(itemSize, 'true', 'ขนาด'),
+                          inputProductStock(itemSize, 'true', 'ขนาด', '7'),
                           SizedBox(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -640,16 +661,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child: Text(
-                          //     'สี : ',
-                          //     style: MyContant().h4normalStyle(),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          // ),
                           inputIditem(context, idColor, '8'),
-                          inputProductStock(itemColor, 'true', 'สี'),
+                          inputProductStock(itemColor, 'true', 'สี', '8'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -675,7 +688,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                               textAlign: TextAlign.right,
                             ),
                           ),
-                          inputProductStock(nameProduct, 'false', 'ชื่อสินค้า'),
+                          inputProductStock(
+                              nameProduct, 'false', 'ชื่อสินค้า', '0'),
                           const Padding(
                             padding: EdgeInsets.all(17.0),
                             child: SizedBox(width: 30),
@@ -703,16 +717,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.17,
-                          //   child: Text(
-                          //     'คลัง : ',
-                          //     style: MyContant().h4normalStyle(),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          // ),
                           inputIditem(context, idWareHouse, '1'),
-                          inputProductStock(itemWareHouse, 'true', 'คลัง'),
+                          inputProductStock(itemWareHouse, 'true', 'คลัง', '1'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -745,7 +751,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                               textAlign: TextAlign.right,
                             ),
                           ),
-                          inputProductStock(nameProduct, 'false', 'ชื่อสินค้า'),
+                          inputProductStock(
+                              nameProduct, 'false', 'ชื่อสินค้า', '0'),
                           const Padding(
                             padding: EdgeInsets.all(17.0),
                             child: SizedBox(width: 30),
@@ -771,16 +778,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                       ),
                       Row(
                         children: [
-                          // SizedBox(
-                          //   width: MediaQuery.of(context).size.width * 0.18,
-                          //   child: Text(
-                          //     'ของแถม :',
-                          //     style: MyContant().h4normalStyle(),
-                          //     textAlign: TextAlign.right,
-                          //   ),
-                          // ),
                           inputIditem(context, idFree, '9'),
-                          inputProductStock(itemFree, 'true', 'ของแถม'),
+                          inputProductStock(itemFree, 'true', 'ของแถม', '9'),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -919,7 +918,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                       onPressed: () {
                         clearDataInputStock();
                       },
-                      child: const Text('ยกเลิก'),
+                      child: const Text('ล้างข้อมูล'),
                     ),
                   ),
                 ],
@@ -1062,7 +1061,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                       value: value,
                       child: Text(
                         value,
-                        style: MyContant().TextInputStyle(),
+                        style: value == "เลือกหมวดของแถม"
+                            ? MyContant().TextSelect2()
+                            : MyContant().TextInputStyle(),
                       ),
                     ),
                   )
@@ -1070,6 +1071,9 @@ class _ProductStockDataState extends State<ProductStockData> {
               onChanged: (newvalue) {
                 setState(() {
                   selectGroupFreeList = newvalue;
+                  if (selectGroupFreeList == "เลือกหมวดของแถม") {
+                    selectGroupFreeList = null;
+                  }
                 });
               },
               value: selectGroupFreeList,
@@ -1274,7 +1278,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -1715,7 +1720,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -2171,7 +2177,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -2621,7 +2628,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3067,7 +3075,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3513,7 +3522,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3958,7 +3968,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -4404,7 +4415,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -4851,7 +4863,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 ),
                                 Row(
                                   children: [
-                                    inputProductStock(searchName, 'false', ''),
+                                    inputProductStock(
+                                        searchName, 'false', '', ''),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -4997,10 +5010,10 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               '(${itemFreeList[i]['code']})${itemFreeList[i]['name']}';
                                                           idFree.text =
                                                               itemFreeList[i]
-                                                                  ['id'];
+                                                                  ['code'];
                                                           idItemFree =
                                                               itemFreeList[i]
-                                                                  ['id'];
+                                                                  ['code'];
                                                         });
                                                         searchNameItemFree
                                                             .clear();
@@ -5145,11 +5158,8 @@ class _ProductStockDataState extends State<ProductStockData> {
     );
   }
 
-  Expanded inputProductStock(
-    TextEditingController textEditingController,
-    String textInput,
-    String nameHint,
-  ) {
+  Expanded inputProductStock(TextEditingController textEditingController,
+      String textInput, String nameHint, String indexs) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -5168,8 +5178,145 @@ class _ProductStockDataState extends State<ProductStockData> {
           controller: textEditingController,
           onChanged: (key) {},
           decoration: InputDecoration(
+            suffixIcon: textEditingController.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () async {
+                      switch (indexs) {
+                        case "1":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            idWareHouse.clear();
+                            itemWareHouse.clear();
+                            idItemWareHouse = '';
+                          });
+                          break;
+                        case "2":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            idGroup.clear();
+                            itemGroup.clear();
+                            idItemGroup = '';
+                            idType.clear();
+                            itemType.clear();
+                            idItemType = '';
+                            idBrand.clear();
+                            itemBrand.clear();
+                            idItemBrand = '';
+                            idModel.clear();
+                            itemModel.clear();
+                            idItemModel = '';
+                            idStyle.clear();
+                            itemStyle.clear();
+                            idItemStyle = '';
+                            idSize.clear();
+                            itemSize.clear();
+                            idItemSize = '';
+                          });
+                          break;
+                        case "3":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            textEditingController.clear();
+                            idType.clear();
+                            itemType.clear();
+                            idItemType = '';
+                            idBrand.clear();
+                            itemBrand.clear();
+                            idItemBrand = '';
+                            idModel.clear();
+                            itemModel.clear();
+                            idItemModel = '';
+                            idStyle.clear();
+                            itemStyle.clear();
+                            idItemStyle = '';
+                            idSize.clear();
+                            itemSize.clear();
+                            idItemSize = '';
+                          });
+                          break;
+                        case "4":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            textEditingController.clear();
+                            idBrand.clear();
+                            itemBrand.clear();
+                            idItemBrand = '';
+                            idModel.clear();
+                            itemModel.clear();
+                            idItemModel = '';
+                            idStyle.clear();
+                            itemStyle.clear();
+                            idItemStyle = '';
+                            idSize.clear();
+                            itemSize.clear();
+                            idItemSize = '';
+                          });
+                          break;
+                        case "5":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            textEditingController.clear();
+                            idModel.clear();
+                            itemModel.clear();
+                            idItemModel = '';
+                            idStyle.clear();
+                            itemStyle.clear();
+                            idItemStyle = '';
+                            idSize.clear();
+                            itemSize.clear();
+                            idItemSize = '';
+                          });
+                          break;
+                        case "6":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            textEditingController.clear();
+                            idStyle.clear();
+                            itemStyle.clear();
+                            idItemStyle = '';
+                            idSize.clear();
+                            itemSize.clear();
+                            idItemSize = '';
+                          });
+                          break;
+                        case "7":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            textEditingController.clear();
+                            idSize.clear();
+                            itemSize.clear();
+                            idItemSize = '';
+                          });
+                          break;
+                        case "8":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            textEditingController.clear();
+                            idColor.clear();
+                            itemColor.clear();
+                            idItemColor = '';
+                          });
+                          break;
+                        case "9":
+                          setState(() {
+                            textEditingController.text.isEmpty;
+                            textEditingController.clear();
+                            idFree.clear();
+                            itemFree.clear();
+                            idItemFree = '';
+                          });
+                          break;
+                        default:
+                          break;
+                      }
+                    },
+                    child: const Icon(
+                      Icons.close,
+                    ),
+                  ),
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -5190,7 +5337,6 @@ class _ProductStockDataState extends State<ProductStockData> {
 
   Future<void> getIdItemList(
       keyId, TextEditingController controllerName, index) async {
-    print('index>>$index');
     var nameApi = '', callBack = TextEditingController(), idlog;
 
     switch (index) {
@@ -5267,11 +5413,16 @@ class _ProductStockDataState extends State<ProductStockData> {
 
         if (controllerName.text.isNotEmpty) {
           itemList_m = dataItem_m['data'];
+          Iterable check;
+          if (index != "9") {
+            check = itemList_m.where(
+                (oldValue) => keyId.toString() == (oldValue['id'].toString()));
+          } else {
+            check = itemList_m.where((oldValue) =>
+                keyId.toString() == (oldValue['code'].toString()));
+          }
 
-          var check = itemList_m.where(
-              (oldValue) => keyId.toString() == (oldValue['id'].toString()));
           if (check.isEmpty) {
-            // print("null------------->$check");
             switch (index) {
               case "1":
                 itemWareHouse.clear();
@@ -5313,7 +5464,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                 break;
             }
           } else {
-            // print("success------------->$check");
             setState(() {
               callBack.text = itemList_m[0]['name'];
               if (index == '9') {
@@ -5352,7 +5502,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                   idItemColor = itemList_m[0]['id'];
                   break;
                 case "9":
-                  idItemFree = itemList_m[0]['id'];
+                  idItemFree = itemList_m[0]['code'];
                   break;
                 default:
                   break;
@@ -5378,7 +5528,6 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        // print("404");
         switch (index) {
           case "1":
             itemWareHouse.clear();
@@ -5435,6 +5584,209 @@ class _ProductStockDataState extends State<ProductStockData> {
     }
   }
 
+  fucusText(index) {
+    switch (index) {
+      case "1":
+        return nodeWareHouse;
+      case "2":
+        return nodeGroup;
+      case "3":
+        return nodeType;
+      case "4":
+        return nodeBrand;
+      case "5":
+        return nodeModel;
+      case "6":
+        return nodeStyle;
+      case "7":
+        return nodeSize;
+      case "8":
+        return nodeColor;
+      case "9":
+        return nodeFree;
+      default:
+        break;
+    }
+  }
+
+  Future<void> getDataSubmited(index) async {
+    switch (index) {
+      case "1":
+        if (selectBranchList == '' || selectBranchList == null) {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
+          idWareHouse.clear();
+          itemWareHouse.clear();
+          idItemWareHouse = '';
+        } else {
+          if (idWareHouse.text.isNotEmpty) {
+            getIdItemList(idWareHouse.text, idWareHouse, index);
+          } else {
+            idWareHouse.clear();
+            itemWareHouse.clear();
+            idItemWareHouse = '';
+          }
+        }
+        break;
+      case "2":
+        if (idGroup.text.isNotEmpty) {
+          getIdItemList(idGroup.text, idGroup, index);
+        } else {
+          idGroup.clear();
+          itemGroup.clear();
+          idItemGroup = '';
+          idType.clear();
+          itemType.clear();
+          idItemType = '';
+          idBrand.clear();
+          itemBrand.clear();
+          idItemBrand = '';
+          idModel.clear();
+          itemModel.clear();
+          idItemModel = '';
+          idStyle.clear();
+          itemStyle.clear();
+          idItemStyle = '';
+          idSize.clear();
+          itemSize.clear();
+          idItemSize = '';
+        }
+        break;
+      case "3":
+        if (itemGroup.text.isEmpty) {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้า');
+          idType.clear();
+          itemType.clear();
+          idItemType = '';
+        } else {
+          if (idType.text.isNotEmpty) {
+            getIdItemList(idType.text, idType, index);
+          } else {
+            print('empty');
+            setState(() {
+              idType.clear();
+              itemType.clear();
+              idItemType = '';
+            });
+          }
+        }
+
+        break;
+      case "4":
+        if (itemGroup.text.isEmpty && itemType.text.isEmpty) {
+          showProgressDialog(
+              context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
+          idBrand.clear();
+          itemBrand.clear();
+          idItemBrand = '';
+        } else if (itemType.text.isEmpty) {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+          idBrand.clear();
+          itemBrand.clear();
+          idItemBrand = '';
+        } else {
+          if (idBrand.text.isNotEmpty) {
+            getIdItemList(idBrand.text, idBrand, index);
+          } else {
+            idBrand.clear();
+            itemBrand.clear();
+            idItemBrand = '';
+          }
+        }
+
+        break;
+      case "5":
+        if (itemGroup.text.isEmpty &&
+            itemType.text.isEmpty &&
+            itemBrand.text.isEmpty) {
+          showProgressDialog(context, 'แจ้งเตือน',
+              'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
+          idModel.clear();
+          itemModel.clear();
+          idItemModel = '';
+        } else if (itemType.text.isEmpty && itemBrand.text.isEmpty) {
+          showProgressDialog(
+              context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+          idModel.clear();
+          itemModel.clear();
+          idItemModel = '';
+        } else if (itemBrand.text.isEmpty) {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
+          idModel.clear();
+          itemModel.clear();
+          idItemModel = '';
+        } else {
+          if (idModel.text.isNotEmpty) {
+            getIdItemList(idModel.text, idModel, index);
+          } else {
+            idModel.clear();
+            itemModel.clear();
+            idItemModel = '';
+          }
+        }
+        break;
+      case "6":
+        if (itemType.text.isEmpty) {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+          idStyle.clear();
+          itemStyle.clear();
+          idItemStyle = '';
+        } else {
+          if (idStyle.text.isNotEmpty) {
+            getIdItemList(idStyle.text, idStyle, index);
+          } else {
+            setState(() {
+              idStyle.clear();
+              itemStyle.clear();
+              idItemStyle = '';
+            });
+          }
+        }
+        break;
+      case "7":
+        if (itemType.text.isEmpty) {
+          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+          idSize.clear();
+          itemSize.clear();
+          idItemSize = '';
+        } else {
+          if (idSize.text.isNotEmpty) {
+            getIdItemList(idSize.text, idSize, index);
+          } else {
+            setState(() {
+              idSize.clear();
+              itemSize.clear();
+              idItemSize = '';
+            });
+          }
+        }
+        break;
+      case "8":
+        if (idColor.text.isNotEmpty) {
+          getIdItemList(idColor.text, idColor, index);
+        } else {
+          setState(() {
+            idColor.clear();
+            itemColor.clear();
+            idItemColor = '';
+          });
+        }
+        break;
+      case "9":
+        if (idFree.text.isNotEmpty) {
+          getIdItemList(idFree.text, idFree, index);
+        } else {
+          setState(() {
+            idFree.clear();
+            itemFree.clear();
+            idItemFree = '';
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   SizedBox inputIditem(BuildContext context,
       TextEditingController textEditingController, String index) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -5453,8 +5805,10 @@ class _ProductStockDataState extends State<ProductStockData> {
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
         child: TextField(
           controller: textEditingController,
-          keyboardType: TextInputType.number,
-          onChanged: (key) async {
+          focusNode: fucusText(index),
+          keyboardType: index != "9" ? TextInputType.number : null,
+          onSubmitted: (key) {
+            print('test123');
             switch (index) {
               case "1":
                 if (selectBranchList == '' || selectBranchList == null) {
@@ -5498,7 +5852,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                 break;
               case "3":
                 if (itemGroup.text.isEmpty) {
-                  showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่ม');
+                  showProgressDialog(
+                      context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้า');
                   textEditingController.clear();
                   itemType.clear();
                   idItemType = '';
@@ -5518,8 +5873,14 @@ class _ProductStockDataState extends State<ProductStockData> {
                 break;
               case "4":
                 if (itemGroup.text.isEmpty && itemType.text.isEmpty) {
+                  showProgressDialog(context, 'แจ้งเตือน',
+                      'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
+                  textEditingController.clear();
+                  itemBrand.clear();
+                  idItemBrand = '';
+                } else if (itemType.text.isEmpty) {
                   showProgressDialog(
-                      context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มและประเภท');
+                      context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
                   textEditingController.clear();
                   itemBrand.clear();
                   idItemBrand = '';
@@ -5532,6 +5893,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                     idItemBrand = '';
                   }
                 }
+
                 break;
               case "5":
                 if (itemGroup.text.isEmpty &&
@@ -5566,7 +5928,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                 break;
               case "6":
                 if (itemType.text.isEmpty) {
-                  showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่ม');
+                  showProgressDialog(
+                      context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
                   textEditingController.clear();
                   itemStyle.clear();
                   idItemStyle = '';
@@ -5574,7 +5937,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                   if (textEditingController.text.isNotEmpty) {
                     getIdItemList(key, textEditingController, index);
                   } else {
-                    print('empty');
                     setState(() {
                       textEditingController.clear();
                       itemStyle.clear();
@@ -5585,7 +5947,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                 break;
               case "7":
                 if (itemType.text.isEmpty) {
-                  showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่ม');
+                  showProgressDialog(
+                      context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
                   textEditingController.clear();
                   itemSize.clear();
                   idItemSize = '';
@@ -5593,7 +5956,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                   if (textEditingController.text.isNotEmpty) {
                     getIdItemList(key, textEditingController, index);
                   } else {
-                    print('empty');
                     setState(() {
                       textEditingController.clear();
                       itemSize.clear();
@@ -5628,9 +5990,191 @@ class _ProductStockDataState extends State<ProductStockData> {
                 break;
             }
           },
+          // onChanged: (key) async {
+          //   switch (index) {
+          //     case "1":
+          //       if (selectBranchList == '' || selectBranchList == null) {
+          //         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
+          //         textEditingController.clear();
+          //         itemWareHouse.clear();
+          //         idItemWareHouse = '';
+          //       } else {
+          //         if (textEditingController.text.isNotEmpty) {
+          //           getIdItemList(key, textEditingController, index);
+          //         } else {
+          //           textEditingController.clear();
+          //           itemWareHouse.clear();
+          //           idItemWareHouse = '';
+          //         }
+          //       }
+          //       break;
+          //     case "2":
+          //       if (textEditingController.text.isNotEmpty) {
+          //         getIdItemList(key, textEditingController, index);
+          //       } else {
+          //         textEditingController.clear();
+          //         itemGroup.clear();
+          //         idItemGroup = '';
+          //         idType.clear();
+          //         itemType.clear();
+          //         idItemType = '';
+          //         idBrand.clear();
+          //         itemBrand.clear();
+          //         idItemBrand = '';
+          //         idModel.clear();
+          //         itemModel.clear();
+          //         idItemModel = '';
+          //         idStyle.clear();
+          //         itemStyle.clear();
+          //         idItemStyle = '';
+          //         idSize.clear();
+          //         itemSize.clear();
+          //         idItemSize = '';
+          //       }
+          //       break;
+          //     case "3":
+          //       if (itemGroup.text.isEmpty) {
+          //         showProgressDialog(
+          //             context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้า');
+          //         textEditingController.clear();
+          //         itemType.clear();
+          //         idItemType = '';
+          //       } else {
+          //         if (textEditingController.text.isNotEmpty) {
+          //           getIdItemList(key, textEditingController, index);
+          //         } else {
+          //           print('empty');
+          //           setState(() {
+          //             textEditingController.clear();
+          //             itemType.clear();
+          //             idItemType = '';
+          //           });
+          //         }
+          //       }
+
+          //       break;
+          //     case "4":
+          //       if (itemGroup.text.isEmpty && itemType.text.isEmpty) {
+          //         showProgressDialog(context, 'แจ้งเตือน',
+          //             'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
+          //         textEditingController.clear();
+          //         itemBrand.clear();
+          //         idItemBrand = '';
+          //       } else if (itemType.text.isEmpty) {
+          //         showProgressDialog(
+          //             context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+          //         textEditingController.clear();
+          //         itemBrand.clear();
+          //         idItemBrand = '';
+          //       } else {
+          //         if (textEditingController.text.isNotEmpty) {
+          //           getIdItemList(key, textEditingController, index);
+          //         } else {
+          //           textEditingController.clear();
+          //           itemBrand.clear();
+          //           idItemBrand = '';
+          //         }
+          //       }
+
+          //       break;
+          //     case "5":
+          //       if (itemGroup.text.isEmpty &&
+          //           itemType.text.isEmpty &&
+          //           itemBrand.text.isEmpty) {
+          //         showProgressDialog(context, 'แจ้งเตือน',
+          //             'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
+          //         textEditingController.clear();
+          //         itemModel.clear();
+          //         idItemModel = '';
+          //       } else if (itemType.text.isEmpty && itemBrand.text.isEmpty) {
+          //         showProgressDialog(context, 'แจ้งเตือน',
+          //             'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+          //         textEditingController.clear();
+          //         itemModel.clear();
+          //         idItemModel = '';
+          //       } else if (itemBrand.text.isEmpty) {
+          //         showProgressDialog(
+          //             context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
+          //         textEditingController.clear();
+          //         itemModel.clear();
+          //         idItemModel = '';
+          //       } else {
+          //         if (textEditingController.text.isNotEmpty) {
+          //           getIdItemList(key, textEditingController, index);
+          //         } else {
+          //           textEditingController.clear();
+          //           itemModel.clear();
+          //           idItemModel = '';
+          //         }
+          //       }
+          //       break;
+          //     case "6":
+          //       if (itemType.text.isEmpty) {
+          //         showProgressDialog(
+          //             context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+          //         textEditingController.clear();
+          //         itemStyle.clear();
+          //         idItemStyle = '';
+          //       } else {
+          //         if (textEditingController.text.isNotEmpty) {
+          //           getIdItemList(key, textEditingController, index);
+          //         } else {
+          //           setState(() {
+          //             textEditingController.clear();
+          //             itemStyle.clear();
+          //             idItemStyle = '';
+          //           });
+          //         }
+          //       }
+          //       break;
+          //     case "7":
+          //       if (itemType.text.isEmpty) {
+          //         showProgressDialog(
+          //             context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+          //         textEditingController.clear();
+          //         itemSize.clear();
+          //         idItemSize = '';
+          //       } else {
+          //         if (textEditingController.text.isNotEmpty) {
+          //           getIdItemList(key, textEditingController, index);
+          //         } else {
+          //           setState(() {
+          //             textEditingController.clear();
+          //             itemSize.clear();
+          //             idItemSize = '';
+          //           });
+          //         }
+          //       }
+          //       break;
+          //     case "8":
+          //       if (textEditingController.text.isNotEmpty) {
+          //         getIdItemList(key, textEditingController, index);
+          //       } else {
+          //         setState(() {
+          //           textEditingController.clear();
+          //           itemColor.clear();
+          //           idItemColor = '';
+          //         });
+          //       }
+          //       break;
+          //     case "9":
+          //       if (textEditingController.text.isNotEmpty) {
+          //         getIdItemList(key, textEditingController, index);
+          //       } else {
+          //         setState(() {
+          //           textEditingController.clear();
+          //           itemFree.clear();
+          //           idItemFree = '';
+          //         });
+          //       }
+          //       break;
+          //     default:
+          //       break;
+          //   }
+          // },
           decoration: const InputDecoration(
             counterText: "",
-            contentPadding: EdgeInsets.all(6),
+            contentPadding: EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

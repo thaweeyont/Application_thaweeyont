@@ -50,6 +50,7 @@ dependencies:
   flutter_localization: ^0.1.10
   equatable: ^2.0.5
   connectivity_plus: ^5.0.2
+  keyboard_actions: ^4.2.0
   flutter_localizations:
     sdk: flutter
   

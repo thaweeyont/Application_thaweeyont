@@ -192,7 +192,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     double size = MediaQuery.of(context).size.width;
     double size_h = MediaQuery.of(context).size.height;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: Appbar(),
       body: Container(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -202,41 +202,37 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         margin: const EdgeInsets.only(top: 25),
-        child: FloatingActionButton(
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          elevation: 0,
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 2;
-              status = true;
-            });
-          },
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(
-              width: 4,
-              color: Color.fromRGBO(5, 12, 69, 1),
-            ),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: const Icon(
-            Icons.home,
-            color: Colors.blue,
-          ),
-        ),
+        child: builFab(context),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: _selectedIndex == 2
-      //       ? Colors.blue
-      //       : const Color.fromARGB(255, 22, 30, 94),
-      //   child: const Icon(Icons.home),
-      //   onPressed: () {
-      //     setState(() {
-      //       _selectedIndex = 2;
-      //       status = true;
-      //     });
-      //   },
-      // ),
     );
+  }
+
+  Widget builFab(BuildContext context) {
+    if (MediaQuery.of(context).viewInsets.bottom == 0.0) {
+      return FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        elevation: 0,
+        onPressed: () {
+          setState(() {
+            _selectedIndex = 2;
+            status = true;
+          });
+        },
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(
+            width: 4,
+            color: Color.fromRGBO(5, 12, 69, 1),
+          ),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: const Icon(
+          Icons.home,
+          color: Colors.blue,
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
 // อันนี้ไม่ได้ใช้

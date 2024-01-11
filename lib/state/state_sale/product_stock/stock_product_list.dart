@@ -135,7 +135,7 @@ class _StockProductListState extends State<StockProductList> {
           'whId': '${widget.idItemWareHouse}',
           'itemName': '${widget.nameProduct}',
           'groupFree': '${widget.selectGroupFreeList}',
-          'freeItemId': '${widget.idItemFree}',
+          'freeItemCode': '${widget.idItemFree}',
           'groupId': '${widget.idItemGroup}',
           'itemTypeId': '${widget.idItemType}',
           'brandId': '${widget.idItemBrand}',

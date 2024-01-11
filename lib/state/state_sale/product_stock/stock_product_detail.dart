@@ -268,7 +268,6 @@ class _StockProductDetailState extends State<StockProductDetail> {
                           child: Text(
                             '$NitemTypeName $NbrandName ${widget.itemName}',
                             overflow: TextOverflow.clip,
-                            // textAlign: TextAlign.center,
                             style: MyContant().h4normalStyle(),
                           ),
                         ),
