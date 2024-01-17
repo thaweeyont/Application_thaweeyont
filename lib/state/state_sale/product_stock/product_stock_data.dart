@@ -207,7 +207,6 @@ class _ProductStockDataState extends State<ProductStockData> {
             Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
-          // dropdownBranch = dataBranch['data'];
           List df = [
             {'id': 99, 'name': "กรุณาเลือกสาขา"}
           ];
@@ -215,7 +214,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           print('myList>>$myListJson');
           dropdownBranch = myListJson;
         });
-        // print(df);
         print(dropdownBranch);
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -327,318 +325,299 @@ class _ProductStockDataState extends State<ProductStockData> {
       ),
     );
     return Scaffold(
-      body: KeyboardActions(
-        config: KeyboardActionsConfig(
-          keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
-          nextFocus: false,
-          actions: [
-            KeyboardActionsItem(
-              focusNode: nodeWareHouse,
-              onTapAction: () {
-                getDataSubmited('1');
-                print('nodeWareHouse');
-              },
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: KeyboardActions(
+          config: KeyboardActionsConfig(
+            keyboardActionsPlatform: KeyboardActionsPlatform.IOS,
+            nextFocus: false,
+            defaultDoneWidget: const Text(
+              'เสร็จสิ้น',
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.blue,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Prompt',
+              ),
             ),
-            KeyboardActionsItem(
-              focusNode: nodeGroup,
-              onTapAction: () {
-                getDataSubmited('2');
-                print('nodeGroup');
-              },
-            ),
-            KeyboardActionsItem(
-              focusNode: nodeType,
-              onTapAction: () {
-                getDataSubmited('3');
-                print('nodeType');
-              },
-            ),
-            KeyboardActionsItem(
-              focusNode: nodeBrand,
-              onTapAction: () {
-                getDataSubmited('4');
-                print('nodeBrand');
-              },
-            ),
-            KeyboardActionsItem(
-              focusNode: nodeModel,
-              onTapAction: () {
-                getDataSubmited('5');
-                print('nodeModel');
-              },
-            ),
-            KeyboardActionsItem(
-              focusNode: nodeStyle,
-              onTapAction: () {
-                getDataSubmited('6');
-                print('nodeStyle');
-              },
-            ),
-            KeyboardActionsItem(
-              focusNode: nodeSize,
-              onTapAction: () {
-                getDataSubmited('7');
-                print('nodeSize');
-              },
-            ),
-            KeyboardActionsItem(
-              focusNode: nodeColor,
-              onTapAction: () {
-                getDataSubmited('8');
-                print('nodeColor');
-              },
-            ),
-            KeyboardActionsItem(
-              focusNode: nodeFree,
-              onTapAction: () {
-                getDataSubmited('9');
-                print('nodeFree');
-              },
-            ),
-          ],
-        ),
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(5),
+            actions: [
+              KeyboardActionsItem(
+                focusNode: nodeWareHouse,
+                onTapAction: () {
+                  getDataSubmited('1');
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeGroup,
+                onTapAction: () {
+                  getDataSubmited('2');
+                  // nodeType.requestFocus();
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeType,
+                onTapAction: () {
+                  getDataSubmited('3');
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeBrand,
+                onTapAction: () {
+                  getDataSubmited('4');
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeModel,
+                onTapAction: () {
+                  getDataSubmited('5');
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeStyle,
+                onTapAction: () {
+                  getDataSubmited('6');
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeSize,
+                onTapAction: () {
+                  getDataSubmited('7');
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeColor,
+                onTapAction: () {
+                  getDataSubmited('8');
+                },
+              ),
+              KeyboardActionsItem(
+                focusNode: nodeFree,
+                onTapAction: () {
+                  getDataSubmited('9');
+                },
+              ),
+            ],
+          ),
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                    color: const Color.fromRGBO(176, 218, 255, 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 0.2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
                   ),
-                  color: const Color.fromRGBO(176, 218, 255, 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    )
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        selectStcokType(sizeIcon, border),
-                        Checkbox(
-                          side: MaterialStateBorderSide.resolveWith(
-                            (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.selected)) {
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          selectStcokType(sizeIcon, border),
+                          Checkbox(
+                            side: MaterialStateBorderSide.resolveWith(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.selected)) {
+                                  return const BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      width: 1.7);
+                                }
                                 return const BorderSide(
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     width: 1.7);
+                              },
+                            ),
+                            value: isCheckedPR,
+                            checkColor: const Color.fromARGB(255, 0, 0, 0),
+                            activeColor:
+                                const Color.fromARGB(255, 255, 255, 255),
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isCheckedPR = value!;
+                              });
+                              if (isCheckedPR == true) {
+                                var promotion = 'pr';
+                                idItemWareHouse = promotion;
+                              } else {
+                                var promotion = '';
+                                idItemWareHouse = promotion;
                               }
-                              return const BorderSide(
-                                  color: Color.fromARGB(255, 0, 0, 0),
-                                  width: 1.7);
+                              print(isCheckedPR);
+                              print(idItemWareHouse);
                             },
                           ),
-                          value: isCheckedPR,
-                          checkColor: const Color.fromARGB(255, 0, 0, 0),
-                          activeColor: const Color.fromARGB(255, 255, 255, 255),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isCheckedPR = value!;
-                            });
-                            if (isCheckedPR == true) {
-                              var promotion = 'pr';
-                              idItemWareHouse = promotion;
-                            } else {
-                              var promotion = '';
-                              idItemWareHouse = promotion;
-                            }
-                            print(isCheckedPR);
-                            print(idItemWareHouse);
-                          },
-                        ),
-                        Text(
-                          'โปรโมชั่น (PR)',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        const SizedBox(width: 8)
-                      ],
-                    ),
-                    if (selectStockTypeList == 1 ||
-                        selectStockTypeList == 2) ...[
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.14,
-                            child: Text(
-                              'สาขา : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
+                          Text(
+                            'โปรโมชั่น (PR)',
+                            style: MyContant().h4normalStyle(),
                           ),
-                          selectBranch(sizeIcon, border),
-                          const Padding(
-                            padding: EdgeInsets.all(13.0),
-                            child: SizedBox(width: 30),
-                          )
+                          const SizedBox(width: 8)
                         ],
                       ),
-                      Row(
-                        children: [
-                          inputIditem(context, idWareHouse, '1'),
-                          inputProductStock(itemWareHouse, 'true', 'คลัง', '1'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
+                      if (selectStockTypeList == 1 ||
+                          selectStockTypeList == 2) ...[
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.14,
+                              child: Text(
+                                'สาขา : ',
+                                style: MyContant().h4normalStyle(),
+                                textAlign: TextAlign.right,
+                              ),
                             ),
-                            onPressed: () {
-                              if (selectBranchList == '' ||
-                                  selectBranchList == null ||
-                                  selectBranchList == 99) {
-                                showProgressDialog(
-                                    context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
-                              } else {
-                                searchSetupItemWarehouse(searchNameWareHouse);
-                              }
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idGroup, '2'),
-                          inputProductStock(itemGroup, 'true', 'กลุ่ม', '2'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () async {
-                              searchSetupItemGroup(searchNameGroup);
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idType, '3'),
-                          inputProductStock(itemType, 'true', 'ประเภท', '3'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () async {
-                              if (itemGroup.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกกลุ่มสินค้า');
-                              } else {
-                                searchSetupItemType(searchNameType);
-                              }
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idBrand, '4'),
-                          inputProductStock(itemBrand, 'true', 'ยี่ห้อ', '4'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () {
-                              if (itemGroup.text.isEmpty &&
-                                  itemType.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
-                              } else if (itemType.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกประเภทสินค้า');
-                              } else {
-                                searchSetupItemBrand(searchNameBrand);
-                              }
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idModel, '5'),
-                          inputProductStock(itemModel, 'true', 'รุ่น', '5'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () {
-                              if (itemGroup.text.isEmpty &&
-                                  itemType.text.isEmpty &&
-                                  itemBrand.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
-                              } else if (itemType.text.isEmpty &&
-                                  itemBrand.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
-                              } else if (itemBrand.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกยี่ห้อสินค้า');
-                              } else {
-                                searchSetupItemModel(searchNameModel);
-                              }
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idStyle, '6'),
-                          inputProductStock(itemStyle, 'true', 'แบบ', '6'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () {
-                              if (itemType.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกประเภทสินค้า');
-                              } else {
-                                searchSetupItemStyle(searchNameStyle);
-                              }
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idSize, '7'),
-                          inputProductStock(itemSize, 'true', 'ขนาด', '7'),
-                          SizedBox(
-                            child: ElevatedButton(
+                            selectBranch(sizeIcon, border),
+                            const Padding(
+                              padding: EdgeInsets.all(13.0),
+                              child: SizedBox(width: 30),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idWareHouse, '1'),
+                            inputProductStock(
+                                itemWareHouse, 'true', 'คลัง', '1'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () {
+                                if (selectBranchList == '' ||
+                                    selectBranchList == null ||
+                                    selectBranchList == 99) {
+                                  showProgressDialog(
+                                      context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
+                                } else {
+                                  searchSetupItemWarehouse(searchNameWareHouse);
+                                }
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idGroup, '2'),
+                            inputProductStock(itemGroup, 'true', 'กลุ่ม', '2'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () async {
+                                searchSetupItemGroup(searchNameGroup);
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idType, '3'),
+                            inputProductStock(itemType, 'true', 'ประเภท', '3'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () async {
+                                if (itemGroup.text.isEmpty) {
+                                  showProgressDialog(context, 'แจ้งเตือน',
+                                      'กรุณาเลือกกลุ่มสินค้า');
+                                } else {
+                                  searchSetupItemType(searchNameType);
+                                }
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idBrand, '4'),
+                            inputProductStock(itemBrand, 'true', 'ยี่ห้อ', '4'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () {
+                                if (itemGroup.text.isEmpty &&
+                                    itemType.text.isEmpty) {
+                                  showProgressDialog(context, 'แจ้งเตือน',
+                                      'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
+                                } else if (itemType.text.isEmpty) {
+                                  showProgressDialog(context, 'แจ้งเตือน',
+                                      'กรุณาเลือกประเภทสินค้า');
+                                } else {
+                                  searchSetupItemBrand(searchNameBrand);
+                                }
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idModel, '5'),
+                            inputProductStock(itemModel, 'true', 'รุ่น', '5'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () {
+                                if (itemGroup.text.isEmpty &&
+                                    itemType.text.isEmpty &&
+                                    itemBrand.text.isEmpty) {
+                                  showProgressDialog(context, 'แจ้งเตือน',
+                                      'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
+                                } else if (itemType.text.isEmpty &&
+                                    itemBrand.text.isEmpty) {
+                                  showProgressDialog(context, 'แจ้งเตือน',
+                                      'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+                                } else if (itemBrand.text.isEmpty) {
+                                  showProgressDialog(context, 'แจ้งเตือน',
+                                      'กรุณาเลือกยี่ห้อสินค้า');
+                                } else {
+                                  searchSetupItemModel(searchNameModel);
+                                }
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idStyle, '6'),
+                            inputProductStock(itemStyle, 'true', 'แบบ', '6'),
+                            ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 shape: const CircleBorder(),
                                 backgroundColor:
@@ -649,163 +628,196 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   showProgressDialog(context, 'แจ้งเตือน',
                                       'กรุณาเลือกประเภทสินค้า');
                                 } else {
-                                  searchSetupItemSize(searchNameSize);
+                                  searchSetupItemStyle(searchNameStyle);
                                 }
                               },
                               child: const Icon(
                                 Icons.search,
                               ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idSize, '7'),
+                            inputProductStock(itemSize, 'true', 'ขนาด', '7'),
+                            SizedBox(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 56, 162, 255),
+                                ),
+                                onPressed: () {
+                                  if (itemType.text.isEmpty) {
+                                    showProgressDialog(context, 'แจ้งเตือน',
+                                        'กรุณาเลือกประเภทสินค้า');
+                                  } else {
+                                    searchSetupItemSize(searchNameSize);
+                                  }
+                                },
+                                child: const Icon(
+                                  Icons.search,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idColor, '8'),
+                            inputProductStock(itemColor, 'true', 'สี', '8'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () {
+                                searchSetupItemColor(searchNameColor);
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: Text(
+                                'ชื่อสินค้า : ',
+                                style: MyContant().h4normalStyle(),
+                                textAlign: TextAlign.right,
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idColor, '8'),
-                          inputProductStock(itemColor, 'true', 'สี', '8'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
+                            inputProductStock(
+                                nameProduct, 'false', 'ชื่อสินค้า', '0'),
+                            const Padding(
+                              padding: EdgeInsets.all(17.0),
+                              child: SizedBox(width: 30),
+                            )
+                          ],
+                        ),
+                      ] else if (selectStockTypeList == 3 ||
+                          selectStockTypeList == 4) ...[
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.14,
+                              child: Text(
+                                'สาขา : ',
+                                style: MyContant().h4normalStyle(),
+                                textAlign: TextAlign.right,
+                              ),
                             ),
-                            onPressed: () {
-                              searchSetupItemColor(searchNameColor);
-                            },
-                            child: const Icon(
-                              Icons.search,
+                            selectBranch(sizeIcon, border),
+                            const Padding(
+                              padding: EdgeInsets.all(13.0),
+                              child: SizedBox(width: 30),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idWareHouse, '1'),
+                            inputProductStock(
+                                itemWareHouse, 'true', 'คลัง', '1'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () {
+                                if (selectBranchList == '' ||
+                                    selectBranchList == null ||
+                                    selectBranchList == 99) {
+                                  showProgressDialog(
+                                      context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
+                                } else {
+                                  searchSetupItemWarehouse(searchNameWareHouse);
+                                }
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              child: Text(
+                                'ชื่อสินค้า : ',
+                                style: MyContant().h4normalStyle(),
+                                textAlign: TextAlign.right,
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: Text(
-                              'ชื่อสินค้า : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
+                            inputProductStock(
+                                nameProduct, 'false', 'ชื่อสินค้า', '0'),
+                            const Padding(
+                              padding: EdgeInsets.all(17.0),
+                              child: SizedBox(width: 30),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: Text(
+                                'หมวดของแถม : ',
+                                style: MyContant().h4normalStyle(),
+                                textAlign: TextAlign.right,
+                              ),
                             ),
-                          ),
-                          inputProductStock(
-                              nameProduct, 'false', 'ชื่อสินค้า', '0'),
-                          const Padding(
-                            padding: EdgeInsets.all(17.0),
-                            child: SizedBox(width: 30),
-                          )
-                        ],
-                      ),
-                    ] else if (selectStockTypeList == 3 ||
-                        selectStockTypeList == 4) ...[
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.14,
-                            child: Text(
-                              'สาขา : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          selectBranch(sizeIcon, border),
-                          const Padding(
-                            padding: EdgeInsets.all(13.0),
-                            child: SizedBox(width: 30),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idWareHouse, '1'),
-                          inputProductStock(itemWareHouse, 'true', 'คลัง', '1'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () {
-                              if (selectBranchList == '' ||
-                                  selectBranchList == null ||
-                                  selectBranchList == 99) {
-                                showProgressDialog(
-                                    context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
-                              } else {
-                                searchSetupItemWarehouse(searchNameWareHouse);
-                              }
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: Text(
-                              'ชื่อสินค้า : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          inputProductStock(
-                              nameProduct, 'false', 'ชื่อสินค้า', '0'),
-                          const Padding(
-                            padding: EdgeInsets.all(17.0),
-                            child: SizedBox(width: 30),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Text(
-                              'หมวดของแถม : ',
-                              style: MyContant().h4normalStyle(),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                          selectGroupFree(sizeIcon, border),
-                          const Padding(
-                            padding: EdgeInsets.all(13.0),
-                            child: SizedBox(width: 30),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          inputIditem(context, idFree, '9'),
-                          inputProductStock(itemFree, 'true', 'ของแถม', '9'),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const CircleBorder(),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 56, 162, 255),
-                            ),
-                            onPressed: () {
-                              searchSetupItemFree(searchNameItemFree);
-                            },
-                            child: const Icon(
-                              Icons.search,
-                            ),
-                          )
-                        ],
-                      ),
+                            selectGroupFree(sizeIcon, border),
+                            const Padding(
+                              padding: EdgeInsets.all(13.0),
+                              child: SizedBox(width: 30),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            inputIditem(context, idFree, '9'),
+                            inputProductStock(itemFree, 'true', 'ของแถม', '9'),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 56, 162, 255),
+                              ),
+                              onPressed: () {
+                                searchSetupItemFree(searchNameItemFree);
+                              },
+                              child: const Icon(
+                                Icons.search,
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
-            ),
-            groupBtnSearch(),
-            const SizedBox(height: 50),
-          ],
+              groupBtnSearch(),
+              const SizedBox(height: 50),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 
   Padding groupBtnSearch() {
@@ -850,25 +862,32 @@ class _ProductStockDataState extends State<ProductStockData> {
                           print(
                               'id_ware>>$idItemWareHouse ${itemWareHouse.text}');
                           print('id_nameP>>${nameProduct.text}');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StockProductList(
-                                  selectStockTypeList.toString(),
-                                  branch,
-                                  idItemWareHouse,
-                                  nameProduct.text,
-                                  groupFree,
-                                  idItemFree,
-                                  idItemGroup,
-                                  idItemType,
-                                  idItemBrand,
-                                  idItemModel,
-                                  idItemStyle,
-                                  idItemSize,
-                                  idItemColor),
-                            ),
-                          );
+                          if (idItemGroup == '' &&
+                              itemGroup.text.isEmpty &&
+                              nameProduct.text.isEmpty) {
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรุณากรอกหรือเลือกสินค้าที่ค้นหา');
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StockProductList(
+                                    selectStockTypeList.toString(),
+                                    branch,
+                                    idItemWareHouse,
+                                    nameProduct.text,
+                                    groupFree,
+                                    idItemFree,
+                                    idItemGroup,
+                                    idItemType,
+                                    idItemBrand,
+                                    idItemModel,
+                                    idItemStyle,
+                                    idItemSize,
+                                    idItemColor),
+                              ),
+                            );
+                          }
                         } else if (selectStockTypeList == 3 ||
                             selectStockTypeList == 4) {
                           print('id_g>>$idItemGroup ${itemGroup.text}');
@@ -884,26 +903,33 @@ class _ProductStockDataState extends State<ProductStockData> {
                           print('id_branch>>$branch');
                           print('id_groupfree>>$groupFree');
                           print('id_itemfree>>$idItemFree');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StockProductList(
-                                selectStockTypeList.toString(),
-                                branch,
-                                idItemWareHouse,
-                                nameProduct.text,
-                                groupFree,
-                                idItemFree,
-                                '',
-                                '',
-                                '',
-                                '',
-                                '',
-                                '',
-                                '',
+                          if (groupFree == '' &&
+                              nameProduct.text.isEmpty &&
+                              itemFree.text.isEmpty) {
+                            showProgressDialog(context, 'แจ้งเตือน',
+                                'กรุณากรอกหรือเลือกของแถม');
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StockProductList(
+                                  selectStockTypeList.toString(),
+                                  branch,
+                                  idItemWareHouse,
+                                  nameProduct.text,
+                                  groupFree,
+                                  idItemFree,
+                                  '',
+                                  '',
+                                  '',
+                                  '',
+                                  '',
+                                  '',
+                                  '',
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         }
                       },
                       child: const Text('ค้นหา'),
@@ -1437,6 +1463,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                         getDataItemGroupList(
                                                             'no');
                                                         Navigator.pop(context);
+                                                        nodeType.requestFocus();
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -1883,6 +1910,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                         getDataItemTypeList(
                                                             'no');
                                                         Navigator.pop(context);
+                                                        nodeBrand
+                                                            .requestFocus();
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -2336,6 +2365,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                         getDataItemBrandList(
                                                             'no');
                                                         Navigator.pop(context);
+                                                        nodeModel
+                                                            .requestFocus();
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -2785,6 +2816,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                         getDataItemModelList(
                                                             'no', 'noload');
                                                         Navigator.pop(context);
+                                                        nodeStyle
+                                                            .requestFocus();
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -3232,6 +3265,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                         getDataItemStyleList(
                                                             'no');
                                                         Navigator.pop(context);
+                                                        nodeSize.requestFocus();
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -3679,6 +3713,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                         getDataItemSizeList(
                                                             'no');
                                                         Navigator.pop(context);
+                                                        nodeColor
+                                                            .requestFocus();
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -4575,6 +4611,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                         getDataItemWarehouseList(
                                                             'no');
                                                         Navigator.pop(context);
+                                                        nodeGroup
+                                                            .requestFocus();
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -5176,13 +5214,24 @@ class _ProductStockDataState extends State<ProductStockData> {
         child: TextField(
           readOnly: textInput == 'true' ? true : false,
           controller: textEditingController,
-          onChanged: (key) {},
+          onChanged: (key) {
+            if (indexs == "0") {
+              setState(() {
+                textEditingController.text.isEmpty;
+              });
+            }
+          },
           decoration: InputDecoration(
             suffixIcon: textEditingController.text.isEmpty
                 ? null
                 : GestureDetector(
                     onTap: () async {
                       switch (indexs) {
+                        case "0":
+                          setState(() {
+                            nameProduct.clear();
+                          });
+                          break;
                         case "1":
                           setState(() {
                             textEditingController.text.isEmpty;
@@ -5212,6 +5261,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                             idSize.clear();
                             itemSize.clear();
                             idItemSize = '';
+                            idColor.clear();
+                            itemColor.clear();
+                            idItemColor = '';
                           });
                           break;
                         case "3":
@@ -5233,6 +5285,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                             idSize.clear();
                             itemSize.clear();
                             idItemSize = '';
+                            idColor.clear();
+                            itemColor.clear();
+                            idItemColor = '';
                           });
                           break;
                         case "4":
@@ -5251,6 +5306,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                             idSize.clear();
                             itemSize.clear();
                             idItemSize = '';
+                            idColor.clear();
+                            itemColor.clear();
+                            idItemColor = '';
                           });
                           break;
                         case "5":
@@ -5266,6 +5324,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                             idSize.clear();
                             itemSize.clear();
                             idItemSize = '';
+                            idColor.clear();
+                            itemColor.clear();
+                            idItemColor = '';
                           });
                           break;
                         case "6":
@@ -5287,6 +5348,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                             idSize.clear();
                             itemSize.clear();
                             idItemSize = '';
+                            idColor.clear();
+                            itemColor.clear();
+                            idItemColor = '';
                           });
                           break;
                         case "8":
@@ -5478,25 +5542,31 @@ class _ProductStockDataState extends State<ProductStockData> {
                 case "2":
                   idItemGroup = itemList_m[0]['id'];
                   getDataItemTypeList('no');
+                  nodeType.requestFocus();
                   break;
                 case "3":
                   idItemType = itemList_m[0]['id'];
                   getDataItemBrandList('no');
                   getDataItemStyleList('no');
                   getDataItemSizeList('no');
+                  nodeBrand.requestFocus();
                   break;
                 case "4":
                   idItemBrand = itemList_m[0]['id'];
                   getDataItemModelList('no', 'noload');
+                  nodeModel.requestFocus();
                   break;
                 case "5":
                   idItemModel = itemList_m[0]['id'];
+                  nodeStyle.requestFocus();
                   break;
                 case "6":
                   idItemStyle = itemList_m[0]['id'];
+                  nodeSize.requestFocus();
                   break;
                 case "7":
                   idItemSize = itemList_m[0]['id'];
+                  nodeColor.requestFocus();
                   break;
                 case "8":
                   idItemColor = itemList_m[0]['id'];
@@ -5530,40 +5600,31 @@ class _ProductStockDataState extends State<ProductStockData> {
       } else if (respose.statusCode == 404) {
         switch (index) {
           case "1":
-            itemWareHouse.clear();
-            idItemWareHouse = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '1');
             break;
           case "2":
-            itemGroup.clear();
-            idItemGroup = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '2');
             break;
           case "3":
-            itemType.clear();
-            idItemType = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '3');
             break;
           case "4":
-            itemBrand.clear();
-            idItemBrand = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '4');
             break;
           case "5":
-            itemModel.clear();
-            idItemModel = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '5');
             break;
           case "6":
-            itemStyle.clear();
-            idItemStyle = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '6');
             break;
           case "7":
-            itemSize.clear();
-            idItemSize = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '7');
             break;
           case "8":
-            itemColor.clear();
-            idItemColor = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '8');
             break;
           case "9":
-            itemFree.clear();
-            idItemFree = '';
+            showDialogNotData(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา', '9');
             break;
           default:
             break;
@@ -5609,21 +5670,31 @@ class _ProductStockDataState extends State<ProductStockData> {
     }
   }
 
+  checkNull(controllerName) {
+    if (controllerName == '') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Future<void> getDataSubmited(index) async {
     switch (index) {
       case "1":
-        if (selectBranchList == '' || selectBranchList == null) {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
-          idWareHouse.clear();
-          itemWareHouse.clear();
-          idItemWareHouse = '';
-        } else {
-          if (idWareHouse.text.isNotEmpty) {
-            getIdItemList(idWareHouse.text, idWareHouse, index);
-          } else {
+        if (checkNull(idWareHouse.text) == true) {
+          if (selectBranchList == '' || selectBranchList == null) {
+            showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
             idWareHouse.clear();
             itemWareHouse.clear();
             idItemWareHouse = '';
+          } else {
+            if (idWareHouse.text.isNotEmpty) {
+              getIdItemList(idWareHouse.text, idWareHouse, index);
+            } else {
+              idWareHouse.clear();
+              itemWareHouse.clear();
+              idItemWareHouse = '';
+            }
           }
         }
         break;
@@ -5652,111 +5723,118 @@ class _ProductStockDataState extends State<ProductStockData> {
         }
         break;
       case "3":
-        if (itemGroup.text.isEmpty) {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้า');
-          idType.clear();
-          itemType.clear();
-          idItemType = '';
-        } else {
-          if (idType.text.isNotEmpty) {
-            getIdItemList(idType.text, idType, index);
+        if (checkNull(idType.text) == true) {
+          if (itemGroup.text.isEmpty) {
+            showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้า');
+            idType.clear();
+            itemType.clear();
+            idItemType = '';
           } else {
-            print('empty');
-            setState(() {
-              idType.clear();
-              itemType.clear();
-              idItemType = '';
-            });
+            if (idType.text.isNotEmpty) {
+              getIdItemList(idType.text, idType, index);
+            } else {
+              setState(() {
+                idType.clear();
+                itemType.clear();
+                idItemType = '';
+              });
+            }
           }
         }
-
         break;
       case "4":
-        if (itemGroup.text.isEmpty && itemType.text.isEmpty) {
-          showProgressDialog(
-              context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
-          idBrand.clear();
-          itemBrand.clear();
-          idItemBrand = '';
-        } else if (itemType.text.isEmpty) {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
-          idBrand.clear();
-          itemBrand.clear();
-          idItemBrand = '';
-        } else {
-          if (idBrand.text.isNotEmpty) {
-            getIdItemList(idBrand.text, idBrand, index);
-          } else {
+        if (checkNull(idBrand.text) == true) {
+          if (itemGroup.text.isEmpty && itemType.text.isEmpty) {
+            showProgressDialog(
+                context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
             idBrand.clear();
             itemBrand.clear();
             idItemBrand = '';
+          } else if (itemType.text.isEmpty) {
+            showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+            idBrand.clear();
+            itemBrand.clear();
+            idItemBrand = '';
+          } else {
+            if (idBrand.text.isNotEmpty) {
+              getIdItemList(idBrand.text, idBrand, index);
+            } else {
+              idBrand.clear();
+              itemBrand.clear();
+              idItemBrand = '';
+            }
           }
         }
-
         break;
       case "5":
-        if (itemGroup.text.isEmpty &&
-            itemType.text.isEmpty &&
-            itemBrand.text.isEmpty) {
-          showProgressDialog(context, 'แจ้งเตือน',
-              'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
-          idModel.clear();
-          itemModel.clear();
-          idItemModel = '';
-        } else if (itemType.text.isEmpty && itemBrand.text.isEmpty) {
-          showProgressDialog(
-              context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
-          idModel.clear();
-          itemModel.clear();
-          idItemModel = '';
-        } else if (itemBrand.text.isEmpty) {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
-          idModel.clear();
-          itemModel.clear();
-          idItemModel = '';
-        } else {
-          if (idModel.text.isNotEmpty) {
-            getIdItemList(idModel.text, idModel, index);
-          } else {
+        if (checkNull(idModel.text) == true) {
+          if (itemGroup.text.isEmpty &&
+              itemType.text.isEmpty &&
+              itemBrand.text.isEmpty) {
+            showProgressDialog(context, 'แจ้งเตือน',
+                'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
             idModel.clear();
             itemModel.clear();
             idItemModel = '';
+          } else if (itemType.text.isEmpty && itemBrand.text.isEmpty) {
+            showProgressDialog(
+                context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+            idModel.clear();
+            itemModel.clear();
+            idItemModel = '';
+          } else if (itemBrand.text.isEmpty) {
+            showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
+            idModel.clear();
+            itemModel.clear();
+            idItemModel = '';
+          } else {
+            if (idModel.text.isNotEmpty) {
+              getIdItemList(idModel.text, idModel, index);
+            } else {
+              idModel.clear();
+              itemModel.clear();
+              idItemModel = '';
+            }
           }
         }
         break;
       case "6":
-        if (itemType.text.isEmpty) {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
-          idStyle.clear();
-          itemStyle.clear();
-          idItemStyle = '';
-        } else {
-          if (idStyle.text.isNotEmpty) {
-            getIdItemList(idStyle.text, idStyle, index);
+        if (checkNull(idStyle.text) == true) {
+          if (itemType.text.isEmpty) {
+            showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+            idStyle.clear();
+            itemStyle.clear();
+            idItemStyle = '';
           } else {
-            setState(() {
-              idStyle.clear();
-              itemStyle.clear();
-              idItemStyle = '';
-            });
+            if (idStyle.text.isNotEmpty) {
+              getIdItemList(idStyle.text, idStyle, index);
+            } else {
+              setState(() {
+                idStyle.clear();
+                itemStyle.clear();
+                idItemStyle = '';
+              });
+            }
           }
         }
         break;
       case "7":
-        if (itemType.text.isEmpty) {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
-          idSize.clear();
-          itemSize.clear();
-          idItemSize = '';
-        } else {
-          if (idSize.text.isNotEmpty) {
-            getIdItemList(idSize.text, idSize, index);
+        if (checkNull(idSize.text) == true) {
+          if (itemType.text.isEmpty) {
+            showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
+            idSize.clear();
+            itemSize.clear();
+            idItemSize = '';
           } else {
-            setState(() {
-              idSize.clear();
-              itemSize.clear();
-              idItemSize = '';
-            });
+            if (idSize.text.isNotEmpty) {
+              getIdItemList(idSize.text, idSize, index);
+            } else {
+              setState(() {
+                idSize.clear();
+                itemSize.clear();
+                idItemSize = '';
+              });
+            }
           }
         }
         break;
@@ -5772,14 +5850,16 @@ class _ProductStockDataState extends State<ProductStockData> {
         }
         break;
       case "9":
-        if (idFree.text.isNotEmpty) {
-          getIdItemList(idFree.text, idFree, index);
-        } else {
-          setState(() {
-            idFree.clear();
-            itemFree.clear();
-            idItemFree = '';
-          });
+        if (checkNull(idFree.text) == true) {
+          if (idFree.text.isNotEmpty) {
+            getIdItemList(idFree.text, idFree, index);
+          } else {
+            setState(() {
+              idFree.clear();
+              itemFree.clear();
+              idItemFree = '';
+            });
+          }
         }
         break;
       default:
@@ -5806,9 +5886,9 @@ class _ProductStockDataState extends State<ProductStockData> {
         child: TextField(
           controller: textEditingController,
           focusNode: fucusText(index),
+          textInputAction: TextInputAction.next,
           keyboardType: index != "9" ? TextInputType.number : null,
           onSubmitted: (key) {
-            print('test123');
             switch (index) {
               case "1":
                 if (selectBranchList == '' || selectBranchList == null) {
@@ -5861,7 +5941,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                   if (textEditingController.text.isNotEmpty) {
                     getIdItemList(key, textEditingController, index);
                   } else {
-                    print('empty');
                     setState(() {
                       textEditingController.clear();
                       itemType.clear();
@@ -6190,6 +6269,109 @@ class _ProductStockDataState extends State<ProductStockData> {
           style: MyContant().TextInputStyle(),
         ),
       ),
+    );
+  }
+
+  showDialogNotData(BuildContext context, title, subtitle, indexs) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 40),
+          title: Row(
+            children: [
+              Image.asset('images/error_log.gif',
+                  width: 50, height: 50, fit: BoxFit.contain),
+              Text(
+                title,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Prompt',
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          content: Text(
+            subtitle,
+            style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          ),
+          actionsAlignment: MainAxisAlignment.end,
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'ตกลง',
+                style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal),
+              ),
+              onPressed: () {
+                switch (indexs) {
+                  case "1":
+                    itemWareHouse.clear();
+                    idItemWareHouse = '';
+                    idWareHouse.clear();
+                    nodeWareHouse.requestFocus();
+                    break;
+                  case "2":
+                    itemGroup.clear();
+                    idItemGroup = '';
+                    idGroup.clear();
+                    nodeGroup.requestFocus();
+                    break;
+                  case "3":
+                    itemType.clear();
+                    idItemType = '';
+                    idType.clear();
+                    nodeType.requestFocus();
+                    break;
+                  case "4":
+                    itemBrand.clear();
+                    idItemBrand = '';
+                    idBrand.clear();
+                    nodeBrand.requestFocus();
+                    break;
+                  case "5":
+                    itemModel.clear();
+                    idItemModel = '';
+                    idModel.clear();
+                    nodeModel.requestFocus();
+                    break;
+                  case "6":
+                    itemStyle.clear();
+                    idItemStyle = '';
+                    idStyle.clear();
+                    nodeStyle.requestFocus();
+                    break;
+                  case "7":
+                    itemSize.clear();
+                    idItemSize = '';
+                    idSize.clear();
+                    nodeSize.requestFocus();
+                    break;
+                  case "8":
+                    itemColor.clear();
+                    idItemColor = '';
+                    idColor.clear();
+                    nodeColor.requestFocus();
+                    break;
+                  case "9":
+                    itemFree.clear();
+                    idItemFree = '';
+                    idFree.clear();
+                    nodeFree.requestFocus();
+                    break;
+                  default:
+                    break;
+                }
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
