@@ -935,7 +935,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                       onPressed: () {
                         clearValueapprove();
                       },
-                      child: const Text('ยกเลิก'),
+                      child: const Text('ล้างข้อมูล'),
                     ),
                   ),
                 ],

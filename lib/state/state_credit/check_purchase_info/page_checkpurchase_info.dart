@@ -876,7 +876,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                       onPressed: () {
                         clearValueBuylist();
                       },
-                      child: const Text('ยกเลิก'),
+                      child: const Text('ล้างข้อมูล'),
                     ),
                   ),
                 ],

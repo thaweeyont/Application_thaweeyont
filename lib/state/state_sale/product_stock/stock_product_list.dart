@@ -95,7 +95,6 @@ class _StockProductListState extends State<StockProductList> {
       branchName = preferences.getString('branchName')!;
       allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
-    // await Future.delayed(const Duration(milliseconds: 100));
     if (mounted) {
       setState(() {
         getDataStockList(offset);
@@ -168,8 +167,6 @@ class _StockProductListState extends State<StockProductList> {
             isLoadendPage = true;
           });
         }
-        // print('dataStockList>> $dataStockList');
-        // print('totalStock>> $totalStock');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -499,7 +496,7 @@ class _StockProductListState extends State<StockProductList> {
                             if (isLoad == true && isLoadendPage == false) ...[
                               const LoadData(),
                             ] else if (isLoadendPage == true) ...[
-                              EndPage()
+                              const EndPage()
                             ]
                           ],
                           const SizedBox(height: 40),
@@ -706,7 +703,7 @@ class _StockProductListState extends State<StockProductList> {
                             if (isLoad == true && isLoadendPage == false) ...[
                               const LoadData(),
                             ] else if (isLoadendPage == true) ...[
-                              EndPage()
+                              const EndPage()
                             ]
                           ],
                           const SizedBox(height: 40),

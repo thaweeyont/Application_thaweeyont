@@ -1064,10 +1064,11 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                               child: Text(
                                 "${result[i]['nameMenu']}",
                                 style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontFamily: 'Prompt',
-                                    overflow: TextOverflow.clip),
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'Prompt',
+                                  overflow: TextOverflow.clip,
+                                ),
                               ),
                             ),
                           ],

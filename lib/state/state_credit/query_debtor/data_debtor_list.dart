@@ -9,6 +9,9 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/endpage.dart';
+import '../../../widgets/loaddata.dart';
+
 class Data_debtor_list extends StatefulWidget {
   // const Data_debtor_list({Key? key}) : super(key: key);
   final String? custId,
@@ -65,7 +68,12 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
       text_amphoe = '';
 
   List list_dataDebtor = [];
-  bool statusLoading = false, statusLoad404 = false;
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoad = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 30, stquery = 0;
 
   @override
   void initState() {
@@ -82,10 +90,31 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_debtorList();
+    if (mounted) {
+      setState(() {
+        getData_debtorList(offset);
+      });
+    }
+    myScroll(scrollControll, offset);
   }
 
-  Future<void> getData_debtorList() async {
+  void myScroll(scrollControll, offset) {
+    scrollControll.addListener(() async {
+      // double currentScroll = scrollControll.position.pixels;
+      if (scrollControll.position.pixels ==
+          scrollControll.position.maxScrollExtent) {
+        setState(() {
+          isLoad = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 10;
+          getData_debtorList(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getData_debtorList(offset) async {
     var signStatus, branch, debtorType, tumbol, amphur, province;
 
     if (widget.select_signStatus == null) {
@@ -142,18 +171,27 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           'signStatus': signStatus.toString(),
           'itemType': widget.itemTypelist.toString(),
           'page': '1',
-          'limit': '100'
+          'limit': '$offset'
         }),
       );
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> datadebtorList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           list_dataDebtor = datadebtorList['data'];
         });
         statusLoading = true;
+        isLoad = false;
+        if (stquery > 0) {
+          if (offset > list_dataDebtor.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
       } else if (respose.statusCode == 400) {
         if (mounted) return;
         showProgressDialog_400(
@@ -270,8 +308,11 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Scrollbar(
-                    child: ListView(
+                  child: SingleChildScrollView(
+                    controller: scrollControll,
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    child: Column(
                       children: [
                         if (list_dataDebtor.isNotEmpty) ...[
                           for (var i = 0; i < list_dataDebtor.length; i++) ...[
@@ -484,6 +525,14 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                               ),
                             ),
                           ],
+                          if (isLoad == true && isLoadendPage == false) ...[
+                            const LoadData(),
+                          ] else if (isLoadendPage == true) ...[
+                            const EndPage(),
+                          ],
+                          const SizedBox(
+                            height: 35,
+                          ),
                         ],
                       ],
                     ),

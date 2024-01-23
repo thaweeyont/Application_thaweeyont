@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/endpage.dart';
+import '../../../widgets/loaddata.dart';
 import 'page_datacust_approve.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
@@ -39,7 +41,9 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_approve = [];
   var status_loading = false;
-  bool status_load404 = false;
+  bool status_load404 = false, isLoad = false, isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 30, stquery = 0;
 
   @override
   void initState() {
@@ -56,10 +60,31 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_approve();
+    if (mounted) {
+      setState(() {
+        getDataApprove(offset);
+      });
+    }
+    myScroll(scrollControll, offset);
   }
 
-  Future<void> getData_approve() async {
+  void myScroll(scrollControll, offset) {
+    scrollControll.addListener(() async {
+      // double currentScroll = scrollControll.position.pixels;
+      if (scrollControll.position.pixels ==
+          scrollControll.position.maxScrollExtent) {
+        setState(() {
+          isLoad = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 10;
+          getDataApprove(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getDataApprove(offset) async {
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/approve'),
@@ -78,18 +103,27 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           'endDate': widget.end_date.toString(),
           'approveStatus': widget.select_index_approve.toString(),
           'page': '1',
-          'limit': '200'
+          'limit': '$offset'
         }),
       );
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_approve =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           list_approve = data_approve['data'];
         });
         status_loading = true;
+        isLoad = false;
+        if (stquery > 0) {
+          if (offset > list_approve.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -200,8 +234,12 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Scrollbar(
-                    child: ListView(
+                  child: SingleChildScrollView(
+                    controller: scrollControll,
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    child: Column(
                       children: [
                         if (list_approve.isNotEmpty) ...[
                           for (var i = 0; i < list_approve.length; i++) ...[
@@ -304,6 +342,14 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                               ),
                             )
                           ],
+                          if (isLoad == true && isLoadendPage == false) ...[
+                            const LoadData(),
+                          ] else if (isLoadendPage == true) ...[
+                            const EndPage(),
+                          ],
+                          const SizedBox(
+                            height: 30,
+                          ),
                         ],
                       ],
                     ),

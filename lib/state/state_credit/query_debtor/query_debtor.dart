@@ -2070,7 +2070,7 @@ class _Query_debtorState extends State<Query_debtor> {
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: clearTextInputAll,
-                      child: const Text('ยกเลิก'),
+                      child: const Text('ล้างข้อมูล'),
                     ),
                   ),
                 ],

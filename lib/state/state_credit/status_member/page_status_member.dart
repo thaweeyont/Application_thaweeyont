@@ -18,7 +18,11 @@ class Page_Status_Member extends StatefulWidget {
 class _Page_Status_MemberState extends State<Page_Status_Member> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
 
-  bool st_customer = true, st_employee = false, statusLoad404member = false;
+  bool st_customer = true,
+      st_employee = false,
+      statusLoad404member = false,
+      isLoad = false,
+      isLoadendPage = false;
   String? id = '1';
   List list_datavalue = [], list_dataMember = [], dropdown_customer = [];
   List list_address = [];
@@ -49,6 +53,22 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       tokenId = preferences.getString('tokenId')!;
     });
     get_select_cus();
+  }
+
+  void myScroll(scrollControll, offset) {
+    scrollControll.addListener(() async {
+      // double currentScroll = scrollControll.position.pixels;
+      if (scrollControll.position.pixels ==
+          scrollControll.position.maxScrollExtent) {
+        setState(() {
+          isLoad = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 10;
+          // getDataApprove(offset);
+        });
+      }
+    });
   }
 
   Future<void> get_select_cus() async {
@@ -1165,7 +1185,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                       onPressed: () {
                         clearValuemembar();
                       },
-                      child: const Text('ยกเลิก'),
+                      child: const Text('ล้างข้อมูล'),
                     ),
                   ),
                 ],
