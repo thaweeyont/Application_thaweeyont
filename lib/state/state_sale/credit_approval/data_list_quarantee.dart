@@ -11,9 +11,8 @@ import '../../authen.dart';
 import 'page_info_consider_cus.dart';
 
 class DataListQuarantee extends StatefulWidget {
-  // const DataListQuarantee({Key? key}) : super(key: key);
   final String? custId;
-  DataListQuarantee(this.custId);
+  const DataListQuarantee(this.custId, {Key? key}) : super(key: key);
 
   @override
   State<DataListQuarantee> createState() => _DataListQuaranteeState();
@@ -57,7 +56,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataQuarantee =
-            new Map<String, dynamic>.from(jsonDecode(respose.body));
+            Map<String, dynamic>.from(jsonDecode(respose.body));
 
         setState(() {
           list_quarantee = dataQuarantee['data'];
@@ -123,7 +122,6 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',

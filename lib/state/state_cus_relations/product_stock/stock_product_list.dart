@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
-import 'package:application_thaweeyont/state/state_sale/product_stock/stock_product_detail.dart';
+import 'package:application_thaweeyont/state/state_cus_relations/product_stock/stock_product_detail.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -68,19 +68,6 @@ class _StockProductListState extends State<StockProductList> {
   void initState() {
     super.initState();
     getdata();
-    print('stock> ${widget.selectStockTypeList}');
-    print('branch> ${widget.selectBranchList}');
-    print('warehouse> ${widget.idItemWareHouse}');
-    print('nameproduct> ${widget.nameProduct}');
-    print('groupfree> ${widget.selectGroupFreeList}');
-    print('itemfree> ${widget.idItemFree}');
-    print('itemgroup> ${widget.idItemGroup}');
-    print('itemtype> ${widget.idItemType}');
-    print('itembrand> ${widget.idItemBrand}');
-    print('itemmodel> ${widget.idItemModel}');
-    print('itemtype> ${widget.idItemStyle}');
-    print('itemsize> ${widget.idItemSize}');
-    print('itemcolor> ${widget.idItemColor}');
   }
 
   Future<void> getdata() async {
@@ -106,7 +93,6 @@ class _StockProductListState extends State<StockProductList> {
 
   void myScroll(scrollControll, offset) {
     scrollControll.addListener(() async {
-      // double currentScroll = scrollControll.position.pixels;
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {
         setState(() {

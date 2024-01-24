@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/status_member/member_cust_list.dart';
+import 'package:application_thaweeyont/state/state_cus_relations/status_member/member_cust_list.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utility/my_constant.dart';
@@ -18,11 +18,7 @@ class Page_Status_Member extends StatefulWidget {
 class _Page_Status_MemberState extends State<Page_Status_Member> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
 
-  bool st_customer = true,
-      st_employee = false,
-      statusLoad404member = false,
-      isLoad = false,
-      isLoadendPage = false;
+  bool st_customer = true, st_employee = false, statusLoad404member = false;
   String? id = '1';
   List list_datavalue = [], list_dataMember = [], dropdown_customer = [];
   List list_address = [];
@@ -53,22 +49,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       tokenId = preferences.getString('tokenId')!;
     });
     get_select_cus();
-  }
-
-  void myScroll(scrollControll, offset) {
-    scrollControll.addListener(() async {
-      // double currentScroll = scrollControll.position.pixels;
-      if (scrollControll.position.pixels ==
-          scrollControll.position.maxScrollExtent) {
-        setState(() {
-          isLoad = true;
-        });
-        await Future.delayed(const Duration(seconds: 1), () {
-          offset = offset + 10;
-          // getDataApprove(offset);
-        });
-      }
-    });
   }
 
   Future<void> get_select_cus() async {
@@ -133,7 +113,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     lastname.clear();
   }
 
-  Future<void> search_idcustomer() async {
+  Future<void> searchIdcustomer() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -713,7 +693,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                 const Color.fromRGBO(18, 108, 108, 1),
                           ),
                           onPressed: () {
-                            search_idcustomer();
+                            searchIdcustomer();
                           },
                           child: const Icon(
                             Icons.search,
@@ -752,345 +732,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                 ),
               ),
             ),
-            group_btnsearch(),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       Text(
-            //         'รายการที่ค้นหา',
-            //         style: MyContant().h2Style(),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // if (list_dataMember.isNotEmpty) ...[
-            //   for (var i = 0; i < list_dataMember.length; i++) ...[
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Container(
-            //         padding: EdgeInsets.all(8.0),
-            //         decoration: BoxDecoration(
-            //           color: Color.fromRGBO(64, 203, 203, 1),
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(10),
-            //           ),
-            //         ),
-            //         child: Column(
-            //           children: [
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'รหัสลูกค้า : ${list_dataMember[i]['custId']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                     'ชื่อ-นามสกุล : ${list_dataMember[i]['custName']}',
-            //                     style: MyContant().h4normalStyle()),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //               children: [
-            //                 Text(
-            //                   'ชื่อเล่น : ${list_dataMember[i]['nickName']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //                 Text(
-            //                   'เพศ : ${list_dataMember[i]['gender']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //                 Text(
-            //                   'สถานภาพ : ${list_dataMember[i]['marryStatus']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //               children: [
-            //                 Text(
-            //                   'ศาสนา : ${list_dataMember[i]['religionName']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //                 Text(
-            //                   'เชื้อชาติ : ${list_dataMember[i]['raceName']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //                 Text(
-            //                   'สัญชาติ : ${list_dataMember[i]['nationName']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //               children: [
-            //                 Text(
-            //                   'วันเกิด : ${list_dataMember[i]['birthday']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //                 Text(
-            //                   'อายุ : ${list_dataMember[i]['age']} ปี',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'เบอร์โทรศัพท์ : ${list_dataMember[i]['mobile']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'บัตร : ${list_dataMember[i]['cardTypeName']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'เลขที่ : ${list_dataMember[i]['smartId']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'Email : ${list_dataMember[i]['email']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'Website : ${list_dataMember[i]['website']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'Line Id : ${list_dataMember[i]['lineId']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'วันที่หมดอายุ : ${list_dataMember[i]['smartExpireDate']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Container(
-            //         padding: EdgeInsets.all(8.0),
-            //         decoration: BoxDecoration(
-            //           color: Color.fromRGBO(64, 203, 203, 1),
-            //           borderRadius: BorderRadius.all(
-            //             Radius.circular(10),
-            //           ),
-            //         ),
-            //         child: Column(
-            //           children: [
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'ข้อมูลบัตรสมาขิก',
-            //                   style: MyContant().TextcolorBlue(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 10,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'รหัสบัตร : ${list_dataMember[i]['memberCardId']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'สถานะบัตรสมาชิก : ${list_dataMember[i]['memberCardName']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'ผู้ตรวจสอบ : ${list_dataMember[i]['auditName']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //             SizedBox(
-            //               height: 5,
-            //             ),
-            //             Row(
-            //               children: [
-            //                 Text(
-            //                   'วันที่ออกบัตร : ${list_dataMember[i]['applyDate']}',
-            //                   style: MyContant().h4normalStyle(),
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Row(
-            //         children: [
-            //           Text(
-            //             'ข้อมูลที่อยู่ ${list_address.length}',
-            //             style: MyContant().h2Style(),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //     if (list_address.isNotEmpty) ...[
-            //       for (var i = 0; i < list_address.length; i++) ...[
-            //         Padding(
-            //           padding: const EdgeInsets.all(8.0),
-            //           child: Container(
-            //             padding: EdgeInsets.all(8.0),
-            //             decoration: BoxDecoration(
-            //               color: Color.fromRGBO(64, 203, 203, 1),
-            //               borderRadius: BorderRadius.all(
-            //                 Radius.circular(10),
-            //               ),
-            //             ),
-            //             child: Column(
-            //               children: [
-            //                 Row(
-            //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //                   children: [
-            //                     Text(
-            //                       '${i + 1}',
-            //                       style: MyContant().h4normalStyle(),
-            //                     ),
-            //                     Text(
-            //                       'ประเภท : ${list_address[i]['type']}',
-            //                       style: MyContant().h4normalStyle(),
-            //                     ),
-            //                   ],
-            //                 ),
-            //                 SizedBox(
-            //                   height: 10,
-            //                 ),
-            //                 Row(
-            //                   crossAxisAlignment: CrossAxisAlignment.start,
-            //                   children: [
-            //                     Text(
-            //                       'ที่อยู่ : ',
-            //                       style: MyContant().h4normalStyle(),
-            //                     ),
-            //                     Expanded(
-            //                       child: Text(
-            //                         '${list_address[i]['detail']}',
-            //                         overflow: TextOverflow.clip,
-            //                         style: MyContant().h4normalStyle(),
-            //                       ),
-            //                     ),
-            //                   ],
-            //                 ),
-            //                 SizedBox(
-            //                   height: 5,
-            //                 ),
-            //                 Row(
-            //                   children: [
-            //                     Text(
-            //                       'เบอร์โทรศัพท์ : ${list_address[i]['tel']}',
-            //                       style: MyContant().h4normalStyle(),
-            //                     ),
-            //                   ],
-            //                 ),
-            //                 SizedBox(
-            //                   height: 5,
-            //                 ),
-            //                 Row(
-            //                   children: [
-            //                     Text(
-            //                       'เบอร์แฟกซ์ : ${list_address[i]['fax']}',
-            //                       style: MyContant().h4normalStyle(),
-            //                     ),
-            //                   ],
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ],
-            //     if (list_dataMember.length > 1) ...[
-            //       lineNext(),
-            //     ],
-            //   ],
-            // ],
+            groupBtnsearch(),
             const SizedBox(
               height: 25,
             ),
@@ -1138,7 +780,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Padding group_btnsearch() {
+  Padding groupBtnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

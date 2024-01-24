@@ -91,8 +91,6 @@ class _AuthenState extends State<Authen> {
           final List<String> allowedMenu =
               dataMenu.map((e) => e.toString()).toList();
 
-          print(data);
-
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.setString('userId', userId!);
           preferences.setString('empId', empId!);

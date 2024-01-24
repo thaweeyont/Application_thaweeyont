@@ -180,7 +180,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
         });
         Navigator.pop(context);
         Navigator.pop(context);
-        search_district(sizeIcon, border);
+        searchDistrict(sizeIcon, border);
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -214,7 +214,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     }
   }
 
-  clear_data_blacklist() {
+  clearDataBlacklist() {
     idblacklist.clear();
     name_show.clear();
     smartId.clear();
@@ -231,7 +231,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     });
   }
 
-  clear_value_search() {
+  clearValueSearch() {
     setState(() {
       statusLoad404 = false;
       list_dataSearch_bl = [];
@@ -241,7 +241,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     lastnameSearchBl.clear();
   }
 
-  clearValue_search_district() {
+  clearValueSearchDistrict() {
     setState(() {
       selectValue_province = null;
       selectValue_amphoe = null;
@@ -249,7 +249,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     });
   }
 
-  Future<void> search_id_blacklist() async {
+  Future<void> searchIdBlacklist() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -376,7 +376,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clear_value_search();
+                                  clearValueSearch();
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
@@ -704,7 +704,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Future<void> search_district(sizeIcon, border) async {
+  Future<void> searchDistrict(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -753,7 +753,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clearValue_search_district();
+                                  clearValueSearchDistrict();
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
@@ -1180,7 +1180,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 const Color.fromRGBO(82, 119, 255, 1),
                           ),
                           onPressed: () {
-                            search_id_blacklist();
+                            searchIdBlacklist();
                           },
                           child: const Icon(
                             Icons.search,
@@ -1252,31 +1252,13 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 const Color.fromRGBO(82, 119, 255, 1),
                           ),
                           onPressed: () {
-                            search_district(context, border);
+                            searchDistrict(context, border);
                             get_select_province();
                           },
                           child: const Icon(
                             Icons.search,
                           ),
                         ),
-                        // InkWell(
-                        //   onTap: () {
-                        //     search_district(context, border);
-                        //     get_select_province();
-                        //   },
-                        //   child: Container(
-                        //     width: 30,
-                        //     height: 30,
-                        //     decoration: BoxDecoration(
-                        //       color: Color.fromRGBO(82, 119, 255, 1),
-                        //       shape: BoxShape.circle,
-                        //     ),
-                        //     child: Icon(
-                        //       Icons.search,
-                        //       color: Colors.white,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     Row(
@@ -1301,109 +1283,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                 ),
               ),
             ),
-            group_btnsearch(),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: [
-            //       Text(
-            //         'รายการที่ค้นหา',
-            //         style: MyContant().h2Style(),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.7,
-            //   child: Scrollbar(
-            //     child: ListView(
-            //       children: [
-            //         if (list_data_blacklist.isNotEmpty) ...[
-            //           for (var i = 0; i < list_data_blacklist.length; i++) ...[
-            //             InkWell(
-            //               onTap: () {
-            //                 Navigator.push(
-            //                   context,
-            //                   MaterialPageRoute(
-            //                     builder: (context) => Blacklist_Detail(
-            //                         list_data_blacklist[i]['blId']),
-            //                   ),
-            //                 );
-            //               },
-            //               child: Padding(
-            //                 padding: const EdgeInsets.symmetric(horizontal: 8),
-            //                 child: Container(
-            //                   margin: EdgeInsets.symmetric(vertical: 5),
-            //                   padding: EdgeInsets.all(8),
-            //                   decoration: BoxDecoration(
-            //                     color: Color.fromRGBO(162, 181, 252, 1),
-            //                     borderRadius: BorderRadius.all(
-            //                       Radius.circular(5),
-            //                     ),
-            //                   ),
-            //                   child: Column(
-            //                     children: [
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'รหัสลูกค้า : ${list_data_blacklist[i]['blId']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'ชื่อลูกค้า : ${list_data_blacklist[i]['custName']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'ที่อยู่ : ',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                           Expanded(
-            //                             child: Text(
-            //                               '${list_data_blacklist[i]['custAddress']}',
-            //                               style: MyContant().h4normalStyle(),
-            //                               overflow: TextOverflow.clip,
-            //                             ),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       SizedBox(
-            //                         height: 5,
-            //                       ),
-            //                       Row(
-            //                         children: [
-            //                           Text(
-            //                             'สถานะ : ${list_data_blacklist[i]['blStatus']}',
-            //                             style: MyContant().h4normalStyle(),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ],
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            groupBtnsearch(),
             const SizedBox(
               height: 25,
             ),
@@ -1690,7 +1570,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Padding group_btnsearch() {
+  Padding groupBtnsearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -1769,9 +1649,9 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
-                        clear_data_blacklist();
+                        clearDataBlacklist();
                       },
-                      child: const Text('ยกเลิก'),
+                      child: const Text('ล้างข้อมูล'),
                     ),
                   ),
                 ],

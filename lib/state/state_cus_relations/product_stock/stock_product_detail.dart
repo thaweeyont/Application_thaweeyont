@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import '../../authen.dart';
 
 class StockProductDetail extends StatefulWidget {
-  // const StockProductDetail({Key? key}) : super(key: key);
   final String? branchId,
       branchName,
       whId,
@@ -55,14 +54,13 @@ class _StockProductDetailState extends State<StockProductDetail> {
   void initState() {
     super.initState();
     getdata();
-    print('n>> ${widget.itemTypeName}_${widget.brandName}');
+
     NitemTypeName = widget.itemTypeName;
     NbrandName = widget.brandName;
     if (NitemTypeName == null && NbrandName == null) {
       NitemTypeName = '';
       NbrandName = '';
     }
-    print('d>> ${widget.branchId}_${widget.whId}_${widget.itemId}');
   }
 
   Future<void> getdata() async {
@@ -99,7 +97,6 @@ class _StockProductDetailState extends State<StockProductDetail> {
         });
         getDataStockDetail('get');
         statusLoading = true;
-        print('dataWarehouse>> $dropdownSerialStatus');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -140,9 +137,8 @@ class _StockProductDetailState extends State<StockProductDetail> {
     dataStockDetail = [];
     if (data == 'get') {
       selectValueSerial = dropdownSerialStatus[0]['id'];
-      print('data>> $selectValueSerial');
     }
-    print('$selectValueSerial');
+
     try {
       var respose = await http.post(
         Uri.parse('${api}stock/detail'),
@@ -168,7 +164,6 @@ class _StockProductDetailState extends State<StockProductDetail> {
           dataStockDetail = stockdetail['data'];
         });
         statusLoading = true;
-        print('dataStockDetail>> $dataStockDetail');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -481,7 +476,6 @@ class _StockProductDetailState extends State<StockProductDetail> {
               onChanged: (newvalue) async {
                 setState(() {
                   selectValueSerial = newvalue;
-                  print('data22>> $selectValueSerial');
                 });
                 statusLoading = false;
                 statusLoad404 = false;

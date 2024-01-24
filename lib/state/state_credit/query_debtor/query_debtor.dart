@@ -502,7 +502,7 @@ class _Query_debtorState extends State<Query_debtor> {
     });
   }
 
-  clearValue_search_district() {
+  clearValueSearchDistrict() {
     setState(() {
       selectValue_province = null;
       selectValue_amphoe = null;
@@ -510,7 +510,7 @@ class _Query_debtorState extends State<Query_debtor> {
     });
   }
 
-  clearValue_search_conType() {
+  clearValueSearchConType() {
     setState(() {
       list_itemType = [];
     });
@@ -583,7 +583,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clearValue_search_district();
+                                  clearValueSearchDistrict();
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
@@ -958,7 +958,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Future<void> search_conType(sizeIcon, border) async {
+  Future<void> searchConType(sizeIcon, border) async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -1017,7 +1017,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clearValue_search_conType();
+                                  clearValueSearchConType();
                                   setState(() {
                                     statusLoad404itemTypeList = false;
                                   });
@@ -1241,7 +1241,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Future<void> search_idcustomer(sizeIcon, border) async {
+  Future<void> searchIdcustomer(sizeIcon, border) async {
     Future<void> getData_condition(String? custType, conditionType,
         String searchData, String firstName, String lastName) async {
       try {
@@ -1795,7 +1795,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                 const Color.fromRGBO(202, 71, 150, 1),
                           ),
                           onPressed: () {
-                            search_idcustomer(sizeIcon, border);
+                            searchIdcustomer(sizeIcon, border);
                           },
                           child: const Icon(
                             Icons.search,
@@ -1960,7 +1960,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                   const Color.fromRGBO(202, 71, 150, 1),
                             ),
                             onPressed: () {
-                              search_conType(sizeIcon, border);
+                              searchConType(sizeIcon, border);
                             },
                             child: const Icon(
                               Icons.search,

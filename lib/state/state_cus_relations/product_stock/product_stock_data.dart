@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
-import 'package:application_thaweeyont/state/state_sale/product_stock/stock_product_list.dart';
+import 'package:application_thaweeyont/state/state_cus_relations/product_stock/stock_product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -122,7 +122,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       branchName = preferences.getString('branchName')!;
       allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
-    // await Future.delayed(const Duration(milliseconds: 100));
+
     if (mounted) {
       setState(() {
         getSelectStockType();
@@ -352,7 +352,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                 focusNode: nodeGroup,
                 onTapAction: () {
                   getDataSubmited('2');
-                  // nodeType.requestFocus();
                 },
               ),
               KeyboardActionsItem(
@@ -814,12 +813,6 @@ class _ProductStockDataState extends State<ProductStockData> {
     );
   }
 
-  void fieldFocusChange(
-      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-    currentFocus.unfocus();
-    FocusScope.of(context).requestFocus(nextFocus);
-  }
-
   Padding groupBtnSearch() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -851,17 +844,6 @@ class _ProductStockDataState extends State<ProductStockData> {
 
                         if (selectStockTypeList == 1 ||
                             selectStockTypeList == 2) {
-                          print('id_g>>$idItemGroup ${itemGroup.text}');
-                          print('id_ty>>$idItemType ${itemType.text}');
-                          print('id_b>>$idItemBrand ${itemBrand.text}');
-                          print('id_m>>$idItemModel ${itemModel.text}');
-                          print('id_st>>$idItemStyle ${itemStyle.text}');
-                          print('id_si>>$idItemSize ${itemSize.text}');
-                          print('id_c>>$idItemColor ${itemColor.text}');
-                          print('id_branch>>$branch');
-                          print(
-                              'id_ware>>$idItemWareHouse ${itemWareHouse.text}');
-                          print('id_nameP>>${nameProduct.text}');
                           if (idItemGroup == '' &&
                               itemGroup.text.isEmpty &&
                               nameProduct.text.isEmpty) {
@@ -890,19 +872,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                           }
                         } else if (selectStockTypeList == 3 ||
                             selectStockTypeList == 4) {
-                          print('id_g>>$idItemGroup ${itemGroup.text}');
-                          print('id_ty>>$idItemType ${itemType.text}');
-                          print('id_b>>$idItemBrand ${itemBrand.text}');
-                          print('id_m>>$idItemModel ${itemModel.text}');
-                          print('id_st>>$idItemStyle ${itemStyle.text}');
-                          print('id_si>>$idItemSize ${itemSize.text}');
-                          print('id_c>>$idItemColor ${itemColor.text}');
-                          print(
-                              'id_ware>>$idItemWareHouse ${itemWareHouse.text}');
-                          print('id_nameP>>${nameProduct.text}');
-                          print('id_branch>>$branch');
-                          print('id_groupfree>>$groupFree');
-                          print('id_itemfree>>$idItemFree');
                           if (groupFree == '' &&
                               nameProduct.text.isEmpty &&
                               itemFree.text.isEmpty) {
@@ -984,14 +953,12 @@ class _ProductStockDataState extends State<ProductStockData> {
               onChanged: (newvalue) {
                 setState(() {
                   selectStockTypeList = newvalue;
-                  print('stock.1>> $selectStockTypeList');
                   if (selectStockTypeList == 1 || selectStockTypeList == 3) {
                     itemStatus = '1';
                   } else if (selectStockTypeList == 2 ||
                       selectStockTypeList == 4) {
                     itemStatus = '2';
                   }
-                  print('status.1>> $itemStatus');
                 });
               },
               value: selectStockTypeList,
@@ -1034,7 +1001,6 @@ class _ProductStockDataState extends State<ProductStockData> {
               onChanged: (newvalue) async {
                 setState(() {
                   selectBranchList = newvalue;
-                  print('$selectBranchList');
                 });
                 // api warehouse
                 if (selectBranchList != 99) {
@@ -1048,8 +1014,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                   idItemWareHouse = '';
                   getSelectBranch();
                 }
-
-                print(selectBranchList);
               },
               value: selectBranchList,
               isExpanded: true,
@@ -1165,7 +1129,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemGroupLoad = false;
-        print('data_g>> $itemGroupList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -1582,8 +1545,6 @@ class _ProductStockDataState extends State<ProductStockData> {
 
 // ItemTypeList
   Future<void> getDataItemTypeList(nav) async {
-    print('stock_t>> $selectStockTypeList');
-    print('status_t>> $itemStatus');
     itemTypeList = [];
     try {
       var respose = await http.get(
@@ -1605,7 +1566,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemTypeLoad = false;
-        print('data_t>> $itemTypeList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -1623,7 +1583,6 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data555');
         setState(() {
           if (nav == 'use') {
             Navigator.pop(context);
@@ -1988,28 +1947,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   crossAxisAlignment:
-                                                              //       CrossAxisAlignment
-                                                              //           .start,
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     ),
-                                                              //     Expanded(
-                                                              //       child: Text(
-                                                              //         '',
-                                                              //         overflow:
-                                                              //             TextOverflow
-                                                              //                 .clip,
-                                                              //         style: MyContant()
-                                                              //             .h4normalStyle(),
-                                                              //       ),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -2043,8 +1980,6 @@ class _ProductStockDataState extends State<ProductStockData> {
 
 // ItemBrandList
   Future<void> getDataItemBrandList(nav) async {
-    print('stock_b>> $selectStockTypeList');
-    print('status_b>> $itemStatus');
     itemBrandList = [];
     try {
       var respose = await http.get(
@@ -2066,7 +2001,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemBrandLoad = false;
-        print('data_b>> $itemBrandList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -2084,7 +2018,6 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data444');
         setState(() {
           Navigator.pop(context);
           itemBrandLoad = true;
@@ -2494,8 +2427,6 @@ class _ProductStockDataState extends State<ProductStockData> {
 
 // ItemModelList
   Future<void> getDataItemModelList(nav, load) async {
-    print('stock_m>> $selectStockTypeList');
-    print('status_m>> $itemStatus');
     itemModelList = [];
     try {
       var respose = await http.get(
@@ -2517,7 +2448,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemModelLoad = false;
-        print('data_model>> $itemModelList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -2894,24 +2824,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'รหัส : ${itemModelList[i]['id']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ${itemModelList[i]['name']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -2966,7 +2878,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemStyleLoad = false;
-        print('data_st>> $itemStyleList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -2984,7 +2895,6 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data333');
         setState(() {
           if (nav == 'use') {
             Navigator.pop(context);
@@ -3342,24 +3252,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'รหัส : ${itemStyleList[i]['id']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ${itemStyleList[i]['name']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -3414,7 +3306,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemSizeLoad = false;
-        print('data_si>> $itemSizeList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -3432,7 +3323,6 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data');
         setState(() {
           if (nav == 'use') {
             Navigator.pop(context);
@@ -3791,24 +3681,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'รหัส : ${itemSizeList[i]['id']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ${itemSizeList[i]['name']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -3863,7 +3735,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemColorLoad = false;
-        print('data_c>> $itemColorList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -4237,24 +4108,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'รหัส : ${itemColorList[i]['id']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ${itemColorList[i]['name']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -4309,8 +4162,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemWarehouseLoad = false;
-
-        print('data_w>> $itemWarehouseList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -4327,7 +4178,6 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print("dddddddddddddddddd");
         setState(() {
           if (nav == 'use') {
             Navigator.pop(context);
@@ -4689,24 +4539,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'รหัส : ${itemWarehouseList[i]['id']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ${itemWarehouseList[i]['name']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -4761,7 +4593,6 @@ class _ProductStockDataState extends State<ProductStockData> {
           Navigator.pop(context);
         }
         itemFreeLoad = false;
-        print('data_f>> $itemFreeList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -5134,37 +4965,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'รหัส : ${itemFreeList[i]['id']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // ),
-                                                              // Row(
-                                                              //   crossAxisAlignment:
-                                                              //       CrossAxisAlignment
-                                                              //           .start,
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     ),
-                                                              //     Expanded(
-                                                              //       child: Text(
-                                                              //         '${itemFreeList[i]['name']}',
-                                                              //         style: MyContant()
-                                                              //             .h4normalStyle(),
-                                                              //         overflow:
-                                                              //             TextOverflow
-                                                              //                 .clip,
-                                                              //       ),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -6069,188 +5869,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                 break;
             }
           },
-          // onChanged: (key) async {
-          //   switch (index) {
-          //     case "1":
-          //       if (selectBranchList == '' || selectBranchList == null) {
-          //         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกสาขา');
-          //         textEditingController.clear();
-          //         itemWareHouse.clear();
-          //         idItemWareHouse = '';
-          //       } else {
-          //         if (textEditingController.text.isNotEmpty) {
-          //           getIdItemList(key, textEditingController, index);
-          //         } else {
-          //           textEditingController.clear();
-          //           itemWareHouse.clear();
-          //           idItemWareHouse = '';
-          //         }
-          //       }
-          //       break;
-          //     case "2":
-          //       if (textEditingController.text.isNotEmpty) {
-          //         getIdItemList(key, textEditingController, index);
-          //       } else {
-          //         textEditingController.clear();
-          //         itemGroup.clear();
-          //         idItemGroup = '';
-          //         idType.clear();
-          //         itemType.clear();
-          //         idItemType = '';
-          //         idBrand.clear();
-          //         itemBrand.clear();
-          //         idItemBrand = '';
-          //         idModel.clear();
-          //         itemModel.clear();
-          //         idItemModel = '';
-          //         idStyle.clear();
-          //         itemStyle.clear();
-          //         idItemStyle = '';
-          //         idSize.clear();
-          //         itemSize.clear();
-          //         idItemSize = '';
-          //       }
-          //       break;
-          //     case "3":
-          //       if (itemGroup.text.isEmpty) {
-          //         showProgressDialog(
-          //             context, 'แจ้งเตือน', 'กรุณาเลือกกลุ่มสินค้า');
-          //         textEditingController.clear();
-          //         itemType.clear();
-          //         idItemType = '';
-          //       } else {
-          //         if (textEditingController.text.isNotEmpty) {
-          //           getIdItemList(key, textEditingController, index);
-          //         } else {
-          //           print('empty');
-          //           setState(() {
-          //             textEditingController.clear();
-          //             itemType.clear();
-          //             idItemType = '';
-          //           });
-          //         }
-          //       }
-
-          //       break;
-          //     case "4":
-          //       if (itemGroup.text.isEmpty && itemType.text.isEmpty) {
-          //         showProgressDialog(context, 'แจ้งเตือน',
-          //             'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
-          //         textEditingController.clear();
-          //         itemBrand.clear();
-          //         idItemBrand = '';
-          //       } else if (itemType.text.isEmpty) {
-          //         showProgressDialog(
-          //             context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
-          //         textEditingController.clear();
-          //         itemBrand.clear();
-          //         idItemBrand = '';
-          //       } else {
-          //         if (textEditingController.text.isNotEmpty) {
-          //           getIdItemList(key, textEditingController, index);
-          //         } else {
-          //           textEditingController.clear();
-          //           itemBrand.clear();
-          //           idItemBrand = '';
-          //         }
-          //       }
-
-          //       break;
-          //     case "5":
-          //       if (itemGroup.text.isEmpty &&
-          //           itemType.text.isEmpty &&
-          //           itemBrand.text.isEmpty) {
-          //         showProgressDialog(context, 'แจ้งเตือน',
-          //             'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
-          //         textEditingController.clear();
-          //         itemModel.clear();
-          //         idItemModel = '';
-          //       } else if (itemType.text.isEmpty && itemBrand.text.isEmpty) {
-          //         showProgressDialog(context, 'แจ้งเตือน',
-          //             'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
-          //         textEditingController.clear();
-          //         itemModel.clear();
-          //         idItemModel = '';
-          //       } else if (itemBrand.text.isEmpty) {
-          //         showProgressDialog(
-          //             context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
-          //         textEditingController.clear();
-          //         itemModel.clear();
-          //         idItemModel = '';
-          //       } else {
-          //         if (textEditingController.text.isNotEmpty) {
-          //           getIdItemList(key, textEditingController, index);
-          //         } else {
-          //           textEditingController.clear();
-          //           itemModel.clear();
-          //           idItemModel = '';
-          //         }
-          //       }
-          //       break;
-          //     case "6":
-          //       if (itemType.text.isEmpty) {
-          //         showProgressDialog(
-          //             context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
-          //         textEditingController.clear();
-          //         itemStyle.clear();
-          //         idItemStyle = '';
-          //       } else {
-          //         if (textEditingController.text.isNotEmpty) {
-          //           getIdItemList(key, textEditingController, index);
-          //         } else {
-          //           setState(() {
-          //             textEditingController.clear();
-          //             itemStyle.clear();
-          //             idItemStyle = '';
-          //           });
-          //         }
-          //       }
-          //       break;
-          //     case "7":
-          //       if (itemType.text.isEmpty) {
-          //         showProgressDialog(
-          //             context, 'แจ้งเตือน', 'กรุณาเลือกประเภทสินค้า');
-          //         textEditingController.clear();
-          //         itemSize.clear();
-          //         idItemSize = '';
-          //       } else {
-          //         if (textEditingController.text.isNotEmpty) {
-          //           getIdItemList(key, textEditingController, index);
-          //         } else {
-          //           setState(() {
-          //             textEditingController.clear();
-          //             itemSize.clear();
-          //             idItemSize = '';
-          //           });
-          //         }
-          //       }
-          //       break;
-          //     case "8":
-          //       if (textEditingController.text.isNotEmpty) {
-          //         getIdItemList(key, textEditingController, index);
-          //       } else {
-          //         setState(() {
-          //           textEditingController.clear();
-          //           itemColor.clear();
-          //           idItemColor = '';
-          //         });
-          //       }
-          //       break;
-          //     case "9":
-          //       if (textEditingController.text.isNotEmpty) {
-          //         getIdItemList(key, textEditingController, index);
-          //       } else {
-          //         setState(() {
-          //           textEditingController.clear();
-          //           itemFree.clear();
-          //           idItemFree = '';
-          //         });
-          //       }
-          //       break;
-          //     default:
-          //       break;
-          //   }
-          // },
           decoration: const InputDecoration(
             counterText: "",
             contentPadding: EdgeInsets.all(8),

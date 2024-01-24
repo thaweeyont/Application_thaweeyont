@@ -1,6 +1,6 @@
 import 'package:application_thaweeyont/state/authen.dart';
-import 'package:application_thaweeyont/state/state_credit/check_purchase_info/page_checkpurchase_info.dart';
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
+import 'package:application_thaweeyont/state/state_cus_relations/check_purchase_info/page_checkpurchase_info.dart';
+import 'package:application_thaweeyont/state/state_sale/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/home.dart';
 import 'package:application_thaweeyont/state/navigator_bar_credit.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';

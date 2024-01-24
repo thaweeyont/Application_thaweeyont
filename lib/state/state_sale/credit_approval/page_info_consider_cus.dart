@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_pay_installment.dart';
+import 'package:application_thaweeyont/state/state_sale/credit_approval/page_pay_installment.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -11,9 +11,8 @@ import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Page_Info_Consider_Cus extends StatefulWidget {
-  // const Page_Info_Consider_Cus({super.key});
   final String? signId;
-  Page_Info_Consider_Cus(this.signId);
+  const Page_Info_Consider_Cus(this.signId, {Key? key}) : super(key: key);
 
   @override
   State<Page_Info_Consider_Cus> createState() => _Page_Info_Consider_CusState();
@@ -46,7 +45,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdata();
   }
@@ -164,7 +162,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     }
   }
 
-  void menu_list(page) {
+  void menuList(page) {
     setState(() {
       active_mu1 = false;
       active_mu2 = false;
@@ -242,7 +240,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // CircularProgressIndicator(),
                           Image.asset(cupertinoActivityIndicator, scale: 4),
                           Text(
                             'กำลังโหลด',
@@ -257,13 +254,13 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 children: [
                   slidemenu(context),
                   if (active_mu1 == true) ...[
-                    content_list_mu1(context),
+                    contentListMu1(context),
                   ],
                   if (active_mu2 == true) ...[
-                    content_list_mu2(context),
+                    contentListMu2(context),
                   ],
                   if (active_mu3 == true) ...[
-                    content_list_mu3(context),
+                    contentListMu3(context),
                   ],
                   if (active_mu4 == true) ...[
                     Padding(
@@ -328,7 +325,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ],
                       ),
                     ),
-                    content_list_mu4(context),
+                    contentListMu4(context),
                   ],
                 ],
               ),
@@ -336,7 +333,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     );
   }
 
-  Expanded content_list_mu1(BuildContext context) {
+  Expanded contentListMu1(BuildContext context) {
     return Expanded(
       child: ListView(
         children: [
@@ -1394,7 +1391,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     );
   }
 
-  Expanded content_list_mu2(BuildContext context) {
+  Expanded contentListMu2(BuildContext context) {
     return Expanded(
       child: ListView(
         children: [
@@ -1525,7 +1522,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     );
   }
 
-  Expanded content_list_mu3(BuildContext context) {
+  Expanded contentListMu3(BuildContext context) {
     return Expanded(
       child: ListView(
         children: [
@@ -2095,7 +2092,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     );
   }
 
-  Expanded content_list_mu4(BuildContext context) {
+  Expanded contentListMu4(BuildContext context) {
     return Expanded(
       child: ListView(
         children: [
@@ -2252,7 +2249,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content_mu1");
+                    menuList("list_content_mu1");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu1 == true
@@ -2270,7 +2267,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content_mu2");
+                    menuList("list_content_mu2");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu2 == true
@@ -2288,7 +2285,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content_mu3");
+                    menuList("list_content_mu3");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu3 == true
@@ -2306,7 +2303,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content_mu4");
+                    menuList("list_content_mu4");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_mu4 == true
@@ -2322,94 +2319,6 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               const SizedBox(
                 width: 6,
               )
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content_mu1");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_mu1 == true
-              //           ? Color.fromRGBO(202, 121, 0, 1)
-              //           : Color.fromRGBO(251, 173, 55, 1),
-              //     ),
-              //     child: Text(
-              //       'รายการสินค้า',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content_mu2");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_mu2 == true
-              //           ? Color.fromRGBO(202, 121, 0, 1)
-              //           : Color.fromRGBO(251, 173, 55, 1),
-              //     ),
-              //     child: Text(
-              //       'หมายเหตุพิจารณาสินเชื่อ',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content_mu3");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_mu3 == true
-              //           ? Color.fromRGBO(202, 121, 0, 1)
-              //           : Color.fromRGBO(251, 173, 55, 1),
-              //     ),
-              //     child: Text(
-              //       'บันทึกหมายเหตุ',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content_mu4");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_mu4 == true
-              //           ? Color.fromRGBO(202, 121, 0, 1)
-              //           : Color.fromRGBO(251, 173, 55, 1),
-              //     ),
-              //     child: Text(
-              //       'ชำระค่างวด',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
             ],
           )
         ],

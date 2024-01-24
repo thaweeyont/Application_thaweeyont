@@ -65,7 +65,6 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
 
   void myScroll(scrollControll, offset) {
     scrollControll.addListener(() async {
-      // double currentScroll = scrollControll.position.pixels;
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {
         setState(() {
@@ -161,9 +160,6 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
       listbilltotal.add(element);
     }
     res = 0.0;
-    for (var element in listbilltotal) {
-      print(element.runtimeType);
-    }
     for (var c = 0; c < listbilltotal.length; c++) {
       res += double.parse(listbilltotal[c].toString().replaceAll(',', ''));
     }
@@ -305,7 +301,6 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                             parent: AlwaysScrollableScrollPhysics(),
                           ),
                           child: Column(
-                            // shrinkWrap: true,
                             children: [
                               for (var i = 0;
                                   i < list_dataBuyTyle.length;

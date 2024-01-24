@@ -12,7 +12,8 @@ import 'package:application_thaweeyont/api.dart';
 
 class Data_SearchDebtor extends StatefulWidget {
   final String? signId, signStatusName;
-  Data_SearchDebtor(this.signId, this.signStatusName);
+  const Data_SearchDebtor(this.signId, this.signStatusName, {Key? key})
+      : super(key: key);
 
   @override
   State<Data_SearchDebtor> createState() => _Data_SearchDebtorState();
@@ -160,7 +161,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     }
   }
 
-  void menu_list(page) {
+  void menuList(page) {
     setState(() {
       active_l1 = false;
       active_l2 = false;
@@ -279,7 +280,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                       'งวดที่ : ',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    // input_pay_installment(sizeIcon, border),
                                     Expanded(
                                       child: Padding(
                                         padding: const EdgeInsets.all(1),
@@ -300,11 +300,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                               items: list_payDetail
                                                   .map((value) =>
                                                       DropdownMenuItem(
-                                                        child: Text(
-                                                          value['periodNo'],
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
                                                         value: value[
                                                                 'periodNo'] +
                                                             '|' +
@@ -313,6 +308,11 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                             value['payPrice'] +
                                                             '|' +
                                                             value['payFine'],
+                                                        child: Text(
+                                                          value['periodNo'],
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
                                                       ))
                                                   .toList(),
                                               onChanged: (newvalue) {
@@ -440,7 +440,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',
@@ -455,13 +454,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 children: [
                   slidemenu(context),
                   if (active_l1 == true) ...[
-                    content_list_1(context),
+                    contentList_1(context),
                   ],
                   if (active_l2 == true) ...[
-                    content_list_2(context),
+                    contentList_2(context),
                   ],
                   if (active_l3 == true) ...[
-                    content_list_3(context),
+                    contentList_3(context),
                   ],
                   if (active_l4 == true) ...[
                     Padding(
@@ -524,7 +523,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         ],
                       ),
                     ),
-                    content_list_4(context),
+                    contentList_4(context),
                   ],
                 ],
               ),
@@ -546,7 +545,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content1");
+                    menuList("list_content1");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l1 == true
@@ -564,7 +563,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content2");
+                    menuList("list_content2");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l2 == true
@@ -582,7 +581,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content3");
+                    menuList("list_content3");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l3 == true
@@ -600,7 +599,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
                 child: ElevatedButton(
                   onPressed: () {
-                    menu_list("list_content4");
+                    menuList("list_content4");
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: active_l4 == true
@@ -616,87 +615,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
               const SizedBox(
                 width: 6,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content1");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_l1 == true
-              //           ? Color.fromRGBO(202, 71, 150, 1)
-              //           : Color.fromRGBO(255, 203, 246, 1),
-              //     ),
-              //     child: Text(
-              //       'รายการสินค้า',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content2");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_l2 == true
-              //           ? Color.fromRGBO(202, 71, 150, 1)
-              //           : Color.fromRGBO(255, 203, 246, 1),
-              //     ),
-              //     child: Text('หมายเหตุพิจารณาสินเชื่อ',
-              //         style: MyContant().h4normalStyle()),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content3");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_l3 == true
-              //           ? Color.fromRGBO(202, 71, 150, 1)
-              //           : Color.fromRGBO(255, 203, 246, 1),
-              //     ),
-              //     child: Text('บันทึกหมายเหตุ',
-              //         style: MyContant().h4normalStyle()),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     menu_list("list_content4");
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.all(5),
-              //     height: 35,
-              //     padding: EdgeInsets.all(5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: active_l4 == true
-              //           ? Color.fromRGBO(202, 71, 150, 1)
-              //           : Color.fromRGBO(255, 203, 246, 1),
-              //     ),
-              //     child: Text('ชำระค่างวด', style: MyContant().h4normalStyle()),
-              //   ),
-              // ),
             ],
           )
         ],
@@ -704,7 +622,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  Expanded content_list_1(BuildContext context) {
+  Expanded contentList_1(BuildContext context) {
     return Expanded(
       child: Scrollbar(
         child: ListView(
@@ -1795,7 +1713,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  Expanded content_list_2(BuildContext context) {
+  Expanded contentList_2(BuildContext context) {
     return Expanded(
       child: ListView(
         children: [
@@ -1920,7 +1838,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  Expanded content_list_3(BuildContext context) {
+  Expanded contentList_3(BuildContext context) {
     return Expanded(
       child: ListView(
         children: [
@@ -2487,7 +2405,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  Expanded content_list_4(BuildContext context) {
+  Expanded contentList_4(BuildContext context) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(

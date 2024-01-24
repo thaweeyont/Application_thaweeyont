@@ -8,13 +8,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../api.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/endpage.dart';
+import '../../../widgets/loaddata.dart';
 import '../../authen.dart';
 import 'detail_member_cust.dart';
 
 class MemberCustList extends StatefulWidget {
-  // const MemberCustList({Key? key}) : super(key: key);
   final String? custId, smartId, custName, lastnamecust;
-  MemberCustList(this.custId, this.smartId, this.custName, this.lastnamecust);
+  const MemberCustList(
+      this.custId, this.smartId, this.custName, this.lastnamecust,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<MemberCustList> createState() => _MemberCustListState();
@@ -23,7 +27,12 @@ class MemberCustList extends StatefulWidget {
 class _MemberCustListState extends State<MemberCustList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_dataMember = [];
-  bool statusLoading = false, statusLoad404 = false;
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoad = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 30, stquery = 0;
 
   @override
   void initState() {
@@ -40,10 +49,30 @@ class _MemberCustListState extends State<MemberCustList> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_CusMember();
+    if (mounted) {
+      setState(() {
+        getDataCusMember(offset);
+      });
+    }
+    myScroll(scrollControll, offset);
   }
 
-  Future<void> getData_CusMember() async {
+  void myScroll(scrollControll, offset) {
+    scrollControll.addListener(() async {
+      if (scrollControll.position.pixels ==
+          scrollControll.position.maxScrollExtent) {
+        setState(() {
+          isLoad = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 10;
+          getDataCusMember(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getDataCusMember(offset) async {
     try {
       var respose = await http.post(
         Uri.parse('${api}customer/memberList'),
@@ -57,18 +86,27 @@ class _MemberCustListState extends State<MemberCustList> {
           'firstName': widget.custName.toString(),
           'lastName': widget.lastnamecust.toString(),
           'page': '1',
-          'limit': '100',
+          'limit': '$offset',
         }),
       );
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataMemberList =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           list_dataMember = dataMemberList['data'];
         });
         statusLoading = true;
+        isLoad = false;
+        if (stquery > 0) {
+          if (offset > list_dataMember.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -179,8 +217,12 @@ class _MemberCustListState extends State<MemberCustList> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Scrollbar(
-                    child: ListView(
+                  child: SingleChildScrollView(
+                    controller: scrollControll,
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    child: Column(
                       children: [
                         for (var i = 0; i < list_dataMember.length; i++) ...[
                           InkWell(
@@ -286,6 +328,14 @@ class _MemberCustListState extends State<MemberCustList> {
                             ),
                           ),
                         ],
+                        if (isLoad == true && isLoadendPage == false) ...[
+                          const LoadData(),
+                        ] else if (isLoadendPage == true) ...[
+                          const EndPage(),
+                        ],
+                        const SizedBox(
+                          height: 35,
+                        ),
                       ],
                     ),
                   ),

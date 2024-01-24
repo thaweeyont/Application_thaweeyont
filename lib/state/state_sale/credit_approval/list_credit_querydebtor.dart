@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_info_consider_cus.dart';
+import 'package:application_thaweeyont/state/state_sale/credit_approval/page_info_consider_cus.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +11,6 @@ import '../../../utility/my_constant.dart';
 import '../../authen.dart';
 
 class ListCreditQueryDebtor extends StatefulWidget {
-  // const ListCreditQueryDebtor({Key? key}) : super(key: key);
   final String? custId,
       homeNo,
       moo,
@@ -30,27 +29,28 @@ class ListCreditQueryDebtor extends StatefulWidget {
       selectValue_province,
       address;
   final int? select_debtorType, select_signStatus;
-  ListCreditQueryDebtor(
-    this.custId,
-    this.homeNo,
-    this.moo,
-    this.tumbolId,
-    this.amphur,
-    this.province,
-    this.firstname_c,
-    this.lastname_c,
-    this.select_addreessType,
-    this.select_debtorType,
-    this.idcard,
-    this.telephone,
-    this.select_branchlist,
-    this.signId,
-    this.select_signStatus,
-    this.itemTypelist,
-    this.selectValue_amphoe,
-    this.selectValue_province,
-    this.address,
-  );
+  const ListCreditQueryDebtor(
+      this.custId,
+      this.homeNo,
+      this.moo,
+      this.tumbolId,
+      this.amphur,
+      this.province,
+      this.firstname_c,
+      this.lastname_c,
+      this.select_addreessType,
+      this.select_debtorType,
+      this.idcard,
+      this.telephone,
+      this.select_branchlist,
+      this.signId,
+      this.select_signStatus,
+      this.itemTypelist,
+      this.selectValue_amphoe,
+      this.selectValue_province,
+      this.address,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<ListCreditQueryDebtor> createState() => _ListCreditQueryDebtorState();

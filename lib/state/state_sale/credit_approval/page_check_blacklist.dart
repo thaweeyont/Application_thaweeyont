@@ -10,9 +10,8 @@ import '../../authen.dart';
 import 'list_check_blacklist.dart';
 
 class Page_Check_Blacklist extends StatefulWidget {
-  // const Page_Check_Blacklist({super.key});
   final String? smartId;
-  Page_Check_Blacklist(this.smartId);
+  const Page_Check_Blacklist(this.smartId, {Key? key}) : super(key: key);
 
   @override
   State<Page_Check_Blacklist> createState() => _Page_Check_BlacklistState();
@@ -84,7 +83,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_provice =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_province = data_provice['data'];
         });
@@ -144,7 +143,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_district =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           list_district = data_district['data'];
         });
@@ -196,7 +195,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_search_bl = data['data'];
           selectValue_bl = dropdown_search_bl[0]['id'];
@@ -252,7 +251,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
 
         if (respose.statusCode == 200) {
           Map<String, dynamic> data_list =
-              new Map<String, dynamic>.from(json.decode(respose.body));
+              Map<String, dynamic>.from(json.decode(respose.body));
 
           setState(() {
             list_dataSearch_bl = data_list['data'];
@@ -346,7 +345,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clear_value_search();
+                                  clearValueSearch();
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
@@ -656,7 +655,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     );
   }
 
-  Future<Null> search_district(sizeIcon, border) async {
+  Future<void> search_district(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -705,7 +704,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pop(context);
-                                  clearValue_search_district();
+                                  clearValueSearchDistrict();
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
@@ -1076,7 +1075,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     });
   }
 
-  clear_value_search() {
+  clearValueSearch() {
     setState(() {
       statusLoad404 = false;
       list_dataSearch_bl = [];
@@ -1086,7 +1085,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     lastnameSearchBl.clear();
   }
 
-  clearValue_search_district() {
+  clearValueSearchDistrict() {
     setState(() {
       selectValue_province = null;
       selectValue_amphoe = null;
@@ -1330,31 +1329,6 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                             );
                           }
                         }
-                        // if (idcard.text.isEmpty) {
-                        //   showProgressDialog(
-                        //       context, 'แจ้งเตือน', 'กรุณากรอกเลขบัตรประชาชน!');
-                        // } else {
-                        // setState(() {
-                        //   statusLoading = false;
-                        //   statusLoad404 = false;
-                        // });
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ListCheckBlacklist(
-                        //       idblacklist.text,
-                        //       idcard.text,
-                        //       name.text,
-                        //       lastname.text,
-                        //       home_no.text,
-                        //       moo_no.text,
-                        //       districtId,
-                        //       selectValue_amphoe,
-                        //       selectValue_province,
-                        //     ),
-                        //   ),
-                        // );
-                        // }
                       },
                       child: const Text('ค้นหา'),
                     ),

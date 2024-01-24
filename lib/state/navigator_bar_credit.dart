@@ -4,22 +4,22 @@ import 'dart:io';
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_credit_approval.dart';
+import 'package:application_thaweeyont/state/state_sale/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
-import 'package:application_thaweeyont/state/state_credit/status_member/page_status_member.dart';
-import 'package:application_thaweeyont/state/state_sale/product_stock/product_stock_data.dart';
+import 'package:application_thaweeyont/state/state_cus_relations/status_member/page_status_member.dart';
+import 'package:application_thaweeyont/state/state_cus_relations/product_stock/product_stock_data.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import 'authen.dart';
-import 'state_credit/check_purchase_info/page_checkpurchase_info.dart';
+import 'state_cus_relations/check_purchase_info/page_checkpurchase_info.dart';
 
 class Navigator_bar_credit extends StatefulWidget {
   String? index;
-  Navigator_bar_credit(this.index);
+  Navigator_bar_credit(this.index, {Key? key}) : super(key: key);
 
   @override
   _Navigator_bar_creditState createState() => _Navigator_bar_creditState();
@@ -193,7 +193,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     double size_h = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: Appbar(),
+      appBar: appBar(),
       body: Container(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -235,131 +235,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     }
   }
 
-// อันนี้ไม่ได้ใช้
   showMenuList() {
-    showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
-        ),
-        builder: (context) {
-          return SizedBox(
-            height: (54 * 6).toDouble(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const SizedBox(height: 15),
-                ListTile(
-                  title: Text(
-                    "สอบถามรายละเอียดลูกหนี้",
-                    style: _selectedIndex == 0
-                        ? MyContant().h1MenuStyle_click()
-                        : MyContant().h2Style(),
-                  ),
-                  leading: Icon(
-                    Icons.people,
-                    color: _selectedIndex == 0 ? Colors.blue : Colors.grey[700],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = 0;
-                      title_head = "สอบถามรายละเอียดลูกหนี้";
-                      status = false;
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    "ตรวจสอบข้อมูลการซื้อสินค้า",
-                    style: _selectedIndex == 1
-                        ? MyContant().h1MenuStyle_click()
-                        : MyContant().h2Style(),
-                  ),
-                  leading: Icon(
-                    Icons.local_mall_rounded,
-                    color: _selectedIndex == 1 ? Colors.blue : Colors.grey[700],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = 1;
-                      title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
-                      status = false;
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    "เช็คผลการพิจารณาสินเชื่อ",
-                    style: _selectedIndex == 3
-                        ? MyContant().h1MenuStyle_click()
-                        : MyContant().h2Style(),
-                  ),
-                  leading: Icon(
-                    Icons.manage_accounts_rounded,
-                    color: _selectedIndex == 3 ? Colors.blue : Colors.grey[700],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = 3;
-                      title_head = "เช็คผลการพิจารณาสินเชื่อ";
-                      status = false;
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    "สถานะสมาชิกทวียนต์",
-                    style: _selectedIndex == 4
-                        ? MyContant().h1MenuStyle_click()
-                        : MyContant().h2Style(),
-                  ),
-                  leading: Icon(
-                    Icons.switch_account_outlined,
-                    color: _selectedIndex == 4 ? Colors.blue : Colors.grey[700],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = 4;
-                      title_head = "สถานะสมาชิกทวียนต์";
-                      status = false;
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    "สอบถามรายละเอียด BlackList",
-                    style: _selectedIndex == 5
-                        ? MyContant().h1MenuStyle_click()
-                        : MyContant().h2Style(),
-                  ),
-                  leading: Icon(
-                    Icons.person_off_rounded,
-                    color: _selectedIndex == 5 ? Colors.blue : Colors.grey[700],
-                  ),
-                  onTap: () {
-                    setState(() {
-                      _selectedIndex = 5;
-                      title_head = "สอบถามรายละเอียด BlackList";
-                      status = false;
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-// ใช้อันนี้
-  showMenuList2() {
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -556,7 +432,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         });
   }
 
-  AppBar Appbar() {
+  AppBar appBar() {
     return AppBar(
       centerTitle: true,
       elevation: status == true ? 0 : 4,
@@ -602,7 +478,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        showMenuList2();
+                        showMenuList();
                       });
                     },
                     child: const Icon(
@@ -655,7 +531,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
-            // currentIndex: _selectedIndex,
             backgroundColor: const Color.fromRGBO(5, 12, 69, 1),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
@@ -663,7 +538,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               switch (index) {
                 case 0:
                   setState(() {
-                    showMenuList2();
+                    showMenuList();
                   });
                   break;
                 case 1:
@@ -692,95 +567,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  BottomAppBar bottonNavigator() {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 8.0,
-      clipBehavior: Clip.antiAlias,
-      child: SizedBox(
-        height: kBottomNavigationBarHeight,
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            border: Border(
-              top: BorderSide(
-                color: Colors.grey,
-                width: 0.5,
-              ),
-            ),
-          ),
-          child: BottomNavigationBar(
-              elevation: 15,
-              showSelectedLabels: true,
-              showUnselectedLabels: false,
-              type: BottomNavigationBarType.fixed,
-              currentIndex: _selectedIndex,
-              backgroundColor: const Color.fromARGB(255, 22, 30, 94),
-              selectedItemColor: Colors.blue,
-              unselectedItemColor: Colors.white,
-              onTap: (index) {
-                switch (index) {
-                  case 0:
-                    setState(() {
-                      title_head = "สอบถามรายละเอียดลูกหนี้";
-                      status = false;
-                    });
-                    break;
-                  case 1:
-                    setState(() {
-                      _selectedIndex = 1;
-                      title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
-                      status = false;
-                    });
-                    break;
-                  case 2:
-                    setState(() {
-                      _selectedIndex = 2;
-                      status = true;
-                    });
-                    break;
-                  case 3:
-                    setState(() {
-                      _selectedIndex = 3;
-                      title_head = "เช็คผลการพิจารณาสินเชื่อ";
-                      status = false;
-                    });
-                    break;
-                  case 4:
-                    setState(() {
-                      _selectedIndex = 4;
-                      title_head = "สถานะสมาชิกทวียนต์";
-                      status = false;
-                    });
-                    break;
-                  default:
-                    {
-                      setState(() {
-                        _selectedIndex = 0;
-                        status = true;
-                      });
-                    }
-                    break;
-                }
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.people), label: ''),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.local_mall_rounded), label: ''),
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.manage_accounts_rounded), label: ''),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.switch_account_outlined), label: ''),
-              ]),
-        ),
-      ),
-    );
-  }
-
   SizedBox drawer(double size, BuildContext context) {
     return SizedBox(
       width: size * 0.80,
@@ -803,7 +589,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               Column(
                 children: [
                   drawerIcon(size),
-                  // navigator_cradit(context, size),
                   listMenu(context, size),
                   about(context, size),
                   btnExit()
@@ -1192,51 +977,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
     }
     return icon;
-  }
-
-  InkWell navigatorCradit(BuildContext context, double size) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('2'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-      },
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: size * 0.15, bottom: 15),
-            padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  bottomLeft: Radius.circular(30)),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: const [
-                    Icon(Icons.credit_card_outlined),
-                    SizedBox(width: 10),
-                    Text(
-                      "สินเชื่อ",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Prompt'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   InkWell about(BuildContext context, double size) {

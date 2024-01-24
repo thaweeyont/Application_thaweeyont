@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_check_blacklist.dart';
+import 'package:application_thaweeyont/state/state_sale/credit_approval/page_check_blacklist.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -13,9 +13,8 @@ import 'credit_debtordetail.dart';
 import 'data_list_quarantee.dart';
 
 class ApproveCreditQuarantee extends StatefulWidget {
-  // const ApproveCreditQuarantee({Key? key}) : super(key: key);
   final String? tranId;
-  ApproveCreditQuarantee(this.tranId);
+  const ApproveCreditQuarantee(this.tranId, {Key? key}) : super(key: key);
 
   @override
   State<ApproveCreditQuarantee> createState() => _ApproveCreditQuaranteeState();
@@ -128,7 +127,6 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',

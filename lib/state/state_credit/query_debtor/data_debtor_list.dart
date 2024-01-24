@@ -32,27 +32,28 @@ class Data_debtor_list extends StatefulWidget {
       selectValue_amphoe,
       selectValue_province;
   final int? select_debtorType, select_signStatus;
-  Data_debtor_list(
-    this.custId,
-    this.homeNo,
-    this.moo,
-    this.tumbolId,
-    this.amphur,
-    this.province,
-    this.firstname_c,
-    this.lastname_c,
-    this.select_addreessType,
-    this.select_debtorType,
-    this.idcard,
-    this.telephone,
-    this.select_branchlist,
-    this.signId,
-    this.signRunning,
-    this.select_signStatus,
-    this.itemTypelist,
-    this.selectValue_amphoe,
-    this.selectValue_province,
-  );
+  const Data_debtor_list(
+      this.custId,
+      this.homeNo,
+      this.moo,
+      this.tumbolId,
+      this.amphur,
+      this.province,
+      this.firstname_c,
+      this.lastname_c,
+      this.select_addreessType,
+      this.select_debtorType,
+      this.idcard,
+      this.telephone,
+      this.select_branchlist,
+      this.signId,
+      this.signRunning,
+      this.select_signStatus,
+      this.itemTypelist,
+      this.selectValue_amphoe,
+      this.selectValue_province,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<Data_debtor_list> createState() => _Data_debtor_listState();
@@ -100,7 +101,6 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
 
   void myScroll(scrollControll, offset) {
     scrollControll.addListener(() async {
-      // double currentScroll = scrollControll.position.pixels;
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {
         setState(() {

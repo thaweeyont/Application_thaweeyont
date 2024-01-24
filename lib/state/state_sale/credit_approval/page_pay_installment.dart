@@ -10,10 +10,11 @@ import '../../../utility/my_constant.dart';
 import '../../authen.dart';
 
 class Page_Pay_Installment extends StatefulWidget {
-  // const Page_Pay_Installment({super.key});
   var signId, list_payDetail;
   List<dynamic> period;
-  Page_Pay_Installment(this.signId, this.list_payDetail, this.period);
+  Page_Pay_Installment(this.signId, this.list_payDetail, this.period,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<Page_Pay_Installment> createState() => _Page_Pay_InstallmentState();
@@ -29,7 +30,6 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdata();
     setListdropdown();
@@ -76,7 +76,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataPayDetail =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           datapayDetail = dataPayDetail['data'];
@@ -168,7 +168,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                     'งวดที่ : ',
                     style: MyContant().h4normalStyle(),
                   ),
-                  input_pay_installment(sizeIcon, border),
+                  inputPayInstallment(sizeIcon, border),
                 ],
               ),
             ),
@@ -364,7 +364,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
     );
   }
 
-  Expanded input_pay_installment(sizeIcon, border) {
+  Expanded inputPayInstallment(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -378,11 +378,11 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
             child: DropdownButton(
               items: datalist
                   .map((value) => DropdownMenuItem(
+                        value: value,
                         child: Text(
                           value,
                           style: MyContant().TextInputStyle(),
                         ),
-                        value: value,
                       ))
                   .toList(),
               onChanged: (String? newValue) {

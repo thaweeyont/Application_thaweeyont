@@ -9,9 +9,8 @@ import 'package:http/http.dart' as http;
 import '../../../api.dart';
 
 class Detail_member_cust extends StatefulWidget {
-  // const Detail_member_cust({Key? key}) : super(key: key);
   final String? custId;
-  Detail_member_cust(this.custId);
+  const Detail_member_cust(this.custId, {Key? key}) : super(key: key);
 
   @override
   State<Detail_member_cust> createState() => _Detail_member_custState();
@@ -634,35 +633,4 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                 ),
     );
   }
-}
-
-Padding lineNext() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
-    child: Row(children: <Widget>[
-      Expanded(
-        child: Container(
-          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-          child: const Divider(
-            thickness: 1.0,
-            color: Colors.black,
-            height: 30,
-          ),
-        ),
-      ),
-      Text(
-        'คนถัดไป',
-        style: MyContant().TextInputStyle(),
-      ),
-      Expanded(
-        child: Container(
-            margin: const EdgeInsets.only(left: 20.0, right: 10.0),
-            child: const Divider(
-              thickness: 1.0,
-              color: Colors.black,
-              height: 30,
-            )),
-      ),
-    ]),
-  );
 }

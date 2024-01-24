@@ -22,7 +22,7 @@ class Credit_data_detail extends StatefulWidget {
       start_date,
       end_date;
   final int? select_index_approve;
-  Credit_data_detail(
+  const Credit_data_detail(
       this.custId,
       this.idcard,
       this.custName,
@@ -31,7 +31,9 @@ class Credit_data_detail extends StatefulWidget {
       this.select_branchlist,
       this.start_date,
       this.end_date,
-      this.select_index_approve);
+      this.select_index_approve,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<Credit_data_detail> createState() => _Credit_data_detailState();
@@ -70,7 +72,6 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
 
   void myScroll(scrollControll, offset) {
     scrollControll.addListener(() async {
-      // double currentScroll = scrollControll.position.pixels;
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {
         setState(() {

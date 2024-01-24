@@ -12,7 +12,6 @@ import '../../authen.dart';
 import 'detail_check_blacklist.dart';
 
 class ListCheckBlacklist extends StatefulWidget {
-  // const ListCheckBlacklist({Key? key}) : super(key: key);
   final String? idblacklist,
       idcard,
       name,
@@ -22,7 +21,7 @@ class ListCheckBlacklist extends StatefulWidget {
       districtId,
       selectValue_amphoe,
       selectValue_province;
-  ListCheckBlacklist(
+  const ListCheckBlacklist(
       this.idblacklist,
       this.idcard,
       this.name,
@@ -31,7 +30,9 @@ class ListCheckBlacklist extends StatefulWidget {
       this.mooNo,
       this.districtId,
       this.selectValue_amphoe,
-      this.selectValue_province);
+      this.selectValue_province,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<ListCheckBlacklist> createState() => _ListCheckBlacklistState();
@@ -94,7 +95,7 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataBlacklist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           list_Blacklist = dataBlacklist['data'];

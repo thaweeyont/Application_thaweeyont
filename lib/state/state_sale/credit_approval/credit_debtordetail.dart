@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_credit/credit_approval/page_info_consider_cus.dart';
+import 'package:application_thaweeyont/state/state_sale/credit_approval/page_info_consider_cus.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -12,7 +12,7 @@ import '../../authen.dart';
 
 class CreditDebtorDetail extends StatefulWidget {
   final String? custId;
-  CreditDebtorDetail(this.custId);
+  const CreditDebtorDetail(this.custId, {Key? key}) : super(key: key);
 
   @override
   State<CreditDebtorDetail> createState() => _CreditDebtorDetailState();
@@ -59,7 +59,7 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> dataCreditDebtor =
-            new Map<String, dynamic>.from(jsonDecode(respose.body));
+            Map<String, dynamic>.from(jsonDecode(respose.body));
 
         listDataDebtor = dataCreditDebtor['data'];
 

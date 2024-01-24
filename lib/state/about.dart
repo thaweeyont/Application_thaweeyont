@@ -64,7 +64,7 @@ class _AboutState extends State<About> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           listValue = data['data'];
         });
@@ -131,7 +131,6 @@ class _AboutState extends State<About> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',

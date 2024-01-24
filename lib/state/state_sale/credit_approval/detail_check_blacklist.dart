@@ -9,9 +9,8 @@ import '../../../api.dart';
 import '../../authen.dart';
 
 class DetailCheckBlacklist extends StatefulWidget {
-  // const DetailCheckBlacklist({Key? key}) : super(key: key);
   final String? blId;
-  DetailCheckBlacklist(this.blId);
+  const DetailCheckBlacklist(this.blId, {Key? key}) : super(key: key);
 
   @override
   State<DetailCheckBlacklist> createState() => _DetailCheckBlacklistState();
@@ -55,7 +54,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_detail =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           status_data = true;
@@ -122,7 +121,6 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',

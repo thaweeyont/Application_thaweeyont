@@ -10,10 +10,10 @@ import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Pay_installment extends StatefulWidget {
-  // const Pay_installment({Key? key}) : super(key: key);
   var signId, list_payDetail;
   List<dynamic> period;
-  Pay_installment(this.signId, this.list_payDetail, this.period);
+  Pay_installment(this.signId, this.list_payDetail, this.period, {Key? key})
+      : super(key: key);
 
   @override
   State<Pay_installment> createState() => _Pay_installmentState();
@@ -43,14 +43,14 @@ class _Pay_installmentState extends State<Pay_installment> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_payDetail(widget.signId, widget.list_payDetail);
+    getDataPayDetail(widget.signId, widget.list_payDetail);
   }
 
   setListdropdown() {
     List<dynamic> no = widget.period.map((e) => e["periodNo"]).toList();
-    no.forEach((element) {
+    for (var element in no) {
       datalist.add(element);
-    });
+    }
     setState(() {
       datalist = datalist;
       dropdownValue =
@@ -58,7 +58,7 @@ class _Pay_installmentState extends State<Pay_installment> {
     });
   }
 
-  Future<void> getData_payDetail(signId, String period) async {
+  Future<void> getDataPayDetail(signId, String period) async {
     try {
       var respose = await http.post(
         Uri.parse('${api}debtor/payDetail'),
@@ -75,7 +75,7 @@ class _Pay_installmentState extends State<Pay_installment> {
       if (respose.statusCode == 200) {
         payDetail = '';
         Map<String, dynamic> dataPayDetail =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           datapayDetail = dataPayDetail['data'];
@@ -167,7 +167,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                     'งวดที่ : ',
                     style: MyContant().h4normalStyle(),
                   ),
-                  input_pay_installment(sizeIcon, border),
+                  inputPayInstallment(sizeIcon, border),
                 ],
               ),
             ),
@@ -363,7 +363,7 @@ class _Pay_installmentState extends State<Pay_installment> {
     );
   }
 
-  Expanded input_pay_installment(sizeIcon, border) {
+  Expanded inputPayInstallment(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -389,7 +389,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                   dropdownValue = newValue!;
                   statusLoading200 = false;
                   statusLoad404 = false;
-                  getData_payDetail(widget.signId, dropdownValue);
+                  getDataPayDetail(widget.signId, dropdownValue);
                 });
               },
               value: dropdownValue,

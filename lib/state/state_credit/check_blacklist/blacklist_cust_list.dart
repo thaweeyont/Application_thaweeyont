@@ -9,8 +9,10 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/endpage.dart';
+import '../../../widgets/loaddata.dart';
+
 class Blacklist_cust_list extends StatefulWidget {
-  // const Blacklist_cust_list({Key? key}) : super(key: key);
   final String? idblacklist,
       smartId,
       name,
@@ -20,7 +22,7 @@ class Blacklist_cust_list extends StatefulWidget {
       districtId,
       selectValue_amphoe,
       selectValue_province;
-  Blacklist_cust_list(
+  const Blacklist_cust_list(
       this.idblacklist,
       this.smartId,
       this.name,
@@ -29,7 +31,9 @@ class Blacklist_cust_list extends StatefulWidget {
       this.moo_no,
       this.districtId,
       this.selectValue_amphoe,
-      this.selectValue_province);
+      this.selectValue_province,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<Blacklist_cust_list> createState() => _Blacklist_cust_listState();
@@ -38,7 +42,12 @@ class Blacklist_cust_list extends StatefulWidget {
 class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_data_blacklist = [];
-  bool statusLoading = false, statusLoad404 = false;
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoad = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 30, stquery = 0;
 
   @override
   void initState() {
@@ -46,7 +55,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -55,10 +64,30 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_blacklist();
+    if (mounted) {
+      setState(() {
+        getDataBlacklist(offset);
+      });
+    }
+    myScroll(scrollControll, offset);
   }
 
-  Future<void> getData_blacklist() async {
+  void myScroll(scrollControll, offset) {
+    scrollControll.addListener(() async {
+      if (scrollControll.position.pixels ==
+          scrollControll.position.maxScrollExtent) {
+        setState(() {
+          isLoad = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 10;
+          getDataBlacklist(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getDataBlacklist(offset) async {
     var tumbol, amphur, province;
 
     if (widget.districtId == null) {
@@ -93,12 +122,21 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_blacklist =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           list_data_blacklist = data_blacklist['data'];
         });
         statusLoading = true;
+        isLoad = false;
+        if (stquery > 0) {
+          if (offset > list_data_blacklist.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -159,7 +197,6 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // CircularProgressIndicator(),
                     Image.asset(cupertinoActivityIndicator, scale: 4),
                     Text(
                       'กำลังโหลด',
@@ -210,8 +247,12 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Scrollbar(
-                    child: ListView(
+                  child: SingleChildScrollView(
+                    controller: scrollControll,
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    child: Column(
                       children: [
                         if (list_data_blacklist.isNotEmpty) ...[
                           for (var i = 0;
@@ -306,6 +347,14 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                               ),
                             ),
                           ],
+                          if (isLoad == true && isLoadendPage == false) ...[
+                            const LoadData(),
+                          ] else if (isLoadendPage == true) ...[
+                            const EndPage(),
+                          ],
+                          const SizedBox(
+                            height: 35,
+                          ),
                         ],
                       ],
                     ),

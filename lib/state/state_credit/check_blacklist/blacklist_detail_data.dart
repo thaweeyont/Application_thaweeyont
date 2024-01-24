@@ -9,9 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class Blacklist_Detail extends StatefulWidget {
-  // const Blacklist_Detail({Key? key}) : super(key: key);
   final String? blId;
-  Blacklist_Detail(this.blId);
+  const Blacklist_Detail(this.blId, {Key? key}) : super(key: key);
 
   @override
   State<Blacklist_Detail> createState() => _Blacklist_DetailState();
@@ -55,7 +54,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_detail =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
           status_data = true;

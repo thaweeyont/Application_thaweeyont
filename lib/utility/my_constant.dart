@@ -1040,7 +1040,6 @@ Future<void> showProgressLoading(BuildContext context) async {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // CircularProgressIndicator(),
             Image.asset(cupertinoActivityIndicator, scale: 4),
             Text(
               'กำลังโหลด',
