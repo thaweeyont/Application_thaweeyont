@@ -149,13 +149,11 @@ class _ProductStockDataState extends State<ProductStockData> {
           dropdownStockType = dataStockType['data'];
           selectStockTypeList = dropdownStockType[0]['id'];
         });
-        print('stock>> $selectStockTypeList');
         if (selectStockTypeList == 1 || selectStockTypeList == 3) {
           itemStatus = '1';
         } else if (selectStockTypeList == 2 || selectStockTypeList == 4) {
           itemStatus = '2';
         }
-        print('status>> $itemStatus');
         getDataApi();
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -211,10 +209,8 @@ class _ProductStockDataState extends State<ProductStockData> {
             {'id': 99, 'name': "กรุณาเลือกสาขา"}
           ];
           myListJson = List.from(df)..addAll(dataBranch['data']);
-          print('myList>>$myListJson');
           dropdownBranch = myListJson;
         });
-        print(dropdownBranch);
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
@@ -451,8 +447,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 var promotion = '';
                                 idItemWareHouse = promotion;
                               }
-                              print(isCheckedPR);
-                              print(idItemWareHouse);
                             },
                           ),
                           Text(
@@ -1268,7 +1262,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -1707,7 +1701,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -2140,7 +2134,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -2465,7 +2459,6 @@ class _ProductStockDataState extends State<ProductStockData> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('no data');
         setState(() {
           if (load == 'load') {
             Navigator.pop(context);
@@ -2590,7 +2583,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3019,7 +3012,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3447,7 +3440,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -3876,7 +3869,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -4302,7 +4295,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -4733,7 +4726,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 Row(
                                   children: [
                                     inputProductStock(
-                                        searchName, 'false', '', ''),
+                                        searchName, 'false', '', 'n'),
                                     const SizedBox(width: 8),
                                   ],
                                 ),
@@ -5017,168 +5010,170 @@ class _ProductStockDataState extends State<ProductStockData> {
           onChanged: (key) {
             if (indexs == "0") {
               setState(() {
-                textEditingController.text.isEmpty;
+                nameProduct.text.isEmpty;
               });
             }
           },
           decoration: InputDecoration(
-            suffixIcon: textEditingController.text.isEmpty
+            suffixIcon: indexs == 'n'
                 ? null
-                : GestureDetector(
-                    onTap: () async {
-                      switch (indexs) {
-                        case "0":
-                          setState(() {
-                            nameProduct.clear();
-                          });
-                          break;
-                        case "1":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            idWareHouse.clear();
-                            itemWareHouse.clear();
-                            idItemWareHouse = '';
-                          });
-                          break;
-                        case "2":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            idGroup.clear();
-                            itemGroup.clear();
-                            idItemGroup = '';
-                            idType.clear();
-                            itemType.clear();
-                            idItemType = '';
-                            idBrand.clear();
-                            itemBrand.clear();
-                            idItemBrand = '';
-                            idModel.clear();
-                            itemModel.clear();
-                            idItemModel = '';
-                            idStyle.clear();
-                            itemStyle.clear();
-                            idItemStyle = '';
-                            idSize.clear();
-                            itemSize.clear();
-                            idItemSize = '';
-                            idColor.clear();
-                            itemColor.clear();
-                            idItemColor = '';
-                          });
-                          break;
-                        case "3":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            textEditingController.clear();
-                            idType.clear();
-                            itemType.clear();
-                            idItemType = '';
-                            idBrand.clear();
-                            itemBrand.clear();
-                            idItemBrand = '';
-                            idModel.clear();
-                            itemModel.clear();
-                            idItemModel = '';
-                            idStyle.clear();
-                            itemStyle.clear();
-                            idItemStyle = '';
-                            idSize.clear();
-                            itemSize.clear();
-                            idItemSize = '';
-                            idColor.clear();
-                            itemColor.clear();
-                            idItemColor = '';
-                          });
-                          break;
-                        case "4":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            textEditingController.clear();
-                            idBrand.clear();
-                            itemBrand.clear();
-                            idItemBrand = '';
-                            idModel.clear();
-                            itemModel.clear();
-                            idItemModel = '';
-                            idStyle.clear();
-                            itemStyle.clear();
-                            idItemStyle = '';
-                            idSize.clear();
-                            itemSize.clear();
-                            idItemSize = '';
-                            idColor.clear();
-                            itemColor.clear();
-                            idItemColor = '';
-                          });
-                          break;
-                        case "5":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            textEditingController.clear();
-                            idModel.clear();
-                            itemModel.clear();
-                            idItemModel = '';
-                            idStyle.clear();
-                            itemStyle.clear();
-                            idItemStyle = '';
-                            idSize.clear();
-                            itemSize.clear();
-                            idItemSize = '';
-                            idColor.clear();
-                            itemColor.clear();
-                            idItemColor = '';
-                          });
-                          break;
-                        case "6":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            textEditingController.clear();
-                            idStyle.clear();
-                            itemStyle.clear();
-                            idItemStyle = '';
-                            idSize.clear();
-                            itemSize.clear();
-                            idItemSize = '';
-                          });
-                          break;
-                        case "7":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            textEditingController.clear();
-                            idSize.clear();
-                            itemSize.clear();
-                            idItemSize = '';
-                            idColor.clear();
-                            itemColor.clear();
-                            idItemColor = '';
-                          });
-                          break;
-                        case "8":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            textEditingController.clear();
-                            idColor.clear();
-                            itemColor.clear();
-                            idItemColor = '';
-                          });
-                          break;
-                        case "9":
-                          setState(() {
-                            textEditingController.text.isEmpty;
-                            textEditingController.clear();
-                            idFree.clear();
-                            itemFree.clear();
-                            idItemFree = '';
-                          });
-                          break;
-                        default:
-                          break;
-                      }
-                    },
-                    child: const Icon(
-                      Icons.close,
-                    ),
-                  ),
+                : textEditingController.text.isEmpty
+                    ? null
+                    : GestureDetector(
+                        onTap: () async {
+                          switch (indexs) {
+                            case "0":
+                              setState(() {
+                                nameProduct.clear();
+                              });
+                              break;
+                            case "1":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                idWareHouse.clear();
+                                itemWareHouse.clear();
+                                idItemWareHouse = '';
+                              });
+                              break;
+                            case "2":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                idGroup.clear();
+                                itemGroup.clear();
+                                idItemGroup = '';
+                                idType.clear();
+                                itemType.clear();
+                                idItemType = '';
+                                idBrand.clear();
+                                itemBrand.clear();
+                                idItemBrand = '';
+                                idModel.clear();
+                                itemModel.clear();
+                                idItemModel = '';
+                                idStyle.clear();
+                                itemStyle.clear();
+                                idItemStyle = '';
+                                idSize.clear();
+                                itemSize.clear();
+                                idItemSize = '';
+                                idColor.clear();
+                                itemColor.clear();
+                                idItemColor = '';
+                              });
+                              break;
+                            case "3":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                textEditingController.clear();
+                                idType.clear();
+                                itemType.clear();
+                                idItemType = '';
+                                idBrand.clear();
+                                itemBrand.clear();
+                                idItemBrand = '';
+                                idModel.clear();
+                                itemModel.clear();
+                                idItemModel = '';
+                                idStyle.clear();
+                                itemStyle.clear();
+                                idItemStyle = '';
+                                idSize.clear();
+                                itemSize.clear();
+                                idItemSize = '';
+                                idColor.clear();
+                                itemColor.clear();
+                                idItemColor = '';
+                              });
+                              break;
+                            case "4":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                textEditingController.clear();
+                                idBrand.clear();
+                                itemBrand.clear();
+                                idItemBrand = '';
+                                idModel.clear();
+                                itemModel.clear();
+                                idItemModel = '';
+                                idStyle.clear();
+                                itemStyle.clear();
+                                idItemStyle = '';
+                                idSize.clear();
+                                itemSize.clear();
+                                idItemSize = '';
+                                idColor.clear();
+                                itemColor.clear();
+                                idItemColor = '';
+                              });
+                              break;
+                            case "5":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                textEditingController.clear();
+                                idModel.clear();
+                                itemModel.clear();
+                                idItemModel = '';
+                                idStyle.clear();
+                                itemStyle.clear();
+                                idItemStyle = '';
+                                idSize.clear();
+                                itemSize.clear();
+                                idItemSize = '';
+                                idColor.clear();
+                                itemColor.clear();
+                                idItemColor = '';
+                              });
+                              break;
+                            case "6":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                textEditingController.clear();
+                                idStyle.clear();
+                                itemStyle.clear();
+                                idItemStyle = '';
+                                idSize.clear();
+                                itemSize.clear();
+                                idItemSize = '';
+                              });
+                              break;
+                            case "7":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                textEditingController.clear();
+                                idSize.clear();
+                                itemSize.clear();
+                                idItemSize = '';
+                                idColor.clear();
+                                itemColor.clear();
+                                idItemColor = '';
+                              });
+                              break;
+                            case "8":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                textEditingController.clear();
+                                idColor.clear();
+                                itemColor.clear();
+                                idItemColor = '';
+                              });
+                              break;
+                            case "9":
+                              setState(() {
+                                textEditingController.text.isEmpty;
+                                textEditingController.clear();
+                                idFree.clear();
+                                itemFree.clear();
+                                idItemFree = '';
+                              });
+                              break;
+                            default:
+                              break;
+                          }
+                        },
+                        child: const Icon(
+                          Icons.close,
+                        ),
+                      ),
             counterText: "",
             contentPadding: const EdgeInsets.all(8),
             isDense: true,

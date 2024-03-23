@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
+import 'package:application_thaweeyont/state/state_mechanical/mechanical.dart';
 import 'package:application_thaweeyont/state/state_sale/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
@@ -62,7 +63,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   Future<void> logoutSystem() async {
     try {
-      print(tokenId);
       var respose = await http.post(
         Uri.parse('${api}authen/logout'),
         headers: <String, String>{
@@ -110,14 +110,14 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "0":
         setState(() {
           _selectedIndex = 0;
-          title_head = "สอบถามรายละเอียดลูกหนี้";
+          titleHead = "สอบถามรายละเอียดลูกหนี้";
           status = false;
         });
         break;
       case "1":
         setState(() {
           _selectedIndex = 1;
-          title_head = "ตรวจสอบข้อมูลการซื้อสินค้า";
+          titleHead = "ตรวจสอบข้อมูลการซื้อสินค้า";
           status = false;
         });
         break;
@@ -131,9 +131,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         setState(() {
           _selectedIndex = 3;
           if (allowApproveStatus == true) {
-            title_head = "บันทึกพิจารณาอนุมัติสินเชื่อ";
+            titleHead = "บันทึกพิจารณาอนุมัติสินเชื่อ";
           } else {
-            title_head = "ตรวจสอบผลอนุมัติสินเชื่อ";
+            titleHead = "ตรวจสอบผลอนุมัติสินเชื่อ";
           }
           status = false;
         });
@@ -141,21 +141,28 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "4":
         setState(() {
           _selectedIndex = 4;
-          title_head = "สถานะสมาชิกทวียนต์";
+          titleHead = "ลูกค้าสัมพันธ์ทวียนต์";
           status = false;
         });
         break;
       case "5":
         setState(() {
           _selectedIndex = 5;
-          title_head = "สอบถามรายละเอียด BlackList";
+          titleHead = "สอบถามรายละเอียด BlackList";
           status = false;
         });
         break;
       case "6":
         setState(() {
           _selectedIndex = 6;
-          title_head = "สอบถามสินค้าในสต็อค";
+          titleHead = "สอบถามสินค้าในสต็อค";
+          status = false;
+        });
+        break;
+      case "7":
+        setState(() {
+          _selectedIndex = 7;
+          titleHead = "ขอช่างติดตั้ง";
           status = false;
         });
         break;
@@ -171,12 +178,12 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   }
 
   int _selectedIndex = 0;
-  String title_head = "";
+  String titleHead = "";
   String nameMenu = '';
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     const Query_debtor(),
     const Page_Checkpurchase_info(),
     const Home_credit(),
@@ -184,6 +191,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     const Page_Status_Member(),
     const Check_Blacklist_Data(),
     const ProductStockData(),
+    const Mechanical(),
   ];
 
   @override
@@ -244,41 +252,39 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           ),
         ),
         builder: (context) {
-          return SizedBox(
-            height: (64 * 6).toDouble(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const SizedBox(height: 15),
-                if (result.isNotEmpty)
-                  for (var i = 0; i < result.length; i++)
-                    ListTile(
-                      title: Text(
-                        "${result[i]['nameMenu']}",
-                        style: _selectedIndex ==
-                                getselectmenuBottom(result[i]['id'])
-                            ? MyContant().h1MenuStyle_click()
-                            : MyContant().h2Style(),
-                      ),
-                      leading: Icon(
-                        getMenuIcon(result[i]['id']),
-                        color: _selectedIndex ==
-                                getselectmenuBottom(result[i]['id'])
-                            ? Colors.blue
-                            : Colors.grey[700],
-                      ),
-                      onTap: () {
-                        setState(() {
-                          title_head = getTitlemenuBottom(result[i]['id']);
-                          _selectedIndex = getselectmenuBottom(result[i]['id']);
-                          status = false;
-                        });
-                        Navigator.pop(context);
-                      },
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const SizedBox(height: 15),
+              if (result.isNotEmpty)
+                for (var i = 0; i < result.length; i++)
+                  ListTile(
+                    title: Text(
+                      "${result[i]['nameMenu']}",
+                      style:
+                          _selectedIndex == getselectmenuBottom(result[i]['id'])
+                              ? MyContant().h1MenuStyle_click()
+                              : MyContant().h2Style(),
                     ),
-              ],
-            ),
+                    leading: Icon(
+                      getMenuIcon(result[i]['id']),
+                      color:
+                          _selectedIndex == getselectmenuBottom(result[i]['id'])
+                              ? Colors.blue
+                              : Colors.grey[700],
+                    ),
+                    onTap: () {
+                      setState(() {
+                        titleHead = getTitlemenuBottom(result[i]['id']);
+                        _selectedIndex = getselectmenuBottom(result[i]['id']);
+                        status = false;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+              const SizedBox(height: 25),
+            ],
           );
         });
   }
@@ -304,6 +310,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case '006':
         selectIndex = 6;
         break;
+      case '007':
+        selectIndex = 7;
+        break;
     }
     return selectIndex;
   }
@@ -326,13 +335,16 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         title = "สอบถามรายละเอียด BlackList";
         break;
       case '004':
-        title = "สถานะสมาชิกทวียนต์";
+        title = "ลูกค้าสัมพันธ์ทวียนต์";
         break;
       case '005':
         title = "ตรวจสอบข้อมูลการซื้อสินค้า";
         break;
       case '006':
         title = "สอบถามสินค้าในสต็อค";
+        break;
+      case '007':
+        title = "ขอช่างติดตั้ง";
         break;
     }
     return title;
@@ -439,7 +451,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       title: status == true
           ? null
           : Text(
-              title_head,
+              titleHead,
               style: MyContant().TitleStyle(),
             ),
       leading: Builder(
@@ -462,46 +474,59 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       margin: EdgeInsets.only(
         left: 30,
         right: 30,
-        bottom: Platform.isAndroid ? 14 : 0,
+        bottom: Platform.isAndroid ? 14 : 5,
       ),
       child: BottomAppBar(
         elevation: 0,
         color: const Color.fromARGB(242, 246, 249, 255),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.055,
-            color: const Color.fromRGBO(5, 12, 69, 1),
-            child: Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        showMenuList();
-                      });
-                    },
-                    child: const Icon(
-                      Icons.view_list_rounded,
-                      color: Colors.white,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 59, 59, 59).withOpacity(0.6),
+                spreadRadius: 1,
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.055,
+              color: const Color.fromRGBO(5, 12, 69, 1),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          showMenuList();
+                        });
+                      },
+                      child: const Icon(
+                        Icons.view_list_rounded,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 40),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        showContactsupport();
-                      });
-                    },
-                    child: const Icon(
-                      Icons.help_outline_sharp,
-                      color: Colors.white,
+                  const SizedBox(width: 40),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          showContactsupport();
+                        });
+                      },
+                      child: const Icon(
+                        Icons.help_outline_sharp,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -628,6 +653,46 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  InkWell mec(BuildContext context, double size) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Mechanical(),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: size * 0.10, bottom: 15),
+        padding: const EdgeInsets.all(12),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+          color: Color.fromARGB(255, 241, 209, 89),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: const [
+                Icon(
+                  Icons.miscellaneous_services,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "งานบริการช่าง",
+                  style: TextStyle(
+                      color: Colors.white, fontSize: 16, fontFamily: 'Prompt'),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -795,7 +860,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       },
       {
         "id": "004",
-        "nameMenu": "สถานะสมาชิกทวียนต์",
+        "nameMenu": "ลูกค้าสัมพันธ์ทวียนต์",
       },
       {
         "id": "005",
@@ -804,6 +869,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       {
         "id": "006",
         "nameMenu": "สอบถามสินค้าในสต็อค",
+      },
+      {
+        "id": "007",
+        "nameMenu": "ขอช่างติดตั้ง",
       },
     ];
     for (var menuItem in menuList) {
@@ -925,6 +994,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           (Route<dynamic> route) => false,
         );
         break;
+      case '007':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('7'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
     }
     return OnTap;
   }
@@ -950,6 +1028,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case '006':
         color = const Color.fromRGBO(176, 218, 255, 1);
         break;
+      case '007':
+        color = const Color.fromARGB(255, 241, 209, 89);
+        break;
     }
     return color;
   }
@@ -974,6 +1055,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '006':
         icon = Icons.production_quantity_limits_sharp;
+        break;
+      case '007':
+        icon = Icons.miscellaneous_services;
         break;
     }
     return icon;
@@ -1052,53 +1136,71 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
-
       builder: (BuildContext context) {
         return AlertDialog(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
           title: Row(
-            children: [
-              const Text(
+            children: const [
+              Icon(Icons.login_outlined),
+              SizedBox(width: 10),
+              Text(
                 "ออกจากระบบ",
                 style: TextStyle(
                   fontSize: 17,
                   fontFamily: 'Prompt',
                 ),
               ),
-              const SizedBox(
-                width: 5,
-              ),
-              Image.asset('images/question.gif',
-                  width: 25, height: 25, fit: BoxFit.contain),
+              SizedBox(height: 20),
+              // Image.asset('images/question.gif',
+              //     width: 25, height: 25, fit: BoxFit.contain),
             ],
           ),
           content: const Text(
-            "คุณต้องการออกจากระบบใช่หรือไหม",
-            style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+            "คุณต้องการออกจากระบบ ?",
+            style: TextStyle(
+              fontFamily: 'Prompt',
+              fontSize: 15,
+            ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text(
-                'ยกเลิก',
-                style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: const Color.fromARGB(255, 221, 221, 221),
+                ),
+                child: const Text(
+                  'ยกเลิก',
+                  style: TextStyle(
+                      fontFamily: 'Prompt',
+                      fontSize: 15,
+                      color: Color.fromARGB(255, 118, 118, 121),
+                      fontWeight: FontWeight.normal),
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text(
-                'ตกลง',
-                style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: const Color.fromARGB(255, 255, 86, 74),
+                ),
+                child: const Text(
+                  'ตกลง',
+                  style: TextStyle(
+                      fontFamily: 'Prompt',
+                      fontSize: 15,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontWeight: FontWeight.normal),
+                ),
               ),
               onPressed: () {
                 logoutSystem();

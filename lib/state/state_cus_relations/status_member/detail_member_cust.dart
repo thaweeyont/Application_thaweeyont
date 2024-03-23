@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/authen.dart';
+import 'package:application_thaweeyont/state/state_cus_relations/status_member/page_address_cust.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
@@ -66,6 +67,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
           listdataMemberDetail = dataMemberDetail['data'];
           listaddress = valueaddress;
         });
+        // print('addressId>${listaddress}');
         statusLoading = true;
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
@@ -445,11 +447,23 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                                     height: 5,
                                                   ),
                                                   Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
-                                                        'สถานะบัตรสมาชิก : ${listdataMemberDetail[i]['memberCardName']}',
+                                                        'สถานะบัตรสมาชิก : ',
                                                         style: MyContant()
                                                             .h4normalStyle(),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '${listdataMemberDetail[i]['memberCardName']}',
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -518,109 +532,133 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                               ),
                             ),
                             for (var c = 0; c < listaddress.length; c++) ...[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 8, left: 8, right: 8),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromRGBO(64, 203, 203, 1),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(10),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddressCust(
+                                        listdataMemberDetail[i]['custId'],
+                                        listaddress[c]['addressId'],
+                                        listaddress[c]['type'],
+                                        listaddress[c]['detail'],
+                                        listaddress[c]['tel'],
+                                        listaddress[c]['fax'],
+                                        listaddress[c]['lat'],
+                                        listaddress[c]['lng'],
+                                      ),
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 0.5,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ประเภท : ${listaddress[c]['type']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
+                                  ).then((value) => getdata());
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 8, left: 8, right: 8),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          const Color.fromRGBO(64, 203, 203, 1),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
                                       ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.15,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
-                                          ),
-                                        ),
-                                        child: Scrollbar(
-                                            child: ListView(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 0.5,
+                                          blurRadius: 2,
+                                          offset: const Offset(0, 1),
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        'ที่อยู่ : ',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          '${listaddress[c]['detail']}',
-                                                          overflow:
-                                                              TextOverflow.clip,
+                                            Text(
+                                              'ประเภท : ${listaddress[c]['type']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.white.withOpacity(0.7),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(5),
+                                            ),
+                                          ),
+                                          child: Scrollbar(
+                                              child: ListView(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'ที่อยู่ : ',
                                                           style: MyContant()
                                                               .h4normalStyle(),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'เบอร์โทรศัพท์ : ${listaddress[c]['tel']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'เบอร์แฟกซ์ : ${listaddress[c]['fax']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                        Expanded(
+                                                          child: Text(
+                                                            '${listaddress[c]['detail']}',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          'เบอร์โทรศัพท์ : ${listaddress[c]['tel']}',
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          'เบอร์แฟกซ์ : ${listaddress[c]['fax']}',
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        )),
-                                      ),
-                                    ],
+                                            ],
+                                          )),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

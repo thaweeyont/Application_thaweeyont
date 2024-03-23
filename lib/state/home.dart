@@ -196,7 +196,7 @@ class _Home_creditState extends State<Home_credit> {
                           Row(
                             children: [
                               Text(
-                                '13 กันยายน 2566',
+                                '25 มกราคม 2567',
                                 style: MyContant().TextAbout(),
                               ),
                             ],
@@ -205,7 +205,7 @@ class _Home_creditState extends State<Home_credit> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  'เรียนผู้ใช้งานระบบทุกท่าน ทางนักพัฒนาระบบได้ทำการย้ายรายการเมนูทั้งหมดเข้าไปอยู่ในแถบด้านซ้ายทั้งหมด โดยให้ผู้ใช้ทุกท่านเข้ารายการเมนูจากแถบด้านซ้ายและแถบด้านล่าง',
+                                  'Thaweeyont อัพเดตระบบใหม่เพื่อปรับปรุงเสถียรภาพของระบบ เพื่อการใช้งานอย่างมีประสิทธิภาพ',
                                   style: MyContant().TextInputStyle(),
                                   overflow: TextOverflow.clip,
                                 ),

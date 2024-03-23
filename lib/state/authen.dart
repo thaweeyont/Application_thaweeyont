@@ -29,20 +29,27 @@ class _AuthenState extends State<Authen> {
   @override
   void initState() {
     super.initState();
-    getprofile_user();
+    getprofileUser();
     _initPackageInfo();
   }
 
-  Future<void> getprofile_user() async {
+  Future<void> getprofileUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-
     if (preferences.getString('userId') != null) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Navigator_bar_credit('2')),
-        (Route<dynamic> route) => false,
-      );
+      loginUser(
+          preferences.getString('username'), preferences.getString('password'));
+    } else {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
     }
+
+    // if (preferences.getString('userId') != null) {
+    //   Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => Navigator_bar_credit('2')),
+    //     (Route<dynamic> route) => false,
+    //   );
+    // }
   }
 
   PackageInfo _packageInfo = PackageInfo(
@@ -61,7 +68,7 @@ class _AuthenState extends State<Authen> {
     });
   }
 
-  Future<void> login_user() async {
+  Future<void> loginUser(username, password) async {
     try {
       var respose = await http.post(
         Uri.parse('${api}authen/'),
@@ -69,8 +76,8 @@ class _AuthenState extends State<Authen> {
           'Content-Type': 'application/json',
         },
         body: jsonEncode(<String, String>{
-          'userName': username.text,
-          'passWord': password.text,
+          'userName': username.toString(),
+          'passWord': password.toString(),
         }),
       );
 
@@ -101,6 +108,8 @@ class _AuthenState extends State<Authen> {
           preferences.setString('branchName', branchName);
           preferences.setBool('allowApproveStatus', allowApproveStatus);
           preferences.setStringList('allowedMenu', allowedMenu);
+          preferences.setString('username', username);
+          preferences.setString('password', password);
 
           Navigator.pushAndRemoveUntil(
             context,
@@ -128,6 +137,8 @@ class _AuthenState extends State<Authen> {
 
         print(check_list['message']);
         if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
           print('ไม่พบชื่อเข้าใช้ระบบ');
           showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบชื่อเข้าใช้ระบบ');
         } else if (check_list['message'] == "รหัสผ่านผิด") {
@@ -135,6 +146,8 @@ class _AuthenState extends State<Authen> {
           showProgressDialog(context, 'แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');
         } else if (check_list['message'] ==
             "ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.clear();
           showProgressDialog(context, 'แจ้งเตือน',
               'ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ');
         }
@@ -144,7 +157,7 @@ class _AuthenState extends State<Authen> {
     }
   }
 
-  Future<PackageInfo> _getPackageInfo() {
+  Future<PackageInfo> getPackageInfo() {
     return PackageInfo.fromPlatform();
   }
 
@@ -153,7 +166,7 @@ class _AuthenState extends State<Authen> {
     double size = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        color: const Color.fromRGBO(5, 12, 69, 1),
+        color: Colors.white,
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           behavior: HitTestBehavior.opaque,
@@ -172,6 +185,27 @@ class _AuthenState extends State<Authen> {
         ),
       ),
     );
+    // Scaffold(
+    //   body: Container(
+    //     color: const Color.fromRGBO(5, 12, 69, 1),
+    //     child: GestureDetector(
+    //       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+    //       behavior: HitTestBehavior.opaque,
+    //       child: Stack(
+    //         children: <Widget>[
+    //           Align(
+    //             alignment: Alignment.topCenter,
+    //             child: buildImage(size),
+    //           ),
+    //           Align(
+    //             alignment: Alignment.bottomCenter,
+    //             child: buildform(size),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   Container buildform(double size) {
@@ -195,14 +229,16 @@ class _AuthenState extends State<Authen> {
                 Expanded(
                   child: TextField(
                     controller: username,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
                         Icons.account_circle_rounded,
                         color: Color.fromRGBO(7, 15, 82, 1),
                       ),
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
                       hintText: 'Username',
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontSize: 16,
                         fontFamily: 'Prompt',
                       ),
@@ -237,7 +273,9 @@ class _AuthenState extends State<Authen> {
                     Icons.key,
                     color: Color.fromRGBO(7, 15, 82, 1),
                   ),
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
                   hintText: 'Password',
                   hintStyle: const TextStyle(
                     fontSize: 16,
@@ -250,22 +288,32 @@ class _AuthenState extends State<Authen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(30),
                 color: const Color.fromRGBO(7, 15, 82, 1),
+                // gradient: const LinearGradient(
+                //   colors: [
+                //     Color.fromRGBO(255, 215, 215, 1),
+                //     Color.fromRGBO(0, 115, 247, 1),
+                //   ],
+                //   begin: Alignment.topLeft,
+                //   end: Alignment.bottomRight,
+                // ),
               ),
               child: TextButton(
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.all(10.0),
-                  textStyle:
-                      const TextStyle(fontSize: 20, fontFamily: 'Prompt'),
+                  padding: const EdgeInsets.all(12),
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Prompt',
+                  ),
                 ),
                 onPressed: () {
                   if (username.text.isEmpty || password.text.isEmpty) {
                     showProgressDialog(
                         context, 'แจ้งเตือน', 'กรุณากรอก User และ Password');
                   } else {
-                    login_user();
+                    loginUser(username.text, password.text);
                   }
                 },
                 child: const Text('เข้าสู่ระบบ'),
@@ -299,22 +347,30 @@ class _AuthenState extends State<Authen> {
     );
   }
 
-  Row buildImage(double size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.085,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: ShowImage(path: MyContant.logoLogin),
-            ),
-          ],
-        ),
-      ],
+  Container buildImage(double size) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.55,
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(5, 12, 69, 1),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.084,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Image.asset(
+                  'images/logo.png',
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -48,10 +48,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    get_select_cus();
+    getSelectCust();
   }
 
-  Future<void> get_select_cus() async {
+  Future<void> getSelectCust() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/custCondition'),
@@ -63,11 +63,14 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
 
       if (respose.statusCode == 200) {
         Map<String, dynamic> data =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdown_customer = data['data'];
         });
       } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        if (!mounted) return;
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -75,6 +78,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
           ),
           (Route<dynamic> route) => false,
         );
+
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {

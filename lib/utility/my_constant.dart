@@ -58,6 +58,12 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+  TextStyle h6Style() => const TextStyle(
+        fontSize: 16,
+        color: Color.fromARGB(255, 32, 64, 154),
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
   TextStyle h1MenuStyle_click() => const TextStyle(
         fontSize: 16,
         color: Colors.blue,
@@ -110,6 +116,12 @@ class MyContant {
 
   TextStyle textLoading() => const TextStyle(
         fontSize: 16,
+        color: Colors.white,
+        fontWeight: FontWeight.normal,
+        fontFamily: 'Prompt',
+      );
+  TextStyle textSmall() => const TextStyle(
+        fontSize: 14,
         color: Colors.white,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
@@ -233,7 +245,7 @@ class MyContant {
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: const Color.fromRGBO(76, 83, 146, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
         ),
         foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
@@ -242,7 +254,7 @@ class MyContant {
   ButtonStyle myButtonCancelStyle() => ElevatedButton.styleFrom(
         backgroundColor: const Color.fromRGBO(248, 40, 78, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
         ),
         foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
@@ -274,6 +286,35 @@ class MyContant {
           color: Colors.grey[200],
         ),
       );
+}
+
+Future<void> showProgressLoading2(BuildContext context) async {
+  showDialog(
+    context: context,
+    barrierColor: Colors.transparent,
+    builder: (context) => WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(cupertinoActivityIndicator, scale: 4),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 showProgressDialog(BuildContext context, title, subtitle) async {
@@ -651,7 +692,7 @@ Future<void> showProgressDialog_4044(
   );
 }
 
-showProgressDialog_400(BuildContext context, title, subtitle) {
+showProgressDialog_400(BuildContext context, String title, String subtitle) {
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -697,8 +738,7 @@ showProgressDialog_400(BuildContext context, title, subtitle) {
 showProgressDialog_401(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
-    barrierDismissible: false, // user must tap button!
-
+    // barrierDismissible: false, // user must tap button!
     builder: (context) {
       return AlertDialog(
         contentPadding: const EdgeInsets.symmetric(horizontal: 40),

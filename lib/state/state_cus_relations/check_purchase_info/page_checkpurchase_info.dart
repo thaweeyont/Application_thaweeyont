@@ -977,11 +977,11 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             child: DropdownButton(
               items: dropdown_saletype
                   .map((value) => DropdownMenuItem(
+                        value: value['id'],
                         child: Text(
                           value['name'],
                           style: MyContant().TextInputStyle(),
                         ),
-                        value: value['id'],
                       ))
                   .toList(),
               onChanged: (newvalue) {
