@@ -1,12 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart' as launcher;
+import '../../api.dart';
+import '../../utility/dialog.dart';
 import '../../utility/my_constant.dart';
+import '../authen.dart';
 
 class MechanicalDetail extends StatefulWidget {
-  const MechanicalDetail({Key? key}) : super(key: key);
+  final String? workReqTranId;
+  const MechanicalDetail(this.workReqTranId, {Key? key}) : super(key: key);
 
   @override
   State<MechanicalDetail> createState() => _MechanicalDetailState();
@@ -15,13 +23,19 @@ class MechanicalDetail extends StatefulWidget {
 class _MechanicalDetailState extends State<MechanicalDetail> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   double? lat, lng;
-  bool statusChecklocation = false, statuSuccess = false;
+  bool statusChecklocation = false,
+      statuSuccess = false,
+      statusLoading = false,
+      statusLoad404 = false;
+  List dataWorkReqDetail = [];
+  var dataDetail, detailcust, sendaddress;
   late WebViewController controller;
   String sampleHTML = '';
 
   @override
   void initState() {
     super.initState();
+    getdata();
   }
 
   Future<void> getdata() async {
@@ -33,6 +47,94 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
+    workRequestDetail();
+  }
+
+  Future<void> workRequestDetail() async {
+    try {
+      var respose = await http.post(
+        Uri.parse('${api}sev/workRequestDetail'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(
+          <String, String>{
+            "workReqTranId": widget.workReqTranId.toString(),
+          },
+        ),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataworkdetail =
+            Map<String, dynamic>.from(json.decode(respose.body));
+
+        dataDetail = dataworkdetail['data'];
+
+        setState(() {
+          detailcust = dataDetail['detail'];
+          dataWorkReqDetail = dataDetail['itemDetail'];
+          sendaddress = dataDetail['sendAddress'];
+          statusLoading = true;
+        });
+        checkLatLng();
+        print('sendaddress>>$sendaddress');
+        print('lat>>${sendaddress['lat']}');
+        print('lng>>${sendaddress['lng']}');
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด!');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoad404 = true;
+          statusLoading = true;
+        });
+        // showProgressDialog_404(context, 'แจ้งเตือน', 'เกืดข้อผิดพลาด');
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> checkLatLng() async {
+    print(
+        '11>${sendaddress['lat'].toString()} 22>${sendaddress['lng'].toString()}');
+    if (sendaddress['lat'].toString().isNotEmpty &&
+        sendaddress['lng'].toString().isNotEmpty) {
+      lat = double.parse(sendaddress['lat'].toString());
+      lng = double.parse(sendaddress['lng'].toString());
+      setState(() {
+        statusChecklocation = true;
+      });
+    } else {
+      lat = 0;
+      lng = 0;
+      setState(() {
+        statusChecklocation = false;
+      });
+    }
+    webView(lat, lng);
   }
 
   Future<void> webView(lat, lng) async {
@@ -87,10 +189,10 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
     setState(() {
       lat = position!.latitude;
       lng = position.longitude;
-      // statusChecklocation = true;
+      statusChecklocation = true;
       print('lat> = $lat, lng> = $lng');
       Navigator.pop(context);
-      // webView(lat, lng);
+      webView(lat, lng);
     });
   }
 
@@ -105,6 +207,77 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
     }
   }
 
+  Future<void> upLocationCust(latitude, longitude, from) async {
+    try {
+      var respose = await http.post(
+        Uri.parse('${api}customer/updLocation'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, String>{
+          'workReqTranId': widget.workReqTranId.toString(),
+          'lat': latitude.toString(),
+          'lng': longitude.toString(),
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> upLocationData =
+            Map<String, dynamic>.from(json.decode(respose.body));
+
+        if (upLocationData['status'] == 'success') {
+          if (from == 'submit') {
+            Navigator.pop(context);
+            successDialog(
+                context, 'สำเร็จ', 'บันทึกตำแหน่งเสร็จสิ้น', 'submit');
+            setState(() {
+              statusChecklocation = true;
+              statuSuccess = true;
+            });
+          } else if (from == 'edit') {
+            Navigator.pop(context);
+            successDialog(context, 'สำเร็จ', 'แก้ไขตำแหน่งเสร็จสิ้น', 'edit');
+
+            // setState(() {
+            //   lat = editlat;
+            //   lng = editlng;
+            // });
+            webView(lat, lng);
+          }
+        }
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(context, 'แจ้งเตือน', 'ละติจูด ลองติจูด ซ้ำ');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        showProgressDialog_404(context, 'แจ้งเตือน', 'เกืดข้อผิดพลาด');
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,292 +287,637 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
           style: MyContant().TitleStyle(),
         ),
       ),
-      body: ListView(
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 241, 209, 89),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 0.5,
-                        blurRadius: 2,
-                        offset: const Offset(0, 1),
-                      )
-                    ],
+      body: statusLoading == false
+          ? Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(cupertinoActivityIndicator, scale: 4),
+                  ],
+                ),
+              ),
+            )
+          : statusLoad404 == true
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(40.0),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              'ชื่อ-สกุล : ',
-                              style: MyContant().h6Style(),
-                            ),
+                            Image.asset(
+                              'images/noresults.png',
+                              color: const Color.fromARGB(255, 158, 158, 158),
+                              width: 60,
+                              height: 60,
+                            )
                           ],
                         ),
-                        const SizedBox(height: 5),
+                        const SizedBox(height: 10),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'ที่อยู่ในเอกสารขาย : ',
-                              style: MyContant().h6Style(),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text(
-                              'โทรศัพท์มือถือ : ',
-                              style: MyContant().h6Style(),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text(
-                              'โทรศัพท์บ้าน : ',
-                              style: MyContant().h6Style(),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text(
-                              'โทรศัพท์ที่ทำงาน : ',
-                              style: MyContant().h6Style(),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text(
-                              'เลขที่ใบขอช่าง : ',
-                              style: MyContant().h6Style(),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Text(
-                              'วันที่จัดส่ง : ',
-                              style: MyContant().h6Style(),
+                              'ไม่พบรายการข้อมูล',
+                              style: MyContant().h5NotData(),
                             ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 241, 209, 89),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 0.5,
-                        blurRadius: 2,
-                        offset: const Offset(0, 1),
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: Row(
-                          children: [
-                            Text(
-                              'รายการสินค้า',
-                              style: MyContant().h6Style(),
+                )
+              : ListView(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 241, 209, 89),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.5,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 2),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
                                 children: [
-                                  Text(
-                                    'คลัง MK',
-                                    style: MyContant().h6Style(),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'ชื่อ-สกุล : ${detailcust!['custName']}',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'จำนวน 11 เครื่อง',
-                                    style: MyContant().h6Style(),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'ACONATIC ตู้เย็น 1 ประตู รุ่น AN-FR1750 ความจุ 6.0 คิว สี Drak Gray รับประกัน 10 ปี',
-                                      style: MyContant().h6Style(),
-                                      overflow: TextOverflow.clip,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  Text(
-                                    'เลขที่เครื่อง : ',
-                                    style: MyContant().h6Style(),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 241, 209, 89),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 0.5,
-                        blurRadius: 2,
-                        offset: const Offset(0, 1),
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: Row(
-                          children: [
-                            Text(
-                              'ที่อยู่จัดส่งสินค้า',
-                              style: MyContant().h6Style(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 2),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      '283 ม. 1 เหล่าพนาวัล ต. แม่ข้าวต้ม อ. เมืองเชียงราย จ. เชียงราย 57100 โทร. 0897599652',
-                                      style: MyContant().h6Style(),
-                                      overflow: TextOverflow.clip,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 2),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.038,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.62,
-                                      child: ElevatedButton.icon(
-                                        label: Text(
-                                          'กดเพื่อขอพิกัดตำแหน่ง',
-                                          style: MyContant().textLoading(),
-                                        ),
-                                        icon: const Icon(
-                                          Icons.pin_drop_rounded,
-                                        ),
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: const Color.fromARGB(
-                                              255, 0, 155, 247),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          'ที่อยู่ในเอกสารขาย : ${detailcust!['custAddress']}',
+                                          style: MyContant().h6Style(),
+                                          overflow: TextOverflow.clip,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'โทรศัพท์มือถือ : ${detailcust!['mobile']}',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'โทรศัพท์บ้าน : ${detailcust!['telHome']}',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'โทรศัพท์ที่ทำงาน : ${detailcust!['telOffice']}',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เลขที่ใบขอช่าง : ${detailcust!['workReqTranId']}',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'วันที่จัดส่ง : ${detailcust!['sendDateTime']}',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 2, horizontal: 8),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 241, 209, 89),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.5,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 6),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'รายการสินค้า',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                for (var i = 0;
+                                    i < dataWorkReqDetail.length;
+                                    i++) ...[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 2),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'คลัง ${dataWorkReqDetail[i]['warehouseName']}',
+                                                style: MyContant().h6Style(),
+                                              ),
+                                              Text(
+                                                'จำนวน ${dataWorkReqDetail[i]['qty']} ${dataWorkReqDetail[i]['unitName']}',
+                                                style: MyContant().h6Style(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  '${dataWorkReqDetail[i]['itemName']}',
+                                                  style: MyContant().h6Style(),
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'เลขที่เครื่อง : ',
+                                                style: MyContant().h6Style(),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  '${dataWorkReqDetail[i]['serialId']}',
+                                                  style: MyContant().h6Style(),
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 241, 209, 89),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 0.5,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 6),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'ที่อยู่จัดส่งสินค้า',
+                                        style: MyContant().h6Style(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 2),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.7),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                '${sendaddress['address']}',
+                                                style: MyContant().h6Style(),
+                                                overflow: TextOverflow.clip,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 2),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.7),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        if ((sendaddress['lat']
+                                                    .toString()
+                                                    .isEmpty &&
+                                                sendaddress['lng']
+                                                    .toString()
+                                                    .isEmpty) &&
+                                            statusChecklocation == false)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.038,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.62,
+                                                  child: ElevatedButton.icon(
+                                                    label: Text(
+                                                      'กดเพื่อขอพิกัดตำแหน่ง',
+                                                      style: MyContant()
+                                                          .textLoading(),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.pin_drop_rounded,
+                                                    ),
+                                                    onPressed: () {
+                                                      showProgressEarthLoad(
+                                                          context);
+                                                      getLocation();
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          const Color.fromARGB(
+                                                              255, 0, 155, 247),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        else
+                                          Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  if ((sendaddress['lat']
+                                                              .toString()
+                                                              .isEmpty &&
+                                                          sendaddress['lng']
+                                                              .toString()
+                                                              .isEmpty) &&
+                                                      statuSuccess == false)
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 3,
+                                                          vertical: 8),
+                                                      child: SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.038,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.25,
+                                                        child:
+                                                            ElevatedButton.icon(
+                                                          label: Text(
+                                                            'บันทึก',
+                                                            style: MyContant()
+                                                                .textSmall(),
+                                                          ),
+                                                          icon: Icon(
+                                                            Icons
+                                                                .pin_drop_rounded,
+                                                            size: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.05,
+                                                          ),
+                                                          onPressed: () {
+                                                            // showProgressLoading2(
+                                                            //     context);
+                                                            // upLocationCust(lat,
+                                                            //     lng, 'submit');
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    52,
+                                                                    168,
+                                                                    83),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  else
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 3,
+                                                          vertical: 8),
+                                                      child: SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.038,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.25,
+                                                        child:
+                                                            ElevatedButton.icon(
+                                                          label: Text(
+                                                            'แก้ไข',
+                                                            style: MyContant()
+                                                                .textSmall(),
+                                                          ),
+                                                          icon: Icon(
+                                                            Icons
+                                                                .pin_drop_rounded,
+                                                            size: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.05,
+                                                          ),
+                                                          onPressed: () {
+                                                            // showProgressEarthLoad(
+                                                            //     context);
+                                                            // getEditLocation();
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    255,
+                                                                    232,
+                                                                    21),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 3,
+                                                        vertical: 8),
+                                                    child: SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.038,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.28,
+                                                      child:
+                                                          ElevatedButton.icon(
+                                                        label: Text(
+                                                          'ดูแผนที่',
+                                                          style: MyContant()
+                                                              .textSmall(),
+                                                        ),
+                                                        icon: Icon(
+                                                          Icons.map_outlined,
+                                                          size: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05,
+                                                        ),
+                                                        onPressed: () async {
+                                                          Uri googleMapUrl =
+                                                              Uri.parse(
+                                                            'https://www.google.co.th/maps/search/?api=1&query=$lat,$lng',
+                                                          );
+
+                                                          if (!await launcher
+                                                              .launchUrl(
+                                                            googleMapUrl,
+                                                            mode: launcher
+                                                                .LaunchMode
+                                                                .externalApplication,
+                                                          )) {
+                                                            throw Exception(
+                                                                'Could not open the map $googleMapUrl');
+                                                          }
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  87,
+                                                                  109,
+                                                                  225),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 3,
+                                                        vertical: 8),
+                                                    child: SizedBox(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.038,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.28,
+                                                      child:
+                                                          ElevatedButton.icon(
+                                                        label: Text(
+                                                          'เส้นทาง',
+                                                          style: MyContant()
+                                                              .textSmall(),
+                                                        ),
+                                                        icon: Icon(
+                                                          Icons
+                                                              .assistant_navigation,
+                                                          size: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05,
+                                                        ),
+                                                        onPressed: () async {
+                                                          Uri googleMapUrl =
+                                                              Uri.parse(
+                                                            'https://www.google.com/maps/dir/Current+Location/$lat,$lng',
+                                                          );
+
+                                                          if (!await launcher
+                                                              .launchUrl(
+                                                            googleMapUrl,
+                                                            mode: launcher
+                                                                .LaunchMode
+                                                                .externalApplication,
+                                                          )) {
+                                                            throw Exception(
+                                                                'Could not open the map $googleMapUrl');
+                                                          }
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  26,
+                                                                  115,
+                                                                  232),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                if (lat != 0 && lng != 0) ...[
+                                  const SizedBox(height: 5),
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    width: double.infinity,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.7),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                    ),
+                                    child:
+                                        WebViewWidget(controller: controller),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

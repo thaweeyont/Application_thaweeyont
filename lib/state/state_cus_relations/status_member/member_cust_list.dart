@@ -38,6 +38,7 @@ class _MemberCustListState extends State<MemberCustList> {
   void initState() {
     super.initState();
     getdata();
+    print('c>>${widget.custId}');
   }
 
   Future<void> getdata() async {

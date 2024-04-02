@@ -538,7 +538,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => AddressCust(
-                                        listdataMemberDetail[i]['custId'],
+                                        widget.custId.toString(),
                                         listaddress[c]['addressId'],
                                         listaddress[c]['type'],
                                         listaddress[c]['detail'],

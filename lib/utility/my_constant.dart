@@ -108,7 +108,7 @@ class MyContant {
         fontFamily: 'Prompt',
       );
   TextStyle h5NotData() => const TextStyle(
-        fontSize: 20,
+        fontSize: 18,
         color: Color.fromARGB(255, 158, 158, 158),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
