@@ -283,7 +283,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                       Navigator.pop(context);
                     },
                   ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 30),
             ],
           );
         });

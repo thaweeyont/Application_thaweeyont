@@ -23,7 +23,7 @@ class MechanicalList extends StatefulWidget {
 
 class _MechanicalListState extends State<MechanicalList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
-  bool statusNotdata = false, statusLoading = false, statusLoad404 = false;
+  bool statusLoading = false, statusLoad404 = false;
   List workReqList = [];
   var listdata;
 
@@ -31,8 +31,6 @@ class _MechanicalListState extends State<MechanicalList> {
   void initState() {
     super.initState();
     getdata();
-    print(
-        'date> ${widget.changeDate} sale> ${widget.saleTranId} work> ${widget.workReqTranId}');
   }
 
   Future<void> getdata() async {
@@ -93,7 +91,6 @@ class _MechanicalListState extends State<MechanicalList> {
       } else if (respose.statusCode == 404) {
         print('$statusLoading $statusLoad404');
         setState(() {
-          // statusNotdata = true;
           statusLoad404 = true;
           statusLoading = true;
         });
@@ -188,7 +185,7 @@ class _MechanicalListState extends State<MechanicalList> {
                                 workReqList[i]['workReqTranId'],
                               ),
                             ),
-                          );
+                          ).then((value) => getdata());
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -263,6 +260,7 @@ class _MechanicalListState extends State<MechanicalList> {
                           ),
                         ),
                       ),
+                    const SizedBox(height: 10),
                   ],
                 ),
     );
