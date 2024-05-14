@@ -61,11 +61,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    get_select_bl_search();
-    get_select_province();
+    getSelectBlSearch();
+    getSelectProvince();
   }
 
-  Future<void> get_select_bl_search() async {
+  Future<void> getSelectBlSearch() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/blSearchList'),
@@ -102,7 +102,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     }
   }
 
-  Future<void> get_select_province() async {
+  Future<void> getSelectProvince() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -151,7 +151,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     }
   }
 
-  Future<void> get_select_district() async {
+  Future<void> getSelectDistrict() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -469,11 +469,11 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                 Row(
                                   children: [
                                     if (selectValue_bl.toString() == "2") ...[
-                                      input_name_search_bl(sizeIcon, border),
+                                      inputNameSearchBl(sizeIcon, border),
                                       const SizedBox(width: 10),
-                                      input_lastname_search_bl(sizeIcon, border)
+                                      inputLastnameSearchBl(sizeIcon, border)
                                     ] else ...[
-                                      input_search_data(sizeIcon, border),
+                                      inputSearchData(sizeIcon, border),
                                     ]
                                   ],
                                 ),
@@ -994,7 +994,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                           'กรุณาเลือกอำเภอ');
                                     } else {
                                       showProgressLoading(context);
-                                      get_select_district();
+                                      getSelectDistrict();
                                     }
                                   },
                                   child: const Text('ค้นหา'),
@@ -1171,7 +1171,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'รหัส Blacklist',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_idblacklist(sizeIcon, border),
+                        inputIdblacklist(sizeIcon, border),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
@@ -1194,7 +1194,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'ชื่อ-สกุล ลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_name_show_bl(sizeIcon, border),
+                        inputNameShowBl(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1203,7 +1203,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'เลขบัตรประชาชน',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_smartId_bl(sizeIcon, border),
+                        inputSmartIdBl(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1212,7 +1212,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'ชื่อลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_name_blacklist(sizeIcon, border),
+                        inputNameBlacklist(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1221,7 +1221,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_lastname_blacklist(sizeIcon, border),
+                        inputLastnameBlacklist(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1230,12 +1230,12 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'บ้านเลขที่',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_home_no_bl(sizeIcon, border),
+                        inputHomeNoBl(sizeIcon, border),
                         Text(
                           'หมู่ที่',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_moo_no_bl(sizeIcon, border),
+                        inputMooNoBl(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1244,7 +1244,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'ตำบล',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_district_bl(sizeIcon, border),
+                        inputDistrictBl(sizeIcon, border),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
@@ -1253,7 +1253,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           ),
                           onPressed: () {
                             searchDistrict(context, border);
-                            get_select_province();
+                            getSelectProvince();
                           },
                           child: const Icon(
                             Icons.search,
@@ -1267,7 +1267,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'อำเภอ',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_amphoe_bl(sizeIcon, border),
+                        inputAmphoeBl(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1276,7 +1276,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           'จังหวัด',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_province_bl(sizeIcon, border),
+                        inputProvinceBl(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -1293,7 +1293,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_idblacklist(sizeIcon, border) {
+  Expanded inputIdblacklist(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
@@ -1320,7 +1320,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_name_show_bl(sizeIcon, border) {
+  Expanded inputNameShowBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1349,7 +1349,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_smartId_bl(sizeIcon, border) {
+  Expanded inputSmartIdBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1377,7 +1377,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_name_blacklist(sizeIcon, border) {
+  Expanded inputNameBlacklist(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1404,7 +1404,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_lastname_blacklist(sizeIcon, border) {
+  Expanded inputLastnameBlacklist(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1431,7 +1431,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_home_no_bl(sizeIcon, border) {
+  Expanded inputHomeNoBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1458,7 +1458,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_moo_no_bl(sizeIcon, border) {
+  Expanded inputMooNoBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1486,7 +1486,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_district_bl(sizeIcon, border) {
+  Expanded inputDistrictBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
@@ -1514,7 +1514,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_amphoe_bl(sizeIcon, border) {
+  Expanded inputAmphoeBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1542,7 +1542,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_province_bl(sizeIcon, border) {
+  Expanded inputProvinceBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1663,7 +1663,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_search_data(sizeIcon, border) {
+  Expanded inputSearchData(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1690,7 +1690,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_name_search_bl(sizeIcon, border) {
+  Expanded inputNameSearchBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1718,7 +1718,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
     );
   }
 
-  Expanded input_lastname_search_bl(sizeIcon, border) {
+  Expanded inputLastnameSearchBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

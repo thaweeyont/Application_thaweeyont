@@ -8,6 +8,8 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/custom_appbar.dart';
+
 class Blacklist_Detail extends StatefulWidget {
   final String? blId;
   const Blacklist_Detail(this.blId, {Key? key}) : super(key: key);
@@ -36,10 +38,10 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_detail_bl();
+    getDataDetailBl();
   }
 
-  Future<void> getData_detail_bl() async {
+  Future<void> getDataDetailBl() async {
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/blacklistDetail'),
@@ -97,13 +99,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายละเอียดข้อมูล BlackList',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล BlackList'),
       body: status_data == false
           ? Center(
               child: Container(

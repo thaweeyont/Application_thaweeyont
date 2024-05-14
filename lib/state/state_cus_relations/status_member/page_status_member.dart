@@ -129,7 +129,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       ),
     );
 
-    Future<void> getData_condition(String? custType, conditionType,
+    Future<void> getDataCondition(String? custType, conditionType,
         String searchData, String firstName, String lastName) async {
       list_datavalue = [];
       try {
@@ -195,18 +195,18 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
       }
     }
 
-    Future<void> getData_search() async {
+    Future<void> getDataSearch() async {
       if (id == '1') {
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
-          getData_condition(
+          getDataCondition(
               id, selectValue_customer, '', searchData.text, lastname.text);
         } else {
-          getData_condition(id, selectValue_customer, searchData.text, '', '');
+          getDataCondition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
         showProgressLoading(context);
-        getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
+        getDataCondition(id, '2', '', firstname_em.text, lastname_em.text);
       }
     }
 
@@ -352,12 +352,12 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         'ชื่อ',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                      input_nameEmploDia(sizeIcon, border),
+                                      inputNameEmploDia(sizeIcon, border),
                                       Text(
                                         'สกุล',
                                         style: MyContant().h4normalStyle(),
                                       ),
-                                      input_lastNameEmploDia(sizeIcon, border),
+                                      inputLastNameEmploDia(sizeIcon, border),
                                     ],
                                   ),
                                 ],
@@ -428,10 +428,10 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         ),
                                       ),
                                       // Text('สกุล'),
-                                      input_searchCus(sizeIcon, border),
+                                      inputSearchCus(sizeIcon, border),
                                       if (selectValue_customer.toString() ==
                                           "2") ...[
-                                        input_lastnameCus(sizeIcon, border)
+                                        inputLastnameCus(sizeIcon, border)
                                       ],
                                     ],
                                   ),
@@ -462,7 +462,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         showProgressDialog(context, 'แจ้งเตือน',
                                             'กรุณากรอกข้อมูล');
                                       } else {
-                                        getData_search();
+                                        getDataSearch();
                                       }
                                     } else {
                                       if (firstname_em.text.isEmpty &&
@@ -470,7 +470,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                         showProgressDialog(context, 'แจ้งเตือน',
                                             'กรุณากรอกข้อมูล');
                                       } else {
-                                        getData_search();
+                                        getDataSearch();
                                       }
                                     }
                                   },
@@ -689,7 +689,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           'รหัสลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_idcustomer(sizeIcon, border),
+                        inputIdcustomer(sizeIcon, border),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
@@ -711,7 +711,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           'เลขที่บัตร',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_smartId(sizeIcon, border),
+                        inputSmartId(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -720,7 +720,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           'ชื่อลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_namecustomer(sizeIcon, border),
+                        inputNamecustomer(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -729,7 +729,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_lastname(sizeIcon, border),
+                        inputLastname(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -744,30 +744,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         ),
       ),
     );
-  }
-
-  Row lineNext() {
-    return Row(children: <Widget>[
-      Expanded(
-        child: new Container(
-            margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-            child: const Divider(
-              thickness: 2.0,
-              color: Colors.black,
-              height: 36,
-            )),
-      ),
-      const Text('คนถัดไป'),
-      Expanded(
-        child: new Container(
-            margin: const EdgeInsets.only(left: 20.0, right: 10.0),
-            child: const Divider(
-              thickness: 2.0,
-              color: Colors.black,
-              height: 36,
-            )),
-      ),
-    ]);
   }
 
   Padding line() {
@@ -843,7 +819,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_searchCus(sizeIcon, border) {
+  Expanded inputSearchCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -868,7 +844,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_idcustomer(sizeIcon, border) {
+  Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
@@ -891,7 +867,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_smartId(sizeIcon, border) {
+  Expanded inputSmartId(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -917,7 +893,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_namecustomer(sizeIcon, border) {
+  Expanded inputNamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -944,7 +920,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_lastname(sizeIcon, border) {
+  Expanded inputLastname(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -971,7 +947,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_nameEmploDia(sizeIcon, border) {
+  Expanded inputNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -994,7 +970,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_lastNameEmploDia(sizeIcon, border) {
+  Expanded inputLastNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1020,7 +996,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
     );
   }
 
-  Expanded input_lastnameCus(sizeIcon, border) {
+  Expanded inputLastnameCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),

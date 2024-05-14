@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,7 +74,6 @@ class _MechanicalListState extends State<MechanicalList> {
           workReqList = listdata;
           statusLoading = true;
         });
-        print('data>>$workReqList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(context, 'แจ้งเตือน', 'ละติจูด ลองติจูด ซ้ำ');
       } else if (respose.statusCode == 401) {
@@ -89,7 +89,6 @@ class _MechanicalListState extends State<MechanicalList> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        print('$statusLoading $statusLoad404');
         setState(() {
           statusLoad404 = true;
           statusLoading = true;
@@ -114,13 +113,7 @@ class _MechanicalListState extends State<MechanicalList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'รายการที่ค้นหา',
-          style: MyContant().TitleStyle(),
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
       body: statusLoading == false
           ? Center(
               child: Container(
@@ -246,10 +239,19 @@ class _MechanicalListState extends State<MechanicalList> {
                                     ),
                                     const SizedBox(height: 5),
                                     Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'วันที่จัดส่ง : ${workReqList[i]['sendDateTime']}',
+                                          'วันที่จัดส่ง : ',
                                           style: MyContant().h6Style(),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '${workReqList[i]['sendDateTime']}',
+                                            style: MyContant().h6Style(),
+                                            overflow: TextOverflow.clip,
+                                          ),
                                         )
                                       ],
                                     ),

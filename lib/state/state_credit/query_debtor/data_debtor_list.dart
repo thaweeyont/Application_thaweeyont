@@ -9,11 +9,11 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/endpage.dart';
 import '../../../widgets/loaddata.dart';
 
 class Data_debtor_list extends StatefulWidget {
-  // const Data_debtor_list({Key? key}) : super(key: key);
   final String? custId,
       homeNo,
       moo,
@@ -93,7 +93,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
     });
     if (mounted) {
       setState(() {
-        getData_debtorList(offset);
+        getDataDebtorList(offset);
       });
     }
     myScroll(scrollControll, offset);
@@ -108,13 +108,13 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
         });
         await Future.delayed(const Duration(seconds: 1), () {
           offset = offset + 10;
-          getData_debtorList(offset);
+          getDataDebtorList(offset);
         });
       }
     });
   }
 
-  Future<void> getData_debtorList(offset) async {
+  Future<void> getDataDebtorList(offset) async {
     var signStatus, branch, debtorType, tumbol, amphur, province;
 
     if (widget.select_signStatus == null) {
@@ -237,13 +237,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการที่ค้นหา',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
       body: statusLoading == false
           ? Center(
               child: Container(

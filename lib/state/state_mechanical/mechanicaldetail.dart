@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart' as launcher;
 import '../../api.dart';
 import '../../utility/dialog.dart';
 import '../../utility/my_constant.dart';
+import '../../widgets/custom_appbar.dart';
 import '../authen.dart';
 
 class MechanicalDetail extends StatefulWidget {
@@ -61,27 +62,25 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
         },
         body: jsonEncode(
           <String, String>{
-            "workReqTranId": widget.workReqTranId.toString(),
+            "workReqTranId": '${widget.workReqTranId}',
           },
         ),
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataworkdetail =
-            Map<String, dynamic>.from(json.decode(respose.body));
+        Map<String?, dynamic> dataworkdetail =
+            Map<String?, dynamic>.from(json.decode(respose.body));
 
         dataDetail = dataworkdetail['data'];
-
         setState(() {
           detailcust = dataDetail['detail'];
           dataWorkReqDetail = dataDetail['itemDetail'];
-          sendaddress = dataDetail['sendAddress'];
+          if (dataDetail['sendAddress'].toString() != "[]") {
+            sendaddress = dataDetail['sendAddress'];
+            checkLatLng();
+          }
           statusLoading = true;
         });
-        checkLatLng();
-        print('sendaddress>>$sendaddress');
-        print('lat>>${sendaddress['lat']}');
-        print('lng>>${sendaddress['lng']}');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด!');
       } else if (respose.statusCode == 401) {
@@ -119,8 +118,6 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
   }
 
   Future<void> checkLatLng() async {
-    print(
-        '11>${sendaddress['lat'].toString()} 22>${sendaddress['lng'].toString()}');
     if (sendaddress['lat'].toString().isNotEmpty &&
         sendaddress['lng'].toString().isNotEmpty) {
       lat = double.parse(sendaddress['lat'].toString());
@@ -335,12 +332,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'รายละเอียดของลูกค้า',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล'),
       body: statusLoading == false
           ? Center(
               child: Container(
@@ -394,10 +386,12 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                 )
               : ListView(
                   children: [
+                    const SizedBox(height: 10),
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
@@ -421,10 +415,19 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                               child: Column(
                                 children: [
                                   Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'ชื่อ-สกุล : ${detailcust!['custName']}',
+                                        'ชื่อ-สกุล : ',
                                         style: MyContant().h6Style(),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '${detailcust!['custName']}',
+                                          style: MyContant().h6Style(),
+                                          overflow: TextOverflow.clip,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -590,388 +593,404 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 241, 209, 89),
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 0.5,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 6),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'ที่อยู่จัดส่งสินค้า',
-                                        style: MyContant().h6Style(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 2),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
+                        if (dataDetail['sendAddress'].toString() != "[]") ...[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 241, 209, 89),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 0.5,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 6),
+                                    child: Row(
                                       children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                '${sendaddress['address']}',
-                                                style: MyContant().h6Style(),
-                                                overflow: TextOverflow.clip,
-                                              ),
-                                            ),
-                                          ],
+                                        Text(
+                                          'ที่อยู่จัดส่งสินค้า',
+                                          style: MyContant().h6Style(),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4, horizontal: 2),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        if ((sendaddress['lat']
-                                                    .toString()
-                                                    .isEmpty &&
-                                                sendaddress['lng']
-                                                    .toString()
-                                                    .isEmpty) &&
-                                            statusChecklocation == false)
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.038,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.62,
-                                                  child: ElevatedButton.icon(
-                                                    label: Text(
-                                                      'กดเพื่อขอพิกัดตำแหน่ง',
-                                                      style: MyContant()
-                                                          .textLoading(),
-                                                    ),
-                                                    icon: const Icon(
-                                                      Icons.pin_drop_rounded,
-                                                    ),
-                                                    onPressed: () {
-                                                      showProgressEarthLoad(
-                                                          context);
-                                                      getLocation();
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          const Color.fromARGB(
-                                                              255, 0, 155, 247),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        else
-                                          Column(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 2),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
                                             children: [
-                                              Row(
+                                              Expanded(
+                                                child: Text(
+                                                  '${sendaddress['address']}',
+                                                  style: MyContant().h6Style(),
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 2),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          if ((sendaddress['lat']
+                                                      .toString()
+                                                      .isEmpty &&
+                                                  sendaddress['lng']
+                                                      .toString()
+                                                      .isEmpty) &&
+                                              statusChecklocation == false)
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                              child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  if ((sendaddress['lat']
-                                                              .toString()
-                                                              .isEmpty &&
-                                                          sendaddress['lng']
-                                                              .toString()
-                                                              .isEmpty) &&
-                                                      statuSuccess == false)
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 3,
-                                                          vertical: 8),
-                                                      child: SizedBox(
-                                                        height: MediaQuery.of(
-                                                                    context)
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
                                                                 .size
                                                                 .height *
                                                             0.038,
-                                                        width: MediaQuery.of(
-                                                                    context)
+                                                    width:
+                                                        MediaQuery.of(context)
                                                                 .size
                                                                 .width *
-                                                            0.25,
-                                                        child:
-                                                            ElevatedButton.icon(
-                                                          label: Text(
-                                                            'บันทึก',
-                                                            style: MyContant()
-                                                                .textSmall(),
-                                                          ),
-                                                          icon: Icon(
-                                                            Icons
-                                                                .pin_drop_rounded,
-                                                            size: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.05,
-                                                          ),
-                                                          onPressed: () {
-                                                            showProgressLoading2(
-                                                                context);
-                                                            upLocationCust(lat,
-                                                                lng, 'submit');
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                const Color
-                                                                        .fromARGB(
-                                                                    255,
-                                                                    52,
-                                                                    168,
-                                                                    83),
-                                                          ),
-                                                        ),
+                                                            0.62,
+                                                    child: ElevatedButton.icon(
+                                                      label: Text(
+                                                        'กดเพื่อขอพิกัดตำแหน่ง',
+                                                        style: MyContant()
+                                                            .textLoading(),
                                                       ),
-                                                    )
-                                                  else
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 3,
-                                                          vertical: 8),
-                                                      child: SizedBox(
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.038,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.25,
-                                                        child:
-                                                            ElevatedButton.icon(
-                                                          label: Text(
-                                                            'แก้ไข',
-                                                            style: MyContant()
-                                                                .textSmall(),
-                                                          ),
-                                                          icon: Icon(
-                                                            Icons
-                                                                .pin_drop_rounded,
-                                                            size: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.05,
-                                                          ),
-                                                          onPressed: () {
-                                                            showProgressEarthLoad(
-                                                                context);
-                                                            getEditLocation();
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                const Color
-                                                                        .fromARGB(
-                                                                    255,
-                                                                    255,
-                                                                    232,
-                                                                    21),
-                                                          ),
-                                                        ),
+                                                      icon: const Icon(
+                                                        Icons.pin_drop_rounded,
                                                       ),
-                                                    ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 3,
-                                                        vertical: 8),
-                                                    child: SizedBox(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.038,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.28,
-                                                      child:
-                                                          ElevatedButton.icon(
-                                                        label: Text(
-                                                          'ดูแผนที่',
-                                                          style: MyContant()
-                                                              .textSmall(),
-                                                        ),
-                                                        icon: Icon(
-                                                          Icons.map_outlined,
-                                                          size: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.05,
-                                                        ),
-                                                        onPressed: () async {
-                                                          Uri googleMapUrl =
-                                                              Uri.parse(
-                                                            'https://www.google.co.th/maps/search/?api=1&query=$lat,$lng',
-                                                          );
-
-                                                          if (!await launcher
-                                                              .launchUrl(
-                                                            googleMapUrl,
-                                                            mode: launcher
-                                                                .LaunchMode
-                                                                .externalApplication,
-                                                          )) {
-                                                            throw Exception(
-                                                                'Could not open the map $googleMapUrl');
-                                                          }
-                                                        },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  87,
-                                                                  109,
-                                                                  225),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 3,
-                                                        vertical: 8),
-                                                    child: SizedBox(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.038,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.28,
-                                                      child:
-                                                          ElevatedButton.icon(
-                                                        label: Text(
-                                                          'เส้นทาง',
-                                                          style: MyContant()
-                                                              .textSmall(),
-                                                        ),
-                                                        icon: Icon(
-                                                          Icons
-                                                              .assistant_navigation,
-                                                          size: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.05,
-                                                        ),
-                                                        onPressed: () async {
-                                                          Uri googleMapUrl =
-                                                              Uri.parse(
-                                                            'https://www.google.com/maps/dir/Current+Location/$lat,$lng',
-                                                          );
-
-                                                          if (!await launcher
-                                                              .launchUrl(
-                                                            googleMapUrl,
-                                                            mode: launcher
-                                                                .LaunchMode
-                                                                .externalApplication,
-                                                          )) {
-                                                            throw Exception(
-                                                                'Could not open the map $googleMapUrl');
-                                                          }
-                                                        },
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  26,
-                                                                  115,
-                                                                  232),
-                                                        ),
+                                                      onPressed: () {
+                                                        showProgressEarthLoad(
+                                                            context);
+                                                        getLocation();
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            const Color
+                                                                    .fromARGB(
+                                                                255,
+                                                                0,
+                                                                155,
+                                                                247),
                                                       ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                if (lat != 0 && lng != 0) ...[
-                                  const SizedBox(height: 5),
-                                  Container(
-                                    padding: const EdgeInsets.all(10),
-                                    width: double.infinity,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.4,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                            )
+                                          else
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    if ((sendaddress['lat']
+                                                                .toString()
+                                                                .isEmpty &&
+                                                            sendaddress['lng']
+                                                                .toString()
+                                                                .isEmpty) &&
+                                                        statuSuccess == false)
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 3,
+                                                                vertical: 8),
+                                                        child: SizedBox(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.038,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.25,
+                                                          child: ElevatedButton
+                                                              .icon(
+                                                            label: Text(
+                                                              'บันทึก',
+                                                              style: MyContant()
+                                                                  .textSmall(),
+                                                            ),
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .pin_drop_rounded,
+                                                              size: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.05,
+                                                            ),
+                                                            onPressed: () {
+                                                              showProgressLoading2(
+                                                                  context);
+                                                              upLocationCust(
+                                                                  lat,
+                                                                  lng,
+                                                                  'submit');
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      52,
+                                                                      168,
+                                                                      83),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    else
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 3,
+                                                                vertical: 8),
+                                                        child: SizedBox(
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.038,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.25,
+                                                          child: ElevatedButton
+                                                              .icon(
+                                                            label: Text(
+                                                              'แก้ไข',
+                                                              style: MyContant()
+                                                                  .textSmall(),
+                                                            ),
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .pin_drop_rounded,
+                                                              size: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.05,
+                                                            ),
+                                                            onPressed: () {
+                                                              showProgressEarthLoad(
+                                                                  context);
+                                                              getEditLocation();
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      232,
+                                                                      21),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 3,
+                                                          vertical: 8),
+                                                      child: SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.038,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.28,
+                                                        child:
+                                                            ElevatedButton.icon(
+                                                          label: Text(
+                                                            'ดูแผนที่',
+                                                            style: MyContant()
+                                                                .textSmall(),
+                                                          ),
+                                                          icon: Icon(
+                                                            Icons.map_outlined,
+                                                            size: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.05,
+                                                          ),
+                                                          onPressed: () async {
+                                                            Uri googleMapUrl =
+                                                                Uri.parse(
+                                                              'https://www.google.co.th/maps/search/?api=1&query=$lat,$lng',
+                                                            );
+
+                                                            if (!await launcher
+                                                                .launchUrl(
+                                                              googleMapUrl,
+                                                              mode: launcher
+                                                                  .LaunchMode
+                                                                  .externalApplication,
+                                                            )) {
+                                                              throw Exception(
+                                                                  'Could not open the map $googleMapUrl');
+                                                            }
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    87,
+                                                                    109,
+                                                                    225),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 3,
+                                                          vertical: 8),
+                                                      child: SizedBox(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.038,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.28,
+                                                        child:
+                                                            ElevatedButton.icon(
+                                                          label: Text(
+                                                            'เส้นทาง',
+                                                            style: MyContant()
+                                                                .textSmall(),
+                                                          ),
+                                                          icon: Icon(
+                                                            Icons
+                                                                .assistant_navigation,
+                                                            size: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.05,
+                                                          ),
+                                                          onPressed: () async {
+                                                            Uri googleMapUrl =
+                                                                Uri.parse(
+                                                              'https://www.google.com/maps/dir/Current+Location/$lat,$lng',
+                                                            );
+
+                                                            if (!await launcher
+                                                                .launchUrl(
+                                                              googleMapUrl,
+                                                              mode: launcher
+                                                                  .LaunchMode
+                                                                  .externalApplication,
+                                                            )) {
+                                                              throw Exception(
+                                                                  'Could not open the map $googleMapUrl');
+                                                            }
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            backgroundColor:
+                                                                const Color
+                                                                        .fromARGB(
+                                                                    255,
+                                                                    26,
+                                                                    115,
+                                                                    232),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                        ],
                                       ),
                                     ),
-                                    child:
-                                        WebViewWidget(controller: controller),
                                   ),
+                                  if (lat != 0 && lng != 0) ...[
+                                    const SizedBox(height: 5),
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      width: double.infinity,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(5),
+                                        ),
+                                      ),
+                                      child:
+                                          WebViewWidget(controller: controller),
+                                    ),
+                                  ],
                                 ],
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                         const SizedBox(height: 15),
                       ],
                     ),

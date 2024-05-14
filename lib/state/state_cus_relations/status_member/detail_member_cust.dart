@@ -8,6 +8,7 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../../api.dart';
+import '../../../widgets/custom_appbar.dart';
 
 class Detail_member_cust extends StatefulWidget {
   final String? custId;
@@ -67,7 +68,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
           listdataMemberDetail = dataMemberDetail['data'];
           listaddress = valueaddress;
         });
-        // print('addressId>${listaddress}');
+
         statusLoading = true;
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
@@ -108,13 +109,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการที่ค้นหา',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
       body: statusLoading == false
           ? Center(
               child: Container(

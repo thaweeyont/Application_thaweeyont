@@ -6,20 +6,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../api.dart';
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'list_credit_querydebtor.dart';
 
 class CreditQueryDebtor extends StatefulWidget {
-  // const CreditQueryDebtor(valueapprove, {Key? key}) : super(key: key);
   final String? address, homeNo, moo, provId, amphurId, tumbolId;
-  CreditQueryDebtor(
-    this.address,
-    this.homeNo,
-    this.moo,
-    this.provId,
-    this.amphurId,
-    this.tumbolId,
-  );
+  const CreditQueryDebtor(this.address, this.homeNo, this.moo, this.provId,
+      this.amphurId, this.tumbolId,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<CreditQueryDebtor> createState() => _CreditQueryDebtorState();
@@ -109,15 +105,15 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     getProvince();
     getAmphor();
     getDistrict();
-    get_select_province();
-    get_select_addressTypelist();
-    get_select_branch();
-    get_select_debtorType();
-    get_select_signStatus();
-    get_select_cus();
+    getSelectProvince();
+    getSelectAddressTypelist();
+    getSelectBranch();
+    getSelectDebtorType();
+    getSelectSignStatus();
+    getSelectCus();
   }
 
-  Future<void> get_select_province() async {
+  Future<void> getSelectProvince() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -352,7 +348,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_select_district(province, amphor) async {
+  Future<void> getSelectDistrict(province, amphor) async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -381,7 +377,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         });
         Navigator.pop(context);
         Navigator.pop(context);
-        search_district(sizeIcon, border);
+        searchDistrict(sizeIcon, border);
       } else if (respose.statusCode == 400) {
         if (mounted) return;
         showProgressDialog_400(
@@ -421,7 +417,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_itemTypelist() async {
+  Future<void> getItemTypelist() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -490,7 +486,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_select_addressTypelist() async {
+  Future<void> getSelectAddressTypelist() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/addressTypeList'),
@@ -526,7 +522,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_select_branch() async {
+  Future<void> getSelectBranch() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/branchList'),
@@ -561,7 +557,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_select_debtorType() async {
+  Future<void> getSelectDebtorType() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/debtorTypeList'),
@@ -596,7 +592,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_select_signStatus() async {
+  Future<void> getSelectSignStatus() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/signStatusList'),
@@ -635,7 +631,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     }
   }
 
-  Future<void> get_select_cus() async {
+  Future<void> getSelectCus() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/custCondition'),
@@ -723,7 +719,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     lastname.clear();
   }
 
-  Future<void> search_district(sizeIcon, border) async {
+  Future<void> searchDistrict(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -1005,7 +1001,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                           'กรุณาเลือกอำเภอ');
                                     } else {
                                       showProgressLoading(context);
-                                      get_select_district(selectValue_province,
+                                      getSelectDistrict(selectValue_province,
                                           selectValue_amphoe);
                                     }
                                   },
@@ -1132,7 +1128,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     );
   }
 
-  Future<void> search_conType(sizeIcon, border) async {
+  Future<void> searchConType(sizeIcon, border) async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -1255,7 +1251,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                           'กรุณากรอกชื่อประเภท');
                                     } else {
                                       showProgressLoading(context);
-                                      get_itemTypelist();
+                                      getItemTypelist();
                                     }
                                   },
                                   child: const Text('ค้นหา'),
@@ -1396,7 +1392,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     );
   }
 
-  Future<void> search_idcustomer(sizeIcon, border) async {
+  Future<void> searchIdcustomer(sizeIcon, border) async {
     Future<void> getData_condition(String? custType, conditionType,
         String searchData, String firstName, String lastName) async {
       try {
@@ -1912,13 +1908,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'สอบถามลูกหนี้',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'สอบถามลูกหนี้'),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
@@ -1957,7 +1947,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
-                            search_idcustomer(sizeIcon, border);
+                            searchIdcustomer(sizeIcon, border);
                           },
                           child: const Icon(
                             Icons.search,
@@ -2044,7 +2034,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
-                            search_district(sizeIcon, border);
+                            searchDistrict(sizeIcon, border);
                           },
                           child: const Icon(
                             Icons.search,
@@ -2113,7 +2103,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                   const Color.fromRGBO(173, 106, 3, 1),
                             ),
                             onPressed: () {
-                              search_conType(sizeIcon, border);
+                              searchConType(sizeIcon, border);
                             },
                             child: const Icon(
                               Icons.search,

@@ -7,6 +7,7 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utility/my_constant.dart';
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'approve_creditquarantee.dart';
 import 'credit_debtordetail.dart';
@@ -73,13 +74,13 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       tokenId = preferences.getString('tokenId')!;
       allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
-    getData_Creditdetail();
-    get_approveReasonList();
-    get_approveTypeList();
-    get_notApproveReasonList();
+    getDataCreditdetail();
+    getApproveReasonList();
+    getApproveTypeList();
+    getNotApproveReasonList();
   }
 
-  Future<void> getData_Creditdetail() async {
+  Future<void> getDataCreditdetail() async {
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/detail'),
@@ -168,7 +169,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
-  Future<void> ApproveCredit() async {
+  Future<void> approveCredit() async {
     if (select_approveReasonList == "" || select_approveReasonList == null) {
       valueSelectApprove = select_NotapproveReasonList;
     } else if (select_NotapproveReasonList == "" ||
@@ -194,9 +195,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       if (respose.statusCode == 200) {
         setState(() {
           Navigator.pop(context);
-          getData_Creditdetail();
+          getDataCreditdetail();
         });
-        showAlertDialog_success();
+        showAlertDialogSuccess();
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่สำเร็จ (${respose.statusCode})');
@@ -230,7 +231,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
-  Future<void> get_approveTypeList() async {
+  Future<void> getApproveTypeList() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/approveTypeList'),
@@ -280,7 +281,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
-  Future<void> get_approveReasonList() async {
+  Future<void> getApproveReasonList() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/approveReasonList'),
@@ -330,7 +331,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
-  Future<void> get_notApproveReasonList() async {
+  Future<void> getNotApproveReasonList() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/notApproveReasonList'),
@@ -380,7 +381,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     }
   }
 
-  void menu_list(page) {
+  void menuList(page) {
     setState(() {
       active_cl1 = false;
       active_cl2 = false;
@@ -415,13 +416,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'ค้นหาข้อมูล',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล'),
       body: status == false
           ? Center(
               child: Container(
@@ -1335,7 +1330,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                   MyContant().h4normalStyle(),
                                             ),
                                           ),
-                                          select_TypeList(sizeIcon, border),
+                                          selectTypeList(sizeIcon, border),
                                         ],
                                       ),
                                       const SizedBox(
@@ -1358,11 +1353,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                           children: [
                                             if (select_approveTypeList ==
                                                 '1') ...[
-                                              select_ReasonList(
+                                              selectReasonList(
                                                   sizeIcon, border),
                                             ] else if (select_approveTypeList ==
                                                 '2') ...[
-                                              select_notReasonList(
+                                              selectNotReasonList(
                                                   sizeIcon, border),
                                             ] else ...[
                                               SizedBox(
@@ -1401,7 +1396,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       ),
                                       Row(
                                         children: [
-                                          input_note_approve(sizeIcon, border),
+                                          inputNoteApprove(sizeIcon, border),
                                         ],
                                       ),
                                       const SizedBox(
@@ -1420,7 +1415,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                       ),
                                       Row(
                                         children: [
-                                          input_NameApprove(sizeIcon, border),
+                                          inputNameApprove(sizeIcon, border),
                                         ],
                                       ),
                                     ],
@@ -1480,7 +1475,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               'แจ้งเตือน',
                                                               'กรุณากรอกหมายเหตุ');
                                                         } else {
-                                                          showAlertDialog_submit();
+                                                          showAlertDialogSubmit();
                                                         }
                                                       }
                                                     } else if (select_approveTypeList ==
@@ -1501,7 +1496,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                               'แจ้งเตือน',
                                                               'กรุณากรอกหมายเหตุ');
                                                         } else {
-                                                          showAlertDialog_submit();
+                                                          showAlertDialogSubmit();
                                                         }
                                                       }
                                                     } else {
@@ -1700,75 +1695,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
               ]
-              // InkWell(
-              //   onTap: () {
-              //     sign_Detail(sizeIcon, border);
-              //   },
-              //   child: Container(
-              //     padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: Color.fromRGBO(251, 173, 55, 1),
-              //     ),
-              //     child: Text(
-              //       'ตรวจสอบหนี้สิน',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => DataListQuarantee(
-              //             widget.custId.toString(),
-              //           ),
-              //         ));
-              //     // quarantee(sizeIcon, border);
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.only(left: 10),
-              //     padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: Color.fromRGBO(251, 173, 55, 1),
-              //     ),
-              //     child: Text(
-              //       'รายละเอียดผู้ค้ำ',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) =>
-              //             Page_Check_Blacklist(valueapprove['smartId']),
-              //       ),
-              //     );
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.only(left: 10),
-              //     padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //       color: Color.fromRGBO(251, 173, 55, 1),
-              //     ),
-              //     child: Text(
-              //       'เช็ค Blacklist',
-              //       style: MyContant().h4normalStyle(),
-              //     ),
-              //   ),
-              // ),
             ],
           )
         ],
@@ -1776,7 +1702,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Future<void> sign_Detail(sizeIcon, border) async {
+  Future<void> signDetail(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -1967,7 +1893,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Expanded select_TypeList(sizeIcon, border) {
+  Expanded selectTypeList(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
@@ -1999,9 +1925,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         select_approveTypeList = newvalue;
                       });
                       if (select_approveTypeList == '1') {
-                        get_approveReasonList();
+                        getApproveReasonList();
                       } else if (select_approveTypeList == '2') {
-                        get_notApproveReasonList();
+                        getNotApproveReasonList();
                       }
                     }
                   : null,
@@ -2020,7 +1946,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Expanded select_ReasonList(sizeIcon, border) {
+  Expanded selectReasonList(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
@@ -2084,7 +2010,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Expanded select_notReasonList(sizeIcon, border) {
+  Expanded selectNotReasonList(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
@@ -2172,7 +2098,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Expanded input_note_approve(sizeIcon, border) {
+  Expanded inputNoteApprove(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),
@@ -2201,7 +2127,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Expanded input_approve_credit(sizeIcon, border) {
+  Expanded inputApproveCredit(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),
@@ -2229,7 +2155,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  Expanded input_NameApprove(sizeIcon, border) {
+  Expanded inputNameApprove(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),
@@ -2320,7 +2246,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  showAlertDialog_submit() async {
+  showAlertDialogSubmit() async {
     showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -2376,7 +2302,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 setState(() {
                   Navigator.of(context).pop();
                   showProgressLoading(context);
-                  ApproveCredit();
+                  approveCredit();
                 });
               },
             ),
@@ -2386,7 +2312,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  showAlertDialog_success() async {
+  showAlertDialogSuccess() async {
     showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!

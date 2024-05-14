@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:application_thaweeyont/api.dart';
 
 import '../../../utility/my_constant.dart';
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 
 class Page_Pay_Installment extends StatefulWidget {
@@ -44,7 +45,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_payDetail(widget.signId, widget.list_payDetail);
+    getDataPayDetail(widget.signId, widget.list_payDetail);
   }
 
   setListdropdown() {
@@ -60,7 +61,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
     });
   }
 
-  Future<void> getData_payDetail(signId, String period) async {
+  Future<void> getDataPayDetail(signId, String period) async {
     try {
       var respose = await http.post(
         Uri.parse('${api}debtor/payDetail'),
@@ -131,13 +132,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการชำระค่างวด',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการชำระค่างวด'),
       body: Column(
         children: [
           const SizedBox(
@@ -388,7 +383,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
-                  getData_payDetail(widget.signId, dropdownValue);
+                  getDataPayDetail(widget.signId, dropdownValue);
                   statusLoading = false;
                   statusLoad404 = false;
                 });

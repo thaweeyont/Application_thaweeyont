@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -170,13 +171,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการที่ค้นหา',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
       body: statusLoading == false
           ? Center(
               child: Container(

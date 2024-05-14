@@ -162,7 +162,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "7":
         setState(() {
           _selectedIndex = 7;
-          titleHead = "ขอช่างติดตั้ง";
+          titleHead = "บริการงานส่ง/ติดตั้งสินค้า";
           status = false;
         });
         break;
@@ -344,7 +344,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         title = "สอบถามสินค้าในสต็อค";
         break;
       case '007':
-        title = "ขอช่างติดตั้ง";
+        title = "บริการงานส่ง/ติดตั้งสินค้า";
         break;
     }
     return title;
@@ -658,46 +658,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  InkWell mec(BuildContext context, double size) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Mechanical(),
-          ),
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.only(left: size * 0.10, bottom: 15),
-        padding: const EdgeInsets.all(12),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
-          color: Color.fromARGB(255, 241, 209, 89),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: const [
-                Icon(
-                  Icons.miscellaneous_services,
-                  color: Colors.white,
-                ),
-                SizedBox(width: 10),
-                Text(
-                  "งานบริการช่าง",
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 16, fontFamily: 'Prompt'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Positioned closeDrawer(BuildContext context) {
     return Positioned(
       top: 50,
@@ -872,7 +832,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       },
       {
         "id": "007",
-        "nameMenu": "ขอช่างติดตั้ง",
+        "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า",
       },
     ];
     for (var menuItem in menuList) {

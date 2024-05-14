@@ -7,6 +7,7 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'page_info_consider_cus.dart';
 
@@ -38,10 +39,10 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_quarantee();
+    getDataQuarantee();
   }
 
-  Future<void> getData_quarantee() async {
+  Future<void> getDataQuarantee() async {
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/quarantee'),
@@ -101,13 +102,7 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายละเอียดผู้ค้ำ',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายละเอียดผู้ค้ำ'),
       body: statusLoading == false
           ? Center(
               child: Container(

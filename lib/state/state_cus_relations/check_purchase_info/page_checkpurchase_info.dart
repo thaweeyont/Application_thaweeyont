@@ -57,7 +57,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     getdata();
   }
 
-  Future<void> get_select_cus() async {
+  Future<void> getSelectCus() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/custCondition'),
@@ -94,7 +94,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     }
   }
 
-  Future<void> get_select_saleType() async {
+  Future<void> getSelectSaleType() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/saleType'),
@@ -141,8 +141,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    get_select_saleType();
-    get_select_cus();
+    getSelectSaleType();
+    getSelectCus();
   }
 
   clearValueDialog() {
@@ -175,7 +175,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     });
   }
 
-  Future<void> search_idcustomer() async {
+  Future<void> searchIdcustomer() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -405,12 +405,12 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                       'ชื่อ',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_nameEmploDia(sizeIcon, border),
+                                    inputNameEmploDia(sizeIcon, border),
                                     Text(
                                       'สกุล',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_lastNameEmploDia(sizeIcon, border),
+                                    inputLastNameEmploDia(sizeIcon, border),
                                   ],
                                 ),
                               ],
@@ -476,10 +476,10 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                         ),
                                       ),
                                     ),
-                                    input_searchCus(sizeIcon, border),
+                                    inputSearchCus(sizeIcon, border),
                                     if (selectValue_customer.toString() ==
                                         "2") ...[
-                                      input_lastnameCus(sizeIcon, border)
+                                      inputLastnameCus(sizeIcon, border)
                                     ],
                                   ],
                                 ),
@@ -737,7 +737,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             'รหัสลูกค้า',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_idcustomer(sizeIcon, border),
+                          inputIdcustomer(sizeIcon, border),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -745,7 +745,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   const Color.fromRGBO(202, 71, 150, 1),
                             ),
                             onPressed: () {
-                              search_idcustomer();
+                              searchIdcustomer();
                             },
                             child: const Icon(
                               Icons.search,
@@ -759,7 +759,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             'เลขที่บัตร',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_idcard(sizeIcon, border),
+                          inputIdcard(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -768,7 +768,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             'ชื่อลูกค้า',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_namecustomer(sizeIcon, border),
+                          inputNamecustomer(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -777,7 +777,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             'นามสกุล',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_lastnamecustomer(sizeIcon, border),
+                          inputLastnamecustomer(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -786,7 +786,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             'วันที่ขาย',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_dateStart(sizeIcon, border),
+                          inputDateStart(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -795,7 +795,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             'ถึงวันที่',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_dateEnd(sizeIcon, border),
+                          inputDateEnd(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -804,7 +804,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             'ประเภทการขาย',
                             style: MyContant().h4normalStyle(),
                           ),
-                          select_sale_type(sizeIcon, border),
+                          selectSaleType(sizeIcon, border),
                         ],
                       ),
                     ],
@@ -888,7 +888,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_idcustomer(sizeIcon, border) {
+  Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
@@ -913,7 +913,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_namecustomer(sizeIcon, border) {
+  Expanded inputNamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -937,7 +937,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_lastnamecustomer(sizeIcon, border) {
+  Expanded inputLastnamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -961,7 +961,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded select_sale_type(sizeIcon, border) {
+  Expanded selectSaleType(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -1005,7 +1005,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_nameEmploDia(sizeIcon, border) {
+  Expanded inputNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1031,7 +1031,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_lastNameEmploDia(sizeIcon, border) {
+  Expanded inputLastNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1057,7 +1057,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_lastnameCus(sizeIcon, border) {
+  Expanded inputLastnameCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),
@@ -1082,7 +1082,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_searchCus(sizeIcon, border) {
+  Expanded inputSearchCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1107,7 +1107,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_idcard(sizeIcon, border) {
+  Expanded inputIdcard(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1134,7 +1134,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_dateStart(sizeIcon, border) {
+  Expanded inputDateStart(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(6.0),
@@ -1184,7 +1184,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
     );
   }
 
-  Expanded input_dateEnd(sizeIcon, border) {
+  Expanded inputDateEnd(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(6.0),

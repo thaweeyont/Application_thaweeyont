@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../widgets/custom_appbar.dart';
 import 'pay_installment.dart';
 import 'package:application_thaweeyont/api.dart';
 
@@ -58,10 +59,10 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_debtorDetail();
+    getDataDebtorDetail();
   }
 
-  Future<void> getData_debtorDetail() async {
+  Future<void> getDataDebtorDetail() async {
     try {
       var respose = await http.post(
         Uri.parse('${api}debtor/detail'),
@@ -196,7 +197,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     }
   }
 
-  Future<void> show_paydetail(sizeIcon, border, periodNo) async {
+  Future<void> showPaydetail(sizeIcon, border, periodNo) async {
     var data_d = periodNo.toString().split('|');
     var perodNo_d = data_d[0].toString(),
         payDate_d = data_d[1].toString(),
@@ -419,13 +420,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'ค้นหาข้อมูล',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล'),
       body: status == false
           ? Center(
               child: Container(

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../api.dart';
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 
 class DetailCheckBlacklist extends StatefulWidget {
@@ -36,10 +37,10 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_detail_bl();
+    getDataDetailBl();
   }
 
-  Future<void> getData_detail_bl() async {
+  Future<void> getDataDetailBl() async {
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/blacklistDetail'),
@@ -100,13 +101,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายละเอียด Blacklist',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายละเอียด Blacklist'),
       body: status_data == false
           ? Center(
               child: Container(

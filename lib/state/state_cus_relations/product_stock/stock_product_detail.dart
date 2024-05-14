@@ -8,6 +8,7 @@ import '../../../api.dart';
 import '../../../utility/my_constant.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 
 class StockProductDetail extends StatefulWidget {
@@ -213,13 +214,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการที่ค้นหา',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
       body: GestureDetector(
         child: Column(
           children: [

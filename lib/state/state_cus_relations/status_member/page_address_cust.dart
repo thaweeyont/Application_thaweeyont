@@ -12,6 +12,7 @@ import '../../../utility/my_constant.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 
 class AddressCust extends StatefulWidget {
@@ -268,13 +269,7 @@ class _AddressCustState extends State<AddressCust> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'ข้อมูลที่อยู่',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'ข้อมูลที่อยู่'),
       body: ListView(
         shrinkWrap: true,
         children: [

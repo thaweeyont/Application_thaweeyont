@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../utility/my_constant.dart';
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
@@ -130,13 +131,7 @@ class _Pay_installmentState extends State<Pay_installment> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการชำระค่างวด',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการชำระค่างวด'),
       body: Column(
         children: [
           const SizedBox(

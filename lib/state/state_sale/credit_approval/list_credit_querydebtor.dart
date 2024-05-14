@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../api.dart';
 import '../../../utility/my_constant.dart';
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 
 class ListCreditQueryDebtor extends StatefulWidget {
@@ -83,10 +84,10 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_debtorList();
+    getDataDebtorList();
   }
 
-  Future<void> getData_debtorList() async {
+  Future<void> getDataDebtorList() async {
     var signStatus, branch, debtorType, tumbol, amphur, province;
     if (widget.select_signStatus == null) {
       signStatus = '';
@@ -193,13 +194,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการค้นหา',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการค้นหา'),
       body: statusLoading == false
           ? Center(
               child: Container(

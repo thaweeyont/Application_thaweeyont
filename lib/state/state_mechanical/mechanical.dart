@@ -59,7 +59,6 @@ class _MechanicalState extends State<Mechanical> {
     final year = [yearnow, 543].reduce((value, element) => value + element);
     datenow = '$year$formattedDate';
     newDate = datenow.toString().replaceAll('-', '');
-    print(newDate);
   }
 
   void clearInput() {
@@ -96,7 +95,7 @@ class _MechanicalState extends State<Mechanical> {
           workReqList = listdata;
           statusLoading = true;
         });
-        print('data>>$workReqList');
+        // print('data>11>$workReqList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(context, 'แจ้งเตือน', 'ละติจูด ลองติจูด ซ้ำ');
       } else if (respose.statusCode == 401) {
@@ -336,80 +335,100 @@ class _MechanicalState extends State<Mechanical> {
     );
   }
 
-  ListView myJob(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        for (var i = 0; i < workReqList.length; i++)
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      MechanicalDetail(workReqList[i]['workReqTranId']),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 241, 209, 89),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.5,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    )
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'เลขที่ใบขอช่าง : ${workReqList[i]['workReqTranId']}',
-                          style: MyContant().h6Style(),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text(
-                          'เลขที่ใบขาย : ${workReqList[i]['saleTranId']}',
-                          style: MyContant().h6Style(),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text(
-                          'ชื่อ-สกุล : ${workReqList[i]['custName']}',
-                          style: MyContant().h6Style(),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text(
-                          'วันที่จัดส่ง : ${workReqList[i]['sendDateTime']}',
-                          style: MyContant().h6Style(),
-                        ),
-                      ],
-                    ),
-                  ],
+  SizedBox myJob(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.65,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          for (var i = 0; i < workReqList.length; i++)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        MechanicalDetail(workReqList[i]['workReqTranId']),
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 241, 209, 89),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 0.5,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'เลขที่ใบขอช่าง : ${workReqList[i]['workReqTranId']}',
+                            style: MyContant().h6Style(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Text(
+                            'เลขที่ใบขาย : ${workReqList[i]['saleTranId']}',
+                            style: MyContant().h6Style(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ชื่อ-สกุล : ',
+                            style: MyContant().h6Style(),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${workReqList[i]['custName']}',
+                              style: MyContant().h6Style(),
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'วันที่จัดส่ง : ',
+                            style: MyContant().h6Style(),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${workReqList[i]['sendDateTime']}',
+                              style: MyContant().h6Style(),
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-      ],
+          const SizedBox(height: 15),
+        ],
+      ),
     );
   }
 
@@ -529,7 +548,6 @@ class _MechanicalState extends State<Mechanical> {
                         } else {
                           var changeDate =
                               date.text.toString().replaceAll('-', '');
-                          print('date>>$changeDate');
                           Navigator.push(
                             context,
                             MaterialPageRoute(

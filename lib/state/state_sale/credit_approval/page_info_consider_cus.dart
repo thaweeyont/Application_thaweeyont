@@ -7,6 +7,7 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
@@ -49,7 +50,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     getdata();
   }
 
-  Future<Null> getdata() async {
+  Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       userId = preferences.getString('userId')!;
@@ -58,10 +59,10 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_debtorDetailApprove();
+    getDataDebtorDetailApprove();
   }
 
-  Future<void> getData_debtorDetailApprove() async {
+  Future<void> getDataDebtorDetailApprove() async {
     try {
       var respose = await http.post(
         Uri.parse('${api}debtor/detail'),
@@ -200,13 +201,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'ค้นหาข้อมูล',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'ค้นหาข้อมูล'),
       body: status == false
           ? Center(
               child: status_check404 == true

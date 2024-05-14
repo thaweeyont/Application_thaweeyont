@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../api.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'detail_check_blacklist.dart';
 
@@ -58,10 +59,10 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getData_blacklist();
+    getDataBlacklist();
   }
 
-  Future<void> getData_blacklist() async {
+  Future<void> getDataBlacklist() async {
     var tumbol, amphur, province;
 
     if (widget.districtId == null) {
@@ -138,13 +139,7 @@ class _ListCheckBlacklistState extends State<ListCheckBlacklist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'รายการค้นหา',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'รายการค้นหา'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Scrollbar(

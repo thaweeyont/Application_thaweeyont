@@ -80,10 +80,10 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       allowApproveStatus = preferences.getBool('allowApproveStatus');
     });
 
-    get_select_branch();
-    get_select_statusApprove();
+    getSelectBranch();
+    getSelectStatusApprove();
     selectDatenow();
-    get_select_cus();
+    getSelectCus();
     if (allowApproveStatus == false) {
       select_branchlist = branchId;
     }
@@ -98,7 +98,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     start_date.text = '$year$formattedDate';
   }
 
-  Future<void> get_select_branch() async {
+  Future<void> getSelectBranch() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/branchList'),
@@ -136,7 +136,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     }
   }
 
-  Future<void> get_select_statusApprove() async {
+  Future<void> getSelectStatusApprove() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/approveStatus'),
@@ -163,7 +163,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     }
   }
 
-  Future<void> get_select_cus() async {
+  Future<void> getSelectCus() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/custCondition'),
@@ -224,7 +224,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     lastname.clear();
   }
 
-  Future<void> search_idcustomer() async {
+  Future<void> searchIdcustomer() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -456,12 +456,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                       'ชื่อ',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_nameEmploDia(sizeIcon, border),
+                                    inputNameEmploDia(sizeIcon, border),
                                     Text(
                                       'สกุล',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_lastNameEmploDia(sizeIcon, border),
+                                    inputLastNameEmploDia(sizeIcon, border),
                                   ],
                                 ),
                               ],
@@ -526,10 +526,10 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                         ),
                                       ),
                                     ),
-                                    input_searchCus(sizeIcon, border),
+                                    inputSearchCus(sizeIcon, border),
                                     if (selectValue_customer.toString() ==
                                         "2") ...[
-                                      input_lastnameCus(sizeIcon, border)
+                                      inputLastnameCus(sizeIcon, border)
                                     ],
                                   ],
                                 ),
@@ -787,7 +787,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'รหัสลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_idcustomer(sizeIcon, border),
+                        inputIdcustomer(sizeIcon, border),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
@@ -795,7 +795,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
-                            search_idcustomer();
+                            searchIdcustomer();
                           },
                           child: const Icon(
                             Icons.search,
@@ -809,7 +809,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'เลขที่บัตร',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_idcard(sizeIcon, border),
+                        inputIdcard(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -818,12 +818,12 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'ชื่อ',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_namecustomer(sizeIcon, border),
+                        inputNamecustomer(sizeIcon, border),
                         Text(
                           'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_lastnamecustomer(sizeIcon, border),
+                        inputLastnamecustomer(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -841,7 +841,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'สาขา',
                           style: MyContant().h4normalStyle(),
                         ),
-                        select_branch(sizeIcon, border),
+                        selectBranch(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -850,7 +850,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'วันที่   ',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_dateStart(sizeIcon, border),
+                        inputDateStart(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -859,7 +859,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'ถึงวันที่',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_dateEnd(sizeIcon, border),
+                        inputDateEnd(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -868,7 +868,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           'ผลการพิจารณา',
                           style: MyContant().h4normalStyle(),
                         ),
-                        select_statusApprove(sizeIcon, border),
+                        selectStatusApprove(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -957,7 +957,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_idcustomer(sizeIcon, border) {
+  Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(
@@ -988,7 +988,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_idcard(sizeIcon, border) {
+  Expanded inputIdcard(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1017,7 +1017,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_namecustomer(sizeIcon, border) {
+  Expanded inputNamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1041,7 +1041,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_lastnamecustomer(sizeIcon, border) {
+  Expanded inputLastnamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1093,7 +1093,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_searchCus(sizeIcon, border) {
+  Expanded inputSearchCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1118,7 +1118,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_nameEmploDia(sizeIcon, border) {
+  Expanded inputNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1144,7 +1144,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_lastNameEmploDia(sizeIcon, border) {
+  Expanded inputLastNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1170,7 +1170,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_lastnameCus(sizeIcon, border) {
+  Expanded inputLastnameCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),
@@ -1195,7 +1195,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded select_branch(sizeIcon, border) {
+  Expanded selectBranch(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1245,7 +1245,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded select_statusApprove(sizeIcon, border) {
+  Expanded selectStatusApprove(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1289,7 +1289,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_dateStart(sizeIcon, border) {
+  Expanded inputDateStart(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(6.0),
@@ -1338,7 +1338,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     );
   }
 
-  Expanded input_dateEnd(sizeIcon, border) {
+  Expanded inputDateEnd(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(6.0),

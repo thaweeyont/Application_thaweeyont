@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:application_thaweeyont/api.dart';
 
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'list_check_blacklist.dart';
 
@@ -66,12 +67,12 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    get_select_bl_search();
-    get_select_province();
+    getSelectBlSearch();
+    getSelectProvince();
     idcard.text = widget.smartId.toString();
   }
 
-  Future<void> get_select_province() async {
+  Future<void> getSelectProvince() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -120,7 +121,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     }
   }
 
-  Future<void> get_select_district() async {
+  Future<void> getSelectDistrict() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -149,7 +150,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         });
         Navigator.pop(context);
         Navigator.pop(context);
-        search_district(sizeIcon, border);
+        searchDistrict(sizeIcon, border);
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -183,7 +184,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     }
   }
 
-  Future<void> get_select_bl_search() async {
+  Future<void> getSelectBlSearch() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/blSearchList'),
@@ -218,7 +219,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     }
   }
 
-  Future<Null> search_id_blacklist() async {
+  Future<void> searchIdBlacklist() async {
     final sizeIcon = const BoxConstraints(minWidth: 40, minHeight: 40);
     final border = const OutlineInputBorder(
       borderSide: BorderSide(
@@ -230,7 +231,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       ),
     );
 
-    Future<void> getData_search_bl(searchType, String? searchData,
+    Future<void> getDataSearchBl(searchType, String? searchData,
         String? firstName, String? lastName) async {
       try {
         var respose = await http.post(
@@ -464,7 +465,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                             'กรุณากรอก ชื่อ-นามสกุล');
                                       } else {
                                         showProgressLoading(context);
-                                        getData_search_bl(
+                                        getDataSearchBl(
                                             selectValue_bl,
                                             '',
                                             nameSearchBl.text,
@@ -476,7 +477,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                             'กรุณากรอกข้อมูลที่ต้องการค้นหา');
                                       } else {
                                         showProgressLoading(context);
-                                        getData_search_bl(selectValue_bl,
+                                        getDataSearchBl(selectValue_bl,
                                             searchData.text, '', '');
                                       }
                                     }
@@ -655,7 +656,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
     );
   }
 
-  Future<void> search_district(sizeIcon, border) async {
+  Future<void> searchDistrict(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -935,7 +936,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                           'กรุณาเลือกอำเภอ');
                                     } else {
                                       showProgressLoading(context);
-                                      get_select_district();
+                                      getSelectDistrict();
                                     }
                                   },
                                   child: const Text('ค้นหา'),
@@ -1106,13 +1107,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'เช็ค Blacklist',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'เช็ค Blacklist'),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
@@ -1152,7 +1147,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
-                            search_id_blacklist();
+                            searchIdBlacklist();
                           },
                           child: const Icon(
                             Icons.search,
@@ -1224,8 +1219,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
-                            search_district(context, border);
-                            get_select_province();
+                            searchDistrict(context, border);
+                            getSelectDistrict();
                           },
                           child: const Icon(
                             Icons.search,

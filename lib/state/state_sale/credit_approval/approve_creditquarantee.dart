@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../api.dart';
+import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'credit_debtordetail.dart';
 import 'data_list_quarantee.dart';
@@ -106,13 +107,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'ผู้ค้ำประกัน',
-          style: MyContant().TitleStyle(),
-        ),
-      ),
+      appBar: const CustomAppbar(title: 'ผู้ค้ำประกัน'),
       body: statusLoading == false
           ? Center(
               child: Container(
