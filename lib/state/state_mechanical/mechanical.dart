@@ -373,9 +373,26 @@ class _MechanicalState extends State<Mechanical> {
                       Row(
                         children: [
                           Text(
-                            'เลขที่ใบขอช่าง : ${workReqList[i]['workReqTranId']}',
+                            'เลขที่ใบเปิด Job : ${workReqList[i]['jobTranId']}',
                             style: MyContant().h6Style(),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          if (workReqList[i]['jobTranId'] !=
+                              workReqList[i]['workReqTranId']) ...[
+                            Text(
+                              'เลขที่ใบขอช่าง : ${workReqList[i]['workReqTranId']}',
+                              style: MyContant().h6Style(),
+                            ),
+                          ] else ...[
+                            Text(
+                              'เลขที่ใบขอช่าง : - ',
+                              style: MyContant().h6Style(),
+                            ),
+                          ],
                         ],
                       ),
                       const SizedBox(height: 5),
@@ -419,6 +436,33 @@ class _MechanicalState extends State<Mechanical> {
                               overflow: TextOverflow.clip,
                             ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ช่างติดตั้ง : ',
+                            style: MyContant().h6Style(),
+                          ),
+                          if (workReqList[i]['empName'].toString() != "[]") ...[
+                            Expanded(
+                              child: Text(
+                                '${workReqList[i]['empName'][0]}',
+                                style: MyContant().h6Style(),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ] else ...[
+                            Expanded(
+                              child: Text(
+                                ' ',
+                                style: MyContant().h6Style(),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ]
                         ],
                       ),
                     ],

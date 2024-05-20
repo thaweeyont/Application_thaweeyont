@@ -359,12 +359,12 @@ class _AuthenState extends State<Authen> {
           Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.084,
+                height: MediaQuery.of(context).size.height * 0.15,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: Image.asset(
-                  'images/logo.png',
+                  'images/logoNew.png',
                 ),
               ),
             ],

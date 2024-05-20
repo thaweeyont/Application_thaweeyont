@@ -367,19 +367,20 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               children: <Widget>[
                 Container(
                   height: MediaQuery.of(context).size.height * 0.05,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.vertical(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(20),
                     ),
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Color.fromRGBO(238, 208, 110, 1),
-                        Color.fromRGBO(250, 227, 152, 0.9),
-                        Color.fromRGBO(212, 163, 51, 0.8),
-                        Color.fromRGBO(250, 227, 152, 0.9),
-                        Color.fromRGBO(164, 128, 44, 1),
-                      ],
-                    ),
+                    color: Colors.grey.shade200,
+                    // gradient: LinearGradient(
+                    //   colors: <Color>[
+                    //     Color.fromRGBO(238, 208, 110, 1),
+                    //     Color.fromRGBO(250, 227, 152, 0.9),
+                    //     Color.fromRGBO(212, 163, 51, 0.8),
+                    //     Color.fromRGBO(250, 227, 152, 0.9),
+                    //     Color.fromRGBO(164, 128, 44, 1),
+                    //   ],
+                    // ),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -720,14 +721,14 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   Container drawerIcon(double size) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.only(top: 70, bottom: 30),
       child: Column(
         children: <Widget>[
           Image.asset(
-            'images/logo.png',
-            width: size * 0.4,
+            'images/logoNew.png',
+            width: size * 0.3,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
