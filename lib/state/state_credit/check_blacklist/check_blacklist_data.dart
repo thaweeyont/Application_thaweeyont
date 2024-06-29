@@ -1184,6 +1184,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -1257,6 +1258,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],

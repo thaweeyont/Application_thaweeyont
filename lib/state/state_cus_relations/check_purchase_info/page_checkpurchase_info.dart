@@ -359,6 +359,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                 children: [
                                   Expanded(
                                     child: RadioListTile(
+                                      activeColor: Colors.black,
                                       contentPadding: const EdgeInsets.all(0.0),
                                       value: '1',
                                       groupValue: id,
@@ -379,6 +380,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                   ),
                                   Expanded(
                                     child: RadioListTile(
+                                      activeColor: Colors.black,
                                       value: '2',
                                       groupValue: id,
                                       title: Text(
@@ -749,6 +751,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             },
                             child: const Icon(
                               Icons.search,
+                              color: Colors.white,
                             ),
                           ),
                         ],

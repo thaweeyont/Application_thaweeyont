@@ -410,6 +410,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                 children: [
                                   Expanded(
                                     child: RadioListTile(
+                                      activeColor: Colors.black,
                                       contentPadding: const EdgeInsets.all(0.0),
                                       value: '1',
                                       groupValue: id,
@@ -430,6 +431,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                   ),
                                   Expanded(
                                     child: RadioListTile(
+                                      activeColor: Colors.black,
                                       value: '2',
                                       groupValue: id,
                                       title: Text(
@@ -799,6 +801,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],

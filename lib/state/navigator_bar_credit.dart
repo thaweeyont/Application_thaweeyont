@@ -20,7 +20,7 @@ import 'state_cus_relations/check_purchase_info/page_checkpurchase_info.dart';
 
 class Navigator_bar_credit extends StatefulWidget {
   String? index;
-  Navigator_bar_credit(this.index, {Key? key}) : super(key: key);
+  Navigator_bar_credit(this.index, {super.key});
 
   @override
   _Navigator_bar_creditState createState() => _Navigator_bar_creditState();
@@ -209,7 +209,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       bottomNavigationBar: bottomBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        margin: const EdgeInsets.only(top: 25),
+        margin: const EdgeInsets.only(top: 50),
         child: builFab(context),
       ),
     );
@@ -449,6 +449,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     return AppBar(
       centerTitle: true,
       elevation: status == true ? 0 : 4,
+      backgroundColor: const Color.fromRGBO(5, 12, 69, 1),
       title: status == true
           ? null
           : Text(
@@ -459,6 +460,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         builder: (BuildContext context) {
           return IconButton(
             icon: const Icon(
+              color: Colors.white,
               Icons.menu,
             ),
             onPressed: () {
@@ -473,9 +475,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   Container bottomBar() {
     return Container(
       margin: EdgeInsets.only(
-        left: 30,
-        right: 30,
-        bottom: Platform.isAndroid ? 14 : 5,
+        left: 10,
+        right: 10,
+        bottom: Platform.isAndroid ? 2 : 0,
       ),
       child: BottomAppBar(
         elevation: 0,
@@ -700,10 +702,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             decoration: const BoxDecoration(
               color: Colors.white,
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(Icons.logout_outlined),
                 SizedBox(width: 5),
                 Text(
@@ -1042,10 +1044,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
           color: Colors.white,
         ),
-        child: Column(
+        child: const Column(
           children: [
             Row(
-              children: const [
+              children: [
                 Icon(Icons.info_outline_rounded),
                 SizedBox(width: 10),
                 Text(
@@ -1074,10 +1076,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
           color: Colors.white,
         ),
-        child: Column(
+        child: const Column(
           children: [
             Row(
-              children: const [
+              children: [
                 Icon(Icons.login_rounded),
                 SizedBox(width: 10),
                 Text(
@@ -1099,10 +1101,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
-          title: Row(
-            children: const [
+          // contentPadding:
+          //     const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
+          title: const Row(
+            children: [
               Icon(Icons.login_outlined),
               SizedBox(width: 10),
               Text(

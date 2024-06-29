@@ -1409,6 +1409,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                 children: [
                                   Expanded(
                                     child: RadioListTile(
+                                      activeColor: Colors.black,
                                       contentPadding: const EdgeInsets.all(0.0),
                                       value: '1',
                                       groupValue: id,
@@ -1429,6 +1430,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                   ),
                                   Expanded(
                                     child: RadioListTile(
+                                      activeColor: Colors.black,
                                       value: '2',
                                       groupValue: id,
                                       title: Text(
@@ -1799,6 +1801,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -1896,6 +1899,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             },
                             child: const Icon(
                               Icons.search,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -1964,6 +1968,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             },
                             child: const Icon(
                               Icons.search,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -2010,13 +2015,19 @@ class _Query_debtorState extends State<Query_debtor> {
                         'ค้นหาแบบย่อย',
                         style: MyContant().TextsearchStyle(),
                       ),
-                      const Icon(Icons.arrow_drop_up),
+                      const Icon(
+                        Icons.arrow_drop_up,
+                        color: Colors.black,
+                      ),
                     ] else ...[
                       Text(
                         'ค้นหาแบบละเอียด',
                         style: MyContant().TextsearchStyle(),
                       ),
-                      const Icon(Icons.arrow_drop_down),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black,
+                      ),
                     ],
                   ],
                 ),

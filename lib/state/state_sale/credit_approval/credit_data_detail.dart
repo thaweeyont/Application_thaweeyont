@@ -165,7 +165,8 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
+      appBar: const CustomAppbar(title: 'รายการที่ค้นหา',
+      ),
       body: status_loading == false
           ? Center(
               child: Container(

@@ -301,6 +301,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                   children: [
                                     Expanded(
                                       child: RadioListTile(
+                                        activeColor: Colors.black,
                                         contentPadding:
                                             const EdgeInsets.all(0.0),
                                         value: '1',
@@ -324,6 +325,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                     ),
                                     Expanded(
                                       child: RadioListTile(
+                                        activeColor: Colors.black,
                                         value: '2',
                                         groupValue: id,
                                         title: Text(
@@ -701,6 +703,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],

@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import '../../../utility/my_constant.dart';
 
 class ProductStockData extends StatefulWidget {
-  const ProductStockData({Key? key}) : super(key: key);
+  const ProductStockData({super.key});
 
   @override
   State<ProductStockData> createState() => _ProductStockDataState();
@@ -498,6 +498,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -517,6 +518,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -541,6 +543,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -569,6 +572,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -602,6 +606,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -626,6 +631,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -651,6 +657,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                 },
                                 child: const Icon(
                                   Icons.search,
+                                  color: Colors.white,
                                 ),
                               ),
                             )
@@ -671,6 +678,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -735,6 +743,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -789,6 +798,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               },
                               child: const Icon(
                                 Icons.search,
+                                color: Colors.white,
                               ),
                             )
                           ],
@@ -1426,7 +1436,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -1456,11 +1466,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -1471,7 +1478,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -1870,7 +1877,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -1900,11 +1907,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -1915,7 +1919,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -2299,7 +2303,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -2329,11 +2333,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -2344,7 +2345,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -2746,7 +2747,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -2776,11 +2777,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -2791,7 +2789,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -3174,7 +3172,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -3204,11 +3202,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -3219,7 +3214,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -3603,7 +3598,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -3633,11 +3628,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -3648,7 +3640,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -4030,7 +4022,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -4060,11 +4052,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -4075,7 +4064,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -4461,7 +4450,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -4491,11 +4480,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -4506,7 +4492,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,
@@ -4887,7 +4873,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 4,
                                                                 horizontal: 8),
                                                         child: Container(
@@ -4917,11 +4903,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               )
                                                             ],
                                                             color: const Color
-                                                                    .fromRGBO(
-                                                                176,
-                                                                218,
-                                                                255,
-                                                                1),
+                                                                .fromRGBO(176,
+                                                                218, 255, 1),
                                                           ),
                                                           child: Column(
                                                             children: [
@@ -4932,7 +4915,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 children: [
                                                                   Container(
                                                                     color: const Color
-                                                                            .fromRGBO(
+                                                                        .fromRGBO(
                                                                         176,
                                                                         218,
                                                                         255,

@@ -40,6 +40,7 @@ class MyContant {
   static Color dark = const Color(0xff575900);
   static Color light = const Color(0xffb9b64e);
   static Color load = const Color(0xffe6b980);
+  static Color colorAppbar = const Color.fromRGBO(5, 12, 69, 1);
 
   // size icon input
   final sizeIcon = const BoxConstraints(minWidth: 45, minHeight: 45);
@@ -292,25 +293,20 @@ Future<void> showProgressLoading2(BuildContext context) async {
   showDialog(
     context: context,
     barrierColor: Colors.transparent,
-    builder: (context) => WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
+    builder: (context) => Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(cupertinoActivityIndicator, scale: 4),
-            ],
-          ),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(cupertinoActivityIndicator, scale: 4),
+          ],
         ),
       ),
     ),
@@ -321,14 +317,13 @@ showProgressDialog(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
-
     builder: (context) {
       return AlertDialog(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 40),
+        // contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
-            Image.asset('images/error_log.gif',
-                width: 50, height: 50, fit: BoxFit.contain),
+            // Image.asset('images/error_log.gif',
+            //     width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
               style: const TextStyle(
@@ -348,10 +343,11 @@ showProgressDialog(BuildContext context, title, subtitle) async {
             child: const Text(
               'ตกลง',
               style: TextStyle(
-                  fontFamily: 'Prompt',
-                  fontSize: 15,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal),
+                fontFamily: 'Prompt',
+                fontSize: 15,
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+              ),
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -446,13 +442,13 @@ Future<void> showProgressDialog555(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Column(
+          child: const Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Text(
                       "ตกลง",
                       style: TextStyle(
@@ -507,8 +503,8 @@ Future<void> showProgressDialog_Notdata555(
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 Text(
                   "ตกลง",
                   style: TextStyle(
@@ -558,8 +554,8 @@ Future<void> showProgressDialog_4000(
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 Text(
                   "ตกลง",
                   style: TextStyle(
@@ -608,8 +604,8 @@ Future<void> showProgressDialog_4011(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 Text(
                   "ตกลง",
                   style: TextStyle(
@@ -672,8 +668,8 @@ Future<void> showProgressDialog_4044(
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 Text(
                   "ตกลง",
                   style: TextStyle(
@@ -993,8 +989,8 @@ Future<void> showProgressDialog_4055(
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 Text(
                   "ตกลง",
                   style: TextStyle(
@@ -1044,8 +1040,8 @@ Future<void> showProgressDialog_5000(
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 Text(
                   "ตกลง",
                   style: TextStyle(
