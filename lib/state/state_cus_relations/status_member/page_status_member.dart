@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_cus_relations/status_member/member_cust_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utility/my_constant.dart';
@@ -429,7 +430,6 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                           ),
                                         ),
                                       ),
-                                      // Text('สกุล'),
                                       inputSearchCus(sizeIcon, border),
                                       if (selectValue_customer.toString() ==
                                           "2") ...[
@@ -549,11 +549,22 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                 height: 5,
                                               ),
                                               Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'ชื่อ : ${list_datavalue[i]['custName']}',
+                                                    'ชื่อ : ',
                                                     style: MyContant()
                                                         .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_datavalue[i]['custName']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
                                                   ),
                                                 ],
                                               ),

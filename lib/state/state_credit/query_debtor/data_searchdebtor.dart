@@ -13,8 +13,7 @@ import 'package:application_thaweeyont/api.dart';
 
 class Data_SearchDebtor extends StatefulWidget {
   final String? signId, signStatusName;
-  const Data_SearchDebtor(this.signId, this.signStatusName, {Key? key})
-      : super(key: key);
+  const Data_SearchDebtor(this.signId, this.signStatusName, {super.key});
 
   @override
   State<Data_SearchDebtor> createState() => _Data_SearchDebtorState();
@@ -788,6 +787,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         labelStyle:
                             TextStyle(fontSize: 16, fontFamily: 'Prompt'),
                         unselectedLabelColor: Colors.black,
+                        indicatorColor: Colors.black,
                         tabs: [
                           Tab(text: 'ผู้ค้ำที่ 1'),
                           Tab(text: 'ผู้ค้ำที่ 2'),
@@ -2563,7 +2563,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       height: 0,
       width: double.infinity,
       child: Divider(
-        color: Color.fromARGB(255, 34, 34, 34),
+        color: Color.fromARGB(255, 77, 77, 77),
       ),
     );
   }

@@ -1563,6 +1563,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                   Expanded(
                                     child: RadioListTile(
                                       contentPadding: const EdgeInsets.all(0.0),
+                                      activeColor: Colors.black,
                                       value: '1',
                                       groupValue: id,
                                       title: Text(
@@ -1582,6 +1583,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                   ),
                                   Expanded(
                                     child: RadioListTile(
+                                      activeColor: Colors.black,
                                       value: '2',
                                       groupValue: id,
                                       title: Text(
@@ -1951,6 +1953,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -2038,6 +2041,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -2107,6 +2111,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                             },
                             child: const Icon(
                               Icons.search,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -2246,7 +2251,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         height: 5,
         width: double.infinity,
         child: Divider(
-          color: Color.fromARGB(255, 34, 34, 34),
+          color: Color.fromARGB(105, 71, 71, 71),
         ),
       ),
     );

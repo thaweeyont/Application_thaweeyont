@@ -1133,14 +1133,14 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                     const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: const Color.fromARGB(255, 221, 221, 221),
+                  color: const Color.fromARGB(255, 208, 208, 208),
                 ),
                 child: const Text(
                   'ยกเลิก',
                   style: TextStyle(
                       fontFamily: 'Prompt',
                       fontSize: 15,
-                      color: Color.fromARGB(255, 118, 118, 121),
+                      color: Color.fromARGB(255, 89, 89, 89),
                       fontWeight: FontWeight.normal),
                 ),
               ),

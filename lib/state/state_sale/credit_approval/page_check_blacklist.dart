@@ -148,8 +148,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         setState(() {
           list_district = data_district['data'];
         });
-        Navigator.pop(context);
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        // Navigator.pop(context);
         searchDistrict(sizeIcon, border);
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
@@ -979,6 +979,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                           },
                                         );
                                         Navigator.pop(context);
+                                        Navigator.pop(context);
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -1151,6 +1152,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -1224,6 +1226,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                           },
                           child: const Icon(
                             Icons.search,
+                            color: Colors.white,
                           ),
                         ),
                       ],

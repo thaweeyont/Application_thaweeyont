@@ -184,27 +184,6 @@ class _AuthenState extends State<Authen> {
         ),
       ),
     );
-    // Scaffold(
-    //   body: Container(
-    //     color: const Color.fromRGBO(5, 12, 69, 1),
-    //     child: GestureDetector(
-    //       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-    //       behavior: HitTestBehavior.opaque,
-    //       child: Stack(
-    //         children: <Widget>[
-    //           Align(
-    //             alignment: Alignment.topCenter,
-    //             child: buildImage(size),
-    //           ),
-    //           Align(
-    //             alignment: Alignment.bottomCenter,
-    //             child: buildform(size),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   Container buildform(double size) {
@@ -273,6 +252,7 @@ class _AuthenState extends State<Authen> {
                     color: Color.fromRGBO(7, 15, 82, 1),
                   ),
                   border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.teal),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   hintText: 'Password',
@@ -289,14 +269,6 @@ class _AuthenState extends State<Authen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 color: const Color.fromRGBO(7, 15, 82, 1),
-                // gradient: const LinearGradient(
-                //   colors: [
-                //     Color.fromRGBO(255, 215, 215, 1),
-                //     Color.fromRGBO(0, 115, 247, 1),
-                //   ],
-                //   begin: Alignment.topLeft,
-                //   end: Alignment.bottomRight,
-                // ),
               ),
               child: TextButton(
                 style: TextButton.styleFrom(

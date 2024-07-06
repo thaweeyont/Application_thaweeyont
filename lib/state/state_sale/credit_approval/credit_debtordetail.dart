@@ -13,7 +13,7 @@ import '../../authen.dart';
 
 class CreditDebtorDetail extends StatefulWidget {
   final String? custId;
-  const CreditDebtorDetail(this.custId, {Key? key}) : super(key: key);
+  const CreditDebtorDetail(this.custId, {super.key});
 
   @override
   State<CreditDebtorDetail> createState() => _CreditDebtorDetailState();

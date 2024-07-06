@@ -430,6 +430,7 @@ class _AddressCustState extends State<AddressCust> {
                                             ),
                                             icon: const Icon(
                                               Icons.pin_drop_rounded,
+                                              color: Colors.white,
                                             ),
                                             onPressed: () {
                                               showProgressEarthLoad(context);

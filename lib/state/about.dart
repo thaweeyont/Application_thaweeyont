@@ -169,10 +169,10 @@ class _AboutState extends State<About> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Divider(
+                      Divider(
                         indent: 50,
                         endIndent: 50,
-                        color: Color.fromARGB(255, 148, 148, 148),
+                        color: Colors.grey[300],
                       ),
                       const SizedBox(height: 20),
                       Row(

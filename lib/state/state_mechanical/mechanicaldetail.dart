@@ -15,7 +15,7 @@ import '../authen.dart';
 
 class MechanicalDetail extends StatefulWidget {
   final String? workReqTranId;
-  const MechanicalDetail(this.workReqTranId, {Key? key}) : super(key: key);
+  const MechanicalDetail(this.workReqTranId, {super.key});
 
   @override
   State<MechanicalDetail> createState() => _MechanicalDetailState();
@@ -694,6 +694,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                       ),
                                                       icon: const Icon(
                                                         Icons.pin_drop_rounded,
+                                                        color: Colors.white,
                                                       ),
                                                       onPressed: () {
                                                         showProgressEarthLoad(
@@ -704,11 +705,8 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                           .styleFrom(
                                                         backgroundColor:
                                                             const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                0,
-                                                                155,
-                                                                247),
+                                                                .fromARGB(255,
+                                                                0, 155, 247),
                                                       ),
                                                     ),
                                                   ),
@@ -732,7 +730,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 3,
                                                                 vertical: 8),
                                                         child: SizedBox(
@@ -756,6 +754,8 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                             icon: Icon(
                                                               Icons
                                                                   .pin_drop_rounded,
+                                                              color:
+                                                                  Colors.white,
                                                               size: MediaQuery.of(
                                                                           context)
                                                                       .size
@@ -775,7 +775,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                     .styleFrom(
                                                               backgroundColor:
                                                                   const Color
-                                                                          .fromARGB(
+                                                                      .fromARGB(
                                                                       255,
                                                                       52,
                                                                       168,
@@ -788,7 +788,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 horizontal: 3,
                                                                 vertical: 8),
                                                         child: SizedBox(
@@ -812,6 +812,8 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                             icon: Icon(
                                                               Icons
                                                                   .pin_drop_rounded,
+                                                              color:
+                                                                  Colors.white,
                                                               size: MediaQuery.of(
                                                                           context)
                                                                       .size
@@ -828,7 +830,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                     .styleFrom(
                                                               backgroundColor:
                                                                   const Color
-                                                                          .fromARGB(
+                                                                      .fromARGB(
                                                                       255,
                                                                       255,
                                                                       232,
@@ -839,7 +841,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                       ),
                                                     Padding(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 3,
                                                           vertical: 8),
                                                       child: SizedBox(
@@ -862,6 +864,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                           ),
                                                           icon: Icon(
                                                             Icons.map_outlined,
+                                                            color: Colors.white,
                                                             size: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -889,7 +892,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                               .styleFrom(
                                                             backgroundColor:
                                                                 const Color
-                                                                        .fromARGB(
+                                                                    .fromARGB(
                                                                     255,
                                                                     87,
                                                                     109,
@@ -900,7 +903,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                     ),
                                                     Padding(
                                                       padding: const EdgeInsets
-                                                              .symmetric(
+                                                          .symmetric(
                                                           horizontal: 3,
                                                           vertical: 8),
                                                       child: SizedBox(
@@ -924,6 +927,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                           icon: Icon(
                                                             Icons
                                                                 .assistant_navigation,
+                                                            color: Colors.white,
                                                             size: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -951,7 +955,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                               .styleFrom(
                                                             backgroundColor:
                                                                 const Color
-                                                                        .fromARGB(
+                                                                    .fromARGB(
                                                                     255,
                                                                     26,
                                                                     115,

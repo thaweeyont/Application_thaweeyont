@@ -474,8 +474,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ),
                               child: const TabBar(
                                 labelColor: Color.fromRGBO(110, 66, 0, 1),
+                                indicatorColor: Colors.black,
                                 labelStyle: TextStyle(
-                                    fontSize: 16, fontFamily: 'Prompt'),
+                                  fontSize: 16,
+                                  fontFamily: 'Prompt',
+                                ),
                                 unselectedLabelColor: Colors.black,
                                 tabs: [
                                   Tab(text: 'ข้อมูลลูกค้า'),
@@ -2186,7 +2189,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       height: 0,
       width: double.infinity,
       child: Divider(
-        color: Color.fromARGB(255, 34, 34, 34),
+        color: Color.fromARGB(255, 112, 112, 112),
       ),
     );
   }

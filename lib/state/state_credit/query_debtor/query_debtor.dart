@@ -2100,7 +2100,7 @@ class _Query_debtorState extends State<Query_debtor> {
         height: 5,
         width: double.infinity,
         child: Divider(
-          color: Color.fromARGB(255, 34, 34, 34),
+          color: Color.fromARGB(105, 71, 71, 71),
         ),
       ),
     );

@@ -13,7 +13,7 @@ import 'package:application_thaweeyont/api.dart';
 
 class Page_Info_Consider_Cus extends StatefulWidget {
   final String? signId;
-  const Page_Info_Consider_Cus(this.signId, {Key? key}) : super(key: key);
+  const Page_Info_Consider_Cus(this.signId, {super.key});
 
   @override
   State<Page_Info_Consider_Cus> createState() => _Page_Info_Consider_CusState();
@@ -27,7 +27,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       active_mu3 = false,
       active_mu4 = false;
   var Debtordetail,
-      status = false,
+      statusLoading = false,
       dataDebnote,
       debtorStatuscode,
       status_check404 = false;
@@ -81,7 +81,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         Debtordetail = datadebtorDetail['data'];
 
         setState(() {
-          status = true;
+          statusLoading = true;
 
           if (Debtordetail['quarantee']['1'].toString() != "[]") {
             list_quarantee1 =
@@ -144,9 +144,10 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        status_check404 = true;
-
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+        setState(() {
+          status_check404 = true;
+          statusLoading = true;
+        });
       } else if (respose.statusCode == 405) {
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -201,130 +202,150 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(title: 'ค้นหาข้อมูล'),
-      body: status == false
+      appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล'),
+      body: statusLoading == false
           ? Center(
-              child: status_check404 == true
-                  ? SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'ไม่พบข้อมูล',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 24, 24, 24)
-                            .withOpacity(0.9),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 30),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(cupertinoActivityIndicator, scale: 4),
-                          Text(
-                            'กำลังโหลด',
-                            style: MyContant().textLoading(),
-                          ),
-                        ],
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(cupertinoActivityIndicator, scale: 4),
+                    Text(
+                      'กำลังโหลด',
+                      style: MyContant().textLoading(),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : status_check404 == true
+              ? Center(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
                       ),
                     ),
-            )
-          : GestureDetector(
-              child: Column(
-                children: [
-                  slidemenu(context),
-                  if (active_mu1 == true) ...[
-                    contentListMu1(context),
-                  ],
-                  if (active_mu2 == true) ...[
-                    contentListMu2(context),
-                  ],
-                  if (active_mu3 == true) ...[
-                    contentListMu3(context),
-                  ],
-                  if (active_mu4 == true) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color.fromRGBO(251, 173, 55, 1),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 0.2,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
-                                )
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    child: Column(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/Nodata.png',
+                                  width: 55,
+                                  height: 55,
+                                ),
                               ],
                             ),
-                            child: Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'รายการชำระค่างวด',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
+                                Text(
+                                  'ไม่พบรายการข้อมูล',
+                                  style: MyContant().h5NotData(),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  child: Column(
+                    children: [
+                      slidemenu(context),
+                      if (active_mu1 == true) ...[
+                        contentListMu1(context),
+                      ],
+                      if (active_mu2 == true) ...[
+                        contentListMu2(context),
+                      ],
+                      if (active_mu3 == true) ...[
+                        contentListMu3(context),
+                      ],
+                      if (active_mu4 == true) ...[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: const Color.fromRGBO(251, 173, 55, 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    )
                                   ],
                                 ),
-                                const SizedBox(height: 5),
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.7),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'รายการชำระค่างวด',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                    const SizedBox(height: 5),
+                                    Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(5),
+                                        ),
+                                      ),
+                                      child: Column(
                                         children: [
-                                          Text(
-                                            'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
-                                            style: MyContant().h3Style(),
-                                          ),
-                                          Text(
-                                            'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
-                                            style: MyContant().h3Style(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
+                                                style: MyContant().h3Style(),
+                                              ),
+                                              Text(
+                                                'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
+                                                style: MyContant().h3Style(),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    contentListMu4(context),
-                  ],
-                ],
-              ),
-            ),
+                        ),
+                        contentListMu4(context),
+                      ],
+                    ],
+                  ),
+                ),
     );
   }
 
@@ -503,6 +524,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       labelColor: Color.fromRGBO(110, 66, 0, 1),
                       labelStyle: TextStyle(fontSize: 16, fontFamily: 'Prompt'),
                       unselectedLabelColor: Colors.black,
+                      indicatorColor: Colors.black,
                       tabs: [
                         Tab(text: 'ผู้ค้ำที่ 1'),
                         Tab(text: 'ผู้ค้ำที่ 2'),
@@ -2326,7 +2348,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
       height: 0,
       width: double.infinity,
       child: Divider(
-        color: Color.fromARGB(255, 34, 34, 34),
+        color: Color.fromARGB(255, 77, 77, 77),
       ),
     );
   }

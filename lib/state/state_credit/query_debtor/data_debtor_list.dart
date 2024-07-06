@@ -52,8 +52,7 @@ class Data_debtor_list extends StatefulWidget {
       this.itemTypelist,
       this.selectValue_amphoe,
       this.selectValue_province,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<Data_debtor_list> createState() => _Data_debtor_listState();

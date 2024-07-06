@@ -13,7 +13,7 @@ import 'page_info_consider_cus.dart';
 
 class DataListQuarantee extends StatefulWidget {
   final String? custId;
-  const DataListQuarantee(this.custId, {Key? key}) : super(key: key);
+  const DataListQuarantee(this.custId, {super.key});
 
   @override
   State<DataListQuarantee> createState() => _DataListQuaranteeState();
