@@ -5875,11 +5875,11 @@ class _ProductStockDataState extends State<ProductStockData> {
       barrierDismissible: false, // user must tap button!
       builder: (context) {
         return AlertDialog(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 40),
+          // contentPadding: const EdgeInsets.symmetric(horizontal: 40),
           title: Row(
             children: [
-              Image.asset('images/error_log.gif',
-                  width: 50, height: 50, fit: BoxFit.contain),
+              // Image.asset('images/error_log.gif',
+              //     width: 50, height: 50, fit: BoxFit.contain),
               Text(
                 title,
                 style: const TextStyle(

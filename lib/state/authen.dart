@@ -208,6 +208,10 @@ class _AuthenState extends State<Authen> {
                   child: TextField(
                     controller: username,
                     decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(color: Colors.black),
+                      ),
                       prefixIcon: const Icon(
                         Icons.account_circle_rounded,
                         color: Color.fromRGBO(7, 15, 82, 1),
@@ -231,6 +235,10 @@ class _AuthenState extends State<Authen> {
                 controller: password,
                 obscureText: statusRedEye,
                 decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: const BorderSide(color: Colors.black),
+                  ),
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
@@ -252,7 +260,6 @@ class _AuthenState extends State<Authen> {
                     color: Color.fromRGBO(7, 15, 82, 1),
                   ),
                   border: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.teal),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   hintText: 'Password',

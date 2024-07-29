@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
 import '../state/navigator_bar_credit.dart';
@@ -313,6 +314,66 @@ Future<void> showProgressLoading2(BuildContext context) async {
   );
 }
 
+Future<void> showProgressDialog1(
+    BuildContext context, String title, String subtitle) async {
+  showAnimatedDialog(
+    context: context,
+    builder: (context) => Container(
+      decoration: const BoxDecoration(
+        shape: BoxShape.rectangle,
+      ),
+      child: SimpleDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        title: ListTile(
+          // leading: Image.asset('images/error_log.gif'),
+          leading: const Icon(
+            Icons.error_outline,
+            size: 45,
+          ),
+          title: Text(
+            title,
+            style: const TextStyle(
+                fontSize: 18,
+                fontFamily: 'Prompt',
+                fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            subtitle,
+            style: const TextStyle(fontFamily: 'Prompt', fontSize: 16),
+          ),
+        ),
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Column(
+              children: [
+                Text(
+                  "ตกลง",
+                  style: TextStyle(
+                    fontFamily: 'Prompt',
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+    animationType: DialogTransitionType.fadeScale,
+    curve: Curves.fastOutSlowIn,
+    duration: const Duration(seconds: 0),
+  );
+}
+
 showProgressDialog(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
@@ -322,7 +383,8 @@ showProgressDialog(BuildContext context, title, subtitle) async {
         // contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
-            // Image.asset('images/error_log.gif',
+            // Icon(Icons.error_outline),
+            // Image.asset('images/error.gif',
             //     width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
@@ -363,14 +425,17 @@ showProgressDialog_Notdata(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
-
     builder: (context) {
       return AlertDialog(
         contentPadding: const EdgeInsets.symmetric(horizontal: 40),
         title: Row(
           children: [
-            Image.asset('images/error_log.gif',
-                width: 50, height: 50, fit: BoxFit.contain),
+            const Icon(
+              Icons.error_outline,
+              size: 40,
+            ),
+            // Image.asset('images/error_log.gif',
+            //     width: 50, height: 50, fit: BoxFit.contain),
             Text(
               title,
               style: const TextStyle(fontSize: 18, fontFamily: 'Prompt'),
