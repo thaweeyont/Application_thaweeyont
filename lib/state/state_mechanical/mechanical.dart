@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 import 'mechanicallist.dart';
 
 class Mechanical extends StatefulWidget {
-  const Mechanical({Key? key}) : super(key: key);
+  const Mechanical({super.key});
 
   @override
   State<Mechanical> createState() => _MechanicalState();

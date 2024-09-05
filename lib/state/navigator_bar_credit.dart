@@ -5,6 +5,7 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_mechanical/mechanical.dart';
+import 'package:application_thaweeyont/state/state_payment/payment/searchpaymentreport.dart';
 import 'package:application_thaweeyont/state/state_sale/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/home.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
@@ -166,6 +167,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           status = false;
         });
         break;
+      case "8":
+        setState(() {
+          _selectedIndex = 8;
+          titleHead = "รายงานการจ่ายเงิน";
+          status = false;
+        });
+        break;
       default:
         {
           setState(() {
@@ -192,6 +200,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     const Check_Blacklist_Data(),
     const ProductStockData(),
     const Mechanical(),
+    const SearchPaymentReport()
   ];
 
   @override
@@ -649,6 +658,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 children: [
                   drawerIcon(size),
                   listMenu(context, size),
+                  payment(context, size),
                   about(context, size),
                   btnLogout(context, size),
                   const SizedBox(height: 10),
@@ -837,6 +847,10 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         "id": "007",
         "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า",
       },
+      {
+        "id": "008",
+        "nameMenu": "รายงานการจ่ายเงิน",
+      },
     ];
     for (var menuItem in menuList) {
       for (var allowedItem in listallowedMenu) {
@@ -897,6 +911,46 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               ),
             ),
       ],
+    );
+  }
+
+  InkWell payment(BuildContext context, double size) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SearchPaymentReport(),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: size * 0.10, bottom: 15),
+        padding: const EdgeInsets.all(12),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
+          color: Color.fromRGBO(226, 199, 132, 1),
+        ),
+        child: const Column(
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.payments_outlined,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "รายงานการจ่ายเงิน",
+                  style: TextStyle(
+                      color: Colors.white, fontSize: 16, fontFamily: 'Prompt'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
