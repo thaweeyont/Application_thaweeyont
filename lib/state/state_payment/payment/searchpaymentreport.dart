@@ -1,3 +1,4 @@
+import 'package:application_thaweeyont/state/state_payment/payment/paymentreportlist.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,7 +16,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   List dropdownbranch = [],
       dropdownsupplylist = [],
       dropdownemployeelist = [],
-      paymenttypeliist = [];
+      dropdownpaymenttypeliist = [];
   var selectBranchlist,
       selectSupplylist,
       selectEmployeelist,
@@ -26,6 +27,11 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   TextEditingController employeelist = TextEditingController();
   TextEditingController paydetail = TextEditingController();
   TextEditingController paytypeId = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,21 +85,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           'ผู้จำหน่าย',
                           style: MyContant().h4normalStyle(),
                         ),
-                        inputSupplyList(sizeIcon, border),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor:
-                                const Color.fromRGBO(120, 84, 32, 1),
-                            padding: const EdgeInsets.all(5),
-                            minimumSize: const Size(35, 35),
-                          ),
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
-                        ),
+                        selectSupplyList(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -116,21 +108,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           'ผู้จ่าย',
                           style: MyContant().h4normalStyle(),
                         ),
-                        inputEmployeeList(sizeIcon, border),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor:
-                                const Color.fromRGBO(120, 84, 32, 1),
-                            padding: const EdgeInsets.all(5),
-                            minimumSize: const Size(35, 35),
-                          ),
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
-                        ),
+                        selectEmployeeList(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -148,34 +126,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           'ประเภทการจ่าย',
                           style: MyContant().h4normalStyle(),
                         ),
-                        inputPaytype(sizeIcon, border),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            backgroundColor:
-                                const Color.fromRGBO(120, 84, 32, 1),
-                            padding: const EdgeInsets.all(5),
-                            minimumSize: const Size(35, 35),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const PaymentType()),
-                            ).then((result) {
-                              // รับค่าที่ถูกส่งกลับจาก SecondPage
-                              if (result != null) {
-                                // ทำอะไรบางอย่างกับค่าที่ได้รับ
-                                print('Value from SecondPage: $result');
-                                paytypeId.text = '$result';
-                              }
-                            });
-                          },
-                          child: const Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
-                        ),
+                        selectPaytypeList(sizeIcon, border),
                       ],
                     ),
                   ],
@@ -213,13 +164,12 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                         // } else {
                         //   var changeDate =
                         //       date.text.toString().replaceAll('-', '');
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => MechanicalList(changeDate,
-                        //           saleTranId.text, workReqTranId.text),
-                        //     ),
-                        //   );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PaymentReportList(),
+                          ),
+                        );
                         // }
                       },
                       child: const Text('ค้นหา'),
@@ -286,25 +236,43 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     );
   }
 
-  Expanded inputSupplyList(sizeIcon, border) {
+  Expanded selectSupplyList(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: TextField(
-          controller: supplylist,
-          onChanged: (keyword) {},
-          decoration: InputDecoration(
-            counterText: "",
-            contentPadding: const EdgeInsets.all(6),
-            isDense: true,
-            enabledBorder: border,
-            focusedBorder: border,
-            prefixIconConstraints: sizeIcon,
-            suffixIconConstraints: sizeIcon,
-            filled: true,
-            fillColor: Colors.white,
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.1,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdownsupplylist
+                  .map((value) => DropdownMenuItem(
+                        value: value['id'],
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  selectSupplylist = newvalue;
+                });
+              },
+              value: selectSupplylist,
+              isExpanded: true,
+              underline: const SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกผู้จำหน่าย',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
           ),
-          style: MyContant().TextInputStyle(),
         ),
       ),
     );
@@ -408,25 +376,43 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     );
   }
 
-  Expanded inputEmployeeList(sizeIcon, border) {
+  Expanded selectEmployeeList(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: TextField(
-          controller: employeelist,
-          onChanged: (keyword) {},
-          decoration: InputDecoration(
-            counterText: "",
-            contentPadding: const EdgeInsets.all(6),
-            isDense: true,
-            enabledBorder: border,
-            focusedBorder: border,
-            prefixIconConstraints: sizeIcon,
-            suffixIconConstraints: sizeIcon,
-            filled: true,
-            fillColor: Colors.white,
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.1,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdownemployeelist
+                  .map((value) => DropdownMenuItem(
+                        value: value['id'],
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  selectEmployeelist = newvalue;
+                });
+              },
+              value: selectEmployeelist,
+              isExpanded: true,
+              underline: const SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกผู้จ่าย',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
           ),
-          style: MyContant().TextInputStyle(),
         ),
       ),
     );
@@ -456,25 +442,43 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     );
   }
 
-  Expanded inputPaytype(sizeIcon, border) {
+  Expanded selectPaytypeList(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: TextField(
-          controller: paytypeId,
-          onChanged: (keyword) {},
-          decoration: InputDecoration(
-            counterText: "",
-            contentPadding: const EdgeInsets.all(6),
-            isDense: true,
-            enabledBorder: border,
-            focusedBorder: border,
-            prefixIconConstraints: sizeIcon,
-            suffixIconConstraints: sizeIcon,
-            filled: true,
-            fillColor: Colors.white,
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: MediaQuery.of(context).size.width * 0.1,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: DropdownButton(
+              items: dropdownpaymenttypeliist
+                  .map((value) => DropdownMenuItem(
+                        value: value['id'],
+                        child: Text(
+                          value['name'],
+                          style: MyContant().TextInputStyle(),
+                        ),
+                      ))
+                  .toList(),
+              onChanged: (newvalue) {
+                setState(() {
+                  selectpaymentTypelist = newvalue;
+                });
+              },
+              value: selectpaymentTypelist,
+              isExpanded: true,
+              underline: const SizedBox(),
+              hint: Align(
+                child: Text(
+                  'เลือกประเภทการจ่าย',
+                  style: MyContant().TextInputSelect(),
+                ),
+              ),
+            ),
           ),
-          style: MyContant().TextInputStyle(),
         ),
       ),
     );
