@@ -33,6 +33,15 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     super.initState();
   }
 
+  void clearInput() {
+    supplylist.clear();
+    startdate.clear();
+    enddate.clear();
+    employeelist.clear();
+    paydetail.clear();
+    paytypeId.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -156,21 +165,12 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        // if (date.text.isEmpty &&
-                        //     saleTranId.text.isEmpty &&
-                        //     workReqTranId.text.isEmpty) {
-                        //   showProgressDialog(
-                        //       context, 'แจ้งเตือน', 'กรุณากรอกข้อมูล!');
-                        // } else {
-                        //   var changeDate =
-                        //       date.text.toString().replaceAll('-', '');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const PaymentReportList(),
                           ),
                         );
-                        // }
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -181,7 +181,9 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                     width: MediaQuery.of(context).size.width * 0.22,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
-                      onPressed: () {},
+                      onPressed: () {
+                        clearInput();
+                      },
                       child: const Text('ล้างข้อมูล'),
                     ),
                   ),

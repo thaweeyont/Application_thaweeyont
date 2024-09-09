@@ -1,4 +1,6 @@
+import 'package:application_thaweeyont/state/state_payment/payment/paymentdetail.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -41,6 +43,16 @@ class _PaymentReportListState extends State<PaymentReportList> {
     {'date': '17/08/2567', 'item': 'ค่าใช้จ่ายอื่นๆ', 'amount': 1716000.00},
     {'date': '17/08/2567', 'item': 'ค่าเบี้ยเลี้ยง', 'amount': 2890.00},
     {'date': '17/08/2567', 'item': 'ค่าใช้จ่ายอื่นๆ', 'amount': 515.25},
+    {'date': '18/08/2567', 'item': 'ชำระค่าประกันรถยนต์', 'amount': 28500.00},
+    {'date': '18/08/2567', 'item': 'ค่าซ่อมแซมรถยนต์', 'amount': 7500.00},
+    {'date': '18/08/2567', 'item': 'ชำระค่าบัตรเครดิต', 'amount': 45000.00},
+    {'date': '18/08/2567', 'item': 'ค่าธรรมเนียมการโอนเงิน', 'amount': 100.00},
+    {'date': '18/08/2567', 'item': 'ค่ารักษาพยาบาล', 'amount': 1200.00},
+    {'date': '18/08/2567', 'item': 'เงินมัดจำซื้อสินค้า', 'amount': 10500.00},
+    {'date': '18/08/2567', 'item': 'ค่าเช่าออฟฟิศ', 'amount': 150000.00},
+    {'date': '18/08/2567', 'item': 'ค่าขนส่งสินค้า', 'amount': 8500.00},
+    {'date': '18/08/2567', 'item': 'ค่าใช้จ่ายในการประชุม', 'amount': 5600.00},
+    {'date': '18/08/2567', 'item': 'ค่าเช่าอุปกรณ์สำนักงาน', 'amount': 8500.00},
   ];
   @override
   void initState() {
@@ -65,225 +77,211 @@ class _PaymentReportListState extends State<PaymentReportList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppbar(title: 'รายงานการจ่ายเงิน'),
-      body: GestureDetector(
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    )
-                  ],
-                  color: const Color.fromRGBO(226, 199, 132, 1),
-                ),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'วันที่ 17/08/2567 - 17/08/2567',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    )
-                  ],
-                  color: const Color.fromRGBO(226, 199, 132, 1),
-                ),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'วันที่',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          Text(
-                            'รายการ',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                          Text(
-                            'จำนวนเงิน',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
               padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
+                color: const Color.fromRGBO(226, 199, 132, 1),
+              ),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
+                  color: Colors.white.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'วันที่ 17/08/2567 - 17/08/2567',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
+                color: const Color.fromRGBO(226, 199, 132, 1),
+              ),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.7),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'วันที่',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        Text(
+                          'รายการ',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        Text(
+                          'จำนวนเงิน',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                      ],
                     )
                   ],
-                  color: const Color.fromRGBO(226, 199, 132, 1),
                 ),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    for (var i = 0; i < transactions.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 6, horizontal: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                      color: const Color.fromRGBO(226, 199, 132, 1),
+                    ),
+                    child: Column(
+                      children: [
+                        for (var i = 0; i < transactions.length; i++)
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PaymentDetail(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 3),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      transactions[i]['date'],
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Text(
+                                          transactions[i]['item'],
+                                          style: MyContant().h4normalStyle(),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      formatter
+                                          .format(transactions[i]['amount']),
+                                      style: MyContant().h4normalStyle(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                          child: Column(
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                      color: const Color.fromRGBO(226, 199, 132, 1),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Row(
-                                // mainAxisAlignment:
-                                //     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 6),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          '${transactions[i]['date']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                '${transactions[i]['item']}',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 6),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          formatter.format(
-                                              transactions[i]['amount']),
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                'รวมทั้งหมด ${formatter.format(totalAmount)}',
+                                style: MyContant().h4normalStyle(),
                               )
                             ],
                           ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    )
-                  ],
-                  color: const Color.fromRGBO(226, 199, 132, 1),
-                ),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'รวมทั้งหมด ${formatter.format(totalAmount)}',
-                            style: MyContant().h4normalStyle(),
-                          )
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(height: 20),
+              ],
             ),
-            const SizedBox(height: 20),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
