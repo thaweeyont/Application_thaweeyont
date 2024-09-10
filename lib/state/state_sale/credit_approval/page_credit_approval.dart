@@ -494,7 +494,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
-                                                              .TextInputStyle(),
+                                                              .textInputStyle(),
                                                         ),
                                                       ))
                                                   .toList(),
@@ -985,7 +985,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1014,7 +1014,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1038,7 +1038,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1062,7 +1062,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1090,7 +1090,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1115,7 +1115,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1141,7 +1141,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1167,7 +1167,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1192,7 +1192,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1220,7 +1220,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                           value: value['id'].toString(),
                           child: Text(
                             value['name'],
-                            style: MyContant().TextInputStyle(),
+                            style: MyContant().textInputStyle(),
                           ),
                         ),
                       )
@@ -1267,7 +1267,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),

@@ -403,7 +403,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                                       child: Text(
                                                         value['name'],
                                                         style: MyContant()
-                                                            .TextInputStyle(),
+                                                            .textInputStyle(),
                                                       ),
                                                     ),
                                                   )
@@ -764,7 +764,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -879,7 +879,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -1375,7 +1375,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1402,7 +1402,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1431,7 +1431,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1458,7 +1458,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1485,7 +1485,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1512,7 +1512,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1540,7 +1540,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1568,7 +1568,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1596,7 +1596,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1624,7 +1624,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1651,7 +1651,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1679,7 +1679,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1707,7 +1707,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

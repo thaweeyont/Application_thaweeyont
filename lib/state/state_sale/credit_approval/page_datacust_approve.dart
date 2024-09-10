@@ -1917,7 +1917,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                           value: value['id'].toString(),
                           child: Text(
                             value['name'],
-                            style: MyContant().TextInputStyle(),
+                            style: MyContant().textInputStyle(),
                           ),
                         ),
                       )
@@ -1982,7 +1982,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             ),
                             child: Text(
                               value['name'],
-                              style: MyContant().TextInputStyle(),
+                              style: MyContant().textInputStyle(),
                             ),
                           ),
                         ),
@@ -2043,7 +2043,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ),
                               child: Text(
                                 value['name'],
-                                style: MyContant().TextInputStyle(),
+                                style: MyContant().textInputStyle(),
                               ),
                             ),
                           ))
@@ -2095,7 +2095,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2124,7 +2124,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2152,7 +2152,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2178,7 +2178,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

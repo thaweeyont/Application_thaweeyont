@@ -207,7 +207,7 @@ class _Home_creditState extends State<Home_credit> {
                               Expanded(
                                 child: Text(
                                   'Thaweeyont อัพเดตระบบใหม่เพื่อปรับปรุงเสถียรภาพของระบบ เพื่อการใช้งานอย่างมีประสิทธิภาพ',
-                                  style: MyContant().TextInputStyle(),
+                                  style: MyContant().textInputStyle(),
                                   overflow: TextOverflow.clip,
                                 ),
                               ),

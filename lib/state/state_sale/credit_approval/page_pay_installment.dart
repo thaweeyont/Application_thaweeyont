@@ -376,7 +376,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                         value: value,
                         child: Text(
                           value,
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),

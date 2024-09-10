@@ -392,7 +392,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
-                                                              .TextInputStyle(),
+                                                              .textInputStyle(),
                                                         ),
                                                       ),
                                                     )
@@ -852,7 +852,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -875,7 +875,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -901,7 +901,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -928,7 +928,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -955,7 +955,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -978,7 +978,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1004,7 +1004,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1029,7 +1029,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

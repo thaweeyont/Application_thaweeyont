@@ -950,7 +950,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                       value: value['id'],
                       child: Text(
                         value['name'],
-                        style: MyContant().TextInputStyle(),
+                        style: MyContant().textInputStyle(),
                       ),
                     ),
                   )
@@ -998,7 +998,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                         value['name'],
                         style: value['id'] == 99
                             ? MyContant().TextSelect2()
-                            : MyContant().TextInputStyle(),
+                            : MyContant().textInputStyle(),
                       ),
                     ),
                   )
@@ -1058,7 +1058,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                         value,
                         style: value == "เลือกหมวดของแถม"
                             ? MyContant().TextSelect2()
-                            : MyContant().TextInputStyle(),
+                            : MyContant().textInputStyle(),
                       ),
                     ),
                   )
@@ -1105,7 +1105,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -5172,7 +5172,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             fillColor: Colors.white,
             hintText: nameHint,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -5863,7 +5863,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             fillColor: Colors.white,
             hintText: 'รหัส',
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

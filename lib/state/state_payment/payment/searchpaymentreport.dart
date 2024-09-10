@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:application_thaweeyont/state/state_payment/payment/paymentreportlist.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
+import '../../../api.dart';
 import '../../../utility/my_constant.dart';
 import '../../../widgets/custom_appbar.dart';
+import '../../authen.dart';
 
 class SearchPaymentReport extends StatefulWidget {
   const SearchPaymentReport({super.key});
@@ -13,6 +19,7 @@ class SearchPaymentReport extends StatefulWidget {
 }
 
 class _SearchPaymentReportState extends State<SearchPaymentReport> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List dropdownbranch = [],
       dropdownsupplylist = [],
       dropdownemployeelist = [],
@@ -21,25 +28,199 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       selectSupplylist,
       selectEmployeelist,
       selectpaymentTypelist;
-  TextEditingController supplylist = TextEditingController();
+  bool isLoading = false;
   TextEditingController startdate = TextEditingController();
   TextEditingController enddate = TextEditingController();
-  TextEditingController employeelist = TextEditingController();
   TextEditingController paydetail = TextEditingController();
-  TextEditingController paytypeId = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    getdata();
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    if (mounted) {
+      showProgressLoading(context);
+      getSelectSupplyList();
+      getSelectBranch();
+      getSelectEmployeeList();
+      getSelectPaymentTypeList();
+    }
+  }
+
+  Future<void> getSelectBranch() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/branchList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataBranch =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownbranch = dataBranch['data'];
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectSupplyList() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/supplyList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataSupplylist =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownsupplylist = dataSupplylist['data'];
+        });
+        Navigator.pop(context);
+        isLoading = false;
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectEmployeeList() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/employeeList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataEmployeelist =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownemployeelist = dataEmployeelist['data'];
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectPaymentTypeList() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/paymentTypeList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataPaymentTypelist =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownpaymenttypeliist = dataPaymentTypelist['data'];
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
   }
 
   void clearInput() {
-    supplylist.clear();
     startdate.clear();
     enddate.clear();
-    employeelist.clear();
     paydetail.clear();
-    paytypeId.clear();
+    setState(() {
+      selectBranchlist = null;
+      selectSupplylist = null;
+      selectEmployeelist = null;
+      selectpaymentTypelist = null;
+    });
   }
 
   @override
@@ -213,7 +394,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),
@@ -255,7 +436,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),
@@ -395,7 +576,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),
@@ -438,7 +619,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -461,7 +642,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),

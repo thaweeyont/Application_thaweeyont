@@ -1,8 +1,6 @@
 import 'package:application_thaweeyont/state/state_payment/payment/paymentdetail.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../../utility/my_constant.dart';
@@ -46,13 +44,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
     {'date': '18/08/2567', 'item': 'ชำระค่าประกันรถยนต์', 'amount': 28500.00},
     {'date': '18/08/2567', 'item': 'ค่าซ่อมแซมรถยนต์', 'amount': 7500.00},
     {'date': '18/08/2567', 'item': 'ชำระค่าบัตรเครดิต', 'amount': 45000.00},
-    {'date': '18/08/2567', 'item': 'ค่าธรรมเนียมการโอนเงิน', 'amount': 100.00},
-    {'date': '18/08/2567', 'item': 'ค่ารักษาพยาบาล', 'amount': 1200.00},
-    {'date': '18/08/2567', 'item': 'เงินมัดจำซื้อสินค้า', 'amount': 10500.00},
-    {'date': '18/08/2567', 'item': 'ค่าเช่าออฟฟิศ', 'amount': 150000.00},
-    {'date': '18/08/2567', 'item': 'ค่าขนส่งสินค้า', 'amount': 8500.00},
-    {'date': '18/08/2567', 'item': 'ค่าใช้จ่ายในการประชุม', 'amount': 5600.00},
-    {'date': '18/08/2567', 'item': 'ค่าเช่าอุปกรณ์สำนักงาน', 'amount': 8500.00},
   ];
   @override
   void initState() {
@@ -69,8 +60,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
         .map((transaction) =>
             transaction['amount'] as double) // ดึงค่า amount ออกมา
         .reduce((sum, amount) => sum + amount); // รวมยอดเงินทั้งหมด
-
-    print('Total Amount: $totalAmount');
   }
 
   @override
@@ -118,7 +107,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -168,7 +157,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
               shrinkWrap: true,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -239,7 +229,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(

@@ -463,7 +463,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                       value: value['id'],
                       child: Text(
                         value['name'],
-                        style: MyContant().TextInputStyle(),
+                        style: MyContant().textInputStyle(),
                       ),
                     ),
                   )

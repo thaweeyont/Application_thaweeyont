@@ -121,6 +121,7 @@ class MyContant {
         color: Colors.white,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
+        decoration: TextDecoration.none,
       );
   TextStyle textSmall() => const TextStyle(
         fontSize: 14,
@@ -128,13 +129,13 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextTitleDialog() => const TextStyle(
+  TextStyle textTitleDialog() => const TextStyle(
         fontSize: 18,
         color: Colors.black,
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
-  TextStyle TextInputStyle() => const TextStyle(
+  TextStyle textInputStyle() => const TextStyle(
         //ตัวหนังสือใน input
         fontSize: 15,
         color: Colors.black,

@@ -828,7 +828,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -944,7 +944,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -1646,7 +1646,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
-                                                              .TextInputStyle(),
+                                                              .textInputStyle(),
                                                         ),
                                                       ))
                                                   .toList(),
@@ -2276,7 +2276,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2302,7 +2302,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2325,7 +2325,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2348,7 +2348,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2374,7 +2374,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2443,7 +2443,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2466,7 +2466,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2490,7 +2490,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2514,7 +2514,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2538,7 +2538,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2562,7 +2562,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                       value: value['id'],
                       child: Text(
                         value['name'],
-                        style: MyContant().TextInputStyle(),
+                        style: MyContant().textInputStyle(),
                       ),
                     ),
                   )
@@ -2605,7 +2605,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2629,7 +2629,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                       value: value['id'],
                       child: Text(
                         value['name'],
-                        style: MyContant().TextInputStyle(),
+                        style: MyContant().textInputStyle(),
                       ),
                     ),
                   )
@@ -2673,7 +2673,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                       value: value['id'],
                       child: Text(
                         value['name'],
-                        style: MyContant().TextInputStyle(),
+                        style: MyContant().textInputStyle(),
                       ),
                     ),
                   )
@@ -2720,7 +2720,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2746,7 +2746,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2772,7 +2772,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2798,7 +2798,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2823,7 +2823,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2848,7 +2848,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

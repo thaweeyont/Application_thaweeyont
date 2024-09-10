@@ -441,7 +441,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                       child: Text(
                                                         value['name'],
                                                         style: MyContant()
-                                                            .TextInputStyle(),
+                                                            .textInputStyle(),
                                                       ),
                                                     ),
                                                   )
@@ -821,7 +821,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -937,7 +937,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -1316,7 +1316,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1345,7 +1345,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1373,7 +1373,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1400,7 +1400,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1427,7 +1427,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1454,7 +1454,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1482,7 +1482,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1510,7 +1510,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1538,7 +1538,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1566,7 +1566,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1686,7 +1686,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1714,7 +1714,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1742,7 +1742,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

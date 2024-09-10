@@ -651,7 +651,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -766,7 +766,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                           child: Text(
                                                             value['name'],
                                                             style: MyContant()
-                                                                .TextInputStyle(),
+                                                                .textInputStyle(),
                                                           ),
                                                         ))
                                                 .toList(),
@@ -1493,7 +1493,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
-                                                              .TextInputStyle(),
+                                                              .textInputStyle(),
                                                         ),
                                                       ))
                                                   .toList(),
@@ -2125,7 +2125,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2151,7 +2151,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2174,7 +2174,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2197,7 +2197,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2223,7 +2223,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2290,7 +2290,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2313,7 +2313,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2337,7 +2337,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2361,7 +2361,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2385,7 +2385,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2408,7 +2408,7 @@ class _Query_debtorState extends State<Query_debtor> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),
@@ -2450,7 +2450,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2473,7 +2473,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2496,7 +2496,7 @@ class _Query_debtorState extends State<Query_debtor> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),
@@ -2538,7 +2538,7 @@ class _Query_debtorState extends State<Query_debtor> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),
@@ -2584,7 +2584,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2610,7 +2610,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2636,7 +2636,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2662,7 +2662,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2687,7 +2687,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2712,7 +2712,7 @@ class _Query_debtorState extends State<Query_debtor> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

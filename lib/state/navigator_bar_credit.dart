@@ -405,7 +405,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                           ),
                           Text(
                             'ช่วยเหลือ',
-                            style: MyContant().TextTitleDialog(),
+                            style: MyContant().textTitleDialog(),
                           ),
                         ],
                       ),

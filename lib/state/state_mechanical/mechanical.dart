@@ -648,7 +648,7 @@ class _MechanicalState extends State<Mechanical> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
           onTap: () async {
             DateTime? pickeddate = await showDatePicker(
               context: context,
@@ -694,7 +694,7 @@ class _MechanicalState extends State<Mechanical> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -718,7 +718,7 @@ class _MechanicalState extends State<Mechanical> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

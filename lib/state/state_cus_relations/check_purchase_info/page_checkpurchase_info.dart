@@ -443,7 +443,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                                         child: Text(
                                                           value['name'],
                                                           style: MyContant()
-                                                              .TextInputStyle(),
+                                                              .textInputStyle(),
                                                         ),
                                                       ))
                                                   .toList(),
@@ -910,7 +910,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -934,7 +934,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -958,7 +958,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -983,7 +983,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                         value: value['id'],
                         child: Text(
                           value['name'],
-                          style: MyContant().TextInputStyle(),
+                          style: MyContant().textInputStyle(),
                         ),
                       ))
                   .toList(),
@@ -1028,7 +1028,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1054,7 +1054,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1079,7 +1079,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1104,7 +1104,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -1131,7 +1131,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
             filled: true,
             fillColor: Colors.white,
           ),
-          style: MyContant().TextInputStyle(),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
