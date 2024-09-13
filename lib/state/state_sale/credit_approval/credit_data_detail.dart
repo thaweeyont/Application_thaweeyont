@@ -33,8 +33,7 @@ class Credit_data_detail extends StatefulWidget {
       this.start_date,
       this.end_date,
       this.select_index_approve,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<Credit_data_detail> createState() => _Credit_data_detailState();
@@ -165,7 +164,8 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(title: 'รายการที่ค้นหา',
+      appBar: const CustomAppbar(
+        title: 'รายการที่ค้นหา',
       ),
       body: status_loading == false
           ? Center(

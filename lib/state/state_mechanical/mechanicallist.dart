@@ -15,8 +15,7 @@ import 'mechanicaldetail.dart';
 class MechanicalList extends StatefulWidget {
   final String? changeDate, saleTranId, workReqTranId;
   const MechanicalList(this.changeDate, this.saleTranId, this.workReqTranId,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<MechanicalList> createState() => _MechanicalListState();

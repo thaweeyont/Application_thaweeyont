@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:dropdown_search/dropdown_search.dart';
 
 import '../../../api.dart';
 import '../../../utility/my_constant.dart';
@@ -24,14 +25,14 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       dropdownsupplylist = [],
       dropdownemployeelist = [],
       dropdownpaymenttypeliist = [];
-  var selectBranchlist,
-      selectSupplylist,
-      selectEmployeelist,
-      selectpaymentTypelist;
+  String? selectBranchlist;
+  var newBranch, selectSupplylist, selectEmployeelist, selectpaymentTypelist;
   bool isLoading = false;
   TextEditingController startdate = TextEditingController();
   TextEditingController enddate = TextEditingController();
   TextEditingController paydetail = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -54,7 +55,17 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       getSelectBranch();
       getSelectEmployeeList();
       getSelectPaymentTypeList();
+      selectDatenow();
     }
+  }
+
+  void selectDatenow() {
+    var formattedDate = DateFormat('-MM-dd').format(selectedDate);
+    var formattedYear = DateFormat('yyyy').format(selectedDate);
+
+    var yearnow = int.parse(formattedYear);
+    final year = [yearnow, 543].reduce((value, element) => value + element);
+    startdate.text = '$year$formattedDate';
   }
 
   Future<void> getSelectBranch() async {
@@ -346,12 +357,32 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PaymentReportList(),
-                          ),
-                        );
+                        print(
+                            '1>${selectBranchlist.runtimeType} 2>${startdate.text} 3>${enddate.text} 4>${selectSupplylist.runtimeType} 5>${selectEmployeelist.runtimeType} 6>${paydetail.text} 7>${selectpaymentTypelist.runtimeType}');
+                        if (selectBranchlist == null) {
+                          newBranch = '';
+                        } else {
+                          newBranch = selectBranchlist;
+                        }
+                        if (startdate.text.isEmpty) {
+                          showProgressDialog(
+                              context, 'แจ้งเตือน', 'กรุณาเลือกวันที่');
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PaymentReportList(
+                                newBranch,
+                                startdate.text,
+                                enddate.text,
+                                selectSupplylist,
+                                selectEmployeelist,
+                                paydetail.text,
+                                selectpaymentTypelist,
+                              ),
+                            ),
+                          );
+                        }
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -363,7 +394,10 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
-                        clearInput();
+                        setState(() {
+                          clearInput();
+                          selectDatenow();
+                        });
                       },
                       child: const Text('ล้างข้อมูล'),
                     ),
@@ -388,9 +422,9 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton(
+            child: DropdownButton<String>(
               items: dropdownbranch
-                  .map((value) => DropdownMenuItem(
+                  .map((value) => DropdownMenuItem<String>(
                         value: value['id'],
                         child: Text(
                           value['name'],
@@ -398,7 +432,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                         ),
                       ))
                   .toList(),
-              onChanged: (newvalue) {
+              onChanged: (String? newvalue) {
                 setState(() {
                   selectBranchlist = newvalue;
                 });

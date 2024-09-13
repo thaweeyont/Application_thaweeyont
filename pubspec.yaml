@@ -48,12 +48,12 @@ dependencies:
   loading_gifs: ^0.3.0
   flutter_localization: ^0.2.0
   equatable: ^2.0.5
-  # connectivity_plus: ^6.0.3
   keyboard_actions: ^4.2.0
   geolocator: ^12.0.0
   geolocator_android: ^4.1.4
   geolocator_apple: ^2.2.5
   webview_flutter: ^4.4.2
+  dropdown_search: ^5.0.2
   flutter_localizations:
     sdk: flutter
   
