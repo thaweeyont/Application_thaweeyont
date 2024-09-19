@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:dropdown_search/dropdown_search.dart';
 
 import '../../../api.dart';
 import '../../../utility/my_constant.dart';
@@ -26,11 +25,18 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       dropdownemployeelist = [],
       dropdownpaymenttypeliist = [];
   String? selectBranchlist;
-  var newBranch, selectSupplylist, selectEmployeelist, selectpaymentTypelist;
+  bool isDisabled = true;
+  var newBranch,
+      newSupplylist,
+      newEmployee,
+      selectSupplylist,
+      selectEmployeelist,
+      selectpaymentTypelist;
   bool isLoading = false;
   TextEditingController startdate = TextEditingController();
   TextEditingController enddate = TextEditingController();
   TextEditingController paydetail = TextEditingController();
+  TextEditingController supplyname = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
 
@@ -38,6 +44,9 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   void initState() {
     super.initState();
     getdata();
+    supplyname.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
   }
 
   Future<void> getdata() async {
@@ -226,6 +235,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     startdate.clear();
     enddate.clear();
     paydetail.clear();
+    supplyname.clear();
     setState(() {
       selectBranchlist = null;
       selectSupplylist = null;
@@ -287,6 +297,15 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           style: MyContant().h4normalStyle(),
                         ),
                         selectSupplyList(sizeIcon, border),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'ชื่อผู้จำหน่าย',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        inputSupplyName(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -357,13 +376,18 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        print(
-                            '1>${selectBranchlist.runtimeType} 2>${startdate.text} 3>${enddate.text} 4>${selectSupplylist.runtimeType} 5>${selectEmployeelist.runtimeType} 6>${paydetail.text} 7>${selectpaymentTypelist.runtimeType}');
-                        if (selectBranchlist == null) {
-                          newBranch = '';
-                        } else {
-                          newBranch = selectBranchlist;
-                        }
+                        var valueStartDate = startdate.text.replaceAll('-', '');
+                        var valueEndDate = enddate.text.replaceAll('-', '');
+                        selectBranchlist != null
+                            ? newBranch = selectBranchlist
+                            : newBranch = '';
+                        selectSupplylist != null
+                            ? newSupplylist = selectSupplylist
+                            : newSupplylist = '';
+                        selectEmployeelist != null
+                            ? newEmployee = selectEmployeelist
+                            : newEmployee = '';
+
                         if (startdate.text.isEmpty) {
                           showProgressDialog(
                               context, 'แจ้งเตือน', 'กรุณาเลือกวันที่');
@@ -375,10 +399,13 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                                 newBranch,
                                 startdate.text,
                                 enddate.text,
-                                selectSupplylist,
-                                selectEmployeelist,
+                                newSupplylist,
+                                supplyname.text,
+                                newEmployee,
                                 paydetail.text,
                                 selectpaymentTypelist,
+                                valueStartDate,
+                                valueEndDate,
                               ),
                             ),
                           );
@@ -461,7 +488,9 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            color: supplyname.text.isEmpty ? Colors.white : Colors.grey[300],
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton(
@@ -474,11 +503,13 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                         ),
                       ))
                   .toList(),
-              onChanged: (newvalue) {
-                setState(() {
-                  selectSupplylist = newvalue;
-                });
-              },
+              onChanged: supplyname.text.isEmpty
+                  ? (newvalue) {
+                      setState(() {
+                        selectSupplylist = newvalue;
+                      });
+                    }
+                  : null,
               value: selectSupplylist,
               isExpanded: true,
               underline: const SizedBox(),
@@ -490,6 +521,44 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputSupplyName(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: TextField(
+          enabled: selectSupplylist != null ? false : true,
+          controller: supplyname,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: const EdgeInsets.all(7),
+            border: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: supplyname.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      supplyname.clear(); // ล้างค่าใน TextField
+                      setState(() {}); // อัปเดต UI เพื่อซ่อนไอคอน
+                    },
+                  )
+                : null,
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor:
+                selectSupplylist != null ? Colors.grey[300] : Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -644,7 +713,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(7),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

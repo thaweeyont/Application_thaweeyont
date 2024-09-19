@@ -17,19 +17,25 @@ class PaymentReportList extends StatefulWidget {
       startdate,
       enddate,
       selectSupplylist,
+      supplyName,
       selectEmployeelist,
-      paydetail;
-  final int? selectpaymentTypelist;
+      paydetail,
+      valueStartDate,
+      valueEndDate,
+      selectpaymentTypelist;
+  // final int? selectpaymentTypelist;
   const PaymentReportList(
-    this.selectBranchlist,
-    this.startdate,
-    this.enddate,
-    this.selectSupplylist,
-    this.selectEmployeelist,
-    this.paydetail,
-    this.selectpaymentTypelist, {
-    super.key,
-  });
+      this.selectBranchlist,
+      this.startdate,
+      this.enddate,
+      this.selectSupplylist,
+      this.supplyName,
+      this.selectEmployeelist,
+      this.paydetail,
+      this.selectpaymentTypelist,
+      this.valueStartDate,
+      this.valueEndDate,
+      {super.key});
 
   @override
   State<PaymentReportList> createState() => _PaymentReportListState();
@@ -38,7 +44,7 @@ class PaymentReportList extends StatefulWidget {
 class _PaymentReportListState extends State<PaymentReportList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   double totalAmount = 0;
-  var total = 0.0, totalPrice;
+  var total = 0.0, totalPrice, newPaymentType;
   bool statusLoading = false, statusLoad404 = false;
   List listPayment = [];
   List<dynamic> listPrice = [];
@@ -51,7 +57,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
   void initState() {
     super.initState();
     getdata();
-    print('Sdate>${widget.startdate} Edate>${widget.enddate}');
   }
 
   Future<void> getdata() async {
@@ -67,40 +72,40 @@ class _PaymentReportListState extends State<PaymentReportList> {
     convertDate();
   }
 
+  // ใช้ NumberFormat เพื่อจัดรูปแบบตัวเลข
+  var formatter = NumberFormat('#,##0.00'); // รูปแบบที่แสดงทศนิยม 2 ตำแหน่ง
+
   void convertDate() {
     convertStartDate = '${widget.startdate}';
     convertEndDate = '${widget.enddate}';
-    print('SSdate>$convertStartDate EEdate>$convertEndDate');
 
     // Remove the hyphens from start date
     String formattedStartDate = convertStartDate.replaceAll('-', '');
 
     // Rearrange start date to DD/MM/YYYY
-    String Sday = formattedStartDate.substring(6, 8);
-    String Smonth = formattedStartDate.substring(4, 6);
-    String Syear = formattedStartDate.substring(0, 4);
-    newStartDate = '$Sday/$Smonth/$Syear';
+    String sDay = formattedStartDate.substring(6, 8);
+    String sMonth = formattedStartDate.substring(4, 6);
+    String sYear = formattedStartDate.substring(0, 4);
+    newStartDate = '$sDay/$sMonth/$sYear';
 
-    // Check if convertEndDate is not empty
     if (convertEndDate.isNotEmpty) {
       // Remove the hyphens from end date
       String formattedEndDate = convertEndDate.replaceAll('-', '');
 
       // Rearrange end date to DD/MM/YYYY
-      String Eday = formattedEndDate.substring(6, 8);
-      String Emonth = formattedEndDate.substring(4, 6);
-      String Eyear = formattedEndDate.substring(0, 4);
-      newEndDate = '$Eday/$Emonth/$Eyear';
+      String eDay = formattedEndDate.substring(6, 8);
+      String eMonth = formattedEndDate.substring(4, 6);
+      String eYear = formattedEndDate.substring(0, 4);
+      newEndDate = '$eDay/$eMonth/$eYear';
     }
-
-    print('newSDate>$newStartDate');
-    print('newEDate>$newEndDate');
   }
 
-  // ใช้ NumberFormat เพื่อจัดรูปแบบตัวเลข
-  var formatter = NumberFormat('#,##0.00'); // รูปแบบที่แสดงทศนิยม 2 ตำแหน่ง
-
   Future<void> getPaymentList() async {
+    print(
+        '1<${widget.selectBranchlist}> 2<${widget.selectSupplylist}> 3<${widget.valueStartDate}> 4<${widget.valueEndDate}> 5<${widget.selectEmployeelist}> 6<${widget.paydetail}> 7<${widget.selectpaymentTypelist}> 8<${widget.supplyName}>');
+    widget.selectpaymentTypelist != null
+        ? newPaymentType = widget.selectpaymentTypelist
+        : newPaymentType = '';
     try {
       var respose = await http.post(
         Uri.parse('${api}payment/list'),
@@ -109,16 +114,16 @@ class _PaymentReportListState extends State<PaymentReportList> {
           'Authorization': tokenId.toString(),
         },
         body: jsonEncode(<String, String>{
-          'branchId': '',
-          'startDate': '25670821',
-          'endDate': '25670821',
-          'supplyId': '',
-          'supplyName': 'บจก.ทวียนต์มาร์เก็ตติ้ง',
-          'payerId': '',
-          'payDetail': '',
-          'payTypeId': '',
+          'branchId': widget.selectBranchlist.toString(),
+          'startDate': widget.valueStartDate.toString(),
+          'endDate': widget.valueEndDate.toString(),
+          'supplyId': widget.selectSupplylist.toString(),
+          'supplyName': widget.supplyName.toString(),
+          'payerId': widget.selectEmployeelist.toString(),
+          'payDetail': widget.paydetail.toString(),
+          'payTypeId': newPaymentType.toString(),
           'page': '1',
-          'limit': '20'
+          'limit': '100'
         }),
       );
 
@@ -130,7 +135,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
           listPayment = dataPayment['data'];
         });
         statusLoading = true;
-        print(listPayment);
         toatalAmount();
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
@@ -169,18 +173,28 @@ class _PaymentReportListState extends State<PaymentReportList> {
   }
 
   void toatalAmount() {
-    List amountTotal = listPayment.map((e) => e['payPrice']).toList();
-    listPrice.clear();
-    for (var element in amountTotal) {
-      listPrice.add(element);
-    }
-    total = 0.0;
-    for (var c = 0; c < listPrice.length; c++) {
-      total += double.parse(listPrice[c].toString());
-    }
-    var f = NumberFormat('###,###.00', 'en_US');
-    totalPrice = f.format(total);
+    // รวมค่าของ payPrice ทั้งหมดและแปลงเป็น double พร้อมคำนวณ total ในขั้นตอนเดียว
+    total = listPayment
+        .map((e) => double.parse(e['payPrice'].toString()))
+        .fold(0.0, (sum, element) => sum + element);
+
+    // ฟอร์แมตผลรวม
+    totalPrice = NumberFormat('###,###.00', 'en_US').format(total);
   }
+
+  // void toatalAmount() {
+  //   List amountTotal = listPayment.map((e) => e['payPrice']).toList();
+  //   listPrice.clear();
+  //   for (var element in amountTotal) {
+  //     listPrice.add(element);
+  //   }
+  //   total = 0.0;
+  //   for (var c = 0; c < listPrice.length; c++) {
+  //     total += double.parse(listPrice[c].toString());
+  //   }
+  //   var f = NumberFormat('###,###.00', 'en_US');
+  //   totalPrice = f.format(total);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +411,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                       listPayment[i]
                                                           ['payDetail'],
                                                       style: MyContant()
-                                                          .h5normalStyle(),
+                                                          .h4normalStyle(),
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                     ),
