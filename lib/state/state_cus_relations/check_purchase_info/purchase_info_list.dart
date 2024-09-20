@@ -64,7 +64,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
     myScroll(scrollControll, offset);
   }
 
-  void myScroll(scrollControll, offset) {
+  void myScroll(ScrollController scrollControll, int offset) {
     scrollControll.addListener(() async {
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {

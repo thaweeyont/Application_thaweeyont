@@ -18,8 +18,7 @@ class MemberCustList extends StatefulWidget {
   final String? custId, smartId, custName, lastnamecust;
   const MemberCustList(
       this.custId, this.smartId, this.custName, this.lastnamecust,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<MemberCustList> createState() => _MemberCustListState();
@@ -39,7 +38,6 @@ class _MemberCustListState extends State<MemberCustList> {
   void initState() {
     super.initState();
     getdata();
-    print('c>>${widget.custId}');
   }
 
   Future<void> getdata() async {
@@ -59,10 +57,10 @@ class _MemberCustListState extends State<MemberCustList> {
     myScroll(scrollControll, offset);
   }
 
-  void myScroll(scrollControll, offset) {
-    scrollControll.addListener(() async {
-      if (scrollControll.position.pixels ==
-          scrollControll.position.maxScrollExtent) {
+  void myScroll(ScrollController scrollController, int offset) {
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
         setState(() {
           isLoad = true;
         });

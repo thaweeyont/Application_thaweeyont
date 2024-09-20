@@ -98,7 +98,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
     myScroll(scrollControll, offset);
   }
 
-  void myScroll(scrollControll, offset) {
+  void myScroll(ScrollController scrollControll, int offset) {
     scrollControll.addListener(() async {
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {

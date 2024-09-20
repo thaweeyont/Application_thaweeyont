@@ -381,7 +381,7 @@ Future<void> showProgressDialog1(
   );
 }
 
-showProgressDialog(BuildContext context, title, subtitle) async {
+showProgressDialog11(BuildContext context, title, subtitle) async {
   showDialog(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -416,6 +416,72 @@ showProgressDialog(BuildContext context, title, subtitle) async {
                 fontSize: 15,
                 color: Colors.black,
                 fontWeight: FontWeight.normal,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showProgressDialog(
+    BuildContext context, String title, String subtitle) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false, // ไม่ให้ผู้ใช้ปิดหน้าต่างโดยไม่ตั้งใจ
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15), // ทำให้ขอบโค้งมน
+        ),
+        titlePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        title: Row(
+          children: [
+            const Icon(Icons.info_outline,
+                color: Colors.blue, size: 30), // ไอคอนแจ้งเตือน
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Prompt',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          subtitle,
+          style: const TextStyle(
+            fontFamily: 'Prompt',
+            fontSize: 16,
+          ),
+        ),
+        actionsAlignment: MainAxisAlignment.end,
+        actionsPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+              backgroundColor:
+                  const Color.fromARGB(255, 33, 150, 243), // เพิ่มสีให้ปุ่ม
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // ปรับขอบปุ่มให้มน
+              ),
+            ),
+            child: const Text(
+              'ตกลง',
+              style: TextStyle(
+                fontFamily: 'Prompt',
+                fontSize: 15,
+                color: Colors.white, // ปรับสีข้อความให้เป็นสีขาว
               ),
             ),
             onPressed: () {

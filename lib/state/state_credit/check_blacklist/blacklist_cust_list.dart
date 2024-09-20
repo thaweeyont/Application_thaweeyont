@@ -33,8 +33,7 @@ class Blacklist_cust_list extends StatefulWidget {
       this.districtId,
       this.selectValue_amphoe,
       this.selectValue_province,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<Blacklist_cust_list> createState() => _Blacklist_cust_listState();
@@ -73,7 +72,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
     myScroll(scrollControll, offset);
   }
 
-  void myScroll(scrollControll, offset) {
+  void myScroll(ScrollController scrollControll, int offset) {
     scrollControll.addListener(() async {
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {

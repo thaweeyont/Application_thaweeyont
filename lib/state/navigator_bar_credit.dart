@@ -261,9 +261,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           ),
         ),
         builder: (context) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          return Wrap(
             children: <Widget>[
               const SizedBox(height: 15),
               if (result.isNotEmpty)
@@ -292,7 +290,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                       Navigator.pop(context);
                     },
                   ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 15), // ปรับระยะความสูงที่จำเป็น
             ],
           );
         });
@@ -321,6 +319,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '007':
         selectIndex = 7;
+        break;
+      case '008':
+        selectIndex = 8;
         break;
     }
     return selectIndex;
@@ -354,6 +355,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '007':
         title = "บริการงานส่ง/ติดตั้งสินค้า";
+        break;
+      case '008':
+        title = "รายงานการจ่ายเงิน";
         break;
     }
     return title;
@@ -658,7 +662,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 children: [
                   drawerIcon(size),
                   listMenu(context, size),
-                  payment(context, size),
                   about(context, size),
                   btnLogout(context, size),
                   const SizedBox(height: 10),
@@ -1020,6 +1023,15 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           (Route<dynamic> route) => false,
         );
         break;
+      case '008':
+        OnTap = Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Navigator_bar_credit('8'),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        break;
     }
     return OnTap;
   }
@@ -1048,6 +1060,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case '007':
         color = const Color.fromARGB(255, 241, 209, 89);
         break;
+      case '008':
+        color = const Color.fromRGBO(226, 199, 132, 1);
+        break;
     }
     return color;
   }
@@ -1075,6 +1090,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '007':
         icon = Icons.miscellaneous_services;
+        break;
+      case '008':
+        icon = Icons.payments_outlined;
         break;
     }
     return icon;
@@ -1134,7 +1152,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           children: [
             Row(
               children: [
-                Icon(Icons.login_rounded),
+                Icon(Icons.logout),
                 SizedBox(width: 10),
                 Text(
                   "ออกจากระบบ",
@@ -1149,7 +1167,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  showAlertDialogExit() async {
+  showAlertDialogExit2() async {
     showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -1222,6 +1240,89 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
               onPressed: () {
                 logoutSystem();
               },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showAlertDialogExit() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // ปรับให้มุมกลม
+          ),
+          titlePadding:
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          title: const Row(
+            children: [
+              Icon(Icons.logout, size: 30, color: Colors.redAccent),
+              SizedBox(width: 10),
+              Text(
+                "ออกจากระบบ",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Prompt',
+                  fontWeight: FontWeight.bold, // เพิ่มความหนาให้ตัวอักษร
+                ),
+              ),
+            ],
+          ),
+          content: const Text(
+            "คุณต้องการออกจากระบบหรือไม่?",
+            style: TextStyle(
+              fontFamily: 'Prompt',
+              fontSize: 16,
+            ),
+          ),
+          actionsPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 208, 208, 208),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'ยกเลิก',
+                style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 15,
+                  color: Color.fromARGB(255, 89, 89, 89),
+                ),
+              ),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 255, 86, 74),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: () {
+                logoutSystem();
+              },
+              child: const Text(
+                'ตกลง',
+                style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         );

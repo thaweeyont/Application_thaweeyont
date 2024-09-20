@@ -101,11 +101,11 @@ class _PaymentReportListState extends State<PaymentReportList> {
   }
 
   Future<void> getPaymentList() async {
-    print(
-        '1<${widget.selectBranchlist}> 2<${widget.selectSupplylist}> 3<${widget.valueStartDate}> 4<${widget.valueEndDate}> 5<${widget.selectEmployeelist}> 6<${widget.paydetail}> 7<${widget.selectpaymentTypelist}> 8<${widget.supplyName}>');
     widget.selectpaymentTypelist != null
         ? newPaymentType = widget.selectpaymentTypelist
         : newPaymentType = '';
+    print(
+        '1<${widget.selectBranchlist}> 2<${widget.selectSupplylist}> 3<${widget.valueStartDate}> 4<${widget.valueEndDate}> 5<${widget.selectEmployeelist}> 6<${widget.paydetail}> 7<$newPaymentType> 8<${widget.supplyName}>');
     try {
       var respose = await http.post(
         Uri.parse('${api}payment/list'),
@@ -210,11 +210,15 @@ class _PaymentReportListState extends State<PaymentReportList> {
                   ),
                 ),
                 padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(cupertinoActivityIndicator, scale: 4),
+                    Text(
+                      'กำลังโหลด',
+                      style: MyContant().textLoading(),
+                    ),
                   ],
                 ),
               ),
@@ -376,7 +380,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  const PaymentDetail(),
+                                                  PaymentDetail(listPayment[i]
+                                                      ['paymentTranId']),
                                             ),
                                           );
                                         },

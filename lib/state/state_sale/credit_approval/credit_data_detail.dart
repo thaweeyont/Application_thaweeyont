@@ -70,7 +70,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
     myScroll(scrollControll, offset);
   }
 
-  void myScroll(scrollControll, offset) {
+  void myScroll(ScrollController scrollControll, int offset) {
     scrollControll.addListener(() async {
       if (scrollControll.position.pixels ==
           scrollControll.position.maxScrollExtent) {
