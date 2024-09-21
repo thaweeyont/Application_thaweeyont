@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EndPage extends StatelessWidget {
-  const EndPage({Key? key}) : super(key: key);
+  const EndPage({super.key});
 
   @override
   Widget build(BuildContext context) {

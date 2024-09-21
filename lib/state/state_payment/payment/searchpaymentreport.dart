@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_payment/payment/paymentreportlist.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +10,8 @@ import 'package:http/http.dart' as http;
 import '../../../api.dart';
 import '../../../utility/my_constant.dart';
 import '../../../widgets/custom_appbar.dart';
+import '../../../widgets/endpage.dart';
+import '../../../widgets/loaddata.dart';
 import '../../authen.dart';
 
 class SearchPaymentReport extends StatefulWidget {
@@ -24,7 +24,6 @@ class SearchPaymentReport extends StatefulWidget {
 class _SearchPaymentReportState extends State<SearchPaymentReport> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List dropdownbranch = [],
-      dropdownsupplylist = [],
       dropdownemployeelist = [],
       dropdownpaymenttypeliist = [];
   String? selectBranchlist;
@@ -43,6 +42,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   TextEditingController enddate = TextEditingController();
   TextEditingController paydetail = TextEditingController();
   TextEditingController supplyname = TextEditingController();
+  TextEditingController supplylist = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
 
@@ -51,6 +51,9 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     super.initState();
     getdata();
     supplyname.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
+    supplylist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
   }
@@ -67,8 +70,8 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     if (mounted) {
       showProgressLoading(context);
       getSelectBranch();
-      showProgressLoading(context);
-      getSelectEmployeeList();
+      // showProgressLoading(context);
+      // getSelectEmployeeList();
       showProgressLoading(context);
       getSelectPaymentTypeList();
       selectDatenow();
@@ -102,86 +105,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
         });
         Navigator.pop(context);
         isLoadingBranch = true;
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else {
-        print(respose.statusCode);
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialog(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
-
-  Future<void> getSelectSupplyList() async {
-    try {
-      var respose = await http.get(
-        Uri.parse('${api}setup/supplyList'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-      );
-
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> dataSupplylist =
-            Map<String, dynamic>.from(json.decode(respose.body));
-        setState(() {
-          dropdownsupplylist = dataSupplylist['data'];
-        });
-        Navigator.pop(context);
-        isLoadingSupplylist = false;
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else {
-        print(respose.statusCode);
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialog(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
-
-  Future<void> getSelectEmployeeList() async {
-    try {
-      var respose = await http.get(
-        Uri.parse('${api}setup/employeeList'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-      );
-
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> dataEmployeelist =
-            Map<String, dynamic>.from(json.decode(respose.body));
-        setState(() {
-          dropdownemployeelist = dataEmployeelist['data'];
-        });
-        Navigator.pop(context);
-        isLoadingEmployee = false;
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
@@ -249,6 +172,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     enddate.clear();
     paydetail.clear();
     supplyname.clear();
+    supplylist.clear();
     setState(() {
       selectBranchlist = null;
       selectSupplylist = null;
@@ -308,7 +232,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           'ผู้จำหน่าย',
                           style: MyContant().h4normalStyle(),
                         ),
-                        selectSupplyList(sizeIcon, border),
+                        inputSupplyList(sizeIcon, border),
                         const SizedBox(width: 3),
                         SizedBox(
                           width: 35,
@@ -319,21 +243,26 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                               backgroundColor:
                                   const Color.fromRGBO(120, 84, 32, 1),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const PaymentTypeList(),
-                                ),
-                              ).then((result) {
-                                if (result != null) {
-                                  setState(() {
-                                    supplyname.text = result['item1'];
-                                    paydetail.text = result['item2'];
-                                  });
-                                }
-                              });
-                            },
+                            onPressed: supplyname.text.isEmpty
+                                ? () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SupplyList(),
+                                      ),
+                                    ).then((result) {
+                                      if (result != null) {
+                                        setState(() {
+                                          print(
+                                              'id>${result['id']} name>${result['name']}');
+                                          supplylist.text = result['name'];
+                                          selectSupplylist = result['id'];
+                                        });
+                                      }
+                                    });
+                                  }
+                                : null,
                             child: const Icon(
                               Icons.search,
                               color: Colors.white,
@@ -373,6 +302,40 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           style: MyContant().h4normalStyle(),
                         ),
                         selectEmployeeList(sizeIcon, border),
+                        const SizedBox(width: 3),
+                        SizedBox(
+                          width: 35,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              shape: const CircleBorder(),
+                              backgroundColor:
+                                  const Color.fromRGBO(120, 84, 32, 1),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const EmployeeList(),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    // print(
+                                    //     'id>${result['id']} name>${result['name']}');
+                                    // supplylist.text = result['name'];
+                                    // selectSupplylist = result['id'];
+                                  });
+                                }
+                              });
+                            },
+                            child: const Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 3)
                       ],
                     ),
                     Row(
@@ -432,7 +395,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                             ? newEmployee = selectEmployeelist
                             : newEmployee = '';
 
-                        if (startdate.text.isNotEmpty) {
+                        if (startdate.text.isEmpty) {
                           showProgressDialog(
                               context, 'แจ้งเตือน', 'กรุณาเลือกวันที่');
                         } else {
@@ -596,75 +559,128 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     );
   }
 
-  Expanded selectSupplyList(sizeIcon, border) {
+  // Expanded selectSupplyList(sizeIcon, border) {
+  //   return Expanded(
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+  //       child: Container(
+  //         height: MediaQuery.of(context).size.width * 0.1,
+  //         padding: const EdgeInsets.all(4),
+  //         decoration: BoxDecoration(
+  //           color: supplyname.text.isEmpty ? Colors.white : Colors.grey[300],
+  //           borderRadius: BorderRadius.circular(5),
+  //         ),
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(left: 4),
+  //           child: DropdownButton(
+  //             items: dropdownsupplylist
+  //                 .map((value) => DropdownMenuItem(
+  //                       value: value['id'],
+  //                       child: Text(
+  //                         value['name'],
+  //                         style: MyContant().textInputStyle(),
+  //                       ),
+  //                     ))
+  //                 .toList(),
+  //             onChanged: supplyname.text.isEmpty
+  //                 ? (newvalue) {
+  //                     setState(() {
+  //                       selectSupplylist = newvalue;
+  //                     });
+  //                   }
+  //                 : null,
+  //             value: selectSupplylist,
+  //             isExpanded: true,
+  //             underline: const SizedBox(),
+  //             hint: Align(
+  //               child: Text(
+  //                 'เลือกผู้จำหน่าย',
+  //                 style: MyContant().TextInputSelect(),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  Expanded inputSupplyList(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-        child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: supplyname.text.isEmpty ? Colors.white : Colors.grey[300],
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton(
-              items: dropdownsupplylist
-                  .map((value) => DropdownMenuItem(
-                        value: value['id'],
-                        child: Text(
-                          value['name'],
-                          style: MyContant().textInputStyle(),
-                        ),
-                      ))
-                  .toList(),
-              onChanged: supplyname.text.isEmpty
-                  ? (newvalue) {
+        child: TextField(
+          readOnly: true,
+          controller: supplylist,
+          decoration: InputDecoration(
+            suffixIcon: supplylist.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      print('555');
                       setState(() {
-                        selectSupplylist = newvalue;
+                        supplylist.clear();
+                        selectSupplylist = null;
                       });
-                    }
-                  : null,
-              value: selectSupplylist,
-              isExpanded: true,
-              underline: const SizedBox(),
-              hint: Align(
-                child: Text(
-                  'เลือกผู้จำหน่าย',
-                  style: MyContant().TextInputSelect(),
-                ),
-              ),
-            ),
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
           ),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
   }
 
   Expanded inputSupplyName(sizeIcon, border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
-          enabled: selectSupplylist != null ? false : true,
+          readOnly: selectSupplylist != null,
           controller: supplyname,
-          onChanged: (keyword) {},
           decoration: InputDecoration(
-            counterText: "",
-            contentPadding: const EdgeInsets.all(7),
-            border: const OutlineInputBorder(
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: supplyname.text.isNotEmpty
-                ? IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      supplyname.clear(); // ล้างค่าใน TextField
-                      setState(() {}); // อัปเดต UI เพื่อซ่อนไอคอน
+            suffixIcon: supplyname.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        supplyname.clear();
+                      });
                     },
-                  )
-                : null,
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -672,7 +688,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
             suffixIconConstraints: sizeIcon,
             filled: true,
             fillColor:
-                selectSupplylist != null ? Colors.grey[300] : Colors.white,
+                selectSupplylist == null ? Colors.white : Colors.grey[200],
           ),
           style: MyContant().textInputStyle(),
         ),
@@ -887,24 +903,32 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   }
 }
 
-class PaymentTypeList extends StatefulWidget {
-  const PaymentTypeList({super.key});
+class SupplyList extends StatefulWidget {
+  const SupplyList({super.key});
 
   @override
-  State<PaymentTypeList> createState() => _PaymentTypeListState();
+  State<SupplyList> createState() => _SupplyListState();
 }
 
-class _PaymentTypeListState extends State<PaymentTypeList> {
+class _SupplyListState extends State<SupplyList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   TextEditingController supplynamelist = TextEditingController();
-  List<dynamic> dropdownsupplylist = [], supplylist = [];
-  bool statusLoading = false, statusLoad404 = false, isLoading = false;
-  var selectSupplylist;
+  List<dynamic> dropdownsupplylist = [];
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoading = false,
+      isLoadScroll = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 50;
 
   @override
   void initState() {
     super.initState();
     getdata();
+    supplynamelist.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
   }
 
   Future<void> getdata() async {
@@ -916,13 +940,32 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getSelectSupplyList();
+    if (mounted) {
+      getSelectSupplyList(offset);
+    }
+    myScroll(scrollControll, offset);
   }
 
-  Future<void> getSelectSupplyList() async {
+  void myScroll(ScrollController scrollController, int offset) {
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoadScroll = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 20;
+          getSelectSupplyList(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getSelectSupplyList(offset) async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/supplyList'),
+        Uri.parse(
+            '${api}setup/supplyList?searchName=${supplynamelist.text}&page=1&limit=$offset'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -934,10 +977,11 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           dropdownsupplylist = dataSupplylist['data'];
-          supplylist = dataSupplylist['data'];
         });
-        // Navigator.pop(context);
         statusLoading = true;
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
@@ -950,8 +994,19 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
         );
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoading = true;
+          statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        print(respose.statusCode);
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -973,124 +1028,156 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
       ),
     );
     return Scaffold(
-        appBar: const CustomAppbar(title: 'ค้นหาผู้จำหน่าย'),
-        body: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-          behavior: HitTestBehavior.opaque,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+      appBar: const CustomAppbar(title: 'ค้นหาผู้จำหน่าย'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                  color: const Color.fromRGBO(226, 199, 132, 1),
+                ),
                 child: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 0.2,
-                        blurRadius: 2,
-                        offset: const Offset(0, 1),
-                      )
-                    ],
-                    color: const Color.fromRGBO(226, 199, 132, 1),
+                    color: Colors.white.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'ผู้จำหน่าย : ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            inputSupplyName(sizeIcon, border),
-                          ],
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'ผู้จำหน่าย : ',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          inputSupplyNamelist(sizeIcon, border),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-              groupBtnsearch(),
-              Expanded(
-                child: statusLoading == false
-                    ? Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 24, 24, 24)
-                                .withOpacity(0.9),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 30),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(cupertinoActivityIndicator, scale: 4),
-                              Text(
-                                'กำลังโหลด',
-                                style: MyContant().textLoading(),
-                              ),
-                            ],
+            ),
+            groupBtnsearch(),
+            Expanded(
+              child: statusLoading == false
+                  ? Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 24, 24, 24)
+                              .withOpacity(0.9),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
                           ),
                         ),
-                      )
-                    : Scrollbar(
-                        child: ListView(
-                          shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 3),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 6),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
                                     )
                                   ],
-                                  color: const Color.fromRGBO(226, 199, 132, 1),
                                 ),
-                                child: Column(
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    if (supplylist.isNotEmpty)
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          controller: scrollControll,
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(226, 199, 132, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
                                       for (var i = 0;
-                                          i < supplylist.length;
-                                          i++)
+                                          i < dropdownsupplylist.length;
+                                          i++) ...[
                                         InkWell(
                                           onTap: () {
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) =>
-                                            //         const PaymentDetail(),
-                                            //   ),
-                                            // );
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownsupplylist[i]['id']}',
+                                              'name':
+                                                  '${dropdownsupplylist[i]['name']}',
+                                            });
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 3),
                                             child: Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 6,
-                                                      horizontal: 8),
+                                              padding: const EdgeInsets.all(8),
                                               decoration: BoxDecoration(
                                                 color: Colors.white
                                                     .withOpacity(0.7),
@@ -1101,7 +1188,8 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
                                                 children: [
                                                   Expanded(
                                                     child: Text(
-                                                      supplylist[i]['name'],
+                                                      dropdownsupplylist[i]
+                                                          ['name'],
                                                       style: MyContant()
                                                           .h4normalStyle(),
                                                       overflow:
@@ -1113,32 +1201,42 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
                                             ),
                                           ),
                                         ),
-                                  ],
+                                      ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
+                              if (isLoadScroll == true &&
+                                  isLoadendPage == false) ...[
+                                const LoadData(),
+                              ] else if (isLoadendPage == true) ...[
+                                const EndPage(),
+                              ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-              ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  void searchSupplyList() {
-    String text = supplynamelist.text;
-    supplylist = dropdownsupplylist.where((element) {
-      if (element['name'] != null && element['name'] is String) {
-        return (element['name'] as String)
-            .toLowerCase()
-            .contains(text.toLowerCase());
-      }
-      return false;
-    }).toList();
-    setState(() {});
-  }
+  // void searchSupplyList() {
+  //   String text = supplynamelist.text;
+  //   supplylist = dropdownsupplylist.where((element) {
+  //     if (element['name'] != null && element['name'] is String) {
+  //       return (element['name'] as String)
+  //           .toLowerCase()
+  //           .contains(text.toLowerCase());
+  //     }
+  //     return false;
+  //   }).toList();
+  //   setState(() {});
+  // }
 
   Padding groupBtnsearch() {
     return Padding(
@@ -1157,8 +1255,8 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
                         setState(() {
-                          searchSupplyList();
-                          // statusLoading = false;
+                          getSelectSupplyList(offset);
+                          statusLoading = false;
                         });
                       },
                       child: const Text('ค้นหา'),
@@ -1171,10 +1269,10 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
-                        supplylist = [];
                         setState(() {
                           supplynamelist.clear();
-                          supplylist = dropdownsupplylist;
+                          getSelectSupplyList(offset);
+                          statusLoading = false;
                         });
                       },
                       child: const Text('ล้างข้อมูล'),
@@ -1189,37 +1287,186 @@ class _PaymentTypeListState extends State<PaymentTypeList> {
     );
   }
 
-  Expanded inputSupplyName(sizeIcon, border) {
+  Expanded inputSupplyNamelist(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
-          enabled: selectSupplylist != null ? false : true,
           controller: supplynamelist,
-          onChanged: (keyword) {},
           decoration: InputDecoration(
+            suffixIcon: supplynamelist.text.isEmpty
+                ? null
+                : const Icon(
+                    Icons.close,
+                  ),
             counterText: "",
-            contentPadding: const EdgeInsets.all(7),
-            border: const OutlineInputBorder(
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: supplynamelist.text.isNotEmpty
-                ? IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      // supplyname.clear(); // ล้างค่าใน TextField
-                      setState(() {}); // อัปเดต UI เพื่อซ่อนไอคอน
-                    },
-                  )
-                : null,
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
             prefixIconConstraints: sizeIcon,
             suffixIconConstraints: sizeIcon,
             filled: true,
-            fillColor:
-                selectSupplylist != null ? Colors.grey[300] : Colors.white,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+}
+
+class EmployeeList extends StatefulWidget {
+  const EmployeeList({super.key});
+
+  @override
+  State<EmployeeList> createState() => _EmployeeListState();
+}
+
+class _EmployeeListState extends State<EmployeeList> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  TextEditingController employeeNamelist = TextEditingController();
+  List dropdownemployeelist = [];
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoading = false,
+      isLoadScroll = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 50;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    if (mounted) {}
+  }
+
+  Future<void> getSelectEmployeeList() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/employeeList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataEmployeelist =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownemployeelist = dataEmployeelist['data'];
+        });
+        Navigator.pop(context);
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          // statusLoading = true;
+          // statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Scaffold(
+      appBar: const CustomAppbar(title: 'ค้นหาผู้จ่าย'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+      ),
+    );
+  }
+
+  Expanded inputEmployeeNamelist(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: employeeNamelist,
+          decoration: InputDecoration(
+            suffixIcon: employeeNamelist.text.isEmpty
+                ? null
+                : const Icon(
+                    Icons.close,
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
           ),
           style: MyContant().textInputStyle(),
         ),

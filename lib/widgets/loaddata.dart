@@ -2,7 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class LoadData extends StatelessWidget {
-  const LoadData({Key? key}) : super(key: key);
+  const LoadData({super.key});
 
   @override
   Widget build(BuildContext context) {
