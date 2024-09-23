@@ -200,7 +200,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     '${paymentDetail['paymentTranId']}'),
                                 buildInfoRow(
                                     'วันที่ :', '${paymentDetail['payDate']}'),
-                                buildInfoRow('ชื้อผู้จำหน่าย :',
+                                buildInfoRow('ชื่อผู้จำหน่าย :',
                                     '${paymentDetail['supplyName']}'),
                                 buildInfoRow('ประเภท :',
                                     '${paymentDetail['payTypeName']}'),

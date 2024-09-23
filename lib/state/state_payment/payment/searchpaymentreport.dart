@@ -43,6 +43,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   TextEditingController paydetail = TextEditingController();
   TextEditingController supplyname = TextEditingController();
   TextEditingController supplylist = TextEditingController();
+  TextEditingController employeelist = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
 
@@ -50,12 +51,13 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   void initState() {
     super.initState();
     getdata();
-    supplyname.addListener(() {
-      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
-    });
-    supplylist.addListener(() {
-      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
-    });
+
+    // รวมการเพิ่ม listener ให้ TextField ทุกตัว
+    for (var controller in [supplyname, supplylist, paydetail]) {
+      controller.addListener(() {
+        setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+      });
+    }
   }
 
   Future<void> getdata() async {
@@ -173,6 +175,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     paydetail.clear();
     supplyname.clear();
     supplylist.clear();
+    employeelist.clear();
     setState(() {
       selectBranchlist = null;
       selectSupplylist = null;
@@ -301,7 +304,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           'ผู้จ่าย',
                           style: MyContant().h4normalStyle(),
                         ),
-                        selectEmployeeList(sizeIcon, border),
+                        inputEmployeeList(sizeIcon, border),
                         const SizedBox(width: 3),
                         SizedBox(
                           width: 35,
@@ -321,10 +324,10 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                               ).then((result) {
                                 if (result != null) {
                                   setState(() {
-                                    // print(
-                                    //     'id>${result['id']} name>${result['name']}');
-                                    // supplylist.text = result['name'];
-                                    // selectSupplylist = result['id'];
+                                    print(
+                                        'idE>${result['id']} nameE>${result['name']}');
+                                    employeelist.text = result['name'];
+                                    selectEmployeelist = result['id'];
                                   });
                                 }
                               });
@@ -627,7 +630,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                 ? null
                 : GestureDetector(
                     onTap: () {
-                      print('555');
                       setState(() {
                         supplylist.clear();
                         selectSupplylist = null;
@@ -794,43 +796,88 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     );
   }
 
-  Expanded selectEmployeeList(sizeIcon, border) {
+  // Expanded selectEmployeeList(sizeIcon, border) {
+  //   return Expanded(
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+  //       child: Container(
+  //         height: MediaQuery.of(context).size.width * 0.1,
+  //         padding: const EdgeInsets.all(4),
+  //         decoration: BoxDecoration(
+  //             color: Colors.white, borderRadius: BorderRadius.circular(5)),
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(left: 4),
+  //           child: DropdownButton(
+  //             items: dropdownemployeelist
+  //                 .map((value) => DropdownMenuItem(
+  //                       value: value['id'],
+  //                       child: Text(
+  //                         value['name'],
+  //                         style: MyContant().textInputStyle(),
+  //                       ),
+  //                     ))
+  //                 .toList(),
+  //             onChanged: (newvalue) {
+  //               setState(() {
+  //                 selectEmployeelist = newvalue;
+  //               });
+  //             },
+  //             value: selectEmployeelist,
+  //             isExpanded: true,
+  //             underline: const SizedBox(),
+  //             hint: Align(
+  //               child: Text(
+  //                 'เลือกผู้จ่าย',
+  //                 style: MyContant().TextInputSelect(),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  Expanded inputEmployeeList(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-        child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: DropdownButton(
-              items: dropdownemployeelist
-                  .map((value) => DropdownMenuItem(
-                        value: value['id'],
-                        child: Text(
-                          value['name'],
-                          style: MyContant().textInputStyle(),
-                        ),
-                      ))
-                  .toList(),
-              onChanged: (newvalue) {
-                setState(() {
-                  selectEmployeelist = newvalue;
-                });
-              },
-              value: selectEmployeelist,
-              isExpanded: true,
-              underline: const SizedBox(),
-              hint: Align(
-                child: Text(
-                  'เลือกผู้จ่าย',
-                  style: MyContant().TextInputSelect(),
-                ),
-              ),
-            ),
+        child: TextField(
+          readOnly: true,
+          controller: employeelist,
+          decoration: InputDecoration(
+            suffixIcon: employeelist.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        employeelist.clear();
+                        selectEmployeelist = null;
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
           ),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -844,6 +891,16 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
           controller: paydetail,
           onChanged: (keyword) {},
           decoration: InputDecoration(
+            suffixIcon: paydetail.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        paydetail.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
             counterText: "",
             contentPadding: const EdgeInsets.all(7),
             isDense: true,
@@ -920,7 +977,7 @@ class _SupplyListState extends State<SupplyList> {
       isLoadScroll = false,
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
-  int offset = 50;
+  int offset = 50, stquery = 0;
 
   @override
   void initState() {
@@ -979,6 +1036,15 @@ class _SupplyListState extends State<SupplyList> {
           dropdownsupplylist = dataSupplylist['data'];
         });
         statusLoading = true;
+        isLoadScroll = false;
+        if (stquery > 0) {
+          if (offset > dropdownsupplylist.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -1306,8 +1372,15 @@ class _SupplyListState extends State<SupplyList> {
           decoration: InputDecoration(
             suffixIcon: supplynamelist.text.isEmpty
                 ? null
-                : const Icon(
-                    Icons.close,
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        supplynamelist.clear();
+                        getSelectSupplyList(offset);
+                        statusLoading = false;
+                      });
+                    },
+                    child: const Icon(Icons.close),
                   ),
             counterText: "",
             contentPadding: const EdgeInsets.all(8),
@@ -1343,11 +1416,12 @@ class _EmployeeListState extends State<EmployeeList> {
       isLoadScroll = false,
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
-  int offset = 50;
+  int offset = 50, stquery = 0;
 
   @override
   void initState() {
     super.initState();
+    getdata();
   }
 
   Future<void> getdata() async {
@@ -1359,13 +1433,32 @@ class _EmployeeListState extends State<EmployeeList> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    if (mounted) {}
+    if (mounted) {
+      getSelectEmployeeList(offset);
+    }
+    myScroll(scrollControll, offset);
   }
 
-  Future<void> getSelectEmployeeList() async {
+  void myScroll(ScrollController scrollController, int offset) {
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoadScroll = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 20;
+          getSelectEmployeeList(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getSelectEmployeeList(offset) async {
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/employeeList'),
+        Uri.parse(
+            '${api}setup/employeeList?searchName=${employeeNamelist.text}&page=1&limit=$offset'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -1378,7 +1471,16 @@ class _EmployeeListState extends State<EmployeeList> {
         setState(() {
           dropdownemployeelist = dataEmployeelist['data'];
         });
-        Navigator.pop(context);
+        statusLoading = true;
+        isLoadScroll = false;
+        if (stquery > 0) {
+          if (offset > dropdownemployeelist.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -1396,8 +1498,8 @@ class _EmployeeListState extends State<EmployeeList> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
         setState(() {
-          // statusLoading = true;
-          // statusLoad404 = true;
+          statusLoading = true;
+          statusLoad404 = true;
         });
       } else if (respose.statusCode == 405) {
         showProgressDialog_405(
@@ -1432,6 +1534,244 @@ class _EmployeeListState extends State<EmployeeList> {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                  color: const Color.fromRGBO(226, 199, 132, 1),
+                ),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'ผู้จ่าย : ',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          inputEmployeeNamelist(sizeIcon, border),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            groupBtnsearch(),
+            Expanded(
+              child: statusLoading == false
+                  ? Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 24, 24, 24)
+                              .withOpacity(0.9),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          controller: scrollControll,
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(226, 199, 132, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      for (var i = 0;
+                                          i < dropdownemployeelist.length;
+                                          i++) ...[
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownemployeelist[i]['id']}',
+                                              'name':
+                                                  '${dropdownemployeelist[i]['name']}',
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.7),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      dropdownemployeelist[i]
+                                                          ['name'],
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              if (isLoadScroll == true &&
+                                  isLoadendPage == false) ...[
+                                const LoadData(),
+                              ] else if (isLoadendPage == true) ...[
+                                const EndPage(),
+                              ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding groupBtnsearch() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        setState(() {
+                          getSelectEmployeeList(offset);
+                          statusLoading = false;
+                        });
+                      },
+                      child: const Text('ค้นหา'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.038,
+                    width: MediaQuery.of(context).size.width * 0.22,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        setState(() {
+                          employeeNamelist.clear();
+                          getSelectEmployeeList(offset);
+                          statusLoading = false;
+                        });
+                      },
+                      child: const Text('ล้างข้อมูล'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }
@@ -1455,8 +1795,15 @@ class _EmployeeListState extends State<EmployeeList> {
           decoration: InputDecoration(
             suffixIcon: employeeNamelist.text.isEmpty
                 ? null
-                : const Icon(
-                    Icons.close,
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        employeeNamelist.clear();
+                        getSelectEmployeeList(offset);
+                        statusLoading = false;
+                      });
+                    },
+                    child: const Icon(Icons.close),
                   ),
             counterText: "",
             contentPadding: const EdgeInsets.all(8),

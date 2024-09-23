@@ -261,37 +261,38 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           ),
         ),
         builder: (context) {
-          return Wrap(
-            children: <Widget>[
-              const SizedBox(height: 15),
-              if (result.isNotEmpty)
-                for (var i = 0; i < result.length; i++)
-                  ListTile(
-                    title: Text(
-                      "${result[i]['nameMenu']}",
-                      style:
-                          _selectedIndex == getselectmenuBottom(result[i]['id'])
-                              ? MyContant().h1MenuStyle_click()
-                              : MyContant().h2Style(),
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Wrap(
+              children: <Widget>[
+                if (result.isNotEmpty)
+                  for (var i = 0; i < result.length; i++)
+                    ListTile(
+                      title: Text(
+                        "${result[i]['nameMenu']}",
+                        style: _selectedIndex ==
+                                getselectmenuBottom(result[i]['id'])
+                            ? MyContant().h1MenuStyle_click()
+                            : MyContant().h2Style(),
+                      ),
+                      leading: Icon(
+                        getMenuIcon(result[i]['id']),
+                        color: _selectedIndex ==
+                                getselectmenuBottom(result[i]['id'])
+                            ? Colors.blue
+                            : Colors.grey[700],
+                      ),
+                      onTap: () {
+                        setState(() {
+                          titleHead = getTitlemenuBottom(result[i]['id']);
+                          _selectedIndex = getselectmenuBottom(result[i]['id']);
+                          status = false;
+                        });
+                        Navigator.pop(context);
+                      },
                     ),
-                    leading: Icon(
-                      getMenuIcon(result[i]['id']),
-                      color:
-                          _selectedIndex == getselectmenuBottom(result[i]['id'])
-                              ? Colors.blue
-                              : Colors.grey[700],
-                    ),
-                    onTap: () {
-                      setState(() {
-                        titleHead = getTitlemenuBottom(result[i]['id']);
-                        _selectedIndex = getselectmenuBottom(result[i]['id']);
-                        status = false;
-                      });
-                      Navigator.pop(context);
-                    },
-                  ),
-              const SizedBox(height: 15), // ปรับระยะความสูงที่จำเป็น
-            ],
+              ],
+            ),
           );
         });
   }
