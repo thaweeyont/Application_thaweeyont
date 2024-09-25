@@ -55,7 +55,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     // รวมการเพิ่ม listener ให้ TextField ทุกตัว
     for (var controller in [supplyname, supplylist, paydetail]) {
       controller.addListener(() {
-        setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+        setState(() {});
       });
     }
   }
@@ -381,8 +381,8 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.040,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.042,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -426,8 +426,8 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.042,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
@@ -459,7 +459,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.045,
+                    height: MediaQuery.of(context).size.height * 0.042,
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -469,8 +469,8 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           borderRadius:
                               BorderRadius.circular(15), // ปรับขอบให้มน
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        elevation: 3, // เพิ่มเงา
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        elevation: 2, // เพิ่มเงา
                       ),
                       onPressed: () {
                         // โค้ดค้นหา
@@ -486,7 +486,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.045,
+                    height: MediaQuery.of(context).size.height * 0.042,
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -496,8 +496,8 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                           borderRadius:
                               BorderRadius.circular(15), // ปรับขอบให้มน
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        elevation: 3, // เพิ่มเงา
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        elevation: 2, // เพิ่มเงา
                       ),
                       onPressed: () {
                         // โค้ดยกเลิกหรือล้างข้อมูล
@@ -525,7 +525,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
+          height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -922,7 +922,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
+          height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -1339,6 +1339,7 @@ class _SupplyListState extends State<SupplyList> {
                           supplynamelist.clear();
                           getSelectSupplyList(offset);
                           statusLoading = false;
+                          statusLoad404 = false;
                         });
                       },
                       child: const Text('ล้างข้อมูล'),
@@ -1378,6 +1379,7 @@ class _SupplyListState extends State<SupplyList> {
                         supplynamelist.clear();
                         getSelectSupplyList(offset);
                         statusLoading = false;
+                        statusLoad404 = false;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1422,6 +1424,9 @@ class _EmployeeListState extends State<EmployeeList> {
   void initState() {
     super.initState();
     getdata();
+    employeeNamelist.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
   }
 
   Future<void> getdata() async {
@@ -1762,6 +1767,7 @@ class _EmployeeListState extends State<EmployeeList> {
                           employeeNamelist.clear();
                           getSelectEmployeeList(offset);
                           statusLoading = false;
+                          statusLoad404 = false;
                         });
                       },
                       child: const Text('ล้างข้อมูล'),
@@ -1801,6 +1807,7 @@ class _EmployeeListState extends State<EmployeeList> {
                         employeeNamelist.clear();
                         getSelectEmployeeList(offset);
                         statusLoading = false;
+                        statusLoad404 = false;
                       });
                     },
                     child: const Icon(Icons.close),

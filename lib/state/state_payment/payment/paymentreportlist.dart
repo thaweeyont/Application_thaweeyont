@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_payment/payment/paymentdetail.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,6 +54,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
       convertEndDate = '',
       newStartDate = '',
       newEndDate = '';
+  bool isCheckAll = false;
 
   @override
   void initState() {
@@ -315,35 +318,69 @@ class _PaymentReportListState extends State<PaymentReportList> {
                           ],
                           color: const Color.fromRGBO(226, 199, 132, 1),
                         ),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
                                 children: [
-                                  Text(
-                                    'วันที่',
-                                    style: MyContant().h4normalStyle(),
-                                  ),
-                                  Text(
-                                    'รายการ',
-                                    style: MyContant().h4normalStyle(),
-                                  ),
-                                  Text(
-                                    'จำนวนเงิน',
-                                    style: MyContant().h4normalStyle(),
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value:
+                                            isCheckAll, // ค่า boolean สำหรับสถานะการเลือก
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            isCheckAll = value!;
+                                          });
+                                        },
+                                        materialTapTargetSize: MaterialTapTargetSize
+                                            .shrinkWrap, // ไม่มี padding เพิ่มเติม
+                                      ),
+                                    ],
                                   ),
                                 ],
-                              )
-                            ],
-                          ),
+                              ),
+                            ),
+                            const SizedBox(width: 3),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'วันที่',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Text(
+                                          'รายการ',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                        Text(
+                                          'จำนวนเงิน',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -352,11 +389,10 @@ class _PaymentReportListState extends State<PaymentReportList> {
                         shrinkWrap: true,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.only(
+                                left: 8, right: 8, bottom: 6),
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 6),
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
@@ -374,64 +410,95 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                 children: [
                                   if (listPayment.isNotEmpty)
                                     for (var i = 0; i < listPayment.length; i++)
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PaymentDetail(listPayment[i]
-                                                      ['paymentTranId']),
-                                            ),
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 6, horizontal: 8),
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.7),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  listPayment[i]['payDate'],
-                                                  style: MyContant()
-                                                      .h5normalStyle(),
-                                                ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 8.0),
-                                                    child: Text(
-                                                      listPayment[i]
-                                                          ['payDetail'],
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 4),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.all(0.5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.7),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Checkbox(
+                                                        value:
+                                                            isCheckAll, // ค่า boolean สำหรับสถานะการเลือก
+                                                        onChanged:
+                                                            (bool? value) {
+                                                          setState(() {
+                                                            isCheckAll = value!;
+                                                          });
+                                                        },
+                                                        materialTapTargetSize:
+                                                            MaterialTapTargetSize
+                                                                .shrinkWrap, // ไม่มี padding เพิ่มเติม
+                                                      ),
+                                                    ],
                                                   ),
-                                                ),
-                                                Text(
-                                                  formatter.format(
-                                                      listPayment[i]
-                                                          ['payPrice']),
-                                                  style: MyContant()
-                                                      .h5normalStyle(),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
+                                            const SizedBox(width: 3),
+                                            Expanded(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white
+                                                      .withOpacity(0.7),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          listPayment[i]
+                                                              ['payDate'],
+                                                          style: MyContant()
+                                                              .h5normalStyle(),
+                                                        ),
+                                                        Expanded(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        8.0),
+                                                            child: Text(
+                                                              listPayment[i]
+                                                                  ['payDetail'],
+                                                              style: MyContant()
+                                                                  .h4normalStyle(),
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          formatter.format(
+                                                              listPayment[i]
+                                                                  ['payPrice']),
+                                                          style: MyContant()
+                                                              .h5normalStyle(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                 ],

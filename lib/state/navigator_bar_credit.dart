@@ -254,47 +254,48 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
 
   showMenuList() {
     showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
         ),
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Wrap(
-              children: <Widget>[
-                if (result.isNotEmpty)
-                  for (var i = 0; i < result.length; i++)
-                    ListTile(
-                      title: Text(
-                        "${result[i]['nameMenu']}",
-                        style: _selectedIndex ==
-                                getselectmenuBottom(result[i]['id'])
-                            ? MyContant().h1MenuStyle_click()
-                            : MyContant().h2Style(),
-                      ),
-                      leading: Icon(
-                        getMenuIcon(result[i]['id']),
-                        color: _selectedIndex ==
-                                getselectmenuBottom(result[i]['id'])
-                            ? Colors.blue
-                            : Colors.grey[700],
-                      ),
-                      onTap: () {
-                        setState(() {
-                          titleHead = getTitlemenuBottom(result[i]['id']);
-                          _selectedIndex = getselectmenuBottom(result[i]['id']);
-                          status = false;
-                        });
-                        Navigator.pop(context);
-                      },
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: Wrap(
+            children: <Widget>[
+              if (result.isNotEmpty)
+                for (var i = 0; i < result.length; i++)
+                  ListTile(
+                    title: Text(
+                      "${result[i]['nameMenu']}",
+                      style:
+                          _selectedIndex == getselectmenuBottom(result[i]['id'])
+                              ? MyContant().h1MenuStyle_click()
+                              : MyContant().h2Style(),
                     ),
-              ],
-            ),
-          );
-        });
+                    leading: Icon(
+                      getMenuIcon(result[i]['id']),
+                      color:
+                          _selectedIndex == getselectmenuBottom(result[i]['id'])
+                              ? Colors.blue
+                              : Colors.grey[700],
+                    ),
+                    onTap: () {
+                      setState(() {
+                        titleHead = getTitlemenuBottom(result[i]['id']);
+                        _selectedIndex = getselectmenuBottom(result[i]['id']);
+                        status = false;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   getselectmenuBottom(id) {

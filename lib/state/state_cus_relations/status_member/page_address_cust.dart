@@ -19,8 +19,7 @@ class AddressCust extends StatefulWidget {
   final String? custId, addressId, type, detail, tel, fax, latOld, lngOld;
   const AddressCust(this.custId, this.addressId, this.type, this.detail,
       this.tel, this.fax, this.latOld, this.lngOld,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<AddressCust> createState() => _AddressCustState();

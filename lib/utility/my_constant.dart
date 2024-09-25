@@ -254,7 +254,7 @@ class MyContant {
   ButtonStyle myButtonSearchStyle() => ElevatedButton.styleFrom(
         backgroundColor: const Color.fromRGBO(76, 83, 146, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
         ),
         foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
@@ -263,7 +263,7 @@ class MyContant {
   ButtonStyle myButtonCancelStyle() => ElevatedButton.styleFrom(
         backgroundColor: const Color.fromRGBO(248, 40, 78, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
         ),
         foregroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
