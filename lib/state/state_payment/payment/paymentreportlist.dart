@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_payment/payment/paymentdetail.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +23,6 @@ class PaymentReportList extends StatefulWidget {
       valueStartDate,
       valueEndDate,
       selectpaymentTypelist;
-  // final int? selectpaymentTypelist;
   const PaymentReportList(
       this.selectBranchlist,
       this.startdate,
@@ -54,7 +51,9 @@ class _PaymentReportListState extends State<PaymentReportList> {
       convertEndDate = '',
       newStartDate = '',
       newEndDate = '';
-  bool isCheckAll = false;
+  bool isCheckAll = false; // ตัวแปรสำหรับ CheckBox All
+  List<bool> isCheckedList = []; // ตัวแปรสำหรับเช็คบ็อกซ์รายการแต่ละอัน
+  List<Map<String, dynamic>> selectedPayments = [];
 
   @override
   void initState() {
@@ -75,7 +74,56 @@ class _PaymentReportListState extends State<PaymentReportList> {
     convertDate();
   }
 
-  // ใช้ NumberFormat เพื่อจัดรูปแบบตัวเลข
+// ฟังก์ชันสำหรับเลือกหรือยกเลิก CheckBox All
+  void toggleCheckAll(bool? value) {
+    setState(() {
+      isCheckAll = value ?? false;
+      for (int i = 0; i < isCheckedList.length; i++) {
+        isCheckedList[i] = isCheckAll;
+        if (isCheckAll) {
+          selectedPayments = List.from(listPayment);
+        } else {
+          selectedPayments.clear();
+        }
+        sendSelectedPayments();
+      }
+    });
+  }
+
+// ฟังก์ชันสำหรับเลือกหรือยกเลิกเช็คบ็อกซ์แต่ละรายการ
+  void toggleCheckItem(int index, bool? value) {
+    setState(() {
+      isCheckedList[index] = value ?? false;
+      if (isCheckedList[index]) {
+        selectedPayments.add(listPayment[index]);
+      } else {
+        selectedPayments.removeWhere(
+          (item) =>
+              item['paymentTranId'] == listPayment[index]['paymentTranId'],
+        );
+      }
+    });
+    sendSelectedPayments();
+    // print('index>$index');
+    // print('value>${isCheckedList[index]}');
+  }
+
+  // ฟังก์ชันสำหรับส่งข้อมูลทั้งหมดที่เลือก
+  void sendSelectedPayments() {
+    if (selectedPayments.isNotEmpty) {
+      // ส่งหรือใช้งานค่าที่เก็บไว้ทั้งหมดใน selectedPayments
+      for (var payment in selectedPayments) {
+        print('----------v');
+        print('เลขที่ใบจ่าย: ${payment['paymentTranId']}');
+        print('วันที่จ่าย: ${payment['payDate']}');
+        print('รายละเอียดการจ่าย: ${payment['payDetail']}');
+        print('จำนวนเงิน: ${payment['payPrice']}');
+      }
+    } else {
+      print('ไม่มีข้อมูลที่เลือก');
+    }
+  }
+
   var formatter = NumberFormat('#,##0.00'); // รูปแบบที่แสดงทศนิยม 2 ตำแหน่ง
 
   void convertDate() {
@@ -136,7 +184,9 @@ class _PaymentReportListState extends State<PaymentReportList> {
 
         setState(() {
           listPayment = dataPayment['data'];
+          isCheckedList = List<bool>.filled(listPayment.length, false);
         });
+
         statusLoading = true;
         toatalAmount();
       } else if (respose.statusCode == 400) {
@@ -329,16 +379,12 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                 children: [
                                   Row(
                                     children: [
+                                      //CheckBoxAll
                                       Checkbox(
-                                        value:
-                                            isCheckAll, // ค่า boolean สำหรับสถานะการเลือก
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isCheckAll = value!;
-                                          });
-                                        },
-                                        materialTapTargetSize: MaterialTapTargetSize
-                                            .shrinkWrap, // ไม่มี padding เพิ่มเติม
+                                        value: isCheckAll,
+                                        onChanged: toggleCheckAll,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
                                       ),
                                     ],
                                   ),
@@ -408,8 +454,10 @@ class _PaymentReportListState extends State<PaymentReportList> {
                               ),
                               child: Column(
                                 children: [
-                                  if (listPayment.isNotEmpty)
-                                    for (var i = 0; i < listPayment.length; i++)
+                                  if (listPayment.isNotEmpty) ...[
+                                    for (var i = 0;
+                                        i < listPayment.length;
+                                        i++) ...[
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(bottom: 4),
@@ -428,18 +476,19 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                 children: [
                                                   Row(
                                                     children: [
+                                                      //CheckBoxList
                                                       Checkbox(
-                                                        value:
-                                                            isCheckAll, // ค่า boolean สำหรับสถานะการเลือก
+                                                        value: isCheckedList[i],
                                                         onChanged:
                                                             (bool? value) {
                                                           setState(() {
-                                                            isCheckAll = value!;
+                                                            toggleCheckItem(
+                                                                i, value);
                                                           });
                                                         },
                                                         materialTapTargetSize:
                                                             MaterialTapTargetSize
-                                                                .shrinkWrap, // ไม่มี padding เพิ่มเติม
+                                                                .shrinkWrap,
                                                       ),
                                                     ],
                                                   ),
@@ -448,59 +497,75 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                             ),
                                             const SizedBox(width: 3),
                                             Expanded(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white
-                                                      .withOpacity(0.7),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          listPayment[i]
-                                                              ['payDate'],
-                                                          style: MyContant()
-                                                              .h5normalStyle(),
-                                                        ),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        8.0),
-                                                            child: Text(
-                                                              listPayment[i]
-                                                                  ['payDetail'],
-                                                              style: MyContant()
-                                                                  .h4normalStyle(),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          PaymentDetail(
+                                                              listPayment[i][
+                                                                  'paymentTranId']),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withOpacity(0.7),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            listPayment[i]
+                                                                ['payDate'],
+                                                            style: MyContant()
+                                                                .h5normalStyle(),
+                                                          ),
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          8.0),
+                                                              child: Text(
+                                                                listPayment[i][
+                                                                    'payDetail'],
+                                                                style: MyContant()
+                                                                    .h4normalStyle(),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          formatter.format(
-                                                              listPayment[i]
-                                                                  ['payPrice']),
-                                                          style: MyContant()
-                                                              .h5normalStyle(),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                          Text(
+                                                            formatter.format(
+                                                                listPayment[i][
+                                                                    'payPrice']),
+                                                            style: MyContant()
+                                                                .h5normalStyle(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
+                                    ],
+                                  ],
                                 ],
                               ),
                             ),
