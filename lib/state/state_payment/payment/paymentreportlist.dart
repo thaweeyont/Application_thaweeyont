@@ -45,7 +45,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
   double totalAmount = 0;
   var total = 0.0, totalPrice, newPaymentType;
   bool statusLoading = false, statusLoad404 = false;
-  List listPayment = [];
+  List listPayment = [], listIdpayment = [];
   List<dynamic> listPrice = [];
   String convertStartDate = '',
       convertEndDate = '',
@@ -53,7 +53,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
       newEndDate = '';
   bool isCheckAll = false; // ตัวแปรสำหรับ CheckBox All
   List<bool> isCheckedList = []; // ตัวแปรสำหรับเช็คบ็อกซ์รายการแต่ละอัน
-  List<Map<String, dynamic>> selectedPayments = [];
+  List<String> selectedPayments = [];
 
   @override
   void initState() {
@@ -81,11 +81,12 @@ class _PaymentReportListState extends State<PaymentReportList> {
       for (int i = 0; i < isCheckedList.length; i++) {
         isCheckedList[i] = isCheckAll;
         if (isCheckAll) {
-          selectedPayments = List.from(listPayment);
+          selectedPayments = listPayment
+              .map((payment) => payment['paymentTranId'].toString())
+              .toList();
         } else {
           selectedPayments.clear();
         }
-        sendSelectedPayments();
       }
     });
   }
@@ -95,31 +96,20 @@ class _PaymentReportListState extends State<PaymentReportList> {
     setState(() {
       isCheckedList[index] = value ?? false;
       if (isCheckedList[index]) {
-        selectedPayments.add(listPayment[index]);
+        selectedPayments.add(listPayment[index]['paymentTranId'].toString());
       } else {
-        selectedPayments.removeWhere(
-          (item) =>
-              item['paymentTranId'] == listPayment[index]['paymentTranId'],
-        );
+        selectedPayments.removeWhere(listPayment[index]['paymentTranId']);
       }
     });
-    sendSelectedPayments();
-    // print('index>$index');
-    // print('value>${isCheckedList[index]}');
   }
 
   // ฟังก์ชันสำหรับส่งข้อมูลทั้งหมดที่เลือก
   void sendSelectedPayments() {
     if (selectedPayments.isNotEmpty) {
-      // ส่งหรือใช้งานค่าที่เก็บไว้ทั้งหมดใน selectedPayments
-      for (var payment in selectedPayments) {
-        print('----------v');
-        print('เลขที่ใบจ่าย: ${payment['paymentTranId']}');
-        print('วันที่จ่าย: ${payment['payDate']}');
-        print('รายละเอียดการจ่าย: ${payment['payDetail']}');
-        print('จำนวนเงิน: ${payment['payPrice']}');
-      }
+      print(jsonEncode(selectedPayments));
+      // sendPaymentApprove();
     } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกรายการอนุมัติ');
       print('ไม่มีข้อมูลที่เลือก');
     }
   }
@@ -186,7 +176,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
           listPayment = dataPayment['data'];
           isCheckedList = List<bool>.filled(listPayment.length, false);
         });
-
+        print(listPayment);
         statusLoading = true;
         toatalAmount();
       } else if (respose.statusCode == 400) {
@@ -208,6 +198,64 @@ class _PaymentReportListState extends State<PaymentReportList> {
         setState(() {
           statusLoading = true;
           statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog_Notdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> sendPaymentApprove() async {
+    print('sendPaymentId>${selectedPayments.toString()}');
+    try {
+      var respose = await http.post(
+        Uri.parse('${api}payment/approve'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(selectedPayments),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataSendPayment =
+            Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          listIdpayment = dataSendPayment['data'];
+        });
+        print(listIdpayment);
+
+        // statusLoading = true;
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          // statusLoading = true;
+          // statusLoad404 = true;
         });
       } else if (respose.statusCode == 405) {
         showProgressDialog_405(
@@ -611,12 +659,44 @@ class _PaymentReportListState extends State<PaymentReportList> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
+                          groupBtnApprove(),
+                          const SizedBox(height: 30),
                         ],
                       ),
                     ),
                   ],
                 ),
+    );
+  }
+
+  Padding groupBtnApprove() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.042,
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        sendSelectedPayments();
+                      },
+                      child: const Text('อนุมัติ'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }
