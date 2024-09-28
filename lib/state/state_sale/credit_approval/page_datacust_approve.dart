@@ -1901,7 +1901,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.1,
+          height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -1954,7 +1954,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.14,
+          height: 140,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -2018,7 +2018,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.1,
+          height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -2194,62 +2194,92 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  showDialogTest() {
-    showCupertinoDialog(
+  showAlertDialogSubmit() async {
+    showDialog(
       context: context,
-      builder: (context) {
-        return Theme(
-          data: ThemeData(dialogBackgroundColor: Colors.orange),
-          child: CupertinoAlertDialog(
-            title: const Text(
-              'แจ้งเตือน',
-              style: TextStyle(
-                fontFamily: 'Prompt',
-                fontSize: 18,
-                color: Colors.black,
-                // fontWeight: FontWeight.normal,
-              ),
-            ),
-            content: const Text(
-              'คุณต้องการบันทึกข้อมูลใช่หรือไม่ ?',
-              style: TextStyle(
-                fontFamily: 'Prompt',
-                fontSize: 16,
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text(
-                  'ยกเลิก',
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+          titlePadding: const EdgeInsets.only(top: 20, left: 24, right: 24),
+          title: const Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "อนุมัติสินเชื่อ",
                   style: TextStyle(
+                    fontSize: 18,
                     fontFamily: 'Prompt',
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text(
-                  'ตกลง',
-                  style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              )
             ],
           ),
+          content: const Text(
+            "คุณต้องการบันทึกข้อมูลใช่หรือไม่",
+            style: TextStyle(
+              fontFamily: 'Prompt',
+              fontSize: 16,
+              color: Colors.grey,
+            ),
+          ),
+          actionsPadding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          actions: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'ยกเลิก',
+                style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'ตกลง',
+                style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  Navigator.of(context).pop();
+                  showProgressLoading(context);
+                  approveCredit();
+                });
+              },
+            ),
+          ],
         );
       },
     );
   }
 
-  showAlertDialogSubmit() async {
+  showAlertDialogSubmit22() async {
     showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!

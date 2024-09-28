@@ -78,14 +78,15 @@ class _PaymentReportListState extends State<PaymentReportList> {
   void toggleCheckAll(bool? value) {
     setState(() {
       isCheckAll = value ?? false;
+      selectedPayments.clear();
       for (int i = 0; i < isCheckedList.length; i++) {
-        isCheckedList[i] = isCheckAll;
-        if (isCheckAll) {
-          selectedPayments = listPayment
-              .map((payment) => payment['paymentTranId'].toString())
-              .toList();
+        if (listPayment[i]['approveStatus'] != "1") {
+          isCheckedList[i] = isCheckAll;
+          if (isCheckAll) {
+            selectedPayments.add(listPayment[i]['paymentTranId'].toString());
+          }
         } else {
-          selectedPayments.clear();
+          isCheckedList[i] = false;
         }
       }
     });
@@ -98,7 +99,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
       if (isCheckedList[index]) {
         selectedPayments.add(listPayment[index]['paymentTranId'].toString());
       } else {
-        selectedPayments.removeWhere(listPayment[index]['paymentTranId']);
+        selectedPayments.removeWhere(
+            (id) => id == listPayment[index]['paymentTranId'].toString());
       }
     });
   }
@@ -106,7 +108,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
   // ฟังก์ชันสำหรับส่งข้อมูลทั้งหมดที่เลือก
   void sendSelectedPayments() {
     if (selectedPayments.isNotEmpty) {
-      print(jsonEncode(selectedPayments));
+      print('sendPaymentId>${jsonEncode(selectedPayments)}');
+      showAlertDialogSubmit();
       // sendPaymentApprove();
     } else {
       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกรายการอนุมัติ');
@@ -216,7 +219,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
   }
 
   Future<void> sendPaymentApprove() async {
-    print('sendPaymentId>${selectedPayments.toString()}');
+    // print('sendPaymentId>${jsonEncode(selectedPayments)}');
     try {
       var respose = await http.post(
         Uri.parse('${api}payment/approve'),
@@ -234,7 +237,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
         setState(() {
           listIdpayment = dataSendPayment['data'];
         });
-        print(listIdpayment);
+        print('data>$listIdpayment');
 
         // statusLoading = true;
       } else if (respose.statusCode == 400) {
@@ -429,10 +432,29 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                     children: [
                                       //CheckBoxAll
                                       Checkbox(
+                                        side:
+                                            MaterialStateBorderSide.resolveWith(
+                                          (Set<MaterialState> states) {
+                                            if (states.contains(
+                                                MaterialState.selected)) {
+                                              return const BorderSide(
+                                                  color: Color.fromARGB(
+                                                      255, 0, 0, 0),
+                                                  width: 1.7);
+                                            }
+                                            return const BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 0, 0, 0),
+                                                width: 1.7);
+                                          },
+                                        ),
                                         value: isCheckAll,
                                         onChanged: toggleCheckAll,
                                         materialTapTargetSize:
                                             MaterialTapTargetSize.shrinkWrap,
+                                        checkColor: Colors.black,
+                                        activeColor:
+                                            Colors.white.withOpacity(0.7),
                                       ),
                                     ],
                                   ),
@@ -515,8 +537,12 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                               padding:
                                                   const EdgeInsets.all(0.5),
                                               decoration: BoxDecoration(
-                                                color: Colors.white
-                                                    .withOpacity(0.7),
+                                                color: listPayment[i]
+                                                            ['approveStatus'] ==
+                                                        "0"
+                                                    ? Colors.white
+                                                        .withOpacity(0.7)
+                                                    : Colors.grey[350],
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                               ),
@@ -526,17 +552,53 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                     children: [
                                                       //CheckBoxList
                                                       Checkbox(
+                                                        side:
+                                                            MaterialStateBorderSide
+                                                                .resolveWith(
+                                                          (Set<MaterialState>
+                                                              states) {
+                                                            if (states.contains(
+                                                                MaterialState
+                                                                    .selected)) {
+                                                              return const BorderSide(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                  width: 1.7);
+                                                            }
+                                                            return const BorderSide(
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                width: 1.7);
+                                                          },
+                                                        ),
                                                         value: isCheckedList[i],
-                                                        onChanged:
-                                                            (bool? value) {
-                                                          setState(() {
-                                                            toggleCheckItem(
-                                                                i, value);
-                                                          });
-                                                        },
+                                                        onChanged: listPayment[
+                                                                        i][
+                                                                    'approveStatus'] ==
+                                                                "0"
+                                                            ? (bool? value) {
+                                                                setState(() {
+                                                                  toggleCheckItem(
+                                                                      i, value);
+                                                                });
+                                                              }
+                                                            : null,
                                                         materialTapTargetSize:
                                                             MaterialTapTargetSize
                                                                 .shrinkWrap,
+                                                        checkColor:
+                                                            Colors.black,
+                                                        activeColor: Colors
+                                                            .white
+                                                            .withOpacity(0.7),
                                                       ),
                                                     ],
                                                   ),
@@ -561,8 +623,12 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                   padding:
                                                       const EdgeInsets.all(8),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.white
-                                                        .withOpacity(0.7),
+                                                    color: listPayment[i][
+                                                                'approveStatus'] ==
+                                                            "0"
+                                                        ? Colors.white
+                                                            .withOpacity(0.7)
+                                                        : Colors.grey[350],
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
@@ -686,6 +752,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
+                        // showAlertDialogSubmit2();
                         sendSelectedPayments();
                       },
                       child: const Text('อนุมัติ'),
@@ -697,6 +764,90 @@ class _PaymentReportListState extends State<PaymentReportList> {
           )
         ],
       ),
+    );
+  }
+
+  showAlertDialogSubmit() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+          titlePadding: const EdgeInsets.only(top: 20, left: 24, right: 24),
+          title: const Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "อนุมัติการจ่ายเงิน",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Prompt',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: const Text(
+            "ยืนยันการอนุมัติจ่ายเงิน",
+            style: TextStyle(
+              fontFamily: 'Prompt',
+              fontSize: 16,
+              color: Colors.grey,
+            ),
+          ),
+          actionsPadding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          actions: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'ยกเลิก',
+                style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'ตกลง',
+                style: TextStyle(
+                  fontFamily: 'Prompt',
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  Navigator.of(context).pop();
+                  // showProgressLoading(context);
+                });
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
