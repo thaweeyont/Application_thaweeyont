@@ -10,7 +10,7 @@ import 'package:application_thaweeyont/api.dart';
 import '../../authen.dart';
 
 class Page_Status_Member extends StatefulWidget {
-  const Page_Status_Member({Key? key}) : super(key: key);
+  const Page_Status_Member({super.key});
 
   @override
   State<Page_Status_Member> createState() => _Page_Status_MemberState();
@@ -452,8 +452,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -785,8 +785,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -814,8 +814,8 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {

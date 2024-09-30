@@ -2237,6 +2237,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+                minimumSize: const Size(80, 35),
               ),
               child: const Text(
                 'ยกเลิก',
@@ -2256,6 +2257,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+                minimumSize: const Size(80, 35),
               ),
               child: const Text(
                 'ตกลง',
@@ -2345,7 +2347,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
     );
   }
 
-  showAlertDialogSuccess() async {
+  showAlertDialogSuccess11() async {
     showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -2389,6 +2391,58 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               },
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void showAlertDialogSuccess() {
+    showDialog(
+      barrierDismissible: false, // ไม่ให้ปิดเมื่อกดด้านนอก
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop(); // ปิด dialog หลังจาก 2 วินาที
+        });
+
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // มุมโค้งมนของ dialog
+          ),
+          backgroundColor: Colors.white,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min, // ทำให้ dialog ยืดตามเนื้อหา
+            children: [
+              Icon(
+                Icons.check_circle_outline,
+                color: Colors.green,
+                size: 50,
+              ),
+              SizedBox(height: 20),
+              Text(
+                'บันทึกสำเร็จ!',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Prompt',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Prompt',
+                  color: Colors.black54,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         );
       },
     );

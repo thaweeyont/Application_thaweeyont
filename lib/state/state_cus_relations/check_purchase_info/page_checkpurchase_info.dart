@@ -11,7 +11,7 @@ import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Page_Checkpurchase_info extends StatefulWidget {
-  const Page_Checkpurchase_info({Key? key}) : super(key: key);
+  const Page_Checkpurchase_info({super.key});
 
   @override
   State<Page_Checkpurchase_info> createState() =>
@@ -499,8 +499,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.036,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -837,7 +837,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.040,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -872,8 +872,8 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {

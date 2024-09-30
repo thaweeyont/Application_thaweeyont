@@ -14,8 +14,7 @@ class CreditQueryDebtor extends StatefulWidget {
   final String? address, homeNo, moo, provId, amphurId, tumbolId;
   const CreditQueryDebtor(this.address, this.homeNo, this.moo, this.provId,
       this.amphurId, this.tumbolId,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<CreditQueryDebtor> createState() => _CreditQueryDebtorState();
@@ -988,8 +987,8 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -1241,8 +1240,8 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -1702,8 +1701,8 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -2176,8 +2175,8 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -2227,12 +2226,12 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: clearTextInputAll,
-                      child: const Text('ยกเลิก'),
+                      child: const Text('ล้างข้อมูล'),
                     ),
                   ),
                 ],

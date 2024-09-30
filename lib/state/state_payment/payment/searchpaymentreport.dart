@@ -381,7 +381,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.042,
+                    height: MediaQuery.of(context).size.height * 0.040,
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
@@ -426,7 +426,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.042,
+                    height: MediaQuery.of(context).size.height * 0.040,
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
@@ -1316,7 +1316,7 @@ class _SupplyListState extends State<SupplyList> {
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.040,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -1330,8 +1330,8 @@ class _SupplyListState extends State<SupplyList> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
@@ -1744,7 +1744,7 @@ class _EmployeeListState extends State<EmployeeList> {
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.040,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -1758,8 +1758,8 @@ class _EmployeeListState extends State<EmployeeList> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {

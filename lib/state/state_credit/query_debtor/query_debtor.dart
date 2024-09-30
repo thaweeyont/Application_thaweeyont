@@ -10,7 +10,7 @@ import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Query_debtor extends StatefulWidget {
-  const Query_debtor({Key? key}) : super(key: key);
+  const Query_debtor({super.key});
 
   @override
   State<Query_debtor> createState() => _Query_debtorState();
@@ -810,8 +810,8 @@ class _Query_debtorState extends State<Query_debtor> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -1080,8 +1080,8 @@ class _Query_debtorState extends State<Query_debtor> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -1549,8 +1549,8 @@ class _Query_debtorState extends State<Query_debtor> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.040,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -2039,8 +2039,8 @@ class _Query_debtorState extends State<Query_debtor> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -2076,8 +2076,8 @@ class _Query_debtorState extends State<Query_debtor> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.038,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: clearTextInputAll,

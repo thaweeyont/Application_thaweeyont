@@ -108,9 +108,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
   // ฟังก์ชันสำหรับส่งข้อมูลทั้งหมดที่เลือก
   void sendSelectedPayments() {
     if (selectedPayments.isNotEmpty) {
-      print('sendPaymentId>${jsonEncode(selectedPayments)}');
       showAlertDialogSubmit();
-      // sendPaymentApprove();
     } else {
       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกรายการอนุมัติ');
       print('ไม่มีข้อมูลที่เลือก');
@@ -231,15 +229,18 @@ class _PaymentReportListState extends State<PaymentReportList> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataSendPayment =
-            Map<String, dynamic>.from(json.decode(respose.body));
+        // Map<String, dynamic> dataSendPayment =
+        //     Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
-          listIdpayment = dataSendPayment['data'];
+          // Navigator.of(context).pop();
+          statusLoading = false;
+          getPaymentList();
+          // listIdpayment = dataSendPayment['data'];
         });
-        print('data>$listIdpayment');
+        showSuccessDialog();
 
-        // statusLoading = true;
+        // print('data>$listIdpayment');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -256,10 +257,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else if (respose.statusCode == 404) {
-        setState(() {
-          // statusLoading = true;
-          // statusLoad404 = true;
-        });
+        showProgressDialog_404(context, 'แจ้งเตือน', 'บันทึกข้อมูลไม่สำเร็จ');
       } else if (respose.statusCode == 405) {
         showProgressDialog_405(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -752,7 +750,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        // showAlertDialogSubmit2();
                         sendSelectedPayments();
                       },
                       child: const Text('อนุมัติ'),
@@ -810,6 +807,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+                minimumSize: const Size(80, 35),
               ),
               child: const Text(
                 'ยกเลิก',
@@ -829,6 +827,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+                minimumSize: const Size(80, 35), // กำหนดขนาดปุ่ม (กว้าง, สูง)
               ),
               child: const Text(
                 'ตกลง',
@@ -842,10 +841,63 @@ class _PaymentReportListState extends State<PaymentReportList> {
                 setState(() {
                   Navigator.of(context).pop();
                   // showProgressLoading(context);
+
+                  sendPaymentApprove();
                 });
               },
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void showSuccessDialog() {
+    showDialog(
+      barrierDismissible: false, // ไม่ให้ปิดเมื่อกดด้านนอก
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.of(context).pop(); // ปิด dialog หลังจาก 2 วินาที
+        });
+
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          backgroundColor: Colors.white,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min, // ทำให้ dialog ยืดตามเนื้อหา
+            children: [
+              Icon(
+                Icons.check_circle_outline,
+                color: Colors.green,
+                size: 50,
+              ),
+              SizedBox(height: 20),
+              Text(
+                'บันทึกสำเร็จ!',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Prompt',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'ข้อมูลของคุณถูกบันทึกเรียบร้อยแล้ว',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Prompt',
+                  color: Colors.black54,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         );
       },
     );

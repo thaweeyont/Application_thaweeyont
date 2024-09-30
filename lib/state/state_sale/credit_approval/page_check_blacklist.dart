@@ -453,8 +453,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.042,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -923,8 +923,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.034,
-                                width: MediaQuery.of(context).size.width * 0.22,
+                                    MediaQuery.of(context).size.height * 0.042,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
@@ -1271,8 +1271,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
               Row(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
@@ -1333,8 +1333,8 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                   ),
                   const SizedBox(width: 10),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.034,
-                    width: MediaQuery.of(context).size.width * 0.22,
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
