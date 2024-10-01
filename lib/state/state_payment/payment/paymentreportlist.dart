@@ -70,7 +70,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getPaymentList();
+    getPaymentList('none');
     convertDate();
   }
 
@@ -142,12 +142,12 @@ class _PaymentReportListState extends State<PaymentReportList> {
     }
   }
 
-  Future<void> getPaymentList() async {
+  Future<void> getPaymentList(alert) async {
     widget.selectpaymentTypelist != null
         ? newPaymentType = widget.selectpaymentTypelist
         : newPaymentType = '';
-    print(
-        '1<${widget.selectBranchlist}> 2<${widget.selectSupplylist}> 3<${widget.valueStartDate}> 4<${widget.valueEndDate}> 5<${widget.selectEmployeelist}> 6<${widget.paydetail}> 7<$newPaymentType> 8<${widget.supplyName}>');
+    // print(
+    //     '1<${widget.selectBranchlist}> 2<${widget.selectSupplylist}> 3<${widget.valueStartDate}> 4<${widget.valueEndDate}> 5<${widget.selectEmployeelist}> 6<${widget.paydetail}> 7<$newPaymentType> 8<${widget.supplyName}>');
     try {
       var respose = await http.post(
         Uri.parse('${api}payment/list'),
@@ -177,9 +177,9 @@ class _PaymentReportListState extends State<PaymentReportList> {
           listPayment = dataPayment['data'];
           isCheckedList = List<bool>.filled(listPayment.length, false);
         });
-        print(listPayment);
         statusLoading = true;
         toatalAmount();
+        alert == 'show' ? showSuccessDialog() : '';
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -217,7 +217,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
   }
 
   Future<void> sendPaymentApprove() async {
-    // print('sendPaymentId>${jsonEncode(selectedPayments)}');
     try {
       var respose = await http.post(
         Uri.parse('${api}payment/approve'),
@@ -233,14 +232,11 @@ class _PaymentReportListState extends State<PaymentReportList> {
         //     Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
-          // Navigator.of(context).pop();
           statusLoading = false;
-          getPaymentList();
-          // listIdpayment = dataSendPayment['data'];
+          getPaymentList('show');
+          isCheckAll = false;
+          selectedPayments.clear();
         });
-        showSuccessDialog();
-
-        // print('data>$listIdpayment');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -283,20 +279,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
     // ฟอร์แมตผลรวม
     totalPrice = NumberFormat('###,###.00', 'en_US').format(total);
   }
-
-  // void toatalAmount() {
-  //   List amountTotal = listPayment.map((e) => e['payPrice']).toList();
-  //   listPrice.clear();
-  //   for (var element in amountTotal) {
-  //     listPrice.add(element);
-  //   }
-  //   total = 0.0;
-  //   for (var c = 0; c < listPrice.length; c++) {
-  //     total += double.parse(listPrice[c].toString());
-  //   }
-  //   var f = NumberFormat('###,###.00', 'en_US');
-  //   totalPrice = f.format(total);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -540,7 +522,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                         "0"
                                                     ? Colors.white
                                                         .withOpacity(0.7)
-                                                    : Colors.grey[350],
+                                                    : const Color.fromRGBO(
+                                                        223, 221, 216, 1),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                               ),
@@ -626,7 +609,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                             "0"
                                                         ? Colors.white
                                                             .withOpacity(0.7)
-                                                        : Colors.grey[350],
+                                                        : const Color.fromRGBO(
+                                                            223, 221, 216, 1),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
@@ -840,8 +824,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
               onPressed: () {
                 setState(() {
                   Navigator.of(context).pop();
-                  // showProgressLoading(context);
-
                   sendPaymentApprove();
                 });
               },
