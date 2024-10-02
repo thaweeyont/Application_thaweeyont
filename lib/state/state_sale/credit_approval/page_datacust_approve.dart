@@ -1307,9 +1307,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 height: 5,
                               ),
                               Container(
-                                height: list_detail!['approveStatus'] == '3'
-                                    ? MediaQuery.of(context).size.height * 0.72
-                                    : MediaQuery.of(context).size.height * 0.75,
+                                // height: list_detail!['approveStatus'] == '3'
+                                //     ? MediaQuery.of(context).size.height * 0.72
+                                //     : MediaQuery.of(context).size.height * 0.75,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.7),
                                   borderRadius: const BorderRadius.all(
@@ -1320,6 +1320,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   padding: const EdgeInsets.only(
                                       top: 8, bottom: 8, left: 8, right: 8),
                                   child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
@@ -1362,14 +1363,15 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                 '2') ...[
                                               selectNotReasonList(
                                                   sizeIcon, border),
-                                            ] else ...[
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.14,
-                                              )
                                             ]
+                                            // else ...[
+                                            //   SizedBox(
+                                            //     height: MediaQuery.of(context)
+                                            //             .size
+                                            //             .height *
+                                            //         0.14,
+                                            //   )
+                                            // ]
                                           ],
                                         ),
                                         const SizedBox(
@@ -1455,7 +1457,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             children: [
                                               SizedBox(
                                                 height: 35,
-                                                width: 120,
+                                                width: 140,
                                                 child: ElevatedButton(
                                                   style: MyContant()
                                                       .myButtonSubmitStyle(),
@@ -1954,7 +1956,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
-          height: 140,
+          height: 105,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -1971,12 +1973,11 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                           value: value['id'].toString(),
                           child: Container(
                             width: double.infinity,
-                            // alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.fromLTRB(0, 6.0, 0, 6.0),
                             decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(
-                                  color: Color.fromARGB(255, 209, 209, 209),
+                                  color: Color.fromARGB(183, 209, 209, 209),
                                 ),
                               ),
                             ),
@@ -1998,7 +1999,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
               value: select_approveReasonList,
               isExpanded: true,
               itemHeight: null,
-              // underline: SizedBox(),
               hint: Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -2018,7 +2018,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Container(
-          height: 42,
+          height: 80,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
@@ -2037,7 +2037,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               decoration: const BoxDecoration(
                                 border: Border(
                                   top: BorderSide(
-                                    color: Color.fromARGB(255, 209, 209, 209),
+                                    color: Color.fromARGB(183, 209, 209, 209),
                                   ),
                                 ),
                               ),

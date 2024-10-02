@@ -272,7 +272,7 @@ class MyContant {
   ButtonStyle myButtonSubmitStyle() => ElevatedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(8),
         ),
         foregroundColor: const Color.fromARGB(255, 0, 0, 0),
         padding: const EdgeInsets.all(0),
@@ -282,7 +282,7 @@ class MyContant {
   ButtonStyle myButtonQuaranteeStyle() => ElevatedButton.styleFrom(
         backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(8),
         ),
         foregroundColor: const Color.fromARGB(255, 0, 0, 0),
         padding: const EdgeInsets.all(0),
