@@ -25,7 +25,8 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List dropdownbranch = [],
       dropdownemployeelist = [],
-      dropdownpaymenttypeliist = [];
+      dropdownpaymenttypeliist = [],
+      myListJson = [];
   String? selectBranchlist;
   bool isLoadingSupplylist = false,
       isLoadingBranch = false,
@@ -103,6 +104,11 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
         Map<String, dynamic> dataBranch =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
+          List df = [
+            {'id': 99, 'name': "กรุณาเลือกสาขา"}
+          ];
+          myListJson = List.from(df)..addAll(dataBranch['data']);
+          print('object>$myListJson');
           dropdownbranch = dataBranch['data'];
         });
         Navigator.pop(context);

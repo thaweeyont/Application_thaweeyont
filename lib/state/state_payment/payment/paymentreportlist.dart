@@ -165,7 +165,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
           'payDetail': widget.paydetail.toString(),
           'payTypeId': newPaymentType.toString(),
           'page': '1',
-          'limit': '100'
+          'limit': '500'
         }),
       );
 
@@ -283,7 +283,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(title: 'รายงานการจ่ายเงิน'),
+      appBar: const CustomAppbar(title: 'รายการจ่าย'),
       body: statusLoading == false
           ? Center(
               child: Container(
@@ -595,8 +595,9 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           PaymentDetail(
-                                                              listPayment[i][
-                                                                  'paymentTranId']),
+                                                        listPayment[i]
+                                                            ['paymentTranId'],
+                                                      ),
                                                     ),
                                                   );
                                                 },

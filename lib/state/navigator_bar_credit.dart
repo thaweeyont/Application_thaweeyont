@@ -170,7 +170,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       case "8":
         setState(() {
           _selectedIndex = 8;
-          titleHead = "รายงานการจ่ายเงิน";
+          titleHead = "บันทึกอนุมัติการจ่าย";
           status = false;
         });
         break;
@@ -359,7 +359,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         title = "บริการงานส่ง/ติดตั้งสินค้า";
         break;
       case '008':
-        title = "รายงานการจ่ายเงิน";
+        title = "บันทึกอนุมัติการจ่าย";
         break;
     }
     return title;
@@ -854,7 +854,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       },
       {
         "id": "008",
-        "nameMenu": "รายงานการจ่ายเงิน",
+        "nameMenu": "บันทึกอนุมัติการจ่าย",
       },
     ];
     for (var menuItem in menuList) {

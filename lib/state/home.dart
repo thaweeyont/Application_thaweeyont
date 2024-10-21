@@ -197,7 +197,7 @@ class _Home_creditState extends State<Home_credit> {
                           Row(
                             children: [
                               Text(
-                                '25 มกราคม 2567',
+                                '5 ตุลาคม 2567',
                                 style: MyContant().TextAbout(),
                               ),
                             ],
@@ -206,7 +206,7 @@ class _Home_creditState extends State<Home_credit> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  'Thaweeyont อัพเดตระบบใหม่เพื่อปรับปรุงเสถียรภาพของระบบ เพื่อการใช้งานอย่างมีประสิทธิภาพ',
+                                  'Thaweeyont เราได้ปรับปรุงประสิทธิภาพการทำงาน แก้ไขข้อบกพร่องและอัพเดตข้อมูล',
                                   style: MyContant().textInputStyle(),
                                   overflow: TextOverflow.clip,
                                 ),

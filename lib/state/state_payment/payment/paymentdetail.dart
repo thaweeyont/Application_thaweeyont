@@ -21,7 +21,7 @@ class PaymentDetail extends StatefulWidget {
 
 class _PaymentDetailState extends State<PaymentDetail> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
-  List listpaydetail = [];
+  List listpaydetail = [], listpayTran = [];
   var paymentDetail;
   bool statusLoading = false, statusLoad404 = false;
   @override
@@ -66,10 +66,9 @@ class _PaymentDetailState extends State<PaymentDetail> {
         paymentDetail = dataPaymentDetail['data'];
         setState(() {
           listpaydetail = paymentDetail['detail'];
+          listpayTran = paymentDetail['payTranDetail'];
         });
         statusLoading = true;
-        print('D1>$paymentDetail');
-        print('D2>$listpaydetail');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -109,7 +108,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(title: 'ข้อมูลการจ่ายเงิน'),
+      appBar: const CustomAppbar(title: 'ข้อมูลการจ่าย'),
       body: statusLoading == false
           ? Center(
               child: Container(
@@ -187,72 +186,105 @@ class _PaymentDetailState extends State<PaymentDetail> {
                             ],
                             color: const Color.fromRGBO(226, 199, 132, 1),
                           ),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.7),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              children: [
-                                buildInfoRow('เลขที่ใบสำคัญจ่าย :',
-                                    '${paymentDetail['paymentTranId']}'),
-                                buildInfoRow(
-                                    'วันที่ :', '${paymentDetail['payDate']}'),
-                                buildInfoRow('ชื่อผู้จำหน่าย :',
-                                    '${paymentDetail['supplyName']}'),
-                                buildInfoRow('ประเภท :',
-                                    '${paymentDetail['payTypeName']}'),
-                                buildInfoRow('เพื่อชำระค่า :',
-                                    '${paymentDetail['payDetail']}'),
-                                buildInfoRow(
-                                    'หมายเหตุ :', '${paymentDetail['note']}'),
-                                buildInfoRow('อ้างอิง :',
-                                    '${paymentDetail['tranRefId']}'),
-                                buildInfoRow('วันที่หัก ณ ที่จ่าย :',
-                                    '${paymentDetail['whDate']}'),
-                                buildInfoRow('ผู้ออก ณ ที่จ่าย :',
-                                    '${paymentDetail['whIssue']}'),
-                                buildInfoRow(
-                                    'จำนวนเงินรวม :',
-                                    formatter
-                                        .format(paymentDetail['totalAmt'])),
-                                buildInfoRow('ผู้จัดทำ :',
-                                    '${paymentDetail['createName']}'),
-                                buildInfoRow('ผู้อนุมัติ :',
-                                    '${paymentDetail['approveName']}'),
-                                buildInfoRow('ผู้จ่ายเงิน :',
-                                    '${paymentDetail['payName']}'),
-                              ],
-                            ),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    buildInfoRow('เลขที่ใบสำคัญจ่าย :',
+                                        '${paymentDetail['paymentTranId']}'),
+                                    buildInfoRow('วันที่จัดทำ :',
+                                        '${paymentDetail['payDate']}'),
+                                    buildInfoRow('วันที่กำหนดจ่ายเงิน :',
+                                        '${paymentDetail['dueDate']}'),
+                                    buildInfoRow('ชื่อผู้จำหน่าย :',
+                                        '${paymentDetail['supplyName']}'),
+                                    buildInfoRow('ประเภท :',
+                                        '${paymentDetail['payTypeName']}'),
+                                    buildInfoRow('เพื่อชำระค่า :',
+                                        '${paymentDetail['payDetail']}'),
+                                    buildInfoRow(
+                                        'ธนาคาร :', '${paymentDetail['note']}'),
+                                    buildInfoRow('เลขที่บัญชี :',
+                                        '${paymentDetail['tranRefId']}'),
+                                    buildInfoRow(
+                                        'เงินโอน :',
+                                        formatter.format(
+                                            paymentDetail['transferAmt'])),
+                                    buildInfoRow(
+                                        'ค่าธรรมเนียม :',
+                                        formatter
+                                            .format(paymentDetail['feeAmt'])),
+                                    buildInfoRow(
+                                        'จำนวนเงินรวม :',
+                                        formatter
+                                            .format(paymentDetail['totalAmt'])),
+                                    buildInfoRow('วันที่หัก ณ ที่จ่าย :',
+                                        '${paymentDetail['whDate']}'),
+                                    buildInfoRow('ผู้ออก ณ ที่จ่าย :',
+                                        '${paymentDetail['whIssue']}'),
+                                    buildInfoRow('ผู้จัดทำ :',
+                                        '${paymentDetail['createName']}'),
+                                    buildInfoRow('ผู้อนุมัติ :',
+                                        '${paymentDetail['approveName']}'),
+                                    buildInfoRow('ผู้จ่ายเงิน :',
+                                        '${paymentDetail['payName']}'),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    buildInfoRow('ผู้ Approve :',
+                                        '${paymentDetail['approveTranName']}'),
+                                    buildInfoRow('วันที่ Approve :',
+                                        '${paymentDetail['approveDate']}'),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      if (listpaydetail.isNotEmpty)
-                        for (var i = 0; i < listpaydetail.length; i++)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, bottom: 8),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 6),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 0.2,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
-                                  )
-                                ],
-                                color: const Color.fromRGBO(226, 199, 132, 1),
-                              ),
-                              child: Column(
-                                children: [
-                                  buildInfoRow('รายการจ่ายเงิน', ''),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.2,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              )
+                            ],
+                            color: const Color.fromRGBO(226, 199, 132, 1),
+                          ),
+                          child: Column(
+                            children: [
+                              buildInfoRow('รายการ', ''),
+                              if (listpaydetail.isNotEmpty)
+                                for (var i = 0;
+                                    i < listpaydetail.length;
+                                    i++) ...[
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white.withOpacity(0.7),
@@ -273,24 +305,6 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                               'จำนวนเงิน :',
                                               formatter.format(listpaydetail[i]
                                                   ['priceAmt'])),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  buildInfoRow('ภาษีมูลค่าเพิ่ม', ''),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 8),
-                                      child: Column(
-                                        children: [
                                           buildInfoRow('ประเภท :',
                                               '${listpaydetail[i]['taxType']}'),
                                           buildInfoRow(
@@ -301,12 +315,48 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                               'ก่อนภาษี :',
                                               formatter.format(
                                                   listpaydetail[i]['netAmt'])),
+                                          buildInfoRow('อัตรา :',
+                                              '${listpaydetail[i]['whRate']}'),
+                                          buildInfoRow(
+                                              'จำนวนเงิน :',
+                                              formatter.format(
+                                                  listpaydetail[i]['whPrice'])),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
-                                  buildInfoRow('ภาษีหัก ณ ที่จ่าย', ''),
+                                  const SizedBox(height: 5)
+                                ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 0.2,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              )
+                            ],
+                            color: const Color.fromRGBO(226, 199, 132, 1),
+                          ),
+                          child: Column(
+                            children: [
+                              buildInfoRow('รายละเอียดการจ่าย', ''),
+                              if (listpayTran.isNotEmpty)
+                                for (var c = 0;
+                                    c < listpayTran.length;
+                                    c++) ...[
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white.withOpacity(0.7),
@@ -319,20 +369,28 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                           vertical: 3, horizontal: 8),
                                       child: Column(
                                         children: [
-                                          buildInfoRow('อัตรา :',
-                                              '${listpaydetail[i]['whRate']}'),
+                                          buildInfoRow('ประเภทการจ่าย :',
+                                              '${listpayTran[c]['payTypeName']}'),
+                                          buildInfoRow('เลขที่เช็ค :',
+                                              '${listpayTran[c]['payTranId']}'),
                                           buildInfoRow(
                                               'จำนวนเงิน :',
                                               formatter.format(
-                                                  listpaydetail[i]['whPrice'])),
+                                                  listpayTran[c]['payTotal'])),
+                                          buildInfoRow(
+                                              'ค่าธรรมเนียม :',
+                                              formatter.format(
+                                                  listpayTran[c]['feeTotal'])),
                                         ],
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(height: 5),
                                 ],
-                              ),
-                            ),
+                            ],
                           ),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                     ],
                   ),
