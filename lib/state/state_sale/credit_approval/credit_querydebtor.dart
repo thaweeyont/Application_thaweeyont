@@ -162,7 +162,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -222,7 +222,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -282,7 +282,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -342,7 +342,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -411,7 +411,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -480,7 +480,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -516,7 +516,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -551,7 +551,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -586,7 +586,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -625,7 +625,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -660,7 +660,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -890,7 +890,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                                 }
                                               } catch (e) {
                                                 print("ไม่มีข้อมูล $e");
-                                                showProgressDialog_Notdata(
+                                                showProgressDialogNotdata(
                                                     context,
                                                     'แจ้งเตือน',
                                                     'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
@@ -1449,7 +1449,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
         }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialogNotdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       }
     }
 

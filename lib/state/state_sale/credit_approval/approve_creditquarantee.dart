@@ -98,7 +98,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
       }
     } catch (e) {
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       print("ไม่มีข้อมูล $e");
     }

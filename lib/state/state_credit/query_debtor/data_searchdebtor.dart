@@ -156,7 +156,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }

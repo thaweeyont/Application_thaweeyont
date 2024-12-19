@@ -93,7 +93,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }

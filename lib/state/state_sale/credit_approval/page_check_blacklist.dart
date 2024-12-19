@@ -116,7 +116,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -179,7 +179,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -290,7 +290,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
         }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(
+        showProgressDialogNotdata(
             context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       }
     }
@@ -826,7 +826,7 @@ class _Page_Check_BlacklistState extends State<Page_Check_Blacklist> {
                                                   print(respose.statusCode);
                                                 }
                                               } catch (e) {
-                                                showProgressDialog_Notdata(
+                                                showProgressDialogNotdata(
                                                     context,
                                                     'แจ้งเตือน',
                                                     'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');

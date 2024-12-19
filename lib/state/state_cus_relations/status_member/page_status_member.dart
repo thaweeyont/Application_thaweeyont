@@ -191,7 +191,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
         }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(
+        showProgressDialogNotdata(
             context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       }
     }

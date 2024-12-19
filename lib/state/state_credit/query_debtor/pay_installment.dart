@@ -113,7 +113,7 @@ class _Pay_installmentState extends State<Pay_installment> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }

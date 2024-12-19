@@ -152,7 +152,7 @@ class _AddressCustState extends State<AddressCust> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -394,7 +394,7 @@ class _AddressCustState extends State<AddressCust> {
                       ),
                       const SizedBox(height: 10),
                       Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.7),
                           borderRadius: const BorderRadius.all(
@@ -466,10 +466,10 @@ class _AddressCustState extends State<AddressCust> {
                                                         .size
                                                         .height *
                                                     0.038,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.25,
+                                                // width: MediaQuery.of(context)
+                                                //         .size
+                                                //         .width *
+                                                //     0.25,
                                                 child: ElevatedButton.icon(
                                                   label: Text(
                                                     'บันทึก',
@@ -482,6 +482,7 @@ class _AddressCustState extends State<AddressCust> {
                                                             .size
                                                             .width *
                                                         0.05,
+                                                    color: Colors.white,
                                                   ),
                                                   onPressed: () {
                                                     showProgressLoading2(
@@ -509,10 +510,10 @@ class _AddressCustState extends State<AddressCust> {
                                                         .size
                                                         .height *
                                                     0.038,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.25,
+                                                // width: MediaQuery.of(context)
+                                                //         .size
+                                                //         .width *
+                                                //     0.25,
                                                 child: ElevatedButton.icon(
                                                   label: Text(
                                                     'แก้ไข',
@@ -525,6 +526,7 @@ class _AddressCustState extends State<AddressCust> {
                                                             .size
                                                             .width *
                                                         0.05,
+                                                    color: Colors.white,
                                                   ),
                                                   onPressed: () {
                                                     showProgressEarthLoad(
@@ -548,10 +550,10 @@ class _AddressCustState extends State<AddressCust> {
                                                       .size
                                                       .height *
                                                   0.038,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.28,
+                                              // width: MediaQuery.of(context)
+                                              //         .size
+                                              //         .width *
+                                              //     0.28,
                                               child: ElevatedButton.icon(
                                                 label: Text(
                                                   'ดูแผนที่',
@@ -564,6 +566,7 @@ class _AddressCustState extends State<AddressCust> {
                                                           .size
                                                           .width *
                                                       0.05,
+                                                  color: Colors.white,
                                                 ),
                                                 onPressed: () async {
                                                   Uri googleMapUrl = Uri.parse(
@@ -595,10 +598,10 @@ class _AddressCustState extends State<AddressCust> {
                                                       .size
                                                       .height *
                                                   0.038,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.28,
+                                              // width: MediaQuery.of(context)
+                                              //         .size
+                                              //         .width *
+                                              //     0.28,
                                               child: ElevatedButton.icon(
                                                 label: Text(
                                                   'เส้นทาง',
@@ -611,6 +614,7 @@ class _AddressCustState extends State<AddressCust> {
                                                           .size
                                                           .width *
                                                       0.05,
+                                                  color: Colors.white,
                                                 ),
                                                 onPressed: () async {
                                                   Uri googleMapUrl = Uri.parse(
@@ -800,9 +804,9 @@ class _AddressCustState extends State<AddressCust> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Text(
                                     '*ตรวจสอบความถูกต้องก่อนแก้ไข*',
                                     style: TextStyle(

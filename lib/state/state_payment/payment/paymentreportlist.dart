@@ -211,7 +211,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -265,7 +265,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -288,7 +288,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: Color.fromARGB(255, 24, 24, 24).withValues(alpha: 0.9),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -350,7 +350,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                               const BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withValues(alpha: 0.5),
                               spreadRadius: 0.2,
                               blurRadius: 2,
                               offset: const Offset(0, 1),
@@ -362,7 +362,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 4, horizontal: 8),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withValues(alpha: 0.7),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
@@ -391,7 +391,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                               const BorderRadius.all(Radius.circular(10)),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withValues(alpha: 0.5),
                               spreadRadius: 0.2,
                               blurRadius: 2,
                               offset: const Offset(0, 1),
@@ -403,7 +403,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Column(
@@ -412,11 +412,10 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                     children: [
                                       //CheckBoxAll
                                       Checkbox(
-                                        side:
-                                            MaterialStateBorderSide.resolveWith(
-                                          (Set<MaterialState> states) {
+                                        side: WidgetStateBorderSide.resolveWith(
+                                          (Set<WidgetState> states) {
                                             if (states.contains(
-                                                MaterialState.selected)) {
+                                                WidgetState.selected)) {
                                               return const BorderSide(
                                                   color: Color.fromARGB(
                                                       255, 0, 0, 0),
@@ -434,7 +433,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                             MaterialTapTargetSize.shrinkWrap,
                                         checkColor: Colors.black,
                                         activeColor:
-                                            Colors.white.withOpacity(0.7),
+                                            Colors.white.withValues(alpha: 0.7),
                                       ),
                                     ],
                                   ),
@@ -449,7 +448,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                   horizontal: 8,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withValues(alpha: 0.7),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -467,7 +466,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                           style: MyContant().h4normalStyle(),
                                         ),
                                         Text(
-                                          'จำนวนเงิน',
+                                          'จน.เงินโอน',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
@@ -494,7 +493,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                     const BorderRadius.all(Radius.circular(10)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
+                                    color: Colors.grey.withValues(alpha: 0.5),
                                     spreadRadius: 0.2,
                                     blurRadius: 2,
                                     offset: const Offset(0, 1),
@@ -521,7 +520,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                             ['approveStatus'] ==
                                                         "0"
                                                     ? Colors.white
-                                                        .withOpacity(0.7)
+                                                        .withValues(alpha: 0.7)
                                                     : const Color.fromRGBO(
                                                         223, 221, 216, 1),
                                                 borderRadius:
@@ -533,14 +532,23 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                     children: [
                                                       //CheckBoxList
                                                       Checkbox(
-                                                        side:
-                                                            MaterialStateBorderSide
-                                                                .resolveWith(
-                                                          (Set<MaterialState>
-                                                              states) {
-                                                            if (states.contains(
-                                                                MaterialState
-                                                                    .selected)) {
+                                                          side:
+                                                              WidgetStateBorderSide
+                                                                  .resolveWith(
+                                                            (Set<WidgetState>
+                                                                states) {
+                                                              if (states.contains(
+                                                                  WidgetState
+                                                                      .selected)) {
+                                                                return const BorderSide(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                    width: 1.7);
+                                                              }
                                                               return const BorderSide(
                                                                   color: Color
                                                                       .fromARGB(
@@ -549,38 +557,31 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                                           0,
                                                                           0),
                                                                   width: 1.7);
-                                                            }
-                                                            return const BorderSide(
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        0,
-                                                                        0,
-                                                                        0),
-                                                                width: 1.7);
-                                                          },
-                                                        ),
-                                                        value: isCheckedList[i],
-                                                        onChanged: listPayment[
-                                                                        i][
-                                                                    'approveStatus'] ==
-                                                                "0"
-                                                            ? (bool? value) {
-                                                                setState(() {
-                                                                  toggleCheckItem(
-                                                                      i, value);
-                                                                });
-                                                              }
-                                                            : null,
-                                                        materialTapTargetSize:
-                                                            MaterialTapTargetSize
-                                                                .shrinkWrap,
-                                                        checkColor:
-                                                            Colors.black,
-                                                        activeColor: Colors
-                                                            .white
-                                                            .withOpacity(0.7),
-                                                      ),
+                                                            },
+                                                          ),
+                                                          value:
+                                                              isCheckedList[i],
+                                                          onChanged: listPayment[
+                                                                          i][
+                                                                      'approveStatus'] ==
+                                                                  "0"
+                                                              ? (bool? value) {
+                                                                  setState(() {
+                                                                    toggleCheckItem(
+                                                                        i,
+                                                                        value);
+                                                                  });
+                                                                }
+                                                              : null,
+                                                          materialTapTargetSize:
+                                                              MaterialTapTargetSize
+                                                                  .shrinkWrap,
+                                                          checkColor:
+                                                              Colors.black,
+                                                          activeColor: Colors
+                                                              .white
+                                                              .withValues(
+                                                                  alpha: 0.7)),
                                                     ],
                                                   ),
                                                 ],
@@ -609,7 +610,8 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                                 'approveStatus'] ==
                                                             "0"
                                                         ? Colors.white
-                                                            .withOpacity(0.7)
+                                                            .withValues(
+                                                                alpha: 0.7)
                                                         : const Color.fromRGBO(
                                                             223, 221, 216, 1),
                                                     borderRadius:
@@ -677,7 +679,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                     const BorderRadius.all(Radius.circular(10)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
+                                    color: Colors.grey.withValues(alpha: 0.5),
                                     spreadRadius: 0.2,
                                     blurRadius: 2,
                                     offset: const Offset(0, 1),
@@ -689,7 +691,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 4, horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withValues(alpha: 0.7),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(

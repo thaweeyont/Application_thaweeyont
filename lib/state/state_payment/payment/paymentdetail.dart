@@ -100,7 +100,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -113,7 +113,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: Color.fromARGB(255, 24, 24, 24).withValues(alpha: 0.9),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -178,7 +178,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withValues(alpha: 0.5),
                                 spreadRadius: 0.2,
                                 blurRadius: 2,
                                 offset: const Offset(0, 1),
@@ -192,7 +192,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 6, horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withValues(alpha: 0.7),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -243,7 +243,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 6, horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withValues(alpha: 0.7),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -270,7 +270,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withValues(alpha: 0.5),
                                 spreadRadius: 0.2,
                                 blurRadius: 2,
                                 offset: const Offset(0, 1),
@@ -287,7 +287,8 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     i++) ...[
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.7),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
@@ -342,7 +343,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withValues(alpha: 0.5),
                                 spreadRadius: 0.2,
                                 blurRadius: 2,
                                 offset: const Offset(0, 1),
@@ -359,7 +360,8 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     c++) ...[
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.7),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),

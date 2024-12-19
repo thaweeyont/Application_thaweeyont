@@ -38,13 +38,17 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       newEmployee,
       selectSupplylist,
       selectEmployeelist,
-      selectpaymentTypelist;
+      selectpaymentTypelist,
+      selectgroupExpenses,
+      selectPaydetail;
+
   TextEditingController startdate = TextEditingController();
   TextEditingController enddate = TextEditingController();
   TextEditingController paydetail = TextEditingController();
   TextEditingController supplyname = TextEditingController();
   TextEditingController supplylist = TextEditingController();
   TextEditingController employeelist = TextEditingController();
+  TextEditingController groupexpenses = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
 
@@ -54,7 +58,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     getdata();
 
     // รวมการเพิ่ม listener ให้ TextField ทุกตัว
-    for (var controller in [supplyname, supplylist, paydetail]) {
+    for (var controller in [supplyname, supplylist]) {
       controller.addListener(() {
         setState(() {});
       });
@@ -81,13 +85,17 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     }
   }
 
-  void selectDatenow() {
-    var formattedDate = DateFormat('-MM-dd').format(selectedDate);
-    var formattedYear = DateFormat('yyyy').format(selectedDate);
+  // void selectDatenow() {
+  //   var formattedDate = DateFormat('-MM-dd').format(selectedDate);
+  //   var formattedYear = DateFormat('yyyy').format(selectedDate);
+  //   var yearnow = int.parse(formattedYear);
+  //   final year = [yearnow, 543].reduce((value, element) => value + element);
+  //   startdate.text = '$year$formattedDate';
+  // }
 
-    var yearnow = int.parse(formattedYear);
-    final year = [yearnow, 543].reduce((value, element) => value + element);
-    startdate.text = '$year$formattedDate';
+  void selectDatenow() {
+    startdate.text =
+        '${selectedDate.year + 543}${DateFormat('-MM-dd').format(selectedDate)}';
   }
 
   Future<void> getSelectBranch() async {
@@ -108,7 +116,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
             {'id': 99, 'name': "กรุณาเลือกสาขา"}
           ];
           myListJson = List.from(df)..addAll(dataBranch['data']);
-          print('object>$myListJson');
           dropdownbranch = dataBranch['data'];
         });
         Navigator.pop(context);
@@ -182,11 +189,10 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     supplyname.clear();
     supplylist.clear();
     employeelist.clear();
+    groupexpenses.clear();
     setState(() {
-      selectBranchlist = null;
-      selectSupplylist = null;
-      selectEmployeelist = null;
-      selectpaymentTypelist = null;
+      selectBranchlist = selectSupplylist = selectEmployeelist =
+          selectpaymentTypelist = selectgroupExpenses = selectPaydetail = null;
     });
   }
 
@@ -216,7 +222,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withValues(alpha: 0.5),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -263,8 +269,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                                     ).then((result) {
                                       if (result != null) {
                                         setState(() {
-                                          print(
-                                              'id>${result['id']} name>${result['name']}');
                                           supplylist.text = result['name'];
                                           selectSupplylist = result['id'];
                                         });
@@ -350,10 +354,88 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                     Row(
                       children: [
                         Text(
+                          'หมวดค่าใช้จ่าย',
+                          style: MyContant().h4normalStyle(),
+                        ),
+                        inputGroupExpenses(sizeIcon, border),
+                        const SizedBox(width: 3),
+                        SizedBox(
+                          width: 35,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              shape: const CircleBorder(),
+                              backgroundColor:
+                                  const Color.fromRGBO(120, 84, 32, 1),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const GroupExpenses(),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    print(
+                                        'idGE>${result['id']} nameGE>${result['name']}');
+                                    groupexpenses.text = result['name'];
+                                    selectgroupExpenses = result['id'];
+                                  });
+                                }
+                              });
+                            },
+                            child: const Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 3)
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
                           'รายการจ่าย',
                           style: MyContant().h4normalStyle(),
                         ),
-                        inputPaydetail(sizeIcon, border)
+                        inputPaydetail(sizeIcon, border),
+                        const SizedBox(width: 3),
+                        SizedBox(
+                          width: 35,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              shape: const CircleBorder(),
+                              backgroundColor:
+                                  const Color.fromRGBO(120, 84, 32, 1),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ExpensesList(selectgroupExpenses),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    print(
+                                        'idP>${result['id']} nameP>${result['name']}');
+                                    paydetail.text = result['name'];
+                                    selectPaydetail = result['id'];
+                                  });
+                                }
+                              });
+                            },
+                            child: const Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 3)
                       ],
                     ),
                     Row(
@@ -889,11 +971,59 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     );
   }
 
+  Expanded inputGroupExpenses(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          readOnly: true,
+          controller: groupexpenses,
+          decoration: InputDecoration(
+            suffixIcon: groupexpenses.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        groupexpenses.clear();
+                        selectgroupExpenses = null;
+                        paydetail.clear();
+                        selectPaydetail = null;
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+
   Expanded inputPaydetail(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
+          readOnly: true,
           controller: paydetail,
           onChanged: (keyword) {},
           decoration: InputDecoration(
@@ -1555,7 +1685,7 @@ class _EmployeeListState extends State<EmployeeList> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withValues(alpha: 0.5),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -1567,7 +1697,7 @@ class _EmployeeListState extends State<EmployeeList> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -1592,8 +1722,8 @@ class _EmployeeListState extends State<EmployeeList> {
                   ? Center(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 24, 24, 24)
-                              .withOpacity(0.9),
+                          color: Color.fromARGB(255, 24, 24, 24)
+                              .withValues(alpha: 0.9),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
@@ -1663,7 +1793,8 @@ class _EmployeeListState extends State<EmployeeList> {
                                         Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color:
+                                            Colors.grey.withValues(alpha: 0.5),
                                         spreadRadius: 0.2,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),
@@ -1693,7 +1824,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                               padding: const EdgeInsets.all(8),
                                               decoration: BoxDecoration(
                                                 color: Colors.white
-                                                    .withOpacity(0.7),
+                                                    .withValues(alpha: 0.7),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                               ),
@@ -1829,6 +1960,659 @@ class _EmployeeListState extends State<EmployeeList> {
             fillColor: Colors.white,
           ),
           style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+}
+
+class GroupExpenses extends StatefulWidget {
+  const GroupExpenses({super.key});
+
+  @override
+  State<GroupExpenses> createState() => _GroupExpensesState();
+}
+
+class _GroupExpensesState extends State<GroupExpenses> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  TextEditingController groupExpenseslist = TextEditingController();
+  List dropdownGroupexpenses = [];
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoading = false,
+      isLoadScroll = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 50, stquery = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+    groupExpenseslist.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    getGroupexpenses();
+  }
+
+  Future<void> getGroupexpenses() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/groupExpenseList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataGroupexpenses =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownGroupexpenses = dataGroupexpenses['data'];
+        });
+        statusLoading = true;
+        print('data>>$dropdownGroupexpenses');
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoading = true;
+          statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Scaffold(
+      appBar: const CustomAppbar(title: 'ค้นหาหมวดค่าใช้จ่าย'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Container(
+            //     padding: const EdgeInsets.all(8),
+            //     decoration: BoxDecoration(
+            //       borderRadius: const BorderRadius.all(Radius.circular(10)),
+            //       boxShadow: [
+            //         BoxShadow(
+            //           color: Colors.grey.withValues(alpha: 0.5),
+            //           spreadRadius: 0.2,
+            //           blurRadius: 2,
+            //           offset: const Offset(0, 1),
+            //         )
+            //       ],
+            //       color: const Color.fromRGBO(226, 199, 132, 1),
+            //     ),
+            //     child: Container(
+            //       padding:
+            //           const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            //       decoration: BoxDecoration(
+            //         color: Colors.white.withValues(alpha: 0.7),
+            //         borderRadius: BorderRadius.circular(10),
+            //       ),
+            //       child: Column(
+            //         children: [
+            //           Row(
+            //             children: [
+            //               Text(
+            //                 'หมวดค่าใช้จ่าย : ',
+            //                 style: MyContant().h4normalStyle(),
+            //               ),
+            //               inputEmployeeNamelist(sizeIcon, border),
+            //             ],
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // groupBtnsearch(),
+            Expanded(
+              child: statusLoading == false
+                  ? Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 24, 24, 24)
+                              .withValues(alpha: 0.9),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          controller: scrollControll,
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.grey.withValues(alpha: 0.5),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(226, 199, 132, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      for (var i = 0;
+                                          i < dropdownGroupexpenses.length;
+                                          i++) ...[
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownGroupexpenses[i]['id']}',
+                                              'name':
+                                                  '${dropdownGroupexpenses[i]['name']}',
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.7),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      dropdownGroupexpenses[i]
+                                                          ['name'],
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              // if (isLoadScroll == true &&
+                              //     isLoadendPage == false) ...[
+                              //   const LoadData(),
+                              // ] else if (isLoadendPage == true) ...[
+                              //   const EndPage(),
+                              // ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding groupBtnsearch() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        setState(() {
+                          // getSelectEmployeeList(offset);
+                          // statusLoading = false;
+                        });
+                      },
+                      child: const Text('ค้นหา'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        setState(() {
+                          // employeeNamelist.clear();
+                          // getSelectEmployeeList(offset);
+                          // statusLoading = false;
+                          // statusLoad404 = false;
+                        });
+                      },
+                      child: const Text('ล้างข้อมูล'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Expanded inputEmployeeNamelist(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: groupExpenseslist,
+          decoration: InputDecoration(
+            suffixIcon: groupExpenseslist.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        groupExpenseslist.clear();
+                        // getSelectEmployeeList(offset);
+                        statusLoading = false;
+                        statusLoad404 = false;
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+}
+
+class ExpensesList extends StatefulWidget {
+  final String? selectgroupExpenses;
+  const ExpensesList(this.selectgroupExpenses, {super.key});
+
+  @override
+  State<ExpensesList> createState() => _ExpensesListState();
+}
+
+class _ExpensesListState extends State<ExpensesList> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  List dropdownExpensesList = [];
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoading = false,
+      isLoadScroll = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 50, stquery = 0;
+  var selectExpenses;
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+    widget.selectgroupExpenses == null
+        ? selectExpenses = ''
+        : selectExpenses = widget.selectgroupExpenses;
+    print('idGE>>$selectExpenses');
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    getExpensesList();
+  }
+
+  Future<void> getExpensesList() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/expenseList?groupId=$selectExpenses'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataExpenses =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownExpensesList = dataExpenses['data'];
+        });
+        statusLoading = true;
+        print('data>>$dropdownExpensesList');
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoading = true;
+          statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppbar(title: 'ค้นหารายการค่าใช้จ่าย'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            Expanded(
+              child: statusLoading == false
+                  ? Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 24, 24, 24)
+                              .withValues(alpha: 0.9),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.grey.withValues(alpha: 0.5),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(226, 199, 132, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      for (var i = 0;
+                                          i < dropdownExpensesList.length;
+                                          i++) ...[
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownExpensesList[i]['id']}',
+                                              'name':
+                                                  '${dropdownExpensesList[i]['name']}',
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.7),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      dropdownExpensesList[i]
+                                                          ['name'],
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+            ),
+          ],
         ),
       ),
     );

@@ -112,7 +112,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -271,7 +271,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -531,7 +531,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                     i++) ...[
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 2),
+                                        vertical: 4, horizontal: 0),
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
@@ -625,7 +625,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 2),
+                                        vertical: 4, horizontal: 0),
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
@@ -651,9 +651,9 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 2),
+                                        vertical: 4, horizontal: 0),
                                     child: Container(
-                                      padding: const EdgeInsets.all(8),
+                                      // padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                         color: Colors.white.withOpacity(0.7),
                                         borderRadius: BorderRadius.circular(10),
@@ -739,11 +739,11 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                   .size
                                                                   .height *
                                                               0.038,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.25,
+                                                          // width: MediaQuery.of(
+                                                          //             context)
+                                                          //         .size
+                                                          //         .width *
+                                                          //     0.25,
                                                           child: ElevatedButton
                                                               .icon(
                                                             label: Text(
@@ -760,7 +760,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                           context)
                                                                       .size
                                                                       .width *
-                                                                  0.05,
+                                                                  0.04,
                                                             ),
                                                             onPressed: () {
                                                               showProgressLoading2(
@@ -797,11 +797,11 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                   .size
                                                                   .height *
                                                               0.038,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.25,
+                                                          // width: MediaQuery.of(
+                                                          //             context)
+                                                          //         .size
+                                                          //         .width *
+                                                          //     0.25,
                                                           child: ElevatedButton
                                                               .icon(
                                                             label: Text(
@@ -818,7 +818,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                           context)
                                                                       .size
                                                                       .width *
-                                                                  0.05,
+                                                                  0.04,
                                                             ),
                                                             onPressed: () {
                                                               showProgressEarthLoad(
@@ -850,11 +850,11 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                 .size
                                                                 .height *
                                                             0.038,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.28,
+                                                        // width: MediaQuery.of(
+                                                        //             context)
+                                                        //         .size
+                                                        //         .width *
+                                                        //     0.28,
                                                         child:
                                                             ElevatedButton.icon(
                                                           label: Text(
@@ -869,7 +869,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                         context)
                                                                     .size
                                                                     .width *
-                                                                0.05,
+                                                                0.04,
                                                           ),
                                                           onPressed: () async {
                                                             Uri googleMapUrl =
@@ -912,11 +912,11 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                 .size
                                                                 .height *
                                                             0.038,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.28,
+                                                        // width: MediaQuery.of(
+                                                        //             context)
+                                                        //         .size
+                                                        //         .width *
+                                                        //     0.28,
                                                         child:
                                                             ElevatedButton.icon(
                                                           label: Text(
@@ -932,7 +932,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                                                         context)
                                                                     .size
                                                                     .width *
-                                                                0.05,
+                                                                0.04,
                                                           ),
                                                           onPressed: () async {
                                                             Uri googleMapUrl =

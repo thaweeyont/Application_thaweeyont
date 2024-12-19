@@ -89,7 +89,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
@@ -127,7 +127,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
@@ -248,7 +248,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
         }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(
+        showProgressDialogNotdata(
             context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
       }
     }

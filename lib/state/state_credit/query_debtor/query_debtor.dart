@@ -160,7 +160,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -230,7 +230,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -294,7 +294,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -330,7 +330,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -364,7 +364,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล_อิอิ $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -399,7 +399,7 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -436,7 +436,7 @@ class _Query_debtorState extends State<Query_debtor> {
       } else {}
     } catch (e) {
       print("ไม่มีข้อมูล $e");
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -471,7 +471,7 @@ class _Query_debtorState extends State<Query_debtor> {
     } catch (e) {
       print("ไม่มีข้อมูล $e");
 
-      showProgressDialog_Notdata(
+      showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
@@ -713,7 +713,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                                 }
                                               } catch (e) {
                                                 print("ไม่มีข้อมูล $e");
-                                                showProgressDialog_Notdata(
+                                                showProgressDialogNotdata(
                                                     context,
                                                     'แจ้งเตือน',
                                                     'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
@@ -1299,7 +1299,7 @@ class _Query_debtorState extends State<Query_debtor> {
         }
       } catch (e) {
         print("ไม่มีข้อมูล $e");
-        showProgressDialog_Notdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
+        showProgressDialogNotdata(context, 'แจ้งเตือน', 'ไม่พบข้อมูล!');
       }
     }
 
