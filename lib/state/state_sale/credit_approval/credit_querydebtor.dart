@@ -1547,7 +1547,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                               color: const Color.fromRGBO(251, 173, 55, 1),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -1776,7 +1776,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 spreadRadius: 0.2,
                                                 blurRadius: 2,
                                                 offset: const Offset(0, 1),
@@ -1924,7 +1924,7 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
                   color: const Color.fromRGBO(251, 173, 55, 1),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),

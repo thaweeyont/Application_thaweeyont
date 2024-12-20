@@ -199,7 +199,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -271,7 +271,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                           color: const Color.fromRGBO(251, 173, 55, 1),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withAlpha(130),
                               spreadRadius: 0.2,
                               blurRadius: 2,
                               offset: const Offset(0, 1),
@@ -284,7 +284,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withAlpha(180),
                               ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,7 +341,8 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                           const Color.fromRGBO(251, 173, 55, 1),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: Colors.grey
+                                              .withValues(alpha: 0.5),
                                           spreadRadius: 0.2,
                                           blurRadius: 2,
                                           offset: const Offset(0, 1),

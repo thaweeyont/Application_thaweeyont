@@ -22,7 +22,7 @@ class Credit_data_detail extends StatefulWidget {
       select_branchlist,
       start_date,
       end_date;
-  final int? select_index_approve;
+  final int? selectIndexApprove;
   const Credit_data_detail(
       this.custId,
       this.idcard,
@@ -32,7 +32,7 @@ class Credit_data_detail extends StatefulWidget {
       this.select_branchlist,
       this.start_date,
       this.end_date,
-      this.select_index_approve,
+      this.selectIndexApprove,
       {super.key});
 
   @override
@@ -102,18 +102,18 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           'branchId': widget.select_branchlist.toString(),
           'startDate': widget.start_date.toString(),
           'endDate': widget.end_date.toString(),
-          'approveStatus': widget.select_index_approve.toString(),
+          'approveStatus': widget.selectIndexApprove.toString(),
           'page': '1',
           'limit': '$offset'
         }),
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> data_approve =
+        Map<String, dynamic> dataApprove =
             Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
-          list_approve = data_approve['data'];
+          list_approve = dataApprove['data'];
         });
         status_loading = true;
         isLoad = false;
@@ -171,7 +171,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -262,7 +262,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                         Radius.circular(5)),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color: Colors.grey.withAlpha(130),
                                         spreadRadius: 0.2,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),

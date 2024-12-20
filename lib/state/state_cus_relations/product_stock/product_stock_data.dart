@@ -407,7 +407,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                     color: const Color.fromRGBO(176, 218, 255, 1),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withAlpha(130),
                         spreadRadius: 0.2,
                         blurRadius: 2,
                         offset: const Offset(0, 1),
@@ -1249,7 +1249,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -1377,8 +1377,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -1455,8 +1455,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -1685,7 +1686,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -1813,8 +1814,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -1896,8 +1897,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -2115,7 +2117,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -2243,8 +2245,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -2322,8 +2324,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -2561,7 +2564,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -2689,8 +2692,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -2766,8 +2769,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -2987,7 +2991,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -3115,8 +3119,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -3191,8 +3195,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -3412,7 +3417,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -3540,8 +3545,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -3617,8 +3622,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -3838,7 +3844,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -3966,8 +3972,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -4041,8 +4047,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -4261,7 +4268,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -4389,8 +4396,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -4469,8 +4476,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,
@@ -4689,7 +4697,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -4817,8 +4825,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                                               255, 130, 196, 255),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Colors.grey
+                                                  .withValues(alpha: 0.5),
                                               spreadRadius: 0.2,
                                               blurRadius: 2,
                                               offset: const Offset(0, 1),
@@ -4892,8 +4900,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                               BoxShadow(
                                                                 color: Colors
                                                                     .grey
-                                                                    .withOpacity(
-                                                                        0.5),
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            0.5),
                                                                 spreadRadius:
                                                                     0.2,
                                                                 blurRadius: 2,

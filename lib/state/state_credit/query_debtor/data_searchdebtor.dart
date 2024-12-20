@@ -424,7 +424,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -468,7 +468,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -491,7 +491,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                 Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: Colors.white.withAlpha(180),
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(5),
                                     ),
@@ -632,7 +632,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -643,7 +643,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withAlpha(180),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(5),
                     ),
@@ -775,7 +775,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withAlpha(130),
                             spreadRadius: 0.2,
                             blurRadius: 2,
                             offset: const Offset(0, 1),
@@ -806,7 +806,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withAlpha(130),
                             spreadRadius: 0.2,
                             blurRadius: 2,
                             offset: const Offset(0, 1),
@@ -830,8 +830,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                   .height *
                                               0.26,
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.7),
+                                            color: Colors.white
+                                                .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
                                               Radius.circular(5),
@@ -868,7 +868,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                             MediaQuery.of(context).size.height *
                                                 0.26,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
@@ -1027,8 +1028,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                   .height *
                                               0.26,
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.7),
+                                            color: Colors.white
+                                                .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
                                               Radius.circular(5),
@@ -1065,7 +1066,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                             MediaQuery.of(context).size.height *
                                                 0.26,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
@@ -1221,8 +1223,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                   .height *
                                               0.26,
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.7),
+                                            color: Colors.white
+                                                .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
                                               Radius.circular(5),
@@ -1259,7 +1261,8 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                             MediaQuery.of(context).size.height *
                                                 0.26,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
@@ -1422,7 +1425,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -1434,7 +1437,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withAlpha(180),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(5),
                     ),
@@ -1573,7 +1576,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -1670,7 +1673,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withAlpha(180),
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10))),
                       child: Column(
@@ -1722,7 +1725,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -1748,7 +1751,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1791,7 +1794,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1848,7 +1851,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -1887,7 +1890,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1975,7 +1978,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -2063,7 +2066,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     height: MediaQuery.of(context).size.height * 0.3,
                     padding: const EdgeInsets.all(2.0),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -2151,7 +2154,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -2239,7 +2242,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -2327,7 +2330,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -2440,7 +2443,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.withAlpha(130),
                           spreadRadius: 0.2,
                           blurRadius: 2,
                           offset: const Offset(0, 1),
@@ -2471,7 +2474,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.2,
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withAlpha(180),
                             borderRadius: const BorderRadius.all(
                               Radius.circular(5),
                             ),

@@ -421,7 +421,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -465,7 +465,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
+                                    color: Colors.grey.withAlpha(130),
                                     spreadRadius: 0.2,
                                     blurRadius: 2,
                                     offset: const Offset(0, 1),
@@ -498,7 +498,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
+                                    color: Colors.grey.withAlpha(130),
                                     spreadRadius: 0.2,
                                     blurRadius: 2,
                                     offset: const Offset(0, 1),
@@ -519,8 +519,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                     .height *
                                                 0.20,
                                             decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.7),
+                                              color: Colors.white
+                                                  .withValues(alpha: 0.7),
                                               borderRadius:
                                                   const BorderRadius.all(
                                                 Radius.circular(5),
@@ -624,8 +624,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                     .height *
                                                 0.20,
                                             decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.7),
+                                              color: Colors.white
+                                                  .withValues(alpha: 0.7),
                                               borderRadius:
                                                   const BorderRadius.all(
                                                 Radius.circular(5),
@@ -713,8 +713,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                                     .height *
                                                 0.20,
                                             decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.7),
+                                              color: Colors.white
+                                                  .withValues(alpha: 0.7),
                                               borderRadius:
                                                   const BorderRadius.all(
                                                 Radius.circular(5),
@@ -823,7 +823,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                     height: MediaQuery.of(context).size.height *
                                         0.11,
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
+                                      color: Colors.white.withAlpha(180),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
@@ -851,7 +851,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -919,7 +919,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withAlpha(130),
                             spreadRadius: 0.2,
                             blurRadius: 2,
                             offset: const Offset(0, 1),
@@ -1066,7 +1066,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withAlpha(130),
                             spreadRadius: 0.2,
                             blurRadius: 2,
                             offset: const Offset(0, 1),
@@ -1091,7 +1091,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Container(
                               height: MediaQuery.of(context).size.height * 0.2,
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withAlpha(180),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
@@ -1138,7 +1138,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withAlpha(130),
                             spreadRadius: 0.2,
                             blurRadius: 2,
                             offset: const Offset(0, 1),
@@ -1163,7 +1163,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Container(
                               height: MediaQuery.of(context).size.height * 0.2,
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withAlpha(180),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
@@ -1210,7 +1210,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: Colors.grey.withAlpha(130),
                             spreadRadius: 0.2,
                             blurRadius: 2,
                             offset: const Offset(0, 1),
@@ -1235,7 +1235,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             Container(
                               height: MediaQuery.of(context).size.height * 0.2,
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withAlpha(180),
                                 borderRadius: const BorderRadius.all(
                                   Radius.circular(5),
                                 ),
@@ -1283,7 +1283,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withAlpha(130),
                               spreadRadius: 0.2,
                               blurRadius: 2,
                               offset: const Offset(0, 1),
@@ -1311,7 +1311,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 //     ? MediaQuery.of(context).size.height * 0.72
                                 //     : MediaQuery.of(context).size.height * 0.75,
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withAlpha(180),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
                                   ),
@@ -1442,7 +1442,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                           MediaQuery.of(context).size.height *
                                               0.1,
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.7),
+                                        color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),

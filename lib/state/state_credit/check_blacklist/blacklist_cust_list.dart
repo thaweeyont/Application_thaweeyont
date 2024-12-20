@@ -181,7 +181,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -275,7 +275,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color: Colors.grey.withAlpha(130),
                                         spreadRadius: 0.2,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),

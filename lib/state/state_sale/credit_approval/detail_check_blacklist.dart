@@ -106,7 +106,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -180,7 +180,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                               color: const Color.fromRGBO(251, 173, 55, 1),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -204,7 +204,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.3,
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.7),
+                                    color: Colors.white.withAlpha(180),
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(5),
                                     ),
@@ -332,7 +332,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                             color: const Color.fromRGBO(251, 173, 55, 1),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withAlpha(130),
                                 spreadRadius: 0.2,
                                 blurRadius: 2,
                                 offset: const Offset(0, 1),
@@ -364,7 +364,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
+                                    color: Colors.grey.withAlpha(130),
                                     spreadRadius: 0.2,
                                     blurRadius: 2,
                                     offset: const Offset(0, 1),
@@ -387,7 +387,7 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
                                     height: MediaQuery.of(context).size.height *
                                         0.15,
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.7),
+                                      color: Colors.white.withAlpha(180),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),

@@ -222,7 +222,7 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withValues(alpha: 0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -1244,7 +1244,7 @@ class _SupplyListState extends State<SupplyList> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -1256,7 +1256,7 @@ class _SupplyListState extends State<SupplyList> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -1282,7 +1282,7 @@ class _SupplyListState extends State<SupplyList> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 24, 24, 24)
-                              .withOpacity(0.9),
+                              .withValues(alpha: 0.9),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
@@ -1352,7 +1352,7 @@ class _SupplyListState extends State<SupplyList> {
                                         Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color: Colors.grey.withAlpha(130),
                                         spreadRadius: 0.2,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),
@@ -1382,7 +1382,7 @@ class _SupplyListState extends State<SupplyList> {
                                               padding: const EdgeInsets.all(8),
                                               decoration: BoxDecoration(
                                                 color: Colors.white
-                                                    .withOpacity(0.7),
+                                                    .withValues(alpha: 0.7),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                               ),
@@ -1685,7 +1685,7 @@ class _EmployeeListState extends State<EmployeeList> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withValues(alpha: 0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -1793,8 +1793,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                         Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
-                                        color:
-                                            Colors.grey.withValues(alpha: 0.5),
+                                        color: Colors.grey.withAlpha(130),
                                         spreadRadius: 0.2,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),
@@ -2062,16 +2061,6 @@ class _GroupExpensesState extends State<GroupExpenses> {
 
   @override
   Widget build(BuildContext context) {
-    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    const border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 0,
-      ),
-      borderRadius: BorderRadius.all(
-        Radius.circular(4.0),
-      ),
-    );
     return Scaffold(
       appBar: const CustomAppbar(title: 'ค้นหาหมวดค่าใช้จ่าย'),
       body: GestureDetector(
@@ -2088,7 +2077,7 @@ class _GroupExpensesState extends State<GroupExpenses> {
             //       borderRadius: const BorderRadius.all(Radius.circular(10)),
             //       boxShadow: [
             //         BoxShadow(
-            //           color: Colors.grey.withValues(alpha: 0.5),
+            //           color: Colors.grey.withAlpha(130),
             //           spreadRadius: 0.2,
             //           blurRadius: 2,
             //           offset: const Offset(0, 1),
@@ -2196,8 +2185,7 @@ class _GroupExpensesState extends State<GroupExpenses> {
                                         Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
-                                        color:
-                                            Colors.grey.withValues(alpha: 0.5),
+                                        color: Colors.grey.withAlpha(130),
                                         spreadRadius: 0.2,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),
@@ -2551,8 +2539,7 @@ class _ExpensesListState extends State<ExpensesList> {
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color:
-                                            Colors.grey.withValues(alpha: 0.5),
+                                        color: Colors.grey.withAlpha(130),
                                         spreadRadius: 0.2,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),
@@ -2608,6 +2595,7 @@ class _ExpensesListState extends State<ExpensesList> {
                                   ),
                                 ),
                               ),
+                              const SizedBox(height: 20),
                             ],
                           ),
                         ),

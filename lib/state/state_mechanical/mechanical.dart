@@ -223,7 +223,7 @@ class _MechanicalState extends State<Mechanical> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: const Color.fromARGB(255, 24, 24, 24)
-                                .withOpacity(0.9),
+                                .withValues(alpha: 0.9),
                             borderRadius: const BorderRadius.all(
                               Radius.circular(10),
                             ),
@@ -361,7 +361,7 @@ class _MechanicalState extends State<Mechanical> {
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withAlpha(130),
                         spreadRadius: 0.5,
                         blurRadius: 2,
                         offset: const Offset(0, 1),
@@ -496,7 +496,7 @@ class _MechanicalState extends State<Mechanical> {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withAlpha(130),
               spreadRadius: 0.5,
               blurRadius: 2,
               offset: const Offset(0, 1),

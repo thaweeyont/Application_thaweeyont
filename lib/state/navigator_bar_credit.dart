@@ -502,7 +502,8 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                color: const Color.fromARGB(255, 59, 59, 59).withOpacity(0.6),
+                color: const Color.fromARGB(255, 59, 59, 59)
+                    .withValues(alpha: 0.6),
                 spreadRadius: 1,
                 blurRadius: 6,
                 offset: const Offset(0, 3),

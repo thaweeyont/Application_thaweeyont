@@ -148,7 +148,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                 color: const Color.fromRGBO(255, 203, 246, 1),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -173,7 +173,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 24, 24, 24)
-                            .withOpacity(0.9),
+                            .withValues(alpha: 0.9),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(10),
                         ),
@@ -246,7 +246,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
+                                      color: Colors.grey.withAlpha(130),
                                       spreadRadius: 0.2,
                                       blurRadius: 2,
                                       offset: const Offset(0, 1),
@@ -275,11 +275,11 @@ class _Pay_installmentState extends State<Pay_installment> {
                                       height: 5,
                                     ),
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
+                                      // height:
+                                      //     MediaQuery.of(context).size.height *
+                                      //         0.2,
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.7),
+                                        color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),
@@ -363,12 +363,12 @@ class _Pay_installmentState extends State<Pay_installment> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.08,
+          height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
-            padding: const EdgeInsets.only(left: 5),
+            padding: const EdgeInsets.only(left: 10),
             child: DropdownButton(
               items: datalist
                   .map((value) => DropdownMenuItem(

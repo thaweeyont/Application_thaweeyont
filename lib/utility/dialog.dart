@@ -78,7 +78,7 @@ Future<void> showProgressEarthLoad(BuildContext context) async {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.7),
+            color: const Color.fromARGB(255, 24, 24, 24).withValues(alpha: 0.7),
             borderRadius: const BorderRadius.all(
               Radius.circular(0),
             ),

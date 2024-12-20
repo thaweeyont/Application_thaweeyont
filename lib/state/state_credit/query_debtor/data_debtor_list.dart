@@ -241,7 +241,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -331,7 +331,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                         Radius.circular(5)),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
+                                        color: Colors.grey.withAlpha(130),
                                         spreadRadius: 0.5,
                                         blurRadius: 2,
                                         offset: const Offset(0, 1),

@@ -39,8 +39,7 @@ class StockProductList extends StatefulWidget {
       this.idItemStyle,
       this.idItemSize,
       this.idItemColor,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StockProductList> createState() => _StockProductListState();
@@ -92,15 +91,30 @@ class _StockProductListState extends State<StockProductList> {
     myScroll(scrollControll, offset);
   }
 
-  void myScroll(scrollControll, offset) {
+  // void myScroll(scrollControll, offset) {
+  //   scrollControll.addListener(() async {
+  //     if (scrollControll.position.pixels ==
+  //         scrollControll.position.maxScrollExtent) {
+  //       setState(() {
+  //         isLoad = true;
+  //       });
+  //       await Future.delayed(const Duration(seconds: 1), () {
+  //         offset = offset + 10;
+  //         getDataStockList(offset);
+  //       });
+  //     }
+  //   });
+  // }
+
+  void myScroll(ScrollController scrollControll, int offset) {
     scrollControll.addListener(() async {
-      if (scrollControll.position.pixels ==
-          scrollControll.position.maxScrollExtent) {
+      if (scrollControll.position.atEdge &&
+          scrollControll.position.pixels != 0) {
         setState(() {
           isLoad = true;
+          offset += 10;
         });
         await Future.delayed(const Duration(seconds: 1), () {
-          offset = offset + 10;
           getDataStockList(offset);
         });
       }
@@ -198,7 +212,7 @@ class _StockProductListState extends State<StockProductList> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -297,7 +311,8 @@ class _StockProductListState extends State<StockProductList> {
                                           176, 218, 255, 1),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: Colors.grey
+                                              .withValues(alpha: 0.5),
                                           spreadRadius: 0.2,
                                           blurRadius: 2,
                                           offset: const Offset(0, 1),
@@ -362,7 +377,10 @@ class _StockProductListState extends State<StockProductList> {
                                             ),
                                           ],
                                         ),
-                                        const Divider(thickness: 1),
+                                        const Divider(
+                                          thickness: 1,
+                                          color: Colors.black54,
+                                        ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -420,7 +438,7 @@ class _StockProductListState extends State<StockProductList> {
                                       const Color.fromARGB(255, 130, 196, 255),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
+                                      color: Colors.grey.withAlpha(130),
                                       spreadRadius: 0.2,
                                       blurRadius: 2,
                                       offset: const Offset(0, 1),
@@ -524,7 +542,8 @@ class _StockProductListState extends State<StockProductList> {
                                           176, 218, 255, 1),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: Colors.grey
+                                              .withValues(alpha: 0.5),
                                           spreadRadius: 0.2,
                                           blurRadius: 2,
                                           offset: const Offset(0, 1),
@@ -627,7 +646,7 @@ class _StockProductListState extends State<StockProductList> {
                                       const Color.fromARGB(255, 130, 196, 255),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
+                                      color: Colors.grey.withAlpha(130),
                                       spreadRadius: 0.2,
                                       blurRadius: 2,
                                       offset: const Offset(0, 1),
@@ -696,7 +715,7 @@ class _StockProductListState extends State<StockProductList> {
 }
 
 class LoadData extends StatelessWidget {
-  const LoadData({Key? key}) : super(key: key);
+  const LoadData({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -741,7 +760,7 @@ class LoadData extends StatelessWidget {
 }
 
 class EndPage extends StatelessWidget {
-  const EndPage({Key? key}) : super(key: key);
+  const EndPage({super.key});
 
   @override
   Widget build(BuildContext context) {

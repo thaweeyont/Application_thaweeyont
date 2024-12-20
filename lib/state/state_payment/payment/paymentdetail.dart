@@ -113,7 +113,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 24, 24, 24).withValues(alpha: 0.9),
+                  color: Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -178,7 +178,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withValues(alpha: 0.5),
+                                color: Colors.grey.withAlpha(130),
                                 spreadRadius: 0.2,
                                 blurRadius: 2,
                                 offset: const Offset(0, 1),
@@ -192,7 +192,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 6, horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.7),
+                                  color: Colors.white.withAlpha(180),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -243,7 +243,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 6, horizontal: 8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.7),
+                                  color: Colors.white.withAlpha(180),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -270,7 +270,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withValues(alpha: 0.5),
+                                color: Colors.grey.withAlpha(130),
                                 spreadRadius: 0.2,
                                 blurRadius: 2,
                                 offset: const Offset(0, 1),
@@ -287,8 +287,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     i++) ...[
                                   Container(
                                     decoration: BoxDecoration(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.7),
+                                      color: Colors.white.withAlpha(180),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
@@ -343,7 +342,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                 const BorderRadius.all(Radius.circular(10)),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withValues(alpha: 0.5),
+                                color: Colors.grey.withAlpha(130),
                                 spreadRadius: 0.2,
                                 blurRadius: 2,
                                 offset: const Offset(0, 1),
@@ -360,8 +359,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     c++) ...[
                                   Container(
                                     decoration: BoxDecoration(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.7),
+                                      color: Colors.white.withAlpha(180),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),

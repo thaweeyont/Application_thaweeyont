@@ -29,8 +29,7 @@ class StockProductDetail extends StatefulWidget {
       this.itemName,
       this.itemTypeName,
       this.brandName,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<StockProductDetail> createState() => _StockProductDetailState();
@@ -229,7 +228,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                   color: const Color.fromRGBO(176, 218, 255, 1),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -281,7 +280,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 24, 24, 24)
-                              .withOpacity(0.9),
+                              .withValues(alpha: 0.9),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
@@ -361,7 +360,8 @@ class _StockProductDetailState extends State<StockProductDetail> {
                                           176, 218, 255, 1),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
+                                          color: Colors.grey
+                                              .withValues(alpha: 0.5),
                                           spreadRadius: 0.2,
                                           blurRadius: 2,
                                           offset: const Offset(0, 1),

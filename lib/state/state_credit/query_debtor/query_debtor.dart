@@ -610,7 +610,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -881,7 +881,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 spreadRadius: 0.2,
                                                 blurRadius: 2,
                                                 offset: const Offset(0, 1),
@@ -1047,7 +1047,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -1064,7 +1064,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                     'ชื่อประเภท',
                                     style: MyContant().h4normalStyle(),
                                   ),
-                                  input_nameDia(sizeIcon, border),
+                                  inputNameDia(sizeIcon, border),
                                 ],
                               ),
                             ]),
@@ -1146,7 +1146,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 spreadRadius: 0.2,
                                                 blurRadius: 2,
                                                 offset: const Offset(0, 1),
@@ -1394,7 +1394,7 @@ class _Query_debtorState extends State<Query_debtor> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -1457,12 +1457,12 @@ class _Query_debtorState extends State<Query_debtor> {
                                       'ชื่อ',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_nameEmploDia(sizeIcon, border),
+                                    inputNameEmploDia(sizeIcon, border),
                                     Text(
                                       'สกุล',
                                       style: MyContant().h4normalStyle(),
                                     ),
-                                    input_lastNameEmploDia(sizeIcon, border),
+                                    inputLastNameEmploDia(sizeIcon, border),
                                   ],
                                 ),
                               ],
@@ -1527,10 +1527,10 @@ class _Query_debtorState extends State<Query_debtor> {
                                         ),
                                       ),
                                     ),
-                                    input_searchCus(sizeIcon, border),
+                                    inputSearchCus(sizeIcon, border),
                                     if (selectValue_customer.toString() ==
                                         "2") ...[
-                                      input_lastnameCus(sizeIcon, border)
+                                      inputLastnameCus(sizeIcon, border)
                                     ],
                                   ],
                                 ),
@@ -1625,7 +1625,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 spreadRadius: 0.2,
                                                 blurRadius: 2,
                                                 offset: const Offset(0, 1),
@@ -1772,7 +1772,7 @@ class _Query_debtorState extends State<Query_debtor> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
@@ -1789,7 +1789,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           'รหัสลูกค้า',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_idcustomer(sizeIcon, border),
+                        inputIdcustomer(sizeIcon, border),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
@@ -1812,7 +1812,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           'เลขบัตรประชาชน',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_idcard(sizeIcon, border),
+                        inputIdcard(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1821,12 +1821,12 @@ class _Query_debtorState extends State<Query_debtor> {
                           'ชื่อ',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_name(sizeIcon, border),
+                        inputName(sizeIcon, border),
                         Text(
                           'นามสกุล',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_lastname(sizeIcon, border),
+                        inputLastname(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1844,7 +1844,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           'เลขที่สัญญา',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_signId(sizeIcon, border),
+                        inputSignId(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1853,7 +1853,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           'เบอร์โทร',
                           style: MyContant().h4normalStyle(),
                         ),
-                        input_tel(sizeIcon, border),
+                        inputTel(sizeIcon, border),
                       ],
                     ),
                     Row(
@@ -1862,7 +1862,7 @@ class _Query_debtorState extends State<Query_debtor> {
                           'ค้นหาจาก',
                           style: MyContant().h4normalStyle(),
                         ),
-                        select_search(sizeIcon, border),
+                        selectSearch(sizeIcon, border),
                       ],
                     ),
                     if (filter == true) ...[
@@ -1873,12 +1873,12 @@ class _Query_debtorState extends State<Query_debtor> {
                             'บ้านเลขที่',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_numberhome(sizeIcon, border),
+                          inputNumberhome(sizeIcon, border),
                           Text(
                             'หมู่',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_moo(sizeIcon, border),
+                          inputMoo(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -1887,7 +1887,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             'ตำบล',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_district(sizeIcon, border),
+                          inputDistrict(sizeIcon, border),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -1910,7 +1910,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             'อำเภอ',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_amphoe(sizeIcon, border),
+                          inputAmphoe(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -1919,7 +1919,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             'จังหวัด',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_province(sizeIcon, border),
+                          inputProvince(sizeIcon, border),
                         ],
                       ),
                       line(),
@@ -1929,7 +1929,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             'สาขา',
                             style: MyContant().h4normalStyle(),
                           ),
-                          select_branch(sizeIcon, border),
+                          selectBranch(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -1938,7 +1938,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             'ประเภทลูกหนี้ ',
                             style: MyContant().h4normalStyle(),
                           ),
-                          select_debtorTypelist(sizeIcon, border),
+                          selectDebtorTypelist(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -1947,7 +1947,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             'สถานะสัญญา',
                             style: MyContant().h4normalStyle(),
                           ),
-                          select_contractStatus(sizeIcon, border),
+                          selectContractStatus(sizeIcon, border),
                         ],
                       ),
                       Row(
@@ -1956,7 +1956,7 @@ class _Query_debtorState extends State<Query_debtor> {
                             'ประเภทสินค้า',
                             style: MyContant().h4normalStyle(),
                           ),
-                          input_contractType(sizeIcon, border),
+                          inputContractType(sizeIcon, border),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
@@ -2106,7 +2106,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_idcustomer(sizeIcon, border) {
+  Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
@@ -2131,7 +2131,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_idcard(sizeIcon, border) {
+  Expanded inputIdcard(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2157,7 +2157,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_name(sizeIcon, border) {
+  Expanded inputName(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2180,7 +2180,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_lastname(sizeIcon, border) {
+  Expanded inputLastname(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2203,7 +2203,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_tel(sizeIcon, border) {
+  Expanded inputTel(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2229,7 +2229,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded select_search(sizeIcon, border) {
+  Expanded selectSearch(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2273,7 +2273,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_numberhome(sizeIcon, border) {
+  Expanded inputNumberhome(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2296,7 +2296,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_moo(sizeIcon, border) {
+  Expanded inputMoo(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2319,7 +2319,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_district(sizeIcon, border) {
+  Expanded inputDistrict(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
@@ -2343,7 +2343,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_amphoe(sizeIcon, border) {
+  Expanded inputAmphoe(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2367,7 +2367,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_province(sizeIcon, border) {
+  Expanded inputProvince(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2391,7 +2391,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded select_branch(sizeIcon, border) {
+  Expanded selectBranch(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2433,7 +2433,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_signId(sizeIcon, border) {
+  Expanded inputSignId(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2479,7 +2479,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded select_debtorTypelist(sizeIcon, border) {
+  Expanded selectDebtorTypelist(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2521,7 +2521,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded select_contractStatus(sizeIcon, border) {
+  Expanded selectContractStatus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2563,7 +2563,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_contractType(sizeIcon, border) {
+  Expanded inputContractType(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
@@ -2590,7 +2590,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_nameDia(sizeIcon, border) {
+  Expanded inputNameDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2616,7 +2616,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_nameEmploDia(sizeIcon, border) {
+  Expanded inputNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2642,7 +2642,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_lastNameEmploDia(sizeIcon, border) {
+  Expanded inputLastNameEmploDia(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2668,7 +2668,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_searchCus(sizeIcon, border) {
+  Expanded inputSearchCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2693,7 +2693,7 @@ class _Query_debtorState extends State<Query_debtor> {
     );
   }
 
-  Expanded input_lastnameCus(sizeIcon, border) {
+  Expanded inputLastnameCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),

@@ -68,7 +68,7 @@ class _Home_creditState extends State<Home_credit> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.grey.withAlpha(130),
                   spreadRadius: 0.2,
                   blurRadius: 7,
                   offset: const Offset(0, 1),
@@ -90,7 +90,7 @@ class _Home_creditState extends State<Home_credit> {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(180),
                         ),
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withValues(alpha: 0.1),
                       ),
                     ),
                   ),
@@ -135,7 +135,7 @@ class _Home_creditState extends State<Home_credit> {
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.grey.withAlpha(130),
                   spreadRadius: 0.2,
                   blurRadius: 7,
                   offset: const Offset(0, 1),

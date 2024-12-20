@@ -207,7 +207,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           ? Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withOpacity(0.9),
+                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
@@ -290,7 +290,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   color: const Color.fromRGBO(251, 173, 55, 1),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
+                                      color: Colors.grey.withAlpha(130),
                                       spreadRadius: 0.2,
                                       blurRadius: 2,
                                       offset: const Offset(0, 1),
@@ -311,7 +311,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.7),
+                                        color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),
@@ -368,7 +368,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -378,7 +378,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withAlpha(180),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(5),
                   ),
@@ -513,7 +513,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.withAlpha(130),
                           spreadRadius: 0.2,
                           blurRadius: 2,
                           offset: const Offset(0, 1),
@@ -543,7 +543,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: Colors.grey.withAlpha(130),
                           spreadRadius: 0.2,
                           blurRadius: 2,
                           offset: const Offset(0, 1),
@@ -568,8 +568,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                   .height *
                                               0.26,
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.7),
+                                            color: Colors.white
+                                                .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
                                               Radius.circular(5),
@@ -606,7 +606,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                             MediaQuery.of(context).size.height *
                                                 0.26,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
@@ -765,8 +766,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                   .height *
                                               0.26,
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.7),
+                                            color: Colors.white
+                                                .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
                                               Radius.circular(5),
@@ -803,7 +804,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                             MediaQuery.of(context).size.height *
                                                 0.26,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
@@ -962,8 +964,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                   .height *
                                               0.26,
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.7),
+                                            color: Colors.white
+                                                .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
                                               Radius.circular(5),
@@ -1000,7 +1002,8 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                             MediaQuery.of(context).size.height *
                                                 0.26,
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.7),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
@@ -1162,7 +1165,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -1172,7 +1175,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withAlpha(180),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(5),
                   ),
@@ -1265,7 +1268,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -1370,7 +1373,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(10),
                       ),
@@ -1426,7 +1429,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -1450,7 +1453,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1497,7 +1500,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1558,7 +1561,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -1595,7 +1598,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1684,7 +1687,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1772,7 +1775,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     height: MediaQuery.of(context).size.height * 0.3,
                     padding: const EdgeInsets.all(2.0),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1860,7 +1863,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -1948,7 +1951,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -2036,7 +2039,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(5),
                       ),
@@ -2137,7 +2140,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withAlpha(130),
                         spreadRadius: 0.2,
                         blurRadius: 2,
                         offset: const Offset(0, 1),
@@ -2166,7 +2169,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.2,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withAlpha(180),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(5),
                           ),

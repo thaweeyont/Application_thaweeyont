@@ -149,7 +149,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                 color: const Color.fromRGBO(251, 173, 55, 1),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color: Colors.grey.withAlpha(130),
                     spreadRadius: 0.2,
                     blurRadius: 2,
                     offset: const Offset(0, 1),
@@ -174,7 +174,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 24, 24, 24)
-                            .withOpacity(0.9),
+                            .withValues(alpha: 0.9),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(10),
                         ),
@@ -247,7 +247,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
+                                      color: Colors.grey.withAlpha(130),
                                       spreadRadius: 0.2,
                                       blurRadius: 2,
                                       offset: const Offset(0, 1),
@@ -280,7 +280,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                           MediaQuery.of(context).size.height *
                                               0.2,
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.7),
+                                        color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),

@@ -404,7 +404,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -572,7 +572,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 spreadRadius: 0.2,
                                                 blurRadius: 2,
                                                 offset: const Offset(0, 1),
@@ -780,7 +780,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
+                                  color: Colors.grey.withAlpha(130),
                                   spreadRadius: 0.2,
                                   blurRadius: 2,
                                   offset: const Offset(0, 1),
@@ -1052,7 +1052,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.grey
-                                                    .withOpacity(0.5),
+                                                    .withValues(alpha: 0.5),
                                                 spreadRadius: 0.2,
                                                 blurRadius: 2,
                                                 offset: const Offset(0, 1),
@@ -1156,7 +1156,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.grey.withAlpha(130),
                       spreadRadius: 0.2,
                       blurRadius: 2,
                       offset: const Offset(0, 1),
