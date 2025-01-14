@@ -189,7 +189,7 @@ class MyContant {
         fontFamily: 'Prompt',
       );
   TextStyle TextcolorBlue() => const TextStyle(
-        fontSize: 15,
+        fontSize: 16,
         color: Color.fromRGBO(0, 14, 131, 1),
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
@@ -283,11 +283,11 @@ class MyContant {
           borderRadius: BorderRadius.circular(8),
         ),
         foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-        padding: const EdgeInsets.all(0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         textStyle: const TextStyle(fontSize: 15, fontFamily: 'Prompt'),
       );
 
-  SizedBox space_box(double height) => SizedBox(
+  SizedBox spaceBox(double height) => SizedBox(
         height: height,
         child: Container(
           color: Colors.grey[200],

@@ -15,7 +15,7 @@ import 'data_list_quarantee.dart';
 
 class ApproveCreditQuarantee extends StatefulWidget {
   final String? tranId;
-  const ApproveCreditQuarantee(this.tranId, {Key? key}) : super(key: key);
+  const ApproveCreditQuarantee(this.tranId, {super.key});
 
   @override
   State<ApproveCreditQuarantee> createState() => _ApproveCreditQuaranteeState();
@@ -352,6 +352,8 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                   Container(
                                     height: MediaQuery.of(context).size.height *
                                         0.08,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 4),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
@@ -366,90 +368,105 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            SizedBox(
-                                              height: 35,
-                                              width: 112,
-                                              child: ElevatedButton(
-                                                style: MyContant()
-                                                    .myButtonQuaranteeStyle(),
-                                                onPressed: () {
-                                                  if (ListCreditquarantee[i]
-                                                              ['custId'] !=
-                                                          "" &&
-                                                      ListCreditquarantee[i]
-                                                              ['custId'] !=
-                                                          "NO") {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CreditDebtorDetail(
-                                                                ListCreditquarantee[
-                                                                        i]
-                                                                    ['custId']),
-                                                      ),
-                                                    );
-                                                  }
-                                                },
-                                                child: const Text(
-                                                    'ตรวจสอบหนี้สิน'),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            SizedBox(
-                                              height: 35,
-                                              width: 112,
-                                              child: ElevatedButton(
-                                                style: MyContant()
-                                                    .myButtonQuaranteeStyle(),
-                                                onPressed: () {
-                                                  if (ListCreditquarantee[i]
-                                                              ['custId'] !=
-                                                          "" &&
-                                                      ListCreditquarantee[i]
-                                                              ['custId'] !=
-                                                          "NO") {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            DataListQuarantee(
-                                                          ListCreditquarantee[i]
-                                                              ['custId'],
+                                            Expanded(
+                                              child: SizedBox(
+                                                height: 35,
+                                                // width: 112,
+                                                child: ElevatedButton(
+                                                  style: MyContant()
+                                                      .myButtonQuaranteeStyle(),
+                                                  onPressed: () {
+                                                    if (ListCreditquarantee[i]
+                                                                ['custId'] !=
+                                                            "" &&
+                                                        ListCreditquarantee[i]
+                                                                ['custId'] !=
+                                                            "NO") {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CreditDebtorDetail(
+                                                                  ListCreditquarantee[
+                                                                          i][
+                                                                      'custId']),
                                                         ),
-                                                      ),
-                                                    );
-                                                  }
-                                                },
-                                                child: const Text(
-                                                    'รายละเอียดผู้ค้ำ'),
+                                                      );
+                                                    }
+                                                  },
+                                                  child: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: const Text(
+                                                        'ตรวจสอบหนี้สิน'),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(
                                               width: 5,
                                             ),
-                                            SizedBox(
-                                              height: 35,
-                                              width: 112,
-                                              child: ElevatedButton(
-                                                style: MyContant()
-                                                    .myButtonQuaranteeStyle(),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Page_Check_Blacklist(
-                                                              ListCreditquarantee[
-                                                                      i]
-                                                                  ['smartId']),
-                                                    ),
-                                                  );
-                                                },
-                                                child: const Text(
-                                                    'เช็ค Blacklist'),
+                                            Expanded(
+                                              child: SizedBox(
+                                                height: 35,
+                                                // width: 112,
+                                                child: ElevatedButton(
+                                                  style: MyContant()
+                                                      .myButtonQuaranteeStyle(),
+                                                  onPressed: () {
+                                                    if (ListCreditquarantee[i]
+                                                                ['custId'] !=
+                                                            "" &&
+                                                        ListCreditquarantee[i]
+                                                                ['custId'] !=
+                                                            "NO") {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              DataListQuarantee(
+                                                            ListCreditquarantee[
+                                                                i]['custId'],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                  child: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: const Text(
+                                                        'รายละเอียดผู้ค้ำ'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Expanded(
+                                              child: SizedBox(
+                                                height: 35,
+                                                // width: 112,
+                                                child: ElevatedButton(
+                                                  style: MyContant()
+                                                      .myButtonQuaranteeStyle(),
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Page_Check_Blacklist(
+                                                                ListCreditquarantee[
+                                                                        i][
+                                                                    'smartId']),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: const Text(
+                                                        'เช็ค Blacklist'),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],

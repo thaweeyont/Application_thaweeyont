@@ -466,10 +466,6 @@ class _AddressCustState extends State<AddressCust> {
                                                         .size
                                                         .height *
                                                     0.038,
-                                                // width: MediaQuery.of(context)
-                                                //         .size
-                                                //         .width *
-                                                //     0.25,
                                                 child: ElevatedButton.icon(
                                                   label: Text(
                                                     'บันทึก',
@@ -510,10 +506,6 @@ class _AddressCustState extends State<AddressCust> {
                                                         .size
                                                         .height *
                                                     0.038,
-                                                // width: MediaQuery.of(context)
-                                                //         .size
-                                                //         .width *
-                                                //     0.25,
                                                 child: ElevatedButton.icon(
                                                   label: Text(
                                                     'แก้ไข',
@@ -550,10 +542,6 @@ class _AddressCustState extends State<AddressCust> {
                                                       .size
                                                       .height *
                                                   0.038,
-                                              // width: MediaQuery.of(context)
-                                              //         .size
-                                              //         .width *
-                                              //     0.28,
                                               child: ElevatedButton.icon(
                                                 label: Text(
                                                   'ดูแผนที่',
@@ -598,10 +586,6 @@ class _AddressCustState extends State<AddressCust> {
                                                       .size
                                                       .height *
                                                   0.038,
-                                              // width: MediaQuery.of(context)
-                                              //         .size
-                                              //         .width *
-                                              //     0.28,
                                               child: ElevatedButton.icon(
                                                 label: Text(
                                                   'เส้นทาง',

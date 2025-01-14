@@ -353,12 +353,9 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     return Expanded(
       child: ListView(
         children: [
-          const SizedBox(
-            height: 5,
-          ),
+          const SizedBox(height: 5),
           Padding(
-            padding:
-                const EdgeInsets.only(top: 0, bottom: 0, left: 8, right: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -393,9 +390,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text(
@@ -404,9 +399,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -423,9 +416,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -442,9 +433,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -461,9 +450,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -480,9 +467,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text(
@@ -628,9 +613,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                 .h4normalStyle()),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -653,9 +636,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         )
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -678,9 +659,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -703,9 +682,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -728,9 +705,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       children: [
                                                         Text(
@@ -826,9 +801,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                 .h4normalStyle()),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -851,9 +824,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         )
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -876,9 +847,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -901,9 +870,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -926,9 +893,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       children: [
                                                         Text(
@@ -1024,9 +989,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                                 .h4normalStyle()),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1049,9 +1012,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1074,9 +1035,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1099,9 +1058,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1124,9 +1081,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       children: [
                                                         Text(
@@ -1190,27 +1145,21 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text(
                           'ราคาเช่าซื้อ : ${Debtordetail['leaseTotal']} บาท',
                           style: MyContant().h4normalStyle(),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        const SizedBox(width: 10),
                         Text(
                           'ดอกเบี้ย ${Debtordetail['interest']} %',
                           style: MyContant().h4normalStyle(),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text(
@@ -1219,9 +1168,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text(
@@ -1230,9 +1177,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text(
@@ -1241,9 +1186,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text(
@@ -1277,9 +1220,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               ),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1296,9 +1237,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Text(
@@ -1307,9 +1246,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Text(
@@ -1318,9 +1255,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1337,9 +1272,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1356,9 +1289,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Text(
@@ -1367,9 +1298,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
@@ -1403,9 +1332,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -1419,7 +1346,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 0, left: 8, right: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -1447,9 +1374,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
@@ -1483,9 +1408,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       Text(
@@ -1534,9 +1457,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -1546,12 +1467,9 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
     return Expanded(
       child: ListView(
         children: [
-          const SizedBox(
-            height: 5,
-          ),
+          const SizedBox(height: 5),
           Padding(
-            padding:
-                const EdgeInsets.only(top: 0, left: 8, right: 8, bottom: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
@@ -1591,9 +1509,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
@@ -1604,7 +1520,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ),
                     child: list_service == null
-                        ? Container(
+                        ? SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1656,10 +1572,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  // H010105220554415
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1680,9 +1593,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
@@ -1693,7 +1604,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ),
                     child: list_finance == null
-                        ? Container(
+                        ? SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1745,9 +1656,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1768,9 +1677,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     padding: const EdgeInsets.all(2.0),
@@ -1781,7 +1688,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ),
                     child: list_debNote == null
-                        ? Container(
+                        ? SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1816,9 +1723,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
+                                    const SizedBox(height: 10),
                                     Row(
                                       children: [
                                         Text(
@@ -1833,9 +1738,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1856,9 +1759,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
@@ -1921,9 +1822,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -1944,9 +1843,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ],
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     height: MediaQuery.of(context).size.height * 0.3,
@@ -1957,7 +1854,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ),
                     child: list_regis == null
-                        ? Container(
+                        ? SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1992,9 +1889,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
+                                    const SizedBox(height: 10),
                                     Row(
                                       children: [
                                         Text(
@@ -2009,9 +1904,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -2045,7 +1938,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                       ),
                     ),
                     child: list_checker == null
-                        ? Container(
+                        ? SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -2097,16 +1990,12 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                             ],
                           ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
+                  const SizedBox(height: 20)
                 ],
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -2163,9 +2052,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.2,
                         decoration: BoxDecoration(
@@ -2192,9 +2079,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -2205,13 +2090,9 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               line(),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
                                   Text(
@@ -2247,9 +2128,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               ),
             ),
           ],
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -2264,9 +2143,9 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(width: 5),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
                 child: ElevatedButton(
                   onPressed: () {
                     menuList("list_content_mu1");
@@ -2283,8 +2162,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 child: ElevatedButton(
                   onPressed: () {
                     menuList("list_content_mu2");
@@ -2301,8 +2179,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 child: ElevatedButton(
                   onPressed: () {
                     menuList("list_content_mu3");
@@ -2319,8 +2196,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 8, top: 8, right: 2, bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 child: ElevatedButton(
                   onPressed: () {
                     menuList("list_content_mu4");
@@ -2336,9 +2212,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 6,
-              )
+              const SizedBox(width: 5)
             ],
           )
         ],

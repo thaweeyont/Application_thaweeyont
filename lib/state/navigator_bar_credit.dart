@@ -189,8 +189,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   String titleHead = "";
   String nameMenu = '';
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 25, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     const Query_debtor(),
     const Page_Checkpurchase_info(),
@@ -386,7 +384,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(20),
                     ),
-                    color: Colors.grey.shade200,
+                    color: Colors.grey[300],
                     // gradient: LinearGradient(
                     //   colors: <Color>[
                     //     Color.fromRGBO(238, 208, 110, 1),
@@ -815,57 +813,78 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  void handleMenuItemSelected(allowedMenu) {
-    List<String> listallowedMenu = allowedMenu;
-    String textNamemenu;
-    if (allowApproveStatus == true) {
-      textNamemenu = "บันทึกพิจารณาอนุมัติสินเชื่อ";
-    } else {
-      textNamemenu = "ตรวจสอบผลอนุมัติสินเชื่อ";
-    }
+  void handleMenuItemSelected(List<String> allowedMenu) {
+    final String textNamemenu = allowApproveStatus!
+        ? "บันทึกพิจารณาอนุมัติสินเชื่อ"
+        : "ตรวจสอบผลอนุมัติสินเชื่อ";
 
-    List<Map<String, String>> menuList = [
-      {
-        "id": "001",
-        "nameMenu": textNamemenu,
-      },
-      {
-        "id": "002",
-        "nameMenu": "สอบถามรายละเอียดลูกหนี้",
-      },
-      {
-        "id": "003",
-        "nameMenu": "สอบถามรายละเอียด BlackList",
-      },
-      {
-        "id": "004",
-        "nameMenu": "ลูกค้าสัมพันธ์ทวียนต์",
-      },
-      {
-        "id": "005",
-        "nameMenu": "ตรวจสอบข้อมูลการซื้อสินค้า",
-      },
-      {
-        "id": "006",
-        "nameMenu": "สอบถามสินค้าในสต็อค",
-      },
-      {
-        "id": "007",
-        "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า",
-      },
-      {
-        "id": "008",
-        "nameMenu": "บันทึกอนุมัติการจ่าย",
-      },
+    final List<Map<String, String>> menuList = [
+      {"id": "001", "nameMenu": textNamemenu},
+      {"id": "002", "nameMenu": "สอบถามรายละเอียดลูกหนี้"},
+      {"id": "003", "nameMenu": "สอบถามรายละเอียด BlackList"},
+      {"id": "004", "nameMenu": "ลูกค้าสัมพันธ์ทวียนต์"},
+      {"id": "005", "nameMenu": "ตรวจสอบข้อมูลการซื้อสินค้า"},
+      {"id": "006", "nameMenu": "สอบถามสินค้าในสต็อค"},
+      {"id": "007", "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า"},
+      {"id": "008", "nameMenu": "บันทึกอนุมัติการจ่าย"},
     ];
-    for (var menuItem in menuList) {
-      for (var allowedItem in listallowedMenu) {
-        if (menuItem['id'] == allowedItem) {
-          result.add(menuItem);
-        }
-      }
-    }
+
+    result = menuList.where((menuItem) {
+      return allowedMenu.contains(menuItem['id']);
+    }).toList();
   }
+
+  // void handleMenuItemSelected(allowedMenu) {
+  //   List<String> listallowedMenu = allowedMenu;
+  //   String textNamemenu;
+  //   if (allowApproveStatus == true) {
+  //     textNamemenu = "บันทึกพิจารณาอนุมัติสินเชื่อ";
+  //   } else {
+  //     textNamemenu = "ตรวจสอบผลอนุมัติสินเชื่อ";
+  //   }
+
+  //   List<Map<String, String>> menuList = [
+  //     {
+  //       "id": "001",
+  //       "nameMenu": textNamemenu,
+  //     },
+  //     {
+  //       "id": "002",
+  //       "nameMenu": "สอบถามรายละเอียดลูกหนี้",
+  //     },
+  //     {
+  //       "id": "003",
+  //       "nameMenu": "สอบถามรายละเอียด BlackList",
+  //     },
+  //     {
+  //       "id": "004",
+  //       "nameMenu": "ลูกค้าสัมพันธ์ทวียนต์",
+  //     },
+  //     {
+  //       "id": "005",
+  //       "nameMenu": "ตรวจสอบข้อมูลการซื้อสินค้า",
+  //     },
+  //     {
+  //       "id": "006",
+  //       "nameMenu": "สอบถามสินค้าในสต็อค",
+  //     },
+  //     {
+  //       "id": "007",
+  //       "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า",
+  //     },
+  //     {
+  //       "id": "008",
+  //       "nameMenu": "บันทึกอนุมัติการจ่าย",
+  //     },
+  //   ];
+  //   for (var menuItem in menuList) {
+  //     for (var allowedItem in listallowedMenu) {
+  //       if (menuItem['id'] == allowedItem) {
+  //         result.add(menuItem);
+  //       }
+  //     }
+  //   }
+  // }
 
   Column listMenu(BuildContext context, double size) {
     return Column(
@@ -961,144 +980,59 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   }
 
   menuOntap(id) {
-    var OnTap;
-    switch (id) {
-      case '001':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('3'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case '002':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('0'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case '003':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('5'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case '004':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('4'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case '005':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('1'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case '006':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('6'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case '007':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('7'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
-      case '008':
-        OnTap = Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Navigator_bar_credit('8'),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        break;
+    final Map<String, String> idToMenu = {
+      '001': '3',
+      '002': '0',
+      '003': '5',
+      '004': '4',
+      '005': '1',
+      '006': '6',
+      '007': '7',
+      '008': '8',
+    };
+
+    final credit = idToMenu[id];
+    print(idToMenu[id]);
+    if (credit != null) {
+      return Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Navigator_bar_credit(credit),
+        ),
+        (Route<dynamic> route) => false,
+      );
     }
-    return OnTap;
+    return null; // หรือแสดงข้อความ error กรณี id ไม่ถูกต้อง
   }
 
-  getMenuColor(menuColor) {
-    var color;
-    switch (menuColor) {
-      case '001':
-        color = const Color.fromRGBO(251, 713, 55, 1);
-        break;
-      case '002':
-        color = const Color.fromRGBO(255, 152, 238, 1);
-        break;
-      case '003':
-        color = const Color.fromRGBO(162, 181, 252, 1);
-        break;
-      case '004':
-        color = const Color.fromRGBO(64, 203, 203, 1);
-        break;
-      case '005':
-        color = const Color.fromRGBO(212, 151, 233, 1);
-        break;
-      case '006':
-        color = const Color.fromRGBO(176, 218, 255, 1);
-        break;
-      case '007':
-        color = const Color.fromARGB(255, 241, 209, 89);
-        break;
-      case '008':
-        color = const Color.fromRGBO(226, 199, 132, 1);
-        break;
-    }
-    return color;
+  Color? getMenuColor(menuColor) {
+    final Map<String, Color> menuColors = {
+      '001': const Color.fromRGBO(251, 713, 55, 1),
+      '002': const Color.fromRGBO(255, 152, 238, 1),
+      '003': const Color.fromRGBO(162, 181, 252, 1),
+      '004': const Color.fromRGBO(64, 203, 203, 1),
+      '005': const Color.fromRGBO(212, 151, 233, 1),
+      '006': const Color.fromRGBO(176, 218, 255, 1),
+      '007': const Color.fromARGB(255, 241, 209, 89),
+      '008': const Color.fromRGBO(226, 199, 132, 1),
+    };
+
+    return menuColors[menuColor];
   }
 
-  getMenuIcon(menuId) {
-    var icon;
-    switch (menuId) {
-      case '001':
-        icon = Icons.manage_accounts_rounded;
-        break;
-      case '002':
-        icon = Icons.people;
-        break;
-      case '003':
-        icon = Icons.person_off_rounded;
-        break;
-      case '004':
-        icon = Icons.switch_account_outlined;
-        break;
-      case '005':
-        icon = Icons.local_mall_rounded;
-        break;
-      case '006':
-        icon = Icons.production_quantity_limits_sharp;
-        break;
-      case '007':
-        icon = Icons.miscellaneous_services;
-        break;
-      case '008':
-        icon = Icons.payments_outlined;
-        break;
-    }
-    return icon;
+  IconData? getMenuIcon(menuId) {
+    final Map<String, IconData> menuIcons = {
+      '001': Icons.manage_accounts_rounded,
+      '002': Icons.people,
+      '003': Icons.person_off_rounded,
+      '004': Icons.switch_account_outlined,
+      '005': Icons.local_mall_rounded,
+      '006': Icons.production_quantity_limits_sharp,
+      '007': Icons.miscellaneous_services,
+      '008': Icons.payments_outlined,
+    };
+
+    return menuIcons[menuId];
   }
 
   InkWell about(BuildContext context, double size) {

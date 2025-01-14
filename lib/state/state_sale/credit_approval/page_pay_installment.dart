@@ -14,8 +14,7 @@ class Page_Pay_Installment extends StatefulWidget {
   var signId, list_payDetail;
   List<dynamic> period;
   Page_Pay_Installment(this.signId, this.list_payDetail, this.period,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<Page_Pay_Installment> createState() => _Page_Pay_InstallmentState();
@@ -272,13 +271,8 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
+                                    const SizedBox(height: 5),
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
@@ -289,9 +283,6 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
                                           children: [
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -304,9 +295,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -324,9 +313,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               children: [
                                                 Expanded(
@@ -348,9 +335,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                               ),
                             ),
                           ],
-                          const SizedBox(
-                            height: 15,
-                          ),
+                          const SizedBox(height: 15),
                         ],
                       ),
           ),
@@ -364,12 +349,12 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-          height: MediaQuery.of(context).size.width * 0.08,
+          height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: Padding(
-            padding: const EdgeInsets.only(left: 5),
+            padding: const EdgeInsets.only(left: 10),
             child: DropdownButton(
               items: datalist
                   .map((value) => DropdownMenuItem(

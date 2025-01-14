@@ -1303,13 +1303,8 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               Container(
-                                // height: list_detail!['approveStatus'] == '3'
-                                //     ? MediaQuery.of(context).size.height * 0.72
-                                //     : MediaQuery.of(context).size.height * 0.75,
                                 decoration: BoxDecoration(
                                   color: Colors.white.withAlpha(180),
                                   borderRadius: const BorderRadius.all(
@@ -1337,9 +1332,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                           selectTypeList(sizeIcon, border),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
+                                      const SizedBox(height: 15),
                                       Row(
                                         children: [
                                           Text(
@@ -1364,19 +1357,9 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                               selectNotReasonList(
                                                   sizeIcon, border),
                                             ]
-                                            // else ...[
-                                            //   SizedBox(
-                                            //     height: MediaQuery.of(context)
-                                            //             .size
-                                            //             .height *
-                                            //         0.14,
-                                            //   )
-                                            // ]
                                           ],
                                         ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
+                                        const SizedBox(height: 5),
                                       ] else ...[
                                         Row(
                                           children: [
@@ -1385,9 +1368,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                           ],
                                         ),
                                       ],
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
+                                      const SizedBox(height: 15),
                                       Row(
                                         children: [
                                           Text(
@@ -1432,9 +1413,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               ),
                               if (list_detail!['approveStatus'] == '3' &&
                                   allowApproveStatus == true) ...[
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 Column(
                                   children: [
                                     Container(
@@ -1528,9 +1507,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       ),
                     ),
                   ],
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -1544,16 +1521,6 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
   }
 
   Container slidemenu(BuildContext context) {
-    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    const border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 0,
-      ),
-      borderRadius: BorderRadius.all(
-        Radius.circular(4.0),
-      ),
-    );
     return Container(
       height: MediaQuery.of(context).size.height * 0.07,
       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -1562,12 +1529,10 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
         children: [
           Row(
             children: [
-              const SizedBox(
-                width: 8,
-              ),
+              const SizedBox(width: 4),
               if (allowApproveStatus == true) ...[
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -1587,7 +1552,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -1609,7 +1574,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -1630,7 +1595,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -1657,7 +1622,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -1679,7 +1644,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                 ),
               ] else ...[
                 Padding(
-                  padding: const EdgeInsets.only(right: 10),
+                  padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(

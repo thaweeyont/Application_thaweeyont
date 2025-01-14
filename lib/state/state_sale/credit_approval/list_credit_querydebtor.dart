@@ -18,18 +18,18 @@ class ListCreditQueryDebtor extends StatefulWidget {
       tumbolId,
       amphur,
       province,
-      firstname_c,
-      lastname_c,
-      select_addreessType,
+      firstnameC,
+      lastnameC,
+      selectAddreessType,
       idcard,
       telephone,
-      select_branchlist,
+      selectBranchlist,
       signId,
       itemTypelist,
-      selectValue_amphoe,
-      selectValue_province,
+      selectValueAmphoe,
+      selectValueProvince,
       address;
-  final int? select_debtorType, select_signStatus;
+  final int? selectDebtorType, selectSignStatus;
   const ListCreditQueryDebtor(
       this.custId,
       this.homeNo,
@@ -37,21 +37,20 @@ class ListCreditQueryDebtor extends StatefulWidget {
       this.tumbolId,
       this.amphur,
       this.province,
-      this.firstname_c,
-      this.lastname_c,
-      this.select_addreessType,
-      this.select_debtorType,
+      this.firstnameC,
+      this.lastnameC,
+      this.selectAddreessType,
+      this.selectDebtorType,
       this.idcard,
       this.telephone,
-      this.select_branchlist,
+      this.selectBranchlist,
       this.signId,
-      this.select_signStatus,
+      this.selectSignStatus,
       this.itemTypelist,
-      this.selectValue_amphoe,
-      this.selectValue_province,
+      this.selectValueAmphoe,
+      this.selectValueProvince,
       this.address,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<ListCreditQueryDebtor> createState() => _ListCreditQueryDebtorState();
@@ -63,10 +62,10 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
       firstName = '',
       lastName = '',
       tokenId = '',
-      text_province = '',
-      text_amphoe = '';
+      textProvince = '',
+      textAmphoe = '';
 
-  List list_dataDebtor = [];
+  List listDataDebtor = [];
   bool statusLoading = false, statusLoad404 = false;
 
   @override
@@ -89,22 +88,22 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
 
   Future<void> getDataDebtorList() async {
     var signStatus, branch, debtorType, tumbol, amphur, province;
-    if (widget.select_signStatus == null) {
+    if (widget.selectSignStatus == null) {
       signStatus = '';
     } else {
-      signStatus = widget.select_signStatus;
+      signStatus = widget.selectSignStatus;
     }
 
-    if (widget.select_branchlist == null) {
+    if (widget.selectBranchlist == null) {
       branch = '';
     } else {
-      branch = widget.select_branchlist;
+      branch = widget.selectBranchlist;
     }
 
-    if (widget.select_debtorType == null) {
+    if (widget.selectDebtorType == null) {
       debtorType = '';
     } else {
-      debtorType = widget.select_debtorType;
+      debtorType = widget.selectDebtorType;
     }
 
     if (widget.tumbolId == null) {
@@ -113,8 +112,8 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
       province = '';
     } else {
       tumbol = widget.tumbolId;
-      amphur = widget.selectValue_amphoe.toString().split("_")[0];
-      province = widget.selectValue_province.toString().split("_")[0];
+      amphur = widget.selectValueAmphoe.toString().split("_")[0];
+      province = widget.selectValueProvince.toString().split("_")[0];
     }
 
     try {
@@ -131,9 +130,9 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
           'tumbolId': tumbol.toString(),
           'amphurId': amphur.toString(),
           'provId': province.toString(),
-          'firstName': widget.firstname_c.toString(),
-          'lastName': widget.lastname_c.toString(),
-          'addressType': widget.select_addreessType.toString(),
+          'firstName': widget.firstnameC.toString(),
+          'lastName': widget.lastnameC.toString(),
+          'addressType': widget.selectAddreessType.toString(),
           'debtorType': debtorType.toString(),
           'smartId': widget.idcard.toString(),
           'telephone': widget.telephone.toString(),
@@ -151,7 +150,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
             Map<String, dynamic>.from(json.decode(respose.body));
 
         setState(() {
-          list_dataDebtor = datadebtorList['data'];
+          listDataDebtor = datadebtorList['data'];
         });
         statusLoading = true;
       } else if (respose.statusCode == 400) {
@@ -314,10 +313,8 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                       child: ListView(
                         shrinkWrap: true,
                         children: [
-                          if (list_dataDebtor.isNotEmpty) ...[
-                            for (var i = 0;
-                                i < list_dataDebtor.length;
-                                i++) ...[
+                          if (listDataDebtor.isNotEmpty) ...[
+                            for (var i = 0; i < listDataDebtor.length; i++) ...[
                               InkWell(
                                 onTap: () {
                                   Navigator.push(
@@ -325,7 +322,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           Page_Info_Consider_Cus(
-                                              list_dataDebtor[i]['signId']),
+                                              listDataDebtor[i]['signId']),
                                     ),
                                   );
                                 },
@@ -354,7 +351,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                         Row(
                                           children: [
                                             Text(
-                                              'เลขที่สัญญา : ${list_dataDebtor[i]['signId']}',
+                                              'เลขที่สัญญา : ${listDataDebtor[i]['signId']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
@@ -366,7 +363,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                         Row(
                                           children: [
                                             Text(
-                                              'วันที่ทำสัญญา : ${list_dataDebtor[i]['signDate']}',
+                                              'วันที่ทำสัญญา : ${listDataDebtor[i]['signDate']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
@@ -386,7 +383,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                '${list_dataDebtor[i]['custSignName']}',
+                                                '${listDataDebtor[i]['custSignName']}',
                                                 overflow: TextOverflow.clip,
                                                 style:
                                                     MyContant().h4normalStyle(),
@@ -408,7 +405,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                '${list_dataDebtor[i]['custName']}',
+                                                '${listDataDebtor[i]['custName']}',
                                                 overflow: TextOverflow.clip,
                                                 style:
                                                     MyContant().h4normalStyle(),
@@ -430,7 +427,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                '${list_dataDebtor[i]['itemName']}',
+                                                '${listDataDebtor[i]['itemName']}',
                                                 overflow: TextOverflow.clip,
                                                 style:
                                                     MyContant().h4normalStyle(),
@@ -446,12 +443,12 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              'รหัสเขต : ${list_dataDebtor[i]['followAreaName']}',
+                                              'รหัสเขต : ${listDataDebtor[i]['followAreaName']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
                                             Text(
-                                              'สถานะสัญญา : ${list_dataDebtor[i]['signStatusName']}',
+                                              'สถานะสัญญา : ${listDataDebtor[i]['signStatusName']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),

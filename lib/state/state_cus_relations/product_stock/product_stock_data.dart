@@ -305,6 +305,7 @@ class _ProductStockDataState extends State<ProductStockData> {
     setState(() {
       selectBranchList = null;
       selectGroupFreeList = null;
+      isCheckedPR = false;
     });
   }
 
@@ -420,9 +421,9 @@ class _ProductStockDataState extends State<ProductStockData> {
                         children: [
                           selectStcokType(sizeIcon, border),
                           Checkbox(
-                            side: MaterialStateBorderSide.resolveWith(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.selected)) {
+                            side: WidgetStateBorderSide.resolveWith(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.selected)) {
                                   return const BorderSide(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       width: 1.7);
@@ -440,13 +441,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                               setState(() {
                                 isCheckedPR = value!;
                               });
-                              if (isCheckedPR == true) {
-                                var promotion = 'pr';
-                                idItemWareHouse = promotion;
-                              } else {
-                                var promotion = '';
-                                idItemWareHouse = promotion;
-                              }
+                              idItemWareHouse = isCheckedPR ? 'pr' : '';
                             },
                           ),
                           Text(
@@ -833,6 +828,8 @@ class _ProductStockDataState extends State<ProductStockData> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
+                        String errorMessage = '';
+                        bool shouldNavigate = true;
                         var branch, groupFree;
                         if (selectBranchList == null ||
                             selectBranchList == 99) {
@@ -846,64 +843,51 @@ class _ProductStockDataState extends State<ProductStockData> {
                           groupFree = selectGroupFreeList;
                         }
 
-                        if (selectStockTypeList == 1 ||
+                        if (isCheckedPR) {
+                          // เงื่อนไขสำหรับ isCheckedPR == true
+                          idItemWareHouse = 'pr';
+                        } else if (selectStockTypeList == 1 ||
                             selectStockTypeList == 2) {
-                          if (idItemGroup == '' &&
+                          if (idItemGroup.isEmpty &&
                               itemGroup.text.isEmpty &&
                               nameProduct.text.isEmpty) {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอกหรือเลือกสินค้าที่ค้นหา');
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => StockProductList(
-                                  selectStockTypeList.toString(),
-                                  branch,
-                                  idItemWareHouse,
-                                  nameProduct.text,
-                                  groupFree,
-                                  idItemFree,
-                                  idItemGroup,
-                                  idItemType,
-                                  idItemBrand,
-                                  idItemModel,
-                                  idItemStyle,
-                                  idItemSize,
-                                  idItemColor,
-                                ),
-                              ),
-                            );
+                            errorMessage = 'กรุณากรอกหรือเลือกสินค้าที่ค้นหา';
+                            shouldNavigate = false;
                           }
                         } else if (selectStockTypeList == 3 ||
                             selectStockTypeList == 4) {
                           if (groupFree == '' &&
                               nameProduct.text.isEmpty &&
                               itemFree.text.isEmpty) {
-                            showProgressDialog(context, 'แจ้งเตือน',
-                                'กรุณากรอกหรือเลือกของแถม');
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => StockProductList(
-                                  selectStockTypeList.toString(),
-                                  branch,
-                                  idItemWareHouse,
-                                  nameProduct.text,
-                                  groupFree,
-                                  idItemFree,
-                                  '',
-                                  '',
-                                  '',
-                                  '',
-                                  '',
-                                  '',
-                                  '',
-                                ),
-                              ),
-                            );
+                            errorMessage = 'กรุณากรอกหรือเลือกของแถม';
+                            shouldNavigate = false;
                           }
+                        }
+
+                        if (!shouldNavigate) {
+                          showProgressDialog(
+                              context, 'แจ้งเตือน', errorMessage);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StockProductList(
+                                selectStockTypeList.toString(),
+                                branch,
+                                idItemWareHouse,
+                                nameProduct.text,
+                                groupFree,
+                                idItemFree,
+                                idItemGroup,
+                                idItemType,
+                                idItemBrand,
+                                idItemModel,
+                                idItemStyle,
+                                idItemSize,
+                                idItemColor,
+                              ),
+                            ),
+                          );
                         }
                       },
                       child: const Text('ค้นหา'),

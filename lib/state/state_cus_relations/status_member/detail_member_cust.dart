@@ -217,9 +217,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -238,9 +236,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -259,9 +255,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -280,9 +274,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -297,9 +289,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         children: [
                                           Text(
@@ -308,9 +298,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         children: [
                                           Text(
@@ -319,9 +307,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         children: [
                                           Text(
@@ -330,9 +316,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         children: [
                                           Text(
@@ -341,9 +325,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         children: [
                                           Text(
@@ -352,9 +334,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         children: [
                                           Text(
@@ -363,9 +343,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
+                                      const SizedBox(height: 3),
                                       Row(
                                         children: [
                                           Text(
@@ -408,86 +386,69 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
+                                    const SizedBox(height: 5),
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.15,
+                                      // height:
+                                      //     MediaQuery.of(context).size.height *
+                                      //         0.15,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),
                                       ),
-                                      child: Scrollbar(
-                                        child: ListView(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'รหัสบัตร : ${listdataMemberDetail[i]['memberCardId']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'รหัสบัตร : ${listdataMemberDetail[i]['memberCardId']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'สถานะบัตรสมาชิก : ',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${listdataMemberDetail[i]['memberCardName']}',
+                                                    overflow: TextOverflow.clip,
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        'สถานะบัตรสมาชิก : ',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          '${listdataMemberDetail[i]['memberCardName']}',
-                                                          overflow:
-                                                              TextOverflow.clip,
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'ผู้ตรวจสอบ : ${listdataMemberDetail[i]['auditName']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'วันที่ออกบัตร : ${listdataMemberDetail[i]['applyDate']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'ผู้ตรวจสอบ : ${listdataMemberDetail[i]['auditName']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'วันที่ออกบัตร : ${listdataMemberDetail[i]['applyDate']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),

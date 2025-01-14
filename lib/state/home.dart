@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -197,7 +196,7 @@ class _Home_creditState extends State<Home_credit> {
                           Row(
                             children: [
                               Text(
-                                '5 ตุลาคม 2567',
+                                '21 ธันวาคม 2567',
                                 style: MyContant().TextAbout(),
                               ),
                             ],
@@ -206,7 +205,7 @@ class _Home_creditState extends State<Home_credit> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  'Thaweeyont เราได้ปรับปรุงประสิทธิภาพการทำงาน แก้ไขข้อบกพร่องและอัพเดตข้อมูล',
+                                  'อัพเดทใหม่ผ่านการปรับปรุงและแก้ไขข้อบกพร่องต่างๆ ช่วยให้แอปทำงานได้เสถียรและมีประสิทธิภาพมากยิ่งขึ้น',
                                   style: MyContant().textInputStyle(),
                                   overflow: TextOverflow.clip,
                                 ),
