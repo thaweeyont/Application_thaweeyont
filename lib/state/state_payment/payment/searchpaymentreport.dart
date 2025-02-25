@@ -77,8 +77,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     if (mounted) {
       showProgressLoading(context);
       getSelectBranch();
-      // showProgressLoading(context);
-      // getSelectEmployeeList();
       showProgressLoading(context);
       getSelectPaymentTypeList();
       selectDatenow();

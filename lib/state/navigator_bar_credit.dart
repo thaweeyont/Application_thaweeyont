@@ -5,6 +5,7 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_mechanical/mechanical.dart';
+import 'package:application_thaweeyont/state/state_order/branchsales.dart';
 import 'package:application_thaweeyont/state/state_payment/payment/searchpaymentreport.dart';
 import 'package:application_thaweeyont/state/state_sale/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/home.dart';
@@ -174,6 +175,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
           status = false;
         });
         break;
+      case "9":
+        setState(() {
+          _selectedIndex = 9;
+          titleHead = "ยอดขายสินค้ารวมสาขาในแต่ละวัน";
+          status = false;
+        });
+        break;
       default:
         {
           setState(() {
@@ -198,14 +206,13 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     const Check_Blacklist_Data(),
     const ProductStockData(),
     const Mechanical(),
-    const SearchPaymentReport()
+    const SearchPaymentReport(),
+    const BranchSales()
   ];
 
   @override
   Widget build(BuildContext context) {
-    final orientation = MediaQuery.of(context).orientation;
     double size = MediaQuery.of(context).size.width;
-    double size_h = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: appBar(),
@@ -253,19 +260,25 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   showMenuList() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true, // ให้ใช้พื้นที่ได้เต็มจอ
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          child: Wrap(
-            children: <Widget>[
-              if (result.isNotEmpty)
-                for (var i = 0; i < result.length; i++)
-                  ListTile(
+        return DraggableScrollableSheet(
+          initialChildSize: 0.65, // เริ่มต้นที่ 50% ของจอ
+          minChildSize: 0.3, // ย่อสุด 30%
+          maxChildSize: 0.8, // ขยายสุด 80%
+          expand: false,
+          builder: (context, scrollController) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: ListView.builder(
+                controller:
+                    scrollController, // ใช้ controller เพื่อให้เลื่อนใน sheet ได้
+                itemCount: result.length,
+                itemBuilder: (context, i) {
+                  return ListTile(
                     title: Text(
                       "${result[i]['nameMenu']}",
                       style:
@@ -288,9 +301,11 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                       });
                       Navigator.pop(context);
                     },
-                  ),
-            ],
-          ),
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );
@@ -322,6 +337,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '008':
         selectIndex = 8;
+        break;
+      case '009':
+        selectIndex = 9;
         break;
     }
     return selectIndex;
@@ -358,6 +376,9 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
         break;
       case '008':
         title = "บันทึกอนุมัติการจ่าย";
+        break;
+      case '009':
+        title = "ยอดขายสินค้ารวมสาขาในแต่ละวัน";
         break;
     }
     return title;
@@ -643,61 +664,114 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  Drawer drawerList(
-    double size,
-  ) {
-    return Drawer(
-      width: size * 1.0,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(40),
-        ),
-      ),
-      backgroundColor: const Color.fromRGBO(7, 15, 82, 1),
-      child: SingleChildScrollView(
-        child: SizedBox(
-          child: Stack(
-            children: [
-              closeDrawer(context),
-              Column(
-                children: [
-                  drawerIcon(size),
-                  listMenu(context, size),
-                  about(context, size),
-                  btnLogout(context, size),
-                  const SizedBox(height: 10),
-                ],
-              ),
-            ],
+  // Drawer drawerList(double size) {
+  //   return Drawer(
+  //     width: size * 1.0,
+  //     shape: const RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.only(
+  //         topRight: Radius.circular(40),
+  //       ),
+  //     ),
+  //     backgroundColor: const Color.fromRGBO(7, 15, 82, 1),
+  //     child: SingleChildScrollView(
+  //       child: SizedBox(
+  //         child: Stack(
+  //           children: [
+  //             closeDrawer(context),
+  //             Column(
+  //               children: [
+  //                 drawerIcon(size),
+  //                 listMenu(context, size),
+  //                 about(context, size),
+  //                 btnLogout(context, size),
+  //                 const SizedBox(height: 10),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // Positioned closeDrawer(BuildContext context) {
+  //   return Positioned(
+  //     top: 50,
+  //     right: 0,
+  //     child: Container(
+  //       width: 50,
+  //       height: 40,
+  //       decoration: const BoxDecoration(
+  //         borderRadius: BorderRadius.only(
+  //           topLeft: Radius.circular(20),
+  //           bottomLeft: Radius.circular(20),
+  //         ),
+  //         color: Colors.white,
+  //       ),
+  //       child: IconButton(
+  //         onPressed: () {
+  //           Navigator.pop(context);
+  //         },
+  //         color: Colors.black,
+  //         icon: const Icon(
+  //           Icons.close_rounded,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  Widget drawerList(double size) {
+    return Stack(
+      children: [
+        /// Drawer หลัก (เลื่อนดูได้)
+        Drawer(
+          width: size,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                // topRight: Radius.circular(5),
+                ),
+          ),
+          backgroundColor: const Color.fromRGBO(7, 15, 82, 1),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                drawerIcon(size),
+                listMenu(context, size),
+                about(context, size),
+                btnLogout(context, size),
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
-      ),
+
+        /// ปุ่มปิด (Fixed ไม่ขยับตามการเลื่อน)
+        Positioned(
+          top: 50,
+          right: 0,
+          child: closeDrawer(context),
+        ),
+      ],
     );
   }
 
-  Positioned closeDrawer(BuildContext context) {
-    return Positioned(
-      top: 50,
-      right: 0,
-      child: Container(
-        width: 50,
-        height: 40,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
-          ),
-          color: Colors.white,
+  Widget closeDrawer(BuildContext context) {
+    return Container(
+      width: 50,
+      height: 40,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          bottomLeft: Radius.circular(20),
         ),
-        child: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          color: Colors.black,
-          icon: const Icon(
-            Icons.close_rounded,
-          ),
-        ),
+        color: Colors.white,
+      ),
+      child: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        color: Colors.black,
+        icon: const Icon(Icons.close_rounded),
       ),
     );
   }
@@ -827,6 +901,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       {"id": "006", "nameMenu": "สอบถามสินค้าในสต็อค"},
       {"id": "007", "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า"},
       {"id": "008", "nameMenu": "บันทึกอนุมัติการจ่าย"},
+      {"id": "009", "nameMenu": "ยอดขายสินค้ารวมสาขาในแต่ละวัน"},
     ];
 
     result = menuList.where((menuItem) {
@@ -989,6 +1064,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       '006': '6',
       '007': '7',
       '008': '8',
+      '009': '9',
     };
 
     final credit = idToMenu[id];
@@ -1015,6 +1091,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       '006': const Color.fromRGBO(176, 218, 255, 1),
       '007': const Color.fromARGB(255, 241, 209, 89),
       '008': const Color.fromRGBO(226, 199, 132, 1),
+      '009': const Color.fromRGBO(239, 191, 239, 1),
     };
 
     return menuColors[menuColor];
@@ -1030,6 +1107,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       '006': Icons.production_quantity_limits_sharp,
       '007': Icons.miscellaneous_services,
       '008': Icons.payments_outlined,
+      '009': Icons.point_of_sale_rounded,
     };
 
     return menuIcons[menuId];
@@ -1110,8 +1188,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          // contentPadding:
-          //     const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
           title: const Row(
             children: [
               Icon(Icons.login_outlined),
@@ -1124,8 +1200,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                 ),
               ),
               SizedBox(height: 20),
-              // Image.asset('images/question.gif',
-              //     width: 25, height: 25, fit: BoxFit.contain),
             ],
           ),
           content: const Text(

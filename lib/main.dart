@@ -6,6 +6,7 @@ import 'package:application_thaweeyont/state/navigator_bar_credit.dart';
 import 'package:application_thaweeyont/state/state_credit/query_debtor/query_debtor.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final Map<String, WidgetBuilder> map = {
@@ -24,7 +25,12 @@ String? initlalRounte;
 
 void main() {
   initlalRounte = MyContant.routeAuthen;
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized(); // ควรมีถ้ากำหนดการหมุนหน้าจอ
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    runApp(MyApp());
+  });
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
