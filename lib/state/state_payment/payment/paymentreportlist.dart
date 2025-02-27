@@ -228,9 +228,6 @@ class _PaymentReportListState extends State<PaymentReportList> {
       );
 
       if (respose.statusCode == 200) {
-        // Map<String, dynamic> dataSendPayment =
-        //     Map<String, dynamic>.from(json.decode(respose.body));
-
         setState(() {
           statusLoading = false;
           getPaymentList('show');
