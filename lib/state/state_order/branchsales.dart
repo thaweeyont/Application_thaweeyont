@@ -30,7 +30,8 @@ class _BranchSalesState extends State<BranchSales> {
       dropdownMonth = [],
       dropdownYear = [],
       dropdownSortBy = [],
-      dropdownFrom = [];
+      dropdownFrom = [],
+      myListJson = [];
   bool isLoadingBranch = false;
   String? selectAreaBranchlist,
       selectBranchlist,
@@ -101,7 +102,54 @@ class _BranchSalesState extends State<BranchSales> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    if (mounted) {}
+    if (mounted) {
+      showProgressLoading(context);
+      getSelectBranch();
+    }
+  }
+
+  Future<void> getSelectBranch() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/branchList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataBranch =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          List df = [
+            {'id': 99, 'name': "กรุณาเลือกสาขา"}
+          ];
+          myListJson = List.from(df)..addAll(dataBranch['data']);
+          dropdownbranch = dataBranch['data'];
+        });
+        Navigator.pop(context);
+        isLoadingBranch = true;
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
   }
 
   @override
@@ -203,7 +251,6 @@ class _BranchSalesState extends State<BranchSales> {
                                   });
                                 }
                               });
-                              // ItemTypeList(valueGrouplist: valueGrouplist);
                             },
                             child: const Icon(
                               Icons.search,
@@ -282,7 +329,24 @@ class _BranchSalesState extends State<BranchSales> {
                               backgroundColor:
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemBrandList(
+                                    valueGrouplist: valueGrouplist,
+                                    valueTypelist: valueTypelist,
+                                  ),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    itemBrand.text = result['name'];
+                                    valueBrandlist = result['id'];
+                                  });
+                                }
+                              });
+                            },
                             child: const Icon(
                               Icons.search,
                               color: Colors.white,
@@ -313,7 +377,39 @@ class _BranchSalesState extends State<BranchSales> {
                               backgroundColor:
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (itemGroup.text.isEmpty &&
+                                  itemType.text.isEmpty &&
+                                  itemBrand.text.isEmpty) {
+                                showProgressDialog(context, 'แจ้งเตือน',
+                                    'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
+                              } else if (itemType.text.isEmpty &&
+                                  itemBrand.text.isEmpty) {
+                                showProgressDialog(context, 'แจ้งเตือน',
+                                    'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+                              } else if (itemBrand.text.isEmpty) {
+                                showProgressDialog(context, 'แจ้งเตือน',
+                                    'กรุณาเลือกยี่ห้อสินค้า');
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ItemModelList(
+                                      valueGrouplist: valueGrouplist,
+                                      valueTypelist: valueTypelist,
+                                      valueBrandlist: valueBrandlist,
+                                    ),
+                                  ),
+                                ).then((result) {
+                                  if (result != null) {
+                                    setState(() {
+                                      itemModel.text = result['name'];
+                                      valueModellist = result['id'];
+                                    });
+                                  }
+                                });
+                              }
+                            },
                             child: const Icon(
                               Icons.search,
                               color: Colors.white,
@@ -590,20 +686,17 @@ class _BranchSalesState extends State<BranchSales> {
                           child: Text(
                             '',
                             style: MyContant().h4normalStyle(),
-                            textAlign: TextAlign.right, // ชิดขวา
+                            textAlign: TextAlign.right,
                           ),
                         ),
                         Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.start, // จัดให้ชิดซ้ายเท่ากัน
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: datatarget.map((item) {
                             return Row(
-                              crossAxisAlignment: CrossAxisAlignment
-                                  .center, // จัดให้อยู่ตรงกลางแนวตั้ง
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  // width: 40, // กำหนดขนาด Radio ให้เท่ากันทุกอัน
-                                  child: Radio<int>(
+                                  child: Radio(
                                     value: item["id"],
                                     groupValue: selectedValue,
                                     onChanged: (value) {
@@ -922,17 +1015,18 @@ class _BranchSalesState extends State<BranchSales> {
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: itemBrand,
+          readOnly: true,
           decoration: InputDecoration(
             suffixIcon: itemBrand.text.isEmpty
                 ? null
-                : IconButton(
-                    onPressed: () {
+                : GestureDetector(
+                    onTap: () {
                       setState(() {
                         itemBrand.clear();
                         valueBrandlist = null;
                       });
                     },
-                    icon: const Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -955,17 +1049,18 @@ class _BranchSalesState extends State<BranchSales> {
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: itemModel,
+          readOnly: true,
           decoration: InputDecoration(
             suffixIcon: itemModel.text.isEmpty
                 ? null
-                : IconButton(
-                    onPressed: () {
+                : GestureDetector(
+                    onTap: () {
                       setState(() {
                         itemModel.clear();
                         valueModellist = null;
                       });
                     },
-                    icon: const Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -988,17 +1083,18 @@ class _BranchSalesState extends State<BranchSales> {
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: itemStyle,
+          readOnly: true,
           decoration: InputDecoration(
             suffixIcon: itemStyle.text.isEmpty
                 ? null
-                : IconButton(
-                    onPressed: () {
+                : GestureDetector(
+                    onTap: () {
                       setState(() {
                         itemStyle.clear();
                         valueStylelist = null;
                       });
                     },
-                    icon: const Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -1021,17 +1117,18 @@ class _BranchSalesState extends State<BranchSales> {
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: itemSize,
+          readOnly: true,
           decoration: InputDecoration(
             suffixIcon: itemSize.text.isEmpty
                 ? null
-                : IconButton(
-                    onPressed: () {
+                : GestureDetector(
+                    onTap: () {
                       setState(() {
                         itemSize.clear();
                         valueSizelist = null;
                       });
                     },
-                    icon: const Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -1054,6 +1151,7 @@ class _BranchSalesState extends State<BranchSales> {
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: itemList,
+          readOnly: true,
           decoration: InputDecoration(
             suffixIcon: itemList.text.isEmpty
                 ? null
@@ -2256,8 +2354,8 @@ class _ItemGroupListState extends State<ItemGroupList> {
 }
 
 class ItemTypeList extends StatefulWidget {
-  final dynamic valueGrouplist;
-  const ItemTypeList({super.key, required this.valueGrouplist});
+  final String? valueGrouplist;
+  const ItemTypeList({super.key, this.valueGrouplist});
 
   @override
   State<ItemTypeList> createState() => _ItemTypeListState();
@@ -2274,6 +2372,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
   int offset = 50, stquery = 0;
+  String? valGroupList = '';
 
   @override
   void initState() {
@@ -2282,7 +2381,10 @@ class _ItemTypeListState extends State<ItemTypeList> {
     itemtypelist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
-    print(widget.valueGrouplist);
+
+    widget.valueGrouplist == null
+        ? valGroupList = ''
+        : valGroupList = widget.valueGrouplist;
   }
 
   Future<void> getdata() async {
@@ -2319,7 +2421,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/itemTypeList?searchName=${itemtypelist.text}&page=1&limit=$offset&itemGroupId=${widget.valueGrouplist}&itemStatus=1'),
+            '${api}setup/itemTypeList?searchName=${itemtypelist.text}&page=1&limit=$offset&itemGroupId=$valGroupList&itemStatus=1'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -2661,6 +2763,884 @@ class _ItemTypeListState extends State<ItemTypeList> {
                       setState(() {
                         itemtypelist.clear();
                         getSelectTypeList(offset);
+                        statusLoading = false;
+                        statusLoad404 = false;
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemBrandList extends StatefulWidget {
+  final String? valueGrouplist, valueTypelist;
+  const ItemBrandList({super.key, this.valueGrouplist, this.valueTypelist});
+
+  @override
+  State<ItemBrandList> createState() => _ItemBrandListState();
+}
+
+class _ItemBrandListState extends State<ItemBrandList> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  TextEditingController itembrandlist = TextEditingController();
+  List<dynamic> dropdownbrandlist = [];
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoading = false,
+      isLoadScroll = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 50, stquery = 0;
+  String? valGroupList = '', valTypeList = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+    itembrandlist.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
+    widget.valueGrouplist == null
+        ? valGroupList = ''
+        : valGroupList = widget.valueGrouplist;
+    widget.valueTypelist == null
+        ? valTypeList = ''
+        : valTypeList = widget.valueTypelist;
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    if (mounted) {
+      getSelectBrandList(offset);
+    }
+    myScroll(scrollControll, offset);
+  }
+
+  void myScroll(ScrollController scrollController, int offset) {
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoadScroll = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 20;
+          getSelectBrandList(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getSelectBrandList(offset) async {
+    try {
+      var respose = await http.get(
+        Uri.parse(
+            '${api}setup/itemBrandList?searchName=${itembrandlist.text}&page=1&limit=$offset&itemGroupId=$valGroupList&itemTypeId=$valTypeList&itemStatus=1'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataBrandlist =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownbrandlist = dataBrandlist['data'];
+        });
+        statusLoading = true;
+        isLoadScroll = false;
+        if (stquery > 0) {
+          if (offset > dropdownbrandlist.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoading = true;
+          statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Scaffold(
+      appBar: const CustomAppbar(title: 'ค้นหาประเภทสินค้า'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withAlpha(130),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                  color: const Color.fromRGBO(239, 191, 239, 1),
+                ),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'ยี่ห้อสินค้า : ',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          inputBrandNamelist(sizeIcon, border),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            groupBtnsearch(),
+            Expanded(
+              child: statusLoading == false
+                  ? Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 24, 24, 24)
+                              .withValues(alpha: 0.9),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          controller: scrollControll,
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withAlpha(130),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(239, 191, 239, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      for (var i = 0;
+                                          i < dropdownbrandlist.length;
+                                          i++) ...[
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownbrandlist[i]['id']}',
+                                              'name':
+                                                  '${dropdownbrandlist[i]['name']}',
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.7),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      dropdownbrandlist[i]
+                                                          ['name'],
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              if (isLoadScroll == true &&
+                                  isLoadendPage == false) ...[
+                                const LoadData(),
+                              ] else if (isLoadendPage == true) ...[
+                                const EndPage(),
+                              ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding groupBtnsearch() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        setState(() {
+                          getSelectBrandList(offset);
+                          statusLoading = false;
+                        });
+                      },
+                      child: const Text('ค้นหา'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        setState(() {
+                          itembrandlist.clear();
+                          getSelectBrandList(offset);
+                          statusLoading = false;
+                          statusLoad404 = false;
+                        });
+                      },
+                      child: const Text('ล้างข้อมูล'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Expanded inputBrandNamelist(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: itembrandlist,
+          decoration: InputDecoration(
+            suffixIcon: itembrandlist.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        itembrandlist.clear();
+                        getSelectBrandList(offset);
+                        statusLoading = false;
+                        statusLoad404 = false;
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemModelList extends StatefulWidget {
+  final String? valueGrouplist, valueTypelist, valueBrandlist;
+  const ItemModelList(
+      {super.key,
+      this.valueGrouplist,
+      this.valueTypelist,
+      this.valueBrandlist});
+
+  @override
+  State<ItemModelList> createState() => _ItemModelListState();
+}
+
+class _ItemModelListState extends State<ItemModelList> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  TextEditingController itemmodellist = TextEditingController();
+  List<dynamic> dropdownmodellist = [];
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoading = false,
+      isLoadScroll = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 50, stquery = 0;
+  String? valGroupList = '', valTypeList = '', valBrandList = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+    itemmodellist.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
+    widget.valueGrouplist == null
+        ? valGroupList = ''
+        : valGroupList = widget.valueGrouplist;
+    widget.valueTypelist == null
+        ? valTypeList = ''
+        : valTypeList = widget.valueTypelist;
+    widget.valueBrandlist == null
+        ? valBrandList = ''
+        : valBrandList = widget.valueBrandlist;
+    print(widget.valueGrouplist);
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    if (mounted) {
+      getSelectModelList(offset);
+    }
+    myScroll(scrollControll, offset);
+  }
+
+  void myScroll(ScrollController scrollController, int offset) {
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoadScroll = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 20;
+          getSelectModelList(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getSelectModelList(offset) async {
+    try {
+      var respose = await http.get(
+        Uri.parse(
+            '${api}setup/itemModelList?searchName=${itemmodellist.text}&page=1&limit=$offset&itemGroupId=$valGroupList&itemTypeId=$valTypeList&itemBrandId=$valBrandList&itemStatus=1'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataModellist =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownmodellist = dataModellist['data'];
+        });
+        statusLoading = true;
+        isLoadScroll = false;
+        if (stquery > 0) {
+          if (offset > dropdownmodellist.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoading = true;
+          statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Scaffold(
+      appBar: const CustomAppbar(title: 'ค้นหารุ่นสินค้า'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withAlpha(130),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                  color: const Color.fromRGBO(239, 191, 239, 1),
+                ),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'รุ่นสินค้า : ',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          inputModelNamelist(sizeIcon, border),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            groupBtnsearch(),
+            Expanded(
+              child: statusLoading == false
+                  ? Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 24, 24, 24)
+                              .withValues(alpha: 0.9),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          controller: scrollControll,
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withAlpha(130),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(239, 191, 239, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      for (var i = 0;
+                                          i < dropdownmodellist.length;
+                                          i++) ...[
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownmodellist[i]['id']}',
+                                              'name':
+                                                  '${dropdownmodellist[i]['name']}',
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.7),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      dropdownmodellist[i]
+                                                          ['name'],
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              if (isLoadScroll == true &&
+                                  isLoadendPage == false) ...[
+                                const LoadData(),
+                              ] else if (isLoadendPage == true) ...[
+                                const EndPage(),
+                              ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding groupBtnsearch() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        setState(() {
+                          getSelectModelList(offset);
+                          statusLoading = false;
+                        });
+                      },
+                      child: const Text('ค้นหา'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        setState(() {
+                          itemmodellist.clear();
+                          getSelectModelList(offset);
+                          statusLoading = false;
+                          statusLoad404 = false;
+                        });
+                      },
+                      child: const Text('ล้างข้อมูล'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Expanded inputModelNamelist(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: itemmodellist,
+          decoration: InputDecoration(
+            suffixIcon: itemmodellist.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        itemmodellist.clear();
+                        getSelectModelList(offset);
                         statusLoading = false;
                         statusLoad404 = false;
                       });
