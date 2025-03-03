@@ -31,7 +31,8 @@ class _BranchSalesState extends State<BranchSales> {
       dropdownYear = [],
       dropdownSortBy = [],
       dropdownFrom = [],
-      myListJson = [];
+      myListJson = [],
+      myBranchAreaJson = [];
   bool isLoadingBranch = false;
   String? selectAreaBranchlist,
       selectBranchlist,
@@ -41,7 +42,8 @@ class _BranchSalesState extends State<BranchSales> {
       selectYearlist,
       selectSortBylist,
       selectFromlist;
-  int? selectedValue;
+  // var selectBranchlist;
+  int? selectedtargetType;
   dynamic valueGrouplist,
       valueTypelist,
       valueBrandlist,
@@ -80,6 +82,8 @@ class _BranchSalesState extends State<BranchSales> {
     {"id": 1, "name": "เทียบเป้าหมาย"},
     {"id": 2, "name": "ไม่เทียบเป้าหมาย"},
   ];
+  List targetType = [];
+  // Map<String, dynamic> dataTargetType = {};
 
   Map<String, bool> checkedItems = {}; // เก็บสถานะของ checkbox
   List<String> selectedItems = [];
@@ -105,6 +109,50 @@ class _BranchSalesState extends State<BranchSales> {
     if (mounted) {
       showProgressLoading(context);
       getSelectBranch();
+      getSelectBranchArea();
+      getSelectTargetType();
+    }
+  }
+
+  Future<void> getSelectBranchArea() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/branchAreaList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataBranchArea =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          List df = [
+            {'id': 99, 'name': "กรุณาเลือกเขตสาขา"}
+          ];
+          myBranchAreaJson = List.from(df)..addAll(dataBranchArea['data']);
+          dropdownAreaBranch = dataBranchArea['data'];
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
   }
 
@@ -123,13 +171,52 @@ class _BranchSalesState extends State<BranchSales> {
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           List df = [
-            {'id': 99, 'name': "กรุณาเลือกสาขา"}
+            {'id': "99", 'name': "เลือกสาขา"}
           ];
           myListJson = List.from(df)..addAll(dataBranch['data']);
-          dropdownbranch = dataBranch['data'];
+          dropdownbranch = myListJson;
         });
         Navigator.pop(context);
         isLoadingBranch = true;
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectTargetType() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/targetTypeList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataTargetType =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          targetType = dataTargetType['data'];
+          selectedtargetType = 1;
+        });
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
@@ -691,19 +778,30 @@ class _BranchSalesState extends State<BranchSales> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: datatarget.map((item) {
+                          children: targetType.map((item) {
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
                                   child: Radio(
                                     value: item["id"],
-                                    groupValue: selectedValue,
+                                    groupValue: selectedtargetType,
                                     onChanged: (value) {
                                       setState(() {
-                                        selectedValue = value;
+                                        selectedtargetType = value;
                                       });
                                     },
+                                    fillColor:
+                                        WidgetStateProperty.resolveWith<Color>(
+                                      (Set<WidgetState> states) {
+                                        if (states
+                                            .contains(WidgetState.selected)) {
+                                          return Colors
+                                              .black; // สีเมื่อถูกเลือก
+                                        }
+                                        return Colors.black; // สีปกติ
+                                      },
+                                    ),
                                     visualDensity: VisualDensity
                                         .compact, // ลด padding รอบ Radio
                                     materialTapTargetSize: MaterialTapTargetSize
@@ -725,6 +823,7 @@ class _BranchSalesState extends State<BranchSales> {
               ),
             ),
             groupBtnsearch(),
+            SizedBox(height: 20),
           ],
         ),
       ),
@@ -817,14 +916,35 @@ class _BranchSalesState extends State<BranchSales> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        setState(() {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BranchSalesList(),
-                            ),
-                          );
-                        });
+                        print('เขตสาขา : ${selectAreaBranchlist ?? ""}');
+                        print(
+                            'สาขา : ${selectBranchlist == "99" ? "" : selectBranchlist}');
+                        print('กลุ่มสินค้า : ${valueGrouplist ?? ""}');
+                        print('ประเภทสินค้า : ${valueTypelist ?? ""}');
+                        print('ยี่ห้อสินค้า : ${valueBrandlist ?? ""}');
+                        print('รุ่น : ${valueModellist ?? ""}');
+                        print('แบบ : ${valueStylelist ?? ""}');
+                        print('ขนาด : ${valueSizelist ?? ""}');
+                        print('รหัสสินค้า : ${valueItemlist ?? ""}');
+                        print('ประเภทการขาย : ${selectSaleTypelist ?? ""}');
+                        print('ช่องทางขาย : "${selectedItems ?? ""}"');
+                        print('ดอกเบี้ย : ${selectInterestlist ?? ""}');
+                        print('พนักงานขาย : ${valueEmployeelist ?? ""}');
+                        print('เดือน : ${selectMonthlist ?? ""}');
+                        print('ปี พ.ศ. : ${selectYearlist ?? ""}');
+                        print('ผู้จำหน่าย : ${valueSupplylist ?? ""}');
+                        print('เรียงตาม : ${selectSortBylist ?? ""}');
+                        print('จาก : ${selectFromlist ?? ""}');
+                        print('เป้าหมาย : ${selectedtargetType ?? ""}');
+
+                        // setState(() {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => BranchSalesList(),
+                        //     ),
+                        //   );
+                        // });
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -871,7 +991,7 @@ class _BranchSalesState extends State<BranchSales> {
             child: DropdownButton<String>(
               items: dropdownAreaBranch
                   .map((value) => DropdownMenuItem<String>(
-                        value: value['id'],
+                        value: value['id'].toString(),
                         child: Text(
                           value['name'],
                           style: MyContant().textInputStyle(),
@@ -912,28 +1032,56 @@ class _BranchSalesState extends State<BranchSales> {
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
               items: dropdownbranch
-                  .map((value) => DropdownMenuItem<String>(
-                        value: value['id'],
-                        child: Text(
-                          value['name'],
-                          style: MyContant().textInputStyle(),
-                        ),
-                      ))
+                  .map(
+                    (value) => DropdownMenuItem<String>(
+                      value: value['id'].toString(),
+                      child: Text(
+                        value['name'].toString(),
+                        style: value['id'] == "99"
+                            ? MyContant().TextInputSelect()
+                            : MyContant().textInputStyle(),
+                      ),
+                    ),
+                  )
                   .toList(),
               onChanged: (String? newvalue) {
                 setState(() {
                   selectBranchlist = newvalue;
                 });
+                // if (selectBranchlist == "99") {
+                //   dropdownbranch.clear();
+                //   selectBranchlist = null;
+                //   getSelectBranch();
+                // }
               },
               value: selectBranchlist,
               isExpanded: true,
               underline: const SizedBox(),
               hint: Align(
+                alignment: Alignment.center,
                 child: Text(
                   'เลือกสาขา',
                   style: MyContant().TextInputSelect(),
                 ),
               ),
+              selectedItemBuilder: (BuildContext context) {
+                return dropdownbranch.map<Widget>((value) {
+                  return Align(
+                    alignment: value['id'] == "99"
+                        ? Alignment.center
+                        : Alignment.centerLeft,
+                    child: Text(
+                      value['name'],
+                      style: value['id'] == "99"
+                          ? MyContant().TextInputSelect()
+                          : MyContant().textInputStyle(),
+                      textAlign: value['id'] == "99"
+                          ? TextAlign.center
+                          : TextAlign.left,
+                    ),
+                  );
+                }).toList();
+              },
             ),
           ),
         ),
