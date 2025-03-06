@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_order/branchsaleslist.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +24,7 @@ class BranchSales extends StatefulWidget {
 class _BranchSalesState extends State<BranchSales> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List dropdownAreaBranch = [],
-      dropdownbranch = [],
+      dropdownBranch = [],
       dropdownSaleType = [],
       dropdownInterest = [],
       dropdownMonth = [],
@@ -32,7 +32,9 @@ class _BranchSalesState extends State<BranchSales> {
       dropdownSortBy = [],
       dropdownFrom = [],
       myListJson = [],
-      myBranchAreaJson = [];
+      myBranchAreaJson = [],
+      myListsaleType = [],
+      myListInterest = [];
   bool isLoadingBranch = false;
   String? selectAreaBranchlist,
       selectBranchlist,
@@ -41,8 +43,9 @@ class _BranchSalesState extends State<BranchSales> {
       selectMonthlist,
       selectYearlist,
       selectSortBylist,
-      selectFromlist;
-  // var selectBranchlist;
+      selectFromlist,
+      selectedMonth,
+      selectedMonthId;
   int? selectedtargetType;
   dynamic valueGrouplist,
       valueTypelist,
@@ -64,30 +67,17 @@ class _BranchSalesState extends State<BranchSales> {
   TextEditingController employeeList = TextEditingController();
   TextEditingController supplyList = TextEditingController();
 
-  List<Map<String, dynamic>> data = [
-    {"id": "01", "name": "ขายหน้าร้าน"},
-    {"id": "02", "name": "ขาย Project"},
-    {"id": "03", "name": "ขาย Event"},
-    {"id": "04", "name": "ขายส่ง"},
-    {"id": "06", "name": "Live สด"},
-    {"id": "08", "name": "Website"},
-    {"id": "09", "name": "Marketplace"},
-    {"id": "10", "name": "Line"},
-    {"id": "11", "name": "Facebook"},
-    {"id": "12", "name": "ขายส่งบริษัทในเครือ"},
-    {"id": "13", "name": "ขาย Expo"},
-  ];
-
-  List targetType = [];
+  List targetType = [], channelSales = [];
   Map<String, bool> checkedSaleItems = {}; // เก็บสถานะของ checkbox
   List<String> selectedSaleItems = [];
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     getdata();
-    for (var item in data) {
-      checkedSaleItems[item["id"]] = false; // ค่าเริ่มต้นเป็น false
+    for (var item in channelSales) {
+      checkedSaleItems[item["id"]] ??= false; // ค่าเริ่มต้นเป็น false
     }
   }
 
@@ -100,12 +90,29 @@ class _BranchSalesState extends State<BranchSales> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
+
     if (mounted) {
-      showProgressLoading(context);
-      getSelectBranch();
-      getSelectBranchArea();
-      getSelectTargetType();
+      setState(() {
+        showProgressLoading(context);
+        getSelectBranch();
+        getSelectBranchArea();
+        getSelectSaleType();
+        getSelectChannelSales();
+        getSelectInterest();
+        getSelectMonth();
+        getSelectYear();
+        getSelectTargetType();
+      });
     }
+  }
+
+  void selectDatenow() {
+    selectedMonth = DateFormat('MMMM', 'th').format(selectedDate);
+    selectedMonthId = dropdownMonth.firstWhere(
+      (month) => month["name"] == selectedMonth,
+      orElse: () => {"id": ""}, // ถ้าไม่พบ ให้คืนค่า id = ""
+    )["id"];
+    print("ID ของเดือน $selectedMonth คือ $selectedMonthId");
   }
 
   Future<void> getSelectBranchArea() async {
@@ -168,10 +175,212 @@ class _BranchSalesState extends State<BranchSales> {
             {'id': "99", 'name': "เลือกสาขา"}
           ];
           myListJson = List.from(df)..addAll(dataBranch['data']);
-          dropdownbranch = myListJson;
+          dropdownBranch = myListJson;
         });
         Navigator.pop(context);
         isLoadingBranch = true;
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectSaleType() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/saleType'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataSaleType =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          List df = [
+            {'id': "99", 'name': "เลือกประเภทการขาย"}
+          ];
+          myListsaleType = List.from(df)..addAll(dataSaleType['data']);
+          dropdownSaleType = myListsaleType;
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectChannelSales() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/channelSaleList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataChannelSales =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          channelSales = dataChannelSales['data'];
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectInterest() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/interestList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataInterest =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          List df = [
+            {'id': "99", 'name': "เลือกดอกเบี้ย"}
+          ];
+          myListInterest = List.from(df)..addAll(dataInterest['data']);
+          dropdownInterest = myListInterest;
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectMonth() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/monthList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataMonth =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownMonth = dataMonth['data'];
+          selectDatenow();
+          selectMonthlist = selectedMonthId;
+          print('Id>> $selectedMonthId');
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectYear() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/yearList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataYear =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownYear = dataYear['data'];
+          selectYearlist = dropdownYear.first.toString();
+        });
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
@@ -649,13 +858,17 @@ class _BranchSalesState extends State<BranchSales> {
                       ],
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.22,
-                          child: Text(
-                            'ช่องทางขาย : ',
-                            style: MyContant().h4normalStyle(),
-                            textAlign: TextAlign.right,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.22,
+                            child: Text(
+                              'ช่องทางขาย : ',
+                              style: MyContant().h4normalStyle(),
+                              textAlign: TextAlign.right,
+                            ),
                           ),
                         ),
                         salesChannels(),
@@ -695,7 +908,21 @@ class _BranchSalesState extends State<BranchSales> {
                               backgroundColor:
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EmployeeList(),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    employeeList.text = result['name'];
+                                    valueEmployeelist = result['id'];
+                                  });
+                                }
+                              });
+                            },
                             child: const Icon(
                               Icons.search,
                               color: Colors.white,
@@ -879,7 +1106,7 @@ class _BranchSalesState extends State<BranchSales> {
           child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: data.length,
+            itemCount: channelSales.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // 2 คอลัมน์
               childAspectRatio: 4.0, // ปรับให้ดูดี
@@ -899,20 +1126,17 @@ class _BranchSalesState extends State<BranchSales> {
                             color: Color.fromARGB(255, 0, 0, 0), width: 1.7);
                       },
                     ),
-                    value: checkedSaleItems[data[index]["id"]],
+                    value: checkedSaleItems[channelSales[index]["id"]] ?? false,
                     checkColor: const Color.fromARGB(255, 0, 0, 0),
                     activeColor: const Color.fromARGB(255, 255, 255, 255),
                     onChanged: (bool? value) {
                       setState(() {
-                        checkedSaleItems[data[index]["id"]] = value!;
-
+                        checkedSaleItems[channelSales[index]["id"]] = value!;
                         selectedSaleItems = checkedSaleItems.entries
                             .where((entry) => entry.value)
                             .map((entry) =>
                                 entry.key.toString()) // บังคับให้เป็น String
                             .toList();
-
-                        // Debug list ที่ได้
                       });
                     },
                     visualDensity: VisualDensity.compact, // ลดขนาด Checkbox
@@ -921,8 +1145,14 @@ class _BranchSalesState extends State<BranchSales> {
                   ),
                   Expanded(
                     child: Text(
-                      data[index]["name"],
-                      style: MyContant().TextInputDate(),
+                      channelSales[index]["name"],
+                      style: TextStyle(
+                        //ตัวหนังสือใน input date
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Prompt',
+                      ),
                       overflow: TextOverflow.ellipsis, // ป้องกันข้อความยาวเกิน
                       maxLines: 1, // จำกัด 1 บรรทัด
                     ),
@@ -953,9 +1183,9 @@ class _BranchSalesState extends State<BranchSales> {
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
                         print(
-                            'เขตสาขา : ${selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
+                            'เขตสาขา : ${selectAreaBranchlist == null || selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
                         print(
-                            'สาขา : ${selectBranchlist == "99" ? "" : selectBranchlist}');
+                            'สาขา : ${selectBranchlist == null || selectBranchlist == "99" ? "" : selectBranchlist}');
                         print('กลุ่มสินค้า : ${valueGrouplist ?? ""}');
                         print('ประเภทสินค้า : ${valueTypelist ?? ""}');
                         print('ยี่ห้อสินค้า : ${valueBrandlist ?? ""}');
@@ -963,9 +1193,11 @@ class _BranchSalesState extends State<BranchSales> {
                         print('แบบ : ${valueStylelist ?? ""}');
                         print('ขนาด : ${valueSizelist ?? ""}');
                         print('รหัสสินค้า : ${valueItemlist ?? ""}');
-                        print('ประเภทการขาย : ${selectSaleTypelist ?? ""}');
+                        print(
+                            'ประเภทการขาย : ${selectSaleTypelist == null || selectSaleTypelist == "99" ? "" : selectSaleTypelist}');
                         print('ช่องทางขาย : "${selectedSaleItems ?? ""}"');
-                        print('ดอกเบี้ย : ${selectInterestlist ?? ""}');
+                        print(
+                            'ดอกเบี้ย : ${selectInterestlist == null || selectInterestlist == "99" ? "" : selectInterestlist}');
                         print('พนักงานขาย : ${valueEmployeelist ?? ""}');
                         print('เดือน : ${selectMonthlist ?? ""}');
                         print('ปี พ.ศ. : ${selectYearlist ?? ""}');
@@ -1089,7 +1321,7 @@ class _BranchSalesState extends State<BranchSales> {
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
-              items: dropdownbranch
+              items: dropdownBranch
                   .map(
                     (value) => DropdownMenuItem<String>(
                       value: value['id'].toString(),
@@ -1118,7 +1350,7 @@ class _BranchSalesState extends State<BranchSales> {
                 ),
               ),
               selectedItemBuilder: (BuildContext context) {
-                return dropdownbranch.map<Widget>((value) {
+                return dropdownBranch.map<Widget>((value) {
                   return Align(
                     alignment: value['id'] == "99"
                         ? Alignment.center
@@ -1394,11 +1626,11 @@ class _BranchSalesState extends State<BranchSales> {
             child: DropdownButton<String>(
               items: dropdownSaleType
                   .map((value) => DropdownMenuItem<String>(
-                        value: value['id'],
-                        child: Text(
-                          value['name'],
-                          style: MyContant().textInputStyle(),
-                        ),
+                        value: value['id'].toString(),
+                        child: Text(value['name'],
+                            style: value['id'] == "99"
+                                ? MyContant().TextInputSelect()
+                                : MyContant().textInputStyle()),
                       ))
                   .toList(),
               onChanged: (String? newvalue) {
@@ -1410,11 +1642,30 @@ class _BranchSalesState extends State<BranchSales> {
               isExpanded: true,
               underline: const SizedBox(),
               hint: Align(
+                alignment: Alignment.center,
                 child: Text(
                   'เลือกประเภทการขาย',
                   style: MyContant().TextInputSelect(),
                 ),
               ),
+              selectedItemBuilder: (BuildContext context) {
+                return dropdownSaleType.map<Widget>((value) {
+                  return Align(
+                    alignment: value['id'] == "99"
+                        ? Alignment.center
+                        : Alignment.centerLeft,
+                    child: Text(
+                      value['name'],
+                      style: value['id'] == "99"
+                          ? MyContant().TextInputSelect()
+                          : MyContant().textInputStyle(),
+                      textAlign: value['id'] == "99"
+                          ? TextAlign.center
+                          : TextAlign.left,
+                    ),
+                  );
+                }).toList();
+              },
             ),
           ),
         ),
@@ -1436,11 +1687,11 @@ class _BranchSalesState extends State<BranchSales> {
             child: DropdownButton<String>(
               items: dropdownInterest
                   .map((value) => DropdownMenuItem<String>(
-                        value: value['id'],
-                        child: Text(
-                          value['name'],
-                          style: MyContant().textInputStyle(),
-                        ),
+                        value: value['id'].toString(),
+                        child: Text(value['name'],
+                            style: value['id'] == "99"
+                                ? MyContant().TextInputSelect()
+                                : MyContant().textInputStyle()),
                       ))
                   .toList(),
               onChanged: (String? newvalue) {
@@ -1452,11 +1703,30 @@ class _BranchSalesState extends State<BranchSales> {
               isExpanded: true,
               underline: const SizedBox(),
               hint: Align(
+                alignment: Alignment.center,
                 child: Text(
                   'เลือกดอกเบี้ย',
                   style: MyContant().TextInputSelect(),
                 ),
               ),
+              selectedItemBuilder: (BuildContext context) {
+                return dropdownInterest.map<Widget>((value) {
+                  return Align(
+                    alignment: value['id'] == "99"
+                        ? Alignment.center
+                        : Alignment.centerLeft,
+                    child: Text(
+                      value['name'],
+                      style: value['id'] == "99"
+                          ? MyContant().TextInputSelect()
+                          : MyContant().textInputStyle(),
+                      textAlign: value['id'] == "99"
+                          ? TextAlign.center
+                          : TextAlign.left,
+                    ),
+                  );
+                }).toList();
+              },
             ),
           ),
         ),
@@ -1470,17 +1740,18 @@ class _BranchSalesState extends State<BranchSales> {
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: employeeList,
+          readOnly: true,
           decoration: InputDecoration(
             suffixIcon: employeeList.text.isEmpty
                 ? null
-                : IconButton(
-                    onPressed: () {
+                : GestureDetector(
+                    onTap: () {
                       setState(() {
                         employeeList.clear();
                         valueEmployeelist = null;
                       });
                     },
-                    icon: const Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -1511,7 +1782,7 @@ class _BranchSalesState extends State<BranchSales> {
             child: DropdownButton<String>(
               items: dropdownMonth
                   .map((value) => DropdownMenuItem<String>(
-                        value: value['id'],
+                        value: value['id'].toString(),
                         child: Text(
                           value['name'],
                           style: MyContant().textInputStyle(),
@@ -1553,9 +1824,9 @@ class _BranchSalesState extends State<BranchSales> {
             child: DropdownButton<String>(
               items: dropdownYear
                   .map((value) => DropdownMenuItem<String>(
-                        value: value['id'],
+                        value: value.toString(),
                         child: Text(
-                          value['name'],
+                          value.toString(),
                           style: MyContant().textInputStyle(),
                         ),
                       ))
@@ -4705,6 +4976,434 @@ class _ItemSizeListState extends State<ItemSizeList> {
                       setState(() {
                         itemsizelist.clear();
                         getSelectSizeList(offset);
+                        statusLoading = false;
+                        statusLoad404 = false;
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            counterText: "",
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+}
+
+class EmployeeList extends StatefulWidget {
+  const EmployeeList({super.key});
+
+  @override
+  State<EmployeeList> createState() => _EmployeeListState();
+}
+
+class _EmployeeListState extends State<EmployeeList> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  TextEditingController employeelist = TextEditingController();
+  List<dynamic> dropdownemployeelist = [];
+  bool statusLoading = false,
+      statusLoad404 = false,
+      isLoading = false,
+      isLoadScroll = false,
+      isLoadendPage = false;
+  final scrollControll = TrackingScrollController();
+  int offset = 50, stquery = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+    employeelist.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+    if (mounted) {
+      getSelectEmployeeList(offset);
+    }
+    myScroll(scrollControll, offset);
+  }
+
+  void myScroll(ScrollController scrollController, int offset) {
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        setState(() {
+          isLoadScroll = true;
+        });
+        await Future.delayed(const Duration(seconds: 1), () {
+          offset = offset + 20;
+          getSelectEmployeeList(offset);
+        });
+      }
+    });
+  }
+
+  Future<void> getSelectEmployeeList(offset) async {
+    print(employeelist.text);
+    try {
+      var respose = await http.get(
+        Uri.parse(
+            '${api}setup/employeeList?searchName=${employeelist.text}&page=1&limit=$offset'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataEmployeelist =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdownemployeelist = dataEmployeelist['data'];
+        });
+        statusLoading = true;
+        isLoadScroll = false;
+        if (stquery > 0) {
+          if (offset > dropdownemployeelist.length) {
+            isLoadendPage = true;
+          }
+          stquery = 1;
+        } else {
+          stquery = 1;
+        }
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          statusLoading = true;
+          statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Scaffold(
+      appBar: const CustomAppbar(title: 'ค้นหาพนักงานขาย'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withAlpha(130),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                  color: const Color.fromRGBO(239, 191, 239, 1),
+                ),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'พนักงานขาย : ',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          inputEmployeeNamelist(sizeIcon, border),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            groupBtnsearch(),
+            Expanded(
+              child: statusLoading == false
+                  ? Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 24, 24, 24)
+                              .withValues(alpha: 0.9),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(cupertinoActivityIndicator, scale: 4),
+                            Text(
+                              'กำลังโหลด',
+                              style: MyContant().textLoading(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : statusLoad404 == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          controller: scrollControll,
+                          physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics(),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withAlpha(130),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(239, 191, 239, 1),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      for (var i = 0;
+                                          i < dropdownemployeelist.length;
+                                          i++) ...[
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownemployeelist[i]['id']}',
+                                              'name':
+                                                  '${dropdownemployeelist[i]['name']}',
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.7),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      dropdownemployeelist[i]
+                                                          ['name'],
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              if (isLoadScroll == true &&
+                                  isLoadendPage == false) ...[
+                                const LoadData(),
+                              ] else if (isLoadendPage == true) ...[
+                                const EndPage(),
+                              ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding groupBtnsearch() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonSearchStyle(),
+                      onPressed: () {
+                        setState(() {
+                          getSelectEmployeeList(offset);
+                          statusLoading = false;
+                        });
+                      },
+                      child: const Text('ค้นหา'),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.040,
+                    width: MediaQuery.of(context).size.width * 0.25,
+                    child: ElevatedButton(
+                      style: MyContant().myButtonCancelStyle(),
+                      onPressed: () {
+                        setState(() {
+                          employeelist.clear();
+                          getSelectEmployeeList(offset);
+                          statusLoading = false;
+                          statusLoad404 = false;
+                        });
+                      },
+                      child: const Text('ล้างข้อมูล'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Expanded inputEmployeeNamelist(BoxConstraints sizeIcon, InputBorder border) {
+    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
+    const border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.transparent,
+        width: 0,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(4.0),
+      ),
+    );
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: employeelist,
+          decoration: InputDecoration(
+            suffixIcon: employeelist.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        employeelist.clear();
+                        getSelectEmployeeList(offset);
                         statusLoading = false;
                         statusLoad404 = false;
                       });
