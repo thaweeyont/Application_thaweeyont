@@ -26,6 +26,7 @@ class _BranchSalesState extends State<BranchSales> {
   List dropdownAreaBranch = [],
       dropdownBranch = [],
       dropdownSaleType = [],
+      dropdownItem = [],
       dropdownInterest = [],
       dropdownMonth = [],
       dropdownYear = [],
@@ -54,7 +55,13 @@ class _BranchSalesState extends State<BranchSales> {
       valueSizelist,
       valueItemlist,
       valueEmployeelist,
-      valueSupplylist;
+      valueSupplylist,
+      idvalueGroup,
+      idvalueType,
+      idvalueBrand,
+      idvalueModel,
+      data1,
+      data2;
 
   TextEditingController itemGroup = TextEditingController();
   TextEditingController itemType = TextEditingController();
@@ -83,6 +90,9 @@ class _BranchSalesState extends State<BranchSales> {
     for (var item in channelSales) {
       checkedSaleItems[item["id"]] ??= false; // ค่าเริ่มต้นเป็น false
     }
+    itemList.addListener(() {
+      setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
+    });
   }
 
   Future<void> getdata() async {
@@ -345,7 +355,6 @@ class _BranchSalesState extends State<BranchSales> {
           dropdownMonth = dataMonth['data'];
           selectDatenow();
           selectMonthlist = selectedMonthId;
-          print('Id>> $selectedMonthId');
         });
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -486,15 +495,115 @@ class _BranchSalesState extends State<BranchSales> {
     }
   }
 
+  Future<void> getSelectItemList() async {
+    print(
+        'group : $idvalueGroup type : $idvalueType brand : $idvalueBrand model : $idvalueModel');
+
+    try {
+      var respose = await http.get(
+        Uri.parse(
+            '${api}setup/itemList?searchName=&page=1&limit=10&itemGroupId=$idvalueGroup&itemTypeId=$idvalueType&itemBrandId=$idvalueBrand&itemModelId=$idvalueModel&itemStatus='),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataItem =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        List<Map<String, dynamic>> listData =
+            List<Map<String, dynamic>>.from(dataItem['data']);
+
+        if (listData.isNotEmpty) {
+          var firstItem = listData.first;
+          valueItemlist = firstItem['id'];
+          itemList.text = firstItem['name'];
+          print('id> ${firstItem['id']} name> ${firstItem['name']}');
+        }
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
   Future<void> navigateAndSelectItem() async {
     final resultGroup = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ItemGroupList(source: '555'),
+        builder: (context) => const ItemGroupList(
+          source: 'ItemList',
+        ),
       ),
     );
 
-    if (resultGroup != null) return;
+    if (resultGroup == null) return;
+
+    final resultType = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemTypeList(
+          valueGrouplist: resultGroup['id'],
+          source: 'ItemList',
+        ),
+      ),
+    );
+
+    if (resultType == null) return;
+
+    final resultBrand = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemBrandList(
+          valueGrouplist: resultGroup['id'],
+          valueTypelist: resultType['id'],
+          source: 'ItemList',
+        ),
+      ),
+    );
+
+    if (resultBrand == null) return;
+
+    final resultModel = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ItemModelList(
+          valueGrouplist: resultGroup['id'],
+          valueTypelist: resultType['id'],
+          valueBrandlist: resultBrand['id'],
+          source: 'ItemList',
+        ),
+      ),
+    );
+
+    if (resultModel == null) return;
+
+    setState(() {
+      idvalueGroup = resultGroup['id'] ?? '';
+      idvalueType = resultType['id'] ?? '';
+      idvalueBrand = resultBrand['id'] ?? '';
+      idvalueModel = resultModel['id'] ?? '';
+      // print(
+      // 'group : $idvalueGroup type : $idvalueType brand : $idvalueBrand model : $idvalueModel');
+
+      getSelectItemList();
+    });
   }
 
   @override
@@ -586,7 +695,9 @@ class _BranchSalesState extends State<BranchSales> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const ItemGroupList(),
+                                  builder: (context) => const ItemGroupList(
+                                    source: "GroupList",
+                                  ),
                                 ),
                               ).then((result) {
                                 if (result != null) {
@@ -633,6 +744,7 @@ class _BranchSalesState extends State<BranchSales> {
                                 MaterialPageRoute(
                                   builder: (context) => ItemTypeList(
                                     valueGrouplist: valueGrouplist,
+                                    source: "TypeList",
                                   ),
                                 ),
                               ).then((result) {
@@ -681,6 +793,7 @@ class _BranchSalesState extends State<BranchSales> {
                                   builder: (context) => ItemBrandList(
                                     valueGrouplist: valueGrouplist,
                                     valueTypelist: valueTypelist,
+                                    source: "BrandList",
                                   ),
                                 ),
                               ).then((result) {
@@ -743,6 +856,7 @@ class _BranchSalesState extends State<BranchSales> {
                                       valueGrouplist: valueGrouplist,
                                       valueTypelist: valueTypelist,
                                       valueBrandlist: valueBrandlist,
+                                      source: "ModelList",
                                     ),
                                   ),
                                 ).then((result) {
@@ -1645,14 +1759,14 @@ class _BranchSalesState extends State<BranchSales> {
           decoration: InputDecoration(
             suffixIcon: itemList.text.isEmpty
                 ? null
-                : IconButton(
-                    onPressed: () {
+                : GestureDetector(
+                    onTap: () {
                       setState(() {
                         itemList.clear();
                         valueItemlist = null;
                       });
                     },
-                    icon: const Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -2055,7 +2169,6 @@ class _ItemGroupListState extends State<ItemGroupList> {
     itemgrouplist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
-    print('source : ${widget.source}');
   }
 
   Future<void> getdata() async {
@@ -2301,12 +2414,24 @@ class _ItemGroupListState extends State<ItemGroupList> {
                                           i++) ...[
                                         InkWell(
                                           onTap: () {
-                                            Navigator.pop(context, {
-                                              'id':
-                                                  '${dropdowngrouplist[i]['id']}',
-                                              'name':
-                                                  '${dropdowngrouplist[i]['name']}',
-                                            });
+                                            if (widget.source.toString() ==
+                                                "GroupList") {
+                                              Navigator.pop(context, {
+                                                'id':
+                                                    '${dropdowngrouplist[i]['id']}',
+                                                'name':
+                                                    '${dropdowngrouplist[i]['name']}',
+                                              });
+                                            } else if (widget.source
+                                                    .toString() ==
+                                                "ItemList") {
+                                              Navigator.pop(context, {
+                                                'id': dropdowngrouplist[i]['id']
+                                                    .toString(),
+                                                // 'name':
+                                                //     '${dropdowngrouplist[i]['name']}',
+                                              });
+                                            }
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -2458,8 +2583,8 @@ class _ItemGroupListState extends State<ItemGroupList> {
 }
 
 class ItemTypeList extends StatefulWidget {
-  final String? valueGrouplist;
-  const ItemTypeList({super.key, this.valueGrouplist});
+  final String? valueGrouplist, source;
+  const ItemTypeList({super.key, this.valueGrouplist, this.source});
 
   @override
   State<ItemTypeList> createState() => _ItemTypeListState();
@@ -2734,12 +2859,24 @@ class _ItemTypeListState extends State<ItemTypeList> {
                                           i++) ...[
                                         InkWell(
                                           onTap: () {
-                                            Navigator.pop(context, {
-                                              'id':
-                                                  '${dropdowntypelist[i]['id']}',
-                                              'name':
-                                                  '${dropdowntypelist[i]['name']}',
-                                            });
+                                            if (widget.source.toString() ==
+                                                "TypeList") {
+                                              print('11');
+                                              Navigator.pop(context, {
+                                                'id':
+                                                    '${dropdowntypelist[i]['id']}',
+                                                'name':
+                                                    '${dropdowntypelist[i]['name']}',
+                                              });
+                                            } else if (widget.source
+                                                    .toString() ==
+                                                "ItemList") {
+                                              print('22');
+                                              Navigator.pop(context, {
+                                                'id': dropdowntypelist[i]['id']
+                                                    .toString(),
+                                              });
+                                            }
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -2891,8 +3028,9 @@ class _ItemTypeListState extends State<ItemTypeList> {
 }
 
 class ItemBrandList extends StatefulWidget {
-  final String? valueGrouplist, valueTypelist;
-  const ItemBrandList({super.key, this.valueGrouplist, this.valueTypelist});
+  final String? valueGrouplist, valueTypelist, source;
+  const ItemBrandList(
+      {super.key, this.valueGrouplist, this.valueTypelist, this.source});
 
   @override
   State<ItemBrandList> createState() => _ItemBrandListState();
@@ -3169,12 +3307,22 @@ class _ItemBrandListState extends State<ItemBrandList> {
                                           i++) ...[
                                         InkWell(
                                           onTap: () {
-                                            Navigator.pop(context, {
-                                              'id':
-                                                  '${dropdownbrandlist[i]['id']}',
-                                              'name':
-                                                  '${dropdownbrandlist[i]['name']}',
-                                            });
+                                            if (widget.source.toString() ==
+                                                "BrandList") {
+                                              Navigator.pop(context, {
+                                                'id':
+                                                    '${dropdownbrandlist[i]['id']}',
+                                                'name':
+                                                    '${dropdownbrandlist[i]['name']}',
+                                              });
+                                            } else if (widget.source
+                                                    .toString() ==
+                                                "ItemList") {
+                                              Navigator.pop(context, {
+                                                'id': dropdownbrandlist[i]['id']
+                                                    .toString(),
+                                              });
+                                            }
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -3326,12 +3474,13 @@ class _ItemBrandListState extends State<ItemBrandList> {
 }
 
 class ItemModelList extends StatefulWidget {
-  final String? valueGrouplist, valueTypelist, valueBrandlist;
+  final String? valueGrouplist, valueTypelist, valueBrandlist, source;
   const ItemModelList(
       {super.key,
       this.valueGrouplist,
       this.valueTypelist,
-      this.valueBrandlist});
+      this.valueBrandlist,
+      this.source});
 
   @override
   State<ItemModelList> createState() => _ItemModelListState();
@@ -3611,12 +3760,22 @@ class _ItemModelListState extends State<ItemModelList> {
                                           i++) ...[
                                         InkWell(
                                           onTap: () {
-                                            Navigator.pop(context, {
-                                              'id':
-                                                  '${dropdownmodellist[i]['id']}',
-                                              'name':
-                                                  '${dropdownmodellist[i]['name']}',
-                                            });
+                                            if (widget.source.toString() ==
+                                                "ModelList") {
+                                              Navigator.pop(context, {
+                                                'id':
+                                                    '${dropdownmodellist[i]['id']}',
+                                                'name':
+                                                    '${dropdownmodellist[i]['name']}',
+                                              });
+                                            } else if (widget.source
+                                                    .toString() ==
+                                                "ItemList") {
+                                              Navigator.pop(context, {
+                                                'id': dropdownmodellist[i]['id']
+                                                    .toString(),
+                                              });
+                                            }
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
