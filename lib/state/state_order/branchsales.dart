@@ -606,6 +606,47 @@ class _BranchSalesState extends State<BranchSales> {
     });
   }
 
+  void clearInputSelect() {
+    setState(() {
+      checkedSaleItems.updateAll((key, value) => false);
+      selectedSaleItems = [];
+      itemGroup.clear();
+      itemType.clear();
+      itemBrand.clear();
+      itemModel.clear();
+      itemStyle.clear();
+      itemSize.clear();
+      itemList.clear();
+      employeeList.clear();
+      supplyList.clear();
+      valueGrouplist = null;
+      valueTypelist = null;
+      valueBrandlist = null;
+      valueModellist = null;
+      valueStylelist = null;
+      valueSizelist = null;
+      valueItemlist = null;
+      valueEmployeelist = null;
+      valueSupplylist = null;
+      idvalueGroup = null;
+      idvalueType = null;
+      idvalueBrand = null;
+      idvalueModel = null;
+      getSelectMonth();
+      getSelectYear();
+      // showProgressLoading(context);
+      // getSelectBranch();
+      // getSelectBranchArea();
+      selectOrderBylist = "1";
+      selectedtargetType = 1;
+      selectSortlist = "2";
+      selectBranchlist = null;
+      selectAreaBranchlist = null;
+      selectSaleTypelist = null;
+      selectInterestlist = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -1377,14 +1418,14 @@ class _BranchSalesState extends State<BranchSales> {
                         print('จาก : ${selectSortlist ?? ""}');
                         print('เป้าหมาย : ${selectedtargetType ?? ""}');
 
-                        // setState(() {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => BranchSalesList(),
-                        //     ),
-                        //   );
-                        // });
+                        setState(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BranchSalesList(),
+                            ),
+                          );
+                        });
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -1396,7 +1437,9 @@ class _BranchSalesState extends State<BranchSales> {
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
-                        setState(() {});
+                        setState(() {
+                          clearInputSelect();
+                        });
                       },
                       child: const Text('ล้างข้อมูล'),
                     ),
