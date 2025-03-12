@@ -45,8 +45,9 @@ class _BranchSalesState extends State<BranchSales> {
       selectOrderBylist,
       selectSortlist,
       selectedMonth,
-      selectedMonthId;
-  int? selectedtargetType;
+      selectedMonthId,
+      selectedtargetType;
+  // int? selectedtargetType;
   dynamic valueGrouplist,
       valueTypelist,
       valueBrandlist,
@@ -59,9 +60,7 @@ class _BranchSalesState extends State<BranchSales> {
       idvalueGroup,
       idvalueType,
       idvalueBrand,
-      idvalueModel,
-      data1,
-      data2;
+      idvalueModel;
 
   TextEditingController itemGroup = TextEditingController();
   TextEditingController itemType = TextEditingController();
@@ -471,7 +470,7 @@ class _BranchSalesState extends State<BranchSales> {
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           targetType = dataTargetType['data'];
-          selectedtargetType = 1;
+          selectedtargetType = "1";
         });
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -638,7 +637,7 @@ class _BranchSalesState extends State<BranchSales> {
       // getSelectBranch();
       // getSelectBranchArea();
       selectOrderBylist = "1";
-      selectedtargetType = 1;
+      selectedtargetType = "1";
       selectSortlist = "2";
       selectBranchlist = null;
       selectAreaBranchlist = null;
@@ -1259,7 +1258,7 @@ class _BranchSalesState extends State<BranchSales> {
                               children: [
                                 SizedBox(
                                   child: Radio(
-                                    value: item["id"],
+                                    value: item["id"].toString(),
                                     groupValue: selectedtargetType,
                                     onChanged: (value) {
                                       setState(() {
@@ -1394,35 +1393,55 @@ class _BranchSalesState extends State<BranchSales> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        print(
-                            'เขตสาขา : ${selectAreaBranchlist == null || selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
-                        print(
-                            'สาขา : ${selectBranchlist == null || selectBranchlist == "99" ? "" : selectBranchlist}');
-                        print('กลุ่มสินค้า : ${valueGrouplist ?? ""}');
-                        print('ประเภทสินค้า : ${valueTypelist ?? ""}');
-                        print('ยี่ห้อสินค้า : ${valueBrandlist ?? ""}');
-                        print('รุ่น : ${valueModellist ?? ""}');
-                        print('แบบ : ${valueStylelist ?? ""}');
-                        print('ขนาด : ${valueSizelist ?? ""}');
-                        print('รหัสสินค้า : ${valueItemlist ?? ""}');
-                        print(
-                            'ประเภทการขาย : ${selectSaleTypelist == null || selectSaleTypelist == "99" ? "" : selectSaleTypelist}');
-                        print('ช่องทางขาย : "${selectedSaleItems ?? ""}"');
-                        print(
-                            'ดอกเบี้ย : ${selectInterestlist == null || selectInterestlist == "99" ? "" : selectInterestlist}');
-                        print('พนักงานขาย : ${valueEmployeelist ?? ""}');
-                        print('เดือน : ${selectMonthlist ?? ""}');
-                        print('ปี พ.ศ. : ${selectYearlist ?? ""}');
-                        print('ผู้จำหน่าย : ${valueSupplylist ?? ""}');
-                        print('เรียงตาม : ${selectOrderBylist ?? ""}');
-                        print('จาก : ${selectSortlist ?? ""}');
-                        print('เป้าหมาย : ${selectedtargetType ?? ""}');
+                        // print(
+                        //     'เขตสาขา : ${selectAreaBranchlist == null || selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
+                        // print(
+                        //     'สาขา : ${selectBranchlist == null || selectBranchlist == "99" ? "" : selectBranchlist}');
+                        // print('กลุ่มสินค้า : ${valueGrouplist ?? ""}');
+                        // print('ประเภทสินค้า : ${valueTypelist ?? ""}');
+                        // print('ยี่ห้อสินค้า : ${valueBrandlist ?? ""}');
+                        // print('รุ่น : ${valueModellist ?? ""}');
+                        // print('แบบ : ${valueStylelist ?? ""}');
+                        // print('ขนาด : ${valueSizelist ?? ""}');
+                        // print('รหัสสินค้า : ${valueItemlist ?? ""}');
+                        // print(
+                        //     'ประเภทการขาย : ${selectSaleTypelist == null || selectSaleTypelist == "99" ? "" : selectSaleTypelist}');
+                        // print('ช่องทางขาย : "$selectedSaleItems"');
+                        // print(
+                        //     'ดอกเบี้ย : ${selectInterestlist == null || selectInterestlist == "99" ? "" : selectInterestlist}');
+                        // print('พนักงานขาย : ${valueEmployeelist ?? ""}');
+                        // print('เดือน : ${selectMonthlist ?? ""}');
+                        // print('ปี พ.ศ. : ${selectYearlist ?? ""}');
+                        // print('ผู้จำหน่าย : ${valueSupplylist ?? ""}');
+                        // print('เรียงตาม : ${selectOrderBylist ?? ""}');
+                        // print('จาก : ${selectSortlist ?? ""}');
+                        // print('เป้าหมาย : ${selectedtargetType ?? ""}');
 
                         setState(() {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => BranchSalesList(),
+                              builder: (context) => BranchSalesList(
+                                selectAreaBranchlist: selectAreaBranchlist,
+                                selectBranchlist: selectBranchlist,
+                                valueGrouplist: valueGrouplist,
+                                valueTypelist: valueTypelist,
+                                valueBrandlist: valueBrandlist,
+                                valueModellist: valueModellist,
+                                valueStylelist: valueStylelist,
+                                valueSizelist: valueSizelist,
+                                valueItemlist: valueItemlist,
+                                selectSaleTypelist: selectSaleTypelist,
+                                selectInterestlist: selectInterestlist,
+                                valueEmployeelist: valueEmployeelist,
+                                selectMonthlist: selectMonthlist,
+                                selectYearlist: selectYearlist,
+                                valueSupplylist: valueSupplylist,
+                                selectOrderBylist: selectOrderBylist,
+                                selectSortlist: selectSortlist,
+                                selectedtargetType: selectedtargetType,
+                                selectedSaleItems: selectedSaleItems,
+                              ),
                             ),
                           );
                         });

@@ -6,7 +6,47 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/custom_appbar.dart';
 
 class BranchSalesList extends StatefulWidget {
-  const BranchSalesList({super.key});
+  final String? selectAreaBranchlist,
+      selectBranchlist,
+      valueGrouplist,
+      valueTypelist,
+      valueBrandlist,
+      valueModellist,
+      valueStylelist,
+      valueSizelist,
+      valueItemlist,
+      selectSaleTypelist,
+      selectInterestlist,
+      valueEmployeelist,
+      selectMonthlist,
+      selectYearlist,
+      valueSupplylist,
+      selectOrderBylist,
+      selectSortlist,
+      selectedtargetType;
+  final List<String> selectedSaleItems;
+  const BranchSalesList({
+    super.key,
+    this.selectAreaBranchlist,
+    this.selectBranchlist,
+    this.valueGrouplist,
+    this.valueTypelist,
+    this.valueBrandlist,
+    this.valueModellist,
+    this.valueStylelist,
+    this.valueSizelist,
+    this.valueItemlist,
+    this.selectSaleTypelist,
+    this.selectInterestlist,
+    this.valueEmployeelist,
+    this.selectMonthlist,
+    this.selectYearlist,
+    this.valueSupplylist,
+    this.selectOrderBylist,
+    this.selectSortlist,
+    this.selectedtargetType,
+    required this.selectedSaleItems,
+  });
 
   @override
   State<BranchSalesList> createState() => _BranchSalesListState();
@@ -14,7 +54,25 @@ class BranchSalesList extends StatefulWidget {
 
 class _BranchSalesListState extends State<BranchSalesList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
-
+  String? selectAreaBranchlist,
+      selectBranchlist,
+      valueGrouplist,
+      valueTypelist,
+      valueBrandlist,
+      valueModellist,
+      valueStylelist,
+      valueSizelist,
+      valueItemlist,
+      selectSaleTypelist,
+      selectInterestlist,
+      valueEmployeelist,
+      selectMonthlist,
+      selectYearlist,
+      valueSupplylist,
+      selectOrderBylist,
+      selectSortlist,
+      selectedtargetType;
+  late List<String> selectedSaleItems;
   double totalTarget = 0.0, totalAmount = 0.0;
   List<Map<String, dynamic>> dataList = [
     {
@@ -65,7 +123,57 @@ class _BranchSalesListState extends State<BranchSalesList> {
 
     if (mounted) {
       sumtotal();
+      checkValueparameter();
     }
+  }
+
+  void checkValueparameter() {
+    widget.selectAreaBranchlist == null || widget.selectAreaBranchlist == "99"
+        ? selectAreaBranchlist = ""
+        : selectAreaBranchlist = widget.selectAreaBranchlist;
+    widget.selectBranchlist == null || widget.selectBranchlist == "99"
+        ? selectBranchlist = ""
+        : selectBranchlist = widget.selectBranchlist;
+    valueGrouplist = widget.valueGrouplist ?? '';
+    valueTypelist = widget.valueTypelist ?? '';
+    valueBrandlist = widget.valueBrandlist ?? '';
+    valueModellist = widget.valueModellist ?? '';
+    valueStylelist = widget.valueStylelist ?? '';
+    valueSizelist = widget.valueSizelist ?? '';
+    valueItemlist = widget.valueItemlist ?? '';
+    widget.selectSaleTypelist == null || widget.selectSaleTypelist == "99"
+        ? selectSaleTypelist = ""
+        : selectSaleTypelist = widget.selectSaleTypelist;
+    selectedSaleItems = widget.selectedSaleItems;
+    widget.selectInterestlist == null || widget.selectInterestlist == "99"
+        ? selectInterestlist = ""
+        : selectInterestlist = widget.selectInterestlist;
+    valueEmployeelist = widget.valueEmployeelist ?? '';
+    selectMonthlist = widget.selectMonthlist ?? '';
+    selectYearlist = widget.selectYearlist ?? '';
+    valueSupplylist = widget.valueSupplylist ?? '';
+    selectOrderBylist = widget.selectOrderBylist ?? '';
+    selectSortlist = widget.selectSortlist ?? '';
+    selectedtargetType = widget.selectedtargetType ?? '';
+    print("selectAreaBranchlist: ${selectAreaBranchlist.toString()}");
+    print("selectBranchlist: $selectBranchlist");
+    print("valueGrouplist: $valueGrouplist");
+    print("valueTypelist: $valueTypelist");
+    print("valueBrandlist: $valueBrandlist");
+    print("valueModellist: $valueModellist");
+    print("valueStylelist: $valueStylelist");
+    print("valueSizelist: $valueSizelist");
+    print("valueItemlist: $valueItemlist");
+    print("selectSaleTypelist: $selectSaleTypelist");
+    print("selectedSaleItems: $selectedSaleItems");
+    print("selectInterestlist: $selectInterestlist");
+    print("valueEmployeelist: $valueEmployeelist");
+    print("selectMonthlist: $selectMonthlist");
+    print("selectYearlist: $selectYearlist");
+    print("valueSupplylist: $valueSupplylist");
+    print("selectOrderBylist: $selectOrderBylist");
+    print("selectSortlist: $selectSortlist");
+    print("selectedtargetType: $selectedtargetType");
   }
 
   var formatter = NumberFormat('#,##0.00');
