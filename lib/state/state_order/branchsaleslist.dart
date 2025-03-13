@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
+import '../../api.dart';
 import '../../widgets/custom_appbar.dart';
+import '../authen.dart';
 
 class BranchSalesList extends StatefulWidget {
   final String? selectAreaBranchlist,
@@ -73,37 +78,11 @@ class _BranchSalesListState extends State<BranchSalesList> {
       selectSortlist,
       selectedtargetType;
   late List<String> selectedSaleItems;
-  double totalTarget = 0.0, totalAmount = 0.0;
-  List<Map<String, dynamic>> dataList = [
-    {
-      "area": "4",
-      "branch": "NG",
-      "target": "1,000,000",
-      "total": "1,007,461.69",
-      "percentage": "100.75",
-    },
-    {
-      "area": "4",
-      "branch": "YP",
-      "target": "2,100,000",
-      "total": "1,885,399.99",
-      "percentage": "89.78",
-    },
-    {
-      "area": "4",
-      "branch": "MC",
-      "target": "1,300,000",
-      "total": "1,152,451.41",
-      "percentage": "86.65",
-    },
-    {
-      "area": "4",
-      "branch": "DK",
-      "target": "2,500,000",
-      "total": "2,181,179.43",
-      "percentage": "87.25",
-    },
-  ];
+  List saleBranchList = [];
+  Map<String, dynamic>? branchName;
+  dynamic dataSaleList;
+  double totalTarget = 0.0, totalAmount = 0.0, percentage = 0.0;
+  List<Map<String, dynamic>> dataSale = [];
 
   @override
   void initState() {
@@ -122,73 +101,179 @@ class _BranchSalesListState extends State<BranchSalesList> {
     });
 
     if (mounted) {
-      sumtotal();
       checkValueparameter();
     }
   }
 
   void checkValueparameter() {
-    widget.selectAreaBranchlist == null || widget.selectAreaBranchlist == "99"
-        ? selectAreaBranchlist = ""
-        : selectAreaBranchlist = widget.selectAreaBranchlist;
-    widget.selectBranchlist == null || widget.selectBranchlist == "99"
-        ? selectBranchlist = ""
-        : selectBranchlist = widget.selectBranchlist;
-    valueGrouplist = widget.valueGrouplist ?? '';
-    valueTypelist = widget.valueTypelist ?? '';
-    valueBrandlist = widget.valueBrandlist ?? '';
-    valueModellist = widget.valueModellist ?? '';
-    valueStylelist = widget.valueStylelist ?? '';
-    valueSizelist = widget.valueSizelist ?? '';
-    valueItemlist = widget.valueItemlist ?? '';
-    widget.selectSaleTypelist == null || widget.selectSaleTypelist == "99"
-        ? selectSaleTypelist = ""
-        : selectSaleTypelist = widget.selectSaleTypelist;
-    selectedSaleItems = widget.selectedSaleItems;
-    widget.selectInterestlist == null || widget.selectInterestlist == "99"
-        ? selectInterestlist = ""
-        : selectInterestlist = widget.selectInterestlist;
-    valueEmployeelist = widget.valueEmployeelist ?? '';
-    selectMonthlist = widget.selectMonthlist ?? '';
-    selectYearlist = widget.selectYearlist ?? '';
-    valueSupplylist = widget.valueSupplylist ?? '';
-    selectOrderBylist = widget.selectOrderBylist ?? '';
-    selectSortlist = widget.selectSortlist ?? '';
-    selectedtargetType = widget.selectedtargetType ?? '';
-    print("selectAreaBranchlist: ${selectAreaBranchlist.toString()}");
-    print("selectBranchlist: $selectBranchlist");
-    print("valueGrouplist: $valueGrouplist");
-    print("valueTypelist: $valueTypelist");
-    print("valueBrandlist: $valueBrandlist");
-    print("valueModellist: $valueModellist");
-    print("valueStylelist: $valueStylelist");
-    print("valueSizelist: $valueSizelist");
-    print("valueItemlist: $valueItemlist");
-    print("selectSaleTypelist: $selectSaleTypelist");
-    print("selectedSaleItems: $selectedSaleItems");
-    print("selectInterestlist: $selectInterestlist");
-    print("valueEmployeelist: $valueEmployeelist");
-    print("selectMonthlist: $selectMonthlist");
-    print("selectYearlist: $selectYearlist");
-    print("valueSupplylist: $valueSupplylist");
-    print("selectOrderBylist: $selectOrderBylist");
-    print("selectSortlist: $selectSortlist");
-    print("selectedtargetType: $selectedtargetType");
+    setState(() {
+      widget.selectAreaBranchlist == null || widget.selectAreaBranchlist == "99"
+          ? selectAreaBranchlist = ""
+          : selectAreaBranchlist = widget.selectAreaBranchlist;
+      widget.selectBranchlist == null || widget.selectBranchlist == "99"
+          ? selectBranchlist = ""
+          : selectBranchlist = widget.selectBranchlist;
+      valueGrouplist = widget.valueGrouplist ?? '';
+      valueTypelist = widget.valueTypelist ?? '';
+      valueBrandlist = widget.valueBrandlist ?? '';
+      valueModellist = widget.valueModellist ?? '';
+      valueStylelist = widget.valueStylelist ?? '';
+      valueSizelist = widget.valueSizelist ?? '';
+      valueItemlist = widget.valueItemlist ?? '';
+      widget.selectSaleTypelist == null || widget.selectSaleTypelist == "99"
+          ? selectSaleTypelist = ""
+          : selectSaleTypelist = widget.selectSaleTypelist;
+      selectedSaleItems = widget.selectedSaleItems;
+      widget.selectInterestlist == null || widget.selectInterestlist == "99"
+          ? selectInterestlist = ""
+          : selectInterestlist = widget.selectInterestlist;
+      valueEmployeelist = widget.valueEmployeelist ?? '';
+      selectMonthlist = widget.selectMonthlist ?? '';
+      selectYearlist = widget.selectYearlist ?? '';
+      valueSupplylist = widget.valueSupplylist ?? '';
+      selectOrderBylist = widget.selectOrderBylist ?? '';
+      selectSortlist = widget.selectSortlist ?? '';
+      selectedtargetType = widget.selectedtargetType ?? '';
+      getSelectSaleBranch();
+    });
+  }
+
+  Future<void> getSelectSaleBranch() async {
+    print("branchArea: ${selectAreaBranchlist.toString()}");
+    print("branchId: $selectBranchlist");
+    print("itemGroupId: $valueGrouplist");
+    print("itemTypeId: $valueTypelist");
+    print("itemBrandId: $valueBrandlist");
+    print("itemModel: $valueModellist");
+    print("itemStyleId: $valueStylelist");
+    print("itemSizeId: $valueSizelist");
+    print("itemId: $valueItemlist");
+    print("saleTypeId: $selectSaleTypelist");
+    print("channelSaleId: $selectedSaleItems");
+    print("interestType: $selectInterestlist");
+    print("saleId: $valueEmployeelist");
+    print("monthId: $selectMonthlist");
+    print("yearId: $selectYearlist");
+    print("supplyId: $valueSupplylist");
+    print("orderBy: $selectOrderBylist");
+    print("orderSort: $selectSortlist");
+    print("targetType: $selectedtargetType");
+
+    // print("🔍 Request Body: ${jsonEncode(requestBody)}");
+    try {
+      var respose = await http.post(
+        Uri.parse('${api}sale/saleBranch'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+        body: jsonEncode(<String, dynamic>{
+          'branchArea': selectAreaBranchlist.toString(),
+          'branchId': selectBranchlist.toString(),
+          'itemGroupId': valueGrouplist.toString(),
+          'itemTypeId': valueTypelist.toString(),
+          'itemBrandId': valueBrandlist.toString(),
+          'itemModel': valueModellist.toString(),
+          'itemStyleId': valueStylelist.toString(),
+          'itemSizeId': valueSizelist.toString(),
+          'itemId': valueItemlist.toString(),
+          'saleTypeId': selectSaleTypelist.toString(),
+          'channelSaleId': selectedSaleItems.isNotEmpty
+              ? selectedSaleItems.map((item) => item.toString()).toList()
+              : [],
+          'interestType': selectInterestlist.toString(),
+          'saleId': valueEmployeelist.toString(),
+          'monthId': selectMonthlist.toString(),
+          'yearId': selectYearlist.toString(),
+          'supplyId': valueSupplylist.toString(),
+          'orderBy': selectOrderBylist.toString(),
+          'orderSort': selectSortlist.toString(),
+          'targetType': selectedtargetType.toString()
+        }),
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> dataSaleBranch =
+            Map<String, dynamic>.from(json.decode(respose.body));
+
+        setState(() {
+          dataSaleList = dataSaleBranch['data'];
+          saleBranchList = dataSaleList['detail'][0];
+
+          // for (var i = 0; i < saleBranchList.length; i++) {
+          //   print(saleBranchList[i]['branchName']);
+          //   print(saleBranchList[i]['branchAreaName']);
+          //   var dailyTotal =
+          //       Map<String, dynamic>.from(saleBranchList[i]['dailyTotal']);
+          //   for (var entry in dailyTotal.entries) {
+          //     print('วันที่ ${entry.key} => ${entry.value}');
+          //   }
+          // }
+          for (var i = 0; i < saleBranchList.length; i++) {
+            print('data> ${saleBranchList[i]['targetTotal']}');
+            totalTarget = saleBranchList.fold(
+                0, (sum, item) => sum + (item['targetTotal'] ?? 0.0));
+            totalAmount = saleBranchList.fold(
+                0, (sum, item) => sum + (item['branchTotal'] ?? 0.0));
+
+            // dataSale.add({
+            //   "branchName": saleBranchList[i]['branchName'],
+            //   "branchAreaName": saleBranchList[i]['branchAreaName'],
+            //   "branchTotal": saleBranchList[i]['branchTotal'],
+            //   "targetTotal": saleBranchList[i]['targetTotal'],
+            //   "percent": saleBranchList[i]['percent'],
+            // });
+          }
+          print('เป้ารวม : $totalTarget');
+          print('ยอดรวมทั้งหมด : $totalAmount');
+          percentage = calculatePercentage(totalTarget, totalAmount);
+          print("ทำได้: ${percentage.toStringAsFixed(2)}%");
+          // sumtotal();
+        });
+      } else if (respose.statusCode == 400) {
+        showProgressDialog_400(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else if (respose.statusCode == 404) {
+        setState(() {
+          // statusLoading = true;
+          // statusLoad404 = true;
+        });
+      } else if (respose.statusCode == 405) {
+        showProgressDialog_405(
+            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
+      } else if (respose.statusCode == 500) {
+        showProgressDialog_500(
+            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
+      } else {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
   }
 
   var formatter = NumberFormat('#,##0.00');
 
-  double calculatePercentage(double totalTarget, double totalAmount) {
-    if (totalTarget == 0) return 0; // ป้องกันการหารด้วย 0
-    return (totalAmount / totalTarget) * 100;
-  }
-
   void sumtotal() {
-    totalTarget = dataList
-        .map((item) => double.parse(item["target"].replaceAll(",", "")))
+    totalTarget = saleBranchList
+        .map((item) => double.parse(item["targetTotal"].replaceAll(",", "")))
         .reduce((a, b) => a + b);
-    totalAmount = dataList
-        .map((item) => double.parse(item["total"].replaceAll(",", "")))
+    totalAmount = saleBranchList
+        .map((item) => double.parse(item["branchTotal"].replaceAll(",", "")))
         .reduce((a, b) => a + b);
 
     print("ยอดรวมเป้า: $totalTarget");
@@ -196,6 +281,11 @@ class _BranchSalesListState extends State<BranchSalesList> {
     double percentage = calculatePercentage(totalTarget, totalAmount);
 
     print("ทำได้: ${percentage.toStringAsFixed(2)}%");
+  }
+
+  double calculatePercentage(double totalTarget, double totalAmount) {
+    if (totalTarget == 0) return 0; // ป้องกันการหารด้วย 0
+    return (totalAmount / totalTarget) * 100;
   }
 
   @override
@@ -333,9 +423,9 @@ class _BranchSalesListState extends State<BranchSalesList> {
               child: ListView.builder(
                 padding:
                     const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 8),
-                itemCount: dataList.length + 2, // จำนวนรายการ
+                itemCount: saleBranchList.length + 2, // จำนวนรายการ
                 itemBuilder: (context, index) {
-                  if (index == dataList.length) {
+                  if (index == saleBranchList.length) {
                     // ✅ แสดง Container ยอดรวมที่รายการสุดท้าย
                     return Padding(
                       padding: const EdgeInsets.only(top: 4),
@@ -380,7 +470,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                     style: MyContant().h4normalStyle(),
                                   ),
                                   Text(
-                                    'ทำได้ : %',
+                                    'ทำได้ : ${percentage.toStringAsFixed(2)} %',
                                     style: MyContant().h4normalStyle(),
                                   ),
                                 ],
@@ -390,7 +480,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                         ),
                       ),
                     );
-                  } else if (index == dataList.length + 1) {
+                  } else if (index == saleBranchList.length + 1) {
                     // ✅ Container ใหม่ (Container 2)
                     return Padding(
                       padding: const EdgeInsets.only(top: 8, bottom: 50),
@@ -434,10 +524,11 @@ class _BranchSalesListState extends State<BranchSalesList> {
                       ),
                     );
                   }
-                  final data = dataList[index];
+                  final data = saleBranchList[index];
                   return GestureDetector(
                     onTap: () {
-                      print("ตำแหน่งที่: $index | ข้อมูล: ${dataList[index]}");
+                      print(
+                          "ตำแหน่งที่: $index | ข้อมูล: ${saleBranchList[index]}");
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
@@ -461,11 +552,11 @@ class _BranchSalesListState extends State<BranchSalesList> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'เขตสาขา : ${data["area"]}',
+                                  'เขตสาขา : ${data["branchAreaName"]}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                                 Text(
-                                  'สาขา : ${data["branch"]}',
+                                  'สาขา : ${data["branchName"]}',
                                   style: MyContant().h4normalStyle(),
                                 ),
                               ],
@@ -483,7 +574,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                   Row(
                                     children: [
                                       Text(
-                                        'เป้า : ${data["target"]}',
+                                        'เป้า : ${formatter.format(data["targetTotal"])}',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -493,11 +584,11 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'ยอดรวม : ${data["total"]}',
+                                        'ยอดรวม : ${formatter.format(data["branchTotal"])}',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                       Text(
-                                        'ทำได้ : ${data["percentage"]} %',
+                                        'ทำได้ : ${data["percent"]} %',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],

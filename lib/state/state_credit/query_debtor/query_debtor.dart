@@ -100,16 +100,16 @@ class _Query_debtorState extends State<Query_debtor> {
     });
     await Future.delayed(const Duration(milliseconds: 100));
     if (mounted) {
-      get_select_province();
-      get_select_addressTypelist();
-      get_select_branch();
-      get_select_debtorType();
-      get_select_signStatus();
-      get_select_cus();
+      getSelectProvince();
+      getSelectAddressTypelist();
+      getSelectBranch();
+      getSelectDebtorType();
+      getSelectSignStatus();
+      getSelectCus();
     }
   }
 
-  Future<void> get_select_province() async {
+  Future<void> getSelectProvince() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/provinceList?page=1&limit=100'),
@@ -165,7 +165,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
-  Future<void> get_select_district() async {
+  Future<void> getSelectDistrict() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -195,7 +195,7 @@ class _Query_debtorState extends State<Query_debtor> {
         if (!mounted) return;
         Navigator.pop(context);
         Navigator.pop(context);
-        search_district(sizeIcon, border);
+        searchDistrict(sizeIcon, border);
       } else if (respose.statusCode == 400) {
         if (!mounted) return;
         showProgressDialog_400(
@@ -235,7 +235,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
-  Future<void> get_itemTypelist() async {
+  Future<void> getItemTypelist() async {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -299,7 +299,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
-  Future<void> get_select_addressTypelist() async {
+  Future<void> getSelectAddressTypelist() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/addressTypeList'),
@@ -335,7 +335,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
-  Future<void> get_select_branch() async {
+  Future<void> getSelectBranch() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/branchList'),
@@ -369,7 +369,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
-  Future<void> get_select_debtorType() async {
+  Future<void> getSelectDebtorType() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/debtorTypeList'),
@@ -404,7 +404,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
-  Future<void> get_select_signStatus() async {
+  Future<void> getSelectSignStatus() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/signStatusList'),
@@ -441,7 +441,7 @@ class _Query_debtorState extends State<Query_debtor> {
     }
   }
 
-  Future<void> get_select_cus() async {
+  Future<void> getSelectCus() async {
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/custCondition'),
@@ -497,8 +497,8 @@ class _Query_debtorState extends State<Query_debtor> {
       selectValue_amphoe = null;
       tumbolId = null;
       selectValue_province = null;
-      get_select_signStatus();
-      get_select_addressTypelist();
+      getSelectSignStatus();
+      getSelectAddressTypelist();
     });
   }
 
@@ -534,7 +534,7 @@ class _Query_debtorState extends State<Query_debtor> {
     lastname.clear();
   }
 
-  Future<void> search_district(sizeIcon, border) async {
+  Future<void> searchDistrict(sizeIcon, border) async {
     double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
@@ -823,7 +823,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                           'กรุณาเลือกอำเภอ');
                                     } else {
                                       showProgressLoading(context);
-                                      get_select_district();
+                                      getSelectDistrict();
                                     }
                                   },
                                   child: const Text('ค้นหา'),
@@ -1090,7 +1090,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                           'กรุณากรอกชื่อประเภท');
                                     } else {
                                       showProgressLoading(context);
-                                      get_itemTypelist();
+                                      getItemTypelist();
                                     }
                                   },
                                   child: const Text('ค้นหา'),
@@ -1242,7 +1242,7 @@ class _Query_debtorState extends State<Query_debtor> {
   }
 
   Future<void> searchIdcustomer(sizeIcon, border) async {
-    Future<void> getData_condition(String? custType, conditionType,
+    Future<void> getDataCondition(String? custType, conditionType,
         String searchData, String firstName, String lastName) async {
       try {
         var respose = await http.post(
@@ -1303,22 +1303,21 @@ class _Query_debtorState extends State<Query_debtor> {
       }
     }
 
-    Future<Null> getData_search() async {
+    Future<void> getData_search() async {
       if (id == '1') {
         showProgressLoading(context);
         if (selectValue_customer.toString() == "2") {
-          getData_condition(
+          getDataCondition(
               id, selectValue_customer, '', searchData.text, lastname.text);
         } else {
-          getData_condition(id, selectValue_customer, searchData.text, '', '');
+          getDataCondition(id, selectValue_customer, searchData.text, '', '');
         }
       } else {
         showProgressLoading(context);
-        getData_condition(id, '2', '', firstnameEm.text, lastnameEm.text);
+        getDataCondition(id, '2', '', firstnameEm.text, lastnameEm.text);
       }
     }
 
-    double size = MediaQuery.of(context).size.width;
     showDialog(
       context: context,
       builder: (context) => GestureDetector(
@@ -1895,7 +1894,7 @@ class _Query_debtorState extends State<Query_debtor> {
                                   const Color.fromRGBO(202, 71, 150, 1),
                             ),
                             onPressed: () {
-                              search_district(sizeIcon, border);
+                              searchDistrict(sizeIcon, border);
                             },
                             child: const Icon(
                               Icons.search,
