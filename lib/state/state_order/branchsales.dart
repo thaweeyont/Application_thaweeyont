@@ -47,7 +47,6 @@ class _BranchSalesState extends State<BranchSales> {
       selectedMonth,
       selectedMonthId,
       selectedtargetType;
-  // int? selectedtargetType;
   dynamic valueGrouplist,
       valueTypelist,
       valueBrandlist,
