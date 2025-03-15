@@ -84,6 +84,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
   double totalTarget = 0.0, totalAmount = 0.0, percentage = 0.0;
   List<Map<String, dynamic>> dataSale = [];
   bool isScrolled = false;
+  final GlobalKey _containerKey = GlobalKey();
+  double _containerHeight = 0; // เก็บค่าความสูง
 
   @override
   void initState() {
@@ -292,6 +294,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getContainerHeight());
+
     return Scaffold(
       appBar: const CustomAppbar(title: 'ยอดขายสินค้ารวมสาขาในแต่ละวัน'),
       body: GestureDetector(
@@ -302,7 +306,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
             Positioned.fill(
               child: Column(
                 children: [
-                  SizedBox(height: 175),
+                  SizedBox(height: _containerHeight), // ✅ ปรับขนาดอัตโนมัติ
                   Expanded(
                     child: NotificationListener<ScrollNotification>(
                       onNotification: (scrollInfo) {
@@ -380,7 +384,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
+                                    Radius.circular(10),
+                                  ),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withAlpha(130),
@@ -393,7 +398,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                 ),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 2, horizontal: 8),
+                                      vertical: 0, horizontal: 8),
                                   decoration: BoxDecoration(
                                     color: Colors.white.withAlpha(180),
                                     borderRadius: BorderRadius.circular(10),
@@ -404,10 +409,42 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
+                                          SizedBox(
+                                            width: 30,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8),
+                                                shape: const CircleBorder(),
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        255, 223, 132, 223),
+                                              ),
+                                              onPressed: () {},
+                                              child: const Icon(
+                                                Icons.search,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 5),
+                                          // ElevatedButton(
+                                          //   style: ElevatedButton.styleFrom(
+                                          //     shape: const CircleBorder(),
+                                          //     backgroundColor:
+                                          //         const Color.fromARGB(
+                                          //             255, 223, 132, 223),
+                                          //   ),
+                                          //   onPressed: () {},
+                                          //   child: Icon(
+                                          //     Icons.search_rounded,
+                                          //     color: Colors.white,
+                                          //   ),
+                                          // ),
                                           Text(
                                             'ดูยอดขายสินค้ารวมทุกสาขา เขตสาขา 4',
                                             style: MyContant().h4normalStyle(),
-                                            textAlign: TextAlign.start,
                                           ),
                                         ],
                                       ),
@@ -421,7 +458,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                           return GestureDetector(
                             onTap: () {
                               print(
-                                  "ตำแหน่งที่: $index | ข้อมูล: ${saleBranchList[index]}");
+                                  "ตำแหน่งที่: $index | ข้อมูล: ${saleBranchList[index]} | หัวข้อ : $saleBranchHead");
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
@@ -510,6 +547,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
               left: 0,
               right: 0,
               child: AnimatedContainer(
+                key: _containerKey, // ✅ ใส่ key เพื่อนำไปวัดขนาด
                 duration: Duration(milliseconds: 200),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -557,7 +595,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'ยอดขายสินค้าเดือน ${saleBranchHead?['month'] ?? '-'} ${saleBranchHead?['year'] ?? '-'}',
+                                    'ยอดขายสินค้าเดือน ${saleBranchHead?['month'] ?? '-'} พ.ศ. ${saleBranchHead?['year'] ?? '-'}',
                                     style: MyContant().h4normalStyle(),
                                   ),
                                 ],
@@ -597,7 +635,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                               Row(
                                 children: [
                                   Text(
-                                    'ผู้จำหน่าย : ทั้งหมด',
+                                    'ผู้จำหน่าย : ${saleBranchHead?['supplyname'] ?? '-'}',
                                     style: MyContant().h4normalStyle(),
                                     textAlign: TextAlign.left,
                                   ),
@@ -660,5 +698,19 @@ class _BranchSalesListState extends State<BranchSalesList> {
         ),
       ),
     );
+  }
+
+  void _getContainerHeight() {
+    final RenderBox? renderBox =
+        _containerKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      double newHeight = renderBox.size.height;
+      if (_containerHeight != newHeight) {
+        setState(() {
+          _containerHeight = newHeight;
+          print('สูง>>$_containerHeight');
+        });
+      }
+    }
   }
 }
