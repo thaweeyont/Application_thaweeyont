@@ -233,6 +233,7 @@ class _BranchSalesState extends State<BranchSales> {
           ];
           myListsaleType = List.from(df)..addAll(dataSaleType['data']);
           dropdownSaleType = myListsaleType;
+          selectSaleTypelist = '0';
         });
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -638,9 +639,10 @@ class _BranchSalesState extends State<BranchSales> {
       selectOrderBylist = "1";
       selectedtargetType = "1";
       selectSortlist = "2";
+      selectSaleTypelist = '0';
       selectBranchlist = null;
       selectAreaBranchlist = null;
-      selectSaleTypelist = null;
+      // selectSaleTypelist = null;
       selectInterestlist = null;
     });
   }

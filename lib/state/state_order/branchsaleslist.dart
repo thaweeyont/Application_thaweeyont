@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import '../../api.dart';
 import '../../widgets/custom_appbar.dart';
 import '../authen.dart';
+import 'branchsalesdetail.dart';
 
 class BranchSalesList extends StatefulWidget {
   final String? selectAreaBranchlist,
@@ -429,19 +430,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                             ),
                                           ),
                                           SizedBox(width: 5),
-                                          // ElevatedButton(
-                                          //   style: ElevatedButton.styleFrom(
-                                          //     shape: const CircleBorder(),
-                                          //     backgroundColor:
-                                          //         const Color.fromARGB(
-                                          //             255, 223, 132, 223),
-                                          //   ),
-                                          //   onPressed: () {},
-                                          //   child: Icon(
-                                          //     Icons.search_rounded,
-                                          //     color: Colors.white,
-                                          //   ),
-                                          // ),
                                           Text(
                                             'ดูยอดขายสินค้ารวมทุกสาขา เขตสาขา 4',
                                             style: MyContant().h4normalStyle(),
@@ -459,6 +447,12 @@ class _BranchSalesListState extends State<BranchSalesList> {
                             onTap: () {
                               print(
                                   "ตำแหน่งที่: $index | ข้อมูล: ${saleBranchList[index]} | หัวข้อ : $saleBranchHead");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BranchSalesDetail(),
+                                ),
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
