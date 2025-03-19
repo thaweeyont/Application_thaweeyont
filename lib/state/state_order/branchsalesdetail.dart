@@ -5,129 +5,55 @@ import '../../utility/my_constant.dart';
 import '../../widgets/custom_appbar.dart';
 
 class BranchSalesDetail extends StatefulWidget {
-  const BranchSalesDetail({super.key});
+  final Map<String, dynamic> saleBranchList;
+  final dynamic saleBranchHead;
+
+  const BranchSalesDetail({
+    super.key,
+    required this.saleBranchList,
+    required this.saleBranchHead,
+  });
 
   @override
   State<BranchSalesDetail> createState() => _BranchSalesDetailState();
 }
 
 class _BranchSalesDetailState extends State<BranchSalesDetail> {
-  List<Map<String, dynamic>> dataList = [
-    {
-      "branchName": "TH",
-      "branchAreaName": "เขต 1",
-      "branchTotal": 1937440.18,
-      "targetTotal": 2000000,
-      "percent": 96.87,
-      "dailyTotal": {
-        "01": 108247.66,
-        "02": 27479.44,
-        "03": 82132.71,
-        "04": 32602.8,
-        "05": 108928.04,
-        "06": 11147.66,
-        "07": 46143.93,
-        "08": 64548.6,
-        "09": 102259.81,
-        "10": 67258.88,
+  List<Map<String, dynamic>>? dailyList;
+  String? areaName;
+  ScrollController _scrollController = ScrollController();
+  bool isScrolled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkDataList();
+    _scrollController.addListener(() {
+      if (_scrollController.offset > 5 && !isScrolled) {
+        setState(() {
+          isScrolled = true;
+        });
+      } else if (_scrollController.offset <= 5 && isScrolled) {
+        setState(() {
+          isScrolled = false;
+        });
       }
-    },
-    {
-      "branchName": "CN",
-      "branchAreaName": "เขต 2",
-      "branchTotal": 1589302.45,
-      "targetTotal": 1800000,
-      "percent": 88.29,
-      "dailyTotal": {
-        "01": 97258.32,
-        "02": 25149.11,
-        "03": 73102.77,
-        "04": 28901.44,
-        "05": 103204.65,
-        "06": 8741.33,
-        "07": 42983.12,
-        "08": 59834.57,
-        "09": 95230.43,
-        "10": 61049.28,
-      }
-    },
-    {
-      "branchName": "US",
-      "branchAreaName": "เขต 3",
-      "branchTotal": 2458120.98,
-      "targetTotal": 2500000,
-      "percent": 98.32,
-      "dailyTotal": {
-        "01": 127589.33,
-        "02": 32894.77,
-        "03": 90238.12,
-        "04": 39821.65,
-        "05": 120504.23,
-        "06": 13249.67,
-        "07": 50123.55,
-        "08": 72034.88,
-        "09": 114509.99,
-        "10": 76458.32,
-      }
-    },
-    {
-      "branchName": "US",
-      "branchAreaName": "เขต 3",
-      "branchTotal": 2458120.98,
-      "targetTotal": 2500000,
-      "percent": 98.32,
-      "dailyTotal": {
-        "01": 127589.33,
-        "02": 32894.77,
-        "03": 90238.12,
-        "04": 39821.65,
-        "05": 120504.23,
-        "06": 13249.67,
-        "07": 50123.55,
-        "08": 72034.88,
-        "09": 114509.99,
-        "10": 76458.32,
-      }
-    },
-    {
-      "branchName": "US",
-      "branchAreaName": "เขต 3",
-      "branchTotal": 2458120.98,
-      "targetTotal": 2500000,
-      "percent": 98.32,
-      "dailyTotal": {
-        "01": 127589.33,
-        "02": 32894.77,
-        "03": 90238.12,
-        "04": 39821.65,
-        "05": 120504.23,
-        "06": 13249.67,
-        "07": 50123.55,
-        "08": 72034.88,
-        "09": 114509.99,
-        "10": 76458.32,
-      }
-    },
-    {
-      "branchName": "US",
-      "branchAreaName": "เขต 3",
-      "branchTotal": 2458120.98,
-      "targetTotal": 2500000,
-      "percent": 98.32,
-      "dailyTotal": {
-        "01": 127589.33,
-        "02": 32894.77,
-        "03": 90238.12,
-        "04": 39821.65,
-        "05": 120504.23,
-        "06": 13249.67,
-        "07": 50123.55,
-        "08": 72034.88,
-        "09": 114509.99,
-        "10": 76458.32,
-      }
-    }
-  ];
+    });
+  }
+
+  void checkDataList() {
+    areaName = (widget.saleBranchList['branchAreaName'] as String)
+        .replaceAll("เขต ", "");
+
+    // ✅ ตรวจสอบให้แน่ใจว่า dailyTotal เป็น Map<String, dynamic>
+    Map<String, dynamic> dailyTotalMap =
+        Map<String, dynamic>.from(widget.saleBranchList["dailyTotal"]);
+
+    // ✅ แปลง dailyTotal เป็น List<Map<String, dynamic>>
+    dailyList = dailyTotalMap.entries
+        .map((e) => {"date": e.key, "amount": e.value})
+        .toList();
+  }
 
   var formatter = NumberFormat('#,##0.00');
 
@@ -135,173 +61,178 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppbar(title: 'ยอดขายสินค้ารวมสาขาในแต่ละวัน'),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(130),
-                    spreadRadius: 0.2,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-                color: const Color.fromRGBO(239, 191, 239, 1),
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(180),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'ยอดขายสินค้าเดือน',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(130),
-                    spreadRadius: 0.2,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-                color: const Color.fromRGBO(239, 191, 239, 1),
-              ),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(180),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'เขต 2',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'สาขา MS',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'เป้า ${formatter.format(1000000)}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.all(8.0),
-                  sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final items = dataList[index];
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withAlpha(130),
-                                spreadRadius: 0.2,
-                                blurRadius: 2,
-                                offset: const Offset(0, 1),
-                              )
-                            ],
-                            color: const Color.fromRGBO(239, 191, 239, 1),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'วันที่ : ${index + 1}',
-                                    style: MyContant().h4normalStyle(),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 3),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 8),
+          /// ✅ รายการข้อมูลที่เลื่อนได้ (CustomScrollView)
+          Column(
+            children: [
+              SizedBox(height: 120),
+              Expanded(
+                // padding:
+                //     const EdgeInsets.only(top: 0), // ✅ ปรับให้ Header ไม่โดนทับ
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification.metrics.pixels > 5) {
+                      setState(() => isScrolled = true);
+                    } else {
+                      setState(() => isScrolled = false);
+                    }
+                    return true;
+                  },
+                  child: CustomScrollView(
+                    controller: _scrollController,
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.all(8.0),
+                        sliver: SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final items = dailyList?[index];
+                              return Container(
+                                padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withAlpha(180),
                                   borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withAlpha(130),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    )
+                                  ],
+                                  color: const Color.fromRGBO(239, 191, 239, 1),
                                 ),
                                 child: Column(
                                   children: [
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          formatter.format(114509.99),
+                                          'วันที่ : ${items?['date']}',
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],
                                     ),
+                                    const SizedBox(height: 3),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withAlpha(180),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                formatter
+                                                    .format(items?['amount']),
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
+                              );
+                            },
+                            childCount: dailyList?.length,
                           ),
-                        );
-                      },
-                      childCount: dataList.length, // ✅ บวก 1 เพื่อรวมยอด
-                    ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // ✅ ตั้งค่าให้มี 2 คอลัมน์
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 2.25,
-                    ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 2.25,
+                          ),
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 8, top: 4, bottom: 50),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withAlpha(130),
+                                  spreadRadius: 0.2,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 1),
+                                )
+                              ],
+                              color: const Color.fromRGBO(239, 191, 239, 1),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withAlpha(180),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'ยอดรวม : ${formatter.format(widget.saleBranchList['branchTotal'])}',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    'ทำได้ : ${widget.saleBranchList['percent']} %',
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
+            ],
+          ),
 
-                // ✅ ใช้ SliverToBoxAdapter เพื่อให้ Container อยู่ใน GridView
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 8.0),
+          /// ✅ Header ที่อยู่ด้านบนสุด (ใช้ Positioned)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 200),
+              // padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: isScrolled
+                    ? [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(130),
+                          blurRadius: 12,
+                          spreadRadius: 5,
+                          offset: Offset(0, 5),
+                        )
+                      ]
+                    : [],
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withAlpha(130),
@@ -314,30 +245,78 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                       ),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
+                            vertical: 4, horizontal: 8),
                         decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
-                            Text(
-                              'ยอดรวม : ${formatter.format(999999.99)}',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              'ทำได้ : %',
-                              style: MyContant().h4normalStyle(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'ยอดขายสินค้าเดือน ${widget.saleBranchHead['month']} พ.ศ. ${widget.saleBranchHead['year']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8, right: 8, bottom: 0),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withAlpha(130),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
+                        color: const Color.fromRGBO(239, 191, 239, 1),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withAlpha(180),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'เขตสาขา : $areaName',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Text(
+                                  'สาขา : ${widget.saleBranchList['branchName']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Text(
+                                  'เป้า : ${formatter.format(widget.saleBranchList['targetTotal'])}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

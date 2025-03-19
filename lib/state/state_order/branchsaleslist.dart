@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/state/state_order/detailbrancharea_all.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -163,7 +164,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
     print("orderSort: $selectSortlist");
     print("targetType: $selectedtargetType");
 
-    // print("🔍 Request Body: ${jsonEncode(requestBody)}");
     try {
       var respose = await http.post(
         Uri.parse('${api}sale/saleBranch'),
@@ -206,29 +206,11 @@ class _BranchSalesListState extends State<BranchSalesList> {
 
           saleBranchList = dataSaleList['detail'][0];
 
-          // for (var i = 0; i < saleBranchList.length; i++) {
-          //   print(saleBranchList[i]['branchName']);
-          //   print(saleBranchList[i]['branchAreaName']);
-          //   var dailyTotal =
-          //       Map<String, dynamic>.from(saleBranchList[i]['dailyTotal']);
-          //   for (var entry in dailyTotal.entries) {
-          //     print('วันที่ ${entry.key} => ${entry.value}');
-          //   }
-          // }
           for (var i = 0; i < saleBranchList.length; i++) {
-            print('data> ${saleBranchList[i]['targetTotal']}');
             totalTarget = saleBranchList.fold(
                 0, (sum, item) => sum + (item['targetTotal'] ?? 0.0));
             totalAmount = saleBranchList.fold(
                 0, (sum, item) => sum + (item['branchTotal'] ?? 0.0));
-
-            // dataSale.add({
-            //   "branchName": saleBranchList[i]['branchName'],
-            //   "branchAreaName": saleBranchList[i]['branchAreaName'],
-            //   "branchTotal": saleBranchList[i]['branchTotal'],
-            //   "targetTotal": saleBranchList[i]['targetTotal'],
-            //   "percent": saleBranchList[i]['percent'],
-            // });
           }
           print('เป้ารวม : $totalTarget');
           print('ยอดรวมทั้งหมด : $totalAmount');
@@ -378,65 +360,76 @@ class _BranchSalesListState extends State<BranchSalesList> {
                             );
                           } else if (index == saleBranchList.length + 1) {
                             // ✅ Container ใหม่ (Container 2)
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 8, bottom: 50),
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailBranchAreaAll(),
                                   ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
-                                    )
-                                  ],
-                                  color: const Color.fromRGBO(239, 191, 239, 1),
-                                ),
+                                );
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 50),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 8),
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withAlpha(130),
+                                        spreadRadius: 0.2,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 1),
+                                      )
+                                    ],
+                                    color:
+                                        const Color.fromRGBO(239, 191, 239, 1),
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: 30,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8),
-                                                shape: const CircleBorder(),
-                                                backgroundColor:
-                                                    const Color.fromARGB(
-                                                        255, 223, 132, 223),
-                                              ),
-                                              onPressed: () {},
-                                              child: const Icon(
-                                                Icons.search,
-                                                color: Colors.white,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withAlpha(180),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 30,
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 8),
+                                                  shape: const CircleBorder(),
+                                                  backgroundColor:
+                                                      const Color.fromARGB(
+                                                          255, 223, 132, 223),
+                                                ),
+                                                onPressed: () {},
+                                                child: const Icon(
+                                                  Icons.search,
+                                                  color: Colors.white,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            'ดูยอดขายสินค้ารวมทุกสาขา เขตสาขา 4',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            SizedBox(width: 5),
+                                            Text(
+                                              'ดูยอดขายสินค้ารวมทุกสาขา เขตสาขา 4',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -450,7 +443,10 @@ class _BranchSalesListState extends State<BranchSalesList> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => BranchSalesDetail(),
+                                  builder: (context) => BranchSalesDetail(
+                                    saleBranchList: saleBranchList[index],
+                                    saleBranchHead: saleBranchHead,
+                                  ),
                                 ),
                               );
                             },
