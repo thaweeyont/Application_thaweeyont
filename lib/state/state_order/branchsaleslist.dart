@@ -78,7 +78,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
       valueSupplylist,
       selectOrderBylist,
       selectSortlist,
-      selectedtargetType;
+      selectedtargetType,
+      areaBranchName;
   late List<String> selectedSaleItems;
   List saleBranchList = [];
   Map<String, dynamic>? branchName;
@@ -203,19 +204,18 @@ class _BranchSalesListState extends State<BranchSalesList> {
         setState(() {
           dataSaleList = dataSaleBranch['data'];
           saleBranchHead = dataSaleList['head'];
-
+          print('data>> $dataSaleList');
           saleBranchList = dataSaleList['detail'][0];
-
+          areaBranchName = (saleBranchList[0]['branchAreaName'] as String)
+              .replaceAll("เขต ", "เขตสาขา ");
           for (var i = 0; i < saleBranchList.length; i++) {
             totalTarget = saleBranchList.fold(
                 0, (sum, item) => sum + (item['targetTotal'] ?? 0.0));
             totalAmount = saleBranchList.fold(
                 0, (sum, item) => sum + (item['branchTotal'] ?? 0.0));
           }
-          print('เป้ารวม : $totalTarget');
-          print('ยอดรวมทั้งหมด : $totalAmount');
+
           percentage = calculatePercentage(totalTarget, totalAmount);
-          print("ทำได้: ${percentage.toStringAsFixed(2)}%");
         });
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
@@ -365,7 +365,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailBranchAreaAll(),
+                                    builder: (context) => DetailBranchAreaAll(
+                                        dataSaleList: dataSaleList),
                                   ),
                                 );
                               },
@@ -422,7 +423,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                             ),
                                             SizedBox(width: 5),
                                             Text(
-                                              'ดูยอดขายสินค้ารวมทุกสาขา เขตสาขา 4',
+                                              'ดูยอดขายสินค้ารวมทุกสาขา $areaBranchName',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
@@ -485,7 +486,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                     const SizedBox(height: 3),
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 4, horizontal: 8),
+                                          vertical: 5, horizontal: 8),
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: BorderRadius.circular(10),
@@ -555,8 +556,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.only(
+                          left: 8, right: 8, top: 8, bottom: 4),
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(

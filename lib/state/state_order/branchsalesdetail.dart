@@ -21,24 +21,14 @@ class BranchSalesDetail extends StatefulWidget {
 class _BranchSalesDetailState extends State<BranchSalesDetail> {
   List<Map<String, dynamic>>? dailyList;
   String? areaName;
-  ScrollController _scrollController = ScrollController();
   bool isScrolled = false;
+  final GlobalKey _containerKey = GlobalKey();
+  double _containerHeight = 0; // เก็บค่าความสูง
 
   @override
   void initState() {
     super.initState();
     checkDataList();
-    _scrollController.addListener(() {
-      if (_scrollController.offset > 5 && !isScrolled) {
-        setState(() {
-          isScrolled = true;
-        });
-      } else if (_scrollController.offset <= 5 && isScrolled) {
-        setState(() {
-          isScrolled = false;
-        });
-      }
-    });
   }
 
   void checkDataList() {
@@ -59,28 +49,23 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getContainerHeight());
     return Scaffold(
       appBar: const CustomAppbar(title: 'ยอดขายสินค้ารวมสาขาในแต่ละวัน'),
       body: Stack(
         children: [
-          /// ✅ รายการข้อมูลที่เลื่อนได้ (CustomScrollView)
           Column(
             children: [
-              SizedBox(height: 120),
+              SizedBox(height: _containerHeight), // ✅ ปรับขนาดอัตโนมัติ
               Expanded(
-                // padding:
-                //     const EdgeInsets.only(top: 0), // ✅ ปรับให้ Header ไม่โดนทับ
                 child: NotificationListener<ScrollNotification>(
-                  onNotification: (scrollNotification) {
-                    if (scrollNotification.metrics.pixels > 5) {
-                      setState(() => isScrolled = true);
-                    } else {
-                      setState(() => isScrolled = false);
-                    }
+                  onNotification: (scrollInfo) {
+                    setState(() {
+                      isScrolled = scrollInfo.metrics.pixels > 0;
+                    });
                     return true;
                   },
                   child: CustomScrollView(
-                    controller: _scrollController,
                     slivers: [
                       SliverPadding(
                         padding: const EdgeInsets.all(8.0),
@@ -115,26 +100,31 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                       ],
                                     ),
                                     const SizedBox(height: 3),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8, horizontal: 8),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withAlpha(180),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                formatter
-                                                    .format(items?['amount']),
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 8),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withAlpha(180),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  formatter
+                                                      .format(items?['amount']),
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -209,8 +199,8 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
             left: 0,
             right: 0,
             child: AnimatedContainer(
+              key: _containerKey, // ✅ ใส่ key เพื่อนำไปวัดขนาด
               duration: Duration(milliseconds: 200),
-              // padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: isScrolled
@@ -245,7 +235,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                       ),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 8),
+                            vertical: 5, horizontal: 8),
                         decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius: BorderRadius.circular(10),
@@ -268,7 +258,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 8, right: 8, bottom: 0),
+                        const EdgeInsets.only(left: 8, right: 8, bottom: 6),
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -286,7 +276,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                       ),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 8),
+                            vertical: 5, horizontal: 8),
                         decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius: BorderRadius.circular(10),
@@ -322,5 +312,19 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
         ],
       ),
     );
+  }
+
+  void _getContainerHeight() {
+    final RenderBox? renderBox =
+        _containerKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      double newHeight = renderBox.size.height;
+      if (_containerHeight != newHeight) {
+        setState(() {
+          _containerHeight = newHeight;
+          print('สูง>>$_containerHeight');
+        });
+      }
+    }
   }
 }
