@@ -15,6 +15,8 @@ class DetailBranchAreaAll extends StatefulWidget {
 class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   List<Map<String, dynamic>>? dailyList;
   List<dynamic>? dailyTotalList;
+  Map<String, double> totalDaily = {};
+  Map<String, double> dailySum = {};
   final List<dynamic> branchDetails = [
     {
       "branchName": "PY",
@@ -215,7 +217,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   void initState() {
     super.initState();
     buildDataSaleList();
-    sumDailySales(branchDetails);
+
     // print('dataSaleList: ${widget.dataSaleList}');
     // print('dataType: ${widget.dataSaleList.runtimeType}');
   }
@@ -224,46 +226,83 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
     Map<String, dynamic> dailyTotalMap =
         Map<String, dynamic>.from(widget.dataSaleList);
 
-    // dataSaleHead = dailyTotalMap['head'];
     dataSaleHead = dailyTotalMap['head'];
     dailyTotalList = dailyTotalMap['detail'];
-    print('dailyTotalList: ${dailyTotalList.runtimeType}');
-    print('dailyTotalList: $dailyTotalList');
-    print('dataSaleHead: ${dataSaleHead['month']}');
     List<Map<String, dynamic>> flattenedData = [];
+    // ตรวจสอบว่า dailyTotalList ไม่เป็น null และมีข้อมูล
+    if (dailyTotalList != null && dailyTotalList!.isNotEmpty) {
+      // ดึงค่าออกจากชั้นแรกก่อน
+      List<Map<String, dynamic>> extractedList =
+          List<Map<String, dynamic>>.from(dailyTotalList![0]);
 
-    // ใช้การวนลูปเพื่อเพิ่มข้อมูลจากแต่ละ List
-    for (var branchList in dailyTotalMap['detail']) {
-      if (branchList is List<Map<String, dynamic>>) {
-        flattenedData.addAll(branchList);
+      for (var element in extractedList) {
+        Map<String, dynamic> branchData = Map<String, dynamic>.from(element);
+        branchData['dailyTotal'] =
+            Map<String, dynamic>.from(branchData['dailyTotal']);
+        flattenedData.add(branchData);
       }
     }
+    sumDailySales(branchDetails);
     print('flattenedData: $flattenedData');
+    print('flattenedDataType: ${flattenedData.runtimeType}');
+    if (flattenedData.isNotEmpty) {
+      for (var branch in flattenedData) {
+        print('📍 สาขา: ${branch["branchName"]}');
+        print('📌 เขต: ${branch["branchAreaName"]}');
+        print('🎯 เป้ายอดรวม: ${branch["targetTotal"]}');
+        print('💰 ยอดรวม: ${branch["branchTotal"]}');
+        print('📊 % บรรลุเป้า: ${branch["percent"]}%');
+        print('📅 ยอดขายรายวัน:');
+
+        // แสดงยอดขายรายวันแบบเรียงวัน
+        Map<String, dynamic> dailyTotal = branch["dailyTotal"];
+        dailyTotal.forEach((day, amount) {
+          print('   📆 วันที่ $day : $amount');
+        });
+
+        print('-----------------------------------');
+      }
+    }
   }
 
-  void sumDailySales(List<dynamic> branchDataList) {
-    // สร้าง Map สำหรับเก็บผลรวมยอดขายตามวันที่
-    Map<String, double> dailySum = {};
+  // void sumDailySales(List<dynamic> branchDataList) {
+  //   // สร้าง Map สำหรับเก็บผลรวมยอดขายตามวันที่
 
-    // วน loop ผ่านแต่ละสาขา
+  //   // วน loop ผ่านแต่ละสาขา
+  //   for (var branch in branchDataList) {
+  //     // เข้าถึง dailyTotal ของแต่ละสาขา
+  //     Map<String, dynamic> dailyTotal = branch['dailyTotal'];
+
+  //     // วน loop ผ่านแต่ละวันที่ใน dailyTotal
+  //     dailyTotal.forEach((date, amount) {
+  //       // ถ้าวันที่นั้นมีใน dailySum แล้ว ให้บวกค่า amount เพิ่ม
+  //       if (dailySum.containsKey(date)) {
+  //         dailySum[date] = dailySum[date]! + amount;
+  //       } else {
+  //         // ถ้าไม่มีก็เพิ่มเข้าไปใน dailySum
+  //         dailySum[date] = amount;
+  //       }
+  //     });
+  //   }
+
+  //   // แสดงผลรวมยอดขายแต่ละวัน
+  //   print('Daily Sales Total: $dailySum');
+  // }
+
+  void sumDailySales(List<dynamic> branchDataList) {
     for (var branch in branchDataList) {
-      // เข้าถึง dailyTotal ของแต่ละสาขา
       Map<String, dynamic> dailyTotal = branch['dailyTotal'];
 
-      // วน loop ผ่านแต่ละวันที่ใน dailyTotal
       dailyTotal.forEach((date, amount) {
-        // ถ้าวันที่นั้นมีใน dailySum แล้ว ให้บวกค่า amount เพิ่ม
-        if (dailySum.containsKey(date)) {
-          dailySum[date] = dailySum[date]! + amount;
-        } else {
-          // ถ้าไม่มีก็เพิ่มเข้าไปใน dailySum
-          dailySum[date] = amount;
-        }
+        dailySum[date] = (dailySum[date] ?? 0) + amount;
       });
     }
 
-    // แสดงผลรวมยอดขายแต่ละวัน
-    print('Daily Sales Total: $dailySum');
+    setState(() {
+      totalDaily = dailySum;
+    });
+    print('Daily Sales Total: $totalDaily');
+    print('Daily Sales Total Type: ${totalDaily.runtimeType}');
   }
 
   @override
@@ -370,8 +409,8 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                               ? branchDetails[0]["dailyTotal"]?.keys ?? []
                               : [])
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 4),
+                              padding: const EdgeInsets.only(
+                                  top: 4, bottom: 4, right: 8),
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.35,
                                 padding: const EdgeInsets.all(8),
@@ -464,8 +503,8 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                             // แสดงค่า dailyTotal ของแต่ละสาขา
                             for (var dailyTotal in branch["dailyTotal"].values)
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 4),
+                                padding: const EdgeInsets.only(
+                                    top: 4, bottom: 4, right: 8),
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width * 0.35,
@@ -511,6 +550,104 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                               ),
                           ],
                         ),
+                      // แถวรวมยอดขายต่อวัน (แถวล่างสุด)
+                      Row(
+                        children: [
+                          // คอลัมน์แรก (แสดง "รวมทั้งหมด")
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.22,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withAlpha(130),
+                                    spreadRadius: 0.2,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                                color: const Color.fromRGBO(239, 191, 239, 1),
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withAlpha(180),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'รวม',
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // วนลูปแสดงผลรวมของแต่ละวัน โดยเรียงตามวันที่จาก branchDetails[0]
+                          for (var date in branchDetails.isNotEmpty &&
+                                  branchDetails[0]["dailyTotal"] != null
+                              ? branchDetails[0]["dailyTotal"].keys
+                              : [])
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 4, bottom: 4, right: 8),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.35,
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withAlpha(130),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
+                                  color: const Color.fromRGBO(239, 191, 239, 1),
+                                ),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withAlpha(180),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            formatter.format(totalDaily[date] ??
+                                                0), // ใช้ totalDaily ตามลำดับ
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
                     ],
                   ),
                 ),
