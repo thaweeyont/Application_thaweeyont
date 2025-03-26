@@ -17,7 +17,8 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   List<dynamic>? dailyTotalList;
   Map<String, double> totalDaily = {};
   Map<String, double> dailySum = {};
-  final List<dynamic> branchDetails = [
+  List<Map<String, dynamic>> flattenedData = [];
+  final List<Map<String, dynamic>> branchDetails = [
     {
       "branchName": "PY",
       "branchAreaName": "เขต 4",
@@ -217,9 +218,6 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   void initState() {
     super.initState();
     buildDataSaleList();
-
-    // print('dataSaleList: ${widget.dataSaleList}');
-    // print('dataType: ${widget.dataSaleList.runtimeType}');
   }
 
   void buildDataSaleList() {
@@ -228,7 +226,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
 
     dataSaleHead = dailyTotalMap['head'];
     dailyTotalList = dailyTotalMap['detail'];
-    List<Map<String, dynamic>> flattenedData = [];
+
     // ตรวจสอบว่า dailyTotalList ไม่เป็น null และมีข้อมูล
     if (dailyTotalList != null && dailyTotalList!.isNotEmpty) {
       // ดึงค่าออกจากชั้นแรกก่อน
@@ -242,7 +240,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
         flattenedData.add(branchData);
       }
     }
-    sumDailySales(branchDetails);
+    sumDailySales(flattenedData);
     print('flattenedData: $flattenedData');
     print('flattenedDataType: ${flattenedData.runtimeType}');
     if (flattenedData.isNotEmpty) {
@@ -289,8 +287,8 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   //   print('Daily Sales Total: $dailySum');
   // }
 
-  void sumDailySales(List<dynamic> branchDataList) {
-    for (var branch in branchDataList) {
+  void sumDailySales(List<dynamic> flattenedData) {
+    for (var branch in flattenedData) {
       Map<String, dynamic> dailyTotal = branch['dailyTotal'];
 
       dailyTotal.forEach((date, amount) {
@@ -404,9 +402,9 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                             ),
                           ),
                           // แสดงวันที่จาก keys ของ branch["dailyTotal"]
-                          for (var date in branchDetails.isNotEmpty &&
-                                  branchDetails[0]["dailyTotal"] != null
-                              ? branchDetails[0]["dailyTotal"]?.keys ?? []
+                          for (var date in flattenedData.isNotEmpty &&
+                                  flattenedData[0]["dailyTotal"] != null
+                              ? flattenedData[0]["dailyTotal"]?.keys ?? []
                               : [])
                             Padding(
                               padding: const EdgeInsets.only(
@@ -450,10 +448,53 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                 ),
                               ),
                             ),
+                          // 📌 คอลัมน์สุดท้าย: เพิ่มหัวข้อ "รวม"
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 4, bottom: 4, right: 8),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withAlpha(130),
+                                    spreadRadius: 0.2,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                                color: const Color.fromRGBO(239, 191, 239, 1),
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withAlpha(180),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "รวม",
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       // แสดงข้อมูลสำหรับแต่ละ branch
-                      for (var branch in branchDetails)
+                      for (var branch in flattenedData)
                         Row(
                           children: [
                             // แสดงชื่อสาขาในคอลัมน์แรกที่ไม่เลื่อน
@@ -548,6 +589,50 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                   ),
                                 ),
                               ),
+                            // 📌 คอลัมน์สุดท้าย: แสดง `branchTotal` ของแต่ละสาขา
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 4, bottom: 4, right: 8),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.35,
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withAlpha(130),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
+                                  color: const Color.fromRGBO(239, 191, 239, 1),
+                                ),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withAlpha(180),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            formatter.format(branch[
+                                                "branchTotal"]), // แสดงยอดรวมสาขา
+                                            style: MyContant().h4normalStyle(),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       // แถวรวมยอดขายต่อวัน (แถวล่างสุด)
@@ -598,9 +683,9 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                           ),
 
                           // วนลูปแสดงผลรวมของแต่ละวัน โดยเรียงตามวันที่จาก branchDetails[0]
-                          for (var date in branchDetails.isNotEmpty &&
-                                  branchDetails[0]["dailyTotal"] != null
-                              ? branchDetails[0]["dailyTotal"].keys
+                          for (var date in flattenedData.isNotEmpty &&
+                                  flattenedData[0]["dailyTotal"] != null
+                              ? flattenedData[0]["dailyTotal"].keys
                               : [])
                             Padding(
                               padding: const EdgeInsets.only(
@@ -645,6 +730,49 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                 ),
                               ),
                             ),
+                          // 📌 คอลัมน์สุดท้าย: รวม branchTotal ทุกสาขา
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 4, bottom: 4, right: 8),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withAlpha(130),
+                                    spreadRadius: 0.2,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                                color: const Color.fromRGBO(239, 191, 239, 1),
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withAlpha(180),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          formatter.format(
+                                              0), // แสดงผลรวม branchTotal
+                                          style: MyContant().h4normalStyle(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 30),

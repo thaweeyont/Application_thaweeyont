@@ -1394,8 +1394,8 @@ class _BranchSalesState extends State<BranchSales> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        // print(
-                        //     'เขตสาขา : ${selectAreaBranchlist == null || selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
+                        print(
+                            'เขตสาขา : ${selectAreaBranchlist == null || selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
                         // print(
                         //     'สาขา : ${selectBranchlist == null || selectBranchlist == "99" ? "" : selectBranchlist}');
                         // print('กลุ่มสินค้า : ${valueGrouplist ?? ""}');
@@ -1419,32 +1419,38 @@ class _BranchSalesState extends State<BranchSales> {
                         // print('เป้าหมาย : ${selectedtargetType ?? ""}');
 
                         setState(() {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BranchSalesList(
-                                selectAreaBranchlist: selectAreaBranchlist,
-                                selectBranchlist: selectBranchlist,
-                                valueGrouplist: valueGrouplist,
-                                valueTypelist: valueTypelist,
-                                valueBrandlist: valueBrandlist,
-                                valueModellist: valueModellist,
-                                valueStylelist: valueStylelist,
-                                valueSizelist: valueSizelist,
-                                valueItemlist: valueItemlist,
-                                selectSaleTypelist: selectSaleTypelist,
-                                selectInterestlist: selectInterestlist,
-                                valueEmployeelist: valueEmployeelist,
-                                selectMonthlist: selectMonthlist,
-                                selectYearlist: selectYearlist,
-                                valueSupplylist: valueSupplylist,
-                                selectOrderBylist: selectOrderBylist,
-                                selectSortlist: selectSortlist,
-                                selectedtargetType: selectedtargetType,
-                                selectedSaleItems: selectedSaleItems,
+                          if (selectAreaBranchlist != null &&
+                              selectAreaBranchlist != "99") {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BranchSalesList(
+                                  selectAreaBranchlist: selectAreaBranchlist,
+                                  selectBranchlist: selectBranchlist,
+                                  valueGrouplist: valueGrouplist,
+                                  valueTypelist: valueTypelist,
+                                  valueBrandlist: valueBrandlist,
+                                  valueModellist: valueModellist,
+                                  valueStylelist: valueStylelist,
+                                  valueSizelist: valueSizelist,
+                                  valueItemlist: valueItemlist,
+                                  selectSaleTypelist: selectSaleTypelist,
+                                  selectInterestlist: selectInterestlist,
+                                  valueEmployeelist: valueEmployeelist,
+                                  selectMonthlist: selectMonthlist,
+                                  selectYearlist: selectYearlist,
+                                  valueSupplylist: valueSupplylist,
+                                  selectOrderBylist: selectOrderBylist,
+                                  selectSortlist: selectSortlist,
+                                  selectedtargetType: selectedtargetType,
+                                  selectedSaleItems: selectedSaleItems,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            showProgressDialog(
+                                context, 'แจ้งเตือน', 'กรุณาเลือกเขตสาขา');
+                          }
                         });
                       },
                       child: const Text('ค้นหา'),
@@ -1623,6 +1629,16 @@ class _BranchSalesState extends State<BranchSales> {
                       setState(() {
                         itemGroup.clear();
                         valueGrouplist = null;
+                        itemType.clear();
+                        valueTypelist = null;
+                        itemBrand.clear();
+                        valueBrandlist = null;
+                        itemModel.clear();
+                        valueModellist = null;
+                        itemStyle.clear();
+                        valueStylelist = null;
+                        itemSize.clear();
+                        valueSizelist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1657,6 +1673,14 @@ class _BranchSalesState extends State<BranchSales> {
                       setState(() {
                         itemType.clear();
                         valueTypelist = null;
+                        itemBrand.clear();
+                        valueBrandlist = null;
+                        itemModel.clear();
+                        valueModellist = null;
+                        itemStyle.clear();
+                        valueStylelist = null;
+                        itemSize.clear();
+                        valueSizelist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1691,6 +1715,12 @@ class _BranchSalesState extends State<BranchSales> {
                       setState(() {
                         itemBrand.clear();
                         valueBrandlist = null;
+                        itemModel.clear();
+                        valueModellist = null;
+                        itemStyle.clear();
+                        valueStylelist = null;
+                        itemSize.clear();
+                        valueSizelist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1725,6 +1755,10 @@ class _BranchSalesState extends State<BranchSales> {
                       setState(() {
                         itemModel.clear();
                         valueModellist = null;
+                        itemStyle.clear();
+                        valueStylelist = null;
+                        itemSize.clear();
+                        valueSizelist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1759,6 +1793,8 @@ class _BranchSalesState extends State<BranchSales> {
                       setState(() {
                         itemStyle.clear();
                         valueStylelist = null;
+                        itemSize.clear();
+                        valueSizelist = null;
                       });
                     },
                     child: const Icon(Icons.close),

@@ -445,7 +445,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.only(
-                                              top: 8, bottom: 50),
+                                              top: 8, bottom: 40),
                                           child: Container(
                                             padding: const EdgeInsets.all(8),
                                             decoration: BoxDecoration(

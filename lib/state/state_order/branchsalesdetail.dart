@@ -217,7 +217,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                 SliverToBoxAdapter(
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 8, right: 8, top: 4, bottom: 50),
+                                        left: 8, right: 8, top: 4, bottom: 40),
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
