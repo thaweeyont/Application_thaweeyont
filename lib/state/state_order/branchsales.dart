@@ -633,16 +633,12 @@ class _BranchSalesState extends State<BranchSales> {
       idvalueModel = null;
       getSelectMonth();
       getSelectYear();
-      // showProgressLoading(context);
-      // getSelectBranch();
-      // getSelectBranchArea();
       selectOrderBylist = "1";
       selectedtargetType = "1";
       selectSortlist = "2";
       selectSaleTypelist = '0';
       selectBranchlist = null;
       selectAreaBranchlist = null;
-      // selectSaleTypelist = null;
       selectInterestlist = null;
     });
   }
@@ -1394,8 +1390,8 @@ class _BranchSalesState extends State<BranchSales> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        print(
-                            'เขตสาขา : ${selectAreaBranchlist == null || selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
+                        // print(
+                        //     'เขตสาขา : ${selectAreaBranchlist == null || selectAreaBranchlist == "99" ? "" : selectAreaBranchlist}');
                         // print(
                         //     'สาขา : ${selectBranchlist == null || selectBranchlist == "99" ? "" : selectBranchlist}');
                         // print('กลุ่มสินค้า : ${valueGrouplist ?? ""}');

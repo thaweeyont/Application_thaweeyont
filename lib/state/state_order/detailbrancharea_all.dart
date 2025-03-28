@@ -18,199 +18,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   Map<String, double> totalDaily = {};
   Map<String, double> dailySum = {};
   List<Map<String, dynamic>> flattenedData = [];
-  final List<Map<String, dynamic>> branchDetails = [
-    {
-      "branchName": "PY",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 3528743.95,
-      "targetTotal": 4500000,
-      "percent": 78.42,
-      "dailyTotal": {
-        "01": 222651.4,
-        "02": 124207.48,
-        "03": 148094.39,
-        "04": 124537.38,
-        "05": 145005.61,
-        "06": 82209.35,
-        "07": 163617.76,
-        "08": 54359.81,
-        "09": 101250.47,
-        "10": 196401.87,
-      }
-    },
-    {
-      "branchName": "CC",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 3352647.66,
-      "targetTotal": 3000000,
-      "percent": 111.75,
-      "dailyTotal": {
-        "01": 199612.15,
-        "02": 204182.24,
-        "03": 157294.39,
-        "04": 71416.82,
-        "05": 70624.3,
-        "06": 105157.01,
-        "07": 223571.96,
-        "08": 78508.41,
-        "09": 30820.56,
-        "10": 170843.93,
-      }
-    },
-    {
-      "branchName": "DK",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 2000591.6,
-      "targetTotal": 2000000,
-      "percent": 100.03,
-      "dailyTotal": {
-        "01": 91920.56,
-        "02": 76779.44,
-        "03": 55346.73,
-        "04": 47737.38,
-        "05": 76070.09,
-        "06": 86050.47,
-        "07": 82642.99,
-        "08": 53800.93,
-        "09": 35598.13,
-        "10": 83269.16,
-      }
-    },
-    {
-      "branchName": "YP",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 1863655.14,
-      "targetTotal": 1550000,
-      "percent": 120.24,
-      "dailyTotal": {
-        "01": 132866.36,
-        "02": 106745.79,
-        "03": 102812.15,
-        "04": 42401.87,
-        "05": 51414.95,
-        "06": 36502.8,
-        "07": 134557.94,
-        "08": 62148.6,
-        "09": 63829.91,
-        "10": 60237.38,
-      }
-    },
-    {
-      "branchName": "CH",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 1501174.79,
-      "targetTotal": 1500000,
-      "percent": 100.08,
-      "dailyTotal": {
-        "01": 63026.17,
-        "02": 29501.87,
-        "03": 29425.23,
-        "04": 51988.79,
-        "05": 89629.91,
-        "06": 41914.95,
-        "07": 70920.56,
-        "08": 35295.33,
-        "09": 27307.48,
-        "10": 107546.73,
-      }
-    },
-    {
-      "branchName": "PO",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 1477834.59,
-      "targetTotal": 1900000,
-      "percent": 77.78,
-      "dailyTotal": {
-        "01": 63427.1,
-        "02": 154025.23,
-        "03": 107052.34,
-        "04": 9626.17,
-        "05": 55329.91,
-        "06": 28326.17,
-        "07": 26614.95,
-        "08": 39371.03,
-        "09": 7542.06,
-        "10": 10271.03,
-      }
-    },
-    {
-      "branchName": "NG",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 911259.82,
-      "targetTotal": 900000,
-      "percent": 101.25,
-      "dailyTotal": {
-        "01": 57355.14,
-        "02": 44503.74,
-        "03": 53232.71,
-        "04": 0,
-        "05": 11858.88,
-        "06": 6073.83,
-        "07": 94279.44,
-        "08": 26971.96,
-        "09": 25985.05,
-        "10": 29597.2,
-      }
-    },
-    {
-      "branchName": "MO",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 815434.6,
-      "targetTotal": 1000000,
-      "percent": 81.54,
-      "dailyTotal": {
-        "01": 24950.47,
-        "02": 6671.96,
-        "03": 61069.16,
-        "04": 0,
-        "05": 53342.06,
-        "06": 37976.64,
-        "07": 8410.28,
-        "08": 7746.73,
-        "09": 42970.09,
-        "10": 29212.15,
-      }
-    },
-    {
-      "branchName": "PE",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 762349.55,
-      "targetTotal": 5000000,
-      "percent": 15.25,
-      "dailyTotal": {
-        "01": 0,
-        "02": 0,
-        "03": 0,
-        "04": 0,
-        "05": 15877.57,
-        "06": 0,
-        "07": 13261.68,
-        "08": 27000,
-        "09": 0,
-        "10": 8410.28,
-      }
-    },
-    {
-      "branchName": "MN",
-      "branchAreaName": "เขต 4",
-      "branchTotal": 519755.16,
-      "targetTotal": 400000,
-      "percent": 129.94,
-      "dailyTotal": {
-        "01": 0,
-        "02": 0,
-        "03": 0,
-        "04": 0,
-        "05": 36558.88,
-        "06": 34906.54,
-        "07": 19044.86,
-        "08": 16531.78,
-        "09": 45148.6,
-        "10": 62035.51,
-      }
-    }
-  ];
-
+  double totalSum = 0;
   var dataSaleHead;
   var formatter = NumberFormat('#,##0.00');
 
@@ -241,51 +49,28 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
       }
     }
     sumDailySales(flattenedData);
-    print('flattenedData: $flattenedData');
-    print('flattenedDataType: ${flattenedData.runtimeType}');
-    if (flattenedData.isNotEmpty) {
-      for (var branch in flattenedData) {
-        print('📍 สาขา: ${branch["branchName"]}');
-        print('📌 เขต: ${branch["branchAreaName"]}');
-        print('🎯 เป้ายอดรวม: ${branch["targetTotal"]}');
-        print('💰 ยอดรวม: ${branch["branchTotal"]}');
-        print('📊 % บรรลุเป้า: ${branch["percent"]}%');
-        print('📅 ยอดขายรายวัน:');
+    sumBranchTotal();
+    // print('flattenedData: $flattenedData');
+    // print('flattenedDataType: ${flattenedData.runtimeType}');
+    // if (flattenedData.isNotEmpty) {
+    //   for (var branch in flattenedData) {
+    //     print('📍 สาขา: ${branch["branchName"]}');
+    //     print('📌 เขต: ${branch["branchAreaName"]}');
+    //     print('🎯 เป้ายอดรวม: ${branch["targetTotal"]}');
+    //     print('💰 ยอดรวม: ${branch["branchTotal"]}');
+    //     print('📊 % บรรลุเป้า: ${branch["percent"]}%');
+    //     print('📅 ยอดขายรายวัน:');
 
-        // แสดงยอดขายรายวันแบบเรียงวัน
-        Map<String, dynamic> dailyTotal = branch["dailyTotal"];
-        dailyTotal.forEach((day, amount) {
-          print('   📆 วันที่ $day : $amount');
-        });
+    //     // แสดงยอดขายรายวันแบบเรียงวัน
+    //     Map<String, dynamic> dailyTotal = branch["dailyTotal"];
+    //     dailyTotal.forEach((day, amount) {
+    //       print('   📆 วันที่ $day : $amount');
+    //     });
 
-        print('-----------------------------------');
-      }
-    }
+    //     print('-----------------------------------');
+    //   }
+    // }
   }
-
-  // void sumDailySales(List<dynamic> branchDataList) {
-  //   // สร้าง Map สำหรับเก็บผลรวมยอดขายตามวันที่
-
-  //   // วน loop ผ่านแต่ละสาขา
-  //   for (var branch in branchDataList) {
-  //     // เข้าถึง dailyTotal ของแต่ละสาขา
-  //     Map<String, dynamic> dailyTotal = branch['dailyTotal'];
-
-  //     // วน loop ผ่านแต่ละวันที่ใน dailyTotal
-  //     dailyTotal.forEach((date, amount) {
-  //       // ถ้าวันที่นั้นมีใน dailySum แล้ว ให้บวกค่า amount เพิ่ม
-  //       if (dailySum.containsKey(date)) {
-  //         dailySum[date] = dailySum[date]! + amount;
-  //       } else {
-  //         // ถ้าไม่มีก็เพิ่มเข้าไปใน dailySum
-  //         dailySum[date] = amount;
-  //       }
-  //     });
-  //   }
-
-  //   // แสดงผลรวมยอดขายแต่ละวัน
-  //   print('Daily Sales Total: $dailySum');
-  // }
 
   void sumDailySales(List<dynamic> flattenedData) {
     for (var branch in flattenedData) {
@@ -301,6 +86,17 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
     });
     print('Daily Sales Total: $totalDaily');
     print('Daily Sales Total Type: ${totalDaily.runtimeType}');
+  }
+
+  double sumBranchTotal() {
+    for (var branch in flattenedData) {
+      if (branch.containsKey("branchTotal") && branch["branchTotal"] is num) {
+        totalSum += branch["branchTotal"];
+      }
+    }
+
+    print('Total Branch Sales: $totalSum');
+    return totalSum;
   }
 
   @override
@@ -763,7 +559,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                       children: [
                                         Text(
                                           formatter.format(
-                                              0), // แสดงผลรวม branchTotal
+                                              totalSum), // แสดงผลรวม branchTotal
                                           style: MyContant().h4normalStyle(),
                                         ),
                                       ],

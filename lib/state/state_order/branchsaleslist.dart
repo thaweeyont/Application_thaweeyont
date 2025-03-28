@@ -88,7 +88,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
   double totalTarget = 0.0, totalAmount = 0.0, percentage = 0.0;
   List<Map<String, dynamic>> dataSale = [];
   bool isScrolled = false;
-  bool statusLoading = false, statusLoad404 = false;
+  bool statusLoading = false, statusLoad404 = false, statusDetail = false;
   final GlobalKey _containerKey = GlobalKey();
   double _containerHeight = 0; // เก็บค่าความสูง
 
@@ -206,18 +206,27 @@ class _BranchSalesListState extends State<BranchSalesList> {
         setState(() {
           dataSaleList = dataSaleBranch['data'];
           saleBranchHead = dataSaleList['head'];
-          print('data>> $dataSaleList');
-          saleBranchList = dataSaleList['detail'][0];
-          areaBranchName = (saleBranchList[0]['branchAreaName'] as String)
-              .replaceAll("เขต ", "เขตสาขา ");
-          for (var i = 0; i < saleBranchList.length; i++) {
-            totalTarget = saleBranchList.fold(
-                0, (sum, item) => sum + (item['targetTotal'] ?? 0.0));
-            totalAmount = saleBranchList.fold(
-                0, (sum, item) => sum + (item['branchTotal'] ?? 0.0));
+          print('detail>> ${dataSaleList['detail']}');
+          if (dataSaleList['detail'] != null &&
+              dataSaleList['detail'].toString().isNotEmpty) {
+            saleBranchList = dataSaleList['detail'][0];
+            areaBranchName = (saleBranchList[0]['branchAreaName'] as String)
+                .replaceAll("เขต ", "เขตสาขา ");
+            for (var i = 0; i < saleBranchList.length; i++) {
+              totalTarget = saleBranchList.fold(
+                  0, (sum, item) => sum + (item['targetTotal'] ?? 0.0));
+              totalAmount = saleBranchList.fold(
+                  0, (sum, item) => sum + (item['branchTotal'] ?? 0.0));
+            }
+
+            percentage = calculatePercentage(totalTarget, totalAmount);
+            statusDetail = false;
+            print('มีข้อมูล');
+          } else {
+            statusDetail = true;
+            print('ไม่มีข้อมูล');
           }
 
-          percentage = calculatePercentage(totalTarget, totalAmount);
           statusLoading = true;
         });
       } else if (respose.statusCode == 400) {
@@ -249,8 +258,9 @@ class _BranchSalesListState extends State<BranchSalesList> {
       } else {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
-    } catch (e) {
+    } catch (e, stacktrace) {
       print("ไม่มีข้อมูล $e");
+      print("Stacktrace: $stacktrace");
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
@@ -310,7 +320,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                   ),
                 ),
               )
-            : statusLoad404 == true
+            : statusLoad404 == true || statusDetail == true
                 ? Center(
                     child: Padding(
                       padding: const EdgeInsets.all(40.0),
