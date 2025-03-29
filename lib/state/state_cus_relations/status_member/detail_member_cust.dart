@@ -12,7 +12,7 @@ import '../../../widgets/custom_appbar.dart';
 
 class Detail_member_cust extends StatefulWidget {
   final String? custId;
-  const Detail_member_cust(this.custId, {Key? key}) : super(key: key);
+  const Detail_member_cust(this.custId, {super.key});
 
   @override
   State<Detail_member_cust> createState() => _Detail_member_custState();

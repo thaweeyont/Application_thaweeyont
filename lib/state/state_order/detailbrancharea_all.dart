@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_gifs/loading_gifs.dart';
 
 import '../../utility/my_constant.dart';
 import '../../widgets/custom_appbar.dart';
@@ -20,6 +21,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   List<Map<String, dynamic>> flattenedData = [];
   double totalSum = 0;
   var dataSaleHead;
+  bool statusLoading = false, statusLoad404 = false;
   var formatter = NumberFormat('#,##0.00');
 
   @override
@@ -34,7 +36,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
 
     dataSaleHead = dailyTotalMap['head'];
     dailyTotalList = dailyTotalMap['detail'];
-
+    statusLoading = true;
     // ตรวจสอบว่า dailyTotalList ไม่เป็น null และมีข้อมูล
     if (dailyTotalList != null && dailyTotalList!.isNotEmpty) {
       // ดึงค่าออกจากชั้นแรกก่อน
@@ -103,483 +105,614 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppbar(title: 'ยอดขายสินค้ารวมสาขาในแต่ละวัน'),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(130),
-                    spreadRadius: 0.2,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-                color: const Color.fromRGBO(239, 191, 239, 1),
-              ),
+      body: statusLoading == false
+          ? Center(
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(180),
-                  borderRadius: BorderRadius.circular(10),
+                  color: Color.fromARGB(255, 24, 24, 24).withAlpha(230),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'เดือน ${dataSaleHead['month']} พ.ศ. ${dataSaleHead['year']}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
+                    Image.asset(cupertinoActivityIndicator, scale: 4),
+                    Text(
+                      'กำลังโหลด',
+                      style: MyContant().textLoading(),
                     ),
                   ],
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Column(
-                    children: [
-                      // แสดงวันที่จาก keys ของ branch["dailyTotal"]
-                      Row(
-                        children: [
-                          // คอลัมน์แรกที่แสดงชื่อสาขา
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.22,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withAlpha(130),
-                                    spreadRadius: 0.2,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                                color: const Color.fromRGBO(239, 191, 239, 1),
-                              ),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'วันที่', // ส่วนนี้คือส่วนหัวของคอลัมน์แรก
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          // แสดงวันที่จาก keys ของ branch["dailyTotal"]
-                          for (var date in flattenedData.isNotEmpty &&
-                                  flattenedData[0]["dailyTotal"] != null
-                              ? flattenedData[0]["dailyTotal"]?.keys ?? []
-                              : [])
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 4, bottom: 4, right: 8),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.35,
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
-                                    ),
-                                  ],
-                                  color: const Color.fromRGBO(239, 191, 239, 1),
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            date.toString(), // แสดงวันที่จาก keys ของ dailyTotal
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          // 📌 คอลัมน์สุดท้าย: เพิ่มหัวข้อ "รวม"
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 4, bottom: 4, right: 8),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.35,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withAlpha(130),
-                                    spreadRadius: 0.2,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                                color: const Color.fromRGBO(239, 191, 239, 1),
-                              ),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "รวม",
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // แสดงข้อมูลสำหรับแต่ละ branch
-                      for (var branch in flattenedData)
+            )
+          : statusLoad404 == true
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // แสดงชื่อสาขาในคอลัมน์แรกที่ไม่เลื่อน
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 8),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.22,
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
-                                    ),
-                                  ],
-                                  color: const Color.fromRGBO(239, 191, 239, 1),
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            branch[
-                                                "branchName"], // แสดงชื่อสาขา
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // แสดงค่า dailyTotal ของแต่ละสาขา
-                            for (var dailyTotal in branch["dailyTotal"].values)
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 4, bottom: 4, right: 8),
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.35,
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withAlpha(130),
-                                        spreadRadius: 0.2,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      ),
-                                    ],
-                                    color:
-                                        const Color.fromRGBO(239, 191, 239, 1),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withAlpha(180),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              formatter.format(
-                                                  dailyTotal), // แสดงค่า dailyTotal
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            // 📌 คอลัมน์สุดท้าย: แสดง `branchTotal` ของแต่ละสาขา
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 4, bottom: 4, right: 8),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.35,
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
-                                    ),
-                                  ],
-                                  color: const Color.fromRGBO(239, 191, 239, 1),
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            formatter.format(branch[
-                                                "branchTotal"]), // แสดงยอดรวมสาขา
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                            Image.asset(
+                              'images/noresults.png',
+                              color: const Color.fromARGB(255, 158, 158, 158),
+                              width: 60,
+                              height: 60,
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'ไม่พบรายการข้อมูล',
+                              style: MyContant().h5NotData(),
                             ),
                           ],
                         ),
-                      // แถวรวมยอดขายต่อวัน (แถวล่างสุด)
-                      Row(
-                        children: [
-                          // คอลัมน์แรก (แสดง "รวมทั้งหมด")
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.22,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withAlpha(130),
-                                    spreadRadius: 0.2,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
+                      ],
+                    ),
+                  ),
+                )
+              : Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withAlpha(130),
+                              spreadRadius: 0.2,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                          color: const Color.fromRGBO(239, 191, 239, 1),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withAlpha(180),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'เดือน ${dataSaleHead['month']} พ.ศ. ${dataSaleHead['year']}',
+                                    style: MyContant().h4normalStyle(),
                                   ),
                                 ],
-                                color: const Color.fromRGBO(239, 191, 239, 1),
                               ),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'รวม',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            ],
                           ),
-
-                          // วนลูปแสดงผลรวมของแต่ละวัน โดยเรียงตามวันที่จาก branchDetails[0]
-                          for (var date in flattenedData.isNotEmpty &&
-                                  flattenedData[0]["dailyTotal"] != null
-                              ? flattenedData[0]["dailyTotal"].keys
-                              : [])
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 4, bottom: 4, right: 8),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.35,
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: [
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Column(
+                              children: [
+                                // แสดงวันที่จาก keys ของ branch["dailyTotal"]
+                                Row(
+                                  children: [
+                                    // คอลัมน์แรกที่แสดงชื่อสาขา
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4, horizontal: 8),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.22,
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withAlpha(130),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
+                                          ],
+                                          color: const Color.fromRGBO(
+                                              239, 191, 239, 1),
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'วันที่', // ส่วนนี้คือส่วนหัวของคอลัมน์แรก
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // แสดงวันที่จาก keys ของ branch["dailyTotal"]
+                                    for (var date in flattenedData.isNotEmpty &&
+                                            flattenedData[0]["dailyTotal"] !=
+                                                null
+                                        ? flattenedData[0]["dailyTotal"]
+                                                ?.keys ??
+                                            []
+                                        : [])
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 4, bottom: 4, right: 8),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.35,
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color:
+                                                    Colors.grey.withAlpha(130),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              ),
+                                            ],
+                                            color: const Color.fromRGBO(
+                                                239, 191, 239, 1),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withAlpha(180),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      date.toString(), // แสดงวันที่จาก keys ของ dailyTotal
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    // 📌 คอลัมน์สุดท้าย: เพิ่มหัวข้อ "รวม"
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 4, bottom: 4, right: 8),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.35,
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withAlpha(130),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
+                                          ],
+                                          color: const Color.fromRGBO(
+                                              239, 191, 239, 1),
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "รวม",
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
-                                  color: const Color.fromRGBO(239, 191, 239, 1),
                                 ),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
+                                // แสดงข้อมูลสำหรับแต่ละ branch
+                                for (var branch in flattenedData)
+                                  Row(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            formatter.format(totalDaily[date] ??
-                                                0), // ใช้ totalDaily ตามลำดับ
-                                            style: MyContant().h4normalStyle(),
+                                      // แสดงชื่อสาขาในคอลัมน์แรกที่ไม่เลื่อน
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4, horizontal: 8),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.22,
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color:
+                                                    Colors.grey.withAlpha(130),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              ),
+                                            ],
+                                            color: const Color.fromRGBO(
+                                                239, 191, 239, 1),
                                           ),
-                                        ],
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withAlpha(180),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      branch[
+                                                          "branchName"], // แสดงชื่อสาขา
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      // แสดงค่า dailyTotal ของแต่ละสาขา
+                                      for (var dailyTotal
+                                          in branch["dailyTotal"].values)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 4, bottom: 4, right: 8),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.35,
+                                            padding: const EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withAlpha(130),
+                                                  spreadRadius: 0.2,
+                                                  blurRadius: 2,
+                                                  offset: const Offset(0, 1),
+                                                ),
+                                              ],
+                                              color: const Color.fromRGBO(
+                                                  239, 191, 239, 1),
+                                            ),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 8),
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    Colors.white.withAlpha(180),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        formatter.format(
+                                                            dailyTotal), // แสดงค่า dailyTotal
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      // 📌 คอลัมน์สุดท้าย: แสดง `branchTotal` ของแต่ละสาขา
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 4, bottom: 4, right: 8),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.35,
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color:
+                                                    Colors.grey.withAlpha(130),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              ),
+                                            ],
+                                            color: const Color.fromRGBO(
+                                                239, 191, 239, 1),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withAlpha(180),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      formatter.format(branch[
+                                                          "branchTotal"]), // แสดงยอดรวมสาขา
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ),
-                            ),
-                          // 📌 คอลัมน์สุดท้าย: รวม branchTotal ทุกสาขา
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 4, bottom: 4, right: 8),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.35,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withAlpha(130),
-                                    spreadRadius: 0.2,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                                color: const Color.fromRGBO(239, 191, 239, 1),
-                              ),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Column(
+                                // แถวรวมยอดขายต่อวัน (แถวล่างสุด)
+                                Row(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          formatter.format(
-                                              totalSum), // แสดงผลรวม branchTotal
-                                          style: MyContant().h4normalStyle(),
+                                    // คอลัมน์แรก (แสดง "รวมทั้งหมด")
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4, horizontal: 8),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.22,
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withAlpha(130),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
+                                          ],
+                                          color: const Color.fromRGBO(
+                                              239, 191, 239, 1),
                                         ),
-                                      ],
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'รวม',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    // วนลูปแสดงผลรวมของแต่ละวัน โดยเรียงตามวันที่จาก branchDetails[0]
+                                    for (var date in flattenedData.isNotEmpty &&
+                                            flattenedData[0]["dailyTotal"] !=
+                                                null
+                                        ? flattenedData[0]["dailyTotal"].keys
+                                        : [])
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 4, bottom: 4, right: 8),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.35,
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color:
+                                                    Colors.grey.withAlpha(130),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              ),
+                                            ],
+                                            color: const Color.fromRGBO(
+                                                239, 191, 239, 1),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withAlpha(180),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      formatter.format(totalDaily[
+                                                              date] ??
+                                                          0), // ใช้ totalDaily ตามลำดับ
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    // 📌 คอลัมน์สุดท้าย: รวม branchTotal ทุกสาขา
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 4, bottom: 4, right: 8),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.35,
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withAlpha(130),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
+                                          ],
+                                          color: const Color.fromRGBO(
+                                              239, 191, 239, 1),
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    formatter.format(
+                                                        totalSum), // แสดงผลรวม branchTotal
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
+                                SizedBox(height: 30),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 30),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 }
