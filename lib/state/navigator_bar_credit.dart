@@ -257,55 +257,102 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     }
   }
 
+  // showMenuList() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true, // ให้ใช้พื้นที่ได้เต็มจอ
+  //     shape: const RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+  //     ),
+  //     builder: (context) {
+  //       return DraggableScrollableSheet(
+  //         initialChildSize: 0.65, // เริ่มต้นที่ 50% ของจอ
+  //         minChildSize: 0.3, // ย่อสุด 30%
+  //         maxChildSize: 0.8, // ขยายสุด 80%
+  //         expand: false,
+  //         builder: (context, scrollController) {
+  //           return Padding(
+  //             padding: const EdgeInsets.symmetric(vertical: 15),
+  //             child: ListView.builder(
+  //               controller:
+  //                   scrollController, // ใช้ controller เพื่อให้เลื่อนใน sheet ได้
+  //               itemCount: result.length,
+  //               itemBuilder: (context, i) {
+  //                 return ListTile(
+  //                   title: Text(
+  //                     "${result[i]['nameMenu']}",
+  //                     style:
+  //                         _selectedIndex == getselectmenuBottom(result[i]['id'])
+  //                             ? MyContant().h1MenuStyle_click()
+  //                             : MyContant().h2Style(),
+  //                   ),
+  //                   leading: Icon(
+  //                     getMenuIcon(result[i]['id']),
+  //                     color:
+  //                         _selectedIndex == getselectmenuBottom(result[i]['id'])
+  //                             ? Colors.blue
+  //                             : Colors.grey[700],
+  //                   ),
+  //                   onTap: () {
+  //                     setState(() {
+  //                       titleHead = getTitlemenuBottom(result[i]['id']);
+  //                       _selectedIndex = getselectmenuBottom(result[i]['id']);
+  //                       status = false;
+  //                     });
+  //                     Navigator.pop(context);
+  //                   },
+  //                 );
+  //               },
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
   showMenuList() {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // ให้ใช้พื้นที่ได้เต็มจอ
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.65, // เริ่มต้นที่ 50% ของจอ
-          minChildSize: 0.3, // ย่อสุด 30%
-          maxChildSize: 0.8, // ขยายสุด 80%
-          expand: false,
-          builder: (context, scrollController) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: ListView.builder(
-                controller:
-                    scrollController, // ใช้ controller เพื่อให้เลื่อนใน sheet ได้
-                itemCount: result.length,
-                itemBuilder: (context, i) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // ให้ขนาดพอดีกับเนื้อหา
+              children: [
+                ...result.map((menu) {
                   return ListTile(
                     title: Text(
-                      "${result[i]['nameMenu']}",
-                      style:
-                          _selectedIndex == getselectmenuBottom(result[i]['id'])
-                              ? MyContant().h1MenuStyle_click()
-                              : MyContant().h2Style(),
+                      "${menu['nameMenu']}",
+                      style: _selectedIndex == getselectmenuBottom(menu['id'])
+                          ? MyContant().h1MenuStyle_click()
+                          : MyContant().h2Style(),
                     ),
                     leading: Icon(
-                      getMenuIcon(result[i]['id']),
-                      color:
-                          _selectedIndex == getselectmenuBottom(result[i]['id'])
-                              ? Colors.blue
-                              : Colors.grey[700],
+                      getMenuIcon(menu['id']),
+                      color: _selectedIndex == getselectmenuBottom(menu['id'])
+                          ? Colors.blue
+                          : Colors.grey[700],
                     ),
                     onTap: () {
                       setState(() {
-                        titleHead = getTitlemenuBottom(result[i]['id']);
-                        _selectedIndex = getselectmenuBottom(result[i]['id']);
+                        titleHead = getTitlemenuBottom(menu['id']);
+                        _selectedIndex = getselectmenuBottom(menu['id']);
                         status = false;
                       });
                       Navigator.pop(context);
                     },
                   );
-                },
-              ),
-            );
-          },
+                }),
+                const SizedBox(height: 20), // ✅ เพิ่มช่องว่างด้านล่าง
+              ],
+            ),
+          ),
         );
       },
     );

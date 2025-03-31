@@ -276,7 +276,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.35,
+                                              0.38,
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -327,7 +327,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.35,
+                                                0.38,
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -438,7 +438,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.35,
+                                                0.38,
                                             padding: const EdgeInsets.all(8),
                                             decoration: BoxDecoration(
                                               borderRadius:
@@ -493,7 +493,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.35,
+                                              0.38,
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -606,7 +606,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.35,
+                                              0.38,
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
                                             borderRadius:
@@ -659,7 +659,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.35,
+                                                0.38,
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius:

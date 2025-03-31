@@ -22,7 +22,12 @@ class BranchSales extends StatefulWidget {
 }
 
 class _BranchSalesState extends State<BranchSales> {
-  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  String userId = '',
+      empId = '',
+      firstName = '',
+      lastName = '',
+      tokenId = '',
+      branchAreaId = '';
   List dropdownAreaBranch = [],
       dropdownBranch = [],
       dropdownSaleType = [],
@@ -101,7 +106,9 @@ class _BranchSalesState extends State<BranchSales> {
       firstName = preferences.getString('firstName')!;
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
+      branchAreaId = preferences.getString('branchAreaId')!;
     });
+    print('branchAreaId : $branchAreaId');
 
     if (mounted) {
       setState(() {
@@ -116,6 +123,9 @@ class _BranchSalesState extends State<BranchSales> {
         getSelectOrderBy();
         getSelectTargetType();
         selectSortlist = "2";
+        if (branchAreaId.isNotEmpty) {
+          selectAreaBranchlist = branchAreaId;
+        }
       });
     }
   }
@@ -638,7 +648,9 @@ class _BranchSalesState extends State<BranchSales> {
       selectSortlist = "2";
       selectSaleTypelist = '0';
       selectBranchlist = null;
-      selectAreaBranchlist = null;
+      branchAreaId.isNotEmpty
+          ? selectAreaBranchlist = branchAreaId
+          : selectAreaBranchlist = null;
       selectInterestlist = null;
     });
   }
@@ -1490,7 +1502,9 @@ class _BranchSalesState extends State<BranchSales> {
           height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            color: branchAreaId.isEmpty ? Colors.white : Colors.grey[200],
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
@@ -1505,11 +1519,13 @@ class _BranchSalesState extends State<BranchSales> {
                         ),
                       ))
                   .toList(),
-              onChanged: (String? newvalue) {
-                setState(() {
-                  selectAreaBranchlist = newvalue;
-                });
-              },
+              onChanged: branchAreaId.isEmpty
+                  ? (String? newvalue) {
+                      setState(() {
+                        selectAreaBranchlist = newvalue;
+                      });
+                    }
+                  : null,
               value: selectAreaBranchlist,
               isExpanded: true,
               underline: const SizedBox(),

@@ -92,6 +92,7 @@ class _AuthenState extends State<Authen> {
           var tokenId = data['data']['tokenId'];
           var branchId = data['data']['branchId'];
           var branchName = data['data']['branchName'];
+          var branchAreaId = data['data']['branchAreaId'];
           bool allowApproveStatus = data['data']['allowApproveStatus'];
           List dataMenu = data['data']['allowedMenu'];
           final List<String> allowedMenu =
@@ -105,6 +106,7 @@ class _AuthenState extends State<Authen> {
           preferences.setString('tokenId', tokenId!);
           preferences.setString('branchId', branchId);
           preferences.setString('branchName', branchName);
+          preferences.setString('branchAreaId', branchAreaId);
           preferences.setBool('allowApproveStatus', allowApproveStatus);
           preferences.setStringList('allowedMenu', allowedMenu);
           preferences.setString('username', username);
@@ -132,7 +134,7 @@ class _AuthenState extends State<Authen> {
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
         Map<String, dynamic> check_list =
-            new Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(respose.body));
 
         print(check_list['message']);
         if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
