@@ -43,24 +43,27 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('th'),
-        Locale('en'),
-      ],
-      theme: ThemeData(
-        primarySwatch: colorTheme(),
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate, 
+        ],
+        supportedLocales: const [
+          Locale('th'),
+          Locale('en'),
+        ],
+        theme: ThemeData(
+          primarySwatch: colorTheme(),
+        ),
+        title: MyContant.appName,
+        routes: map,
+        initialRoute: initlalRounte,
+        // home: TapControl("0"),
       ),
-      title: MyContant.appName,
-      routes: map,
-      initialRoute: initlalRounte,
-      // home: TapControl("0"),
     );
   }
 

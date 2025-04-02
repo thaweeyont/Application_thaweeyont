@@ -107,6 +107,7 @@ class MyContant {
         fontWeight: FontWeight.normal,
         fontFamily: 'Prompt',
       );
+
   TextStyle h5normalStyle() => const TextStyle(
         fontSize: 15,
         color: Colors.black,

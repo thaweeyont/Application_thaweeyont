@@ -290,6 +290,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
 
   @override
   Widget build(BuildContext context) {
+    double textScale = MediaQuery.of(context).textScaler.scale(1.0);
+
     WidgetsBinding.instance.addPostFrameCallback((_) => _getContainerHeight());
 
     return Scaffold(
@@ -320,7 +322,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                   ),
                 ),
               )
-            : statusLoad404 == true || statusDetail == true
+            : statusLoad404 == true
                 ? Center(
                     child: Padding(
                       padding: const EdgeInsets.all(40.0),
@@ -354,115 +356,39 @@ class _BranchSalesListState extends State<BranchSalesList> {
                   )
                 : Stack(
                     children: [
-                      Positioned.fill(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                                height:
-                                    _containerHeight), // ✅ ปรับขนาดอัตโนมัติ
-                            Expanded(
-                              child: NotificationListener<ScrollNotification>(
-                                onNotification: (scrollInfo) {
-                                  setState(() {
-                                    isScrolled = scrollInfo.metrics.pixels > 0;
-                                  });
-                                  return true;
-                                },
-                                child: ListView.builder(
-                                  padding: const EdgeInsets.only(
-                                      left: 8, right: 8, top: 2, bottom: 8),
-                                  itemCount:
-                                      saleBranchList.length + 2, // จำนวนรายการ
-                                  itemBuilder: (context, index) {
-                                    if (index == saleBranchList.length) {
-                                      // ✅ แสดง Container ยอดรวมที่รายการสุดท้าย
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 4),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(10)),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color:
-                                                    Colors.grey.withAlpha(130),
-                                                spreadRadius: 0.2,
-                                                blurRadius: 2,
-                                                offset: const Offset(0, 1),
-                                              )
-                                            ],
-                                            color: const Color.fromRGBO(
-                                                239, 191, 239, 1),
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 2, horizontal: 8),
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  Colors.white.withAlpha(180),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'เป้ารวม : ${formatter.format(totalTarget)}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'ยอดรวม : ${formatter.format(totalAmount)}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                    Text(
-                                                      'ทำได้ : ${percentage.toStringAsFixed(2)} %',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    } else if (index ==
-                                        saleBranchList.length + 1) {
-                                      // ✅ Container ใหม่ (Container 2)
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailBranchAreaAll(
-                                                      dataSaleList:
-                                                          dataSaleList),
-                                            ),
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8, bottom: 40),
+                      if (statusDetail == false) ...[
+                        Positioned.fill(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  height:
+                                      _containerHeight), // ✅ ปรับขนาดอัตโนมัติ
+                              Expanded(
+                                child: NotificationListener<ScrollNotification>(
+                                  onNotification: (scrollInfo) {
+                                    setState(() {
+                                      isScrolled =
+                                          scrollInfo.metrics.pixels > 0;
+                                    });
+                                    return true;
+                                  },
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8, top: 2, bottom: 8),
+                                    itemCount: saleBranchList.length +
+                                        2, // จำนวนรายการ
+                                    itemBuilder: (context, index) {
+                                      if (index == saleBranchList.length) {
+                                        // ✅ แสดง Container ยอดรวมที่รายการสุดท้าย
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 4),
                                           child: Container(
                                             padding: const EdgeInsets.all(8),
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   const BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
+                                                      Radius.circular(10)),
                                               boxShadow: [
                                                 BoxShadow(
                                                   color: Colors.grey
@@ -478,6 +404,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                             child: Container(
                                               padding:
                                                   const EdgeInsets.symmetric(
+                                                      vertical: 2,
                                                       horizontal: 8),
                                               decoration: BoxDecoration(
                                                 color:
@@ -488,40 +415,26 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                               child: Column(
                                                 children: [
                                                   Row(
+                                                    children: [
+                                                      Text(
+                                                        'เป้ารวม : ${formatter.format(totalTarget)}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
-                                                            .center,
+                                                            .spaceBetween,
                                                     children: [
-                                                      SizedBox(
-                                                        width: 30,
-                                                        child: ElevatedButton(
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        8),
-                                                            shape:
-                                                                const CircleBorder(),
-                                                            backgroundColor:
-                                                                const Color
-                                                                    .fromARGB(
-                                                                    255,
-                                                                    223,
-                                                                    132,
-                                                                    223),
-                                                          ),
-                                                          onPressed: () {},
-                                                          child: const Icon(
-                                                            Icons.search,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 5),
                                                       Text(
-                                                        'ดูยอดขายสินค้ารวมทุกสาขา $areaBranchName',
+                                                        'ยอดรวม : ${formatter.format(totalAmount)}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                      ),
+                                                      Text(
+                                                        'ทำได้ : ${percentage.toStringAsFixed(2)} %',
                                                         style: MyContant()
                                                             .h4normalStyle(),
                                                       ),
@@ -531,70 +444,47 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    }
-                                    final data = saleBranchList[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        print(
-                                            "ตำแหน่งที่: $index | ข้อมูล: ${saleBranchList[index]} | หัวข้อ : $saleBranchHead");
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                BranchSalesDetail(
-                                              saleBranchList:
-                                                  saleBranchList[index],
-                                              saleBranchHead: saleBranchHead,
-                                            ),
-                                          ),
                                         );
-                                      },
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 8.0),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color:
-                                                    Colors.grey.withAlpha(130),
-                                                spreadRadius: 0.2,
-                                                blurRadius: 2,
-                                                offset: const Offset(0, 1),
-                                              )
-                                            ],
-                                            color: const Color.fromRGBO(
-                                                239, 191, 239, 1),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    'เขตสาขา : ${data["branchAreaName"]}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Text(
-                                                    'สาขา : ${data["branchName"]}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
+                                      } else if (index ==
+                                          saleBranchList.length + 1) {
+                                        // ✅ Container ใหม่ (Container 2)
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailBranchAreaAll(
+                                                        dataSaleList:
+                                                            dataSaleList),
                                               ),
-                                              const SizedBox(height: 3),
-                                              Container(
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8, bottom: 40),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withAlpha(130),
+                                                    spreadRadius: 0.2,
+                                                    blurRadius: 2,
+                                                    offset: const Offset(0, 1),
+                                                  )
+                                                ],
+                                                color: const Color.fromRGBO(
+                                                    239, 191, 239, 1),
+                                              ),
+                                              child: Container(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                        vertical: 5,
                                                         horizontal: 8),
                                                 decoration: BoxDecoration(
                                                   color: Colors.white
@@ -605,46 +495,200 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                 child: Column(
                                                   children: [
                                                     Row(
-                                                      children: [
-                                                        Text(
-                                                          'เป้า : ${formatter.format(data["targetTotal"])}',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceBetween,
+                                                              .center,
                                                       children: [
-                                                        Text(
-                                                          'ยอดรวม : ${formatter.format(data["branchTotal"])}',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
+                                                        SizedBox(
+                                                          width: 30,
+                                                          child: ElevatedButton(
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          8),
+                                                              shape:
+                                                                  const CircleBorder(),
+                                                              backgroundColor:
+                                                                  const Color
+                                                                      .fromARGB(
+                                                                      255,
+                                                                      223,
+                                                                      132,
+                                                                      223),
+                                                            ),
+                                                            onPressed: () {},
+                                                            child: const Icon(
+                                                              Icons.search,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
                                                         ),
+                                                        SizedBox(width: 5),
                                                         Text(
-                                                          'ทำได้ : ${data?["percent"] ?? '-'} %',
-                                                          style: MyContant()
-                                                              .h4normalStyle(),
-                                                        ),
+                                                            'ดูยอดขายสินค้ารวมทุกสาขา $areaBranchName',
+                                                            style: MyContant()
+                                                                .h4normalStyle()),
                                                       ],
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                            ],
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      final data = saleBranchList[index];
+                                      print('statusDetail: $statusDetail');
+                                      return GestureDetector(
+                                        onTap: () {
+                                          print(
+                                              "ตำแหน่งที่: $index | ข้อมูล: ${saleBranchList[index]} | หัวข้อ : $saleBranchHead");
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BranchSalesDetail(
+                                                saleBranchList:
+                                                    saleBranchList[index],
+                                                saleBranchHead: saleBranchHead,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 8.0),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withAlpha(130),
+                                                  spreadRadius: 0.2,
+                                                  blurRadius: 2,
+                                                  offset: const Offset(0, 1),
+                                                )
+                                              ],
+                                              color: const Color.fromRGBO(
+                                                  239, 191, 239, 1),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'เขตสาขา : ${data["branchAreaName"]}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                    Text(
+                                                      'สาขา : ${data["branchName"]}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 3),
+                                                Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 8),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withAlpha(180),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            'เป้า : ${formatter.format(data["targetTotal"])}',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'ยอดรวม : ${formatter.format(data["branchTotal"])}',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                          Text(
+                                                            'ทำได้ : ${data?["percent"] ?? '-'} %',
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
+                      ] else ...[
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(40.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/noresults.png',
+                                      color: const Color.fromARGB(
+                                          255, 158, 158, 158),
+                                      width: 60,
+                                      height: 60,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ไม่พบรายการข้อมูล',
+                                      style: MyContant().h5NotData(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                       Positioned(
                         top: 0,
                         left: 0,

@@ -956,58 +956,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     }).toList();
   }
 
-  // void handleMenuItemSelected(allowedMenu) {
-  //   List<String> listallowedMenu = allowedMenu;
-  //   String textNamemenu;
-  //   if (allowApproveStatus == true) {
-  //     textNamemenu = "บันทึกพิจารณาอนุมัติสินเชื่อ";
-  //   } else {
-  //     textNamemenu = "ตรวจสอบผลอนุมัติสินเชื่อ";
-  //   }
-
-  //   List<Map<String, String>> menuList = [
-  //     {
-  //       "id": "001",
-  //       "nameMenu": textNamemenu,
-  //     },
-  //     {
-  //       "id": "002",
-  //       "nameMenu": "สอบถามรายละเอียดลูกหนี้",
-  //     },
-  //     {
-  //       "id": "003",
-  //       "nameMenu": "สอบถามรายละเอียด BlackList",
-  //     },
-  //     {
-  //       "id": "004",
-  //       "nameMenu": "ลูกค้าสัมพันธ์ทวียนต์",
-  //     },
-  //     {
-  //       "id": "005",
-  //       "nameMenu": "ตรวจสอบข้อมูลการซื้อสินค้า",
-  //     },
-  //     {
-  //       "id": "006",
-  //       "nameMenu": "สอบถามสินค้าในสต็อค",
-  //     },
-  //     {
-  //       "id": "007",
-  //       "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า",
-  //     },
-  //     {
-  //       "id": "008",
-  //       "nameMenu": "บันทึกอนุมัติการจ่าย",
-  //     },
-  //   ];
-  //   for (var menuItem in menuList) {
-  //     for (var allowedItem in listallowedMenu) {
-  //       if (menuItem['id'] == allowedItem) {
-  //         result.add(menuItem);
-  //       }
-  //     }
-  //   }
-  // }
-
   Column listMenu(BuildContext context, double size) {
     return Column(
       children: [
