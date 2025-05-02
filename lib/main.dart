@@ -24,11 +24,11 @@ final Map<String, WidgetBuilder> map = {
 String? initlalRounte;
 
 void main() {
-  initlalRounte = MyContant.routeAuthen;
   WidgetsFlutterBinding.ensureInitialized(); // ควรมีถ้ากำหนดการหมุนหน้าจอ
+  initlalRounte = MyContant.routeAuthen;
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
-    runApp(MyApp());
+    runApp(const MyApp());
   });
   // runApp(const MyApp());
 }
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate, 
+          GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
           Locale('th'),

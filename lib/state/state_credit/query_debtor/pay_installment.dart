@@ -13,8 +13,7 @@ import 'package:application_thaweeyont/api.dart';
 class Pay_installment extends StatefulWidget {
   var signId, list_payDetail;
   List<dynamic> period;
-  Pay_installment(this.signId, this.list_payDetail, this.period, {Key? key})
-      : super(key: key);
+  Pay_installment(this.signId, this.list_payDetail, this.period, {super.key});
 
   @override
   State<Pay_installment> createState() => _Pay_installmentState();
@@ -275,9 +274,6 @@ class _Pay_installmentState extends State<Pay_installment> {
                                       height: 5,
                                     ),
                                     Container(
-                                      // height:
-                                      //     MediaQuery.of(context).size.height *
-                                      //         0.2,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(

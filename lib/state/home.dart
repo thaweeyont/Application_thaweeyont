@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 export 'disconnect.dart';
 
 class Home_credit extends StatefulWidget {
-  const Home_credit({Key? key}) : super(key: key);
+  const Home_credit({super.key});
 
   @override
   State<Home_credit> createState() => _Home_creditState();
@@ -53,8 +53,6 @@ class _Home_creditState extends State<Home_credit> {
 
   @override
   Widget build(BuildContext context) {
-    double size = MediaQuery.of(context).size.width;
-    double size_h = MediaQuery.of(context).size.height * 0.005;
     return Scaffold(
       backgroundColor: const Color.fromARGB(242, 246, 249, 255),
       body: Stack(
@@ -196,7 +194,7 @@ class _Home_creditState extends State<Home_credit> {
                           Row(
                             children: [
                               Text(
-                                '21 ธันวาคม 2567',
+                                '9 เมษายน 2568',
                                 style: MyContant().TextAbout(),
                               ),
                             ],
@@ -205,7 +203,7 @@ class _Home_creditState extends State<Home_credit> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  'อัพเดทใหม่ผ่านการปรับปรุงและแก้ไขข้อบกพร่องต่างๆ ช่วยให้แอปทำงานได้เสถียรและมีประสิทธิภาพมากยิ่งขึ้น',
+                                  'อัปเดตใหม่ได้มีการปรับปรุงและแก้ไขข้อบกพร่องต่างๆ เพื่อเพิ่มความเสถียรภาพและประสิทธิภาพในการทำงานของแอปให้ดียิ่งขึ้น',
                                   style: MyContant().textInputStyle(),
                                   overflow: TextOverflow.clip,
                                 ),

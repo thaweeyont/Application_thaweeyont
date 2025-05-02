@@ -6,8 +6,9 @@ import '../../utility/my_constant.dart';
 import '../../widgets/custom_appbar.dart';
 
 class DetailBranchAreaAll extends StatefulWidget {
-  final dynamic dataSaleList;
-  const DetailBranchAreaAll({super.key, this.dataSaleList});
+  final dynamic dataSaleList, areaBranchName;
+  const DetailBranchAreaAll(
+      {super.key, this.dataSaleList, this.areaBranchName});
 
   @override
   State<DetailBranchAreaAll> createState() => _DetailBranchAreaAllState();
@@ -19,10 +20,11 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
   Map<String, double> totalDaily = {};
   Map<String, double> dailySum = {};
   List<Map<String, dynamic>> flattenedData = [];
-  double totalSum = 0;
+  double totalSum = 0, totalQty = 0;
   var dataSaleHead;
   bool statusLoading = false, statusLoad404 = false;
   var formatter = NumberFormat('#,##0.00');
+  var formatterAmount = NumberFormat('#,##0');
 
   @override
   void initState() {
@@ -52,6 +54,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
     }
     sumDailySales(flattenedData);
     sumBranchTotal();
+    sumqtyTotal();
     // print('flattenedData: $flattenedData');
     // print('flattenedDataType: ${flattenedData.runtimeType}');
     // if (flattenedData.isNotEmpty) {
@@ -86,8 +89,6 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
     setState(() {
       totalDaily = dailySum;
     });
-    print('Daily Sales Total: $totalDaily');
-    print('Daily Sales Total Type: ${totalDaily.runtimeType}');
   }
 
   double sumBranchTotal() {
@@ -96,9 +97,17 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
         totalSum += branch["branchTotal"];
       }
     }
-
-    print('Total Branch Sales: $totalSum');
     return totalSum;
+  }
+
+  double sumqtyTotal() {
+    for (var branch in flattenedData) {
+      if (branch.containsKey("qtyTotal") && branch["qtyTotal"] is num) {
+        totalQty += branch["qtyTotal"];
+      }
+    }
+    print('totalQty: $totalQty');
+    return totalQty;
   }
 
   @override
@@ -191,7 +200,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'เดือน ${dataSaleHead['month']} พ.ศ. ${dataSaleHead['year']}',
+                                    'เดือน ${dataSaleHead['month']} พ.ศ. ${dataSaleHead['year']}   ${widget.areaBranchName}',
                                     style: MyContant().h4normalStyle(),
                                   ),
                                 ],
@@ -320,6 +329,54 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           ),
                                         ),
                                       ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 4, bottom: 4, right: 8),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.38,
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withAlpha(130),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
+                                          ],
+                                          color: const Color.fromRGBO(
+                                              239, 191, 239, 1),
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "จำนวนรวม",
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     // 📌 คอลัมน์สุดท้าย: เพิ่มหัวข้อ "รวม"
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -485,6 +542,58 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                             ),
                                           ),
                                         ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 4, bottom: 4, right: 8),
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.38,
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color:
+                                                    Colors.grey.withAlpha(130),
+                                                spreadRadius: 0.2,
+                                                blurRadius: 2,
+                                                offset: const Offset(0, 1),
+                                              ),
+                                            ],
+                                            color: const Color.fromRGBO(
+                                                239, 191, 239, 1),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8, horizontal: 8),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.white.withAlpha(180),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      formatterAmount.format(branch[
+                                                          "qtyTotal"]), // แสดงจำนวนรวม
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                       // 📌 คอลัมน์สุดท้าย: แสดง `branchTotal` ของแต่ละสาขา
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -652,6 +761,55 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           ),
                                         ),
                                       ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 4, bottom: 4, right: 8),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.38,
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withAlpha(130),
+                                              spreadRadius: 0.2,
+                                              blurRadius: 2,
+                                              offset: const Offset(0, 1),
+                                            ),
+                                          ],
+                                          color: const Color.fromRGBO(
+                                              239, 191, 239, 1),
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    formatterAmount.format(
+                                                        totalQty), // แสดงผลรวม branchTotal
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     // 📌 คอลัมน์สุดท้าย: รวม branchTotal ทุกสาขา
                                     Padding(
                                       padding: const EdgeInsets.only(

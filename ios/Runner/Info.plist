@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.6.14</string>
+	<string>2.7.15</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
@@ -27,11 +27,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app uses your location to allow to navigate accurately to the customer's location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is required for use.</string>
+	<string>Your location is used to offer services and information tailored to your current area.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is required for use.</string>
+	<string>This app uses your location to show relevant services near you, such as branch locations and available customer support options.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

@@ -108,7 +108,6 @@ class _BranchSalesState extends State<BranchSales> {
       tokenId = preferences.getString('tokenId')!;
       branchAreaId = preferences.getString('branchAreaId')!;
     });
-    print('branchAreaId : $branchAreaId');
 
     if (mounted) {
       setState(() {

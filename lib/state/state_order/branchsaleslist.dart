@@ -147,25 +147,25 @@ class _BranchSalesListState extends State<BranchSalesList> {
   }
 
   Future<void> getSelectSaleBranch() async {
-    print("branchArea: ${selectAreaBranchlist.toString()}");
-    print("branchId: $selectBranchlist");
-    print("itemGroupId: $valueGrouplist");
-    print("itemTypeId: $valueTypelist");
-    print("itemBrandId: $valueBrandlist");
-    print("itemModel: $valueModellist");
-    print("itemStyleId: $valueStylelist");
-    print("itemSizeId: $valueSizelist");
-    print("itemId: $valueItemlist");
-    print("saleTypeId: $selectSaleTypelist");
-    print("channelSaleId: $selectedSaleItems");
-    print("interestType: $selectInterestlist");
-    print("saleId: $valueEmployeelist");
-    print("monthId: $selectMonthlist");
-    print("yearId: $selectYearlist");
-    print("supplyId: $valueSupplylist");
-    print("orderBy: $selectOrderBylist");
-    print("orderSort: $selectSortlist");
-    print("targetType: $selectedtargetType");
+    // print("branchArea: ${selectAreaBranchlist.toString()}");
+    // print("branchId: $selectBranchlist");
+    // print("itemGroupId: $valueGrouplist");
+    // print("itemTypeId: $valueTypelist");
+    // print("itemBrandId: $valueBrandlist");
+    // print("itemModel: $valueModellist");
+    // print("itemStyleId: $valueStylelist");
+    // print("itemSizeId: $valueSizelist");
+    // print("itemId: $valueItemlist");
+    // print("saleTypeId: $selectSaleTypelist");
+    // print("channelSaleId: $selectedSaleItems");
+    // print("interestType: $selectInterestlist");
+    // print("saleId: $valueEmployeelist");
+    // print("monthId: $selectMonthlist");
+    // print("yearId: $selectYearlist");
+    // print("supplyId: $valueSupplylist");
+    // print("orderBy: $selectOrderBylist");
+    // print("orderSort: $selectSortlist");
+    // print("targetType: $selectedtargetType");
 
     try {
       var respose = await http.post(
@@ -206,7 +206,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
         setState(() {
           dataSaleList = dataSaleBranch['data'];
           saleBranchHead = dataSaleList['head'];
-          print('detail>> ${dataSaleList['detail']}');
           if (dataSaleList['detail'] != null &&
               dataSaleList['detail'].toString().isNotEmpty) {
             saleBranchList = dataSaleList['detail'][0];
@@ -221,10 +220,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
 
             percentage = calculatePercentage(totalTarget, totalAmount);
             statusDetail = false;
-            print('มีข้อมูล');
           } else {
             statusDetail = true;
-            print('ไม่มีข้อมูล');
           }
 
           statusLoading = true;
@@ -269,17 +266,17 @@ class _BranchSalesListState extends State<BranchSalesList> {
   var formatter = NumberFormat('#,##0.00');
 
   void sumtotal() {
-    totalTarget = saleBranchList
-        .map((item) => double.parse(item["targetTotal"].replaceAll(",", "")))
-        .reduce((a, b) => a + b);
-    totalAmount = saleBranchList
-        .map((item) => double.parse(item["branchTotal"].replaceAll(",", "")))
-        .reduce((a, b) => a + b);
+    double sumField(String key) {
+      return saleBranchList.map((item) {
+        String value = item[key]?.toString().replaceAll(",", "") ?? "0";
+        return double.tryParse(value) ?? 0.0;
+      }).reduce((a, b) => a + b);
+    }
 
-    print("ยอดรวมเป้า: $totalTarget");
-    print("ยอดรวมยอดขาย: $totalAmount");
+    totalTarget = sumField("targetTotal");
+    totalAmount = sumField("branchTotal");
+
     double percentage = calculatePercentage(totalTarget, totalAmount);
-
     print("ทำได้: ${percentage.toStringAsFixed(2)}%");
   }
 
@@ -290,8 +287,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
 
   @override
   Widget build(BuildContext context) {
-    double textScale = MediaQuery.of(context).textScaler.scale(1.0);
-
     WidgetsBinding.instance.addPostFrameCallback((_) => _getContainerHeight());
 
     return Scaffold(
@@ -404,7 +399,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                             child: Container(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      vertical: 2,
+                                                      vertical: 5,
                                                       horizontal: 8),
                                               decoration: BoxDecoration(
                                                 color:
@@ -447,16 +442,18 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                         );
                                       } else if (index ==
                                           saleBranchList.length + 1) {
-                                        // ✅ Container ใหม่ (Container 2)
                                         return GestureDetector(
                                           onTap: () {
+                                            print(areaBranchName);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     DetailBranchAreaAll(
                                                         dataSaleList:
-                                                            dataSaleList),
+                                                            dataSaleList,
+                                                        areaBranchName:
+                                                            areaBranchName),
                                               ),
                                             );
                                           },
@@ -520,7 +517,20 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                                       132,
                                                                       223),
                                                             ),
-                                                            onPressed: () {},
+                                                            onPressed: () {
+                                                              print(
+                                                                  areaBranchName);
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) => DetailBranchAreaAll(
+                                                                      dataSaleList:
+                                                                          dataSaleList,
+                                                                      areaBranchName:
+                                                                          areaBranchName),
+                                                                ),
+                                                              );
+                                                            },
                                                             child: const Icon(
                                                               Icons.search,
                                                               color:
@@ -543,11 +553,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                         );
                                       }
                                       final data = saleBranchList[index];
-                                      print('statusDetail: $statusDetail');
                                       return GestureDetector(
                                         onTap: () {
-                                          print(
-                                              "ตำแหน่งที่: $index | ข้อมูล: ${saleBranchList[index]} | หัวข้อ : $saleBranchHead");
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -862,7 +869,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
       if (_containerHeight != newHeight) {
         setState(() {
           _containerHeight = newHeight;
-          print('สูง>>$_containerHeight');
         });
       }
     }

@@ -325,7 +325,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
       }
     }
 
-    double size = MediaQuery.of(context).size.width;
     showDialog(
       context: context,
       builder: (context) => GestureDetector(
@@ -705,7 +704,6 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   }
 
   Future<void> searchDistrict(sizeIcon, border) async {
-    double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
       context: context,

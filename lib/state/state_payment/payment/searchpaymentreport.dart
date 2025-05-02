@@ -2414,7 +2414,6 @@ class _ExpensesListState extends State<ExpensesList> {
           dropdownExpensesList = dataExpenses['data'];
         });
         statusLoading = true;
-        print('data>>$dropdownExpensesList');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');

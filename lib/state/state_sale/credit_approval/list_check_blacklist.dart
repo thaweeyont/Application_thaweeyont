@@ -32,8 +32,7 @@ class ListCheckBlacklist extends StatefulWidget {
       this.districtId,
       this.selectValue_amphoe,
       this.selectValue_province,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   State<ListCheckBlacklist> createState() => _ListCheckBlacklistState();

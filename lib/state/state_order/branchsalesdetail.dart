@@ -400,7 +400,6 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
       if (_containerHeight != newHeight) {
         setState(() {
           _containerHeight = newHeight;
-          print('สูง>>$_containerHeight');
         });
       }
     }

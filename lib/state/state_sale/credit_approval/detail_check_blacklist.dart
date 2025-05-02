@@ -11,7 +11,7 @@ import '../../authen.dart';
 
 class DetailCheckBlacklist extends StatefulWidget {
   final String? blId;
-  const DetailCheckBlacklist(this.blId, {Key? key}) : super(key: key);
+  const DetailCheckBlacklist(this.blId, {super.key});
 
   @override
   State<DetailCheckBlacklist> createState() => _DetailCheckBlacklistState();

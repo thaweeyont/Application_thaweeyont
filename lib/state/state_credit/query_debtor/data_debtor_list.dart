@@ -328,7 +328,7 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
                                   padding: const EdgeInsets.all(8.0),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
+                                        Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withAlpha(130),

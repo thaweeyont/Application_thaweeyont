@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart' as launcher;
 import '../../api.dart';
@@ -31,7 +31,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
       statusLoad404 = false;
   List dataWorkReqDetail = [];
   var dataDetail, detailcust, sendaddress;
-  late WebViewController controller;
+  InAppWebViewController? _controller;
   String sampleHTML = '';
 
   @override
@@ -132,23 +132,68 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
         statusChecklocation = false;
       });
     }
-    webView(lat, lng);
+    loadMap(lat, lng);
   }
 
-  Future<void> webView(lat, lng) async {
-    sampleHTML = '''<iframe
-                    class="size-google-map"
-                    style="border:0;border-radius: 15px;  width: 100%;height: 100%;"
-                    loading="lazy"
-                    allowfullscreen
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAqWnK3U_cSqW-rM_6inkVwHEJRDgTcUBI
-                    &q=$lat,$lng&zoom=20">
-                    </iframe>''';
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadHtmlString(sampleHTML);
-    controller.reload();
+  Future<void> loadMap(lat, lng) async {
+    print('lat: $lat, lng: $lng');
+    print('_controller: $_controller');
+
+    // เช็คว่า _controller ไม่เป็น null ก่อน
+    if (_controller == null) {
+      print('Controller is not initialized yet.');
+      return;
+    }
+
+    final sampleHTML = '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body, html {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+        }
+        .size-google-map {
+          border: 0;
+          border-radius: 15px;
+          width: 100%;
+          height: 100%;
+        }
+      </style>
+    </head>
+    <body>
+      <iframe
+        class="size-google-map"
+        loading="lazy"
+        allowfullscreen
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAqWnK3U_cSqW-rM_6inkVwHEJRDgTcUBI&q=$lat,$lng&zoom=20">
+      </iframe>
+    </body>
+    </html>
+    ''';
+
+    await _controller?.loadData(
+      data: sampleHTML,
+      baseUrl: WebUri("https://www.google.com/"),
+    );
   }
+
+  // Future<void> webView(lat, lng) async {
+  //   sampleHTML = '''<iframe
+  //                   class="size-google-map"
+  //                   style="border:0;border-radius: 15px;  width: 100%;height: 100%;"
+  //                   loading="lazy"
+  //                   allowfullscreen
+  //                   src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAqWnK3U_cSqW-rM_6inkVwHEJRDgTcUBI
+  //                   &q=$lat,$lng&zoom=20">
+  //                   </iframe>''';
+  //   controller = WebViewController()
+  //     ..setJavaScriptMode(JavaScriptMode.unrestricted)
+  //     ..loadHtmlString(sampleHTML);
+  //   controller.reload();
+  // }
 
 // getLocationNew
   Future<void> getLocation() async {
@@ -184,21 +229,23 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
 
   Future<void> findLatLng() async {
     Position? position = await findPosition();
-    setState(() {
-      lat = position!.latitude;
-      lng = position.longitude;
-      statusChecklocation = true;
+    if (position != null) {
+      setState(() {
+        lat = position.latitude;
+        lng = position.longitude;
+        statusChecklocation = true;
+      });
       print('lat> = $lat, lng> = $lng');
       Navigator.pop(context);
-      webView(lat, lng);
-    });
+      loadMap(lat, lng);
+    } else {
+      showProgressDialog(context, 'เกิดข้อผิดพลาด', 'ไม่สามารถรับพิกัดได้');
+    }
   }
 
   Future<Position?> findPosition() async {
-    Position position;
     try {
-      position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition();
       return position;
     } catch (e) {
       return null;
@@ -241,7 +288,7 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
               lat = editlat;
               lng = editlng;
             });
-            webView(lat, lng);
+            loadMap(lat, lng);
           }
         }
       } else if (respose.statusCode == 400) {
@@ -319,10 +366,8 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
   }
 
   Future<Position?> editfindPosition() async {
-    Position position;
     try {
-      position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition();
       return position;
     } catch (e) {
       return null;
@@ -986,8 +1031,16 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
                                           Radius.circular(5),
                                         ),
                                       ),
-                                      child:
-                                          WebViewWidget(controller: controller),
+                                      child: InAppWebView(
+                                        initialSettings: InAppWebViewSettings(
+                                          javaScriptEnabled: true,
+                                        ),
+                                        onWebViewCreated: (controller) {
+                                          _controller = controller;
+                                          print('WebView Created');
+                                          loadMap(lat, lng);
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ],
@@ -1007,10 +1060,8 @@ class _MechanicalDetailState extends State<MechanicalDetail> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => WillPopScope(
-        onWillPop: () async {
-          return true;
-        },
+      builder: (context) => PopScope(
+        canPop: true,
         child: Padding(
           padding: const EdgeInsets.only(top: 60),
           child: Container(

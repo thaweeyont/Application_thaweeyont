@@ -69,10 +69,8 @@ Future<void> showProgressEarthLoad(BuildContext context) async {
   showDialog(
     context: context,
     barrierColor: Colors.transparent,
-    builder: (context) => WillPopScope(
-      onWillPop: () async {
-        return true;
-      },
+    builder: (context) => PopScope(
+      canPop: true, // เปลี่ยนเป็น false ถ้าไม่ให้ปิด dialog
       child: Center(
         child: Container(
           width: double.infinity,
@@ -83,7 +81,6 @@ Future<void> showProgressEarthLoad(BuildContext context) async {
               Radius.circular(0),
             ),
           ),
-          // padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

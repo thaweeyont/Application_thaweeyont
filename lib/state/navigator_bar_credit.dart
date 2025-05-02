@@ -1063,7 +1063,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     };
 
     final credit = idToMenu[id];
-    print(idToMenu[id]);
+
     if (credit != null) {
       return Navigator.pushAndRemoveUntil(
         context,

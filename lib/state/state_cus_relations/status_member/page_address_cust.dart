@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,6 @@ import '../../../api.dart';
 import '../../../utility/dialog.dart';
 import '../../../utility/my_constant.dart';
 import 'package:url_launcher/url_launcher.dart' as launcher;
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
@@ -31,7 +31,7 @@ class _AddressCustState extends State<AddressCust> {
   double? editlat, editlng;
   String loca = '';
   bool statusChecklocation = false, statuSuccess = false;
-  late WebViewController controller;
+  InAppWebViewController? _controller;
   String sampleHTML = '';
 
   @override
@@ -52,20 +52,20 @@ class _AddressCustState extends State<AddressCust> {
     });
   }
 
-  Future<void> webView(lat, lng) async {
-    sampleHTML = '''<iframe
-                    class="size-google-map"
-                    style="border:0;border-radius: 15px;  width: 100%;height: 100%;"
-                    loading="lazy"
-                    allowfullscreen
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAqWnK3U_cSqW-rM_6inkVwHEJRDgTcUBI
-                    &q=$lat,$lng&zoom=20">
-                    </iframe>''';
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadHtmlString(sampleHTML);
-    controller.reload();
-  }
+  // Future<void> webView(lat, lng) async {
+  //   sampleHTML = '''<iframe
+  //                   class="size-google-map"
+  //                   style="border:0;border-radius: 15px;  width: 100%;height: 100%;"
+  //                   loading="lazy"
+  //                   allowfullscreen
+  //                   src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAqWnK3U_cSqW-rM_6inkVwHEJRDgTcUBI
+  //                   &q=$lat,$lng&zoom=20">
+  //                   </iframe>''';
+  //   controller = WebViewController()
+  //     ..setJavaScriptMode(JavaScriptMode.unrestricted)
+  //     ..loadHtmlString(sampleHTML);
+  //   controller.reload();
+  // }
 
   Future<void> checkLatLng() async {
     if (widget.latOld.toString().isNotEmpty &&
@@ -82,7 +82,48 @@ class _AddressCustState extends State<AddressCust> {
         statusChecklocation = false;
       });
     }
-    webView(lat, lng);
+    loadMap(lat, lng);
+  }
+
+  Future<void> loadMap(lat, lng) async {
+    if (_controller == null) {
+      print('Controller is not initialized yet.');
+      return;
+    }
+
+    final sampleHTML = '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body, html {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+        }
+        .size-google-map {
+          border: 0;
+          border-radius: 15px;
+          width: 100%;
+          height: 100%;
+        }
+      </style>
+    </head>
+    <body>
+      <iframe
+        class="size-google-map"
+        loading="lazy"
+        allowfullscreen
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAqWnK3U_cSqW-rM_6inkVwHEJRDgTcUBI&q=$lat,$lng&zoom=20">
+      </iframe>
+    </body>
+    </html>
+    ''';
+
+    await _controller?.loadData(
+      data: sampleHTML,
+      baseUrl: WebUri("https://www.google.com/"),
+    );
   }
 
   Future<void> upLocationCust(latitude, longitude, from) async {
@@ -122,7 +163,7 @@ class _AddressCustState extends State<AddressCust> {
               lat = editlat;
               lng = editlng;
             });
-            webView(lat, lng);
+            loadMap(lat, lng);
           }
         }
       } else if (respose.statusCode == 400) {
@@ -191,21 +232,23 @@ class _AddressCustState extends State<AddressCust> {
 
   Future<void> findLatLng() async {
     Position? position = await findPosition();
-    setState(() {
-      lat = position!.latitude;
-      lng = position.longitude;
-      statusChecklocation = true;
+    if (position != null) {
+      setState(() {
+        lat = position.latitude;
+        lng = position.longitude;
+        statusChecklocation = true;
+      });
       print('lat> = $lat, lng> = $lng');
       Navigator.pop(context);
-      webView(lat, lng);
-    });
+      loadMap(lat, lng);
+    } else {
+      showProgressDialog(context, 'เกิดข้อผิดพลาด', 'ไม่สามารถรับพิกัดได้');
+    }
   }
 
   Future<Position?> findPosition() async {
-    Position position;
     try {
-      position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition();
       return position;
     } catch (e) {
       return null;
@@ -246,19 +289,21 @@ class _AddressCustState extends State<AddressCust> {
 
   Future<void> editfindLatLng() async {
     Position? position = await editfindPosition();
-    setState(() {
-      editlat = position!.latitude;
-      editlng = position.longitude;
+    if (position != null) {
+      setState(() {
+        editlat = position.latitude;
+        editlng = position.longitude;
+      });
       Navigator.pop(context);
       editLocation(context, editlat, editlng);
-    });
+    } else {
+      showProgressDialog(context, 'เกิดข้อผิดพลาด', 'ไม่สามารถรับพิกัดได้');
+    }
   }
 
   Future<Position?> editfindPosition() async {
-    Position position;
     try {
-      position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+      Position position = await Geolocator.getCurrentPosition();
       return position;
     } catch (e) {
       return null;
@@ -642,7 +687,16 @@ class _AddressCustState extends State<AddressCust> {
                               Radius.circular(5),
                             ),
                           ),
-                          child: WebViewWidget(controller: controller),
+                          child: InAppWebView(
+                            initialSettings: InAppWebViewSettings(
+                              javaScriptEnabled: true,
+                            ),
+                            onWebViewCreated: (controller) {
+                              _controller = controller;
+                              print('WebView Created');
+                              loadMap(lat, lng);
+                            },
+                          ),
                         )
                       ],
                     ],
@@ -660,10 +714,8 @@ class _AddressCustState extends State<AddressCust> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => WillPopScope(
-        onWillPop: () async {
-          return true;
-        },
+      builder: (context) => PopScope(
+        canPop: true,
         child: Padding(
           padding: const EdgeInsets.only(top: 60),
           child: Container(

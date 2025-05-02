@@ -156,13 +156,13 @@ class _MechanicalState extends State<Mechanical> {
                         },
                         style: ButtonStyle(
                           backgroundColor: actionButton == true
-                              ? MaterialStateProperty.all(
+                              ? WidgetStateProperty.all(
                                   const Color.fromARGB(255, 196, 154, 4),
                                 )
-                              : MaterialStateProperty.all(
+                              : WidgetStateProperty.all(
                                   const Color.fromARGB(255, 241, 209, 89),
                                 ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             const RoundedRectangleBorder(
                               borderRadius: BorderRadiusDirectional.only(
                                 topStart: Radius.circular(20),
@@ -190,13 +190,13 @@ class _MechanicalState extends State<Mechanical> {
                         },
                         style: ButtonStyle(
                           backgroundColor: actionButton == false
-                              ? MaterialStateProperty.all(
+                              ? WidgetStateProperty.all(
                                   const Color.fromARGB(255, 196, 154, 4),
                                 )
-                              : MaterialStateProperty.all(
+                              : WidgetStateProperty.all(
                                   const Color.fromARGB(255, 241, 209, 89),
                                 ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             const RoundedRectangleBorder(
                               borderRadius: BorderRadiusDirectional.only(
                                 topEnd: Radius.circular(20),
@@ -335,9 +335,8 @@ class _MechanicalState extends State<Mechanical> {
     );
   }
 
-  SizedBox myJob(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.65,
+  Expanded myJob(BuildContext context) {
+    return Expanded(
       child: ListView(
         shrinkWrap: true,
         children: [

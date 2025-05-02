@@ -165,6 +165,7 @@ class _MechanicalListState extends State<MechanicalList> {
                   ),
                 )
               : ListView(
+                  shrinkWrap: true,
                   children: [
                     const SizedBox(height: 10),
                     for (var i = 0; i < workReqList.length; i++)
