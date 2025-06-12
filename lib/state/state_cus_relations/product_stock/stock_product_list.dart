@@ -305,7 +305,7 @@ class _StockProductListState extends State<StockProductList> {
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(10),
                                       ),
                                       color: const Color.fromRGBO(
                                           176, 218, 255, 1),
@@ -338,86 +338,101 @@ class _StockProductListState extends State<StockProductList> {
                                           ],
                                         ),
                                         const SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'ประเภท : ${dataStockList[i]['itemTypeName']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'ยี่ห้อ : ${dataStockList[i]['brandName']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'รุ่น : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${dataStockList[i]['itemName']}',
-                                                overflow: TextOverflow.clip,
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'ประเภท : ${dataStockList[i]['itemTypeName']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Divider(
-                                          thickness: 1,
-                                          color: Colors.black54,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'คงเหลือ : ${dataStockList[i]['qty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'ยืม : ${dataStockList[i]['borrowQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'ส่งเคลม : ${dataStockList[i]['returnQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'รวม : ${dataStockList[i]['totalQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    'ยี่ห้อ : ${dataStockList[i]['brandName']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'รุ่น : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${dataStockList[i]['itemName']}',
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const Divider(
+                                                thickness: 1,
+                                                color: Colors.black54,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'คงเหลือ : ${dataStockList[i]['qty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    'ยืม : ${dataStockList[i]['borrowQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'ส่งเคลม : ${dataStockList[i]['returnQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    'รวม : ${dataStockList[i]['totalQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -455,38 +470,55 @@ class _StockProductListState extends State<StockProductList> {
                                         ),
                                       ],
                                     ),
-                                    const Divider(thickness: 1),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'คงเหลือ : ${totalStock!['qty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'ยืม : ${totalStock!['borrowQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'เคลื่อนย้าย : ${totalStock!['outQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'ส่งเคลม : ${totalStock!['returnQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'รวม : ${totalStock!['totalQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
+                                    const SizedBox(height: 5),
+                                    // const Divider(thickness: 1),
+                                    Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withAlpha(180),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'คงเหลือ : ${totalStock!['qty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Text(
+                                                'ยืม : ${totalStock!['borrowQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Text(
+                                                'เคลื่อนย้าย : ${totalStock!['outQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'ส่งเคลม : ${totalStock!['returnQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Text(
+                                                'รวม : ${totalStock!['totalQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -536,7 +568,7 @@ class _StockProductListState extends State<StockProductList> {
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(10),
                                       ),
                                       color: const Color.fromRGBO(
                                           176, 218, 255, 1),
@@ -569,63 +601,78 @@ class _StockProductListState extends State<StockProductList> {
                                           ],
                                         ),
                                         const SizedBox(height: 5),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${dataStockList[i]['itemName']}',
-                                                overflow: TextOverflow.clip,
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${dataStockList[i]['itemName']}',
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Divider(thickness: 1),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'คงเหลือ : ${dataStockList[i]['qty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'ยืม : ${dataStockList[i]['borrowQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'ส่งเคลม : ${dataStockList[i]['returnQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Text(
-                                              'รวม : ${dataStockList[i]['totalQty']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
+                                              const Divider(thickness: 1),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'คงเหลือ : ${dataStockList[i]['qty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    'ยืม : ${dataStockList[i]['borrowQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    'เคลื่อนย้าย : ${dataStockList[i]['outQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'ส่งเคลม : ${dataStockList[i]['returnQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Text(
+                                                    'รวม : ${dataStockList[i]['totalQty']}',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -663,38 +710,55 @@ class _StockProductListState extends State<StockProductList> {
                                         ),
                                       ],
                                     ),
-                                    const Divider(thickness: 1),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'คงเหลือ : ${totalStock!['qty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'ยืม : ${totalStock!['borrowQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'เคลื่อนย้าย : ${totalStock!['outQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'ส่งเคลม : ${totalStock!['returnQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'รวม : ${totalStock!['totalQty']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
+                                    // const Divider(thickness: 1),
+                                    SizedBox(height: 5),
+                                    Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withAlpha(180),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'คงเหลือ : ${totalStock!['qty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Text(
+                                                'ยืม : ${totalStock!['borrowQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Text(
+                                                'เคลื่อนย้าย : ${totalStock!['outQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'ส่งเคลม : ${totalStock!['returnQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Text(
+                                                'รวม : ${totalStock!['totalQty']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

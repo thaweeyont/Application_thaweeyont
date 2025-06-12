@@ -12,7 +12,7 @@ import '../../../widgets/custom_appbar.dart';
 
 class Blacklist_Detail extends StatefulWidget {
   final String? blId;
-  const Blacklist_Detail(this.blId, {Key? key}) : super(key: key);
+  const Blacklist_Detail(this.blId, {super.key});
 
   @override
   State<Blacklist_Detail> createState() => _Blacklist_DetailState();

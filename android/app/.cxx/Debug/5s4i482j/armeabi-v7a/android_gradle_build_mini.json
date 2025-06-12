@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/twy_mac/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/twy_mac/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/twy_mac/thaweeyont/application_thaweeyont/android/app/.cxx/Debug/5s4i482j/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/twy_mac/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/twy_mac/thaweeyont/application_thaweeyont/android/app/.cxx/Debug/5s4i482j/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

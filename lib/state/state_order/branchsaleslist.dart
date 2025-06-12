@@ -255,9 +255,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
       } else {
         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
       }
-    } catch (e, stacktrace) {
+    } catch (e) {
       print("ไม่มีข้อมูล $e");
-      print("Stacktrace: $stacktrace");
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
@@ -444,7 +443,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                           saleBranchList.length + 1) {
                                         return GestureDetector(
                                           onTap: () {
-                                            print(areaBranchName);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -518,8 +516,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                                       223),
                                                             ),
                                                             onPressed: () {
-                                                              print(
-                                                                  areaBranchName);
                                                               Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(

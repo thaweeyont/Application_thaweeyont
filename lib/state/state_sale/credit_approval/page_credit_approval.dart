@@ -12,7 +12,7 @@ import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
 class Page_Credit_Approval extends StatefulWidget {
-  const Page_Credit_Approval({Key? key}) : super(key: key);
+  const Page_Credit_Approval({super.key});
 
   @override
   State<Page_Credit_Approval> createState() => _Page_Credit_ApprovalState();
@@ -963,17 +963,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: 8,
-          bottom: 8,
-          left: 8,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: custId,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -994,7 +990,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded inputIdcard(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: idcard,
           keyboardType: TextInputType.number,
@@ -1002,7 +998,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1023,13 +1019,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded inputNamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: custName,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1047,13 +1043,13 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded inputLastnamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: lastname_cust,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1071,14 +1067,14 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded inputSignRunning(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: signrunning,
           keyboardType: TextInputType.number,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1201,7 +1197,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded selectBranch(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
@@ -1251,7 +1247,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded selectStatusApprove(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
@@ -1295,7 +1291,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded inputDateStart(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: start_date,
           onChanged: (keyword) {},
@@ -1344,7 +1340,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
   Expanded inputDateEnd(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: end_date,
           onChanged: (keyword) {},

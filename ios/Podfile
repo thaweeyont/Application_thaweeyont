@@ -42,12 +42,25 @@ end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
-     flutter_additional_ios_build_settings(target)
-      target.build_configurations.each do |config|
-        xcconfig_path = config.base_configuration_reference.real_path
-        xcconfig = File.read(xcconfig_path)
-        xcconfig_mod = xcconfig.gsub(/DT_TOOLCHAIN_DIR/, "TOOLCHAIN_DIR")
-        File.open(xcconfig_path, "w") { |file| file << xcconfig_mod }
-      end
+    flutter_additional_ios_build_settings(target)
+
+    # แก้ Toolchain Dir (เดิมคุณมีอยู่แล้ว)
+    target.build_configurations.each do |config|
+      xcconfig_path = config.base_configuration_reference.real_path
+      xcconfig = File.read(xcconfig_path)
+      xcconfig_mod = xcconfig.gsub(/DT_TOOLCHAIN_DIR/, "TOOLCHAIN_DIR")
+      File.open(xcconfig_path, "w") { |file| file << xcconfig_mod }
+    end
   end
+
+  # แทรกโค้ดแก้ shellScript ที่นี่
+  project_path = 'Runner.xcodeproj/project.pbxproj'
+  text = File.read(project_path)
+  text.gsub!(/shellScript = \((.*?)\);/m) do |_match|
+    script_lines = $1.strip.split(",\n").map { |line| line.strip.gsub(/^"|"$/, '') }
+    combined_script = script_lines.join("\\n").gsub('"', '\"')
+    "shellScript = \"#{combined_script}\";"
+  end
+  File.write(project_path, text)
 end
+

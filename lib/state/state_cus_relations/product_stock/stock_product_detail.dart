@@ -213,7 +213,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
       ),
     );
     return Scaffold(
-      appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
+      appBar: const CustomAppbar(title: 'รายละเอียดสินค้า'),
       body: GestureDetector(
         child: Column(
           children: [
@@ -223,7 +223,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(5),
+                    Radius.circular(10),
                   ),
                   color: const Color.fromRGBO(176, 218, 255, 1),
                   boxShadow: [
@@ -237,37 +237,48 @@ class _StockProductDetailState extends State<StockProductDetail> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '${widget.branchName}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                        Text(
-                          'คลัง ${widget.whName}',
-                          style: MyContant().h4normalStyle(),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '$NitemTypeName $NbrandName ${widget.itemName}',
-                            overflow: TextOverflow.clip,
-                            style: MyContant().h4normalStyle(),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${widget.branchName}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Text(
+                                'คลัง ${widget.whName}',
+                                style: MyContant().h4normalStyle(),
+                              )
+                            ],
                           ),
-                        ),
-                      ],
+                          // const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '$NitemTypeName $NbrandName ${widget.itemName}',
+                                  overflow: TextOverflow.clip,
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 5),
                     Row(
                       children: [
-                        const SizedBox(width: 30),
+                        // const SizedBox(width: 30),
                         selectSerialStatus(sizeIcon, border),
-                        const SizedBox(width: 30),
+                        // const SizedBox(width: 30),
                       ],
                     ),
                   ],
@@ -354,7 +365,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(10),
                                       ),
                                       color: const Color.fromRGBO(
                                           176, 218, 255, 1),
@@ -387,44 +398,58 @@ class _StockProductDetailState extends State<StockProductDetail> {
                                           ],
                                         ),
                                         const SizedBox(height: 5),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'หมายเลขเครื่อง : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${dataStockDetail[i]['serial']}',
-                                                overflow: TextOverflow.clip,
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withAlpha(180),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'หมายเลขเครื่อง : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${dataStockDetail[i]['serial']}',
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'สถานะ : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${dataStockDetail[i]['status']}',
-                                                overflow: TextOverflow.clip,
-                                                style:
-                                                    MyContant().h4normalStyle(),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'สถานะ : ',
+                                                    style: MyContant()
+                                                        .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${dataStockDetail[i]['status']}',
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -445,7 +470,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
   Expanded selectSerialStatus(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.09,
           padding: const EdgeInsets.all(4),

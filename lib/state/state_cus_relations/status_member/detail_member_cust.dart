@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/authen.dart';
@@ -388,9 +390,6 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                     ),
                                     const SizedBox(height: 5),
                                     Container(
-                                      // height:
-                                      //     MediaQuery.of(context).size.height *
-                                      //         0.15,
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(

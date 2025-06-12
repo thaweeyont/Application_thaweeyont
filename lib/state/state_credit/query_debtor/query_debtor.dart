@@ -2108,14 +2108,14 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: custId,
           maxLength: 13,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2133,7 +2133,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputIdcard(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: idcard,
           keyboardType: TextInputType.number,
@@ -2141,7 +2141,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2159,12 +2159,12 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputName(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: firstnameCus,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2182,12 +2182,12 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputLastname(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: lastnameCus,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2205,7 +2205,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputTel(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: telephone,
           maxLength: 10,
@@ -2213,7 +2213,7 @@ class _Query_debtorState extends State<Query_debtor> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2231,7 +2231,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded selectSearch(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
@@ -2275,12 +2275,12 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputNumberhome(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: homeNo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2298,12 +2298,12 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputMoo(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: moo,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2321,13 +2321,13 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputDistrict(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: district,
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2345,13 +2345,13 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputAmphoe(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: amphoe,
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2369,13 +2369,13 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputProvince(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: provincn,
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2393,7 +2393,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded selectBranch(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
@@ -2435,12 +2435,12 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputSignId(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: signid,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2458,12 +2458,12 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputSignRunning(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: signrunning,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2481,7 +2481,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded selectDebtorTypelist(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
@@ -2523,7 +2523,7 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded selectContractStatus(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
@@ -2565,13 +2565,13 @@ class _Query_debtorState extends State<Query_debtor> {
   Expanded inputContractType(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: itemTypelist,
           readOnly: true,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2597,7 +2597,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchNameItemtype,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2675,7 +2675,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: searchData,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(7),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2700,7 +2700,7 @@ class _Query_debtorState extends State<Query_debtor> {
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(7),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,

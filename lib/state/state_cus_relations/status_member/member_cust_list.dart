@@ -218,15 +218,14 @@ class _MemberCustListState extends State<MemberCustList> {
                     ),
                     child: Column(
                       children: [
-                        for (var i = 0; i < list_dataMember.length; i++) ...[
+                        for (var member in list_dataMember)
                           InkWell(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Detail_member_cust(
-                                    list_dataMember[i]['custId'],
-                                  ),
+                                  builder: (context) =>
+                                      Detail_member_cust(member['custId']),
                                 ),
                               );
                             },
@@ -249,91 +248,46 @@ class _MemberCustListState extends State<MemberCustList> {
                                   color: const Color.fromRGBO(64, 203, 203, 1),
                                 ),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'สาขา : ${list_dataMember[i]['branchName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'รหัสลูกค้า : ${list_dataMember[i]['custId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'ชื่อ-นามสกุล : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${list_dataMember[i]['custName']}',
-                                            style: MyContant().h4normalStyle(),
-                                            overflow: TextOverflow.clip,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'เลขที่บัตร : ${list_dataMember[i]['smartId']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'เบอร์โทรศัพท์ : ',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            '${list_dataMember[i]['telephone']}',
-                                            style: MyContant().h4normalStyle(),
-                                            overflow: TextOverflow.clip,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ที่มา : ${list_dataMember[i]['sourceName']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
+                                    Text('สาขา : ${member['branchName']}',
+                                        style: MyContant().h4normalStyle()),
+                                    Text('รหัสลูกค้า : ${member['custId']}',
+                                        style: MyContant().h4normalStyle()),
+                                    buildLabelValue(
+                                        'ชื่อ-นามสกุล', member['custName']),
+                                    Text('เลขที่บัตร : ${member['smartId']}',
+                                        style: MyContant().h4normalStyle()),
+                                    buildLabelValue(
+                                        'เบอร์โทรศัพท์', member['telephone']),
+                                    Text('ที่มา : ${member['sourceName']}',
+                                        style: MyContant().h4normalStyle()),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                        if (isLoad == true && isLoadendPage == false) ...[
-                          const LoadData(),
-                        ] else if (isLoadendPage == true) ...[
-                          const EndPage(),
-                        ],
-                        const SizedBox(
-                          height: 35,
-                        ),
+                        if (isLoad && !isLoadendPage) const LoadData(),
+                        if (isLoadendPage) const EndPage(),
+                        const SizedBox(height: 35),
                       ],
                     ),
                   ),
                 ),
+    );
+  }
+
+  /// ด้านล่างนี้คือฟังก์ชันย่อยสั้นๆ (อยู่ในหน้าเดียวกัน)
+  Widget buildLabelValue(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('$label : ', style: MyContant().h4normalStyle()),
+        Expanded(
+          child: Text(value,
+              style: MyContant().h4normalStyle(), overflow: TextOverflow.clip),
+        ),
+      ],
     );
   }
 }

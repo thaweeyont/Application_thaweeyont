@@ -22,8 +22,15 @@ class Purchase_info_list extends StatefulWidget {
       newStartDate,
       newEndDate;
   final int? select_index_saletype;
-  Purchase_info_list(this.custId, this.select_index_saletype, this.smartId,
-      this.custName, this.lastname_cust, this.newStartDate, this.newEndDate);
+  const Purchase_info_list(
+      this.custId,
+      this.select_index_saletype,
+      this.smartId,
+      this.custName,
+      this.lastname_cust,
+      this.newStartDate,
+      this.newEndDate,
+      {super.key});
 
   @override
   State<Purchase_info_list> createState() => _Purchase_info_listState();
@@ -465,6 +472,23 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                 ),
               ],
             ),
+    );
+  }
+
+  Widget buildLabelValue(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('$label : ', style: MyContant().h4normalStyle()),
+          Expanded(
+            child: Text(value,
+                style: MyContant().h4normalStyle(),
+                overflow: TextOverflow.clip),
+          ),
+        ],
+      ),
     );
   }
 }

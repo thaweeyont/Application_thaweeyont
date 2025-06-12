@@ -50,9 +50,9 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
   setListdropdown() {
     List<dynamic> no = widget.period.map((e) => e["periodNo"]).toList();
 
-    no.forEach((element) {
+    for (var element in no) {
       datalist.add(element);
-    });
+    }
     setState(() {
       datalist = datalist;
       dropdownValue =

@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_cus_relations/check_purchase_info/purchase_info_list.dart';
@@ -544,139 +546,104 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
-                            child: ListView(
-                              children: [
-                                if (list_datavalue.isNotEmpty) ...[
-                                  for (var i = 0;
-                                      i < list_datavalue.length;
-                                      i++) ...[
-                                    InkWell(
-                                      onTap: () {
-                                        setState(
-                                          () {
-                                            custId.text =
-                                                list_datavalue[i]['custId'];
-                                          },
-                                        );
-                                        Navigator.pop(context);
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4, horizontal: 8),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                            color: const Color.fromRGBO(
-                                                229, 188, 244, 1),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withValues(alpha: 0.5),
-                                                spreadRadius: 0.2,
-                                                blurRadius: 2,
-                                                offset: const Offset(0, 1),
-                                              )
-                                            ],
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'รหัส : ${list_datavalue[i]['custId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'ชื่อ : ${list_datavalue[i]['custName']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'ที่อยู่ : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${list_datavalue[i]['address']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
+                            child: list_datavalue.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: list_datavalue.length,
+                                    itemBuilder: (context, index) {
+                                      final data = list_datavalue[index];
+                                      return InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            custId.text = data['custId'];
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4, horizontal: 8),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: const Color.fromRGBO(
+                                                  229, 188, 244, 1),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withAlpha(100),
+                                                  spreadRadius: 0.2,
+                                                  blurRadius: 2,
+                                                  offset: const Offset(0, 1),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        'รหัส : ${data['custId']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle()),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        'ชื่อ : ${data['custName']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle()),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('ที่อยู่ : ',
+                                                        style: MyContant()
+                                                            .h4normalStyle()),
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${data['address']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'โทร : ${list_datavalue[i]['telephone']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        'โทร : ${data['telephone']}',
+                                                        style: MyContant()
+                                                            .h4normalStyle()),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ] else if (statusLoad404condition == true) ...[
-                                  Padding(
+                                      );
+                                    },
+                                  )
+                                : Padding(
                                     padding: const EdgeInsets.only(top: 100),
                                     child: Column(
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              'images/Nodata.png',
-                                              width: 55,
-                                              height: 55,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'ไม่พบรายการข้อมูล',
-                                              style: MyContant().h5NotData(),
-                                            ),
-                                          ],
-                                        ),
+                                        Image.asset('images/Nodata.png',
+                                            width: 55, height: 55),
+                                        const SizedBox(height: 8),
+                                        Text('ไม่พบรายการข้อมูล',
+                                            style: MyContant().h5NotData()),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ],
-                            ),
                           ),
                         ),
                         const SizedBox(
@@ -856,13 +823,14 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => Purchase_info_list(
-                                  custId.text,
-                                  select_index_saletype,
-                                  smartId.text,
-                                  custName.text,
-                                  lastname_cust.text,
-                                  newStartDate,
-                                  newEndDate),
+                                custId.text,
+                                select_index_saletype,
+                                smartId.text,
+                                custName.text,
+                                lastname_cust.text,
+                                newStartDate,
+                                newEndDate,
+                              ),
                             ),
                           );
                         }
@@ -894,7 +862,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           textAlignVertical: TextAlignVertical.center,
           controller: custId,
@@ -919,7 +887,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Expanded inputNamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: custName,
           onChanged: (keyword) {},
@@ -943,7 +911,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Expanded inputLastnamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: lastname_cust,
           onChanged: (keyword) {},
@@ -967,7 +935,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Expanded selectSaleType(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: Container(
           height: MediaQuery.of(context).size.width * 0.1,
           padding: const EdgeInsets.all(4),
@@ -1113,7 +1081,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Expanded inputIdcard(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: smartId,
           keyboardType: TextInputType.number,
@@ -1140,7 +1108,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Expanded inputDateStart(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: start_date,
           onChanged: (keyword) {},
@@ -1190,7 +1158,7 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
   Expanded inputDateEnd(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(6.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: end_date,
           onChanged: (keyword) {},

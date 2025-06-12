@@ -21,7 +21,7 @@ import 'package:application_thaweeyont/api.dart';
 class Data_Cust_Approve extends StatefulWidget {
   final String? custId, tranId;
 
-  Data_Cust_Approve(this.custId, this.tranId);
+  const Data_Cust_Approve(this.custId, this.tranId, {super.key});
 
   @override
   State<Data_Cust_Approve> createState() => _Data_Cust_ApproveState();

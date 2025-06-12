@@ -12,7 +12,7 @@ import 'list_check_blacklist.dart';
 
 class Page_Check_Blacklist extends StatefulWidget {
   final String? smartId;
-  const Page_Check_Blacklist(this.smartId, {Key? key}) : super(key: key);
+  const Page_Check_Blacklist(this.smartId, {super.key});
 
   @override
   State<Page_Check_Blacklist> createState() => _Page_Check_BlacklistState();

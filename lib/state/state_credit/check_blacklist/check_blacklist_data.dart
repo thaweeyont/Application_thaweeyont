@@ -1296,13 +1296,13 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputIdblacklist(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: idblacklist,
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1323,7 +1323,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputNameShowBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: name_show,
           onChanged: (keyword) {},
@@ -1352,7 +1352,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputSmartIdBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: smartId,
           onChanged: (keyword) {},
@@ -1380,7 +1380,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputNameBlacklist(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: name,
           onChanged: (keyword) {},
@@ -1407,7 +1407,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputLastnameBlacklist(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: lastname,
           onChanged: (keyword) {},
@@ -1434,7 +1434,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputHomeNoBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: home_no,
           onChanged: (keyword) {},
@@ -1461,7 +1461,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputMooNoBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: moo_no,
           onChanged: (keyword) {},
@@ -1489,7 +1489,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputDistrictBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: district,
           onChanged: (keyword) {},
@@ -1517,7 +1517,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputAmphoeBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: amphoe,
           onChanged: (keyword) {},
@@ -1545,7 +1545,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
   Expanded inputProvinceBl(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: province,
           onChanged: (keyword) {},

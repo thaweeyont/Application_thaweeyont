@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TapControl extends StatefulWidget {
   final index;
-  TapControl(this.index);
+  const TapControl(this.index, {super.key});
 
   @override
   State<TapControl> createState() => _TapControlState();
@@ -43,7 +43,7 @@ class _TapControlState extends State<TapControl> {
     fontSize: 25,
     fontWeight: FontWeight.bold,
   );
-  static List<Widget> _widgetOption = <Widget>[
+  static final List<Widget> _widgetOption = <Widget>[
     // Product_home(),
     // Authen(),
   ];

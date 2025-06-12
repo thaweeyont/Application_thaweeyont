@@ -835,23 +835,32 @@ class _BranchSalesState extends State<BranchSales> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ItemBrandList(
-                                    valueGrouplist: valueGrouplist,
-                                    valueTypelist: valueTypelist,
-                                    source: "BrandList",
+                              if (itemGroup.text.isEmpty &&
+                                  itemType.text.isEmpty) {
+                                showProgressDialog(context, 'แจ้งเตือน',
+                                    'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
+                              } else if (itemType.text.isEmpty) {
+                                showProgressDialog(context, 'แจ้งเตือน',
+                                    'กรุณาเลือกประเภทสินค้า');
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ItemBrandList(
+                                      valueGrouplist: valueGrouplist,
+                                      valueTypelist: valueTypelist,
+                                      source: "BrandList",
+                                    ),
                                   ),
-                                ),
-                              ).then((result) {
-                                if (result != null) {
-                                  setState(() {
-                                    itemBrand.text = result['name'];
-                                    valueBrandlist = result['id'];
-                                  });
-                                }
-                              });
+                                ).then((result) {
+                                  if (result != null) {
+                                    setState(() {
+                                      itemBrand.text = result['name'];
+                                      valueBrandlist = result['id'];
+                                    });
+                                  }
+                                });
+                              }
                             },
                             child: const Icon(
                               Icons.search,

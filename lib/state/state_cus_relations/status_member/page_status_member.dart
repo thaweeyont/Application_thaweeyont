@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_cus_relations/status_member/member_cust_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utility/my_constant.dart';
@@ -457,24 +456,44 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                                 child: ElevatedButton(
                                   style: MyContant().myButtonSearchStyle(),
                                   onPressed: () {
-                                    if (id == '1') {
-                                      if (selectValue_customer == null ||
-                                          searchData.text.isEmpty &&
-                                              lastname.text.isEmpty) {
-                                        showProgressDialog(context, 'แจ้งเตือน',
-                                            'กรุณากรอกข้อมูล');
-                                      } else {
-                                        getDataSearch();
-                                      }
+                                    final isCustomer = id == '1';
+
+                                    final isCustomerInputValid =
+                                        selectValue_customer != null &&
+                                            (searchData.text.isNotEmpty ||
+                                                lastname.text.isNotEmpty);
+
+                                    final isEmployeeInputValid =
+                                        firstname_em.text.isNotEmpty ||
+                                            lastname_em.text.isNotEmpty;
+
+                                    if (isCustomer && isCustomerInputValid) {
+                                      getDataSearch();
+                                    } else if (!isCustomer &&
+                                        isEmployeeInputValid) {
+                                      getDataSearch();
                                     } else {
-                                      if (firstname_em.text.isEmpty &&
-                                          lastname_em.text.isEmpty) {
-                                        showProgressDialog(context, 'แจ้งเตือน',
-                                            'กรุณากรอกข้อมูล');
-                                      } else {
-                                        getDataSearch();
-                                      }
+                                      showProgressDialog(context, 'แจ้งเตือน',
+                                          'กรุณากรอกข้อมูล');
                                     }
+                                    // if (id == '1') {
+                                    //   if (selectValue_customer == null ||
+                                    //       searchData.text.isEmpty &&
+                                    //           lastname.text.isEmpty) {
+                                    //     showProgressDialog(context, 'แจ้งเตือน',
+                                    //         'กรุณากรอกข้อมูล');
+                                    //   } else {
+                                    //     getDataSearch();
+                                    //   }
+                                    // } else {
+                                    //   if (firstname_em.text.isEmpty &&
+                                    //       lastname_em.text.isEmpty) {
+                                    //     showProgressDialog(context, 'แจ้งเตือน',
+                                    //         'กรุณากรอกข้อมูล');
+                                    //   } else {
+                                    //     getDataSearch();
+                                    //   }
+                                    // }
                                   },
                                   child: const Text('ค้นหา'),
                                 ),
@@ -497,150 +516,113 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.5,
                           child: Scrollbar(
-                            child: ListView(
-                              children: [
-                                if (list_datavalue.isNotEmpty) ...[
-                                  for (var i = 0;
-                                      i < list_datavalue.length;
-                                      i++) ...[
-                                    InkWell(
-                                      onTap: () {
-                                        setState(
-                                          () {
-                                            custId.text =
-                                                list_datavalue[i]['custId'];
-                                          },
-                                        );
-                                        Navigator.pop(context);
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4, horizontal: 8),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                            color: const Color.fromRGBO(
-                                                64, 203, 203, 1),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withValues(alpha: 0.5),
-                                                spreadRadius: 0.2,
-                                                blurRadius: 2,
-                                                offset: const Offset(0, 1),
-                                              )
-                                            ],
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'รหัส : ${list_datavalue[i]['custId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'ชื่อ : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${list_datavalue[i]['custName']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
+                            child: list_datavalue.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: list_datavalue.length,
+                                    itemBuilder: (context, i) {
+                                      final data = list_datavalue[i];
+                                      return InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            custId.text = data['custId'];
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 4, horizontal: 8),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(8.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: const Color.fromRGBO(
+                                                  64, 203, 203, 1),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.grey
+                                                      .withValues(alpha: 0.5),
+                                                  spreadRadius: 0.2,
+                                                  blurRadius: 2,
+                                                  offset: const Offset(0, 1),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'รหัส : ${data['custId']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('ชื่อ : ',
+                                                        style: MyContant()
+                                                            .h4normalStyle()),
+                                                    Expanded(
+                                                      child: Text(
+                                                        data['custName'] ?? '',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'ที่อยู่ : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${list_datavalue[i]['address']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('ที่อยู่ : ',
+                                                        style: MyContant()
+                                                            .h4normalStyle()),
+                                                    Expanded(
+                                                      child: Text(
+                                                        data['address'] ?? '',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'โทร : ${list_datavalue[i]['telephone']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  'โทร : ${data['telephone'] ?? '-'}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                ] else if (statusLoad404member == true) ...[
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 100),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                      );
+                                    },
+                                  )
+                                : statusLoad404member
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 100),
+                                        child: Column(
                                           children: [
-                                            Image.asset(
-                                              'images/Nodata.png',
-                                              width: 55,
-                                              height: 55,
-                                            ),
+                                            Image.asset('images/Nodata.png',
+                                                width: 55, height: 55),
+                                            const SizedBox(height: 10),
+                                            Text('ไม่พบรายการข้อมูล',
+                                                style: MyContant().h5NotData()),
                                           ],
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'ไม่พบรายการข้อมูล',
-                                              style: MyContant().h5NotData(),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ]
-                              ],
-                            ),
+                                      )
+                                    : const SizedBox.shrink(),
                           ),
                         ),
                         const SizedBox(
@@ -801,10 +783,11 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => MemberCustList(
-                                  custId.text,
-                                  smartId.text,
-                                  custName.text,
-                                  lastnamecust.text),
+                                custId.text,
+                                smartId.text,
+                                custName.text,
+                                lastnamecust.text,
+                              ),
                             ),
                           );
                         }
@@ -861,7 +844,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Expanded inputIdcustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: custId,
           onChanged: (keyword) {},
@@ -884,7 +867,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Expanded inputSmartId(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: smartId,
           keyboardType: TextInputType.number,
@@ -910,7 +893,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Expanded inputNamecustomer(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: custName,
           onChanged: (keyword) {},
@@ -937,7 +920,7 @@ class _Page_Status_MemberState extends State<Page_Status_Member> {
   Expanded inputLastname(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         child: TextField(
           controller: lastnamecust,
           onChanged: (keyword) {},

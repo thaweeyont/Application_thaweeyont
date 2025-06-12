@@ -2382,7 +2382,6 @@ class _ExpensesListState extends State<ExpensesList> {
     widget.selectgroupExpenses == null
         ? selectExpenses = ''
         : selectExpenses = widget.selectgroupExpenses;
-    print('idGE>>$selectExpenses');
   }
 
   Future<void> getdata() async {
