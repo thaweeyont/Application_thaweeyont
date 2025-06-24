@@ -174,7 +174,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
@@ -192,7 +192,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                               vertical: 8, horizontal: 8),
                           decoration: BoxDecoration(
                             color: Colors.white.withAlpha(180),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(
                             children: [
@@ -229,7 +229,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.22,
-                                        padding: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -250,7 +250,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
@@ -286,7 +286,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                   .size
                                                   .width *
                                               0.38,
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -309,7 +309,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                               color:
                                                   Colors.white.withAlpha(180),
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(8),
                                             ),
                                             child: Column(
                                               children: [
@@ -336,7 +336,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.38,
-                                        padding: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -357,7 +357,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
@@ -385,7 +385,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.38,
-                                        padding: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -406,7 +406,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
@@ -441,7 +441,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                   .size
                                                   .width *
                                               0.22,
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -464,7 +464,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                               color:
                                                   Colors.white.withAlpha(180),
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(8),
                                             ),
                                             child: Column(
                                               children: [
@@ -474,7 +474,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                   children: [
                                                     Text(
                                                       branch[
-                                                          "branchName"], // แสดงชื่อสาขา
+                                                          "branchShortName"], // แสดงชื่อสาขา
                                                       style: MyContant()
                                                           .h4normalStyle(),
                                                     ),
@@ -496,7 +496,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                     .size
                                                     .width *
                                                 0.38,
-                                            padding: const EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(6),
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -521,7 +521,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                 color:
                                                     Colors.white.withAlpha(180),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Column(
                                                 children: [
@@ -550,7 +550,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                   .size
                                                   .width *
                                               0.38,
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -573,7 +573,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                               color:
                                                   Colors.white.withAlpha(180),
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(8),
                                             ),
                                             child: Column(
                                               children: [
@@ -603,7 +603,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                   .size
                                                   .width *
                                               0.38,
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -626,7 +626,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                               color:
                                                   Colors.white.withAlpha(180),
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(8),
                                             ),
                                             child: Column(
                                               children: [
@@ -660,7 +660,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.22,
-                                        padding: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -681,7 +681,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
@@ -716,7 +716,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                                   .size
                                                   .width *
                                               0.38,
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -739,7 +739,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                               color:
                                                   Colors.white.withAlpha(180),
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                                  BorderRadius.circular(8),
                                             ),
                                             child: Column(
                                               children: [
@@ -768,7 +768,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.38,
-                                        padding: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -789,7 +789,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
@@ -818,7 +818,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.38,
-                                        padding: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -839,7 +839,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [

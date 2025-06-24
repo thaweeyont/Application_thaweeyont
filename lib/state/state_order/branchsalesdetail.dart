@@ -135,7 +135,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                       (context, index) {
                                         final items = dailyList?[index];
                                         return Container(
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -177,7 +177,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                                         .withAlpha(180),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10),
+                                                            8),
                                                   ),
                                                   child: Column(
                                                     mainAxisAlignment:
@@ -219,7 +219,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                     padding: const EdgeInsets.only(
                                         left: 8, right: 8, top: 4, bottom: 40),
                                     child: Container(
-                                      padding: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
@@ -239,7 +239,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                         decoration: BoxDecoration(
                                           color: Colors.white.withAlpha(180),
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                              BorderRadius.circular(8),
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
@@ -295,7 +295,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                             Padding(
                               padding: const EdgeInsets.all(8),
                               child: Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10)),
@@ -314,7 +314,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                       vertical: 5, horizontal: 8),
                                   decoration: BoxDecoration(
                                     color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
                                     children: [
@@ -337,7 +337,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                               padding: const EdgeInsets.only(
                                   left: 8, right: 8, bottom: 6),
                               child: Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10)),
@@ -356,7 +356,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                       vertical: 5, horizontal: 8),
                                   decoration: BoxDecoration(
                                     color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
                                     children: [
@@ -369,7 +369,7 @@ class _BranchSalesDetailState extends State<BranchSalesDetail> {
                                             style: MyContant().h4normalStyle(),
                                           ),
                                           Text(
-                                            'สาขา : ${widget.saleBranchList['branchName']}',
+                                            'สาขา : ${widget.saleBranchList['branchShortName']}',
                                             style: MyContant().h4normalStyle(),
                                           ),
                                           Text(

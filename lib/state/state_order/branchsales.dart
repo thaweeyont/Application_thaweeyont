@@ -27,7 +27,10 @@ class _BranchSalesState extends State<BranchSales> {
       firstName = '',
       lastName = '',
       tokenId = '',
-      branchAreaId = '';
+      branchId = '',
+      branchAreaId = '',
+      branchAreaName = '',
+      appGroupId = '';
   List dropdownAreaBranch = [],
       dropdownBranch = [],
       dropdownSaleType = [],
@@ -106,25 +109,39 @@ class _BranchSalesState extends State<BranchSales> {
       firstName = preferences.getString('firstName')!;
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
+      branchId = preferences.getString('branchId')!;
       branchAreaId = preferences.getString('branchAreaId')!;
+      branchAreaName = preferences.getString('branchAreaName')!;
+      appGroupId = preferences.getString('appGroupId')!;
     });
 
+    if (appGroupId == '004') {
+      if (branchAreaId.trim().isNotEmpty) {
+        selectAreaBranchlist = branchAreaId.trim().toString();
+      } else {
+        // ตัดคำว่า "เขต" ออก แล้ว trim เหลือแค่เลข
+        selectAreaBranchlist = branchAreaName.replaceAll('เขต', '').trim();
+        selectBranchlist = branchId;
+      }
+    }
+
     if (mounted) {
-      setState(() {
+      setState(() async {
         showProgressLoading(context);
-        getSelectBranch();
-        getSelectBranchArea();
-        getSelectSaleType();
-        getSelectChannelSales();
-        getSelectInterest();
-        getSelectMonth();
-        getSelectYear();
-        getSelectOrderBy();
-        getSelectTargetType();
+        await getSelectBranch();
+        await getSelectBranchArea();
+        await getSelectSaleType();
+        await getSelectChannelSales();
+        await getSelectInterest();
+        await getSelectMonth();
+        await getSelectYear();
+        await getSelectOrderBy();
+        await getSelectTargetType();
         selectSortlist = "2";
-        if (branchAreaId.isNotEmpty) {
-          selectAreaBranchlist = branchAreaId;
-        }
+        Navigator.pop(context);
+        // if (branchAreaId.isNotEmpty) {
+        //   selectAreaBranchlist = branchAreaId;
+        // }
       });
     }
   }
@@ -180,9 +197,12 @@ class _BranchSalesState extends State<BranchSales> {
   }
 
   Future<void> getSelectBranch() async {
+    print('selectAreaBranchlist55555: $selectAreaBranchlist');
+    print('selectBranchlist55555: $selectBranchlist');
+
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/branchList'),
+        Uri.parse('${api}setup/branchList?searchAreaId=$selectAreaBranchlist'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -199,7 +219,7 @@ class _BranchSalesState extends State<BranchSales> {
           myListJson = List.from(df)..addAll(dataBranch['data']);
           dropdownBranch = myListJson;
         });
-        Navigator.pop(context);
+
         isLoadingBranch = true;
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -646,10 +666,26 @@ class _BranchSalesState extends State<BranchSales> {
       selectedtargetType = "1";
       selectSortlist = "2";
       selectSaleTypelist = '0';
-      selectBranchlist = null;
-      branchAreaId.isNotEmpty
-          ? selectAreaBranchlist = branchAreaId
-          : selectAreaBranchlist = null;
+      // selectBranchlist = null;
+      // branchAreaId.isNotEmpty
+      //     ? selectAreaBranchlist = branchAreaId
+      //     : selectAreaBranchlist = null;
+      if (appGroupId == '004') {
+        print('object1');
+        if (branchAreaId.trim().isNotEmpty) {
+          selectAreaBranchlist = branchAreaId.trim().toString();
+          selectBranchlist = null;
+        } else {
+          print('object2');
+          // ตัดคำว่า "เขต" ออก แล้ว trim เหลือแค่เลข
+          selectAreaBranchlist = branchAreaName.replaceAll('เขต', '').trim();
+          selectBranchlist = branchId;
+        }
+      } else {
+        print('object3');
+        selectAreaBranchlist = null;
+        selectBranchlist = null;
+      }
       selectInterestlist = null;
     });
   }
@@ -1510,7 +1546,9 @@ class _BranchSalesState extends State<BranchSales> {
           height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: branchAreaId.isEmpty ? Colors.white : Colors.grey[200],
+            color: (appGroupId != '004' && branchAreaId.trim().isEmpty)
+                ? Colors.white
+                : Colors.grey[200],
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(
@@ -1527,13 +1565,23 @@ class _BranchSalesState extends State<BranchSales> {
                         ),
                       ))
                   .toList(),
-              onChanged: branchAreaId.isEmpty
-                  ? (String? newvalue) {
+              onChanged: (appGroupId != '004' && branchAreaId.trim().isEmpty)
+                  ? (String? newvalue) async {
                       setState(() {
                         selectAreaBranchlist = newvalue;
                       });
+                      selectBranchlist = null;
+                      getSelectBranch();
                     }
                   : null,
+              // onChanged: branchAreaId.isEmpty
+              //     ? (String? newvalue) async {
+              //         setState(() {
+              //           selectAreaBranchlist = newvalue;
+              //         });
+              //         getSelectBranch();
+              //       }
+              //     : null,
               value: selectAreaBranchlist,
               isExpanded: true,
               underline: const SizedBox(),
@@ -1577,7 +1625,11 @@ class _BranchSalesState extends State<BranchSales> {
           height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+              color: ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
+                      appGroupId == '003')
+                  ? Colors.white
+                  : Colors.grey[200],
+              borderRadius: BorderRadius.circular(5)),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
@@ -1594,11 +1646,15 @@ class _BranchSalesState extends State<BranchSales> {
                     ),
                   )
                   .toList(),
-              onChanged: (String? newvalue) {
-                setState(() {
-                  selectBranchlist = newvalue;
-                });
-              },
+              onChanged:
+                  ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
+                          appGroupId == '003')
+                      ? (String? newvalue) {
+                          setState(() {
+                            selectBranchlist = newvalue;
+                          });
+                        }
+                      : null,
               value: selectBranchlist,
               isExpanded: true,
               underline: const SizedBox(),

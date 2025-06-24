@@ -316,7 +316,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       }
     }
 
-    double size = MediaQuery.of(context).size.width;
     showDialog(
       context: context,
       builder: (context) => GestureDetector(
@@ -682,11 +681,22 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                                 height: 5,
                                               ),
                                               Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'โทร : ${list_datavalue[i]['telephone']}',
+                                                    'โทร : ',
                                                     style: MyContant()
                                                         .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_datavalue[i]['telephone']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
                                                   ),
                                                 ],
                                               ),

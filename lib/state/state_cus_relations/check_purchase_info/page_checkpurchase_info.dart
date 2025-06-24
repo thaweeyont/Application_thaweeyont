@@ -618,11 +618,21 @@ class _Page_Checkpurchase_infoState extends State<Page_Checkpurchase_info> {
                                                 ),
                                                 const SizedBox(height: 5),
                                                 Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                        'โทร : ${data['telephone']}',
+                                                    Text('โทร : ',
                                                         style: MyContant()
                                                             .h4normalStyle()),
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${data['telephone'] ?? '-'}',
+                                                        style: MyContant()
+                                                            .h4normalStyle(),
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ],

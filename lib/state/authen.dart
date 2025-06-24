@@ -93,6 +93,9 @@ class _AuthenState extends State<Authen> {
           var branchId = data['data']['branchId'];
           var branchName = data['data']['branchName'];
           var branchAreaId = data['data']['branchAreaId'];
+          var branchAreaName = data['data']['branchAreaName'];
+          var appGroupId = data['data']['appGroupId'];
+          var appGroupName = data['data']['appGroupName'];
           bool allowApproveStatus = data['data']['allowApproveStatus'];
           List dataMenu = data['data']['allowedMenu'];
           final List<String> allowedMenu =
@@ -107,6 +110,9 @@ class _AuthenState extends State<Authen> {
           preferences.setString('branchId', branchId);
           preferences.setString('branchName', branchName);
           preferences.setString('branchAreaId', branchAreaId);
+          preferences.setString('branchAreaName', branchAreaName);
+          preferences.setString('appGroupId', appGroupId);
+          preferences.setString('appGroupName', appGroupName);
           preferences.setBool('allowApproveStatus', allowApproveStatus);
           preferences.setStringList('allowedMenu', allowedMenu);
           preferences.setString('username', username);

@@ -1681,11 +1681,22 @@ class _Query_debtorState extends State<Query_debtor> {
                                                 height: 5,
                                               ),
                                               Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'โทร : ${list_datavalue[i]['telephone']}',
+                                                    'โทร : ',
                                                     style: MyContant()
                                                         .h4normalStyle(),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${list_datavalue[i]['telephone']}',
+                                                      style: MyContant()
+                                                          .h4normalStyle(),
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
