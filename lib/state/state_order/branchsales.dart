@@ -115,34 +115,31 @@ class _BranchSalesState extends State<BranchSales> {
       appGroupId = preferences.getString('appGroupId')!;
     });
 
-    if (appGroupId == '004') {
-      if (branchAreaId.trim().isNotEmpty) {
-        selectAreaBranchlist = branchAreaId.trim().toString();
-      } else {
-        // ตัดคำว่า "เขต" ออก แล้ว trim เหลือแค่เลข
-        selectAreaBranchlist = branchAreaName.replaceAll('เขต', '').trim();
+    if (appGroupId == '004' || appGroupId == '010') {
+      selectAreaBranchlist = branchAreaId.trim().isNotEmpty
+          ? branchAreaId.trim()
+          : branchAreaName.replaceAll('เขต', '').trim();
+      if (appGroupId == '004' && branchAreaId.trim().isEmpty ||
+          appGroupId == '010') {
         selectBranchlist = branchId;
       }
     }
 
+    showProgressLoading(context);
+    await getSelectBranch();
+    await getSelectBranchArea();
+    await getSelectSaleType();
+    await getSelectChannelSales();
+    await getSelectInterest();
+    await getSelectMonth();
+    await getSelectYear();
+    await getSelectOrderBy();
+    await getSelectTargetType();
     if (mounted) {
-      setState(() async {
-        showProgressLoading(context);
-        await getSelectBranch();
-        await getSelectBranchArea();
-        await getSelectSaleType();
-        await getSelectChannelSales();
-        await getSelectInterest();
-        await getSelectMonth();
-        await getSelectYear();
-        await getSelectOrderBy();
-        await getSelectTargetType();
+      setState(() {
         selectSortlist = "2";
-        Navigator.pop(context);
-        // if (branchAreaId.isNotEmpty) {
-        //   selectAreaBranchlist = branchAreaId;
-        // }
       });
+      Navigator.pop(context);
     }
   }
 
@@ -197,9 +194,6 @@ class _BranchSalesState extends State<BranchSales> {
   }
 
   Future<void> getSelectBranch() async {
-    print('selectAreaBranchlist55555: $selectAreaBranchlist');
-    print('selectBranchlist55555: $selectBranchlist');
-
     try {
       var respose = await http.get(
         Uri.parse('${api}setup/branchList?searchAreaId=$selectAreaBranchlist'),
@@ -666,26 +660,21 @@ class _BranchSalesState extends State<BranchSales> {
       selectedtargetType = "1";
       selectSortlist = "2";
       selectSaleTypelist = '0';
-      // selectBranchlist = null;
-      // branchAreaId.isNotEmpty
-      //     ? selectAreaBranchlist = branchAreaId
-      //     : selectAreaBranchlist = null;
-      if (appGroupId == '004') {
-        print('object1');
+
+      if (appGroupId == '004' || appGroupId == '010') {
         if (branchAreaId.trim().isNotEmpty) {
           selectAreaBranchlist = branchAreaId.trim().toString();
           selectBranchlist = null;
         } else {
-          print('object2');
           // ตัดคำว่า "เขต" ออก แล้ว trim เหลือแค่เลข
           selectAreaBranchlist = branchAreaName.replaceAll('เขต', '').trim();
           selectBranchlist = branchId;
         }
       } else {
-        print('object3');
         selectAreaBranchlist = null;
         selectBranchlist = null;
       }
+
       selectInterestlist = null;
     });
   }
@@ -1546,42 +1535,40 @@ class _BranchSalesState extends State<BranchSales> {
           height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color: (appGroupId != '004' && branchAreaId.trim().isEmpty)
-                ? Colors.white
-                : Colors.grey[200],
+            color: (appGroupId == '004' || appGroupId == '010') &&
+                        branchAreaId.trim().isEmpty ||
+                    appGroupId == '004' && branchAreaId.trim().isNotEmpty
+                ? Colors.grey[200]
+                : Colors.white,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
               items: dropdownAreaBranch
-                  .map((value) => DropdownMenuItem<String>(
-                        value: value['id'].toString(),
-                        child: Text(
-                          value['name'],
-                          style: value['id'] == "99"
-                              ? MyContant().TextInputSelect()
-                              : MyContant().textInputStyle(),
-                        ),
-                      ))
+                  .map(
+                    (value) => DropdownMenuItem<String>(
+                      value: value['id'].toString(),
+                      child: Text(
+                        value['name'],
+                        style: value['id'] == "99"
+                            ? MyContant().TextInputSelect()
+                            : MyContant().textInputStyle(),
+                      ),
+                    ),
+                  )
                   .toList(),
-              onChanged: (appGroupId != '004' && branchAreaId.trim().isEmpty)
-                  ? (String? newvalue) async {
+              onChanged: (appGroupId == '004' || appGroupId == '010') &&
+                          branchAreaId.trim().isEmpty ||
+                      appGroupId == '004' && branchAreaId.trim().isNotEmpty
+                  ? null
+                  : (String? newvalue) async {
                       setState(() {
                         selectAreaBranchlist = newvalue;
                       });
                       selectBranchlist = null;
                       getSelectBranch();
-                    }
-                  : null,
-              // onChanged: branchAreaId.isEmpty
-              //     ? (String? newvalue) async {
-              //         setState(() {
-              //           selectAreaBranchlist = newvalue;
-              //         });
-              //         getSelectBranch();
-              //       }
-              //     : null,
+                    },
               value: selectAreaBranchlist,
               isExpanded: true,
               underline: const SizedBox(),
@@ -2460,7 +2447,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -2478,7 +2465,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -2566,8 +2553,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -2617,7 +2603,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -2905,7 +2891,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -2923,7 +2909,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -3012,7 +2998,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
                                     horizontal: 8, vertical: 3),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                      horizontal: 6, vertical: 6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -3036,7 +3022,6 @@ class _ItemTypeListState extends State<ItemTypeList> {
                                           onTap: () {
                                             if (widget.source.toString() ==
                                                 "TypeList") {
-                                              print('11');
                                               Navigator.pop(context, {
                                                 'id':
                                                     '${dropdowntypelist[i]['id']}',
@@ -3046,7 +3031,6 @@ class _ItemTypeListState extends State<ItemTypeList> {
                                             } else if (widget.source
                                                     .toString() ==
                                                 "ItemList") {
-                                              print('22');
                                               Navigator.pop(context, {
                                                 'id': dropdowntypelist[i]['id']
                                                     .toString(),
@@ -3062,7 +3046,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -3353,7 +3337,7 @@ class _ItemBrandListState extends State<ItemBrandList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -3371,7 +3355,7 @@ class _ItemBrandListState extends State<ItemBrandList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -3459,8 +3443,7 @@ class _ItemBrandListState extends State<ItemBrandList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -3508,7 +3491,7 @@ class _ItemBrandListState extends State<ItemBrandList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -3806,7 +3789,7 @@ class _ItemModelListState extends State<ItemModelList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -3824,7 +3807,7 @@ class _ItemModelListState extends State<ItemModelList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -3912,8 +3895,7 @@ class _ItemModelListState extends State<ItemModelList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -3961,7 +3943,7 @@ class _ItemModelListState extends State<ItemModelList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -4248,7 +4230,7 @@ class _ItemStyleListState extends State<ItemStyleList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -4266,7 +4248,7 @@ class _ItemStyleListState extends State<ItemStyleList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -4354,8 +4336,7 @@ class _ItemStyleListState extends State<ItemStyleList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -4393,7 +4374,7 @@ class _ItemStyleListState extends State<ItemStyleList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -4680,7 +4661,7 @@ class _ItemSizeListState extends State<ItemSizeList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -4698,7 +4679,7 @@ class _ItemSizeListState extends State<ItemSizeList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -4786,8 +4767,7 @@ class _ItemSizeListState extends State<ItemSizeList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -4825,7 +4805,7 @@ class _ItemSizeListState extends State<ItemSizeList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -5108,7 +5088,7 @@ class _EmployeeListState extends State<EmployeeList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -5126,7 +5106,7 @@ class _EmployeeListState extends State<EmployeeList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -5214,8 +5194,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -5253,7 +5232,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -5535,7 +5514,7 @@ class _SupplyListState extends State<SupplyList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -5553,7 +5532,7 @@ class _SupplyListState extends State<SupplyList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -5641,11 +5620,11 @@ class _SupplyListState extends State<SupplyList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
+                                      Radius.circular(10),
+                                    ),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withAlpha(130),
@@ -5680,7 +5659,7 @@ class _SupplyListState extends State<SupplyList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [

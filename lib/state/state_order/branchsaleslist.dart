@@ -85,7 +85,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
   List saleBranchList = [];
   Map<String, dynamic>? branchName;
   dynamic dataSaleList, saleBranchHead;
-  double totalTarget = 0.0, totalAmount = 0.0, percentage = 0.0;
+  double totalTarget = 0.0, totalAmount = 0.0, percentage = 0.0, totalQty = 0;
   List<Map<String, dynamic>> dataSale = [];
   bool isScrolled = false, actionButton = false;
   bool statusLoading = false, statusLoad404 = false, statusDetail = false;
@@ -150,26 +150,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
   }
 
   Future<void> getSelectSaleBranch() async {
-    // print("branchArea: ${selectAreaBranchlist.toString()}");
-    // print("branchId: $selectBranchlist");
-    // print("itemGroupId: $valueGrouplist");
-    // print("itemTypeId: $valueTypelist");
-    // print("itemBrandId: $valueBrandlist");
-    // print("itemModel: $valueModellist");
-    // print("itemStyleId: $valueStylelist");
-    // print("itemSizeId: $valueSizelist");
-    // print("itemId: $valueItemlist");
-    // print("saleTypeId: $selectSaleTypelist");
-    // print("channelSaleId: $selectedSaleItems");
-    // print("interestType: $selectInterestlist");
-    // print("saleId: $valueEmployeelist");
-    // print("monthId: $selectMonthlist");
-    // print("yearId: $selectYearlist");
-    // print("supplyId: $valueSupplylist");
-    // print("orderBy: $selectOrderBylist");
-    // print("orderSort: $selectSortlist");
-    // print("targetType: $selectedtargetType");
-
     try {
       var respose = await http.post(
         Uri.parse('${api}sale/saleBranch'),
@@ -183,7 +163,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
           'itemGroupId': valueGrouplist.toString(),
           'itemTypeId': valueTypelist.toString(),
           'itemBrandId': valueBrandlist.toString(),
-          'itemModel': valueModellist.toString(),
+          'itemModel': valueModellist.toString(), 
           'itemStyleId': valueStylelist.toString(),
           'itemSizeId': valueSizelist.toString(),
           'itemId': valueItemlist.toString(),
@@ -219,6 +199,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
                   0, (sum, item) => sum + (item['targetTotal'] ?? 0.0));
               totalAmount = saleBranchList.fold(
                   0, (sum, item) => sum + (item['branchTotal'] ?? 0.0));
+              totalQty = saleBranchList.fold(
+                  0, (sum, item) => sum + (item['qtyTotal'] ?? 0)); 
             }
 
             percentage = calculatePercentage(totalTarget, totalAmount);
@@ -266,6 +248,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
   }
 
   var formatter = NumberFormat('#,##0.00');
+  var formatterAmount = NumberFormat('#,##0');
 
   void sumtotal() {
     double sumField(String key) {
@@ -1649,6 +1632,14 @@ class _BranchSalesListState extends State<BranchSalesList> {
                             ),
                           ],
                         ),
+                        Row(
+                          children: [
+                            Text(
+                              'จำนวนรวม : ${formatterAmount.format(totalQty)}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -1809,6 +1800,14 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                 ),
                               ],
                             ),
+                            Row(
+                              children: [
+                                Text(
+                                  'จำนวน : ${formatterAmount.format(data["qtyTotal"] ?? 0)}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -1833,7 +1832,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
           _containerHeight = newHeight;
         });
       }
-      print('Container height: $_containerHeight');
     }
   }
 
@@ -1847,7 +1845,6 @@ class _BranchSalesListState extends State<BranchSalesList> {
           _containerHeightdetail = newHeight;
         });
       }
-      print('Detail height: $_containerHeightdetail');
     }
   }
 }
