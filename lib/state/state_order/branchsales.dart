@@ -2633,9 +2633,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
                               ] else if (isLoadendPage == true) ...[
                                 const EndPage(),
                               ],
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              const SizedBox(height: 20),
                             ],
                           ),
                         ),
