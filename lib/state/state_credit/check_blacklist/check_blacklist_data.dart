@@ -4,6 +4,7 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/blacklist_cust_list.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -1173,12 +1174,17 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
-                            // padding: EdgeInsets.all(5),
                             backgroundColor:
                                 const Color.fromRGBO(82, 119, 255, 1),
                           ),
                           onPressed: () {
-                            searchIdBlacklist();
+                            // searchIdBlacklist();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CustomerBlackList(),
+                              ),
+                            );
                           },
                           child: const Icon(
                             Icons.search,
@@ -1359,7 +1365,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1386,7 +1392,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1413,7 +1419,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1440,7 +1446,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           onChanged: (keyword) {},
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1468,7 +1474,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1496,7 +1502,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1524,7 +1530,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1552,7 +1558,7 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
           readOnly: true,
           decoration: InputDecoration(
             counterText: "",
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1659,6 +1665,194 @@ class _Check_Blacklist_DataState extends State<Check_Blacklist_Data> {
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Expanded inputSearchData(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: searchData,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: const EdgeInsets.all(6),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintStyle: const TextStyle(
+              fontSize: 14,
+            ),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputNameSearchBl(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: nameSearchBl,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: const EdgeInsets.all(6),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintText: 'ชื่อ',
+            hintStyle: const TextStyle(
+              fontSize: 14,
+            ),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputLastnameSearchBl(sizeIcon, border) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: lastnameSearchBl,
+          onChanged: (keyword) {},
+          decoration: InputDecoration(
+            counterText: "",
+            contentPadding: const EdgeInsets.all(6),
+            isDense: true,
+            enabledBorder: border,
+            focusedBorder: border,
+            hintText: 'นามสกุล',
+            hintStyle: const TextStyle(
+              fontSize: 14,
+            ),
+            prefixIconConstraints: sizeIcon,
+            suffixIconConstraints: sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomerBlackList extends StatefulWidget {
+  const CustomerBlackList({super.key});
+
+  @override
+  State<CustomerBlackList> createState() => _CustomerBlackListState();
+}
+
+class _CustomerBlackListState extends State<CustomerBlackList> {
+  String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  String districtId = '', text_province = '', text_amphoe = '';
+  String selectValue_province = '', selectValue_amphoe = '';
+  List list_district = [], dropdown_search_bl = [];
+  var selectValue_bl;
+  TextEditingController searchData = TextEditingController();
+  TextEditingController nameSearchBl = TextEditingController();
+  TextEditingController lastnameSearchBl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> getdata() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userId = preferences.getString('userId')!;
+      empId = preferences.getString('empId')!;
+      firstName = preferences.getString('firstName')!;
+      lastName = preferences.getString('lastName')!;
+      tokenId = preferences.getString('tokenId')!;
+    });
+  }
+
+  Future<void> getSelectBlSearch() async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/blSearchList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> data =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdown_search_bl = data['data'];
+          selectValue_bl = dropdown_search_bl[0]['id'];
+        });
+      } else if (respose.statusCode == 401) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const CustomAppbar(title: 'ค้นหาลูกค้า Blacklist'),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(162, 181, 252, 1),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withAlpha(130),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
+              ),
+              child: Column(
+                children: [],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

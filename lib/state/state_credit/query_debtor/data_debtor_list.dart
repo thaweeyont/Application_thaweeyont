@@ -13,7 +13,7 @@ import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/endpage.dart';
 import '../../../widgets/loaddata.dart';
 
-class Data_debtor_list extends StatefulWidget {
+class DataDebtorList extends StatefulWidget {
   final String? custId,
       homeNo,
       moo,
@@ -28,11 +28,9 @@ class Data_debtor_list extends StatefulWidget {
       select_branchlist,
       signId,
       signRunning,
-      itemTypelist,
-      selectValue_amphoe,
-      selectValue_province;
+      itemTypelist;
   final int? select_debtorType, select_signStatus;
-  const Data_debtor_list(
+  const DataDebtorList(
       this.custId,
       this.homeNo,
       this.moo,
@@ -50,15 +48,13 @@ class Data_debtor_list extends StatefulWidget {
       this.signRunning,
       this.select_signStatus,
       this.itemTypelist,
-      this.selectValue_amphoe,
-      this.selectValue_province,
       {super.key});
 
   @override
-  State<Data_debtor_list> createState() => _Data_debtor_listState();
+  State<DataDebtorList> createState() => _DataDebtorListState();
 }
 
-class _Data_debtor_listState extends State<Data_debtor_list> {
+class _DataDebtorListState extends State<DataDebtorList> {
   String userId = '',
       empId = '',
       firstName = '',
@@ -140,8 +136,8 @@ class _Data_debtor_listState extends State<Data_debtor_list> {
       province = '';
     } else {
       tumbol = widget.tumbolId;
-      amphur = widget.selectValue_amphoe.toString().split("_")[0];
-      province = widget.selectValue_province.toString().split("_")[0];
+      amphur = widget.amphur;
+      province = widget.province;
     }
 
     try {

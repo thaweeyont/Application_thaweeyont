@@ -68,6 +68,7 @@ class _BranchSalesState extends State<BranchSales> {
       idvalueType,
       idvalueBrand,
       idvalueModel;
+  String? areaId;
 
   TextEditingController itemGroup = TextEditingController();
   TextEditingController itemType = TextEditingController();
@@ -103,6 +104,7 @@ class _BranchSalesState extends State<BranchSales> {
 
   Future<void> getdata() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+
     setState(() {
       userId = preferences.getString('userId')!;
       empId = preferences.getString('empId')!;
@@ -115,19 +117,28 @@ class _BranchSalesState extends State<BranchSales> {
       appGroupId = preferences.getString('appGroupId')!;
     });
 
+    showProgressLoading(context);
+
+    // 1️⃣ ดึงข้อมูลเขตพื้นที่ก่อน (จะได้ myBranchAreaJson)
+    await getSelectBranchArea();
+
+    // 2️⃣ หาค่า areaId จาก branchAreaName
+    final matched = myBranchAreaJson
+        .firstWhere((e) => e["name"] == branchAreaName, orElse: () => null);
+    areaId = matched != null ? matched["id"].toString() : null;
+
+    // 3️⃣ หลังจากมี areaId แล้ว ค่อยกำหนดค่า selectAreaBranchlist และ selectBranchlist
     if (appGroupId == '004' || appGroupId == '010') {
-      selectAreaBranchlist = branchAreaId.trim().isNotEmpty
-          ? branchAreaId.trim()
-          : branchAreaName.replaceAll('เขต', '').trim();
-      if (appGroupId == '004' && branchAreaId.trim().isEmpty ||
-          appGroupId == '010') {
+      final hasBranchAreaId = branchAreaId.trim().isNotEmpty;
+      selectAreaBranchlist = hasBranchAreaId ? branchAreaId.trim() : areaId;
+
+      if ((appGroupId == '004' && !hasBranchAreaId) || appGroupId == '010') {
         selectBranchlist = branchId;
       }
     }
 
-    showProgressLoading(context);
+    // 4️⃣ ตอนนี้ selectAreaBranchlist พร้อมแล้ว ค่อยดึงสาขา
     await getSelectBranch();
-    await getSelectBranchArea();
     await getSelectSaleType();
     await getSelectChannelSales();
     await getSelectInterest();
@@ -135,6 +146,7 @@ class _BranchSalesState extends State<BranchSales> {
     await getSelectYear();
     await getSelectOrderBy();
     await getSelectTargetType();
+
     if (mounted) {
       setState(() {
         selectSortlist = "2";
@@ -662,12 +674,11 @@ class _BranchSalesState extends State<BranchSales> {
       selectSaleTypelist = '0';
 
       if (appGroupId == '004' || appGroupId == '010') {
-        if (branchAreaId.trim().isNotEmpty) {
-          selectAreaBranchlist = branchAreaId.trim().toString();
-          selectBranchlist = null;
-        } else {
-          // ตัดคำว่า "เขต" ออก แล้ว trim เหลือแค่เลข
-          selectAreaBranchlist = branchAreaName.replaceAll('เขต', '').trim();
+        final hasBranchAreaId = branchAreaId.trim().isNotEmpty;
+        selectAreaBranchlist = hasBranchAreaId ? branchAreaId.trim() : areaId;
+        selectBranchlist = null;
+
+        if ((appGroupId == '004' && !hasBranchAreaId) || appGroupId == '010') {
           selectBranchlist = branchId;
         }
       } else {
