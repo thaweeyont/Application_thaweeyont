@@ -1326,7 +1326,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               Icons.calendar_today,
               color: Colors.black,
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            // contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1375,7 +1376,8 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
               Icons.calendar_today,
               color: Colors.black,
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            // contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2027,22 +2029,25 @@ class _CustomerListState extends State<CustomerList> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          controller: searchData,
-          onChanged: (keyword) {},
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
-            isDense: true,
-            enabledBorder: border,
-            focusedBorder: border,
-            hintText: Texthint,
-            hintStyle: MyContant().hintTextStyle(),
-            prefixIconConstraints: sizeIcon,
-            suffixIconConstraints: sizeIcon,
-            filled: true,
-            fillColor: Colors.white,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.width * 0.095,
+          child: TextField(
+            controller: searchData,
+            onChanged: (keyword) {},
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(8),
+              isDense: true,
+              enabledBorder: border,
+              focusedBorder: border,
+              hintText: Texthint,
+              hintStyle: MyContant().hintTextStyle(),
+              prefixIconConstraints: sizeIcon,
+              suffixIconConstraints: sizeIcon,
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            style: MyContant().textInputStyle(),
           ),
-          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -2056,7 +2061,7 @@ class _CustomerListState extends State<CustomerList> {
           controller: firstname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2082,7 +2087,7 @@ class _CustomerListState extends State<CustomerList> {
           controller: lastname_em,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -2104,22 +2109,25 @@ class _CustomerListState extends State<CustomerList> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(0),
-        child: TextField(
-          controller: lastname,
-          onChanged: (keyword) {},
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
-            isDense: true,
-            enabledBorder: border,
-            focusedBorder: border,
-            hintText: 'นามสกุล',
-            hintStyle: MyContant().hintTextStyle(),
-            prefixIconConstraints: sizeIcon,
-            suffixIconConstraints: sizeIcon,
-            filled: true,
-            fillColor: Colors.white,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.width * 0.095,
+          child: TextField(
+            controller: lastname,
+            onChanged: (keyword) {},
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(8),
+              isDense: true,
+              enabledBorder: border,
+              focusedBorder: border,
+              hintText: 'นามสกุล',
+              hintStyle: MyContant().hintTextStyle(),
+              prefixIconConstraints: sizeIcon,
+              suffixIconConstraints: sizeIcon,
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            style: MyContant().textInputStyle(),
           ),
-          style: MyContant().textInputStyle(),
         ),
       ),
     );

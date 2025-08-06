@@ -13,33 +13,33 @@ import 'package:http/http.dart' as http;
 import '../../../widgets/endpage.dart';
 import '../../../widgets/loaddata.dart';
 
-class Blacklist_cust_list extends StatefulWidget {
+class BlacklistCustList extends StatefulWidget {
   final String? idblacklist,
       smartId,
       name,
       lastname,
       home_no,
       moo_no,
-      districtId,
-      selectValue_amphoe,
-      selectValue_province;
-  const Blacklist_cust_list(
+      tumbolId,
+      amphurId,
+      provinceId;
+  const BlacklistCustList(
       this.idblacklist,
       this.smartId,
       this.name,
       this.lastname,
       this.home_no,
       this.moo_no,
-      this.districtId,
-      this.selectValue_amphoe,
-      this.selectValue_province,
+      this.tumbolId,
+      this.amphurId,
+      this.provinceId,
       {super.key});
 
   @override
-  State<Blacklist_cust_list> createState() => _Blacklist_cust_listState();
+  State<BlacklistCustList> createState() => _BlacklistCustListState();
 }
 
-class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
+class _BlacklistCustListState extends State<BlacklistCustList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_data_blacklist = [];
   bool statusLoading = false,
@@ -90,14 +90,14 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
   Future<void> getDataBlacklist(offset) async {
     var tumbol, amphur, province;
 
-    if (widget.districtId == null) {
+    if (widget.tumbolId == null) {
       tumbol = '';
       amphur = '';
       province = '';
     } else {
-      tumbol = widget.districtId;
-      amphur = widget.selectValue_amphoe.toString().split("_")[0];
-      province = widget.selectValue_province.toString().split("_")[0];
+      tumbol = widget.tumbolId;
+      amphur = widget.amphurId;
+      province = widget.provinceId;
     }
 
     try {
@@ -271,7 +271,7 @@ class _Blacklist_cust_listState extends State<Blacklist_cust_list> {
                                     color:
                                         const Color.fromRGBO(162, 181, 252, 1),
                                     borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
+                                      Radius.circular(10),
                                     ),
                                     boxShadow: [
                                       BoxShadow(

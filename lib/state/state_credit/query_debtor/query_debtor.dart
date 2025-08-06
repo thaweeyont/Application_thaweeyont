@@ -62,11 +62,10 @@ class _QueryDebtorState extends State<QueryDebtor> {
       select_debtorType,
       select_signStatus,
       debtorStatuscode,
-      tumbolId,
       itemType;
 
   var selectValue_customer, Texthint;
-  var signStatus, branch, debtorType, tumbol, amphur, province;
+  var signStatus, branch, debtorType, tumbol, tumbolId, amphurId, provinceId;
 
   @override
   void initState() {
@@ -257,8 +256,8 @@ class _QueryDebtorState extends State<QueryDebtor> {
       select_branchlist = null;
       debtorStatuscode = null;
       tumbolId = null;
-      amphur = null;
-      province = null;
+      amphurId = null;
+      provinceId = null;
       getSelectSignStatus();
       getSelectAddressTypelist();
     });
@@ -1657,9 +1656,9 @@ class _QueryDebtorState extends State<QueryDebtor> {
                                     district.text = result['name'];
                                     tumbolId = result['id'];
                                     provincn.text = result['province'];
-                                    province = result['provinceId'];
+                                    provinceId = result['provinceId'];
                                     amphoe.text = result['amphoe'];
-                                    amphur = result['amphoeId'];
+                                    amphurId = result['amphoeId'];
                                   });
                                 }
                               });
@@ -1740,7 +1739,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
                                 if (result != null) {
                                   setState(() {
                                     itemTypelist.text = result['name'];
-                                    itemType = result['id'];
+                                    itemType = result?['id'] ?? '';
                                   });
                                 }
                               });
@@ -1829,8 +1828,8 @@ class _QueryDebtorState extends State<QueryDebtor> {
                               homeNo.text,
                               moo.text,
                               tumbolId,
-                              amphur,
-                              province,
+                              amphurId,
+                              provinceId,
                               firstnameCus.text,
                               lastnameCus.text,
                               select_addreessType.toString(),
@@ -1841,7 +1840,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
                               signid.text,
                               signrunning.text,
                               select_signStatus,
-                              itemType,
+                              itemType = itemType ?? '',
                             ),
                           ),
                         );
@@ -2839,9 +2838,7 @@ class _CustomerListState extends State<CustomerList> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -2861,9 +2858,7 @@ class _CustomerListState extends State<CustomerList> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -2883,9 +2878,7 @@ class _CustomerListState extends State<CustomerList> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,

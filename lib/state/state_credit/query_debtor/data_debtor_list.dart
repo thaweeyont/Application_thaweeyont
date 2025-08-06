@@ -140,6 +140,24 @@ class _DataDebtorListState extends State<DataDebtorList> {
       province = widget.province;
     }
 
+    print('1 ${widget.custId}');
+    print('2 ${widget.homeNo}');
+    print('3 ${widget.moo}');
+    print('4 $tumbol');
+    print('5 $amphur');
+    print('6 $province');
+    print('7 ${widget.firstname_c}');
+    print('8 ${widget.lastname_c}');
+    print('9 ${widget.select_addreessType}');
+    print('10 $debtorType');
+    print('11 ${widget.idcard}');
+    print('12 ${widget.telephone}');
+    print('13 $branch');
+    print('14 ${widget.signId}');
+    print('15 ${widget.signRunning}');
+    print('16 $signStatus');
+    print('17 ${widget.itemTypelist}');
+
     try {
       var respose = await http.post(
         Uri.parse('${api}debtor/list'),
