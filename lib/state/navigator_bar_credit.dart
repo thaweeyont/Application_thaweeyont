@@ -20,15 +20,15 @@ import 'package:http/http.dart' as http;
 import 'authen.dart';
 import 'state_cus_relations/check_purchase_info/page_checkpurchase_info.dart';
 
-class Navigator_bar_credit extends StatefulWidget {
+class NavigatorBarMenu extends StatefulWidget {
   String? index;
-  Navigator_bar_credit(this.index, {super.key});
+  NavigatorBarMenu(this.index, {super.key});
 
   @override
-  _Navigator_bar_creditState createState() => _Navigator_bar_creditState();
+  _NavigatorBarMenuState createState() => _NavigatorBarMenuState();
 }
 
-class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
+class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
   String userId = '',
       empId = '',
       firstName = '',
@@ -200,8 +200,8 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
   static final List<Widget> _widgetOptions = <Widget>[
     const QueryDebtor(),
     const Page_Checkpurchase_info(),
-    const Home_credit(),
-    const Page_Credit_Approval(),
+    const Home(),
+    const PageCreditApproval(),
     const PageStatusMember(),
     const CheckBlacklistData(),
     const ProductStockData(),
@@ -256,60 +256,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       return Container();
     }
   }
-
-  // showMenuList() {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true, // ให้ใช้พื้นที่ได้เต็มจอ
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-  //     ),
-  //     builder: (context) {
-  //       return DraggableScrollableSheet(
-  //         initialChildSize: 0.65, // เริ่มต้นที่ 50% ของจอ
-  //         minChildSize: 0.3, // ย่อสุด 30%
-  //         maxChildSize: 0.8, // ขยายสุด 80%
-  //         expand: false,
-  //         builder: (context, scrollController) {
-  //           return Padding(
-  //             padding: const EdgeInsets.symmetric(vertical: 15),
-  //             child: ListView.builder(
-  //               controller:
-  //                   scrollController, // ใช้ controller เพื่อให้เลื่อนใน sheet ได้
-  //               itemCount: result.length,
-  //               itemBuilder: (context, i) {
-  //                 return ListTile(
-  //                   title: Text(
-  //                     "${result[i]['nameMenu']}",
-  //                     style:
-  //                         _selectedIndex == getselectmenuBottom(result[i]['id'])
-  //                             ? MyContant().h1MenuStyle_click()
-  //                             : MyContant().h2Style(),
-  //                   ),
-  //                   leading: Icon(
-  //                     getMenuIcon(result[i]['id']),
-  //                     color:
-  //                         _selectedIndex == getselectmenuBottom(result[i]['id'])
-  //                             ? Colors.blue
-  //                             : Colors.grey[700],
-  //                   ),
-  //                   onTap: () {
-  //                     setState(() {
-  //                       titleHead = getTitlemenuBottom(result[i]['id']);
-  //                       _selectedIndex = getselectmenuBottom(result[i]['id']);
-  //                       status = false;
-  //                     });
-  //                     Navigator.pop(context);
-  //                   },
-  //                 );
-  //               },
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 
   showMenuList() {
     showModalBottomSheet(
@@ -493,7 +439,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
                         children: [
                           Expanded(
                             child: Text(
-                              '     ท่านสามารถแจ้งปัญหาหรือความคิดเห็นเกี่ยวกับการใช้งานแอปพลิเคชั่น หรือสอบถามเพิ่มเติม มาได้ที่แผนกไอทีหรือโปรแกรมเมอร์',
+                              '  หากพบปัญหาในการใช้งาน หรือต้องการเสนอความคิดเห็นเพิ่มเติม ผู้ใช้งานสามารถติดต่อแผนกไอทีหรือทีมพัฒนาโปรแกรม (โปรแกรมเมอร์) ได้โดยตรง',
                               overflow: TextOverflow.clip,
                               style: MyContant().h4normalStyle(),
                             ),
@@ -711,62 +657,6 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
     );
   }
 
-  // Drawer drawerList(double size) {
-  //   return Drawer(
-  //     width: size * 1.0,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.only(
-  //         topRight: Radius.circular(40),
-  //       ),
-  //     ),
-  //     backgroundColor: const Color.fromRGBO(7, 15, 82, 1),
-  //     child: SingleChildScrollView(
-  //       child: SizedBox(
-  //         child: Stack(
-  //           children: [
-  //             closeDrawer(context),
-  //             Column(
-  //               children: [
-  //                 drawerIcon(size),
-  //                 listMenu(context, size),
-  //                 about(context, size),
-  //                 btnLogout(context, size),
-  //                 const SizedBox(height: 10),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Positioned closeDrawer(BuildContext context) {
-  //   return Positioned(
-  //     top: 50,
-  //     right: 0,
-  //     child: Container(
-  //       width: 50,
-  //       height: 40,
-  //       decoration: const BoxDecoration(
-  //         borderRadius: BorderRadius.only(
-  //           topLeft: Radius.circular(20),
-  //           bottomLeft: Radius.circular(20),
-  //         ),
-  //         color: Colors.white,
-  //       ),
-  //       child: IconButton(
-  //         onPressed: () {
-  //           Navigator.pop(context);
-  //         },
-  //         color: Colors.black,
-  //         icon: const Icon(
-  //           Icons.close_rounded,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
   Widget drawerList(double size) {
     return Stack(
       children: [
@@ -1068,7 +958,7 @@ class _Navigator_bar_creditState extends State<Navigator_bar_credit> {
       return Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => Navigator_bar_credit(credit),
+          builder: (context) => NavigatorBarMenu(credit),
         ),
         (Route<dynamic> route) => false,
       );

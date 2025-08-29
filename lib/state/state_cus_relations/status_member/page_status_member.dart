@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_cus_relations/status_member/member_cust_list.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
+import 'package:application_thaweeyont/widgets/endpage.dart';
+import 'package:application_thaweeyont/widgets/loaddata.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,17 +21,11 @@ class PageStatusMember extends StatefulWidget {
 
 class _PageStatusMemberState extends State<PageStatusMember> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
-
   bool st_customer = true, st_employee = false, statusLoad404member = false;
-
   var selectValue_customer, selectvalue_saletype, Texthint, valueaddress;
 
   TextEditingController custId = TextEditingController();
   TextEditingController custName = TextEditingController();
-  TextEditingController searchData = TextEditingController();
-  TextEditingController firstname_em = TextEditingController();
-  TextEditingController lastname_em = TextEditingController();
-  TextEditingController lastname = TextEditingController();
   TextEditingController smartId = TextEditingController();
   TextEditingController lastnamecust = TextEditingController();
 
@@ -882,7 +878,7 @@ class _CustomerListState extends State<CustomerList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_datavalue = [], dropdown_customer = [];
   String? id = '1';
-  bool st_customer = true, st_employee = false, statusLoad404approve = false;
+  bool st_customer = true, st_employee = false;
   bool statusLoading = false,
       statusLoad404 = false,
       isLoading = false,
@@ -1044,7 +1040,7 @@ class _CustomerListState extends State<CustomerList> {
       selectValue_customer = null;
       list_datavalue = [];
       Texthint = '';
-      statusLoad404approve = false;
+      isLoadScroll = false;
     });
     searchData.clear();
     firstnameEm.clear();
@@ -1265,6 +1261,7 @@ class _CustomerListState extends State<CustomerList> {
                           ),
                         )
                       : SingleChildScrollView(
+                          controller: scrollControll,
                           physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics(),
                           ),
@@ -1382,7 +1379,14 @@ class _CustomerListState extends State<CustomerList> {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
+                              if (isLoadScroll == true &&
+                                  isLoadendPage == false) ...[
+                                const LoadData(),
+                              ] else if (isLoadendPage == true) ...[
+                                const EndPage(),
+                              ],
+                              const SizedBox(height: 20),
                             ],
                           ),
                         ),
@@ -1442,7 +1446,7 @@ class _CustomerListState extends State<CustomerList> {
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
-                        // clearValueDialog();
+                        clearValueDialog();
                       },
                       child: const Text('ล้างข้อมูล'),
                     ),

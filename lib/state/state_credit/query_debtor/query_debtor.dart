@@ -30,7 +30,6 @@ class _QueryDebtorState extends State<QueryDebtor> {
       text_amphoe = '';
   bool? allowApproveStatus;
 
-  String? id = '1';
   var filter = false;
   TextEditingController idcard = TextEditingController();
   TextEditingController firstnameCus = TextEditingController();
@@ -70,9 +69,6 @@ class _QueryDebtorState extends State<QueryDebtor> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      id = '1';
-    });
     getdata();
   }
 
@@ -262,430 +258,6 @@ class _QueryDebtorState extends State<QueryDebtor> {
       getSelectAddressTypelist();
     });
   }
-
-  // Future<void> searchDistrict(sizeIcon, border) async {
-  //   double size = MediaQuery.of(context).size.width;
-  //   showDialog(
-  //     barrierDismissible: false,
-  //     context: context,
-  //     builder: (context) => GestureDetector(
-  //       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-  //       behavior: HitTestBehavior.opaque,
-  //       child: StatefulBuilder(
-  //         builder: (context, setState) => Container(
-  //           alignment: Alignment.center,
-  //           padding: const EdgeInsets.all(5),
-  //           child: SingleChildScrollView(
-  //             padding: EdgeInsets.only(
-  //                 bottom: MediaQuery.of(context).viewInsets.bottom),
-  //             child: Column(
-  //               children: [
-  //                 Card(
-  //                   shape: RoundedRectangleBorder(
-  //                     borderRadius: BorderRadius.circular(20.0),
-  //                   ),
-  //                   elevation: 0,
-  //                   color: Colors.white,
-  //                   child: Column(
-  //                     children: [
-  //                       Stack(
-  //                         children: [
-  //                           Padding(
-  //                             padding:
-  //                                 const EdgeInsets.only(top: 12, bottom: 6),
-  //                             child: Column(
-  //                               children: [
-  //                                 Row(
-  //                                   mainAxisAlignment: MainAxisAlignment.center,
-  //                                   children: [
-  //                                     Text(
-  //                                       'ค้นหาข้อมูล',
-  //                                       style: MyContant().h4normalStyle(),
-  //                                     ),
-  //                                   ],
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                           Positioned(
-  //                             right: 0,
-  //                             child: InkWell(
-  //                               onTap: () {
-  //                                 Navigator.pop(context);
-  //                                 clearValueSearchDistrict();
-  //                               },
-  //                               child: const Padding(
-  //                                 padding: EdgeInsets.symmetric(
-  //                                     vertical: 8, horizontal: 4),
-  //                                 child: Icon(
-  //                                   Icons.close,
-  //                                   size: 30,
-  //                                   color: Color.fromARGB(255, 0, 0, 0),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       const Divider(
-  //                         color: Color.fromARGB(255, 138, 138, 138),
-  //                       ),
-  //                       Padding(
-  //                         padding: const EdgeInsets.all(8.0),
-  //                         child: Container(
-  //                           decoration: BoxDecoration(
-  //                             borderRadius: const BorderRadius.all(
-  //                               Radius.circular(10),
-  //                             ),
-  //                             boxShadow: [
-  //                               BoxShadow(
-  //                                 color: Colors.grey.withAlpha(130),
-  //                                 spreadRadius: 0.2,
-  //                                 blurRadius: 2,
-  //                                 offset: const Offset(0, 1),
-  //                               )
-  //                             ],
-  //                             color: const Color.fromRGBO(255, 203, 246, 1),
-  //                           ),
-  //                           padding: const EdgeInsets.all(8),
-  //                           width: double.infinity,
-  //                           child: Column(children: [
-  //                             Row(
-  //                               children: [
-  //                                 Text(
-  //                                   'จังหวัด',
-  //                                   style: MyContant().h4normalStyle(),
-  //                                 ),
-  //                                 Expanded(
-  //                                   child: Padding(
-  //                                     padding: const EdgeInsets.all(8.0),
-  //                                     child: Container(
-  //                                       height:
-  //                                           MediaQuery.of(context).size.width *
-  //                                               0.1,
-  //                                       padding: const EdgeInsets.all(4),
-  //                                       decoration: BoxDecoration(
-  //                                           color: Colors.white,
-  //                                           borderRadius:
-  //                                               BorderRadius.circular(5)),
-  //                                       child: Padding(
-  //                                         padding:
-  //                                             const EdgeInsets.only(left: 4),
-  //                                         child: DropdownButton(
-  //                                           items: dropdown_province
-  //                                               .map(
-  //                                                   (value) => DropdownMenuItem(
-  //                                                         value:
-  //                                                             "${value['id']}_${value['name']}",
-  //                                                         child: Text(
-  //                                                           value['name'],
-  //                                                           style: MyContant()
-  //                                                               .textInputStyle(),
-  //                                                         ),
-  //                                                       ))
-  //                                               .toList(),
-  //                                           onChanged: (newvalue) async {
-  //                                             list_district = [];
-  //                                             setState(() {
-  //                                               var dfvalue = newvalue;
-  //                                               selectValue_province = dfvalue;
-  //                                               text_province = dfvalue
-  //                                                   .toString()
-  //                                                   .split("_")[1];
-  //                                               selectValue_amphoe = null;
-  //                                             });
-
-  //                                             try {
-  //                                               var respose = await http.get(
-  //                                                 Uri.parse(
-  //                                                     '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
-  //                                                 headers: <String, String>{
-  //                                                   'Content-Type':
-  //                                                       'application/json',
-  //                                                   'Authorization':
-  //                                                       tokenId.toString(),
-  //                                                 },
-  //                                               );
-
-  //                                               if (respose.statusCode == 200) {
-  //                                                 Map<String, dynamic>
-  //                                                     data_amphoe =
-  //                                                     Map<String, dynamic>.from(
-  //                                                         json.decode(
-  //                                                             respose.body));
-  //                                                 setState(() {
-  //                                                   dropdown_amphoe =
-  //                                                       data_amphoe['data'];
-  //                                                 });
-  //                                               } else if (respose.statusCode ==
-  //                                                   401) {
-  //                                                 SharedPreferences
-  //                                                     preferences =
-  //                                                     await SharedPreferences
-  //                                                         .getInstance();
-  //                                                 preferences.clear();
-  //                                                 Navigator.pushAndRemoveUntil(
-  //                                                   context,
-  //                                                   MaterialPageRoute(
-  //                                                     builder: (context) =>
-  //                                                         const Authen(),
-  //                                                   ),
-  //                                                   (Route<dynamic> route) =>
-  //                                                       false,
-  //                                                 );
-  //                                                 showProgressDialog_401(
-  //                                                     context,
-  //                                                     'แจ้งเตือน',
-  //                                                     'กรุณา Login เข้าสู่ระบบใหม่');
-  //                                               } else {
-  //                                                 print(respose.statusCode);
-  //                                               }
-  //                                             } catch (e) {
-  //                                               print("ไม่มีข้อมูล $e");
-  //                                               showProgressDialogNotdata(
-  //                                                   context,
-  //                                                   'แจ้งเตือน',
-  //                                                   'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
-  //                                             }
-  //                                           },
-  //                                           value: selectValue_province,
-  //                                           isExpanded: true,
-  //                                           underline: const SizedBox(),
-  //                                           hint: Align(
-  //                                             child: Text(
-  //                                               'เลือกจังหวัด',
-  //                                               style: MyContant()
-  //                                                   .TextInputSelect(),
-  //                                             ),
-  //                                           ),
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                             Row(
-  //                               children: [
-  //                                 Text(
-  //                                   '​อำเภอ',
-  //                                   style: MyContant().h4normalStyle(),
-  //                                 ),
-  //                                 Expanded(
-  //                                   child: Padding(
-  //                                     padding: const EdgeInsets.all(8.0),
-  //                                     child: Container(
-  //                                       height:
-  //                                           MediaQuery.of(context).size.width *
-  //                                               0.1,
-  //                                       padding: const EdgeInsets.all(4),
-  //                                       decoration: BoxDecoration(
-  //                                           color: Colors.white,
-  //                                           borderRadius:
-  //                                               BorderRadius.circular(5)),
-  //                                       child: Padding(
-  //                                         padding:
-  //                                             const EdgeInsets.only(left: 4),
-  //                                         child: DropdownButton(
-  //                                           items: dropdown_amphoe
-  //                                               .map(
-  //                                                   (value) => DropdownMenuItem(
-  //                                                         value:
-  //                                                             "${value['id']}_${value['name']}",
-  //                                                         child: Text(
-  //                                                           value['name'],
-  //                                                           style: MyContant()
-  //                                                               .textInputStyle(),
-  //                                                         ),
-  //                                                       ))
-  //                                               .toList(),
-  //                                           onChanged: (newvalue) {
-  //                                             setState(() {
-  //                                               var dfvalue = newvalue;
-  //                                               selectValue_amphoe = dfvalue;
-  //                                               text_amphoe = dfvalue
-  //                                                   .toString()
-  //                                                   .split("_")[1];
-  //                                             });
-  //                                             list_district = [];
-  //                                           },
-  //                                           value: selectValue_amphoe,
-  //                                           isExpanded: true,
-  //                                           underline: const SizedBox(),
-  //                                           hint: Align(
-  //                                             child: Text(
-  //                                               'เลือกอำเภอ',
-  //                                               style: MyContant()
-  //                                                   .TextInputSelect(),
-  //                                             ),
-  //                                           ),
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 )
-  //                               ],
-  //                             ),
-  //                           ]),
-  //                         ),
-  //                       ),
-  //                       const SizedBox(
-  //                         height: 5,
-  //                       ),
-  //                       Padding(
-  //                         padding: const EdgeInsets.symmetric(horizontal: 8),
-  //                         child: Row(
-  //                           mainAxisAlignment: MainAxisAlignment.end,
-  //                           children: [
-  //                             SizedBox(
-  //                               height:
-  //                                   MediaQuery.of(context).size.height * 0.040,
-  //                               width: MediaQuery.of(context).size.width * 0.25,
-  //                               child: ElevatedButton(
-  //                                 style: MyContant().myButtonSearchStyle(),
-  //                                 onPressed: () {
-  //                                   if (selectValue_province == null) {
-  //                                     showProgressDialog(context, 'แจ้งเตือน',
-  //                                         'กรุณาเลือกจังหวัด');
-  //                                   } else if (selectValue_amphoe == null) {
-  //                                     showProgressDialog(context, 'แจ้งเตือน',
-  //                                         'กรุณาเลือกอำเภอ');
-  //                                   } else {
-  //                                     showProgressLoading(context);
-  //                                     getSelectDistrict();
-  //                                   }
-  //                                 },
-  //                                 child: const Text('ค้นหา'),
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                       Padding(
-  //                         padding: const EdgeInsets.symmetric(horizontal: 8),
-  //                         child: Row(
-  //                           children: [
-  //                             Text(
-  //                               'รายการที่ค้นหา',
-  //                               style: MyContant().h2Style(),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                       const SizedBox(height: 10),
-  //                       SizedBox(
-  //                         height: MediaQuery.of(context).size.height * 0.5,
-  //                         child: Scrollbar(
-  //                           child: ListView(
-  //                             children: [
-  //                               if (list_district.isNotEmpty) ...[
-  //                                 for (var i = 0;
-  //                                     i < list_district.length;
-  //                                     i++) ...[
-  //                                   InkWell(
-  //                                     onTap: () {
-  //                                       setState(
-  //                                         () {
-  //                                           district.text =
-  //                                               '${list_district[i]['name']}';
-  //                                           amphoe.text = text_amphoe;
-  //                                           provincn.text = text_province;
-  //                                           tumbolId =
-  //                                               '${list_district[i]['id']}';
-  //                                         },
-  //                                       );
-  //                                       Navigator.pop(context);
-  //                                     },
-  //                                     child: Padding(
-  //                                       padding: const EdgeInsets.symmetric(
-  //                                           vertical: 4, horizontal: 8),
-  //                                       child: Container(
-  //                                         padding: const EdgeInsets.all(8.0),
-  //                                         decoration: BoxDecoration(
-  //                                           borderRadius:
-  //                                               const BorderRadius.all(
-  //                                                   Radius.circular(5)),
-  //                                           color: const Color.fromRGBO(
-  //                                               255, 218, 249, 1),
-  //                                           boxShadow: [
-  //                                             BoxShadow(
-  //                                               color: Colors.grey
-  //                                                   .withValues(alpha: 0.5),
-  //                                               spreadRadius: 0.2,
-  //                                               blurRadius: 2,
-  //                                               offset: const Offset(0, 1),
-  //                                             )
-  //                                           ],
-  //                                         ),
-  //                                         child: Column(
-  //                                           children: [
-  //                                             Row(
-  //                                               children: [
-  //                                                 Text(
-  //                                                   'จังหวัด : ',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                                 Text(
-  //                                                   text_province,
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                               ],
-  //                                             ),
-  //                                             Row(
-  //                                               children: [
-  //                                                 Text(
-  //                                                   'อำเภอ : ',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                                 Text(
-  //                                                   text_amphoe,
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                               ],
-  //                                             ),
-  //                                             Row(
-  //                                               children: [
-  //                                                 Text(
-  //                                                   'ตำบล : ',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                                 Text(
-  //                                                   '${list_district[i]['name']}',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                               ],
-  //                                             ),
-  //                                           ],
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ],
-  //                               ],
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       const SizedBox(
-  //                         height: 20,
-  //                       )
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   // Future<void> searchConType(sizeIcon, border) async {
   //   const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -2376,7 +1948,7 @@ class _CustomerListState extends State<CustomerList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_datavalue = [], dropdown_customer = [];
   String? id = '1';
-  bool st_customer = true, st_employee = false, statusLoad404approve = false;
+  bool st_customer = true, st_employee = false;
   bool statusLoading = false,
       statusLoad404 = false,
       isLoading = false,
@@ -2538,7 +2110,7 @@ class _CustomerListState extends State<CustomerList> {
       selectValue_customer = null;
       list_datavalue = [];
       Texthint = '';
-      statusLoad404approve = false;
+      isLoadScroll = false;
     });
     searchData.clear();
     firstnameEm.clear();
@@ -2593,54 +2165,31 @@ class _CustomerListState extends State<CustomerList> {
                   child: Column(
                     children: [
                       Row(
-                        children: [
-                          Expanded(
+                        children: ['1', '2'].map((val) {
+                          final isCustomer = val == '1';
+                          return Expanded(
                             child: RadioListTile(
                               activeColor: Colors.black,
-                              value: '1',
+                              value: val,
                               groupValue: id,
                               title: Text(
-                                'ลูกค้าทั่วไป',
+                                isCustomer ? 'ลูกค้าทั่วไป' : 'พนักงาน',
                                 style: MyContant().h4normalStyle(),
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  st_customer = true;
-                                  st_employee = false;
+                                  st_customer = isCustomer;
+                                  st_employee = !isCustomer;
                                   id = value.toString();
                                   searchData.clear();
                                 });
                               },
-                              visualDensity:
-                                  VisualDensity.compact, // ลด padding รอบ Radio
-                              materialTapTargetSize: MaterialTapTargetSize
-                                  .shrinkWrap, // ลดขนาด hitbox
+                              visualDensity: VisualDensity.compact,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
                             ),
-                          ),
-                          Expanded(
-                            child: RadioListTile(
-                              activeColor: Colors.black,
-                              value: '2',
-                              groupValue: id,
-                              title: Text(
-                                'พนักงาน',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  st_customer = false;
-                                  st_employee = true;
-                                  id = value.toString();
-                                  searchData.clear();
-                                });
-                              },
-                              visualDensity:
-                                  VisualDensity.compact, // ลด padding รอบ Radio
-                              materialTapTargetSize: MaterialTapTargetSize
-                                  .shrinkWrap, // ลดขนาด hitbox
-                            ),
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                       if (st_employee == true) ...[
                         Row(
@@ -2688,13 +2237,9 @@ class _CustomerListState extends State<CustomerList> {
                                       onChanged: (newvalue) {
                                         setState(() {
                                           selectValue_customer = newvalue;
-                                          if (selectValue_customer.toString() ==
-                                              "2") {
-                                            Texthint = 'ชื่อ';
-                                          } else {
-                                            Texthint = '';
-                                          }
-
+                                          Texthint = newvalue.toString() == '2'
+                                              ? 'ชื่อ'
+                                              : '';
                                           searchData.clear();
                                         });
                                       },
@@ -2986,22 +2531,25 @@ class _CustomerListState extends State<CustomerList> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          controller: searchData,
-          onChanged: (keyword) {},
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
-            isDense: true,
-            enabledBorder: border,
-            focusedBorder: border,
-            hintText: Texthint,
-            hintStyle: MyContant().hintTextStyle(),
-            prefixIconConstraints: sizeIcon,
-            suffixIconConstraints: sizeIcon,
-            filled: true,
-            fillColor: Colors.white,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.width * 0.095,
+          child: TextField(
+            controller: searchData,
+            onChanged: (keyword) {},
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(8),
+              isDense: true,
+              enabledBorder: border,
+              focusedBorder: border,
+              hintText: Texthint,
+              hintStyle: MyContant().hintTextStyle(),
+              prefixIconConstraints: sizeIcon,
+              suffixIconConstraints: sizeIcon,
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            style: MyContant().textInputStyle(),
           ),
-          style: MyContant().textInputStyle(),
         ),
       ),
     );
@@ -3234,6 +2782,44 @@ class _DistrictListState extends State<DistrictList> {
     }
   }
 
+  Future<void> getSelectAmphur(selectprovince) async {
+    try {
+      var respose = await http.get(
+        Uri.parse('${api}setup/amphurList?pId=$selectprovince'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (respose.statusCode == 200) {
+        Map<String, dynamic> data_amphoe =
+            Map<String, dynamic>.from(json.decode(respose.body));
+        setState(() {
+          dropdown_amphoe = data_amphoe['data'];
+        });
+      } else if (respose.statusCode == 401) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Authen(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+        showProgressDialog_401(
+            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+      } else {
+        print(respose.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialogNotdata(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
+    }
+  }
+
   clearValueSearchDistrict() {
     setState(() {
       selectValue_province = null;
@@ -3320,51 +2906,9 @@ class _DistrictListState extends State<DistrictList> {
                                         selectValue_amphoe = null;
                                       });
 
-                                      try {
-                                        var respose = await http.get(
-                                          Uri.parse(
-                                              '${api}setup/amphurList?pId=${selectValue_province.toString().split("_")[0]}'),
-                                          headers: <String, String>{
-                                            'Content-Type': 'application/json',
-                                            'Authorization': tokenId.toString(),
-                                          },
-                                        );
-
-                                        if (respose.statusCode == 200) {
-                                          Map<String, dynamic> data_amphoe =
-                                              Map<String, dynamic>.from(
-                                                  json.decode(respose.body));
-                                          setState(() {
-                                            dropdown_amphoe =
-                                                data_amphoe['data'];
-                                          });
-                                        } else if (respose.statusCode == 401) {
-                                          SharedPreferences preferences =
-                                              await SharedPreferences
-                                                  .getInstance();
-                                          preferences.clear();
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Authen(),
-                                            ),
-                                            (Route<dynamic> route) => false,
-                                          );
-                                          showProgressDialog_401(
-                                              context,
-                                              'แจ้งเตือน',
-                                              'กรุณา Login เข้าสู่ระบบใหม่');
-                                        } else {
-                                          print(respose.statusCode);
-                                        }
-                                      } catch (e) {
-                                        print("ไม่มีข้อมูล $e");
-                                        showProgressDialogNotdata(
-                                            context,
-                                            'แจ้งเตือน',
-                                            'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
-                                      }
+                                      getSelectAmphur(selectValue_province
+                                          .toString()
+                                          .split("_")[0]);
                                     },
                                     value: selectValue_province,
                                     isExpanded: true,
@@ -3813,7 +3357,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
                   ],
                   color: const Color.fromRGBO(255, 203, 246, 1),
                 ),
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 width: double.infinity,
                 child: Container(
                   padding: const EdgeInsets.all(6),
@@ -3916,7 +3460,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 4, horizontal: 8),
                                     child: Container(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(10),

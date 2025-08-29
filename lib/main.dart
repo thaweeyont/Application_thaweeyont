@@ -11,14 +11,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => const Authen(),
-  '/state/home': (BuildContext context) => const Home_credit(),
+  '/state/home': (BuildContext context) => const Home(),
   '/state/navigator_bar_credit': (BuildContext context) =>
-      Navigator_bar_credit('2'),
+      NavigatorBarMenu('2'),
   '/state_credit/query_debtor': (BuildContext context) => const QueryDebtor(),
   '/state_credit/check_purchase_info/page_checkpurchase_info':
       (BuildContext context) => const Page_Checkpurchase_info(),
   '/state_credit/credit_approval/page_credit_approval':
-      (BuildContext context) => const Page_Credit_Approval(),
+      (BuildContext context) => const PageCreditApproval(),
 };
 
 String? initlalRounte;

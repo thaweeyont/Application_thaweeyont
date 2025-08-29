@@ -59,10 +59,10 @@ def keystoreProperties = new Properties()
         applicationId "thaweeyont.com.application_thaweeyont"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 35
-        versionCode 40
-        versionName '1.7.18'
+        versionCode 42
+        versionName '1.7.19'
     }
 
        signingConfigs {

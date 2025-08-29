@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_sale/credit_approval/credit_data_detail.dart';
+import 'package:application_thaweeyont/state/state_sale/credit_approval/testUI.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:application_thaweeyont/widgets/endpage.dart';
@@ -15,14 +16,14 @@ import 'package:intl/intl.dart';
 import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
-class Page_Credit_Approval extends StatefulWidget {
-  const Page_Credit_Approval({super.key});
+class PageCreditApproval extends StatefulWidget {
+  const PageCreditApproval({super.key});
 
   @override
-  State<Page_Credit_Approval> createState() => _Page_Credit_ApprovalState();
+  State<PageCreditApproval> createState() => _PageCreditApprovalState();
 }
 
-class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
+class _PageCreditApprovalState extends State<PageCreditApproval> {
   String userId = '',
       empId = '',
       firstName = '',
@@ -31,7 +32,7 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       branchId = '',
       branchName = '';
   bool? allowApproveStatus;
-  String? id = '1', value_branch, select_branchlist;
+  String? value_branch, select_branchlist;
   bool st_customer = true, st_employee = false, statusLoad404approve = false;
   var status = false, valueStatus, Texthint, valueNotdata, new_branch;
   var selectValue_customer,
@@ -66,9 +67,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     Intl.defaultLocale = 'th';
     initializeDateFormatting();
     getdata();
-    setState(() {
-      id = '1';
-    });
   }
 
   Future<void> getdata() async {
@@ -87,7 +85,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     getSelectBranch();
     getSelectStatusApprove();
     selectDatenow();
-    // getSelectCus();
     if (allowApproveStatus == false) {
       select_branchlist = branchId;
     }
@@ -167,32 +164,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
     }
   }
 
-  // Future<void> getSelectCus() async {
-  //   try {
-  //     var respose = await http.get(
-  //       Uri.parse('${api}setup/custCondition'),
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //         'Authorization': tokenId.toString(),
-  //       },
-  //     );
-
-  //     if (respose.statusCode == 200) {
-  //       Map<String, dynamic> data =
-  //           Map<String, dynamic>.from(json.decode(respose.body));
-  //       setState(() {
-  //         dropdown_customer = data['data'];
-  //       });
-  //     } else {
-  //       print(respose.statusCode);
-  //     }
-  //   } catch (e) {
-  //     print("ไม่มีข้อมูล $e");
-  //     showProgressDialog(
-  //         context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-  //   }
-  // }
-
   clearValueapprove() {
     custId.clear();
     idcard.clear();
@@ -210,554 +181,6 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
       select_index_approve = dropdown_status[3]['id'];
     });
   }
-
-  // clearValueDialog() {
-  //   setState(() {
-  //     id = '1';
-  //     st_customer = true;
-  //     st_employee = false;
-  //     selectValue_customer = null;
-  //     list_datavalue = [];
-  //     valueNotdata = null;
-  //     Texthint = '';
-  //     statusLoad404approve = false;
-  //   });
-  //   searchData.clear();
-  //   firstname_em.clear();
-  //   lastname_em.clear();
-  //   lastname.clear();
-  // }
-
-  // Future<void> searchIdcustomer() async {
-  //   const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-  //   const border = OutlineInputBorder(
-  //     borderSide: BorderSide(
-  //       color: Colors.transparent,
-  //       width: 0,
-  //     ),
-  //     borderRadius: BorderRadius.all(
-  //       Radius.circular(4.0),
-  //     ),
-  //   );
-
-  //   Future<void> getData_condition(String? custType, conditionType,
-  //       String searchData, String firstName, String lastName) async {
-  //     try {
-  //       var respose = await http.post(
-  //         Uri.parse('${api}customer/list'),
-  //         headers: <String, String>{
-  //           'Content-Type': 'application/json',
-  //           'Authorization': tokenId.toString(),
-  //         },
-  //         body: jsonEncode(<String, String>{
-  //           'custType': custType.toString(),
-  //           'conditionType': conditionType.toString(),
-  //           'searchData': searchData.toString(),
-  //           'firstName': firstName.toString(),
-  //           'lastName': lastName.toString(),
-  //           'page': '1',
-  //           'limit': '100'
-  //         }),
-  //       );
-
-  //       if (respose.statusCode == 200) {
-  //         Map<String, dynamic> dataList =
-  //             Map<String, dynamic>.from(json.decode(respose.body));
-
-  //         setState(() {
-  //           list_datavalue = dataList['data'];
-  //         });
-
-  //         Navigator.pop(context);
-  //       } else if (respose.statusCode == 400) {
-  //         showProgressDialog_400(
-  //             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-  //       } else if (respose.statusCode == 401) {
-  //         SharedPreferences preferences = await SharedPreferences.getInstance();
-  //         preferences.clear();
-  //         Navigator.pushAndRemoveUntil(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => const Authen(),
-  //           ),
-  //           (Route<dynamic> route) => false,
-  //         );
-  //         showProgressDialog_401(
-  //             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-  //       } else if (respose.statusCode == 404) {
-  //         setState(() {
-  //           Navigator.pop(context);
-  //           statusLoad404approve = true;
-  //         });
-  //       } else if (respose.statusCode == 405) {
-  //         showProgressDialog_405(
-  //             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-  //       } else if (respose.statusCode == 500) {
-  //         showProgressDialog_500(
-  //             context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
-  //       } else {
-  //         showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-  //       }
-  //     } catch (e) {
-  //       print("ไม่มีข้อมูล $e");
-  //       showProgressDialogNotdata(
-  //           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-  //     }
-  //   }
-
-  //   Future<void> getData_search() async {
-  //     if (id == '1') {
-  //       showProgressLoading(context);
-  //       if (selectValue_customer.toString() == "2") {
-  //         getData_condition(
-  //             id, selectValue_customer, '', searchData.text, lastname.text);
-  //       } else {
-  //         getData_condition(id, selectValue_customer, searchData.text, '', '');
-  //       }
-  //     } else {
-  //       showProgressLoading(context);
-  //       getData_condition(id, '2', '', firstname_em.text, lastname_em.text);
-  //     }
-  //   }
-
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => GestureDetector(
-  //       onTap: () {
-  //         FocusScope.of(context).requestFocus(FocusNode());
-  //       },
-  //       behavior: HitTestBehavior.opaque,
-  //       child: StatefulBuilder(
-  //         builder: (context, setState) => Container(
-  //           alignment: Alignment.center,
-  //           padding: const EdgeInsets.all(5),
-  //           child: SingleChildScrollView(
-  //             padding: EdgeInsets.only(
-  //                 bottom: MediaQuery.of(context).viewInsets.bottom),
-  //             child: Column(
-  //               children: [
-  //                 Card(
-  //                   shape: RoundedRectangleBorder(
-  //                     borderRadius: BorderRadius.circular(15),
-  //                   ),
-  //                   elevation: 0,
-  //                   color: Colors.white,
-  //                   child: Column(
-  //                     children: [
-  //                       Stack(
-  //                         children: [
-  //                           Padding(
-  //                             padding:
-  //                                 const EdgeInsets.only(top: 12, bottom: 6),
-  //                             child: Column(
-  //                               children: [
-  //                                 Row(
-  //                                   mainAxisAlignment: MainAxisAlignment.center,
-  //                                   children: [
-  //                                     Text(
-  //                                       'ค้นหาข้อมูลลูกค้า',
-  //                                       style: MyContant().h4normalStyle(),
-  //                                     ),
-  //                                   ],
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                           Positioned(
-  //                             right: 0,
-  //                             child: InkWell(
-  //                               onTap: () {
-  //                                 Navigator.pop(context);
-  //                                 clearValueDialog();
-  //                               },
-  //                               child: const Padding(
-  //                                 padding: EdgeInsets.symmetric(
-  //                                     vertical: 8, horizontal: 4),
-  //                                 child: Icon(
-  //                                   Icons.close,
-  //                                   size: 30,
-  //                                   color: Color.fromARGB(255, 0, 0, 0),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       const Divider(
-  //                         color: Color.fromARGB(255, 185, 185, 185),
-  //                       ),
-  //                       const SizedBox(
-  //                         height: 10,
-  //                       ),
-  //                       Padding(
-  //                         padding: const EdgeInsets.all(8.0),
-  //                         child: Container(
-  //                           decoration: BoxDecoration(
-  //                             borderRadius: const BorderRadius.all(
-  //                               Radius.circular(5),
-  //                             ),
-  //                             boxShadow: [
-  //                               BoxShadow(
-  //                                 color: Colors.grey.withAlpha(130),
-  //                                 spreadRadius: 0.2,
-  //                                 blurRadius: 2,
-  //                                 offset: const Offset(0, 1),
-  //                               )
-  //                             ],
-  //                             color: const Color.fromRGBO(251, 173, 55, 1),
-  //                           ),
-  //                           padding: const EdgeInsets.all(8),
-  //                           width: double.infinity,
-  //                           child: Column(children: [
-  //                             Row(
-  //                               children: [
-  //                                 Expanded(
-  //                                   child: RadioListTile(
-  //                                     activeColor: Colors.black,
-  //                                     contentPadding: const EdgeInsets.all(0.0),
-  //                                     value: '1',
-  //                                     groupValue: id,
-  //                                     title: Text(
-  //                                       'ลูกค้าทั่วไป',
-  //                                       style: MyContant().h4normalStyle(),
-  //                                     ),
-  //                                     onChanged: (value) {
-  //                                       setState(() {
-  //                                         st_customer = true;
-  //                                         st_employee = false;
-  //                                         id = value.toString();
-  //                                         statusLoad404approve = false;
-  //                                         searchData.clear();
-  //                                       });
-  //                                     },
-  //                                   ),
-  //                                 ),
-  //                                 Expanded(
-  //                                   child: RadioListTile(
-  //                                     activeColor: Colors.black,
-  //                                     value: '2',
-  //                                     groupValue: id,
-  //                                     title: Text(
-  //                                       'พนักงาน',
-  //                                       style: MyContant().h4normalStyle(),
-  //                                     ),
-  //                                     onChanged: (value) {
-  //                                       setState(() {
-  //                                         st_customer = false;
-  //                                         st_employee = true;
-  //                                         id = value.toString();
-  //                                         statusLoad404approve = false;
-  //                                         searchData.clear();
-  //                                       });
-  //                                     },
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                             if (st_employee == true) ...[
-  //                               Row(
-  //                                 children: [
-  //                                   Text(
-  //                                     'ชื่อ',
-  //                                     style: MyContant().h4normalStyle(),
-  //                                   ),
-  //                                   inputNameEmploDia(sizeIcon, border),
-  //                                   Text(
-  //                                     'สกุล',
-  //                                     style: MyContant().h4normalStyle(),
-  //                                   ),
-  //                                   inputLastNameEmploDia(sizeIcon, border),
-  //                                 ],
-  //                               ),
-  //                             ],
-  //                             if (st_customer == true) ...[
-  //                               Row(
-  //                                 children: [
-  //                                   Expanded(
-  //                                     child: Padding(
-  //                                       padding: const EdgeInsets.all(1),
-  //                                       child: Container(
-  //                                         height: MediaQuery.of(context)
-  //                                                 .size
-  //                                                 .width *
-  //                                             0.095,
-  //                                         padding: const EdgeInsets.all(4),
-  //                                         decoration: BoxDecoration(
-  //                                             color: Colors.white,
-  //                                             borderRadius:
-  //                                                 BorderRadius.circular(5)),
-  //                                         child: Padding(
-  //                                           padding:
-  //                                               const EdgeInsets.only(left: 4),
-  //                                           child: DropdownButton(
-  //                                             items: dropdown_customer
-  //                                                 .map((value) =>
-  //                                                     DropdownMenuItem(
-  //                                                       value: value['id'],
-  //                                                       child: Text(
-  //                                                         value['name'],
-  //                                                         style: MyContant()
-  //                                                             .textInputStyle(),
-  //                                                       ),
-  //                                                     ))
-  //                                                 .toList(),
-  //                                             onChanged: (newvalue) {
-  //                                               setState(() {
-  //                                                 selectValue_customer =
-  //                                                     newvalue;
-  //                                                 if (selectValue_customer
-  //                                                         .toString() ==
-  //                                                     "2") {
-  //                                                   Texthint = 'ชื่อ';
-  //                                                 } else {
-  //                                                   Texthint = '';
-  //                                                 }
-  //                                                 statusLoad404approve = false;
-  //                                                 searchData.clear();
-  //                                               });
-  //                                             },
-  //                                             value: selectValue_customer,
-  //                                             isExpanded: true,
-  //                                             underline: const SizedBox(),
-  //                                             hint: Align(
-  //                                               child: Text(
-  //                                                 'กรุณาเลือกข้อมูล',
-  //                                                 style: MyContant()
-  //                                                     .TextInputSelect(),
-  //                                               ),
-  //                                             ),
-  //                                           ),
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                   inputSearchCus(sizeIcon, border),
-  //                                   if (selectValue_customer.toString() ==
-  //                                       "2") ...[
-  //                                     inputLastnameCus(sizeIcon, border)
-  //                                   ],
-  //                                 ],
-  //                               ),
-  //                             ],
-  //                           ]),
-  //                         ),
-  //                       ),
-  //                       const SizedBox(
-  //                         height: 5,
-  //                       ),
-  //                       Padding(
-  //                         padding: const EdgeInsets.symmetric(horizontal: 8),
-  //                         child: Row(
-  //                           mainAxisAlignment: MainAxisAlignment.end,
-  //                           children: [
-  //                             SizedBox(
-  //                               height:
-  //                                   MediaQuery.of(context).size.height * 0.042,
-  //                               width: MediaQuery.of(context).size.width * 0.25,
-  //                               child: ElevatedButton(
-  //                                 style: MyContant().myButtonSearchStyle(),
-  //                                 onPressed: () {
-  //                                   if (id == '1') {
-  //                                     if (selectValue_customer == null ||
-  //                                         searchData.text.isEmpty &&
-  //                                             lastname.text.isEmpty) {
-  //                                       showProgressDialog(context, 'แจ้งเตือน',
-  //                                           'กรุณากรอกข้อมูล');
-  //                                     } else {
-  //                                       getData_search();
-  //                                     }
-  //                                   } else {
-  //                                     if (firstname_em.text.isEmpty &&
-  //                                         lastname_em.text.isEmpty) {
-  //                                       showProgressDialog(context, 'แจ้งเตือน',
-  //                                           'กรุณากรอกข้อมูล');
-  //                                     } else {
-  //                                       getData_search();
-  //                                     }
-  //                                   }
-  //                                 },
-  //                                 child: const Text('ค้นหา'),
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                       Padding(
-  //                         padding: const EdgeInsets.symmetric(horizontal: 8),
-  //                         child: Row(
-  //                           children: [
-  //                             Text(
-  //                               'รายการที่ค้นหา',
-  //                               style: MyContant().h2Style(),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                       const SizedBox(height: 10),
-  //                       SizedBox(
-  //                         height: MediaQuery.of(context).size.height * 0.5,
-  //                         child: Scrollbar(
-  //                           child: ListView(
-  //                             children: [
-  //                               if (list_datavalue.isNotEmpty) ...[
-  //                                 for (var i = 0;
-  //                                     i < list_datavalue.length;
-  //                                     i++) ...[
-  //                                   InkWell(
-  //                                     onTap: () {
-  //                                       setState(
-  //                                         () {
-  //                                           custId.text =
-  //                                               list_datavalue[i]['custId'];
-  //                                           Navigator.pop(context);
-  //                                           clearValueDialog();
-  //                                         },
-  //                                       );
-  //                                     },
-  //                                     child: Padding(
-  //                                       padding: const EdgeInsets.symmetric(
-  //                                           vertical: 4, horizontal: 8),
-  //                                       child: Container(
-  //                                         padding: const EdgeInsets.all(8.0),
-  //                                         decoration: BoxDecoration(
-  //                                           borderRadius:
-  //                                               const BorderRadius.all(
-  //                                                   Radius.circular(5)),
-  //                                           color: const Color.fromRGBO(
-  //                                               251, 173, 55, 1),
-  //                                           boxShadow: [
-  //                                             BoxShadow(
-  //                                               color: Colors.grey
-  //                                                   .withValues(alpha: 0.5),
-  //                                               spreadRadius: 0.2,
-  //                                               blurRadius: 2,
-  //                                               offset: const Offset(0, 1),
-  //                                             )
-  //                                           ],
-  //                                         ),
-  //                                         child: Column(
-  //                                           children: [
-  //                                             Row(
-  //                                               children: [
-  //                                                 Text(
-  //                                                   'รหัส : ${list_datavalue[i]['custId']}',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                               ],
-  //                                             ),
-  //                                             const SizedBox(
-  //                                               height: 5,
-  //                                             ),
-  //                                             Row(
-  //                                               children: [
-  //                                                 Text(
-  //                                                   'ชื่อ : ${list_datavalue[i]['custName']}',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                               ],
-  //                                             ),
-  //                                             const SizedBox(
-  //                                               height: 5,
-  //                                             ),
-  //                                             Row(
-  //                                               crossAxisAlignment:
-  //                                                   CrossAxisAlignment.start,
-  //                                               children: [
-  //                                                 Text(
-  //                                                   'ที่อยู่ : ',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                                 Expanded(
-  //                                                   child: Text(
-  //                                                     '${list_datavalue[i]['address']}',
-  //                                                     style: MyContant()
-  //                                                         .h4normalStyle(),
-  //                                                     overflow:
-  //                                                         TextOverflow.clip,
-  //                                                   ),
-  //                                                 ),
-  //                                               ],
-  //                                             ),
-  //                                             const SizedBox(
-  //                                               height: 5,
-  //                                             ),
-  //                                             Row(
-  //                                               crossAxisAlignment:
-  //                                                   CrossAxisAlignment.start,
-  //                                               children: [
-  //                                                 Text(
-  //                                                   'โทร : ',
-  //                                                   style: MyContant()
-  //                                                       .h4normalStyle(),
-  //                                                 ),
-  //                                                 Expanded(
-  //                                                   child: Text(
-  //                                                     '${list_datavalue[i]['telephone']}',
-  //                                                     style: MyContant()
-  //                                                         .h4normalStyle(),
-  //                                                     overflow:
-  //                                                         TextOverflow.clip,
-  //                                                   ),
-  //                                                 ),
-  //                                               ],
-  //                                             ),
-  //                                           ],
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ],
-  //                               ] else if (statusLoad404approve == true) ...[
-  //                                 Padding(
-  //                                   padding: const EdgeInsets.only(top: 100),
-  //                                   child: Column(
-  //                                     children: [
-  //                                       Row(
-  //                                         mainAxisAlignment:
-  //                                             MainAxisAlignment.center,
-  //                                         children: [
-  //                                           Image.asset(
-  //                                             'images/Nodata.png',
-  //                                             width: 55,
-  //                                             height: 55,
-  //                                           ),
-  //                                         ],
-  //                                       ),
-  //                                       Row(
-  //                                         mainAxisAlignment:
-  //                                             MainAxisAlignment.center,
-  //                                         children: [
-  //                                           Text(
-  //                                             'ไม่พบรายการข้อมูล',
-  //                                             style: MyContant().h5NotData(),
-  //                                           ),
-  //                                         ],
-  //                                       ),
-  //                                     ],
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       const SizedBox(
-  //                         height: 20,
-  //                       )
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -811,18 +234,24 @@ class _Page_Credit_ApprovalState extends State<Page_Credit_Approval> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const CustomerList(),
+                            //   ),
+                            // ).then((result) {
+                            //   if (result != null) {
+                            //     setState(() {
+                            //       custId.text = result['id'];
+                            //     });
+                            //   }
+                            // });
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const CustomerList(),
+                                builder: (context) => FixedTablePage(),
                               ),
-                            ).then((result) {
-                              if (result != null) {
-                                setState(() {
-                                  custId.text = result['id'];
-                                });
-                              }
-                            });
+                            );
                           },
                           child: const Icon(
                             Icons.search,
@@ -1590,6 +1019,7 @@ class _CustomerListState extends State<CustomerList> {
       list_datavalue = [];
       Texthint = '';
       statusLoad404approve = false;
+      isLoadScroll = false;
     });
     searchData.clear();
     firstname_em.clear();
@@ -1644,49 +1074,31 @@ class _CustomerListState extends State<CustomerList> {
                   child: Column(
                     children: [
                       Row(
-                        children: [
-                          Expanded(
+                        children: ['1', '2'].map((val) {
+                          final isCustomer = val == '1';
+                          return Expanded(
                             child: RadioListTile(
                               activeColor: Colors.black,
-                              // contentPadding: const EdgeInsets.all(0.0),
-                              value: '1',
+                              value: val,
                               groupValue: id,
                               title: Text(
-                                'ลูกค้าทั่วไป',
+                                isCustomer ? 'ลูกค้าทั่วไป' : 'พนักงาน',
                                 style: MyContant().h4normalStyle(),
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  st_customer = true;
-                                  st_employee = false;
+                                  st_customer = isCustomer;
+                                  st_employee = !isCustomer;
                                   id = value.toString();
-                                  // statusLoad404approve = false;
                                   searchData.clear();
                                 });
                               },
+                              visualDensity: VisualDensity.compact,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
                             ),
-                          ),
-                          Expanded(
-                            child: RadioListTile(
-                              activeColor: Colors.black,
-                              value: '2',
-                              groupValue: id,
-                              title: Text(
-                                'พนักงาน',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  st_customer = false;
-                                  st_employee = true;
-                                  id = value.toString();
-                                  // statusLoad404approve = false;
-                                  searchData.clear();
-                                });
-                              },
-                            ),
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                       if (st_employee == true) ...[
                         Row(
@@ -1709,7 +1121,7 @@ class _CustomerListState extends State<CustomerList> {
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(1),
+                                padding: const EdgeInsets.only(left: 7),
                                 child: Container(
                                   height:
                                       MediaQuery.of(context).size.width * 0.095,
@@ -1733,13 +1145,9 @@ class _CustomerListState extends State<CustomerList> {
                                       onChanged: (newvalue) {
                                         setState(() {
                                           selectValue_customer = newvalue;
-                                          if (selectValue_customer.toString() ==
-                                              "2") {
-                                            Texthint = 'ชื่อ';
-                                          } else {
-                                            Texthint = '';
-                                          }
-                                          // statusLoad404approve = false;
+                                          Texthint = newvalue.toString() == '2'
+                                              ? 'ชื่อ'
+                                              : '';
                                           searchData.clear();
                                         });
                                       },
@@ -2028,7 +1436,7 @@ class _CustomerListState extends State<CustomerList> {
   Expanded inputSearchCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: SizedBox(
           height: MediaQuery.of(context).size.width * 0.095,
           child: TextField(
@@ -2108,7 +1516,7 @@ class _CustomerListState extends State<CustomerList> {
   Expanded inputLastnameCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(0),
+        padding: const EdgeInsets.only(right: 4),
         child: SizedBox(
           height: MediaQuery.of(context).size.width * 0.095,
           child: TextField(

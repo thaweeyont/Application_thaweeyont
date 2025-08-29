@@ -67,100 +67,176 @@ class _AuthenState extends State<Authen> {
     });
   }
 
+  // Future<void> loginUser(username, password) async {
+  //   try {
+  //     var respose = await http.post(
+  //       Uri.parse('${api}authen/'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: jsonEncode(<String, String>{
+  //         'userName': username.toString(),
+  //         'passWord': password.toString(),
+  //       }),
+  //     );
+
+  //     if (respose.statusCode == 200) {
+  //       Map<String, dynamic> data =
+  //           Map<String, dynamic>.from(json.decode(respose.body));
+
+  //       if (data['status'] == 'success') {
+  //         var userId = data['data']['userId'];
+  //         var empId = data['data']['empId'];
+  //         var firstName = data['data']['firstName'];
+  //         var lastName = data['data']['lastName'];
+  //         var tokenId = data['data']['tokenId'];
+  //         var branchId = data['data']['branchId'];
+  //         var branchName = data['data']['branchName'];
+  //         var branchAreaId = data['data']['branchAreaId'];
+  //         var branchAreaName = data['data']['branchAreaName'];
+  //         var appGroupId = data['data']['appGroupId'];
+  //         var appGroupName = data['data']['appGroupName'];
+  //         bool allowApproveStatus = data['data']['allowApproveStatus'];
+  //         List dataMenu = data['data']['allowedMenu'];
+  //         final List<String> allowedMenu =
+  //             dataMenu.map((e) => e.toString()).toList();
+
+  //         SharedPreferences preferences = await SharedPreferences.getInstance();
+  //         preferences.setString('userId', userId!);
+  //         preferences.setString('empId', empId!);
+  //         preferences.setString('firstName', firstName!);
+  //         preferences.setString('lastName', lastName!);
+  //         preferences.setString('tokenId', tokenId!);
+  //         preferences.setString('branchId', branchId);
+  //         preferences.setString('branchName', branchName);
+  //         preferences.setString('branchAreaId', branchAreaId);
+  //         preferences.setString('branchAreaName', branchAreaName);
+  //         preferences.setString('appGroupId', appGroupId);
+  //         preferences.setString('appGroupName', appGroupName);
+  //         preferences.setBool('allowApproveStatus', allowApproveStatus);
+  //         preferences.setStringList('allowedMenu', allowedMenu);
+  //         preferences.setString('username', username);
+  //         preferences.setString('password', password);
+
+  //         Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => NavigatorBarMenu('2')),
+  //           (Route<dynamic> route) => false,
+  //         );
+  //       } else {
+  //         print('ไม่มีข้อมูล');
+  //       }
+  //     } else if (respose.statusCode == 401) {
+  //       SharedPreferences preferences = await SharedPreferences.getInstance();
+  //       preferences.clear();
+  //       Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => const Authen(),
+  //         ),
+  //         (Route<dynamic> route) => false,
+  //       );
+  //       showProgressDialog_401(
+  //           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+  //     } else {
+  //       Map<String, dynamic> check_list =
+  //           Map<String, dynamic>.from(json.decode(respose.body));
+
+  //       print(check_list['message']);
+  //       if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
+  //         SharedPreferences preferences = await SharedPreferences.getInstance();
+  //         preferences.clear();
+  //         print('ไม่พบชื่อเข้าใช้ระบบ');
+  //         showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบชื่อเข้าใช้ระบบ');
+  //       } else if (check_list['message'] == "รหัสผ่านผิด") {
+  //         print('รหัสผ่านผิด');
+  //         showProgressDialog(context, 'แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');
+  //       } else if (check_list['message'] ==
+  //           "ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ") {
+  //         SharedPreferences preferences = await SharedPreferences.getInstance();
+  //         preferences.clear();
+  //         showProgressDialog(context, 'แจ้งเตือน',
+  //             'ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ');
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print("ไม่มีข้อมูล $e");
+  //   }
+  // }
+
   Future<void> loginUser(username, password) async {
     try {
-      var respose = await http.post(
+      final response = await http.post(
         Uri.parse('${api}authen/'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(<String, String>{
-          'userName': username.toString(),
-          'passWord': password.toString(),
-        }),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'userName': username, 'passWord': password}),
       );
 
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> data =
-            Map<String, dynamic>.from(json.decode(respose.body));
+      final prefs = await SharedPreferences.getInstance();
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
 
         if (data['status'] == 'success') {
-          var userId = data['data']['userId'];
-          var empId = data['data']['empId'];
-          var firstName = data['data']['firstName'];
-          var lastName = data['data']['lastName'];
-          var tokenId = data['data']['tokenId'];
-          var branchId = data['data']['branchId'];
-          var branchName = data['data']['branchName'];
-          var branchAreaId = data['data']['branchAreaId'];
-          var branchAreaName = data['data']['branchAreaName'];
-          var appGroupId = data['data']['appGroupId'];
-          var appGroupName = data['data']['appGroupName'];
-          bool allowApproveStatus = data['data']['allowApproveStatus'];
-          List dataMenu = data['data']['allowedMenu'];
-          final List<String> allowedMenu =
-              dataMenu.map((e) => e.toString()).toList();
+          final d = data['data'];
 
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.setString('userId', userId!);
-          preferences.setString('empId', empId!);
-          preferences.setString('firstName', firstName!);
-          preferences.setString('lastName', lastName!);
-          preferences.setString('tokenId', tokenId!);
-          preferences.setString('branchId', branchId);
-          preferences.setString('branchName', branchName);
-          preferences.setString('branchAreaId', branchAreaId);
-          preferences.setString('branchAreaName', branchAreaName);
-          preferences.setString('appGroupId', appGroupId);
-          preferences.setString('appGroupName', appGroupName);
-          preferences.setBool('allowApproveStatus', allowApproveStatus);
-          preferences.setStringList('allowedMenu', allowedMenu);
-          preferences.setString('username', username);
-          preferences.setString('password', password);
+          // เก็บค่าใน SharedPreferences
+          await prefs.setString('userId', d['userId'] ?? '');
+          await prefs.setString('empId', d['empId'] ?? '');
+          await prefs.setString('firstName', d['firstName'] ?? '');
+          await prefs.setString('lastName', d['lastName'] ?? '');
+          await prefs.setString('tokenId', d['tokenId'] ?? '');
+          await prefs.setString('branchId', d['branchId'] ?? '');
+          await prefs.setString('branchName', d['branchName'] ?? '');
+          await prefs.setString('branchAreaId', d['branchAreaId'] ?? '');
+          await prefs.setString('branchAreaName', d['branchAreaName'] ?? '');
+          await prefs.setString('appGroupId', d['appGroupId'] ?? '');
+          await prefs.setString('appGroupName', d['appGroupName'] ?? '');
+          await prefs.setBool(
+              'allowApproveStatus', d['allowApproveStatus'] ?? false);
+          await prefs.setStringList(
+            'allowedMenu',
+            (d['allowedMenu'] as List).map((e) => e.toString()).toList(),
+          );
+          await prefs.setString('username', username);
+          await prefs.setString('password', password);
 
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => Navigator_bar_credit('2')),
-            (Route<dynamic> route) => false,
+            MaterialPageRoute(builder: (context) => NavigatorBarMenu('2')),
+            (_) => false,
           );
         } else {
           print('ไม่มีข้อมูล');
         }
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+      } else if (response.statusCode == 401) {
+        await prefs.clear();
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
+          MaterialPageRoute(builder: (_) => const Authen()),
+          (_) => false,
         );
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        Map<String, dynamic> check_list =
-            Map<String, dynamic>.from(json.decode(respose.body));
+        final error = json.decode(response.body) as Map<String, dynamic>;
+        final message = error['message'] ?? '';
 
-        print(check_list['message']);
-        if (check_list['message'] == "ไม่พบชื่อเข้าใช้ระบบ") {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.clear();
-          print('ไม่พบชื่อเข้าใช้ระบบ');
+        if (message == "ไม่พบชื่อเข้าใช้ระบบ") {
+          await prefs.clear();
           showProgressDialog(context, 'แจ้งเตือน', 'ไม่พบชื่อเข้าใช้ระบบ');
-        } else if (check_list['message'] == "รหัสผ่านผิด") {
-          print('รหัสผ่านผิด');
+        } else if (message == "รหัสผ่านผิด") {
           showProgressDialog(context, 'แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');
-        } else if (check_list['message'] ==
+        } else if (message ==
             "ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ") {
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          preferences.clear();
-          showProgressDialog(context, 'แจ้งเตือน',
-              'ไม่สามารถใช้ Application ได้ กรุณาติดต่อผู้ดูแลระบบ');
+          await prefs.clear();
+          showProgressDialog(context, 'แจ้งเตือน', message);
+        } else {
+          print('Error: $message');
         }
       }
     } catch (e) {
-      print("ไม่มีข้อมูล $e");
+      print("เกิดข้อผิดพลาด $e");
     }
   }
 

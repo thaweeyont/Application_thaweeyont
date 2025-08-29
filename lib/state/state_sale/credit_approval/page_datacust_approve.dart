@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_sale/credit_approval/data_list_quarantee.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';

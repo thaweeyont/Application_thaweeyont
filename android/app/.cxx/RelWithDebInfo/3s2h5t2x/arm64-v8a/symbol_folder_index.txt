@@ -1,0 +1,1 @@
+/Users/twy_mac/thaweeyont/application_thaweeyont/build/app/intermediates/cxx/RelWithDebInfo/3s2h5t2x/obj/arm64-v8a

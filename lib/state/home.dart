@@ -7,14 +7,14 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 export 'disconnect.dart';
 
-class Home_credit extends StatefulWidget {
-  const Home_credit({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<Home_credit> createState() => _Home_creditState();
+  State<Home> createState() => _HomeState();
 }
 
-class _Home_creditState extends State<Home_credit> {
+class _HomeState extends State<Home> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   bool? allowApproveStatus;
   DateTime selectedDate = DateTime.now();
@@ -45,11 +45,15 @@ class _Home_creditState extends State<Home_credit> {
 
   void selectDatenow() {
     formattedDate = DateFormat('EEE d MMM').format(selectedDate);
-    var formattedYear = DateFormat('yyyy').format(selectedDate);
-
-    var yearnow = int.parse(formattedYear);
-    year = [yearnow, 543].reduce((value, element) => value + element);
+    year = selectedDate.year + 543;
   }
+  // void selectDatenow() {
+  //   formattedDate = DateFormat('EEE d MMM').format(selectedDate);
+  //   var formattedYear = DateFormat('yyyy').format(selectedDate);
+
+  //   var yearnow = int.parse(formattedYear);
+  //   year = [yearnow, 543].reduce((value, element) => value + element);
+  // }
 
   @override
   Widget build(BuildContext context) {
