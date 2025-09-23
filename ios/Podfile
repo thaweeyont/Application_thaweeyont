@@ -49,22 +49,22 @@ post_install do |installer|
   end
 
   # ✅ Fix shellScript = (...) to string
-  project_path = File.join(__dir__, 'Runner.xcodeproj', 'project.pbxproj')
-  if File.exist?(project_path)
-    text = File.read(project_path)
-    changed = false
-    text.gsub!(/shellScript = \((.*?)\);/m) do |_match|
-      script_lines = $1.strip.split(",\n").map { |line| line.strip.gsub(/^"|"$/, '') }
-      combined_script = script_lines.join("\\n").gsub('"', '\"')
-      changed = true
-      "shellScript = \"#{combined_script}\";"
-    end
+  # project_path = File.join(__dir__, 'Runner.xcodeproj', 'project.pbxproj')
+  # if File.exist?(project_path)
+  #   text = File.read(project_path)
+  #   changed = false
+  #   text.gsub!(/shellScript = \((.*?)\);/m) do |_match|
+  #     script_lines = $1.strip.split(",\n").map { |line| line.strip.gsub(/^"|"$/, '') }
+  #     combined_script = script_lines.join("\\n").gsub('"', '\"')
+  #     changed = true
+  #     "shellScript = \"#{combined_script}\";"
+  #   end
 
-    if changed
-      puts "✅ Fixed shellScript format in project.pbxproj"
-      File.write(project_path, text)
-    else
-      puts "✅ No shellScript array found — nothing to fix"
-    end
-  end
+  #   if changed
+  #     puts "✅ Fixed shellScript format in project.pbxproj"
+  #     File.write(project_path, text)
+  #   else
+  #     puts "✅ No shellScript array found — nothing to fix"
+  #   end
+  # end
 end

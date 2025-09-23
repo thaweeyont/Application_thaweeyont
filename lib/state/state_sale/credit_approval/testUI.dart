@@ -2,9 +2,14 @@ import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
-class FixedTablePage extends StatelessWidget {
-  FixedTablePage({super.key});
+class FixedTablePage extends StatefulWidget {
+  const FixedTablePage({super.key});
 
+  @override
+  State<FixedTablePage> createState() => _FixedTablePageState();
+}
+
+class _FixedTablePageState extends State<FixedTablePage> {
   // ---- tableData ----
   final Map<String, dynamic> tableData = {
     "headers": {
@@ -371,129 +376,231 @@ class FixedTablePage extends StatelessWidget {
     ]
   };
 
+  // --- Layout constants ---
+  static const double leftColWidth = 200;
+  static const double cellWidth = 100;
+  static const double simpleHeaderHeight = 60;
+  static const double groupHeaderTop = 30;
+  static const double groupHeaderSub = 30;
+  static const double rowHeight = 70;
+
+  // --- Scroll controllers (sync X & Y) ---
+  final ScrollController _hHeaderCtrl = ScrollController();
+  final ScrollController _hBodyCtrl = ScrollController();
+  final ScrollController _vLeftCtrl = ScrollController();
+  final ScrollController _vBodyCtrl = ScrollController();
+
+  bool _syncingHFromHeader = false;
+  bool _syncingHFromBody = false;
+  bool _syncingVFromLeft = false;
+  bool _syncingVFromBody = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // sync horizontal: header <-> body
+    _hHeaderCtrl.addListener(() {
+      if (_syncingHFromBody) return;
+      _syncingHFromHeader = true;
+      _hBodyCtrl.jumpTo(_hHeaderCtrl.offset);
+      _syncingHFromHeader = false;
+    });
+    _hBodyCtrl.addListener(() {
+      if (_syncingHFromHeader) return;
+      _syncingHFromBody = true;
+      _hHeaderCtrl.jumpTo(_hBodyCtrl.offset);
+      _syncingHFromBody = false;
+    });
+
+    // sync vertical: left column <-> body
+    _vLeftCtrl.addListener(() {
+      if (_syncingVFromBody) return;
+      _syncingVFromLeft = true;
+      _vBodyCtrl.jumpTo(_vLeftCtrl.offset);
+      _syncingVFromLeft = false;
+    });
+    _vBodyCtrl.addListener(() {
+      if (_syncingVFromLeft) return;
+      _syncingVFromBody = true;
+      _vLeftCtrl.jumpTo(_vBodyCtrl.offset);
+      _syncingVFromBody = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _hHeaderCtrl.dispose();
+    _hBodyCtrl.dispose();
+    _vLeftCtrl.dispose();
+    _vBodyCtrl.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final fixedHeader = tableData["headers"]["fixed"] as List;
-    final columns = tableData["headers"]["columns"] as List;
-    final groups = tableData["headers"]["groups"] as Map;
+    final columns = (tableData["headers"]["columns"] as List).cast<String>();
+    final groups = (tableData["headers"]["groups"] as Map).cast<String, List>();
     final rows = tableData["rows"] as List;
 
     return Scaffold(
-      appBar: const CustomAppbar(title: 'รายงาน SKU SLAE'),
-      body: Column(
-        children: [
-          // ================= รายละเอียดหัวรายงาน =================
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: const CustomAppbar(title: 'รายงาน SKU SALE'),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            // ======= รายละเอียดหัวรายงาน (คงที่) =======
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildInfoBox("รายงาน SKU SALE", isCenter: true),
+                  const SizedBox(height: 5),
+                  _buildInfoBox(
+                      "กลุ่มสินค้า : เครื่องใช้ไฟฟ้าในบ้าน   ประเภท : เครื่องซักผ้า"),
+                  _buildInfoBox("ณ วันที่ : 19/08/2568"),
+                  _buildInfoBox("ผู้จำหน่าย : บริษัท ทวียนต์มาเก็ตติ้ง จำกัด"),
+                  _buildInfoBox("ช่องทางการขาย : ทั้งหมด"),
+                ],
+              ),
+            ),
+
+            // ======= ตารางหลัก (หัวคงที่ + ซิงก์สก롤) =======
+            // โครงสร้าง:
+            // Row( [ LeftTopFixed , RightHeaderScrollable ] )
+            // Expanded Row(
+            //   [ LeftColumnScrollable(vertical) , RightBodyScrollable(h & v, h sync with header, v sync with left) ]
+            // )
+            // ทำให้หัวฝั่งขวาและข้อมูลเลื่อนซ้ายขวาพร้อมกัน
+            // และคอลัมน์ซ้ายเลื่อนขึ้นลงพร้อมกับข้อมูล
+            Row(
               children: [
-                _buildInfoBox("รายงาน SKU SALE", isCenter: true),
-                const SizedBox(height: 5),
-                _buildInfoBox(
-                    "กลุ่มสินค้า : เครื่องใช้ไฟฟ้าในบ้าน   ประเภท : เครื่องซักผ้า"),
-                _buildInfoBox("ณ วันที่ : 19/08/2568"),
-                _buildInfoBox("ผู้จำหน่าย : บริษัท ทวียนต์มาเก็ตติ้ง จำกัด"),
-                _buildInfoBox("ช่องทางการขาย : ทั้งหมด"),
+                // มุมซ้ายบน (หัวคอลัมน์)
+                _buildHeaderCell(fixedHeader.first,
+                    width: leftColWidth, height: simpleHeaderHeight),
+                // หัวตารางฝั่งขวา (scroll แนวนอน)
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: _hHeaderCtrl,
+                    scrollDirection: Axis.horizontal,
+                    child: _buildHeaderRight(columns, groups),
+                  ),
+                ),
               ],
             ),
-          ),
 
-          // ================= ตาราง =================
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ---- คอลัมน์ซ้าย (ล็อคไว้) ----
-                    Container(
-                      width: 200,
-                      color: Colors.purple[50],
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // คอลัมน์ซ้าย (ล็อค) แต่เลื่อนแนวตั้งร่วมกับบอดี้
+                  SizedBox(
+                    width: leftColWidth,
+                    child: SingleChildScrollView(
+                      controller: _vLeftCtrl,
+                      scrollDirection: Axis.vertical,
                       child: Column(
-                        children: [
-                          _buildHeaderCell(fixedHeader.first,
-                              height: 60, width: 200),
-                          ...rows.map(
-                            (row) => _buildCell(row["model"].toString(),
-                                height: 70,
-                                width: 200,
-                                alignment: Alignment.centerLeft),
-                          ),
-                        ],
+                        children: rows.map((row) {
+                          return _buildCell(
+                            row["model"].toString(),
+                            width: leftColWidth,
+                            height: rowHeight,
+                            alignment: Alignment.centerLeft,
+                          );
+                        }).toList(),
                       ),
                     ),
+                  ),
 
-                    // ---- ส่วนขวา (เลื่อนแนวนอน) ----
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Column(
-                          children: [
-                            // Header 2 แถว
-                            Row(
-                              children: [
-                                ...columns.map(
-                                  (c) => _buildHeaderCell(c,
-                                      width: 100, height: 60),
-                                ),
-                                ...groups.entries.map((entry) {
-                                  return Column(
-                                    children: [
-                                      _buildHeaderCell(entry.key,
-                                          width: entry.value.length * 100.0,
-                                          height: 30),
-                                      Row(
-                                        children: entry.value
-                                            .map<Widget>((sub) =>
-                                                _buildHeaderCell(sub,
-                                                    width: 100, height: 30))
-                                            .toList(),
-                                      )
-                                    ],
-                                  );
-                                }),
-                              ],
-                            ),
-
-                            // ข้อมูล
-                            ...rows.map((row) {
+                  // บอดี้ฝั่งขวา (เลื่อน 2 แกน) + ซิงก์แนวนอนกับหัว และแนวตั้งกับคอลัมน์ซ้าย
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: _hBodyCtrl,
+                      scrollDirection: Axis.horizontal,
+                      child: SizedBox(
+                        // กำหนดความกว้างรวมของบอดี้ = คอลัมน์ธรรมดา + คอลัมน์ย่อยในกรุ๊ป
+                        width: _calcBodyWidth(columns, groups),
+                        child: SingleChildScrollView(
+                          controller: _vBodyCtrl,
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            children: rows.map((row) {
+                              final List cells = row["data"] as List;
                               return Row(
-                                children:
-                                    (row["data"] as List).map<Widget>((cell) {
-                                  return _buildCell(cell.toString(),
-                                      width: 100,
-                                      height: 70,
-                                      alignment: Alignment.centerRight);
+                                children: cells.map<Widget>((cell) {
+                                  return _buildCell(
+                                    cell.toString(),
+                                    width: cellWidth,
+                                    height: rowHeight,
+                                    alignment: Alignment.centerRight,
+                                  );
                                 }).toList(),
                               );
-                            }),
-                          ],
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 35),
+          ],
+        ),
       ),
     );
   }
 
-  // ---- UI Helper ----
+  // ---------- Header Right (2 ชั้น: columns + groups) ----------
+  Widget _buildHeaderRight(List<String> columns, Map<String, List> groups) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // simple columns
+        ...columns.map(
+          (c) =>
+              _buildHeaderCell(c, width: cellWidth, height: simpleHeaderHeight),
+        ),
+        // grouped headers
+        ...groups.entries.map((entry) {
+          final subs = entry.value;
+          return Column(
+            children: [
+              _buildHeaderCell(entry.key,
+                  width: subs.length * cellWidth, height: groupHeaderTop),
+              Row(
+                children: subs
+                    .map<Widget>((sub) => _buildHeaderCell(sub.toString(),
+                        width: cellWidth, height: groupHeaderSub))
+                    .toList(),
+              ),
+            ],
+          );
+        }),
+      ],
+    );
+  }
+
+  double _calcBodyWidth(List<String> columns, Map<String, List> groups) {
+    final simpleCols = columns.length;
+    final groupedCols =
+        groups.values.fold<int>(0, (sum, list) => sum + list.length);
+    return (simpleCols + groupedCols) * cellWidth;
+  }
+
+  // ---------------- UI Helper ----------------
   Widget _buildHeaderCell(String text,
-      {double width = 100, double height = 70}) {
+      {double width = 100, double height = 50}) {
     return Container(
       width: width,
       height: height,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.purple),
-        color: Colors.purple[100],
+        border: Border.all(color: Color.fromRGBO(239, 204, 249, 1)),
+        color: Color.fromRGBO(249, 233, 249, 1),
       ),
       child: Text(
         text,
@@ -506,7 +613,7 @@ class FixedTablePage extends StatelessWidget {
   Widget _buildCell(
     String text, {
     double width = 100,
-    double height = 70,
+    double height = 50,
     Alignment alignment = Alignment.center,
   }) {
     return Container(
@@ -515,7 +622,7 @@ class FixedTablePage extends StatelessWidget {
       alignment: alignment,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.purple),
+        border: Border.all(color: Color.fromRGBO(239, 204, 249, 1)),
         color: Colors.white,
       ),
       child: Text(
@@ -531,7 +638,7 @@ class FixedTablePage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.purple),
+        border: Border.all(color: Color.fromRGBO(239, 204, 249, 1)),
         color: Colors.purple[50],
       ),
       child: Text(

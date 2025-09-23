@@ -1624,7 +1624,7 @@ class _BranchSalesState extends State<BranchSales> {
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
               color: ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
-                      appGroupId == '003')
+                      (appGroupId == '003' || appGroupId == '011'))
                   ? Colors.white
                   : Colors.grey[200],
               borderRadius: BorderRadius.circular(5)),
@@ -1646,7 +1646,7 @@ class _BranchSalesState extends State<BranchSales> {
                   .toList(),
               onChanged:
                   ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
-                          appGroupId == '003')
+                          (appGroupId == '003' || appGroupId == '011'))
                       ? (String? newvalue) {
                           setState(() {
                             selectBranchlist = newvalue;

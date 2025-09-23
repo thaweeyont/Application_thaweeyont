@@ -234,24 +234,24 @@ class _PageCreditApprovalState extends State<PageCreditApproval> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const CustomerList(),
-                            //   ),
-                            // ).then((result) {
-                            //   if (result != null) {
-                            //     setState(() {
-                            //       custId.text = result['id'];
-                            //     });
-                            //   }
-                            // });
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => FixedTablePage(),
+                                builder: (context) => const CustomerList(),
                               ),
-                            );
+                            ).then((result) {
+                              if (result != null) {
+                                setState(() {
+                                  custId.text = result['id'];
+                                });
+                              }
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => FixedTablePage(),
+                            //   ),
+                            // );
                           },
                           child: const Icon(
                             Icons.search,
