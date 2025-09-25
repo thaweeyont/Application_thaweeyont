@@ -37,7 +37,7 @@ def keystoreProperties = new Properties()
 
    android {
     compileSdkVersion 35
-    ndkVersion flutter.ndkVersion
+    ndkVersion "28.2.13676358"
     namespace 'thaweeyont.com.application_thaweeyont'
 
     compileOptions {
@@ -53,39 +53,38 @@ def keystoreProperties = new Properties()
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "thaweeyont.com.application_thaweeyont"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 23
         targetSdkVersion 35
-        versionCode 49
+        versionCode 50
         versionName '1.7.19'
 
         ndk {
             // ระบุ ABI ให้ครบทุกสถาปัตยกรรมที่ใช้
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
-        externalNativeBuild {
-            cmake {
-                // บังคับให้ linker ใช้ page size 16 KB
-                cppFlags "-Wl,-z,max-page-size=16384"
-            }
-        }
     }
 
-       signingConfigs {
-       release {
-           keyAlias keystoreProperties['keyAlias']
-           keyPassword keystoreProperties['keyPassword']
-           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-           storePassword keystoreProperties['storePassword']
-       }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
    }
    buildTypes {
        release {
            signingConfig signingConfigs.release
+           minifyEnabled false
+           shrinkResources false
        }
    }
 

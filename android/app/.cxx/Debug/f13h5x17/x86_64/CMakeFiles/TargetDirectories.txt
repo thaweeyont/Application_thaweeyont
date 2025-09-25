@@ -1,0 +1,2 @@
+/Users/twy_mac/thaweeyont/application_thaweeyont/android/app/.cxx/Debug/f13h5x17/x86_64/CMakeFiles/edit_cache.dir
+/Users/twy_mac/thaweeyont/application_thaweeyont/android/app/.cxx/Debug/f13h5x17/x86_64/CMakeFiles/rebuild_cache.dir

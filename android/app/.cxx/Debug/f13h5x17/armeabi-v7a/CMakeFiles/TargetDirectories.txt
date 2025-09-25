@@ -1,0 +1,2 @@
+/Users/twy_mac/thaweeyont/application_thaweeyont/android/app/.cxx/Debug/f13h5x17/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/twy_mac/thaweeyont/application_thaweeyont/android/app/.cxx/Debug/f13h5x17/armeabi-v7a/CMakeFiles/rebuild_cache.dir
