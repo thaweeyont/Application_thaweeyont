@@ -63,7 +63,7 @@ def keystoreProperties = new Properties()
         applicationId "thaweeyont.com.application_thaweeyont"
         minSdkVersion 23
         targetSdkVersion 35
-        versionCode 50
+        versionCode 51
         versionName '1.7.19'
 
         ndk {
