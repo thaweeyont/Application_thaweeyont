@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
-import '../../utility/my_constant.dart';
-import '../../widgets/custom_appbar.dart';
+import '../../../utility/my_constant.dart';
+import '../../../widgets/custom_appbar.dart';
 
 class BranchSalesDetail extends StatefulWidget {
   final Map<String, dynamic> saleBranchList;

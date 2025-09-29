@@ -5,7 +5,7 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/about.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/check_blacklist_data.dart';
 import 'package:application_thaweeyont/state/state_mechanical/mechanical.dart';
-import 'package:application_thaweeyont/state/state_order/branchsales.dart';
+import 'package:application_thaweeyont/state/state_order/branchsale/branchsales.dart';
 import 'package:application_thaweeyont/state/state_payment/payment/searchpaymentreport.dart';
 import 'package:application_thaweeyont/state/state_sale/credit_approval/page_credit_approval.dart';
 import 'package:application_thaweeyont/state/home.dart';
@@ -19,6 +19,7 @@ import 'package:http/http.dart' as http;
 
 import 'authen.dart';
 import 'state_cus_relations/check_purchase_info/page_checkpurchase_info.dart';
+import 'state_order/skusale/searchskusales.dart';
 
 class NavigatorBarMenu extends StatefulWidget {
   String? index;
@@ -182,6 +183,13 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
           status = false;
         });
         break;
+      case "11":
+        setState(() {
+          _selectedIndex = 11;
+          titleHead = "รายงาน SKU Sale";
+          status = false;
+        });
+        break;
       default:
         {
           setState(() {
@@ -207,7 +215,8 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
     const ProductStockData(),
     const Mechanical(),
     const SearchPaymentReport(),
-    const BranchSales()
+    const BranchSales(),
+    // const SearchSKUSale()
   ];
 
   @override
@@ -333,6 +342,9 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
         break;
       case '009':
         selectIndex = 9;
+        break;
+      case '011':
+        selectIndex = 11;
         break;
     }
     return selectIndex;
@@ -674,6 +686,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
               children: [
                 drawerIcon(size),
                 listMenu(context, size),
+                skusale(context, size),
                 about(context, size),
                 btnLogout(context, size),
                 const SizedBox(height: 10),
@@ -899,13 +912,13 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
     );
   }
 
-  InkWell payment(BuildContext context, double size) {
+  InkWell skusale(BuildContext context, double size) {
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const SearchPaymentReport(),
+            builder: (context) => const SearchSKUSale(),
           ),
         );
       },
@@ -915,19 +928,19 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
-          color: Color.fromRGBO(226, 199, 132, 1),
+          color: Color.fromRGBO(239, 191, 239, 1),
         ),
         child: const Column(
           children: [
             Row(
               children: [
                 Icon(
-                  Icons.payments_outlined,
+                  Icons.insert_chart_outlined,
                   color: Colors.white,
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "รายงานการจ่ายเงิน",
+                  "รายงาน SKU Sale",
                   style: TextStyle(
                       color: Colors.white, fontSize: 16, fontFamily: 'Prompt'),
                 ),

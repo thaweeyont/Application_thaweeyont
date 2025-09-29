@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:application_thaweeyont/state/state_order/detailbrancharea_all.dart';
+import 'package:application_thaweeyont/state/state_order/branchsale/detailbrancharea_all.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,9 +8,9 @@ import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../../api.dart';
-import '../../widgets/custom_appbar.dart';
-import '../authen.dart';
+import '../../../api.dart';
+import '../../../widgets/custom_appbar.dart';
+import '../../authen.dart';
 import 'branchsalesdetail.dart';
 
 class BranchSalesList extends StatefulWidget {
