@@ -36,7 +36,7 @@ def keystoreProperties = new Properties()
    }
 
    android {
-    compileSdkVersion 35
+    compileSdkVersion 36
     ndkVersion "28.2.13676358"
     namespace 'thaweeyont.com.application_thaweeyont'
 
@@ -61,8 +61,8 @@ def keystoreProperties = new Properties()
 
     defaultConfig {
         applicationId "thaweeyont.com.application_thaweeyont"
-        minSdkVersion 23
-        targetSdkVersion 35
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
         versionCode 51
         versionName '1.7.19'
 

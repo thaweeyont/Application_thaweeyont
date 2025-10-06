@@ -102,6 +102,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
         selectedPayments.removeWhere(
             (id) => id == listPayment[index]['paymentTranId'].toString());
       }
+      print('id> $selectedPayments');
     });
   }
 
