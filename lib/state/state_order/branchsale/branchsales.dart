@@ -1310,12 +1310,15 @@ class _BranchSalesState extends State<BranchSales> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  child: Radio(
+                                  child: Radio<String>(
+                                    // ignore: deprecated_member_use
                                     value: item["id"].toString(),
+                                    // ignore: deprecated_member_use
                                     groupValue: selectedtargetType,
+                                    // ignore: deprecated_member_use
                                     onChanged: (value) {
                                       setState(() {
-                                        selectedtargetType = value;
+                                        selectedtargetType = value!;
                                       });
                                     },
                                     fillColor:
@@ -1329,10 +1332,9 @@ class _BranchSalesState extends State<BranchSales> {
                                         return Colors.black; // สีปกติ
                                       },
                                     ),
-                                    visualDensity: VisualDensity
-                                        .compact, // ลด padding รอบ Radio
-                                    materialTapTargetSize: MaterialTapTargetSize
-                                        .shrinkWrap, // ลดขนาด hitbox
+                                    visualDensity: VisualDensity.compact,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                   ),
                                 ),
                                 Text(
@@ -1342,9 +1344,41 @@ class _BranchSalesState extends State<BranchSales> {
                               ],
                             );
                           }).toList(),
-                        ),
+                        )
                       ],
-                    )
+                    ),
+                    // Row(
+                    //   children: [
+                    //     SizedBox(
+                    //       width: MediaQuery.of(context).size.width * 0.22,
+                    //       child: Text(
+                    //         '',
+                    //         style: MyContant().h4normalStyle(),
+                    //         textAlign: TextAlign.right,
+                    //       ),
+                    //     ),
+                    //     Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: targetType.map((item) {
+                    //         final id = item["id"].toString();
+                    //         return Row(
+                    //           children: [
+                    //             RadioGroup<String>(
+                    //               onChanged: (value) {
+                    //                 setState(() {
+                    //                   selectedtargetType = value;
+                    //                 });
+                    //               },
+                    //               value: id,
+                    //               selected: selectedtargetType,
+                    //               child: Row(),
+                    //             )
+                    //           ],
+                    //         );
+                    //       }).toList(),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
