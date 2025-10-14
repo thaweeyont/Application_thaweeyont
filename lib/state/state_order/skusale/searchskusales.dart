@@ -63,7 +63,9 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
       selectedMonth4,
       selectYearlist4;
   dynamic idGrouplist, idTypelist, idColorlist, idSupplylist;
+  String itemGroupIds = '';
   bool isCheckAll = false, isLoadingbranchProvince = false;
+  List<Map<String, dynamic>> selectedGroupList = [];
   DateTime selectedDate = DateTime.now();
 
   TextEditingController itemGroup = TextEditingController();
@@ -508,10 +510,20 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   ),
                                 ),
                               ).then((result) {
-                                if (result != null) {
+                                if (result != null && result is List) {
                                   setState(() {
-                                    itemGroup.text = result['name'];
-                                    idGrouplist = result['id'];
+                                    selectedGroupList =
+                                        List<Map<String, dynamic>>.from(result);
+                                    // แสดงชื่อใน TextField
+                                    itemGroup.text = selectedGroupList
+                                        .map((e) => e['name'].toString())
+                                        .join(', ');
+
+                                    // เก็บ id สำหรับส่ง API (เช่น 01,05,07)
+                                    itemGroupIds = selectedGroupList
+                                        .map((e) => e['id'].toString())
+                                        .join(',');
+                                    print('itemGroupIds: $itemGroupIds');
                                   });
                                 }
                               });
@@ -551,7 +563,9 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ItemTypeList(
-                                    valueGrouplist: idGrouplist,
+                                    valueGrouplist: selectedGroupList
+                                        .map((e) => e['id'].toString())
+                                        .toList(),
                                     source: "TypeList",
                                   ),
                                 ),
@@ -2285,7 +2299,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
       isLoadScroll = false,
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
-  int offset = 50, stquery = 0;
+  int offset = 30, stquery = 0;
   List<bool> isCheckedList = [];
   Set<String> selectedGroupSet = {};
   List<Map<String, String>> selectedGroupList = [];
@@ -2314,20 +2328,6 @@ class _ItemGroupListState extends State<ItemGroupList> {
     myScroll(scrollControll, offset);
   }
 
-  // void myScroll(ScrollController scrollController, int offset) {
-  //   scrollController.addListener(() async {
-  //     if (scrollController.position.pixels ==
-  //         scrollController.position.maxScrollExtent) {
-  //       setState(() {
-  //         isLoadScroll = true;
-  //       });
-  //       await Future.delayed(const Duration(seconds: 1), () {
-  //         offset = offset + 20;
-  //         getSelectGroupList(offset);
-  //       });
-  //     }
-  //   });
-  // }
   void myScroll(ScrollController scrollController, int offset) {
     scrollController.addListener(() async {
       if (scrollController.position.pixels >=
@@ -2339,7 +2339,13 @@ class _ItemGroupListState extends State<ItemGroupList> {
         // โหลดเพิ่มสำหรับข้อมูลเริ่มต้น (ไม่ใช้ search)
         if (itemgrouplist.text.isEmpty) {
           offset += 20;
+          print('ว่าง> $offset');
           await getSelectGroupList(offset, loadMore: true);
+        } else {
+          // โหลดเพิ่มสำหรับข้อมูลค้นหา
+          offset += 20;
+          print('ไม่ว่าง> $offset');
+          await searchItemGroup(offset, itemgrouplist.text, loadMore: true);
         }
 
         setState(() => isLoadScroll = false);
@@ -2348,7 +2354,8 @@ class _ItemGroupListState extends State<ItemGroupList> {
   }
 
   // ค้นหากลุ่มสินค้า
-  Future<void> searchItemGroup(offset, String keyword) async {
+  Future<void> searchItemGroup(offset, String keyword,
+      {bool loadMore = false}) async {
     try {
       var response = await http.get(
         Uri.parse(
@@ -2368,10 +2375,32 @@ class _ItemGroupListState extends State<ItemGroupList> {
                 .toList();
 
         setState(() {
-          dropdowngrouplist = searchList; // แสดงเฉพาะผลค้นหา
-          isCheckedList = dropdowngrouplist
-              .map((e) => selectedGroupSet.contains(e['id'].toString()))
-              .toList();
+          if (!loadMore) {
+            print('loadMore false');
+            dropdowngrouplist = List.of(searchList, growable: true);
+            isCheckedList = dropdowngrouplist
+                .map((e) => selectedGroupSet.contains(e['id'].toString()))
+                .toList();
+            isLoadendPage = false;
+          } else {
+            print('loadMore true');
+            final existingIds =
+                dropdowngrouplist.map((e) => e['id'].toString()).toSet();
+            final uniqueNew = searchList
+                .where((e) => !existingIds.contains(e['id'].toString()))
+                .toList();
+
+            if (uniqueNew.isEmpty) {
+              isLoadendPage = true;
+            } else {
+              dropdowngrouplist.addAll(uniqueNew);
+              isCheckedList.addAll(uniqueNew
+                  .map((e) => selectedGroupSet.contains(e['id'].toString()))
+                  .toList());
+            }
+          }
+
+          statusLoading = true;
         });
       } else {
         handleHttpError(response.statusCode);
@@ -2519,53 +2548,135 @@ class _ItemGroupListState extends State<ItemGroupList> {
       borderRadius: BorderRadius.all(Radius.circular(4.0)),
     );
 
+    final hasSelected = selectedGroupList.isNotEmpty;
     return Scaffold(
       appBar: const CustomAppbar(title: 'ค้นหากลุ่มสินค้า'),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        behavior: HitTestBehavior.opaque,
-        child: Column(
-          children: [
-            // Search input
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+            behavior: HitTestBehavior.opaque,
+            child: Column(
+              children: [
+                // Search input
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withAlpha(130),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                      color: const Color.fromRGBO(239, 191, 239, 1),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Text('กลุ่มสินค้า : ',
+                              style: MyContant().h4normalStyle()),
+                          inputGroupNamelist(sizeIcon, border),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                groupBtnsearch(),
+                Expanded(
+                  child: buildListView(),
+                ),
+              ],
+            ),
+          ),
+          // ✅ ปุ่มล่างแบบเด้งขึ้น
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            bottom: hasSelected ? 0 : -100, // เด้งขึ้นถ้ามีการติ๊ก
+            left: 0,
+            right: 0,
+            child: Center(
               child: Container(
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.only(
+                    top: 15, bottom: 30, left: 0, right: 0),
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withAlpha(130),
-                      spreadRadius: 0.2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    )
+                      color: Colors.black.withAlpha(40),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
                   ],
-                  color: const Color.fromRGBO(239, 191, 239, 1),
                 ),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withAlpha(180),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Text('กลุ่มสินค้า : ',
-                          style: MyContant().h4normalStyle()),
-                      inputGroupNamelist(sizeIcon, border),
-                    ],
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // ปุ่มตกลง
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.040,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print('✅ ส่งข้อมูลกลับ: $selectedGroupList');
+                          // ตัวอย่างส่งกลับไปหน้าก่อน
+                          Navigator.pop(context, selectedGroupList);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'ตกลง',
+                          style: MyContant().h1MenuStyle(),
+                        ),
+                      ),
+                    ),
+
+                    // ปุ่มยกเลิก
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.040,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedGroupList.clear();
+                            isCheckedList =
+                                List.filled(dropdowngrouplist.length, false);
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'ยกเลิก',
+                          style: MyContant().h1MenuStyle(),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            groupBtnsearch(),
-            Expanded(
-              child: buildListView(),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -2707,7 +2818,9 @@ class _ItemGroupListState extends State<ItemGroupList> {
           ),
           if (isLoadScroll && !isLoadendPage) const LoadData(),
           if (isLoadendPage) const EndPage(),
-          const SizedBox(height: 20),
+          SizedBox(
+            height: selectedGroupList.isNotEmpty ? 100 : 20,
+          ),
         ],
       ),
     );
@@ -2803,7 +2916,8 @@ class _ItemGroupListState extends State<ItemGroupList> {
 }
 
 class ItemTypeList extends StatefulWidget {
-  final String? valueGrouplist, source;
+  final List<String>? valueGrouplist;
+  final String? source;
   const ItemTypeList({super.key, this.valueGrouplist, this.source});
 
   @override
@@ -2814,6 +2928,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   TextEditingController itemtypelist = TextEditingController();
   List<dynamic> dropdowntypelist = [];
+  List<dynamic> originalItemTypeList = []; // เก็บข้อมูลเดิมก่อนค้นหา
   bool statusLoading = false,
       statusLoad404 = false,
       isLoading = false,
@@ -2823,6 +2938,11 @@ class _ItemTypeListState extends State<ItemTypeList> {
   int offset = 50, stquery = 0;
   String? valGroupList = '';
   List<bool> isCheckedList = [];
+  List<String> selectedItemType = [];
+  Set<String> selectedItemTypeSet = {};
+  List<Map<String, String>> selectedItemTypeList = [];
+  late List<String> groupIds;
+  String groupIdsParam = '';
 
   @override
   void initState() {
@@ -2832,9 +2952,10 @@ class _ItemTypeListState extends State<ItemTypeList> {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
 
-    widget.valueGrouplist == null
-        ? valGroupList = ''
-        : valGroupList = widget.valueGrouplist;
+    groupIds = widget.valueGrouplist ?? []; 
+    groupIdsParam = (groupIds.isNotEmpty) ? groupIds.join(',') : '';
+    print('✅ groupIds from widget: $groupIds');
+    print('✅ groupIdsParam: $groupIdsParam');
   }
 
   Future<void> getdata() async {
@@ -2854,80 +2975,219 @@ class _ItemTypeListState extends State<ItemTypeList> {
 
   void myScroll(ScrollController scrollController, int offset) {
     scrollController.addListener(() async {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        setState(() {
-          isLoadScroll = true;
-        });
-        await Future.delayed(const Duration(seconds: 1), () {
-          offset = offset + 20;
-          getSelectTypeList(offset);
-        });
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 10) {
+        if (isLoadScroll || isLoadendPage) return;
+        setState(() => isLoadScroll = true);
+        await Future.delayed(const Duration(seconds: 1));
+
+        // โหลดเพิ่มสำหรับข้อมูลเริ่มต้น (ไม่ใช้ search)
+        if (itemtypelist.text.isEmpty) {
+          offset += 20;
+          // print('ว่าง> $offset');
+          await getSelectTypeList(offset, loadMore: true);
+        } else {
+          // โหลดเพิ่มสำหรับข้อมูลค้นหา
+          offset += 20;
+          // print('ไม่ว่าง> $offset');
+          await searchItemtype(offset, itemtypelist.text, loadMore: true);
+        }
+
+        setState(() => isLoadScroll = false);
       }
     });
   }
 
-  Future<void> getSelectTypeList(offset) async {
+  Future<void> getSelectTypeList(offset, {bool loadMore = false}) async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse(
-            '${api}setup/itemTypeList?searchName=${itemtypelist.text}&page=1&limit=$offset&itemGroupId=$valGroupList&itemStatus=1'),
+            '${api}setup/itemTypeList?searchName=${itemtypelist.text}&page=1&limit=$offset&itemGroupId=$groupIdsParam&itemStatus=1'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
         },
       );
 
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> dataTypelist =
-            Map<String, dynamic>.from(json.decode(respose.body));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> dataTypelist =
+            Map<String, dynamic>.from(json.decode(response.body));
+        final List<Map<String, dynamic>> newList =
+            (dataTypelist['data'] as List)
+                .map((e) => Map<String, dynamic>.from(e as Map))
+                .toList();
+
         setState(() {
-          dropdowntypelist = dataTypelist['data'];
-        });
-        statusLoading = true;
-        isLoadScroll = false;
-        if (stquery > 0) {
-          if (offset > dropdowntypelist.length) {
-            isLoadendPage = true;
+          if (!loadMore) {
+            // โหลดเริ่มต้น / รีเฟรช
+            dropdowntypelist = List.of(newList, growable: true);
+            originalItemTypeList =
+                List.of(newList, growable: true); // เก็บสำรอง
+            isCheckedList = dropdowntypelist
+                .map((e) => selectedItemTypeSet.contains(e['id'].toString()))
+                .toList();
+            offset = dropdowntypelist.length;
+            isLoadendPage = false;
+          } else {
+            // โหลดเพิ่ม
+            dropdowntypelist = List.of(dropdowntypelist, growable: true);
+            isCheckedList = List.of(isCheckedList, growable: true);
+
+            final existingIds =
+                dropdowntypelist.map((e) => e['id'].toString()).toSet();
+            final uniqueNew = newList
+                .where((e) => !existingIds.contains(e['id'].toString()))
+                .toList();
+
+            if (uniqueNew.isEmpty) {
+              isLoadendPage = true;
+            } else {
+              dropdowntypelist.addAll(uniqueNew);
+              isCheckedList.addAll(uniqueNew
+                  .map((e) => selectedItemTypeSet.contains(e['id'].toString()))
+                  .toList());
+              offset = dropdowntypelist.length;
+            }
           }
-          stquery = 1;
-        } else {
-          stquery = 1;
-        }
-        isCheckedList = List<bool>.filled(dropdowntypelist.length, false);
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
           statusLoading = true;
-          statusLoad404 = true;
         });
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
+  }
+
+  // ค้นหาผู้จำหน่าย
+  Future<void> searchItemtype(offset, String keyword,
+      {bool loadMore = false}) async {
+    try {
+      var response = await http.get(
+        Uri.parse(
+            '${api}setup/itemTypeList?searchName=$keyword&page=1&limit=$offset&itemGroupId=$groupIdsParam&itemStatus=1'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> dataTypelist =
+            Map<String, dynamic>.from(json.decode(response.body));
+        final List<Map<String, dynamic>> searchList =
+            (dataTypelist['data'] as List)
+                .map((e) => Map<String, dynamic>.from(e as Map))
+                .toList();
+
+        setState(() {
+          if (!loadMore) {
+            print('loadMore false');
+            dropdowntypelist = List.of(searchList, growable: true);
+            isCheckedList = dropdowntypelist
+                .map((e) => selectedItemTypeSet.contains(e['id'].toString()))
+                .toList();
+            isLoadendPage = false;
+          } else {
+            print('loadMore true');
+            final existingIds =
+                dropdowntypelist.map((e) => e['id'].toString()).toSet();
+            final uniqueNew = searchList
+                .where((e) => !existingIds.contains(e['id'].toString()))
+                .toList();
+
+            if (uniqueNew.isEmpty) {
+              isLoadendPage = true;
+            } else {
+              dropdowntypelist.addAll(uniqueNew);
+              isCheckedList.addAll(uniqueNew
+                  .map((e) => selectedItemTypeSet.contains(e['id'].toString()))
+                  .toList());
+            }
+          }
+
+          statusLoading = true;
+        });
+      } else {
+        handleHttpError(response.statusCode);
+      }
+    } catch (e) {
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ2');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+    }
+  }
+
+  void toggleCheckItem(int index, bool? value) {
+    final id = dropdowntypelist[index]['id'].toString();
+    final name = dropdowntypelist[index]['name'].toString();
+    final checked = value ?? false;
+
+    setState(() {
+      if (checked) {
+        if (!selectedItemTypeList.any((item) => item['id'] == id)) {
+          selectedItemTypeList.add({'id': id, 'name': name});
+        }
+      } else {
+        selectedItemTypeList.removeWhere((item) => item['id'] == id);
+      }
+
+      print('✅ selectedItemType: $selectedItemTypeList');
+    });
+  }
+
+  // ล้างค้นหาโดยไม่ลบ checkbox
+  Future<void> clearSearchAndReload() async {
+    setState(() {
+      offset = 30; // รีเซ็ต offset
+      itemtypelist.clear();
+      statusLoad404 = false;
+      statusLoading = false;
+    });
+
+    await Future.delayed(
+        const Duration(milliseconds: 100)); // กัน state race (optional)
+
+    setState(() {
+      dropdowntypelist = List.from(originalItemTypeList);
+      isCheckedList = dropdowntypelist
+          .map((e) => selectedItemTypeSet.contains(e['id'].toString()))
+          .toList();
+      offset = dropdowntypelist.length;
+      print('offset drop: ${dropdowntypelist.length}');
+      isLoadendPage = false;
+      statusLoading = true;
+      print('offset after clear: $offset');
+    });
   }
 
   @override
@@ -2938,256 +3198,275 @@ class _ItemTypeListState extends State<ItemTypeList> {
         color: Colors.transparent,
         width: 0,
       ),
-      borderRadius: BorderRadius.all(
-        Radius.circular(4.0),
-      ),
+      borderRadius: BorderRadius.all(Radius.circular(4.0)),
     );
+
+    final hasSelected = selectedItemTypeList.isNotEmpty;
     return Scaffold(
       appBar: const CustomAppbar(title: 'ค้นหาประเภทสินค้า'),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        behavior: HitTestBehavior.opaque,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withAlpha(130),
-                      spreadRadius: 0.2,
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    )
-                  ],
-                  color: const Color.fromRGBO(239, 191, 239, 1),
-                ),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
+      body: Stack(
+        children: [
+          GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+            behavior: HitTestBehavior.opaque,
+            child: Column(
+              children: [
+                // Search input
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withAlpha(130),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                      color: const Color.fromRGBO(239, 191, 239, 1),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
                         children: [
-                          Text(
-                            'ประเภทสินค้า : ',
-                            style: MyContant().h4normalStyle(),
-                          ),
+                          Text('ประเภทสินค้า : ',
+                              style: MyContant().h4normalStyle()),
                           inputTypeNamelist(sizeIcon, border),
                         ],
                       ),
-                    ],
+                    ),
                   ),
+                ),
+                groupBtnsearch(),
+                Expanded(
+                  child: buildListView(),
+                ),
+              ],
+            ),
+          ),
+          // ✅ ปุ่มล่างแบบเด้งขึ้น
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            bottom: hasSelected ? 0 : -100, // เด้งขึ้นถ้ามีการติ๊ก
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(40),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // ปุ่มตกลง
+                    ElevatedButton(
+                      onPressed: () {
+                        print('✅ ส่งข้อมูลกลับ: $selectedItemTypeList');
+                        // ตัวอย่างส่งกลับไปหน้าก่อน
+                        // Navigator.pop(context, selectedSupplyList);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'ตกลง',
+                        style: MyContant().h1MenuStyle(),
+                      ),
+                    ),
+
+                    // ปุ่มยกเลิก
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          selectedItemTypeList.clear();
+                          isCheckedList =
+                              List.filled(dropdowntypelist.length, false);
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'ยกเลิก',
+                        style: MyContant().h1MenuStyle(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            groupBtnsearch(),
-            Expanded(
-              child: statusLoading == false
-                  ? Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 24, 24, 24)
-                              .withValues(alpha: 0.9),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(cupertinoActivityIndicator, scale: 4),
-                            Text(
-                              'กำลังโหลด',
-                              style: MyContant().textLoading(),
-                            ),
-                          ],
-                        ),
-                      ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // สร้าง listview / scroll
+  Widget buildListView() {
+    if (!statusLoading) {
+      return Center(child: Image.asset(cupertinoActivityIndicator, scale: 4));
+    }
+    if (statusLoad404) {
+      return Center(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'images/noresults.png',
+                      color: const Color.fromARGB(255, 158, 158, 158),
+                      width: 60,
+                      height: 60,
                     )
-                  : statusLoad404 == true
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'images/noresults.png',
-                                      color: const Color.fromARGB(
-                                          255, 158, 158, 158),
-                                      width: 60,
-                                      height: 60,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ไม่พบรายการข้อมูล',
-                                      style: MyContant().h5NotData(),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'ไม่พบรายการข้อมูล',
+                      style: MyContant().h5NotData(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      controller: scrollControll,
+      physics:
+          const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withAlpha(130),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
+                color: const Color.fromRGBO(239, 191, 239, 1),
+              ),
+              child: Column(
+                children: [
+                  for (var i = 0; i < dropdowntypelist.length; i++) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      child: Row(
+                        children: [
+                          // กล่อง Checkbox
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.7),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Checkbox(
+                              side: WidgetStateBorderSide.resolveWith(
+                                (Set<WidgetState> states) {
+                                  return const BorderSide(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    width: 1.7,
+                                  );
+                                },
+                              ),
+                              value: selectedItemTypeList.any(
+                                (item) =>
+                                    item['id'] ==
+                                    dropdowntypelist[i]['id'].toString(),
+                              ),
+                              onChanged: (bool? value) {
+                                toggleCheckItem(i, value);
+                              },
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              checkColor: Colors.black,
+                              activeColor: Colors.white.withAlpha(180),
                             ),
                           ),
-                        )
-                      : SingleChildScrollView(
-                          controller: scrollControll,
-                          physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics(),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 3),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 6),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withAlpha(130),
-                                        spreadRadius: 0.2,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ],
-                                    color:
-                                        const Color.fromRGBO(239, 191, 239, 1),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      for (var i = 0;
-                                          i < dropdowntypelist.length;
-                                          i++) ...[
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 3),
-                                          child: Row(
-                                            children: [
-                                              // กล่อง Checkbox
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white
-                                                      .withValues(alpha: 0.7),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Checkbox(
-                                                  side: WidgetStateBorderSide
-                                                      .resolveWith(
-                                                    (Set<WidgetState> states) {
-                                                      return const BorderSide(
-                                                        color: Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                        width: 1.7,
-                                                      );
-                                                    },
-                                                  ),
-                                                  value: isCheckedList[i],
-                                                  onChanged: (bool? value) {
-                                                    setState(() {
-                                                      isCheckedList[i] =
-                                                          value ?? false;
-                                                    });
-                                                  },
-                                                  materialTapTargetSize:
-                                                      MaterialTapTargetSize
-                                                          .shrinkWrap,
-                                                  checkColor: Colors.black,
-                                                  activeColor: Colors.white
-                                                      .withAlpha(180),
-                                                ),
-                                              ),
 
-                                              const SizedBox(width: 6),
+                          const SizedBox(width: 6),
 
-                                              // กล่องข้อความ
-                                              Expanded(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    if (widget.source
-                                                            .toString() ==
-                                                        "TypeList") {
-                                                      Navigator.pop(context, {
-                                                        'id':
-                                                            '${dropdowntypelist[i]['id']}',
-                                                        'name':
-                                                            '${dropdowntypelist[i]['name']}',
-                                                      });
-                                                    } else if (widget.source
-                                                            .toString() ==
-                                                        "ItemList") {
-                                                      // Navigator.pop(context, {
-                                                      //   'id': dropdowntypelist[i]['id']
-                                                      //       .toString(),
-                                                      // });
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white
-                                                          .withValues(
-                                                              alpha: 0.7),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                    ),
-                                                    child: Text(
-                                                      dropdowntypelist[i]
-                                                          ['name'],
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ],
-                                  ),
+                          // กล่องข้อความ
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                // Navigator.pop(context, {
+                                //   'id': '${dropdownsupplylist[i]['id']}',
+                                //   'name': '${dropdownsupplylist[i]['name']}',
+                                // });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.7),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  dropdowntypelist[i]['name'],
+                                  style: MyContant().h4normalStyle(),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              if (isLoadScroll == true &&
-                                  isLoadendPage == false) ...[
-                                const LoadData(),
-                              ] else if (isLoadendPage == true) ...[
-                                const EndPage(),
-                              ],
-                              const SizedBox(
-                                height: 20,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          if (isLoadScroll && !isLoadendPage) const LoadData(),
+          if (isLoadendPage) const EndPage(),
+          SizedBox(
+            height: selectedItemTypeList.isNotEmpty ? 100 : 20,
+          ),
+        ],
       ),
     );
   }
@@ -3207,10 +3486,13 @@ class _ItemTypeListState extends State<ItemTypeList> {
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
-                      onPressed: () {
+                      onPressed: () async {
+                        offset = 30; // รีเซ็ต offset ก่อนค้นหาใหม่
+                        await searchItemtype(
+                            offset, itemtypelist.text); // ทำงาน async ก่อน
                         setState(() {
-                          getSelectTypeList(offset);
-                          statusLoading = false;
+                          // อัปเดตสถานะหลังจาก search เสร็จ
+                          statusLoading = true;
                         });
                       },
                       child: const Text('ค้นหา'),
@@ -3222,13 +3504,8 @@ class _ItemTypeListState extends State<ItemTypeList> {
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonCancelStyle(),
-                      onPressed: () {
-                        setState(() {
-                          itemtypelist.clear();
-                          getSelectTypeList(offset);
-                          statusLoading = false;
-                          statusLoad404 = false;
-                        });
+                      onPressed: () async {
+                        await clearSearchAndReload();
                       },
                       child: const Text('ล้างข้อมูล'),
                     ),
@@ -3262,13 +3539,8 @@ class _ItemTypeListState extends State<ItemTypeList> {
             suffixIcon: itemtypelist.text.isEmpty
                 ? null
                 : GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        itemtypelist.clear();
-                        getSelectTypeList(offset);
-                        statusLoading = false;
-                        statusLoad404 = false;
-                      });
+                    onTap: () async {
+                      await clearSearchAndReload();
                     },
                     child: const Icon(Icons.close),
                   ),
@@ -5492,7 +5764,7 @@ class _SupplyListState extends State<SupplyList> {
       isLoadScroll = false,
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
-  int offset = 50, stquery = 0;
+  int offset = 30, stquery = 0;
   List<bool> isCheckedList = [];
   List<String> selectedSupply = [];
   Set<String> selectedSupplySet = {};
@@ -5601,9 +5873,7 @@ class _SupplyListState extends State<SupplyList> {
       } else {
         handleHttpError(response.statusCode);
       }
-    } catch (e, stack) {
-      debugPrint('❌ getSelectSupplyList error: $e');
-      debugPrint('$stack');
+    } catch (e) {
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
@@ -5632,12 +5902,14 @@ class _SupplyListState extends State<SupplyList> {
 
         setState(() {
           if (!loadMore) {
+            print('loadMore false');
             dropdownsupplylist = List.of(searchList, growable: true);
             isCheckedList = dropdownsupplylist
                 .map((e) => selectedSupplySet.contains(e['id'].toString()))
                 .toList();
             isLoadendPage = false;
           } else {
+            print('loadMore true');
             final existingIds =
                 dropdownsupplylist.map((e) => e['id'].toString()).toSet();
             final uniqueNew = searchList
@@ -5668,6 +5940,7 @@ class _SupplyListState extends State<SupplyList> {
   // ล้างค้นหาโดยไม่ลบ checkbox
   Future<void> clearSearchAndReload() async {
     setState(() {
+      offset = 30; // รีเซ็ต offset
       supplynamelist.clear();
       statusLoad404 = false;
       statusLoading = false;
@@ -5682,8 +5955,10 @@ class _SupplyListState extends State<SupplyList> {
           .map((e) => selectedSupplySet.contains(e['id'].toString()))
           .toList();
       offset = dropdownsupplylist.length;
+      print('offset drop: ${dropdownsupplylist.length}');
       isLoadendPage = false;
       statusLoading = true;
+      print('offset after clear: $offset');
     });
   }
 
@@ -6050,6 +6325,7 @@ class _SupplyListState extends State<SupplyList> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () async {
+                        offset = 30; // รีเซ็ต offset ก่อนค้นหาใหม่
                         await searchSupply(
                             offset, supplynamelist.text); // ทำงาน async ก่อน
                         setState(() {
