@@ -61,11 +61,21 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
       selectMonthlist4,
       selectMonthId4,
       selectedMonth4,
-      selectYearlist4;
-  dynamic idGrouplist, idTypelist, idColorlist, idSupplylist;
-  String itemGroupIds = '';
-  bool isCheckAll = false, isLoadingbranchProvince = false;
-  List<Map<String, dynamic>> selectedGroupList = [];
+      selectYearlist4,
+      idChkExclude;
+  dynamic idBrandlist,
+      idModellist,
+      idStylellist,
+      idSizelist,
+      idColorlist,
+      idSupplylist;
+  String itemGroupIds = '', itemTypeIds = '', itemSupplyIds = '';
+  bool isCheckAll = false,
+      isChkExclude = false,
+      isLoadingbranchProvince = false;
+  List<Map<String, dynamic>> selectedGroupList = [],
+      selectedItemTypeList = [],
+      selectedSupplyList = [];
   DateTime selectedDate = DateTime.now();
 
   TextEditingController itemGroup = TextEditingController();
@@ -505,9 +515,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const ItemGroupList(
-                                    source: "GroupList",
-                                  ),
+                                  builder: (context) => const ItemGroupList(),
                                 ),
                               ).then((result) {
                                 if (result != null && result is List) {
@@ -566,14 +574,22 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                     valueGrouplist: selectedGroupList
                                         .map((e) => e['id'].toString())
                                         .toList(),
-                                    source: "TypeList",
                                   ),
                                 ),
                               ).then((result) {
-                                if (result != null) {
+                                if (result != null && result is List) {
                                   setState(() {
-                                    itemType.text = result['name'];
-                                    idTypelist = result['id'];
+                                    selectedItemTypeList =
+                                        List<Map<String, dynamic>>.from(result);
+                                    // แสดงชื่อใน TextField
+                                    itemType.text = selectedItemTypeList
+                                        .map((e) => e['name'].toString())
+                                        .join(', ');
+                                    // เก็บ id สำหรับส่ง API (เช่น 01,05,07)
+                                    itemTypeIds = selectedItemTypeList
+                                        .map((e) => e['id'].toString())
+                                        .join(',');
+                                    print('itemTypeIds: $itemTypeIds');
                                   });
                                 }
                               });
@@ -609,32 +625,20 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              if (itemGroup.text.isEmpty &&
-                                  itemType.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกกลุ่มสินค้าและประเภทสินค้า');
-                              } else if (itemType.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกประเภทสินค้า');
-                              } else {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => ItemBrandList(
-                                //       valueGrouplist: valueGrouplist,
-                                //       valueTypelist: valueTypelist,
-                                //       source: "BrandList",
-                                //     ),
-                                //   ),
-                                // ).then((result) {
-                                //   if (result != null) {
-                                //     setState(() {
-                                //       itemBrand.text = result['name'];
-                                //       valueBrandlist = result['id'];
-                                //     });
-                                //   }
-                                // });
-                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemBrandList(),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    itemBrand.text = result['name'];
+                                    idBrandlist = result['id'];
+                                    print('idBrandlist: $idBrandlist');
+                                  });
+                                }
+                              });
                             },
                             child: const Icon(
                               Icons.search,
@@ -667,37 +671,34 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              if (itemGroup.text.isEmpty &&
-                                  itemType.text.isEmpty &&
-                                  itemBrand.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
-                              } else if (itemType.text.isEmpty &&
-                                  itemBrand.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
-                              } else if (itemBrand.text.isEmpty) {
+                              // if (itemGroup.text.isEmpty &&
+                              //     itemType.text.isEmpty &&
+                              //     itemBrand.text.isEmpty) {
+                              //   showProgressDialog(context, 'แจ้งเตือน',
+                              //       'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
+                              // } else if (itemType.text.isEmpty &&
+                              //     itemBrand.text.isEmpty) {
+                              //   showProgressDialog(context, 'แจ้งเตือน',
+                              //       'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+                              if (itemBrand.text.isEmpty) {
                                 showProgressDialog(context, 'แจ้งเตือน',
                                     'กรุณาเลือกยี่ห้อสินค้า');
                               } else {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => ItemModelList(
-                                //       valueGrouplist: valueGrouplist,
-                                //       valueTypelist: valueTypelist,
-                                //       valueBrandlist: valueBrandlist,
-                                //       source: "ModelList",
-                                //     ),
-                                //   ),
-                                // ).then((result) {
-                                //   if (result != null) {
-                                //     setState(() {
-                                //       itemModel.text = result['name'];
-                                //       valueModellist = result['id'];
-                                //     });
-                                //   }
-                                // });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ItemModelList(
+                                      valueBrandlist: idBrandlist,
+                                    ),
+                                  ),
+                                ).then((result) {
+                                  if (result != null) {
+                                    setState(() {
+                                      itemModel.text = result['name'];
+                                      idModellist = result['id'];
+                                    });
+                                  }
+                                });
                               }
                             },
                             child: const Icon(
@@ -731,26 +732,24 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              if (itemType.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกประเภทสินค้า');
-                              } else {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => ItemStyleList(
-                                //       valueTypelist: valueTypelist,
-                                //     ),
-                                //   ),
-                                // ).then((result) {
-                                //   if (result != null) {
-                                //     setState(() {
-                                //       itemStyle.text = result['name'];
-                                //       valueStylelist = result['id'];
-                                //     });
-                                //   }
-                                // });
-                              }
+                              // if (itemType.text.isEmpty) {
+                              //   showProgressDialog(context, 'แจ้งเตือน',
+                              //       'กรุณาเลือกประเภทสินค้า');
+                              // } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemStyleList(),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    itemStyle.text = result['name'];
+                                    idStylellist = result['id'];
+                                  });
+                                }
+                              });
+                              // }
                             },
                             child: const Icon(
                               Icons.search,
@@ -783,26 +782,24 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              if (itemType.text.isEmpty) {
-                                showProgressDialog(context, 'แจ้งเตือน',
-                                    'กรุณาเลือกประเภทสินค้า');
-                              } else {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => ItemSizeList(
-                                //       valueTypelist: valueTypelist,
-                                //     ),
-                                //   ),
-                                // ).then((result) {
-                                //   if (result != null) {
-                                //     setState(() {
-                                //       itemSize.text = result['name'];
-                                //       valueSizelist = result['id'];
-                                //     });
-                                //   }
-                                // });
-                              }
+                              // if (itemType.text.isEmpty) {
+                              //   showProgressDialog(context, 'แจ้งเตือน',
+                              //       'กรุณาเลือกประเภทสินค้า');
+                              // } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemSizeList(),
+                                ),
+                              ).then((result) {
+                                if (result != null) {
+                                  setState(() {
+                                    itemSize.text = result['name'];
+                                    idSizelist = result['id'];
+                                  });
+                                }
+                              });
+                              // }
                             },
                             child: const Icon(
                               Icons.search,
@@ -990,10 +987,20 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   builder: (context) => SupplyList(),
                                 ),
                               ).then((result) {
-                                if (result != null) {
+                                if (result != null && result is List) {
                                   setState(() {
-                                    supplyList.text = result['name'];
-                                    idSupplylist = result['id'];
+                                    selectedSupplyList =
+                                        List<Map<String, dynamic>>.from(result);
+                                    // แสดงชื่อใน TextField
+                                    supplyList.text = selectedSupplyList
+                                        .map((e) => e['name'].toString())
+                                        .join(', ');
+
+                                    // เก็บ id สำหรับส่ง API (เช่น 01,05,07)
+                                    itemSupplyIds = selectedSupplyList
+                                        .map((e) => e['id'].toString())
+                                        .join(',');
+                                    print('itemSupplyIds: $itemSupplyIds');
                                   });
                                 }
                               });
@@ -1100,13 +1107,14 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                               );
                             },
                           ),
-                          value: isCheckAll,
+                          value: isChkExclude,
                           checkColor: const Color.fromARGB(255, 0, 0, 0),
                           activeColor: const Color.fromARGB(255, 255, 255, 255),
                           onChanged: (bool? value) {
                             setState(() {
-                              isCheckAll = value ?? false;
+                              isChkExclude = value!;
                             });
+                            idChkExclude = isChkExclude ? '1' : '';
                           },
                           visualDensity: VisualDensity.compact,
                           // materialTapTargetSize:
@@ -1153,6 +1161,20 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
+                        print('itemGroupIds: $itemGroupIds');
+                        print('itemTypeIds: $itemTypeIds');
+                        print('idBrandlist: ${idBrandlist ?? ''}');
+                        print('idModellist: ${idModellist ?? ''}');
+                        print('idStylellist: ${idStylellist ?? ''}');
+                        print('idSizelist: ${idSizelist ?? ''}');
+                        print('idColorlist: ${idColorlist ?? ''}');
+                        print(
+                            'idProvinceList: ${selectProvinbranchlist ?? ''}');
+                        print(
+                            'idBranchGroupList: ${selectBranchgrouplist ?? ''}');
+                        print(
+                            'idAreaBranchList: ${selectAreaBranchlist ?? ''}');
+                        print('itemSupplyIds: $itemSupplyIds');
                         print(
                             'datestart: ${startdate.text.replaceAll('-', '')}');
                         print(
@@ -1167,6 +1189,11 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                         print('month2: $selectMonthId2');
                         print('month3: $selectMonthId3');
                         print('month4: $selectMonthId4');
+                        print('year1: $selectYearlist1');
+                        print('year2: $selectYearlist2');
+                        print('year3: $selectYearlist3');
+                        print('year4: $selectYearlist4');
+                        print('idChkExclude: ${idChkExclude ?? ''}');
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -2281,8 +2308,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 }
 
 class ItemGroupList extends StatefulWidget {
-  final String? source;
-  const ItemGroupList({super.key, this.source});
+  const ItemGroupList({super.key});
 
   @override
   State<ItemGroupList> createState() => _ItemGroupListState();
@@ -2917,8 +2943,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
 
 class ItemTypeList extends StatefulWidget {
   final List<String>? valueGrouplist;
-  final String? source;
-  const ItemTypeList({super.key, this.valueGrouplist, this.source});
+  const ItemTypeList({super.key, this.valueGrouplist});
 
   @override
   State<ItemTypeList> createState() => _ItemTypeListState();
@@ -2935,7 +2960,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
       isLoadScroll = false,
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
-  int offset = 50, stquery = 0;
+  int offset = 30, stquery = 0;
   String? valGroupList = '';
   List<bool> isCheckedList = [];
   List<String> selectedItemType = [];
@@ -2952,7 +2977,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
 
-    groupIds = widget.valueGrouplist ?? []; 
+    groupIds = widget.valueGrouplist ?? [];
     groupIdsParam = (groupIds.isNotEmpty) ? groupIds.join(',') : '';
     print('✅ groupIds from widget: $groupIds');
     print('✅ groupIdsParam: $groupIdsParam');
@@ -3083,14 +3108,12 @@ class _ItemTypeListState extends State<ItemTypeList> {
 
         setState(() {
           if (!loadMore) {
-            print('loadMore false');
             dropdowntypelist = List.of(searchList, growable: true);
             isCheckedList = dropdowntypelist
                 .map((e) => selectedItemTypeSet.contains(e['id'].toString()))
                 .toList();
             isLoadendPage = false;
           } else {
-            print('loadMore true');
             final existingIds =
                 dropdowntypelist.map((e) => e['id'].toString()).toSet();
             final uniqueNew = searchList
@@ -3282,7 +3305,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
                       onPressed: () {
                         print('✅ ส่งข้อมูลกลับ: $selectedItemTypeList');
                         // ตัวอย่างส่งกลับไปหน้าก่อน
-                        // Navigator.pop(context, selectedSupplyList);
+                        Navigator.pop(context, selectedItemTypeList);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
@@ -3562,9 +3585,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
 }
 
 class ItemBrandList extends StatefulWidget {
-  final String? valueGrouplist, valueTypelist, source;
-  const ItemBrandList(
-      {super.key, this.valueGrouplist, this.valueTypelist, this.source});
+  const ItemBrandList({super.key});
 
   @override
   State<ItemBrandList> createState() => _ItemBrandListState();
@@ -3580,7 +3601,7 @@ class _ItemBrandListState extends State<ItemBrandList> {
       isLoadScroll = false,
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
-  int offset = 50, stquery = 0;
+  int offset = 30, stquery = 0;
   String? valGroupList = '', valTypeList = '';
 
   @override
@@ -3590,12 +3611,6 @@ class _ItemBrandListState extends State<ItemBrandList> {
     itembrandlist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
-    widget.valueGrouplist == null
-        ? valGroupList = ''
-        : valGroupList = widget.valueGrouplist;
-    widget.valueTypelist == null
-        ? valTypeList = ''
-        : valTypeList = widget.valueTypelist;
   }
 
   Future<void> getdata() async {
@@ -3632,7 +3647,7 @@ class _ItemBrandListState extends State<ItemBrandList> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/itemBrandList?searchName=${itembrandlist.text}&page=1&limit=$offset&itemGroupId=$valGroupList&itemTypeId=$valTypeList&itemStatus=1'),
+            '${api}setup/itemBrandList?searchName=${itembrandlist.text}&page=1&limit=$offset&itemGroupId=&itemTypeId=&itemStatus=1'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -3703,7 +3718,7 @@ class _ItemBrandListState extends State<ItemBrandList> {
       ),
     );
     return Scaffold(
-      appBar: const CustomAppbar(title: 'ค้นหาประเภทสินค้า'),
+      appBar: const CustomAppbar(title: 'ค้นหายี่ห้อสินค้า'),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
@@ -3840,22 +3855,12 @@ class _ItemBrandListState extends State<ItemBrandList> {
                                           i++) ...[
                                         InkWell(
                                           onTap: () {
-                                            if (widget.source.toString() ==
-                                                "BrandList") {
-                                              Navigator.pop(context, {
-                                                'id':
-                                                    '${dropdownbrandlist[i]['id']}',
-                                                'name':
-                                                    '${dropdownbrandlist[i]['name']}',
-                                              });
-                                            } else if (widget.source
-                                                    .toString() ==
-                                                "ItemList") {
-                                              Navigator.pop(context, {
-                                                'id': dropdownbrandlist[i]['id']
-                                                    .toString(),
-                                              });
-                                            }
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownbrandlist[i]['id']}',
+                                              'name':
+                                                  '${dropdownbrandlist[i]['name']}',
+                                            });
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -4007,13 +4012,8 @@ class _ItemBrandListState extends State<ItemBrandList> {
 }
 
 class ItemModelList extends StatefulWidget {
-  final String? valueGrouplist, valueTypelist, valueBrandlist, source;
-  const ItemModelList(
-      {super.key,
-      this.valueGrouplist,
-      this.valueTypelist,
-      this.valueBrandlist,
-      this.source});
+  final String? valueBrandlist;
+  const ItemModelList({super.key, this.valueBrandlist});
 
   @override
   State<ItemModelList> createState() => _ItemModelListState();
@@ -4039,12 +4039,7 @@ class _ItemModelListState extends State<ItemModelList> {
     itemmodellist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
-    widget.valueGrouplist == null
-        ? valGroupList = ''
-        : valGroupList = widget.valueGrouplist;
-    widget.valueTypelist == null
-        ? valTypeList = ''
-        : valTypeList = widget.valueTypelist;
+
     widget.valueBrandlist == null
         ? valBrandList = ''
         : valBrandList = widget.valueBrandlist;
@@ -4084,7 +4079,7 @@ class _ItemModelListState extends State<ItemModelList> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/itemModelList?searchName=${itemmodellist.text}&page=1&limit=$offset&itemGroupId=$valGroupList&itemTypeId=$valTypeList&itemBrandId=$valBrandList&itemStatus=1'),
+            '${api}setup/itemModelList?searchName=${itemmodellist.text}&page=1&limit=$offset&itemGroupId=&itemTypeId=&itemBrandId=$valBrandList&itemStatus=1'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -4292,22 +4287,12 @@ class _ItemModelListState extends State<ItemModelList> {
                                           i++) ...[
                                         InkWell(
                                           onTap: () {
-                                            if (widget.source.toString() ==
-                                                "ModelList") {
-                                              Navigator.pop(context, {
-                                                'id':
-                                                    '${dropdownmodellist[i]['id']}',
-                                                'name':
-                                                    '${dropdownmodellist[i]['name']}',
-                                              });
-                                            } else if (widget.source
-                                                    .toString() ==
-                                                "ItemList") {
-                                              Navigator.pop(context, {
-                                                'id': dropdownmodellist[i]['id']
-                                                    .toString(),
-                                              });
-                                            }
+                                            Navigator.pop(context, {
+                                              'id':
+                                                  '${dropdownmodellist[i]['id']}',
+                                              'name':
+                                                  '${dropdownmodellist[i]['name']}',
+                                            });
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -4459,8 +4444,7 @@ class _ItemModelListState extends State<ItemModelList> {
 }
 
 class ItemStyleList extends StatefulWidget {
-  final String? valueTypelist;
-  const ItemStyleList({super.key, this.valueTypelist});
+  const ItemStyleList({super.key});
 
   @override
   State<ItemStyleList> createState() => _ItemStyleListState();
@@ -4486,9 +4470,6 @@ class _ItemStyleListState extends State<ItemStyleList> {
     itemstylelist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
-    widget.valueTypelist == null
-        ? valTypeList = ''
-        : valTypeList = widget.valueTypelist;
   }
 
   Future<void> getdata() async {
@@ -4525,7 +4506,7 @@ class _ItemStyleListState extends State<ItemStyleList> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/itemStyleList?searchName=${itemstylelist.text}&page=1&limit=$offset&itemTypeId=$valTypeList'),
+            '${api}setup/itemStyleList?searchName=${itemstylelist.text}&page=1&limit=$offset&itemTypeId='),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -4780,7 +4761,7 @@ class _ItemStyleListState extends State<ItemStyleList> {
                                 const EndPage(),
                               ],
                               const SizedBox(
-                                height: 20,
+                                height: 30,
                               ),
                             ],
                           ),
@@ -4890,8 +4871,7 @@ class _ItemStyleListState extends State<ItemStyleList> {
 }
 
 class ItemSizeList extends StatefulWidget {
-  final String? valueTypelist;
-  const ItemSizeList({super.key, this.valueTypelist});
+  const ItemSizeList({super.key});
 
   @override
   State<ItemSizeList> createState() => _ItemSizeListState();
@@ -4917,9 +4897,9 @@ class _ItemSizeListState extends State<ItemSizeList> {
     itemsizelist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
-    widget.valueTypelist == null
-        ? valTypeList = ''
-        : valTypeList = widget.valueTypelist;
+    // widget.valueTypelist == null
+    //     ? valTypeList = ''
+    //     : valTypeList = widget.valueTypelist;
   }
 
   Future<void> getdata() async {
@@ -4956,7 +4936,7 @@ class _ItemSizeListState extends State<ItemSizeList> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/itemSizeList?searchName=${itemsizelist.text}&page=1&limit=$offset&itemTypeId=$valTypeList'),
+            '${api}setup/itemSizeList?searchName=${itemsizelist.text}&page=1&limit=$offset&itemTypeId='),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -5962,25 +5942,6 @@ class _SupplyListState extends State<SupplyList> {
     });
   }
 
-  // ฟังก์ชัน toggle checkbox
-  // void toggleCheckItem(int index, bool? value) {
-  //   final id = dropdownsupplylist[index]['id'].toString();
-  //   final name = dropdownsupplylist[index]['name'].toString();
-  //   final checked = value ?? false;
-
-  //   setState(() {
-  //     if (checked) {
-  //       isCheckedList[index] = checked;
-  //       if (!selectedSupplyList.any((item) => item['id'] == id)) {
-  //         selectedSupplyList.add({'id': id, 'name': name});
-  //       }
-  //     } else {
-  //       selectedSupplyList.removeWhere((item) => item['id'] == id);
-  //     }
-
-  //     print('✅ selectedSupply: $selectedSupplyList');
-  //   });
-  // }
   void toggleCheckItem(int index, bool? value) {
     final id = dropdownsupplylist[index]['id'].toString();
     final name = dropdownsupplylist[index]['name'].toString();
@@ -6120,7 +6081,7 @@ class _SupplyListState extends State<SupplyList> {
                       onPressed: () {
                         print('✅ ส่งข้อมูลกลับ: $selectedSupplyList');
                         // ตัวอย่างส่งกลับไปหน้าก่อน
-                        // Navigator.pop(context, selectedSupplyList);
+                        Navigator.pop(context, selectedSupplyList);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
@@ -6271,12 +6232,7 @@ class _SupplyListState extends State<SupplyList> {
                           // กล่องข้อความ
                           Expanded(
                             child: InkWell(
-                              onTap: () {
-                                // Navigator.pop(context, {
-                                //   'id': '${dropdownsupplylist[i]['id']}',
-                                //   'name': '${dropdownsupplylist[i]['name']}',
-                                // });
-                              },
+                              onTap: () {},
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
