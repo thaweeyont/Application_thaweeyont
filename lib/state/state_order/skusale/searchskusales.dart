@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
+import 'package:application_thaweeyont/state/state_order/skusale/reportskusalelist.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:application_thaweeyont/widgets/endpage.dart';
@@ -46,29 +47,20 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
   String? selectBranchgrouplist,
       selectProvinbranchlist,
       selectAreaBranchlist,
-      selectMonthlist1,
       selectMonthId1,
       selectedMonth1,
       selectYearlist1,
-      selectMonthlist2,
       selectMonthId2,
       selectedMonth2,
       selectYearlist2,
-      selectMonthlist3,
       selectMonthId3,
       selectedMonth3,
       selectYearlist3,
-      selectMonthlist4,
       selectMonthId4,
       selectedMonth4,
       selectYearlist4,
       idChkExclude;
-  dynamic idBrandlist,
-      idModellist,
-      idStylellist,
-      idSizelist,
-      idColorlist,
-      idSupplylist;
+  dynamic idBrandlist, idModellist, idStylellist, idSizelist, idColorlist;
   String itemGroupIds = '', itemTypeIds = '', itemSupplyIds = '';
   bool isCheckAll = false,
       isChkExclude = false,
@@ -120,6 +112,10 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     await getSelectMonth2();
     await getSelectMonth3();
     await getSelectMonth4();
+    await getSelectYear1();
+    await getSelectYear2();
+    await getSelectYear3();
+    await getSelectYear4();
 
     if (mounted) {
       Navigator.pop(context);
@@ -167,7 +163,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
   Future<void> getSelectbranchProvince() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/branchProvinceList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -175,9 +171,9 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> databranchProvince =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
         setState(() {
           List df = [
             {'id': "99", 'name': "เลือกสาขาจังหวัด"}
@@ -187,7 +183,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         });
 
         isLoadingbranchProvince = true;
-      } else if (respose.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -200,7 +196,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -211,7 +207,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
   Future<void> getSelectbranchGroup() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/branchGroupList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -219,9 +215,9 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> databranchGroup =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
         setState(() {
           List df = [
             {'id': "99", 'name': "เลือกกลุ่มสาขา"}
@@ -231,7 +227,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         });
 
         // isLoadingbranchProvince = true;
-      } else if (respose.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -244,7 +240,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -255,7 +251,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
   Future<void> getSelectBranchArea() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/branchAreaList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -263,9 +259,9 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> dataAreaBranch =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
         setState(() {
           List ba = [
             {'id': "99", 'name': "เลือกเขตสาขา"}
@@ -273,7 +269,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           myAreaBranch = List.from(ba)..addAll(dataAreaBranch['data']);
           dropdownAreaBranch = myAreaBranch;
         });
-      } else if (respose.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -286,7 +282,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -297,7 +293,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
   Future<void> getSelectMonth1() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/monthList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -305,14 +301,14 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> dataMonth1 =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
         setState(() {
           dropdownMonth1 = dataMonth1['data'];
           selectMonthName1();
         });
-      } else if (respose.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -325,7 +321,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -336,7 +332,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
   Future<void> getSelectMonth2() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/monthList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -344,14 +340,14 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> dataMonth2 =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
         setState(() {
           dropdownMonth2 = dataMonth2['data'];
           selectMonthName2();
         });
-      } else if (respose.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -364,7 +360,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -375,7 +371,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
   Future<void> getSelectMonth3() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/monthList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -383,14 +379,14 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> dataMonth3 =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
         setState(() {
           dropdownMonth3 = dataMonth3['data'];
           selectMonthName3();
         });
-      } else if (respose.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -403,7 +399,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -414,7 +410,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
   Future<void> getSelectMonth4() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/monthList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -422,14 +418,14 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> dataMonth4 =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
         setState(() {
           dropdownMonth4 = dataMonth4['data'];
           selectMonthName4();
         });
-      } else if (respose.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
         Navigator.pushAndRemoveUntil(
@@ -442,13 +438,182 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         showProgressDialog_401(
             context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
+  }
+
+  Future<void> getSelectYear1() async {
+    try {
+      var response = await http.get(
+        Uri.parse('${api}setup/yearList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> dataYear1 =
+            Map<String, dynamic>.from(json.decode(response.body));
+        setState(() {
+          dropdownYear1 = dataYear1['data'];
+          selectYearlist1 = dropdownYear1.first.toString();
+        });
+      } else {
+        handleHttpError(response.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectYear2() async {
+    try {
+      var response = await http.get(
+        Uri.parse('${api}setup/yearList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> dataYear2 =
+            Map<String, dynamic>.from(json.decode(response.body));
+        setState(() {
+          dropdownYear2 = dataYear2['data'];
+          selectYearlist2 = dropdownYear2.first.toString();
+        });
+      } else {
+        handleHttpError(response.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectYear3() async {
+    try {
+      var response = await http.get(
+        Uri.parse('${api}setup/yearList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> dataYear3 =
+            Map<String, dynamic>.from(json.decode(response.body));
+        setState(() {
+          dropdownYear3 = dataYear3['data'];
+          selectYearlist3 = dropdownYear3.first.toString();
+        });
+      } else {
+        handleHttpError(response.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  Future<void> getSelectYear4() async {
+    try {
+      var response = await http.get(
+        Uri.parse('${api}setup/yearList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+      if (response.statusCode == 200) {
+        Map<String, dynamic> dataYear4 =
+            Map<String, dynamic>.from(json.decode(response.body));
+        setState(() {
+          dropdownYear4 = dataYear4['data'];
+          selectYearlist4 = dropdownYear4.first.toString();
+        });
+      } else {
+        handleHttpError(response.statusCode);
+      }
+    } catch (e) {
+      print("ไม่มีข้อมูล $e");
+      showProgressDialog(
+          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+    }
+  }
+
+  void clearInputandSelect() async {
+    itemGroup.clear();
+    itemType.clear();
+    itemBrand.clear();
+    itemModel.clear();
+    itemStyle.clear();
+    itemSize.clear();
+    itemColor.clear();
+    supplyList.clear();
+    selectedGroupList.clear();
+    selectedItemTypeList.clear();
+    selectedSupplyList.clear();
+    itemGroupIds = '';
+    itemTypeIds = '';
+    idBrandlist = null;
+    idModellist = null;
+    idStylellist = null;
+    idSizelist = null;
+    idColorlist = null;
+    itemSupplyIds = '';
+    selectProvinbranchlist = null;
+    selectBranchgrouplist = null;
+    selectAreaBranchlist = null;
+    isChkExclude = false;
+    startdate.clear();
+    startdatePO.clear();
+    enddatePO.clear();
+    startDatesale.clear();
+    endDatesale.clear();
+    await getSelectMonth1();
+    await getSelectMonth2();
+    await getSelectMonth3();
+    await getSelectMonth4();
+    await getSelectYear1();
+    await getSelectYear2();
+    await getSelectYear3();
+    await getSelectYear4();
   }
 
   @override
@@ -1194,6 +1359,40 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                         print('year3: $selectYearlist3');
                         print('year4: $selectYearlist4');
                         print('idChkExclude: ${idChkExclude ?? ''}');
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReportSKUSaleList(
+                              itemGroupIds: itemGroupIds,
+                              itemTypeIds: itemTypeIds,
+                              idBrandlist: idBrandlist,
+                              idModellist: idModellist,
+                              idStylellist: idStylellist,
+                              idSizelist: idSizelist,
+                              idColorlist: idColorlist,
+                              selectProvinbranchlist: selectProvinbranchlist,
+                              selectBranchgrouplist: selectBranchgrouplist,
+                              selectAreaBranchlist: selectAreaBranchlist,
+                              itemSupplyIds: itemSupplyIds,
+                              startdate: startdate.text.replaceAll('-', ''),
+                              startdatePO: startdatePO.text.replaceAll('-', ''),
+                              enddatePO: enddatePO.text.replaceAll('-', ''),
+                              startDatesale:
+                                  startDatesale.text.replaceAll('-', ''),
+                              endDatesale: endDatesale.text.replaceAll('-', ''),
+                              selectMonthId1: selectMonthId1,
+                              selectMonthId2: selectMonthId2,
+                              selectMonthId3: selectMonthId3,
+                              selectMonthId4: selectMonthId4,
+                              selectYearlist1: selectYearlist1,
+                              selectYearlist2: selectYearlist2,
+                              selectYearlist3: selectYearlist3,
+                              selectYearlist4: selectYearlist4,
+                              idChkExclude: idChkExclude,
+                            ),
+                          ),
+                        );
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -1206,7 +1405,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                       style: MyContant().myButtonCancelStyle(),
                       onPressed: () {
                         setState(() {
-                          // clearInputSelect();
+                          clearInputandSelect();
                         });
                       },
                       child: const Text('ล้างข้อมูล'),
@@ -1241,18 +1440,10 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                 : GestureDetector(
                     onTap: () {
                       setState(() {
-                        // itemGroup.clear();
-                        // valueGrouplist = null;
-                        // itemType.clear();
-                        // valueTypelist = null;
-                        // itemBrand.clear();
-                        // valueBrandlist = null;
-                        // itemModel.clear();
-                        // valueModellist = null;
-                        // itemStyle.clear();
-                        // valueStylelist = null;
-                        // itemSize.clear();
-                        // valueSizelist = null;
+                        itemGroup.clear();
+                        itemGroupIds = '';
+                        itemType.clear();
+                        itemTypeIds = '';
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1285,16 +1476,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                 : GestureDetector(
                     onTap: () {
                       setState(() {
-                        // itemType.clear();
-                        // valueTypelist = null;
-                        // itemBrand.clear();
-                        // valueBrandlist = null;
-                        // itemModel.clear();
-                        // valueModellist = null;
-                        // itemStyle.clear();
-                        // valueStylelist = null;
-                        // itemSize.clear();
-                        // valueSizelist = null;
+                        itemType.clear();
+                        itemTypeIds = '';
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1327,14 +1510,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                 : GestureDetector(
                     onTap: () {
                       setState(() {
-                        // itemBrand.clear();
-                        // valueBrandlist = null;
-                        // itemModel.clear();
-                        // valueModellist = null;
-                        // itemStyle.clear();
-                        // valueStylelist = null;
-                        // itemSize.clear();
-                        // valueSizelist = null;
+                        itemBrand.clear();
+                        idBrandlist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1367,12 +1544,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                 : GestureDetector(
                     onTap: () {
                       setState(() {
-                        // itemModel.clear();
-                        // valueModellist = null;
-                        // itemStyle.clear();
-                        // valueStylelist = null;
-                        // itemSize.clear();
-                        // valueSizelist = null;
+                        itemModel.clear();
+                        idModellist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1405,10 +1578,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                 : GestureDetector(
                     onTap: () {
                       setState(() {
-                        // itemStyle.clear();
-                        // valueStylelist = null;
-                        // itemSize.clear();
-                        // valueSizelist = null;
+                        itemStyle.clear();
+                        idStylellist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1442,7 +1613,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                     onTap: () {
                       setState(() {
                         itemSize.clear();
-                        // valueSizelist = null;
+                        idSizelist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1476,7 +1647,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                     onTap: () {
                       setState(() {
                         itemColor.clear();
-                        // valueColorlist = null;
+                        idColorlist = null;
                       });
                     },
                     child: const Icon(Icons.close),
@@ -1949,8 +2120,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                 : GestureDetector(
                     onTap: () {
                       setState(() {
-                        // supplyList.clear();
-                        // valueSupplylist = null;
+                        supplyList.clear();
+                        itemSupplyIds = '';
                       });
                     },
                     child: const Icon(Icons.close),
