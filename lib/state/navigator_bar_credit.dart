@@ -20,6 +20,7 @@ import 'package:http/http.dart' as http;
 import 'authen.dart';
 import 'state_cus_relations/check_purchase_info/page_checkpurchase_info.dart';
 import 'state_order/skusale/searchskusales.dart';
+import 'state_sale/credit_approval/testUI.dart';
 
 class NavigatorBarMenu extends StatefulWidget {
   String? index;
@@ -216,7 +217,8 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
     const Mechanical(),
     const SearchPaymentReport(),
     const BranchSales(),
-    // const SearchSKUSale()
+    const FixedTablePage(),
+    const SearchSKUSale()
   ];
 
   @override
@@ -852,6 +854,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
       {"id": "007", "nameMenu": "บริการงานส่ง/ติดตั้งสินค้า"},
       {"id": "008", "nameMenu": "บันทึกอนุมัติการจ่าย"},
       {"id": "009", "nameMenu": "ยอดขายสินค้ารวมสาขาในแต่ละวัน"},
+      {"id": "011", "nameMenu": "รายงาน SKU Sale"},
     ];
 
     result = menuList.where((menuItem) {
@@ -918,7 +921,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const SearchSKUSale(),
+            builder: (context) => const FixedTablePage(),
           ),
         );
       },
@@ -940,7 +943,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "รายงาน SKU Sale",
+                  "รายงาน SKU Sale ทดสอบ",
                   style: TextStyle(
                       color: Colors.white, fontSize: 16, fontFamily: 'Prompt'),
                 ),
@@ -963,6 +966,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
       '007': '7',
       '008': '8',
       '009': '9',
+      '011': '11',
     };
 
     final credit = idToMenu[id];
@@ -990,6 +994,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
       '007': const Color.fromARGB(255, 241, 209, 89),
       '008': const Color.fromRGBO(226, 199, 132, 1),
       '009': const Color.fromRGBO(239, 191, 239, 1),
+      '011': const Color.fromRGBO(239, 191, 239, 1),
     };
 
     return menuColors[menuColor];
@@ -1006,6 +1011,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
       '007': Icons.miscellaneous_services,
       '008': Icons.payments_outlined,
       '009': Icons.point_of_sale_rounded,
+      '011': Icons.insert_chart_outlined,
     };
 
     return menuIcons[menuId];

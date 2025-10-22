@@ -629,7 +629,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
       ),
     );
     return Scaffold(
-      appBar: CustomAppbar(title: "รายงาน SKU Sale"),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
@@ -1326,39 +1325,39 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        print('itemGroupIds: $itemGroupIds');
-                        print('itemTypeIds: $itemTypeIds');
-                        print('idBrandlist: ${idBrandlist ?? ''}');
-                        print('idModellist: ${idModellist ?? ''}');
-                        print('idStylellist: ${idStylellist ?? ''}');
-                        print('idSizelist: ${idSizelist ?? ''}');
-                        print('idColorlist: ${idColorlist ?? ''}');
-                        print(
-                            'idProvinceList: ${selectProvinbranchlist ?? ''}');
-                        print(
-                            'idBranchGroupList: ${selectBranchgrouplist ?? ''}');
-                        print(
-                            'idAreaBranchList: ${selectAreaBranchlist ?? ''}');
-                        print('itemSupplyIds: $itemSupplyIds');
-                        print(
-                            'datestart: ${startdate.text.replaceAll('-', '')}');
-                        print(
-                            'startdatePO: ${startdatePO.text.replaceAll('-', '')}');
-                        print(
-                            'enddatePO: ${enddatePO.text.replaceAll('-', '')}');
-                        print(
-                            'startdateSale: ${startDatesale.text.replaceAll('-', '')}');
-                        print(
-                            'enddateSale: ${endDatesale.text.replaceAll('-', '')}');
-                        print('month1: $selectMonthId1');
-                        print('month2: $selectMonthId2');
-                        print('month3: $selectMonthId3');
-                        print('month4: $selectMonthId4');
-                        print('year1: $selectYearlist1');
-                        print('year2: $selectYearlist2');
-                        print('year3: $selectYearlist3');
-                        print('year4: $selectYearlist4');
-                        print('idChkExclude: ${idChkExclude ?? ''}');
+                        // print('itemGroupIds: $itemGroupIds');
+                        // print('itemTypeIds: $itemTypeIds');
+                        // print('idBrandlist: ${idBrandlist ?? ''}');
+                        // print('idModellist: ${idModellist ?? ''}');
+                        // print('idStylellist: ${idStylellist ?? ''}');
+                        // print('idSizelist: ${idSizelist ?? ''}');
+                        // print('idColorlist: ${idColorlist ?? ''}');
+                        // print(
+                        //     'idProvinceList: ${selectProvinbranchlist ?? ''}');
+                        // print(
+                        //     'idBranchGroupList: ${selectBranchgrouplist ?? ''}');
+                        // print(
+                        //     'idAreaBranchList: ${selectAreaBranchlist ?? ''}');
+                        // print('itemSupplyIds: $itemSupplyIds');
+                        // print(
+                        //     'datestart: ${startdate.text.replaceAll('-', '')}');
+                        // print(
+                        //     'startdatePO: ${startdatePO.text.replaceAll('-', '')}');
+                        // print(
+                        //     'enddatePO: ${enddatePO.text.replaceAll('-', '')}');
+                        // print(
+                        //     'startdateSale: ${startDatesale.text.replaceAll('-', '')}');
+                        // print(
+                        //     'enddateSale: ${endDatesale.text.replaceAll('-', '')}');
+                        // print('month1: $selectMonthId1');
+                        // print('month2: $selectMonthId2');
+                        // print('month3: $selectMonthId3');
+                        // print('month4: $selectMonthId4');
+                        // print('year1: $selectYearlist1');
+                        // print('year2: $selectYearlist2');
+                        // print('year3: $selectYearlist3');
+                        // print('year4: $selectYearlist4');
+                        // print('idChkExclude: ${idChkExclude ?? ''}');
 
                         Navigator.push(
                           context,
