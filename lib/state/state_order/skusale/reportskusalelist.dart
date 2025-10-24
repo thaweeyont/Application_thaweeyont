@@ -93,8 +93,14 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
   static const double groupHeaderSub = 30;
   static const double rowHeight = 70;
 
-  var formatter = NumberFormat('#,##0.00');
-  var formatterAmount = NumberFormat('#,##0');
+  String itemGroupName = '';
+  String itemTypeName = '';
+  String supplyName = '';
+  String channelSaleName = '';
+  String reportDate = '';
+
+  // var formatter = NumberFormat('#,##0.00');
+  // var formatterAmount = NumberFormat('#,##0');
 
   @override
   void initState() {
@@ -188,6 +194,14 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     print('idChkExclude:> ${widget.idChkExclude ?? ''}');
   }
 
+  String _formatDate(String dateStr) {
+    if (dateStr.isEmpty || dateStr.length != 8) return '';
+    final year = dateStr.substring(0, 4);
+    final month = dateStr.substring(4, 6);
+    final day = dateStr.substring(6, 8);
+    return '$day/$month/$year';
+  }
+
   Future<void> getSaleSku() async {
     try {
       // ✅ แปลงค่าให้เป็น String หรือว่าง
@@ -207,6 +221,14 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
         // ถ้าไม่ใช่ list (อาจเป็น string เดี่ยว)
         return list.toString().trim().isEmpty ? [] : [list.toString()];
       }
+
+      // ✅ ฟอร์แมตตัวเลข (มีทศนิยมเฉพาะเมื่อมีจริง)
+      final formatter = NumberFormat('#,##0.##');
+      bool isNumeric(value) =>
+          value != null && double.tryParse(value.toString()) != null;
+      String fmt(value) => isNumeric(value)
+          ? formatter.format(double.parse(value.toString()))
+          : (value?.toString() ?? '');
 
       final bodyData = <String, dynamic>{
         'supplyArrs': strList(widget.itemSupplyIds),
@@ -239,9 +261,9 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
       };
 
       // ✅ แสดงข้อมูลที่จะส่ง
-      // const JsonEncoder encoder = JsonEncoder.withIndent('  ');
-      // print('🔹 ส่งข้อมูลไปที่ API:');
-      // print(encoder.convert(bodyData));
+      const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+      print('🔹 ส่งข้อมูลไปที่ API:');
+      print(encoder.convert(bodyData));
 
       // ✅ เรียก API
       var response = await http.post(
@@ -260,6 +282,14 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
         final detail = data['data']['detail'] as List;
         final branchHead = head['branchHead'] as Map<String, dynamic>;
 
+        setState(() {
+          itemGroupName = head['itemGroupName'] ?? '';
+          itemTypeName = head['itemTypeName'] ?? '';
+          supplyName = head['supplyName'] ?? '';
+          channelSaleName = head['channelSaleName'] ?? '';
+          reportDate = _formatDate(head['date'] ?? '');
+        });
+
         final tableHeader = {
           "fixed": ["Model"],
           "columns": ["GWSP", "IncVat"],
@@ -271,12 +301,13 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
 
         final tableRows = detail.map((item) {
           final qtyBranch = item['qtyBranch'] ?? {};
+
           final cells = [
-            item['GWSP'] ?? '',
-            item['incVat'] ?? '',
+            fmt(item['GWSP']),
+            fmt(item['incVat']),
             for (var b in branchHead.keys) ...[
-              qtyBranch[b]?['stock'] ?? '',
-              qtyBranch[b]?['sale'] ?? '',
+              fmt(qtyBranch[b]?['stock']),
+              fmt(qtyBranch[b]?['sale']),
             ]
           ];
 
@@ -406,7 +437,9 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
       alignment: alignment,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(239, 204, 249, 1)),
+        border: Border.all(
+          color: Color.fromRGBO(239, 204, 249, 1),
+        ),
         color: Colors.white,
       ),
       child: Text(
@@ -497,7 +530,12 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.only(
+            left: 8,
+            right: 8,
+            top: 4,
+            bottom: 8,
+          ),
           child: Column(
             children: [
               // ======= รายละเอียดหัวรายงาน (คงที่) =======
@@ -508,29 +546,51 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
                   children: [
                     _buildInfoBox("รายงาน SKU SALE", isCenter: true),
                     const SizedBox(height: 5),
-                    _buildInfoBox("กลุ่มสินค้า :    ประเภท : "),
-                    _buildInfoBox("ณ วันที่ : "),
-                    _buildInfoBox("ผู้จำหน่าย : "),
-                    _buildInfoBox("ช่องทางการขาย : "),
+                    _buildInfoBox(
+                        "กลุ่มสินค้า : $itemGroupName  ประเภท : $itemTypeName"),
+                    _buildInfoBox("ณ วันที่ : $reportDate"),
+                    _buildInfoBox("ผู้จำหน่าย : $supplyName"),
+                    _buildInfoBox("ช่องทางการขาย : $channelSaleName"),
                   ],
                 ),
               ),
-              // หัวตาราง
-              Row(
-                children: [
-                  // มุมซ้ายบน (หัวคอลัมน์)
-                  _buildHeaderCell('ประเภท/ยี่ห้อ/รุ่น',
-                      width: leftColWidth, height: simpleHeaderHeight),
-                  // หัวตารางฝั่งขวา (scroll แนวนอน)
-                  Expanded(
-                    child: SingleChildScrollView(
-                      controller: _hHeaderCtrl,
-                      scrollDirection: Axis.horizontal,
-                      child: _buildHeaderRight(columns, groups),
+
+              // ======= ตรวจว่ามีข้อมูลไหม =======
+              if (rows.isEmpty)
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.info_outline,
+                            color: Colors.grey[500], size: 50),
+                        const SizedBox(height: 12),
+                        Text(
+                          'ไม่พบข้อมูลรายงาน',
+                          style: MyContant().h5NotData(),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                )
+              else
+                // หัวตาราง
+                Row(
+                  children: [
+                    // มุมซ้ายบน (หัวคอลัมน์)
+                    _buildHeaderCell('ประเภท/ยี่ห้อ/รุ่น',
+                        width: leftColWidth, height: simpleHeaderHeight),
+                    // หัวตารางฝั่งขวา (scroll แนวนอน)
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: _hHeaderCtrl,
+                        scrollDirection: Axis.horizontal,
+                        child: _buildHeaderRight(columns, groups),
+                      ),
+                    ),
+                  ],
+                ),
+
               // บอดี้
               Expanded(
                 child: Row(

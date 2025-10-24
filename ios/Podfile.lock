@@ -1,9 +1,4 @@
 PODS:
-  - Firebase/Analytics (11.10.0):
-    - Firebase/Core
-  - Firebase/Core (11.10.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 11.10.0)
   - Firebase/CoreOnly (11.10.0):
     - FirebaseCore (~> 11.10.0)
   - Firebase/Messaging (11.10.0):
@@ -139,10 +134,10 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - Firebase/Analytics
-  - Firebase/Core
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
+  - FirebaseAnalytics
+  - FirebaseCore
   - Flutter (from `Flutter`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_localization (from `.symlinks/plugins/flutter_localization/ios`)
@@ -201,7 +196,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: ef4505d2afb1d0ebbc33162cb3795382904b5679
   FirebaseInstallations: 9980995bdd06ec8081dfb6ab364162bdd64245c3
   FirebaseMessaging: 2b9f56aa4ed286e1f0ce2ee1d413aabb8f9f5cb9
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_localization: 72299fb6cb4e51cae587bd953ed0b958040b71e6
   geolocator_apple: ab36aa0e8b7d7a2d7639b3b4e48308394e8cef5e
@@ -217,6 +212,6 @@ SPEC CHECKSUMS:
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
-PODFILE CHECKSUM: 4cb0d70bbd10686e199fa7112cf4490983405be3
+PODFILE CHECKSUM: 9308454ddaaa81ef5c1fc0f658bbd711f85828c7
 
 COCOAPODS: 1.16.2

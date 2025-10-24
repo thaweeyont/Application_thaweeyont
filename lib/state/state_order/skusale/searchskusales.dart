@@ -1358,40 +1358,55 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                         // print('year3: $selectYearlist3');
                         // print('year4: $selectYearlist4');
                         // print('idChkExclude: ${idChkExclude ?? ''}');
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ReportSKUSaleList(
-                              itemGroupIds: itemGroupIds,
-                              itemTypeIds: itemTypeIds,
-                              idBrandlist: idBrandlist,
-                              idModellist: idModellist,
-                              idStylellist: idStylellist,
-                              idSizelist: idSizelist,
-                              idColorlist: idColorlist,
-                              selectProvinbranchlist: selectProvinbranchlist,
-                              selectBranchgrouplist: selectBranchgrouplist,
-                              selectAreaBranchlist: selectAreaBranchlist,
-                              itemSupplyIds: itemSupplyIds,
-                              startdate: startdate.text.replaceAll('-', ''),
-                              startdatePO: startdatePO.text.replaceAll('-', ''),
-                              enddatePO: enddatePO.text.replaceAll('-', ''),
-                              startDatesale:
-                                  startDatesale.text.replaceAll('-', ''),
-                              endDatesale: endDatesale.text.replaceAll('-', ''),
-                              selectMonthId1: selectMonthId1,
-                              selectMonthId2: selectMonthId2,
-                              selectMonthId3: selectMonthId3,
-                              selectMonthId4: selectMonthId4,
-                              selectYearlist1: selectYearlist1,
-                              selectYearlist2: selectYearlist2,
-                              selectYearlist3: selectYearlist3,
-                              selectYearlist4: selectYearlist4,
-                              idChkExclude: idChkExclude,
+                        if (itemGroup.text.isEmpty &&
+                            itemType.text.isEmpty &&
+                            itemBrand.text.isEmpty) {
+                          showProgressDialog(context, 'แจ้งเตือน',
+                              'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
+                        } else if (itemType.text.isEmpty &&
+                            itemBrand.text.isEmpty) {
+                          showProgressDialog(context, 'แจ้งเตือน',
+                              'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
+                        } else if (itemBrand.text.isEmpty) {
+                          showProgressDialog(
+                              context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReportSKUSaleList(
+                                itemGroupIds: itemGroupIds,
+                                itemTypeIds: itemTypeIds,
+                                idBrandlist: idBrandlist,
+                                idModellist: idModellist,
+                                idStylellist: idStylellist,
+                                idSizelist: idSizelist,
+                                idColorlist: idColorlist,
+                                selectProvinbranchlist: selectProvinbranchlist,
+                                selectBranchgrouplist: selectBranchgrouplist,
+                                selectAreaBranchlist: selectAreaBranchlist,
+                                itemSupplyIds: itemSupplyIds,
+                                startdate: startdate.text.replaceAll('-', ''),
+                                startdatePO:
+                                    startdatePO.text.replaceAll('-', ''),
+                                enddatePO: enddatePO.text.replaceAll('-', ''),
+                                startDatesale:
+                                    startDatesale.text.replaceAll('-', ''),
+                                endDatesale:
+                                    endDatesale.text.replaceAll('-', ''),
+                                selectMonthId1: selectMonthId1,
+                                selectMonthId2: selectMonthId2,
+                                selectMonthId3: selectMonthId3,
+                                selectMonthId4: selectMonthId4,
+                                selectYearlist1: selectYearlist1,
+                                selectYearlist2: selectYearlist2,
+                                selectYearlist3: selectYearlist3,
+                                selectYearlist4: selectYearlist4,
+                                idChkExclude: idChkExclude,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                       child: const Text('ค้นหา'),
                     ),
