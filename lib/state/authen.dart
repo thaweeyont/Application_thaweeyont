@@ -198,6 +198,10 @@ class _AuthenState extends State<Authen> {
             'allowedMenu',
             (d['allowedMenu'] as List).map((e) => e.toString()).toList(),
           );
+          await prefs.setStringList(
+            'itemBrandPC',
+            (d['itemBrandPC'] as List).map((e) => e.toString()).toList(),
+          );
           await prefs.setString('username', username);
           await prefs.setString('password', password);
 

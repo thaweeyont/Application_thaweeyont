@@ -38,7 +38,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
       tokenId = '',
       branchName = '';
   bool? allowApproveStatus, allowedTest;
-  List<String>? allowedMenu;
+  List<String>? allowedMenu, itemBrandPC;
   List<Map<String, String>> result = [];
 
   var status = false;
@@ -60,7 +60,9 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
       branchName = preferences.getString('branchName')!;
       allowApproveStatus = preferences.getBool('allowApproveStatus');
       allowedMenu = preferences.getStringList('allowedMenu');
+      itemBrandPC = preferences.getStringList('itemBrandPC');
     });
+    print('itemBrandPC: $itemBrandPC');
     checkIndex();
     handleMenuItemSelected(allowedMenu!);
   }
@@ -386,6 +388,9 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
         break;
       case '009':
         title = "ยอดขายสินค้ารวมสาขาในแต่ละวัน";
+        break;
+      case '011':
+        title = "รายงาน SKU Sale";
         break;
     }
     return title;

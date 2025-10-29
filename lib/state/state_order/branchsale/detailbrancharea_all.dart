@@ -177,7 +177,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        padding: const EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
@@ -1070,7 +1070,7 @@ class _DetailBranchAreaAllState extends State<DetailBranchAreaAll> {
       padding: padding, // ✅ ใช้ padding ที่รับเข้ามา
       child: Container(
         width: width,
-        padding: const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           boxShadow: [

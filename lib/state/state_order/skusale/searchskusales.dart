@@ -30,6 +30,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
       branchAreaId = '',
       branchAreaName = '',
       appGroupId = '';
+  List<String>? itemBrandPC;
   List mybranchProvince = [],
       mybranchGroup = [],
       myAreaBranch = [],
@@ -103,6 +104,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
       branchAreaId = preferences.getString('branchAreaId')!;
       branchAreaName = preferences.getString('branchAreaName')!;
       appGroupId = preferences.getString('appGroupId')!;
+      itemBrandPC = preferences.getStringList('itemBrandPC')!;
     });
     showProgressLoading(context);
     await getSelectbranchProvince();
@@ -1332,12 +1334,18 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                         // print('idStylellist: ${idStylellist ?? ''}');
                         // print('idSizelist: ${idSizelist ?? ''}');
                         // print('idColorlist: ${idColorlist ?? ''}');
-                        // print(
-                        //     'idProvinceList: ${selectProvinbranchlist ?? ''}');
-                        // print(
-                        //     'idBranchGroupList: ${selectBranchgrouplist ?? ''}');
-                        // print(
-                        //     'idAreaBranchList: ${selectAreaBranchlist ?? ''}');
+                        String normalizeId(dynamic value) {
+                          if (value == null) return '';
+                          final v = value.toString().trim();
+                          return (v == '99') ? '' : v;
+                        }
+
+                        print(
+                            'idProvinceList: ${normalizeId(selectProvinbranchlist)}');
+                        print(
+                            'idBranchGroupList: ${normalizeId(selectBranchgrouplist)}');
+                        print(
+                            'idAreaBranchList: ${normalizeId(selectAreaBranchlist)}');
                         // print('itemSupplyIds: $itemSupplyIds');
                         // print(
                         //     'datestart: ${startdate.text.replaceAll('-', '')}');
@@ -1367,10 +1375,12 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                             itemBrand.text.isEmpty) {
                           showProgressDialog(context, 'แจ้งเตือน',
                               'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
-                        } else if (itemBrand.text.isEmpty) {
-                          showProgressDialog(
-                              context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
-                        } else {
+                        }
+                        // else if (itemBrand.text.isEmpty) {
+                        //   showProgressDialog(
+                        //       context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
+                        // }
+                        else {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -1382,9 +1392,12 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                 idStylellist: idStylellist,
                                 idSizelist: idSizelist,
                                 idColorlist: idColorlist,
-                                selectProvinbranchlist: selectProvinbranchlist,
-                                selectBranchgrouplist: selectBranchgrouplist,
-                                selectAreaBranchlist: selectAreaBranchlist,
+                                selectProvinbranchlist:
+                                    normalizeId(selectProvinbranchlist),
+                                selectBranchgrouplist:
+                                    normalizeId(selectBranchgrouplist),
+                                selectAreaBranchlist:
+                                    normalizeId(selectAreaBranchlist),
                                 itemSupplyIds: itemSupplyIds,
                                 startdate: startdate.text.replaceAll('-', ''),
                                 startdatePO:
@@ -2942,7 +2955,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             child: Container(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),
@@ -3584,7 +3597,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             child: Container(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),
@@ -4018,7 +4031,8 @@ class _ItemBrandListState extends State<ItemBrandList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -4450,7 +4464,8 @@ class _ItemModelListState extends State<ItemModelList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -4877,7 +4892,8 @@ class _ItemStyleListState extends State<ItemStyleList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -5307,7 +5323,8 @@ class _ItemSizeListState extends State<ItemSizeList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -5733,7 +5750,8 @@ class _ItemColorListState extends State<ItemColorList> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -6360,7 +6378,7 @@ class _SupplyListState extends State<SupplyList> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             child: Container(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),

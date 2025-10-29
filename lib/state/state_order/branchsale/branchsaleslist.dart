@@ -163,7 +163,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
           'itemGroupId': valueGrouplist.toString(),
           'itemTypeId': valueTypelist.toString(),
           'itemBrandId': valueBrandlist.toString(),
-          'itemModel': valueModellist.toString(), 
+          'itemModel': valueModellist.toString(),
           'itemStyleId': valueStylelist.toString(),
           'itemSizeId': valueSizelist.toString(),
           'itemId': valueItemlist.toString(),
@@ -200,7 +200,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
               totalAmount = saleBranchList.fold(
                   0, (sum, item) => sum + (item['branchTotal'] ?? 0.0));
               totalQty = saleBranchList.fold(
-                  0, (sum, item) => sum + (item['qtyTotal'] ?? 0)); 
+                  0, (sum, item) => sum + (item['qtyTotal'] ?? 0));
             }
 
             percentage = calculatePercentage(totalTarget, totalAmount);
@@ -324,7 +324,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                                 .width *
                                                             0.18,
                                                     padding:
-                                                        const EdgeInsets.all(6),
+                                                        const EdgeInsets.all(4),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -387,7 +387,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                                 .width *
                                                             0.24,
                                                     padding:
-                                                        const EdgeInsets.all(6),
+                                                        const EdgeInsets.all(4),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -450,7 +450,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                                 .width *
                                                             0.55,
                                                     padding:
-                                                        const EdgeInsets.all(6),
+                                                        const EdgeInsets.all(4),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -513,7 +513,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                                 .width *
                                                             0.30,
                                                     padding:
-                                                        const EdgeInsets.all(6),
+                                                        const EdgeInsets.all(4),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -576,7 +576,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                                 .width *
                                                             0.38,
                                                     padding:
-                                                        const EdgeInsets.all(6),
+                                                        const EdgeInsets.all(4),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -646,7 +646,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                               0.18,
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              6),
+                                                              4),
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -713,7 +713,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                               0.24,
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              6),
+                                                              4),
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -780,7 +780,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                               0.55,
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              6),
+                                                              4),
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -852,7 +852,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                               0.30,
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              6),
+                                                              4),
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -919,7 +919,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                                               0.38,
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              6),
+                                                              4),
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -1167,7 +1167,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                   padding: const EdgeInsets.only(
                                       left: 8, right: 8, top: 4, bottom: 4),
                                   child: Container(
-                                    padding: const EdgeInsets.all(6),
+                                    padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10)),
@@ -1211,7 +1211,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 2),
                                   child: Container(
-                                    padding: const EdgeInsets.all(6),
+                                    padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10)),
@@ -1254,7 +1254,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                                   padding: const EdgeInsets.only(
                                       left: 8, right: 8, top: 4, bottom: 10),
                                   child: Container(
-                                    padding: const EdgeInsets.all(6),
+                                    padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10)),
@@ -1313,7 +1313,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 2),
           child: Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
@@ -1355,7 +1355,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 6),
           child: Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
@@ -1396,7 +1396,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
           child: Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
@@ -1437,7 +1437,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
           child: Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
@@ -1589,7 +1589,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
               return Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     boxShadow: [
@@ -1660,7 +1660,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 40),
                   child: Container(
-                    padding: const EdgeInsets.all(6),
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(
                         Radius.circular(10),
@@ -1741,7 +1741,7 @@ class _BranchSalesListState extends State<BranchSalesList> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
