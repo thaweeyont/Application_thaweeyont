@@ -62,7 +62,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
       allowedMenu = preferences.getStringList('allowedMenu');
       itemBrandPC = preferences.getStringList('itemBrandPC');
     });
-    print('itemBrandPC: $itemBrandPC');
+
     checkIndex();
     handleMenuItemSelected(allowedMenu!);
   }
@@ -693,7 +693,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
               children: [
                 drawerIcon(size),
                 listMenu(context, size),
-                skusale(context, size),
+                // skusale(context, size),
                 about(context, size),
                 btnLogout(context, size),
                 const SizedBox(height: 10),

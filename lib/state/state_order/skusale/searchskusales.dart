@@ -70,6 +70,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
       selectedItemTypeList = [],
       selectedSupplyList = [];
   DateTime selectedDate = DateTime.now();
+  bool showClearBrand = false;
+  bool showClearSupply = false;
 
   TextEditingController itemGroup = TextEditingController();
   TextEditingController itemType = TextEditingController();
@@ -95,17 +97,75 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-      branchId = preferences.getString('branchId')!;
-      branchAreaId = preferences.getString('branchAreaId')!;
-      branchAreaName = preferences.getString('branchAreaName')!;
-      appGroupId = preferences.getString('appGroupId')!;
-      itemBrandPC = preferences.getStringList('itemBrandPC')!;
+      userId = preferences.getString('userId') ?? '';
+      empId = preferences.getString('empId') ?? '';
+      firstName = preferences.getString('firstName') ?? '';
+      lastName = preferences.getString('lastName') ?? '';
+      tokenId = preferences.getString('tokenId') ?? '';
+      branchId = preferences.getString('branchId') ?? '';
+      branchAreaId = preferences.getString('branchAreaId') ?? '';
+      branchAreaName = preferences.getString('branchAreaName') ?? '';
+      appGroupId = preferences.getString('appGroupId') ?? '';
+      itemBrandPC = preferences.getStringList('itemBrandPC');
     });
+
+    print('📦 itemBrandPC raw: $itemBrandPC');
+
+    if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
+      final List<Map<String, dynamic>> brandList = itemBrandPC!
+          .map((e) => jsonDecode(e) as Map<String, dynamic>)
+          .toList();
+
+      final List<String> brandIds = brandList
+          .map((e) => (e['brandId'] ?? '').toString())
+          .where((id) => id.isNotEmpty)
+          .toList();
+
+      final List<String> supplyIds = brandList
+          .map((e) => (e['supplyId'] ?? '').toString())
+          .where((id) => id.isNotEmpty)
+          .toList();
+
+      print('🔍 brandIds: $brandIds');
+      print('🔍 supplyIds: $supplyIds');
+
+      if (brandIds.length == 1 && supplyIds.length == 1) {
+        // ✅ ทั้ง brand และ supply มี 1 รายการ → ตั้ง default ทั้งคู่
+        final brandData = brandList.firstWhere(
+            (e) => (e['brandId'] ?? '').toString() == brandIds.first);
+        await setDefaultBrand(brandData);
+        await setDefaultSupplyList(brandList);
+
+        setState(() {
+          showClearBrand = true;
+          showClearSupply = true;
+        });
+
+        print('✅ Default brand/supply set automatically.');
+      } else if (brandIds.length == 1 && supplyIds.isEmpty) {
+        // ✅ มี brand 1 รายการ แต่ supply ว่าง → ตั้ง default brand, เปิดให้เลือก supply
+        final brandData = brandList.firstWhere(
+            (e) => (e['brandId'] ?? '').toString() == brandIds.first);
+        await setDefaultBrand(brandData);
+
+        setState(() {
+          showClearBrand = true;
+          showClearSupply = false; // ให้ user เลือก supply
+        });
+
+        print('🔹 Default brand set. User must select supply.');
+      } else {
+        // 🔄 กรณีมีหลายรายการ → ให้ user เลือกทั้งคู่
+        setState(() {
+          showClearBrand = false;
+          showClearSupply = false;
+        });
+
+        print('🔄 Multiple brand/supply options, user must select.');
+      }
+    }
+
+    // โหลดข้อมูลอื่น ๆ ตามปกติ
     showProgressLoading(context);
     await getSelectbranchProvince();
     await getSelectbranchGroup();
@@ -121,6 +181,94 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
     if (mounted) {
       Navigator.pop(context);
+    }
+  }
+
+  Future<void> setDefaultBrand(Map<String, dynamic> brandData) async {
+    try {
+      final brandId = (brandData['brandId'] ?? '').toString();
+
+      final response = await http.get(
+        Uri.parse(
+            '${api}setup/itemBrandList?searchId=$brandId&page=1&limit=100'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final brandList = data['data'] as List;
+
+        final brandMatch = brandList.firstWhere(
+          (b) => (b['id'] ?? '').toString() == brandId,
+          orElse: () => null,
+        );
+
+        if (brandMatch != null) {
+          setState(() {
+            idBrandlist = brandId;
+            itemBrand.text = (brandMatch['name'] ?? '').toString();
+            showClearBrand = true;
+          });
+          print('🔍 Default Brand: ${brandMatch['name']}');
+        }
+      } else {
+        handleHttpError(response.statusCode);
+      }
+    } catch (e) {
+      print('❌ error get brand default: $e');
+    }
+  }
+
+  Future<void> setDefaultSupplyList(
+      List<Map<String, dynamic>> brandList) async {
+    try {
+      final List<String> supplyIds = brandList
+          .map((e) => (e['supplyId'] ?? '').toString())
+          .where((id) => id.isNotEmpty)
+          .toList();
+
+      if (supplyIds.isEmpty) return;
+
+      final response = await http.get(
+        Uri.parse('${api}setup/supplyList?searchName=&page=1&limit=4000'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': tokenId.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final supplyData = data['data'] as List;
+
+        final matchedSupplies = supplyData
+            .where((s) => supplyIds.contains((s['id'] ?? '').toString()))
+            .toList();
+
+        if (matchedSupplies.isNotEmpty) {
+          final displayNames = matchedSupplies
+              .map((e) => (e['name'] ?? '').toString())
+              .join(', ');
+          final supplyIdString =
+              matchedSupplies.map((e) => (e['id'] ?? '').toString()).join(',');
+
+          setState(() {
+            supplyList.text = displayNames;
+            itemSupplyIds = supplyIdString;
+            showClearSupply = true;
+          });
+
+          print('🔹 Default Supply: $displayNames');
+          print('🔹 Supply IDs: $supplyIdString');
+        }
+      } else {
+        handleHttpError(response.statusCode);
+      }
+    } catch (e) {
+      print('❌ error get supply default: $e');
     }
   }
 
@@ -790,22 +938,24 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                               backgroundColor:
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ItemBrandList(),
-                                ),
-                              ).then((result) {
-                                if (result != null) {
-                                  setState(() {
-                                    itemBrand.text = result['name'];
-                                    idBrandlist = result['id'];
-                                    print('idBrandlist: $idBrandlist');
-                                  });
-                                }
-                              });
-                            },
+                            onPressed: showClearBrand
+                                ? null
+                                : () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ItemBrandList(),
+                                      ),
+                                    ).then((result) {
+                                      if (result != null) {
+                                        setState(() {
+                                          itemBrand.text = result['name'];
+                                          idBrandlist = result['id'];
+                                          print('idBrandlist: $idBrandlist');
+                                        });
+                                      }
+                                    });
+                                  },
                             child: const Icon(
                               Icons.search,
                               color: Colors.white,
@@ -1146,31 +1296,35 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                               backgroundColor:
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SupplyList(),
-                                ),
-                              ).then((result) {
-                                if (result != null && result is List) {
-                                  setState(() {
-                                    selectedSupplyList =
-                                        List<Map<String, dynamic>>.from(result);
-                                    // แสดงชื่อใน TextField
-                                    supplyList.text = selectedSupplyList
-                                        .map((e) => e['name'].toString())
-                                        .join(', ');
+                            onPressed: showClearSupply
+                                ? null
+                                : () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SupplyList(),
+                                      ),
+                                    ).then((result) {
+                                      if (result != null && result is List) {
+                                        setState(() {
+                                          selectedSupplyList =
+                                              List<Map<String, dynamic>>.from(
+                                                  result);
+                                          // แสดงชื่อใน TextField
+                                          supplyList.text = selectedSupplyList
+                                              .map((e) => e['name'].toString())
+                                              .join(', ');
 
-                                    // เก็บ id สำหรับส่ง API (เช่น 01,05,07)
-                                    itemSupplyIds = selectedSupplyList
-                                        .map((e) => e['id'].toString())
-                                        .join(',');
-                                    print('itemSupplyIds: $itemSupplyIds');
-                                  });
-                                }
-                              });
-                            },
+                                          // เก็บ id สำหรับส่ง API (เช่น 01,05,07)
+                                          itemSupplyIds = selectedSupplyList
+                                              .map((e) => e['id'].toString())
+                                              .join(',');
+                                          print(
+                                              'itemSupplyIds: $itemSupplyIds');
+                                        });
+                                      }
+                                    });
+                                  },
                             child: const Icon(
                               Icons.search,
                               color: Colors.white,
@@ -1327,6 +1481,12 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
+                        String normalizeId(dynamic value) {
+                          if (value == null) return '';
+                          final v = value.toString().trim();
+                          return (v == '99') ? '' : v;
+                        }
+
                         // print('itemGroupIds: $itemGroupIds');
                         // print('itemTypeIds: $itemTypeIds');
                         // print('idBrandlist: ${idBrandlist ?? ''}');
@@ -1334,18 +1494,12 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                         // print('idStylellist: ${idStylellist ?? ''}');
                         // print('idSizelist: ${idSizelist ?? ''}');
                         // print('idColorlist: ${idColorlist ?? ''}');
-                        String normalizeId(dynamic value) {
-                          if (value == null) return '';
-                          final v = value.toString().trim();
-                          return (v == '99') ? '' : v;
-                        }
-
-                        print(
-                            'idProvinceList: ${normalizeId(selectProvinbranchlist)}');
-                        print(
-                            'idBranchGroupList: ${normalizeId(selectBranchgrouplist)}');
-                        print(
-                            'idAreaBranchList: ${normalizeId(selectAreaBranchlist)}');
+                        // print(
+                        //     'idProvinceList: ${normalizeId(selectProvinbranchlist)}');
+                        // print(
+                        //     'idBranchGroupList: ${normalizeId(selectBranchgrouplist)}');
+                        // print(
+                        //     'idAreaBranchList: ${normalizeId(selectAreaBranchlist)}');
                         // print('itemSupplyIds: $itemSupplyIds');
                         // print(
                         //     'datestart: ${startdate.text.replaceAll('-', '')}');
@@ -1532,17 +1686,19 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           controller: itemBrand,
           readOnly: true,
           decoration: InputDecoration(
-            suffixIcon: itemBrand.text.isEmpty
+            suffixIcon: showClearBrand
                 ? null
-                : GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        itemBrand.clear();
-                        idBrandlist = null;
-                      });
-                    },
-                    child: const Icon(Icons.close),
-                  ),
+                : itemBrand.text.isEmpty
+                    ? null
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            itemBrand.clear();
+                            idBrandlist = null;
+                          });
+                        },
+                        child: const Icon(Icons.close),
+                      ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: _border,
@@ -2142,17 +2298,19 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           readOnly: true,
           controller: supplyList,
           decoration: InputDecoration(
-            suffixIcon: supplyList.text.isEmpty
+            suffixIcon: showClearSupply
                 ? null
-                : GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        supplyList.clear();
-                        itemSupplyIds = '';
-                      });
-                    },
-                    child: const Icon(Icons.close),
-                  ),
+                : supplyList.text.isEmpty
+                    ? null
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            supplyList.clear();
+                            itemSupplyIds = '';
+                          });
+                        },
+                        child: const Icon(Icons.close),
+                      ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
             enabledBorder: _border,
@@ -3791,6 +3949,7 @@ class ItemBrandList extends StatefulWidget {
 
 class _ItemBrandListState extends State<ItemBrandList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  List<String>? itemBrandPC;
   TextEditingController itembrandlist = TextEditingController();
   List<dynamic> dropdownbrandlist = [];
   bool statusLoading = false,
@@ -3819,26 +3978,110 @@ class _ItemBrandListState extends State<ItemBrandList> {
       firstName = preferences.getString('firstName')!;
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
+      itemBrandPC = preferences.getStringList('itemBrandPC')!;
     });
+
     if (mounted) {
-      getSelectBrandList(offset);
+      // getSelectBrandList(offset);
+      loadBrandList(offset);
     }
     myScroll(scrollControll, offset);
   }
 
+  // void myScroll(ScrollController scrollController, int offset) {
+  //   scrollController.addListener(() async {
+  //     if (scrollController.position.pixels ==
+  //         scrollController.position.maxScrollExtent) {
+  //       setState(() {
+  //         isLoadScroll = true;
+  //       });
+  //       await Future.delayed(const Duration(seconds: 1), () {
+  //         offset = offset + 20;
+  //         getSelectBrandList(offset);
+  //       });
+  //     }
+  //   });
+  // }
   void myScroll(ScrollController scrollController, int offset) {
     scrollController.addListener(() async {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        setState(() {
-          isLoadScroll = true;
-        });
-        await Future.delayed(const Duration(seconds: 1), () {
-          offset = offset + 20;
-          getSelectBrandList(offset);
-        });
+        if (!isLoadScroll && !isLoadendPage) {
+          setState(() {
+            isLoadScroll = true;
+          });
+
+          await Future.delayed(const Duration(milliseconds: 500));
+
+          offset += 20;
+
+          // ตรวจสอบว่ามี itemBrandPC หรือไม่
+          if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
+            await loadBrandList(offset);
+          } else {
+            await getSelectBrandList(offset);
+          }
+        }
       }
     });
+  }
+
+  Future<void> loadBrandList(offset) async {
+    if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
+      // กรณี itemBrandPC มีค่า → เอา brandId ไปหา API ทีละตัว
+      final List<Map<String, dynamic>> brandList = itemBrandPC!
+          .map((e) => jsonDecode(e) as Map<String, dynamic>)
+          .toList();
+
+      final List<Map<String, dynamic>> tempDropdownList = [];
+
+      for (var brand in brandList) {
+        final brandId = (brand['brandId'] ?? '').toString();
+        if (brandId.isEmpty) continue;
+
+        try {
+          final response = await http.get(
+            Uri.parse(
+                '${api}setup/itemBrandList?searchId=$brandId&page=1&limit=$offset'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': tokenId.toString(),
+            },
+          );
+
+          if (response.statusCode == 200) {
+            final data = jsonDecode(response.body);
+            final List<dynamic> apiData = data['data'];
+
+            // filter ให้เหลือเฉพาะ record ที่ id == brandId
+            tempDropdownList.addAll(apiData
+                .where((e) => (e['id'] ?? '').toString() == brandId)
+                .map((e) => e as Map<String, dynamic>));
+          } else {
+            handleHttpError(response.statusCode);
+          }
+        } catch (e) {
+          print('❌ Error fetching brand for brandId $brandId: $e');
+        }
+      }
+      setState(() {
+        dropdownbrandlist = tempDropdownList;
+      });
+      statusLoading = true;
+      isLoadScroll = false;
+      if (stquery > 0) {
+        if (offset > dropdownbrandlist.length) {
+          isLoadendPage = true;
+        }
+        stquery = 1;
+      } else {
+        stquery = 1;
+      }
+      print('✅ dropdownbrandlist from itemBrandPC: $dropdownbrandlist');
+    } else {
+      // กรณี itemBrandPC ว่าง → ทำงานแบบเดิม
+      await getSelectBrandList(offset);
+    }
   }
 
   Future<void> getSelectBrandList(offset) async {
@@ -3900,6 +4143,32 @@ class _ItemBrandListState extends State<ItemBrandList> {
     } catch (e) {
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -5938,6 +6207,7 @@ class SupplyList extends StatefulWidget {
 
 class _SupplyListState extends State<SupplyList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
+  List<String>? itemBrandPC;
   TextEditingController supplynamelist = TextEditingController();
   List<dynamic> dropdownsupplylist = [];
   List<dynamic> originalSupplyList = []; // เก็บข้อมูลเดิมก่อนค้นหา
@@ -5970,9 +6240,11 @@ class _SupplyListState extends State<SupplyList> {
       firstName = preferences.getString('firstName')!;
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
+      itemBrandPC = preferences.getStringList('itemBrandPC');
     });
     if (mounted) {
-      getSelectSupplyList(offset);
+      // getSelectSupplyList(offset);
+      await loadSupplyList(offset);
     }
     myScroll(scrollControll, offset);
   }
@@ -5983,23 +6255,119 @@ class _SupplyListState extends State<SupplyList> {
           scrollController.position.maxScrollExtent - 10) {
         if (isLoadScroll || isLoadendPage) return;
         setState(() => isLoadScroll = true);
-        await Future.delayed(const Duration(seconds: 1));
+        await Future.delayed(const Duration(milliseconds: 500));
 
-        // โหลดเพิ่มสำหรับข้อมูลเริ่มต้น (ไม่ใช้ search)
-        if (supplynamelist.text.isEmpty) {
-          offset += 20;
-          print('ว่าง> $offset');
-          await getSelectSupplyList(offset, loadMore: true);
+        offset += 20;
+
+        if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
+          print('โหลดเพิ่มจาก itemBrandPC1');
+          await loadSupplyList(offset, loadMore: true);
         } else {
-          // โหลดเพิ่มสำหรับข้อมูลค้นหา
-          offset += 20;
-          print('ไม่ว่าง> $offset');
-          await searchSupply(offset, supplynamelist.text, loadMore: true);
+          if (supplynamelist.text.isEmpty) {
+            print('โหลดเพิ่มจาก itemBrandPC2');
+            await getSelectSupplyList(offset, loadMore: true);
+          } else {
+            print('โหลดเพิ่มจาก itemBrandPC3');
+            await searchSupply(offset, supplynamelist.text, loadMore: true);
+          }
         }
 
         setState(() => isLoadScroll = false);
       }
     });
+  }
+
+  // void myScroll(ScrollController scrollController, int offset) {
+  //   scrollController.addListener(() async {
+  //     if (scrollController.position.pixels >=
+  //         scrollController.position.maxScrollExtent - 10) {
+  //       if (isLoadScroll || isLoadendPage) return;
+  //       setState(() => isLoadScroll = true);
+  //       await Future.delayed(const Duration(seconds: 1));
+
+  //       // โหลดเพิ่มสำหรับข้อมูลเริ่มต้น (ไม่ใช้ search)
+  //       if (supplynamelist.text.isEmpty) {
+  //         offset += 20;
+  //         print('ว่าง> $offset');
+  //         await getSelectSupplyList(offset, loadMore: true);
+  //       } else {
+  //         // โหลดเพิ่มสำหรับข้อมูลค้นหา
+  //         offset += 20;
+  //         print('ไม่ว่าง> $offset');
+  //         await searchSupply(offset, supplynamelist.text, loadMore: true);
+  //       }
+
+  //       setState(() => isLoadScroll = false);
+  //     }
+  //   });
+  // }
+
+  Future<void> loadSupplyList(offset, {bool loadMore = false}) async {
+    if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
+      final List<Map<String, dynamic>> brandList = itemBrandPC!
+          .map((e) => jsonDecode(e) as Map<String, dynamic>)
+          .toList();
+
+      // เอาเฉพาะ supplyId ทั้งหมดที่มีค่า
+      final supplyIds = brandList
+          .map((b) => (b['supplyId'] ?? '').toString())
+          .where((id) => id.isNotEmpty)
+          .toSet()
+          .toList();
+
+      if (supplyIds.isEmpty) {
+        print('⚠️ ไม่มี supplyId ใน itemBrandPC');
+        return;
+      }
+
+      try {
+        // ดึงข้อมูลทั้งหมดจาก API
+        final response = await http.get(
+          Uri.parse('${api}setup/supplyList?searchName=&page=1&limit=5000'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': tokenId.toString(),
+          },
+        );
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          final List<dynamic> apiData = data['data'];
+
+          // filter เฉพาะ id ที่อยู่ใน supplyIds
+          final filtered = apiData
+              .where((e) => supplyIds.contains((e['id'] ?? '').toString()))
+              .map((e) => e as Map<String, dynamic>)
+              .toList();
+
+          setState(() {
+            if (!loadMore) {
+              dropdownsupplylist = filtered;
+              isCheckedList = filtered
+                  .map((e) => selectedSupplySet.contains(e['id'].toString()))
+                  .toList();
+            } else {
+              dropdownsupplylist.addAll(filtered);
+              isCheckedList.addAll(filtered
+                  .map((e) => selectedSupplySet.contains(e['id'].toString()))
+                  .toList());
+            }
+            statusLoading = true;
+            isLoadendPage = offset > dropdownsupplylist.length;
+          });
+
+          print('✅ dropdownsupplylist from itemBrandPC: $dropdownsupplylist');
+        } else {
+          handleHttpError(response.statusCode);
+        }
+      } catch (e) {
+        print('❌ Error loading supplyList: $e');
+        showProgressDialog(context, 'แจ้งเตือน', 'โหลดข้อมูลผู้จำหน่ายล้มเหลว');
+      }
+    } else {
+      // ถ้าไม่มี itemBrandPC → ทำงานปกติ
+      await getSelectSupplyList(offset, loadMore: loadMore);
+    }
   }
 
   Future<void> getSelectSupplyList(offset, {bool loadMore = false}) async {

@@ -198,10 +198,23 @@ class _AuthenState extends State<Authen> {
             'allowedMenu',
             (d['allowedMenu'] as List).map((e) => e.toString()).toList(),
           );
-          await prefs.setStringList(
-            'itemBrandPC',
-            (d['itemBrandPC'] as List).map((e) => e.toString()).toList(),
-          );
+
+          // await prefs.setStringList(
+          //   'itemBrandPC',
+          //   (d['itemBrandPC'] as List).map((e) => e.toString()).toList(),
+          // );
+          if (d['itemBrandPC'] != null && d['itemBrandPC'] is List) {
+            final itemBrandPC = (d['itemBrandPC'] as List)
+                .map(
+                    (e) => jsonEncode(e)) // ✅ แปลงแต่ละ object เป็น JSON string
+                .toList();
+
+            await prefs.setStringList('itemBrandPC', itemBrandPC);
+            print('✅ เก็บ itemBrandPC เรียบร้อย: $itemBrandPC');
+          } else {
+            await prefs.remove('itemBrandPC');
+            print('⚠️ ไม่มีข้อมูล itemBrandPC');
+          }
           await prefs.setString('username', username);
           await prefs.setString('password', password);
 
