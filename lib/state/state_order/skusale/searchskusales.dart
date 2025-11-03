@@ -756,6 +756,62 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     enddatePO.clear();
     startDatesale.clear();
     endDatesale.clear();
+    showProgressLoading(context);
+
+// ⚙️ จากนั้นเช็ค itemBrandPC เหมือนใน getdata()
+    if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
+      final List<Map<String, dynamic>> brandList = itemBrandPC!
+          .map((e) => jsonDecode(e) as Map<String, dynamic>)
+          .toList();
+
+      final List<String> brandIds = brandList
+          .map((e) => (e['brandId'] ?? '').toString())
+          .where((id) => id.isNotEmpty)
+          .toList();
+
+      final List<String> supplyIds = brandList
+          .map((e) => (e['supplyId'] ?? '').toString())
+          .where((id) => id.isNotEmpty)
+          .toList();
+
+      if (brandIds.length == 1 && supplyIds.length == 1) {
+        // ✅ ทั้ง brand และ supply มี 1 รายการ → ตั้ง default ทั้งคู่
+        final brandData = brandList.firstWhere(
+            (e) => (e['brandId'] ?? '').toString() == brandIds.first);
+        await setDefaultBrand(brandData);
+        await setDefaultSupplyList(brandList);
+
+        setState(() {
+          showClearBrand = true;
+          showClearSupply = true;
+        });
+      } else if (brandIds.length == 1 && supplyIds.isEmpty) {
+        // ✅ มี brand เดียว supply ว่าง → default brand แต่ให้ user เลือก supply
+        final brandData = brandList.firstWhere(
+            (e) => (e['brandId'] ?? '').toString() == brandIds.first);
+        await setDefaultBrand(brandData);
+
+        setState(() {
+          showClearBrand = true;
+          showClearSupply = false;
+        });
+      } else {
+        // 🔄 หลายตัว → ต้องเลือกเอง
+        setState(() {
+          showClearBrand = false;
+          showClearSupply = false;
+        });
+      }
+    } else {
+      // ❌ ไม่มี itemBrandPC → ล้างหมด ไม่ตั้ง default
+      setState(() {
+        showClearBrand = false;
+        showClearSupply = false;
+      });
+    }
+
+    print('✅ ล้างข้อมูลเสร็จแล้ว พร้อมตั้งค่าเริ่มต้นตาม itemBrandPC');
+
     await getSelectMonth1();
     await getSelectMonth2();
     await getSelectMonth3();
@@ -764,6 +820,10 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     await getSelectYear2();
     await getSelectYear3();
     await getSelectYear4();
+
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -6308,6 +6368,14 @@ class _SupplyListState extends State<SupplyList> {
           .map((e) => jsonDecode(e) as Map<String, dynamic>)
           .toList();
 
+      // ถ้ามี supplyId ว่าง → กลับไปใช้การโหลดแบบเดิม
+      final hasEmptySupply =
+          brandList.any((b) => (b['supplyId'] ?? '').toString().isEmpty);
+      if (hasEmptySupply) {
+        await getSelectSupplyList(offset, loadMore: loadMore);
+        return;
+      }
+
       // เอาเฉพาะ supplyId ทั้งหมดที่มีค่า
       final supplyIds = brandList
           .map((b) => (b['supplyId'] ?? '').toString())
@@ -6317,6 +6385,7 @@ class _SupplyListState extends State<SupplyList> {
 
       if (supplyIds.isEmpty) {
         print('⚠️ ไม่มี supplyId ใน itemBrandPC');
+        await getSelectSupplyList(offset, loadMore: loadMore);
         return;
       }
 

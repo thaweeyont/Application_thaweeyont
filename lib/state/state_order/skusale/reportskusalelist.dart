@@ -83,10 +83,6 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
   Map<String, dynamic> tableData = {"headers": {}, "rows": []};
   bool isLoading = true;
 
-  // final _hHeaderCtrl = ScrollController();
-  // final _hBodyCtrl = ScrollController();
-  // final _vLeftCtrl = ScrollController();
-  // final _vBodyCtrl = ScrollController();
   final LinkedScrollControllerGroup _linkedScrollGroup =
       LinkedScrollControllerGroup();
   late ScrollController _vLeftCtrl;
@@ -94,12 +90,6 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
   final ScrollController _hHeaderCtrl = ScrollController();
   final ScrollController _hBodyCtrl = ScrollController();
 
-  // static const double leftColWidth = 200;
-  // static const double cellWidth = 100;
-  // static const double simpleHeaderHeight = 60;
-  // static const double groupHeaderTop = 30;
-  // static const double groupHeaderSub = 30;
-  // static const double rowHeight = 70;
   final double leftColWidth = 200;
   final double cellWidth = 100;
   final double rowHeight = 70;
@@ -107,36 +97,14 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
 
   String itemGroupName = '';
   String itemTypeName = '';
+  String itemBrandName = '';
   String supplyName = '';
   String channelSaleName = '';
   String reportDate = '';
 
-  // var formatter = NumberFormat('#,##0.00');
-  // var formatterAmount = NumberFormat('#,##0');
-
   @override
   void initState() {
     super.initState();
-    // _hHeaderCtrl.addListener(() {
-    //   if (_hBodyCtrl.offset != _hHeaderCtrl.offset) {
-    //     _hBodyCtrl.jumpTo(_hHeaderCtrl.offset);
-    //   }
-    // });
-    // _hBodyCtrl.addListener(() {
-    //   if (_hHeaderCtrl.offset != _hBodyCtrl.offset) {
-    //     _hHeaderCtrl.jumpTo(_hBodyCtrl.offset);
-    //   }
-    // });
-    // _vLeftCtrl.addListener(() {
-    //   if (_vBodyCtrl.offset != _vLeftCtrl.offset) {
-    //     _vBodyCtrl.jumpTo(_vLeftCtrl.offset);
-    //   }
-    // });
-    // _vBodyCtrl.addListener(() {
-    //   if (_vLeftCtrl.offset != _vBodyCtrl.offset) {
-    //     _vLeftCtrl.jumpTo(_vBodyCtrl.offset);
-    //   }
-    // });
     _vLeftCtrl = _linkedScrollGroup.addAndGet();
     _vBodyCtrl = _linkedScrollGroup.addAndGet();
     // ✅ sync แนวนอน (header ↔ body)
@@ -159,10 +127,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     _vBodyCtrl.dispose();
     _hHeaderCtrl.dispose();
     _hBodyCtrl.dispose();
-    // _hHeaderCtrl.dispose();
-    // _hBodyCtrl.dispose();
-    // _vLeftCtrl.dispose();
-    // _vBodyCtrl.dispose();
+
     super.dispose();
   }
 
@@ -327,6 +292,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
         setState(() {
           itemGroupName = head['itemGroupName'] ?? '';
           itemTypeName = head['itemTypeName'] ?? '';
+          itemBrandName = head['itemBrandName'] ?? '';
           supplyName = head['supplyName'] ?? '';
           channelSaleName = head['channelSaleName'] ?? '';
           reportDate = _formatDate(head['date'] ?? '');
@@ -406,35 +372,6 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     }
   }
 
-  // ---------- Header Right (2 ชั้น: columns + groups) ----------
-  // Widget _buildHeaderRight(List<String> columns, Map<String, List> groups) {
-  //   return Row(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       // simple columns
-  //       ...columns.map(
-  //         (c) =>
-  //             _buildHeaderCell(c, width: cellWidth, height: simpleHeaderHeight),
-  //       ),
-  //       // grouped headers
-  //       ...groups.entries.map((entry) {
-  //         final subs = entry.value;
-  //         return Column(
-  //           children: [
-  //             _buildHeaderCell(entry.key,
-  //                 width: subs.length * cellWidth, height: groupHeaderTop),
-  //             Row(
-  //               children: subs
-  //                   .map<Widget>((sub) => _buildHeaderCell(sub.toString(),
-  //                       width: cellWidth, height: groupHeaderSub))
-  //                   .toList(),
-  //             ),
-  //           ],
-  //         );
-  //       }),
-  //     ],
-  //   );
-  // }
   Widget _buildHeaderRight(List<String> columns, Map<String, List> groups) {
     return Row(
       children: [
@@ -474,31 +411,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     }
     return totalCols * cellWidth;
   }
-  // double _calcBodyWidth(List<String> columns, Map<String, List> groups) {
-  //   final simpleCols = columns.length;
-  //   final groupedCols =
-  //       groups.values.fold<int>(0, (sum, list) => sum + list.length);
-  //   return (simpleCols + groupedCols) * cellWidth;
-  // }
 
-  // ---------------- UI Helper ----------------
-  // Widget _buildHeaderCell(String text,
-  //     {double width = 100, double height = 50}) {
-  //   return Container(
-  //     width: width,
-  //     height: height,
-  //     alignment: Alignment.center,
-  //     decoration: BoxDecoration(
-  //       border: Border.all(color: Color.fromRGBO(239, 204, 249, 1)),
-  //       color: Color.fromRGBO(249, 233, 249, 1),
-  //     ),
-  //     child: Text(
-  //       text,
-  //       textAlign: TextAlign.center,
-  //       style: MyContant().h4normalStyle(),
-  //     ),
-  //   );
-  // }
   Widget _buildHeaderCell(String text, {double? width, double? height}) {
     return Container(
       width: width ?? cellWidth,
@@ -515,29 +428,6 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     );
   }
 
-  // Widget _buildCell(
-  //   String text, {
-  //   double width = 100,
-  //   double height = 50,
-  //   Alignment alignment = Alignment.center,
-  // }) {
-  //   return Container(
-  //     width: width,
-  //     height: height,
-  //     alignment: alignment,
-  //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-  //     decoration: BoxDecoration(
-  //       border: Border.all(
-  //         color: Color.fromRGBO(239, 204, 249, 1),
-  //       ),
-  //       color: Colors.white,
-  //     ),
-  //     child: Text(
-  //       text,
-  //       style: MyContant().h4normalStyle(),
-  //     ),
-  //   );
-  // }
   Widget _buildCell(
     String text, {
     double? width,
@@ -630,13 +520,13 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     // ถ้ายังโหลดข้อมูล ให้แสดง loading ก่อน
     if (isLoading) {
       return Scaffold(
-        appBar: CustomAppbar(title: "ตารางรายงาน SKU Sale"),
+        appBar: CustomAppbar(title: "รายงาน SKU Sale"),
         body: Loading(),
       );
     }
 
     return Scaffold(
-      appBar: CustomAppbar(title: "ตารางรายงาน SKU Sale"),
+      appBar: CustomAppbar(title: "รายงาน SKU Sale"),
       body: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
         child: Column(
@@ -647,10 +537,10 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildInfoBox("รายงาน SKU SALE", isCenter: true),
-                  const SizedBox(height: 5),
+                  // _buildInfoBox("รายงาน SKU SALE", isCenter: true),
+                  // const SizedBox(height: 5),
                   _buildInfoBox(
-                      "กลุ่มสินค้า : $itemGroupName  ประเภท : $itemTypeName"),
+                      "กลุ่มสินค้า : $itemGroupName  ประเภท : $itemTypeName  ยี่ห้อ : $itemBrandName"),
                   _buildInfoBox("ณ วันที่ : $reportDate"),
                   _buildInfoBox("ผู้จำหน่าย : $supplyName"),
                   _buildInfoBox("ช่องทางการขาย : $channelSaleName"),
@@ -677,9 +567,17 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
             Expanded(
               child: rows.isEmpty
                   ? Center(
-                      child: Text(
-                        "ไม่พบข้อมูลรายงาน",
-                        style: MyContant().h5NotData(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.info_outline,
+                              color: Colors.grey[500], size: 50),
+                          const SizedBox(height: 12),
+                          Text(
+                            'ไม่พบข้อมูลรายงาน',
+                            style: MyContant().h5NotData(),
+                          ),
+                        ],
                       ),
                     )
                   : Row(
