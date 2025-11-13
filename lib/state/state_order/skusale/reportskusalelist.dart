@@ -91,7 +91,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
   final ScrollController _hBodyCtrl = ScrollController();
 
   final double leftColWidth = 200;
-  final double cellWidth = 100;
+  final double cellWidth = 120;
   final double rowHeight = 70;
   final double simpleHeaderHeight = 60;
 
@@ -284,6 +284,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
           head['monthName2'],
           head['monthName3'],
           head['monthName4'],
+          "ย้อนหลัง 1 เดือน",
           head['monthName5'],
         ].where((m) => m != null && m.toString().isNotEmpty).toList();
 
@@ -300,25 +301,67 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
 
         final tableHeader = {
           "fixed": ["Model"],
-          "columns": ["GWSP", "IncVat", ...months],
+          "columns": [
+            "GWSP",
+            "IncVat",
+            "SRP",
+            ...months,
+            "WH",
+            "WS",
+            "MP",
+            "CL"
+          ],
           "groups": {
             for (var branchCode in branchHead.keys)
               branchHead[branchCode]: ["Stock", "Sale"],
-          }
+          },
+          "col_extra": [
+            "จำนวนค้างรับ",
+            "TOTAL Stock",
+            "TOTAL AMT",
+            "Aging Stock"
+          ],
         };
 
         // ✅ สร้างแถวข้อมูล
-        final tableRows = detail.map((item) {
+        final tableRows = detail.map((e) {
+          final Map<String, dynamic> item = Map<String, dynamic>.from(e);
           final qtyBranch = item['qtyBranch'] ?? {};
+
+          final monthValues = [
+            fmt(item.containsKey('salePriceMonth1')
+                ? item['salePriceMonth1']
+                : ''),
+            fmt(item.containsKey('salePriceMonth2')
+                ? item['salePriceMonth2']
+                : ''),
+            fmt(item.containsKey('salePriceMonth3')
+                ? item['salePriceMonth3']
+                : ''),
+            fmt(item.containsKey('salePriceMonth4')
+                ? item['salePriceMonth4']
+                : ''),
+            fmt(item.containsKey('lastOneMonth') ? item['lastOneMonth'] : ''),
+            fmt(item.containsKey('lastYear') ? item['lastYear'] : ''),
+          ];
 
           final cells = [
             fmt(item['GWSP']),
             fmt(item['incVat']),
-            for (var m in months) fmt(item[m] ?? ''), // ✅ แสดงข้อมูลเดือน
+            fmt(item['SRP']),
+            ...monthValues, // ✅ แสดงข้อมูลเดือน
+            fmt(item['stockWH']),
+            fmt(item['stockWS']),
+            fmt(item['stockMP']),
+            fmt(item['stockCLAM']),
             for (var b in branchHead.keys) ...[
               fmt(qtyBranch[b]?['stock']),
               fmt(qtyBranch[b]?['sale']),
-            ]
+            ],
+            fmt(item['qtyOrder']),
+            fmt(item['qtyAll']),
+            fmt(item['amt']),
+            fmt(item['ageStock']),
           ];
 
           final modelString = [
@@ -372,7 +415,11 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     }
   }
 
-  Widget _buildHeaderRight(List<String> columns, Map<String, List> groups) {
+  Widget _buildHeaderRight(
+    List<String> columns,
+    Map<String, List> groups,
+    List<String> col_extra,
+  ) {
     return Row(
       children: [
         ...columns.map((col) => _buildHeaderCell(col)),
@@ -400,15 +447,25 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
               ),
             ],
           ),
+        ...col_extra.map((extra) => _buildHeaderCell(extra)),
       ],
     );
   }
 
-  double _calcBodyWidth(List<String> columns, Map<String, List> groups) {
-    int totalCols = columns.length;
+  double _calcBodyWidth(
+    List<String> columns,
+    Map<String, List> groups,
+    List<String> col_extra,
+  ) {
+    int totalCols = columns.length; // GWSP + IncVat + เดือน
+    // รวมทุก sub-column ของแต่ละ group
     for (var g in groups.values) {
       totalCols += g.length;
     }
+    // บวกจำนวนคอลัมน์ extra ต่อท้าย
+    totalCols += col_extra.length;
+
+    // ✅ สรุป: ทุกคอลัมน์ใช้ cellWidth เหมือนกัน (หรือจะคูณแยกก็ได้)
     return totalCols * cellWidth;
   }
 
@@ -515,6 +572,8 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
         ((tableData["headers"]?["columns"] as List?) ?? []).cast<String>();
     final groups =
         ((tableData["headers"]?["groups"] as Map?) ?? {}).cast<String, List>();
+    final col_extra =
+        ((tableData["headers"]?["col_extra"] as List?) ?? []).cast<String>();
     final rows = (tableData["rows"] as List?) ?? [];
 
     // ถ้ายังโหลดข้อมูล ให้แสดง loading ก่อน
@@ -557,7 +616,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
                   child: SingleChildScrollView(
                     controller: _hHeaderCtrl,
                     scrollDirection: Axis.horizontal,
-                    child: _buildHeaderRight(columns, groups),
+                    child: _buildHeaderRight(columns, groups, col_extra),
                   ),
                 ),
               ],
@@ -607,7 +666,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
                             controller: _hBodyCtrl,
                             scrollDirection: Axis.horizontal,
                             child: SizedBox(
-                              width: _calcBodyWidth(columns, groups),
+                              width: _calcBodyWidth(columns, groups, col_extra),
                               child: ListView.builder(
                                 controller: _vBodyCtrl,
                                 itemCount: rows.length,

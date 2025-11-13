@@ -199,10 +199,6 @@ class _AuthenState extends State<Authen> {
             (d['allowedMenu'] as List).map((e) => e.toString()).toList(),
           );
 
-          // await prefs.setStringList(
-          //   'itemBrandPC',
-          //   (d['itemBrandPC'] as List).map((e) => e.toString()).toList(),
-          // );
           if (d['itemBrandPC'] != null && d['itemBrandPC'] is List) {
             final itemBrandPC = (d['itemBrandPC'] as List)
                 .map(
@@ -210,7 +206,7 @@ class _AuthenState extends State<Authen> {
                 .toList();
 
             await prefs.setStringList('itemBrandPC', itemBrandPC);
-            print('✅ เก็บ itemBrandPC เรียบร้อย: $itemBrandPC');
+            // print('✅ เก็บ itemBrandPC เรียบร้อย: $itemBrandPC');
           } else {
             await prefs.remove('itemBrandPC');
             print('⚠️ ไม่มีข้อมูล itemBrandPC');

@@ -72,6 +72,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
   DateTime selectedDate = DateTime.now();
   bool showClearBrand = false;
   bool showClearSupply = false;
+  List<Map<String, dynamic>> brandList = [];
 
   TextEditingController itemGroup = TextEditingController();
   TextEditingController itemType = TextEditingController();
@@ -112,7 +113,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     print('📦 itemBrandPC raw: $itemBrandPC');
 
     if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
-      final List<Map<String, dynamic>> brandList = itemBrandPC!
+      brandList = itemBrandPC!
           .map((e) => jsonDecode(e) as Map<String, dynamic>)
           .toList();
 
@@ -126,8 +127,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           .where((id) => id.isNotEmpty)
           .toList();
 
-      print('🔍 brandIds: $brandIds');
-      print('🔍 supplyIds: $supplyIds');
+      print('brandIds : $brandIds');
 
       if (brandIds.length == 1 && supplyIds.length == 1) {
         // ✅ ทั้ง brand และ supply มี 1 รายการ → ตั้ง default ทั้งคู่
@@ -728,6 +728,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
   }
 
   void clearInputandSelect() async {
+    showProgressLoading(context);
     itemGroup.clear();
     itemType.clear();
     itemBrand.clear();
@@ -756,7 +757,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     enddatePO.clear();
     startDatesale.clear();
     endDatesale.clear();
-    showProgressLoading(context);
 
 // ⚙️ จากนั้นเช็ค itemBrandPC เหมือนใน getdata()
     if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
@@ -1547,39 +1547,40 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                           return (v == '99') ? '' : v;
                         }
 
-                        // print('itemGroupIds: $itemGroupIds');
-                        // print('itemTypeIds: $itemTypeIds');
-                        // print('idBrandlist: ${idBrandlist ?? ''}');
-                        // print('idModellist: ${idModellist ?? ''}');
-                        // print('idStylellist: ${idStylellist ?? ''}');
-                        // print('idSizelist: ${idSizelist ?? ''}');
-                        // print('idColorlist: ${idColorlist ?? ''}');
+                        // ✅ ดึง supplyId ทั้งหมดจาก brandList ที่ผูกไว้
+                        final List<String> supplyIds = brandList
+                            .map((e) => (e['supplyId'] ?? '').toString())
+                            .where((id) => id.isNotEmpty)
+                            .toList();
+
+                        print('🔹 supplyIds (system-linked): $supplyIds');
+
+                        // ✅ ตรวจว่า user ไม่ได้เลือก supplyId เองเลย (ทุกกรณี)
+                        final bool noSupplySelected = itemSupplyIds == null ||
+                            (itemSupplyIds is String &&
+                                itemSupplyIds.trim().isEmpty) ||
+                            (itemSupplyIds is List &&
+                                (itemSupplyIds as List)
+                                    .where((id) =>
+                                        id != null &&
+                                        id.toString().trim().isNotEmpty)
+                                    .isEmpty);
+
+                        print(
+                            'itemSupplyIds runtimeType: ${itemSupplyIds.runtimeType}');
+                        print('itemSupplyIds value: $itemSupplyIds');
                         // print(
-                        //     'idProvinceList: ${normalizeId(selectProvinbranchlist)}');
-                        // print(
-                        //     'idBranchGroupList: ${normalizeId(selectBranchgrouplist)}');
-                        // print(
-                        //     'idAreaBranchList: ${normalizeId(selectAreaBranchlist)}');
-                        // print('itemSupplyIds: $itemSupplyIds');
-                        // print(
-                        //     'datestart: ${startdate.text.replaceAll('-', '')}');
-                        // print(
-                        //     'startdatePO: ${startdatePO.text.replaceAll('-', '')}');
-                        // print(
-                        //     'enddatePO: ${enddatePO.text.replaceAll('-', '')}');
-                        // print(
-                        //     'startdateSale: ${startDatesale.text.replaceAll('-', '')}');
-                        // print(
-                        //     'enddateSale: ${endDatesale.text.replaceAll('-', '')}');
-                        // print('month1: $selectMonthId1');
-                        // print('month2: $selectMonthId2');
-                        // print('month3: $selectMonthId3');
-                        // print('month4: $selectMonthId4');
-                        // print('year1: $selectYearlist1');
-                        // print('year2: $selectYearlist2');
-                        // print('year3: $selectYearlist3');
-                        // print('year4: $selectYearlist4');
-                        // print('idChkExclude: ${idChkExclude ?? ''}');
+                        //     // '🔸 itemSupplyIds (user-selected): $itemSupplyIds');
+                        print('🔸 noSupplySelected: $noSupplySelected');
+
+                        // ✅ ถ้า user ไม่เลือก และ supplyIds มีมากกว่า 1 → ส่งทั้งหมดแทน
+                        final Object supplyToSend =
+                            (noSupplySelected && supplyIds.length > 1)
+                                ? supplyIds
+                                : itemSupplyIds;
+
+                        print('✅ supplyToSend (final for API): $supplyToSend');
+
                         if (itemGroup.text.isEmpty &&
                             itemType.text.isEmpty &&
                             itemBrand.text.isEmpty) {
@@ -1589,12 +1590,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                             itemBrand.text.isEmpty) {
                           showProgressDialog(context, 'แจ้งเตือน',
                               'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
-                        }
-                        // else if (itemBrand.text.isEmpty) {
-                        //   showProgressDialog(
-                        //       context, 'แจ้งเตือน', 'กรุณาเลือกยี่ห้อสินค้า');
-                        // }
-                        else {
+                        } else {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -1612,7 +1608,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                     normalizeId(selectBranchgrouplist),
                                 selectAreaBranchlist:
                                     normalizeId(selectAreaBranchlist),
-                                itemSupplyIds: itemSupplyIds,
+                                itemSupplyIds: supplyToSend,
                                 startdate: startdate.text.replaceAll('-', ''),
                                 startdatePO:
                                     startdatePO.text.replaceAll('-', ''),
