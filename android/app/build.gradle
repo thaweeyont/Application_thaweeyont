@@ -63,8 +63,8 @@ def keystoreProperties = new Properties()
         applicationId "thaweeyont.com.application_thaweeyont"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion 36
-        versionCode 51
-        versionName '1.7.19'
+        versionCode 52
+        versionName '1.8.19'
 
         ndk {
             // ระบุ ABI ให้ครบทุกสถาปัตยกรรมที่ใช้

@@ -258,9 +258,9 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
       };
 
       // ✅ แสดงข้อมูลที่จะส่ง
-      const JsonEncoder encoder = JsonEncoder.withIndent('  ');
-      print('🔹 ส่งข้อมูลไปที่ API:');
-      print(encoder.convert(bodyData));
+      // const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+      // print('🔹 ส่งข้อมูลไปที่ API:');
+      // print(encoder.convert(bodyData));
 
       // ✅ เรียก API
       var response = await http.post(

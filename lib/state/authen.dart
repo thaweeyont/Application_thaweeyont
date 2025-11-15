@@ -206,7 +206,6 @@ class _AuthenState extends State<Authen> {
                 .toList();
 
             await prefs.setStringList('itemBrandPC', itemBrandPC);
-            // print('✅ เก็บ itemBrandPC เรียบร้อย: $itemBrandPC');
           } else {
             await prefs.remove('itemBrandPC');
             print('⚠️ ไม่มีข้อมูล itemBrandPC');

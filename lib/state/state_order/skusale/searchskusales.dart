@@ -110,8 +110,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
       itemBrandPC = preferences.getStringList('itemBrandPC');
     });
 
-    print('📦 itemBrandPC raw: $itemBrandPC');
-
     if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
       brandList = itemBrandPC!
           .map((e) => jsonDecode(e) as Map<String, dynamic>)
@@ -127,8 +125,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           .where((id) => id.isNotEmpty)
           .toList();
 
-      print('brandIds : $brandIds');
-
       if (brandIds.length == 1 && supplyIds.length == 1) {
         // ✅ ทั้ง brand และ supply มี 1 รายการ → ตั้ง default ทั้งคู่
         final brandData = brandList.firstWhere(
@@ -140,8 +136,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           showClearBrand = true;
           showClearSupply = true;
         });
-
-        print('✅ Default brand/supply set automatically.');
       } else if (brandIds.length == 1 && supplyIds.isEmpty) {
         // ✅ มี brand 1 รายการ แต่ supply ว่าง → ตั้ง default brand, เปิดให้เลือก supply
         final brandData = brandList.firstWhere(
@@ -160,8 +154,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           showClearBrand = false;
           showClearSupply = false;
         });
-
-        print('🔄 Multiple brand/supply options, user must select.');
       }
     }
 
@@ -905,7 +897,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                     itemGroupIds = selectedGroupList
                                         .map((e) => e['id'].toString())
                                         .join(',');
-                                    print('itemGroupIds: $itemGroupIds');
+                                    // print('itemGroupIds: $itemGroupIds');
                                   });
                                 }
                               });
@@ -963,7 +955,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                     itemTypeIds = selectedItemTypeList
                                         .map((e) => e['id'].toString())
                                         .join(',');
-                                    print('itemTypeIds: $itemTypeIds');
+                                    // print('itemTypeIds: $itemTypeIds');
                                   });
                                 }
                               });
@@ -1011,7 +1003,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                         setState(() {
                                           itemBrand.text = result['name'];
                                           idBrandlist = result['id'];
-                                          print('idBrandlist: $idBrandlist');
+                                          // print('idBrandlist: $idBrandlist');
                                         });
                                       }
                                     });
@@ -1047,15 +1039,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              // if (itemGroup.text.isEmpty &&
-                              //     itemType.text.isEmpty &&
-                              //     itemBrand.text.isEmpty) {
-                              //   showProgressDialog(context, 'แจ้งเตือน',
-                              //       'กรุณาเลือกกลุ่มสินค้า ประเภทสินค้า ยี่ห้อสินค้า');
-                              // } else if (itemType.text.isEmpty &&
-                              //     itemBrand.text.isEmpty) {
-                              //   showProgressDialog(context, 'แจ้งเตือน',
-                              //       'กรุณาเลือกประเภทสินค้าและยี่ห้อสินค้า');
                               if (itemBrand.text.isEmpty) {
                                 showProgressDialog(context, 'แจ้งเตือน',
                                     'กรุณาเลือกยี่ห้อสินค้า');
@@ -1108,10 +1091,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              // if (itemType.text.isEmpty) {
-                              //   showProgressDialog(context, 'แจ้งเตือน',
-                              //       'กรุณาเลือกประเภทสินค้า');
-                              // } else {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -1125,7 +1104,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   });
                                 }
                               });
-                              // }
                             },
                             child: const Icon(
                               Icons.search,
@@ -1158,10 +1136,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   const Color.fromARGB(255, 223, 132, 223),
                             ),
                             onPressed: () {
-                              // if (itemType.text.isEmpty) {
-                              //   showProgressDialog(context, 'แจ้งเตือน',
-                              //       'กรุณาเลือกประเภทสินค้า');
-                              // } else {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -1175,7 +1149,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                   });
                                 }
                               });
-                              // }
                             },
                             child: const Icon(
                               Icons.search,
@@ -1379,8 +1352,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                                           itemSupplyIds = selectedSupplyList
                                               .map((e) => e['id'].toString())
                                               .join(',');
-                                          print(
-                                              'itemSupplyIds: $itemSupplyIds');
+                                          // print(
+                                          //     'itemSupplyIds: $itemSupplyIds');
                                         });
                                       }
                                     });
@@ -1497,8 +1470,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
                             idChkExclude = isChkExclude ? '1' : '';
                           },
                           visualDensity: VisualDensity.compact,
-                          // materialTapTargetSize:
-                          //     MaterialTapTargetSize.shrinkWrap,
                         ),
                         Text(
                           'ไม่ดึงข้อมูลย้อนหลัง 1 ปี',
@@ -1555,31 +1526,17 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
 
                         print('🔹 supplyIds (system-linked): $supplyIds');
 
-                        // ✅ ตรวจว่า user ไม่ได้เลือก supplyId เองเลย (ทุกกรณี)
-                        final bool noSupplySelected = itemSupplyIds == null ||
-                            (itemSupplyIds is String &&
-                                itemSupplyIds.trim().isEmpty) ||
-                            (itemSupplyIds is List &&
-                                (itemSupplyIds as List)
-                                    .where((id) =>
-                                        id != null &&
-                                        id.toString().trim().isNotEmpty)
-                                    .isEmpty);
+                        // ✅ ผู้ใช้ไม่ได้เลือก supplyId เลย
+                        final bool noSupplySelected =
+                            itemSupplyIds.trim().isEmpty;
 
-                        print(
-                            'itemSupplyIds runtimeType: ${itemSupplyIds.runtimeType}');
-                        print('itemSupplyIds value: $itemSupplyIds');
-                        // print(
-                        //     // '🔸 itemSupplyIds (user-selected): $itemSupplyIds');
-                        print('🔸 noSupplySelected: $noSupplySelected');
-
-                        // ✅ ถ้า user ไม่เลือก และ supplyIds มีมากกว่า 1 → ส่งทั้งหมดแทน
+                        // ✅ ถ้า user ไม่เลือก และระบบมี supplyIds มากกว่า 1 → ส่งทั้งหมดแทน
                         final Object supplyToSend =
                             (noSupplySelected && supplyIds.length > 1)
                                 ? supplyIds
                                 : itemSupplyIds;
 
-                        print('✅ supplyToSend (final for API): $supplyToSend');
+                        print("🔹 supplyToSend: $supplyToSend");
 
                         if (itemGroup.text.isEmpty &&
                             itemType.text.isEmpty &&
@@ -2777,12 +2734,10 @@ class _ItemGroupListState extends State<ItemGroupList> {
         // โหลดเพิ่มสำหรับข้อมูลเริ่มต้น (ไม่ใช้ search)
         if (itemgrouplist.text.isEmpty) {
           offset += 20;
-          print('ว่าง> $offset');
           await getSelectGroupList(offset, loadMore: true);
         } else {
           // โหลดเพิ่มสำหรับข้อมูลค้นหา
           offset += 20;
-          print('ไม่ว่าง> $offset');
           await searchItemGroup(offset, itemgrouplist.text, loadMore: true);
         }
 
@@ -2814,14 +2769,12 @@ class _ItemGroupListState extends State<ItemGroupList> {
 
         setState(() {
           if (!loadMore) {
-            print('loadMore false');
             dropdowngrouplist = List.of(searchList, growable: true);
             isCheckedList = dropdowngrouplist
                 .map((e) => selectedGroupSet.contains(e['id'].toString()))
                 .toList();
             isLoadendPage = false;
           } else {
-            print('loadMore true');
             final existingIds =
                 dropdowngrouplist.map((e) => e['id'].toString()).toSet();
             final uniqueNew = searchList
@@ -2948,8 +2901,6 @@ class _ItemGroupListState extends State<ItemGroupList> {
       } else {
         selectedGroupList.removeWhere((item) => item['id'] == id);
       }
-
-      print('✅ selectedGroup: $selectedGroupList');
     });
   }
 
@@ -3068,8 +3019,6 @@ class _ItemGroupListState extends State<ItemGroupList> {
                       width: MediaQuery.of(context).size.width * 0.25,
                       child: ElevatedButton(
                         onPressed: () {
-                          print('✅ ส่งข้อมูลกลับ: $selectedGroupList');
-                          // ตัวอย่างส่งกลับไปหน้าก่อน
                           Navigator.pop(context, selectedGroupList);
                         },
                         style: ElevatedButton.styleFrom(
@@ -3391,8 +3340,6 @@ class _ItemTypeListState extends State<ItemTypeList> {
 
     groupIds = widget.valueGrouplist ?? [];
     groupIdsParam = (groupIds.isNotEmpty) ? groupIds.join(',') : '';
-    print('✅ groupIds from widget: $groupIds');
-    print('✅ groupIdsParam: $groupIdsParam');
   }
 
   Future<void> getdata() async {
@@ -3421,12 +3368,10 @@ class _ItemTypeListState extends State<ItemTypeList> {
         // โหลดเพิ่มสำหรับข้อมูลเริ่มต้น (ไม่ใช้ search)
         if (itemtypelist.text.isEmpty) {
           offset += 20;
-          // print('ว่าง> $offset');
           await getSelectTypeList(offset, loadMore: true);
         } else {
           // โหลดเพิ่มสำหรับข้อมูลค้นหา
           offset += 20;
-          // print('ไม่ว่าง> $offset');
           await searchItemtype(offset, itemtypelist.text, loadMore: true);
         }
 
@@ -3596,7 +3541,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
         selectedItemTypeList.removeWhere((item) => item['id'] == id);
       }
 
-      print('✅ selectedItemType: $selectedItemTypeList');
+      // print('✅ selectedItemType: $selectedItemTypeList');
     });
   }
 
@@ -3715,8 +3660,6 @@ class _ItemTypeListState extends State<ItemTypeList> {
                     // ปุ่มตกลง
                     ElevatedButton(
                       onPressed: () {
-                        print('✅ ส่งข้อมูลกลับ: $selectedItemTypeList');
-                        // ตัวอย่างส่งกลับไปหน้าก่อน
                         Navigator.pop(context, selectedItemTypeList);
                       },
                       style: ElevatedButton.styleFrom(
@@ -4044,20 +3987,6 @@ class _ItemBrandListState extends State<ItemBrandList> {
     myScroll(scrollControll, offset);
   }
 
-  // void myScroll(ScrollController scrollController, int offset) {
-  //   scrollController.addListener(() async {
-  //     if (scrollController.position.pixels ==
-  //         scrollController.position.maxScrollExtent) {
-  //       setState(() {
-  //         isLoadScroll = true;
-  //       });
-  //       await Future.delayed(const Duration(seconds: 1), () {
-  //         offset = offset + 20;
-  //         getSelectBrandList(offset);
-  //       });
-  //     }
-  //   });
-  // }
   void myScroll(ScrollController scrollController, int offset) {
     scrollController.addListener(() async {
       if (scrollController.position.pixels ==
@@ -4133,7 +4062,6 @@ class _ItemBrandListState extends State<ItemBrandList> {
       } else {
         stquery = 1;
       }
-      print('✅ dropdownbrandlist from itemBrandPC: $dropdownbrandlist');
     } else {
       // กรณี itemBrandPC ว่าง → ทำงานแบบเดิม
       await getSelectBrandList(offset);
@@ -5423,9 +5351,6 @@ class _ItemSizeListState extends State<ItemSizeList> {
     itemsizelist.addListener(() {
       setState(() {}); // อัปเดต UI ทุกครั้งที่ค่าของ TextField เปลี่ยน
     });
-    // widget.valueTypelist == null
-    //     ? valTypeList = ''
-    //     : valTypeList = widget.valueTypelist;
   }
 
   Future<void> getdata() async {
