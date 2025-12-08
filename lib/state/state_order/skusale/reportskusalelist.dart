@@ -91,7 +91,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
   final ScrollController _hBodyCtrl = ScrollController();
 
   final double leftColWidth = 200;
-  final double cellWidth = 120;
+  final double cellWidth = 100;
   final double rowHeight = 70;
   final double simpleHeaderHeight = 60;
 
@@ -288,8 +288,6 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
           head['monthName5'],
         ].where((m) => m != null && m.toString().isNotEmpty).toList();
 
-        print('📆 เดือนที่ได้จาก API: $months');
-
         setState(() {
           itemGroupName = head['itemGroupName'] ?? '';
           itemTypeName = head['itemTypeName'] ?? '';
@@ -318,6 +316,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
           "col_extra": [
             "จำนวนค้างรับ",
             "TOTAL Stock",
+            "TOTAL Sale",
             "TOTAL AMT",
             "Aging Stock"
           ],
@@ -360,6 +359,7 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
             ],
             fmt(item['qtyOrder']),
             fmt(item['qtyAll']),
+            fmt(item['qtySaleAll']),
             fmt(item['amt']),
             fmt(item['ageStock']),
           ];
@@ -481,6 +481,8 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
       child: Text(
         text,
         style: MyContant().h4normalStyle(),
+        maxLines: 2,
+        textAlign: TextAlign.center,
       ),
     );
   }
@@ -586,114 +588,129 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
 
     return Scaffold(
       appBar: CustomAppbar(title: "รายงาน SKU Sale"),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
-        child: Column(
-          children: [
-            // ======= รายละเอียดหัวรายงาน =======
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: ScrollConfiguration(
+        behavior: NoGlowBehavior(),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 8),
+          child: Column(
+            children: [
+              // ======= รายละเอียดหัวรายงาน =======
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // _buildInfoBox("รายงาน SKU SALE", isCenter: true),
+                    // const SizedBox(height: 5),
+                    _buildInfoBox(
+                        "กลุ่มสินค้า : $itemGroupName  ประเภท : $itemTypeName  ยี่ห้อ : $itemBrandName"),
+                    _buildInfoBox("ณ วันที่ : $reportDate"),
+                    _buildInfoBox("ผู้จำหน่าย : $supplyName"),
+                    _buildInfoBox("ช่องทางการขาย : $channelSaleName"),
+                  ],
+                ),
+              ),
+
+              // ======= หัวตาราง =======
+              Row(
                 children: [
-                  // _buildInfoBox("รายงาน SKU SALE", isCenter: true),
-                  // const SizedBox(height: 5),
-                  _buildInfoBox(
-                      "กลุ่มสินค้า : $itemGroupName  ประเภท : $itemTypeName  ยี่ห้อ : $itemBrandName"),
-                  _buildInfoBox("ณ วันที่ : $reportDate"),
-                  _buildInfoBox("ผู้จำหน่าย : $supplyName"),
-                  _buildInfoBox("ช่องทางการขาย : $channelSaleName"),
+                  _buildHeaderCell('ประเภท/ยี่ห้อ/รุ่น',
+                      width: leftColWidth, height: simpleHeaderHeight),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
+                      controller: _hHeaderCtrl,
+                      scrollDirection: Axis.horizontal,
+                      child: _buildHeaderRight(columns, groups, col_extra),
+                    ),
+                  ),
                 ],
               ),
-            ),
 
-            // ======= หัวตาราง =======
-            Row(
-              children: [
-                _buildHeaderCell('ประเภท/ยี่ห้อ/รุ่น',
-                    width: leftColWidth, height: simpleHeaderHeight),
-                Expanded(
-                  child: SingleChildScrollView(
-                    controller: _hHeaderCtrl,
-                    scrollDirection: Axis.horizontal,
-                    child: _buildHeaderRight(columns, groups, col_extra),
-                  ),
-                ),
-              ],
-            ),
-
-            // ======= เนื้อหาตาราง =======
-            Expanded(
-              child: rows.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.info_outline,
-                              color: Colors.grey[500], size: 50),
-                          const SizedBox(height: 12),
-                          Text(
-                            'ไม่พบข้อมูลรายงาน',
-                            style: MyContant().h5NotData(),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // คอลัมน์ซ้าย
-                        SizedBox(
-                          width: leftColWidth,
-                          child: ListView.builder(
-                            controller: _vLeftCtrl,
-                            itemCount: rows.length,
-                            itemBuilder: (context, index) {
-                              final row = rows[index];
-                              return _buildCell(
-                                row["model"].toString(),
-                                width: leftColWidth,
-                                height: rowHeight,
-                                alignment: Alignment.centerLeft,
-                              );
-                            },
-                          ),
+              // ======= เนื้อหาตาราง =======
+              Expanded(
+                child: rows.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.info_outline,
+                                color: Colors.grey[500], size: 50),
+                            const SizedBox(height: 12),
+                            Text(
+                              'ไม่พบข้อมูลรายงาน',
+                              style: MyContant().h5NotData(),
+                            ),
+                          ],
                         ),
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // คอลัมน์ซ้าย
+                          SizedBox(
+                            width: leftColWidth,
+                            child: ListView.builder(
+                              physics: const ClampingScrollPhysics(),
+                              controller: _vLeftCtrl,
+                              itemCount: rows.length,
+                              itemBuilder: (context, index) {
+                                final row = rows[index];
+                                return _buildCell(
+                                  row["model"].toString(),
+                                  width: leftColWidth,
+                                  height: rowHeight,
+                                  alignment: Alignment.centerLeft,
+                                );
+                              },
+                            ),
+                          ),
 
-                        // บอดี้ฝั่งขวา
-                        Expanded(
-                          child: SingleChildScrollView(
-                            controller: _hBodyCtrl,
-                            scrollDirection: Axis.horizontal,
-                            child: SizedBox(
-                              width: _calcBodyWidth(columns, groups, col_extra),
-                              child: ListView.builder(
-                                controller: _vBodyCtrl,
-                                itemCount: rows.length,
-                                itemBuilder: (context, index) {
-                                  final row = rows[index];
-                                  final List cells = row["data"] as List;
-                                  return Row(
-                                    children: cells.map<Widget>((cell) {
-                                      return _buildCell(
-                                        cell.toString(),
-                                        width: cellWidth,
-                                        height: rowHeight,
-                                        alignment: Alignment.centerRight,
-                                      );
-                                    }).toList(),
-                                  );
-                                },
+                          // บอดี้ฝั่งขวา
+                          Expanded(
+                            child: SingleChildScrollView(
+                              physics: const ClampingScrollPhysics(),
+                              controller: _hBodyCtrl,
+                              scrollDirection: Axis.horizontal,
+                              child: SizedBox(
+                                width:
+                                    _calcBodyWidth(columns, groups, col_extra),
+                                child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  controller: _vBodyCtrl,
+                                  itemCount: rows.length,
+                                  itemBuilder: (context, index) {
+                                    final row = rows[index];
+                                    final List cells = row["data"] as List;
+                                    return Row(
+                                      children: cells.map<Widget>((cell) {
+                                        return _buildCell(
+                                          cell.toString(),
+                                          width: cellWidth,
+                                          height: rowHeight,
+                                          alignment: Alignment.centerRight,
+                                        );
+                                      }).toList(),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-            ),
-          ],
+                        ],
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+}
+
+class NoGlowBehavior extends ScrollBehavior {
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }

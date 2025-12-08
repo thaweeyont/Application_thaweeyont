@@ -146,8 +146,6 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           showClearBrand = true;
           showClearSupply = false; // ให้ user เลือก supply
         });
-
-        print('🔹 Default brand set. User must select supply.');
       } else {
         // 🔄 กรณีมีหลายรายการ → ให้ user เลือกทั้งคู่
         setState(() {
@@ -325,20 +323,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         });
 
         isLoadingbranchProvince = true;
-      } else if (response.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(response.statusCode);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -369,20 +355,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         });
 
         // isLoadingbranchProvince = true;
-      } else if (response.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(response.statusCode);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -411,20 +385,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           myAreaBranch = List.from(ba)..addAll(dataAreaBranch['data']);
           dropdownAreaBranch = myAreaBranch;
         });
-      } else if (response.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(response.statusCode);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -450,20 +412,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           dropdownMonth1 = dataMonth1['data'];
           selectMonthName1();
         });
-      } else if (response.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(response.statusCode);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -6224,7 +6174,6 @@ class _SupplyListState extends State<SupplyList> {
       itemBrandPC = preferences.getStringList('itemBrandPC');
     });
     if (mounted) {
-      // getSelectSupplyList(offset);
       await loadSupplyList(offset);
     }
     myScroll(scrollControll, offset);
@@ -6241,14 +6190,11 @@ class _SupplyListState extends State<SupplyList> {
         offset += 20;
 
         if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
-          print('โหลดเพิ่มจาก itemBrandPC1');
           await loadSupplyList(offset, loadMore: true);
         } else {
           if (supplynamelist.text.isEmpty) {
-            print('โหลดเพิ่มจาก itemBrandPC2');
             await getSelectSupplyList(offset, loadMore: true);
           } else {
-            print('โหลดเพิ่มจาก itemBrandPC3');
             await searchSupply(offset, supplynamelist.text, loadMore: true);
           }
         }
@@ -6257,31 +6203,6 @@ class _SupplyListState extends State<SupplyList> {
       }
     });
   }
-
-  // void myScroll(ScrollController scrollController, int offset) {
-  //   scrollController.addListener(() async {
-  //     if (scrollController.position.pixels >=
-  //         scrollController.position.maxScrollExtent - 10) {
-  //       if (isLoadScroll || isLoadendPage) return;
-  //       setState(() => isLoadScroll = true);
-  //       await Future.delayed(const Duration(seconds: 1));
-
-  //       // โหลดเพิ่มสำหรับข้อมูลเริ่มต้น (ไม่ใช้ search)
-  //       if (supplynamelist.text.isEmpty) {
-  //         offset += 20;
-  //         print('ว่าง> $offset');
-  //         await getSelectSupplyList(offset, loadMore: true);
-  //       } else {
-  //         // โหลดเพิ่มสำหรับข้อมูลค้นหา
-  //         offset += 20;
-  //         print('ไม่ว่าง> $offset');
-  //         await searchSupply(offset, supplynamelist.text, loadMore: true);
-  //       }
-
-  //       setState(() => isLoadScroll = false);
-  //     }
-  //   });
-  // }
 
   Future<void> loadSupplyList(offset, {bool loadMore = false}) async {
     if (itemBrandPC != null && itemBrandPC!.isNotEmpty) {
@@ -6305,7 +6226,6 @@ class _SupplyListState extends State<SupplyList> {
           .toList();
 
       if (supplyIds.isEmpty) {
-        print('⚠️ ไม่มี supplyId ใน itemBrandPC');
         await getSelectSupplyList(offset, loadMore: loadMore);
         return;
       }
@@ -6345,8 +6265,6 @@ class _SupplyListState extends State<SupplyList> {
             statusLoading = true;
             isLoadendPage = offset > dropdownsupplylist.length;
           });
-
-          print('✅ dropdownsupplylist from itemBrandPC: $dropdownsupplylist');
         } else {
           handleHttpError(response.statusCode);
         }
@@ -6496,10 +6414,8 @@ class _SupplyListState extends State<SupplyList> {
           .map((e) => selectedSupplySet.contains(e['id'].toString()))
           .toList();
       offset = dropdownsupplylist.length;
-      print('offset drop: ${dropdownsupplylist.length}');
       isLoadendPage = false;
       statusLoading = true;
-      print('offset after clear: $offset');
     });
   }
 
@@ -6640,7 +6556,7 @@ class _SupplyListState extends State<SupplyList> {
                     // ปุ่มตกลง
                     ElevatedButton(
                       onPressed: () {
-                        print('✅ ส่งข้อมูลกลับ: $selectedSupplyList');
+                        // print('✅ ส่งข้อมูลกลับ: $selectedSupplyList');
                         // ตัวอย่างส่งกลับไปหน้าก่อน
                         Navigator.pop(context, selectedSupplyList);
                       },
