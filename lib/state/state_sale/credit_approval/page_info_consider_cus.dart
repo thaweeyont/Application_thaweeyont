@@ -11,15 +11,15 @@ import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 import 'package:application_thaweeyont/api.dart';
 
-class Page_Info_Consider_Cus extends StatefulWidget {
+class PageInfoConsiderCus extends StatefulWidget {
   final String? signId;
-  const Page_Info_Consider_Cus(this.signId, {super.key});
+  const PageInfoConsiderCus(this.signId, {super.key});
 
   @override
-  State<Page_Info_Consider_Cus> createState() => _Page_Info_Consider_CusState();
+  State<PageInfoConsiderCus> createState() => _PageInfoConsiderCusState();
 }
 
-class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
+class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String page = "list_content_mu1";
   bool active_mu1 = true,
@@ -284,7 +284,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                           child: Column(
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: const Color.fromRGBO(251, 173, 55, 1),
@@ -313,7 +313,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
-                                          Radius.circular(5),
+                                          Radius.circular(8),
                                         ),
                                       ),
                                       child: Column(
@@ -357,7 +357,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: const BorderRadius.all(
@@ -546,18 +546,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(6),
                                         child: Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.26,
+                                              0.267,
                                           decoration: BoxDecoration(
                                             color: Colors.white
                                                 .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
-                                              Radius.circular(5),
+                                              Radius.circular(8),
                                             ),
                                           ),
                                           child: Column(
@@ -583,18 +583,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 )
                               : Container(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(6),
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.26,
+                                                0.267,
                                         decoration: BoxDecoration(
                                           color: Colors.white
                                               .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(8),
                                           ),
                                         ),
                                         child: Scrollbar(
@@ -734,18 +734,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(6),
                                         child: Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.26,
+                                              0.267,
                                           decoration: BoxDecoration(
                                             color: Colors.white
                                                 .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
-                                              Radius.circular(5),
+                                              Radius.circular(8),
                                             ),
                                           ),
                                           child: Column(
@@ -771,18 +771,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 )
                               : Container(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(6),
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.26,
+                                                0.267,
                                         decoration: BoxDecoration(
                                           color: Colors.white
                                               .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(8),
                                           ),
                                         ),
                                         child: Scrollbar(
@@ -922,18 +922,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(6),
                                         child: Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.26,
+                                              0.267,
                                           decoration: BoxDecoration(
                                             color: Colors.white
                                                 .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
-                                              Radius.circular(5),
+                                              Radius.circular(8),
                                             ),
                                           ),
                                           child: Column(
@@ -959,18 +959,18 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 )
                               : Container(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(6),
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.26,
+                                                0.267,
                                         decoration: BoxDecoration(
                                           color: Colors.white
                                               .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(8),
                                           ),
                                         ),
                                         child: Scrollbar(
@@ -1112,7 +1112,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: const BorderRadius.all(
@@ -1132,7 +1132,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 decoration: BoxDecoration(
                   color: Colors.white.withAlpha(180),
                   borderRadius: const BorderRadius.all(
-                    Radius.circular(5),
+                    Radius.circular(8),
                   ),
                 ),
                 child: Column(
@@ -1201,9 +1201,9 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: const BorderRadius.all(
@@ -1304,7 +1304,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
+                        Radius.circular(8),
                       ),
                     ),
                     child: Column(
@@ -1348,7 +1348,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: const BorderRadius.all(
@@ -1380,7 +1380,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: Scrollbar(
@@ -1425,7 +1425,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: Scrollbar(
@@ -1471,7 +1471,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(251, 173, 55, 1),
                 borderRadius: const BorderRadius.all(
@@ -1516,7 +1516,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_service == null
@@ -1600,7 +1600,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_finance == null
@@ -1684,7 +1684,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_debNote == null
@@ -1766,7 +1766,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_law == null
@@ -1850,7 +1850,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_regis == null
@@ -1934,7 +1934,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_checker == null
@@ -2011,7 +2011,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Page_Pay_Installment(
+                    builder: (context) => PagePayInstallment(
                         Debtordetail['signId'],
                         list_payDetail[i]['periodNo'],
                         list_payDetail),
@@ -2021,7 +2021,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(251, 173, 55, 1),
                     borderRadius: const BorderRadius.all(
@@ -2058,7 +2058,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                         decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
+                            Radius.circular(8),
                           ),
                         ),
                         child: Padding(
@@ -2101,9 +2101,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -2136,7 +2134,7 @@ class _Page_Info_Consider_CusState extends State<Page_Info_Consider_Cus> {
 
   SizedBox slidemenu(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.065,
+      height: MediaQuery.of(context).size.height * 0.06,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [

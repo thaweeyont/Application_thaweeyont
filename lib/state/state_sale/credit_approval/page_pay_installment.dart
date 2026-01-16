@@ -10,17 +10,17 @@ import '../../../utility/my_constant.dart';
 import '../../../widgets/custom_appbar.dart';
 import '../../authen.dart';
 
-class Page_Pay_Installment extends StatefulWidget {
+class PagePayInstallment extends StatefulWidget {
   var signId, list_payDetail;
   List<dynamic> period;
-  Page_Pay_Installment(this.signId, this.list_payDetail, this.period,
+  PagePayInstallment(this.signId, this.list_payDetail, this.period,
       {super.key});
 
   @override
-  State<Page_Pay_Installment> createState() => _Page_Pay_InstallmentState();
+  State<PagePayInstallment> createState() => _PagePayInstallmentState();
 }
 
-class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
+class _PagePayInstallmentState extends State<PagePayInstallment> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   String dropdownValue = '1';
   var payDetail, debtorStatuscode;
@@ -140,7 +140,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(10),
@@ -253,7 +253,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                     )
                                   ],
                                 ),
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(6),
                                 child: Column(
                                   children: [
                                     const SizedBox(height: 5),
@@ -276,7 +276,7 @@ class _Page_Pay_InstallmentState extends State<Page_Pay_Installment> {
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
-                                          Radius.circular(5),
+                                          Radius.circular(8),
                                         ),
                                       ),
                                       child: Padding(

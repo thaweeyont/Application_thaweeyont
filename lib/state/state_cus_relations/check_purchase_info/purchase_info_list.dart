@@ -14,7 +14,7 @@ import 'package:intl/intl.dart';
 import '../../../widgets/endpage.dart';
 import '../../../widgets/loaddata.dart';
 
-class Purchase_info_list extends StatefulWidget {
+class PurchaseInfoList extends StatefulWidget {
   final String? custId,
       smartId,
       custName,
@@ -22,21 +22,15 @@ class Purchase_info_list extends StatefulWidget {
       newStartDate,
       newEndDate;
   final int? select_index_saletype;
-  const Purchase_info_list(
-      this.custId,
-      this.select_index_saletype,
-      this.smartId,
-      this.custName,
-      this.lastname_cust,
-      this.newStartDate,
-      this.newEndDate,
+  const PurchaseInfoList(this.custId, this.select_index_saletype, this.smartId,
+      this.custName, this.lastname_cust, this.newStartDate, this.newEndDate,
       {super.key});
 
   @override
-  State<Purchase_info_list> createState() => _Purchase_info_listState();
+  State<PurchaseInfoList> createState() => _PurchaseInfoListState();
 }
 
-class _Purchase_info_listState extends State<Purchase_info_list> {
+class _PurchaseInfoListState extends State<PurchaseInfoList> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_dataBuyTyle = [];
   bool statusLoading = false,
@@ -88,7 +82,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
 
   Future<void> getDataBuyList(offset) async {
     try {
-      var respose = await http.post(
+      var response = await http.post(
         Uri.parse('${api}sale/custBuyList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -107,9 +101,9 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
         }),
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> dataBuylist =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
 
         setState(() {
           list_dataBuyTyle = dataBuylist['data'];
@@ -125,39 +119,42 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
         } else {
           stquery = 1;
         }
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoad404 = true;
-          statusLoading = true;
-        });
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล >> $e");
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -208,10 +205,10 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 8, left: 8, right: 8),
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(10),
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -229,7 +226,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
+                              Radius.circular(8),
                             ),
                             color: Colors.white.withAlpha(180),
                           ),
@@ -311,10 +308,10 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4, horizontal: 8),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(10),
                                       ),
                                       boxShadow: [
                                         BoxShadow(
@@ -353,7 +350,7 @@ class _Purchase_info_listState extends State<Purchase_info_list> {
                                           padding: const EdgeInsets.all(6),
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(5),
+                                                BorderRadius.circular(8),
                                             color: Colors.white
                                                 .withValues(alpha: 0.7),
                                           ),

@@ -13,7 +13,7 @@ import '../../../widgets/loaddata.dart';
 import 'page_datacust_approve.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 
-class Credit_data_detail extends StatefulWidget {
+class CreditDataDetail extends StatefulWidget {
   final String? custId,
       idcard,
       custName,
@@ -23,7 +23,7 @@ class Credit_data_detail extends StatefulWidget {
       start_date,
       end_date;
   final int? selectIndexApprove;
-  const Credit_data_detail(
+  const CreditDataDetail(
       this.custId,
       this.idcard,
       this.custName,
@@ -36,10 +36,10 @@ class Credit_data_detail extends StatefulWidget {
       {super.key});
 
   @override
-  State<Credit_data_detail> createState() => _Credit_data_detailState();
+  State<CreditDataDetail> createState() => _CreditDataDetailState();
 }
 
-class _Credit_data_detailState extends State<Credit_data_detail> {
+class _CreditDataDetailState extends State<CreditDataDetail> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_approve = [];
   var status_loading = false;
@@ -245,7 +245,7 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Data_Cust_Approve(
+                                    builder: (context) => DataCustApprove(
                                       list_approve[i]['custId'],
                                       list_approve[i]['tranId'],
                                     ),
@@ -254,12 +254,12 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                               },
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
+                                    const EdgeInsets.symmetric(vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
+                                        Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withAlpha(130),
@@ -271,69 +271,83 @@ class _Credit_data_detailState extends State<Credit_data_detail> {
                                     color:
                                         const Color.fromRGBO(251, 173, 55, 1),
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'สาขา : ${list_approve[i]['branchName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'รันนิ่งสัญญา : ${list_approve[i]['signRunning']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'วันที่ : ${list_approve[i]['tranDate']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ชื่อ : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_approve[i]['custName']}',
-                                              overflow: TextOverflow.clip,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withAlpha(180),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'สาขา : ${list_approve[i]['branchName']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'สถานะ : ${list_approve[i]['approveStatus']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'รันนิ่งสัญญา : ${list_approve[i]['signRunning']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'วันที่ : ${list_approve[i]['tranDate']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'ชื่อ : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '${list_approve[i]['custName']}',
+                                                overflow: TextOverflow.clip,
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'สถานะ : ${list_approve[i]['approveStatus']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

@@ -23,13 +23,11 @@ class ListCreditQueryDebtor extends StatefulWidget {
       selectAddreessType,
       idcard,
       telephone,
-      selectBranchlist,
+      select_branchlist,
       signId,
       itemTypelist,
-      selectValueAmphoe,
-      selectValueProvince,
       address;
-  final int? selectDebtorType, selectSignStatus;
+  final int? select_debtorType, select_signStatus;
   const ListCreditQueryDebtor(
       this.custId,
       this.homeNo,
@@ -40,15 +38,13 @@ class ListCreditQueryDebtor extends StatefulWidget {
       this.firstnameC,
       this.lastnameC,
       this.selectAddreessType,
-      this.selectDebtorType,
+      this.select_debtorType,
       this.idcard,
       this.telephone,
-      this.selectBranchlist,
+      this.select_branchlist,
       this.signId,
-      this.selectSignStatus,
+      this.select_signStatus,
       this.itemTypelist,
-      this.selectValueAmphoe,
-      this.selectValueProvince,
       this.address,
       {super.key});
 
@@ -87,34 +83,78 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
   }
 
   Future<void> getDataDebtorList() async {
-    var signStatus, branch, debtorType, tumbol, amphur, province;
-    if (widget.selectSignStatus == null) {
-      signStatus = '';
-    } else {
-      signStatus = widget.selectSignStatus;
-    }
+    // var signStatus, branch, debtorType, tumbol, amphur, province;
+    // if (widget.selectSignStatus == null) {
+    //   signStatus = '';
+    // } else {
+    //   signStatus = widget.selectSignStatus;
+    // }
 
-    if (widget.selectBranchlist == null) {
-      branch = '';
-    } else {
-      branch = widget.selectBranchlist;
-    }
+    // if (widget.selectBranchlist == null) {
+    //   branch = '';
+    // } else {
+    //   branch = widget.selectBranchlist;
+    // }
 
-    if (widget.selectDebtorType == null) {
-      debtorType = '';
-    } else {
-      debtorType = widget.selectDebtorType;
-    }
+    // if (widget.selectDebtorType == null) {
+    //   debtorType = '';
+    // } else {
+    //   debtorType = widget.selectDebtorType;
+    // }
 
-    if (widget.tumbolId == null) {
-      tumbol = '';
-      amphur = '';
-      province = '';
-    } else {
-      tumbol = widget.tumbolId;
-      amphur = widget.selectValueAmphoe.toString().split("_")[0];
-      province = widget.selectValueProvince.toString().split("_")[0];
-    }
+    // if (widget.tumbolId == null) {
+    //   tumbol = '';
+    //   amphur = '';
+    //   province = '';
+    // } else {
+    //   tumbol = widget.tumbolId;
+    //   amphur = widget.selectValueAmphoe.toString().split("_")[0];
+    //   province = widget.selectValueProvince.toString().split("_")[0];
+    // }
+
+    print('================= Search Debtor =================');
+    print('custId> ${widget.custId}');
+    print('idcard> ${widget.idcard}');
+    print('firstnameC> ${widget.firstnameC}');
+    print('lastnameC> ${widget.lastnameC}');
+    print('signId> ${widget.signId}');
+    print('telephone> ${widget.telephone}');
+    print('addressType> ${widget.selectAddreessType}');
+    print('homeNo> ${widget.homeNo}');
+    print('moo> ${widget.moo}');
+    print('tumbolId> ${widget.tumbolId}');
+    print('amphur> ${widget.amphur}');
+    print('province> ${widget.province}');
+    print('branchId> ${widget.select_branchlist}');
+    print('itemType> ${widget.itemTypelist}');
+    print('signStatus> ${widget.select_signStatus}');
+    print('debtorType> ${widget.select_debtorType}');
+
+    final signStatus = widget.select_signStatus ?? '';
+    final branch = widget.select_branchlist ?? '';
+    final debtorType = widget.select_debtorType ?? '';
+
+    final tumbol = widget.tumbolId ?? '';
+    final amphur = widget.tumbolId != null ? widget.amphur ?? '' : '';
+    final province = widget.tumbolId != null ? widget.province ?? '' : '';
+
+    print('================= Search Debtor2 =================');
+    print('custId2> ${widget.custId}');
+    print('idcard2> ${widget.idcard}');
+    print('firstnameC2> ${widget.firstnameC}');
+    print('lastnameC2> ${widget.lastnameC}');
+    print('signId2> ${widget.signId}');
+    print('telephone2> ${widget.telephone}');
+    print('addressType2> ${widget.selectAddreessType}');
+    print('homeNo2> ${widget.homeNo}');
+    print('moo> ${widget.moo}');
+    print('tumbolId2> $tumbol');
+    print('amphur2> $amphur');
+    print('province2> $province');
+    print('branchId2> $branch');
+    print('itemType2> ${widget.itemTypelist}');
+    print('signStatus2> $signStatus');
+    print('debtorType2> $debtorType');
 
     try {
       var respose = await http.post(
@@ -124,24 +164,24 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
           'Authorization': tokenId.toString(),
         },
         body: jsonEncode(<String, String>{
-          'custId': widget.custId.toString(),
-          'homeNo': widget.homeNo.toString(),
-          'moo': widget.moo.toString(),
-          'tumbolId': tumbol.toString(),
-          'amphurId': amphur.toString(),
-          'provId': province.toString(),
-          'firstName': widget.firstnameC.toString(),
-          'lastName': widget.lastnameC.toString(),
-          'addressType': widget.selectAddreessType.toString(),
+          'custId': widget.custId ?? '',
+          'homeNo': widget.homeNo ?? '',
+          'moo': widget.moo ?? '',
+          'tumbolId': tumbol,
+          'amphurId': amphur,
+          'provId': province,
+          'firstName': widget.firstnameC ?? '',
+          'lastName': widget.lastnameC ?? '',
+          'addressType': widget.selectAddreessType ?? '',
           'debtorType': debtorType.toString(),
-          'smartId': widget.idcard.toString(),
-          'telephone': widget.telephone.toString(),
-          'branchId': branch.toString(),
-          'signId': widget.signId.toString(),
+          'smartId': widget.idcard ?? '',
+          'telephone': widget.telephone ?? '',
+          'branchId': branch,
+          'signId': widget.signId ?? '',
           'signStatus': signStatus.toString(),
-          'itemType': widget.itemTypelist.toString(),
+          'itemType': widget.itemTypelist ?? '',
           'page': '1',
-          'limit': '100'
+          'limit': '20',
         }),
       );
 
@@ -262,10 +302,10 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                       padding: const EdgeInsets.only(
                           top: 8, bottom: 4, left: 8, right: 8),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
+                            Radius.circular(10),
                           ),
                           color: const Color.fromRGBO(251, 173, 55, 1),
                           boxShadow: [
@@ -282,7 +322,7 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(8),
                                 color: Colors.white.withAlpha(180),
                               ),
                               child: Row(
@@ -320,9 +360,8 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          Page_Info_Consider_Cus(
-                                              listDataDebtor[i]['signId']),
+                                      builder: (context) => PageInfoConsiderCus(
+                                          listDataDebtor[i]['signId']),
                                     ),
                                   );
                                 },
@@ -330,10 +369,10 @@ class _ListCreditQueryDebtorState extends State<ListCreditQueryDebtor> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4, horizontal: 8),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
+                                          Radius.circular(10)),
                                       color:
                                           const Color.fromRGBO(251, 173, 55, 1),
                                       boxShadow: [

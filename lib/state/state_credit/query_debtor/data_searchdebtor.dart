@@ -198,220 +198,6 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     }
   }
 
-  // Future<void> showPaydetail(sizeIcon, border, periodNo) async {
-  //   var data_d = periodNo.toString().split('|');
-  //   var perodNo_d = data_d[0].toString(),
-  //       payDate_d = data_d[1].toString(),
-  //       payPrice_d = data_d[2].toString(),
-  //       payFine_d = data_d[3].toString();
-  //   double size = MediaQuery.of(context).size.width;
-
-  //   showDialog(
-  //     barrierDismissible: false,
-  //     context: context,
-  //     builder: (context) => GestureDetector(
-  //       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-  //       behavior: HitTestBehavior.opaque,
-  //       child: StatefulBuilder(
-  //         builder: (context, setState) => Container(
-  //           alignment: Alignment.center,
-  //           padding: const EdgeInsets.all(5),
-  //           child: SingleChildScrollView(
-  //             padding: EdgeInsets.only(
-  //                 bottom: MediaQuery.of(context).viewInsets.bottom),
-  //             child: Column(
-  //               children: [
-  //                 Card(
-  //                   shape: RoundedRectangleBorder(
-  //                     borderRadius: BorderRadius.circular(20),
-  //                   ),
-  //                   elevation: 0,
-  //                   color: Colors.white,
-  //                   child: Container(
-  //                     margin: const EdgeInsets.all(10),
-  //                     child: Column(
-  //                       children: [
-  //                         SizedBox(
-  //                           height: size * 0.03,
-  //                         ),
-  //                         Container(
-  //                           padding: const EdgeInsets.only(left: 15, right: 15),
-  //                           child: Row(
-  //                             crossAxisAlignment: CrossAxisAlignment.end,
-  //                             mainAxisAlignment: MainAxisAlignment.end,
-  //                             children: [
-  //                               Row(
-  //                                 children: [
-  //                                   InkWell(
-  //                                     onTap: () {
-  //                                       Navigator.pop(context);
-  //                                     },
-  //                                     child: Container(
-  //                                       width: 30,
-  //                                       height: 30,
-  //                                       decoration: const BoxDecoration(
-  //                                           color:
-  //                                               Color.fromRGBO(202, 71, 150, 1),
-  //                                           shape: BoxShape.circle),
-  //                                       child: const Icon(
-  //                                         Icons.close,
-  //                                         color: Colors.white,
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ],
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                         Container(
-  //                           decoration: const BoxDecoration(
-  //                             borderRadius: BorderRadius.all(
-  //                               Radius.circular(10),
-  //                             ),
-  //                             color: Color.fromRGBO(255, 203, 246, 1),
-  //                           ),
-  //                           margin: const EdgeInsets.symmetric(vertical: 10),
-  //                           padding: const EdgeInsets.all(8.0),
-  //                           child: Column(
-  //                             children: [
-  //                               Row(
-  //                                 mainAxisAlignment: MainAxisAlignment.center,
-  //                                 children: [
-  //                                   Text(
-  //                                     'งวดที่ : ',
-  //                                     style: MyContant().h4normalStyle(),
-  //                                   ),
-  //                                   Expanded(
-  //                                     child: Padding(
-  //                                       padding: const EdgeInsets.all(1),
-  //                                       child: Container(
-  //                                         height: MediaQuery.of(context)
-  //                                                 .size
-  //                                                 .width *
-  //                                             0.07,
-  //                                         padding: const EdgeInsets.all(4),
-  //                                         decoration: BoxDecoration(
-  //                                             color: Colors.white,
-  //                                             borderRadius:
-  //                                                 BorderRadius.circular(5)),
-  //                                         child: Padding(
-  //                                           padding:
-  //                                               const EdgeInsets.only(left: 4),
-  //                                           child: DropdownButton(
-  //                                             items: list_payDetail
-  //                                                 .map((value) =>
-  //                                                     DropdownMenuItem(
-  //                                                       value:
-  //                                                           '${value['periodNo']}|${value['payDate']}|${value['payPrice']}|${value['payFine']}',
-  //                                                       child: Text(
-  //                                                         value['periodNo'],
-  //                                                         style: MyContant()
-  //                                                             .h4normalStyle(),
-  //                                                       ),
-  //                                                     ))
-  //                                                 .toList(),
-  //                                             onChanged: (newvalue) {
-  //                                               setState(() {
-  //                                                 select_payDetail = newvalue;
-  //                                                 var data_s = select_payDetail
-  //                                                     .toString()
-  //                                                     .split('|');
-  //                                                 perodNo_d =
-  //                                                     data_s[0].toString();
-  //                                                 payDate_d =
-  //                                                     data_s[1].toString();
-  //                                                 payPrice_d =
-  //                                                     data_s[2].toString();
-  //                                                 payFine_d =
-  //                                                     data_s[3].toString();
-  //                                               });
-  //                                             },
-  //                                             value: select_payDetail,
-  //                                             isExpanded: true,
-  //                                             underline: const SizedBox(),
-  //                                             hint: Align(
-  //                                               child: Text(
-  //                                                 'ไม่มี',
-  //                                                 style: MyContant()
-  //                                                     .TextInputSelect(),
-  //                                               ),
-  //                                             ),
-  //                                           ),
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ],
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                         Container(
-  //                           decoration: const BoxDecoration(
-  //                             borderRadius: BorderRadius.all(
-  //                               Radius.circular(10),
-  //                             ),
-  //                             color: Color.fromRGBO(255, 203, 246, 1),
-  //                           ),
-  //                           padding: const EdgeInsets.all(8.0),
-  //                           child: Column(
-  //                             children: [
-  //                               Row(
-  //                                 mainAxisAlignment:
-  //                                     MainAxisAlignment.spaceBetween,
-  //                                 children: [
-  //                                   Text(
-  //                                     'งวดที่ : $perodNo_d',
-  //                                     style: MyContant().h4normalStyle(),
-  //                                   ),
-  //                                   Text(
-  //                                     'วันที่ชำระ : $payDate_d',
-  //                                     style: MyContant().h4normalStyle(),
-  //                                   ),
-  //                                 ],
-  //                               ),
-  //                               const SizedBox(
-  //                                 height: 5,
-  //                               ),
-  //                               Row(
-  //                                 children: [
-  //                                   Text(
-  //                                     'จำนวนเงิน : $payPrice_d',
-  //                                     style: MyContant().h4normalStyle(),
-  //                                   ),
-  //                                 ],
-  //                               ),
-  //                               const SizedBox(
-  //                                 height: 5,
-  //                               ),
-  //                               Row(
-  //                                 children: [
-  //                                   Text(
-  //                                     'ค่าปรับ : $payFine_d',
-  //                                     style: MyContant().h4normalStyle(),
-  //                                   ),
-  //                                 ],
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                         const SizedBox(
-  //                           height: 10,
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -458,7 +244,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                       child: Column(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(255, 203, 246, 1),
                               borderRadius: BorderRadius.circular(10),
@@ -481,15 +267,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color: Colors.white.withAlpha(180),
                                     borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
+                                      Radius.circular(8),
                                     ),
                                   ),
                                   child: Row(
@@ -523,7 +307,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
 
   SizedBox slidemenu(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.067,
+      height: MediaQuery.of(context).size.height * 0.064,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -620,7 +404,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
             Padding(
               padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
               child: Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(255, 203, 246, 1),
                   borderRadius: const BorderRadius.all(
@@ -641,7 +425,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   decoration: BoxDecoration(
                     color: Colors.white.withAlpha(180),
                     borderRadius: const BorderRadius.all(
-                      Radius.circular(5),
+                      Radius.circular(8),
                     ),
                   ),
                   child: Column(
@@ -793,7 +577,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     ),
                     line(),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.285,
+                      height: MediaQuery.of(context).size.height * 0.28,
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(255, 203, 246, 1),
                         borderRadius: const BorderRadius.only(
@@ -815,22 +599,22 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           child: list_quarantee1 == null
                               ? SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.29,
+                                      MediaQuery.of(context).size.height * 0.28,
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(6),
                                         child: Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.26,
+                                              0.267,
                                           decoration: BoxDecoration(
                                             color: Colors.white
                                                 .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
-                                              Radius.circular(5),
+                                              Radius.circular(8),
                                             ),
                                           ),
                                           child: Column(
@@ -856,18 +640,18 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   ),
                                 )
                               : Container(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(6),
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.26,
+                                                0.267,
                                         decoration: BoxDecoration(
                                           color: Colors.white
                                               .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(8),
                                           ),
                                         ),
                                         child: Scrollbar(
@@ -875,7 +659,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                             children: [
                                               Padding(
                                                 padding:
-                                                    const EdgeInsets.all(8.0),
+                                                    const EdgeInsets.all(8),
                                                 child: Column(
                                                   children: [
                                                     Row(
@@ -1013,22 +797,22 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           child: list_quarantee2 == null
                               ? SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.29,
+                                      MediaQuery.of(context).size.height * 0.28,
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(6),
                                         child: Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.26,
+                                              0.267,
                                           decoration: BoxDecoration(
                                             color: Colors.white
                                                 .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
-                                              Radius.circular(5),
+                                              Radius.circular(8),
                                             ),
                                           ),
                                           child: Column(
@@ -1054,18 +838,18 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   ),
                                 )
                               : Container(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(6),
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.26,
+                                                0.267,
                                         decoration: BoxDecoration(
                                           color: Colors.white
                                               .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(8),
                                           ),
                                         ),
                                         child: Scrollbar(
@@ -1208,22 +992,22 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           child: list_quarantee3 == null
                               ? SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.29,
+                                      MediaQuery.of(context).size.height * 0.28,
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(6),
                                         child: Container(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.26,
+                                              0.267,
                                           decoration: BoxDecoration(
                                             color: Colors.white
                                                 .withValues(alpha: 0.7),
                                             borderRadius:
                                                 const BorderRadius.all(
-                                              Radius.circular(5),
+                                              Radius.circular(8),
                                             ),
                                           ),
                                           child: Column(
@@ -1249,18 +1033,18 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                   ),
                                 )
                               : Container(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(6),
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.26,
+                                                0.267,
                                         decoration: BoxDecoration(
                                           color: Colors.white
                                               .withValues(alpha: 0.7),
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(8),
                                           ),
                                         ),
                                         child: Scrollbar(
@@ -1408,9 +1192,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Container(
@@ -1428,14 +1210,14 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     )
                   ],
                 ),
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(6),
                 width: double.infinity,
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.white.withAlpha(180),
                     borderRadius: const BorderRadius.all(
-                      Radius.circular(5),
+                      Radius.circular(8),
                     ),
                   ),
                   child: Column(
@@ -1451,61 +1233,44 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               overflow: TextOverflow.fade,
                             ),
                           ),
-                          // Expanded(
-                          //   child: Text('',
-                          //       overflow: TextOverflow.clip,
-                          //       style: MyContant().h4normalStyle()),
-                          // ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text('วันที่ทำสัญญา : ${Debtordetail['signDate']}',
                               style: MyContant().h4normalStyle()),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text(
                             'ราคาเช่าซื้อ : ${Debtordetail['leaseTotal']}',
                             style: MyContant().h4normalStyle(),
                           ),
-                          const SizedBox(
-                            width: 5,
-                          ),
+                          const SizedBox(width: 5),
                           Text(
                             'ดอกเบี้ย ${Debtordetail['interest']} %',
                             style: MyContant().h4normalStyle(),
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text('ชำระแล้ว : ${Debtordetail['periodNo']} งวด',
                               style: MyContant().h4normalStyle()),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text('รหัสเขต : ${Debtordetail['followAreaName']}',
                               style: MyContant().h4normalStyle()),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Expanded(
@@ -1517,9 +1282,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Expanded(
@@ -1531,9 +1294,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Expanded(
@@ -1544,9 +1305,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text(
@@ -1559,9 +1318,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
               child: Container(
@@ -1579,14 +1336,12 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     )
                   ],
                 ),
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(6),
                 width: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1600,27 +1355,21 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text('ยี่ห้อ : ${list_itemDetail!['brandName']}',
                             style: MyContant().h4normalStyle()),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text('ขนาด : ${list_itemDetail!['sizeName']}',
                             style: MyContant().h4normalStyle()),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1637,9 +1386,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1654,24 +1401,20 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Text('จำนวน : ${list_itemDetail!['qty']}',
                             style: MyContant().h4normalStyle()),
                       ],
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     Container(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
+                              const BorderRadius.all(Radius.circular(8))),
                       child: Column(
                         children: [
                           Row(
@@ -1698,9 +1441,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
           ],
         ),
       ),
@@ -1728,7 +1469,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   )
                 ],
               ),
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6),
               width: double.infinity,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1749,7 +1490,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: Scrollbar(
@@ -1784,15 +1525,13 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           style: MyContant().h4normalStyle()),
                     ],
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: Scrollbar(
@@ -1854,7 +1593,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                   )
                 ],
               ),
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6),
               width: double.infinity,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1888,7 +1627,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_service == null
@@ -1976,7 +1715,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_finance == null
@@ -2064,7 +1803,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_debNote == null
@@ -2152,7 +1891,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_law == null
@@ -2240,7 +1979,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_regis == null
@@ -2328,7 +2067,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                     decoration: BoxDecoration(
                       color: Colors.white.withAlpha(180),
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(8),
                       ),
                     ),
                     child: list_checker == null
@@ -2384,9 +2123,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ],
                           ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
+                  const SizedBox(height: 5)
                 ],
               ),
             ),
@@ -2436,7 +2173,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         )
                       ],
                     ),
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(6),
                     width: double.infinity,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -2462,7 +2199,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           decoration: BoxDecoration(
                             color: Colors.white.withAlpha(180),
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
+                              Radius.circular(8),
                             ),
                           ),
                           child: Padding(
@@ -2483,9 +2220,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -2496,13 +2231,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 line(),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 Row(
                                   children: [
                                     Text(
@@ -2511,9 +2242,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -2539,9 +2268,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
               ),
             ],
           ],
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
         ],
       ),
     );

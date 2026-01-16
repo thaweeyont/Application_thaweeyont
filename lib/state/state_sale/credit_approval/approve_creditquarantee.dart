@@ -185,7 +185,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               color: const Color.fromRGBO(251, 173, 55, 1),
                               boxShadow: [
@@ -215,7 +215,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
+                                      Radius.circular(8),
                                     ),
                                     color: Colors.white.withAlpha(180),
                                   ),
@@ -356,7 +356,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                         EdgeInsets.symmetric(horizontal: 4),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(8),
                                       ),
                                       color: Colors.white.withAlpha(180),
                                     ),
@@ -454,7 +454,7 @@ class _ApproveCreditQuaranteeState extends State<ApproveCreditQuarantee> {
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
-                                                            Page_Check_Blacklist(
+                                                            PageCheckBlacklist(
                                                                 ListCreditquarantee[
                                                                         i][
                                                                     'smartId']),

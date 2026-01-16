@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_sale/credit_approval/credit_data_detail.dart';
-import 'package:application_thaweeyont/state/state_sale/credit_approval/testUI.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:application_thaweeyont/widgets/endpage.dart';
@@ -366,7 +365,7 @@ class _PageCreditApprovalState extends State<PageCreditApproval> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Credit_data_detail(
+                            builder: (context) => CreditDataDetail(
                               custId.text,
                               idcard.text,
                               custName.text,
@@ -1073,32 +1072,35 @@ class _CustomerListState extends State<CustomerList> {
                   ),
                   child: Column(
                     children: [
-                      Row(
-                        children: ['1', '2'].map((val) {
-                          final isCustomer = val == '1';
-                          return Expanded(
-                            child: RadioListTile(
-                              activeColor: Colors.black,
-                              value: val,
-                              groupValue: id,
-                              title: Text(
-                                isCustomer ? 'ลูกค้าทั่วไป' : 'พนักงาน',
-                                style: MyContant().h4normalStyle(),
+                      RadioGroup<String>(
+                        groupValue: id,
+                        onChanged: (value) {
+                          setState(() {
+                            id = value!;
+                            final isCustomer = value == '1';
+                            st_customer = isCustomer;
+                            st_employee = !isCustomer;
+                            searchData.clear();
+                          });
+                        },
+                        child: Row(
+                          children: ['1', '2'].map((val) {
+                            final isCustomer = val == '1';
+                            return Expanded(
+                              child: RadioListTile<String>(
+                                activeColor: Colors.black,
+                                value: val,
+                                title: Text(
+                                  isCustomer ? 'ลูกค้าทั่วไป' : 'พนักงาน',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                visualDensity: VisualDensity.compact,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  st_customer = isCustomer;
-                                  st_employee = !isCustomer;
-                                  id = value.toString();
-                                  searchData.clear();
-                                });
-                              },
-                              visualDensity: VisualDensity.compact,
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                            ),
-                          );
-                        }).toList(),
+                            );
+                          }).toList(),
+                        ),
                       ),
                       if (st_employee == true) ...[
                         Row(

@@ -52,21 +52,6 @@ class _AddressCustState extends State<AddressCust> {
     });
   }
 
-  // Future<void> webView(lat, lng) async {
-  //   sampleHTML = '''<iframe
-  //                   class="size-google-map"
-  //                   style="border:0;border-radius: 15px;  width: 100%;height: 100%;"
-  //                   loading="lazy"
-  //                   allowfullscreen
-  //                   src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAqWnK3U_cSqW-rM_6inkVwHEJRDgTcUBI
-  //                   &q=$lat,$lng&zoom=20">
-  //                   </iframe>''';
-  //   controller = WebViewController()
-  //     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  //     ..loadHtmlString(sampleHTML);
-  //   controller.reload();
-  // }
-
   Future<void> checkLatLng() async {
     if (widget.latOld.toString().isNotEmpty &&
         widget.lngOld.toString().isNotEmpty) {
@@ -322,7 +307,7 @@ class _AddressCustState extends State<AddressCust> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(64, 203, 203, 1),
                     borderRadius: BorderRadius.circular(10),
@@ -343,7 +328,7 @@ class _AddressCustState extends State<AddressCust> {
                         decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
+                            Radius.circular(8),
                           ),
                         ),
                         child: Column(
@@ -390,11 +375,11 @@ class _AddressCustState extends State<AddressCust> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                 child: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(6),
                   decoration: const BoxDecoration(
                     color: Color.fromRGBO(64, 203, 203, 1),
                     borderRadius: BorderRadius.all(
-                      Radius.circular(5),
+                      Radius.circular(10),
                     ),
                   ),
                   child: Column(
@@ -409,11 +394,12 @@ class _AddressCustState extends State<AddressCust> {
                       ),
                       const SizedBox(height: 5),
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 8),
                         decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
+                            Radius.circular(8),
                           ),
                         ),
                         child: Column(
@@ -437,13 +423,13 @@ class _AddressCustState extends State<AddressCust> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 5),
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.white.withAlpha(180),
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
+                            Radius.circular(8),
                           ),
                         ),
                         child: Column(
@@ -676,7 +662,7 @@ class _AddressCustState extends State<AddressCust> {
                         ),
                       ),
                       if (lat != 0.0 && lng != 0.0) ...[
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 5),
                         Container(
                           padding: const EdgeInsets.all(10),
                           width: double.infinity,
@@ -684,7 +670,7 @@ class _AddressCustState extends State<AddressCust> {
                           decoration: BoxDecoration(
                             color: Colors.white.withAlpha(180),
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
+                              Radius.circular(8),
                             ),
                           ),
                           child: InAppWebView(
@@ -693,7 +679,7 @@ class _AddressCustState extends State<AddressCust> {
                             ),
                             onWebViewCreated: (controller) {
                               _controller = controller;
-                              print('WebView Created');
+                              // print('WebView Created');
                               loadMap(lat, lng);
                             },
                           ),

@@ -74,7 +74,7 @@ class _MemberCustListState extends State<MemberCustList> {
 
   Future<void> getDataCusMember(offset) async {
     try {
-      var respose = await http.post(
+      var response = await http.post(
         Uri.parse('${api}customer/memberList'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -90,9 +90,9 @@ class _MemberCustListState extends State<MemberCustList> {
         }),
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> dataMemberList =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
 
         setState(() {
           list_dataMember = dataMemberList['data'];
@@ -107,39 +107,42 @@ class _MemberCustListState extends State<MemberCustList> {
         } else {
           stquery = 1;
         }
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoad404 = true;
-          statusLoading = true;
-        });
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -210,7 +213,7 @@ class _MemberCustListState extends State<MemberCustList> {
                   ),
                 )
               : Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: SingleChildScrollView(
                     controller: scrollControll,
                     physics: const BouncingScrollPhysics(
@@ -232,10 +235,10 @@ class _MemberCustListState extends State<MemberCustList> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
-                                    Radius.circular(5),
+                                    Radius.circular(10),
                                   ),
                                   boxShadow: [
                                     BoxShadow(
@@ -247,22 +250,31 @@ class _MemberCustListState extends State<MemberCustList> {
                                   ],
                                   color: const Color.fromRGBO(64, 203, 203, 1),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('สาขา : ${member['branchName']}',
-                                        style: MyContant().h4normalStyle()),
-                                    Text('รหัสลูกค้า : ${member['custId']}',
-                                        style: MyContant().h4normalStyle()),
-                                    buildLabelValue(
-                                        'ชื่อ-นามสกุล', member['custName']),
-                                    Text('เลขที่บัตร : ${member['smartId']}',
-                                        style: MyContant().h4normalStyle()),
-                                    buildLabelValue(
-                                        'เบอร์โทรศัพท์', member['telephone']),
-                                    Text('ที่มา : ${member['sourceName']}',
-                                        style: MyContant().h4normalStyle()),
-                                  ],
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withAlpha(180),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('สาขา : ${member['branchName']}',
+                                          style: MyContant().h4normalStyle()),
+                                      Text('รหัสลูกค้า : ${member['custId']}',
+                                          style: MyContant().h4normalStyle()),
+                                      buildLabelValue(
+                                          'ชื่อ-นามสกุล', member['custName']),
+                                      Text('เลขที่บัตร : ${member['smartId']}',
+                                          style: MyContant().h4normalStyle()),
+                                      buildLabelValue(
+                                          'เบอร์โทรศัพท์', member['telephone']),
+                                      Text('ที่มา : ${member['sourceName']}',
+                                          style: MyContant().h4normalStyle()),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

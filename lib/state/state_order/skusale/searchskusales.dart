@@ -439,20 +439,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           dropdownMonth2 = dataMonth2['data'];
           selectMonthName2();
         });
-      } else if (response.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(response.statusCode);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -461,7 +449,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     }
   }
 
-  Future<void> getSelectMonth3() async {
+  Future<void> getSelectMonth3() async { 
     try {
       var response = await http.get(
         Uri.parse('${api}setup/monthList'),
@@ -478,20 +466,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           dropdownMonth3 = dataMonth3['data'];
           selectMonthName3();
         });
-      } else if (response.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(response.statusCode);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -517,20 +493,8 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           dropdownMonth4 = dataMonth4['data'];
           selectMonthName4();
         });
-      } else if (response.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(response.statusCode);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -655,7 +619,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         MaterialPageRoute(builder: (context) => const Authen()),
         (Route<dynamic> route) => false,
       );
-      showProgressDialog_401(
+      showProgressDialog_401( 
           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
     } else if (statusCode == 404) {
       showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');

@@ -167,43 +167,45 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.9,
-                    child: Scrollbar(
-                      child: ListView(
-                        children: [
-                          for (var i = 0; i < list_quarantee.length; i++) ...[
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        Page_Info_Consider_Cus(
-                                      list_quarantee[i]['signId'],
-                                    ),
+                  child: Scrollbar(
+                    child: ListView(
+                      children: [
+                        for (var i = 0; i < list_quarantee.length; i++) ...[
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PageInfoConsiderCus(
+                                    list_quarantee[i]['signId'],
                                   ),
-                                );
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  color: const Color.fromRGBO(251, 173, 55, 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withAlpha(130),
+                                      spreadRadius: 0.2,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 1),
+                                    )
+                                  ],
+                                ),
                                 child: Container(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 8),
                                   decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                    color:
-                                        const Color.fromRGBO(251, 173, 55, 1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withAlpha(130),
-                                        spreadRadius: 0.2,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ],
+                                    color: Colors.white.withAlpha(180),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
                                     children: [
@@ -296,9 +298,9 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ],
-                      ),
+                      ],
                     ),
                   ),
                 ),

@@ -1193,7 +1193,7 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 4, horizontal: 8),
+                                          vertical: 3, horizontal: 8),
                                       child: Container(
                                         padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(

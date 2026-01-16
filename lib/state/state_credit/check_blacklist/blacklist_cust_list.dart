@@ -257,16 +257,16 @@ class _BlacklistCustListState extends State<BlacklistCustList> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Blacklist_Detail(
+                                    builder: (context) => BlacklistDetail(
                                         list_data_blacklist[i]['blId']),
                                   ),
                                 );
                               },
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
+                                    const EdgeInsets.symmetric(vertical: 3),
                                 child: Container(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(6),
                                   decoration: BoxDecoration(
                                     color:
                                         const Color.fromRGBO(162, 181, 252, 1),
@@ -282,60 +282,72 @@ class _BlacklistCustListState extends State<BlacklistCustList> {
                                       )
                                     ],
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'รหัสลูกค้า : ${list_data_blacklist[i]['blId']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'ชื่อลูกค้า : ${list_data_blacklist[i]['custName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ที่อยู่ : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_data_blacklist[i]['custAddress']}',
+                                  child: Container(
+                                    padding: const EdgeInsets.all(6),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Colors.white.withValues(alpha: 0.7),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'รหัสลูกค้า : ${list_data_blacklist[i]['blId']}',
                                               style:
                                                   MyContant().h4normalStyle(),
-                                              overflow: TextOverflow.clip,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'สถานะ : ${list_data_blacklist[i]['blStatus']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'ชื่อลูกค้า : ${list_data_blacklist[i]['custName']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'ที่อยู่ : ',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                '${list_data_blacklist[i]['custAddress']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                                overflow: TextOverflow.clip,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'สถานะ : ${list_data_blacklist[i]['blStatus']}',
+                                              style:
+                                                  MyContant().h4normalStyle(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

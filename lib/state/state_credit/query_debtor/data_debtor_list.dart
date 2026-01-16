@@ -69,7 +69,7 @@ class _DataDebtorListState extends State<DataDebtorList> {
       isLoad = false,
       isLoadendPage = false;
   final scrollControll = TrackingScrollController();
-  int offset = 30, stquery = 0;
+  int offset = 20, stquery = 0;
 
   @override
   void initState() {
@@ -110,91 +110,72 @@ class _DataDebtorListState extends State<DataDebtorList> {
   }
 
   Future<void> getDataDebtorList(offset) async {
-    var signStatus, branch, debtorType, tumbol, amphur, province;
+    final signStatus = widget.select_signStatus ?? '';
+    final branch = widget.select_branchlist ?? '';
+    final debtorType = widget.select_debtorType ?? '';
 
-    if (widget.select_signStatus == null) {
-      signStatus = '';
-    } else {
-      signStatus = widget.select_signStatus;
-    }
+    final tumbol = widget.tumbolId ?? '';
+    final amphur = widget.tumbolId != null ? widget.amphur ?? '' : '';
+    final province = widget.tumbolId != null ? widget.province ?? '' : '';
 
-    if (widget.select_branchlist == null) {
-      branch = '';
-    } else {
-      branch = widget.select_branchlist;
-    }
-
-    if (widget.select_debtorType == null) {
-      debtorType = '';
-    } else {
-      debtorType = widget.select_debtorType;
-    }
-
-    if (widget.tumbolId == null) {
-      tumbol = '';
-      amphur = '';
-      province = '';
-    } else {
-      tumbol = widget.tumbolId;
-      amphur = widget.amphur;
-      province = widget.province;
-    }
-
-    // print('1 ${widget.custId}');
-    // print('2 ${widget.homeNo}');
-    // print('3 ${widget.moo}');
-    // print('4 $tumbol');
-    // print('5 $amphur');
-    // print('6 $province');
-    // print('7 ${widget.firstname_c}');
-    // print('8 ${widget.lastname_c}');
-    // print('9 ${widget.select_addreessType}');
-    // print('10 $debtorType');
-    // print('11 ${widget.idcard}');
-    // print('12 ${widget.telephone}');
-    // print('13 $branch');
-    // print('14 ${widget.signId}');
-    // print('15 ${widget.signRunning}');
-    // print('16 $signStatus');
-    // print('17 ${widget.itemTypelist}');
+    print('----- รับแล้วส่ง api -----');
+    print('custId = ${widget.custId}');
+    print('IDcard = ${widget.idcard}');
+    print('firstname_c = ${widget.firstname_c}');
+    print('lastname_c = ${widget.lastname_c}');
+    print('signRunning = ${widget.signRunning}');
+    print('signId = ${widget.signId}');
+    print('telephone = ${widget.telephone}');
+    print('select_addreessType = ${widget.select_addreessType}');
+    print('homeNo = ${widget.homeNo}');
+    print('moo = ${widget.moo}');
+    print('tumbol = $tumbol');
+    print('amphur = $amphur');
+    print('province = $province');
+    print('branch = $branch');
+    print('itemTypelist = ${widget.itemTypelist}');
+    print('signStatus = $signStatus');
+    print('debtorType = $debtorType');
+    print('-----------------------------');
 
     try {
-      var respose = await http.post(
+      var response = await http.post(
         Uri.parse('${api}debtor/list'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
         },
         body: jsonEncode(<String, String>{
-          'custId': widget.custId.toString(),
-          'homeNo': widget.homeNo.toString(),
-          'moo': widget.moo.toString(),
-          'tumbolId': tumbol.toString(),
-          'amphurId': amphur.toString(),
-          'provId': province.toString(),
-          'firstName': widget.firstname_c.toString(),
-          'lastName': widget.lastname_c.toString(),
-          'addressType': widget.select_addreessType.toString(),
+          'custId': widget.custId ?? '',
+          'homeNo': widget.homeNo ?? '',
+          'moo': widget.moo ?? '',
+          'tumbolId': tumbol,
+          'amphurId': amphur,
+          'provId': province,
+          'firstName': widget.firstname_c ?? '',
+          'lastName': widget.lastname_c ?? '',
+          'addressType': widget.select_addreessType ?? '',
           'debtorType': debtorType.toString(),
-          'smartId': widget.idcard.toString(),
-          'telephone': widget.telephone.toString(),
-          'branchId': branch.toString(),
-          'signRunning': widget.signRunning.toString(),
-          'signId': widget.signId.toString(),
+          'smartId': widget.idcard ?? '',
+          'telephone': widget.telephone ?? '',
+          'branchId': branch,
+          'signRunning': widget.signRunning ?? '',
+          'signId': widget.signId ?? '',
           'signStatus': signStatus.toString(),
-          'itemType': widget.itemTypelist.toString(),
+          'itemType': widget.itemTypelist ?? '',
           'page': '1',
-          'limit': '$offset'
+          'limit': '$offset',
         }),
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> datadebtorList =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
 
         setState(() {
           list_dataDebtor = datadebtorList['data'];
         });
+
         statusLoading = true;
         isLoad = false;
         if (stquery > 0) {
@@ -205,45 +186,56 @@ class _DataDebtorListState extends State<DataDebtorList> {
         } else {
           stquery = 1;
         }
-      } else if (respose.statusCode == 400) {
-        if (mounted) return;
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        if (mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoad404 = true;
-          statusLoading = true;
-        });
-      } else if (respose.statusCode == 405) {
-        if (mounted) return;
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        if (mounted) return;
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        if (mounted) return;
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        print(response.statusCode);
+        handleHttpError(response.statusCode, response.body);
       }
     } catch (e) {
-      Navigator.pop(context);
+      print(e.runtimeType);
       print("ไม่มีข้อมูล $e");
+      Navigator.pop(context);
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode, String body) async {
+    String message = 'เกิดข้อผิดพลาด';
+
+    if (body.isNotEmpty) {
+      try {
+        final decoded = json.decode(body);
+        message = decoded['message'] ?? message;
+      } catch (_) {}
+    }
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+      setState(() {
+        statusLoad404 = true;
+        statusLoading = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      if (mounted) return;
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      if (mounted) return;
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 

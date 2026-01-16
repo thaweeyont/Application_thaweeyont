@@ -140,10 +140,10 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 8, left: 8, right: 8),
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(10),
                       ),
                       color: const Color.fromRGBO(251, 173, 55, 1),
                       boxShadow: [
@@ -161,7 +161,7 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
+                              Radius.circular(8),
                             ),
                             color: Colors.white.withAlpha(180),
                           ),
@@ -235,16 +235,16 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            Page_Info_Consider_Cus(
+                                            PageInfoConsiderCus(
                                                 listCreditdebtor[i]['signId']),
                                       ),
                                     );
                                   },
                                   child: Container(
-                                    padding: const EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(10),
                                       ),
                                       color:
                                           const Color.fromRGBO(251, 173, 55, 1),
@@ -258,76 +258,84 @@ class _CreditDebtorDetailState extends State<CreditDebtorDetail> {
                                         )
                                       ],
                                     ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'เลขที่สัญญา : ${listCreditdebtor[i]['signId']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'วันที่ทำสัญญา : ${listCreditdebtor[i]['signDate']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'ชื่อสินค้า : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${listCreditdebtor[i]['itemName']}',
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withAlpha(180),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'เลขที่สัญญา : ${listCreditdebtor[i]['signId']}',
                                                 style:
                                                     MyContant().h4normalStyle(),
-                                                overflow: TextOverflow.clip,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'รหัสเขต : ${listCreditdebtor[i]['followAreaName']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'สถานะ : ${listCreditdebtor[i]['signStatusName']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'วันที่ทำสัญญา : ${listCreditdebtor[i]['signDate']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'ชื่อสินค้า : ',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  '${listCreditdebtor[i]['itemName']}',
+                                                  style: MyContant()
+                                                      .h4normalStyle(),
+                                                  overflow: TextOverflow.clip,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'รหัสเขต : ${listCreditdebtor[i]['followAreaName']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'สถานะ : ${listCreditdebtor[i]['signStatusName']}',
+                                                style:
+                                                    MyContant().h4normalStyle(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

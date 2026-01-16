@@ -254,7 +254,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                                     )
                                   ],
                                 ),
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(6),
                                 child: Column(
                                   children: [
                                     const SizedBox(height: 5),
@@ -279,16 +279,14 @@ class _Pay_installmentState extends State<Pay_installment> {
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
                                         borderRadius: const BorderRadius.all(
-                                          Radius.circular(5),
+                                          Radius.circular(8),
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8),
                                         child: Column(
                                           children: [
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -301,9 +299,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -321,9 +317,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
+                                            const SizedBox(height: 5),
                                             Row(
                                               children: [
                                                 Expanded(
@@ -345,9 +339,7 @@ class _Pay_installmentState extends State<Pay_installment> {
                               ),
                             ),
                           ],
-                          const SizedBox(
-                            height: 15,
-                          ),
+                          const SizedBox(height: 15),
                         ],
                       ),
           ),

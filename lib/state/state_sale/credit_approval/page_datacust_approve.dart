@@ -17,16 +17,16 @@ import 'package:http/http.dart' as http;
 import 'page_info_consider_cus.dart';
 import 'package:application_thaweeyont/api.dart';
 
-class Data_Cust_Approve extends StatefulWidget {
+class DataCustApprove extends StatefulWidget {
   final String? custId, tranId;
 
-  const Data_Cust_Approve(this.custId, this.tranId, {super.key});
+  const DataCustApprove(this.custId, this.tranId, {super.key});
 
   @override
-  State<Data_Cust_Approve> createState() => _Data_Cust_ApproveState();
+  State<DataCustApprove> createState() => _DataCustApproveState();
 }
 
-class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
+class _DataCustApproveState extends State<DataCustApprove> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   bool? allowApproveStatus;
   bool active_cl1 = true, active_cl2 = false, active_cl3 = false;
@@ -516,13 +516,13 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.20,
+                                                0.203,
                                             decoration: BoxDecoration(
                                               color: Colors.white
                                                   .withValues(alpha: 0.7),
                                               borderRadius:
                                                   const BorderRadius.all(
-                                                Radius.circular(5),
+                                                Radius.circular(8),
                                               ),
                                             ),
                                             child: Scrollbar(
@@ -621,13 +621,13 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.20,
+                                                0.203,
                                             decoration: BoxDecoration(
                                               color: Colors.white
                                                   .withValues(alpha: 0.7),
                                               borderRadius:
                                                   const BorderRadius.all(
-                                                Radius.circular(5),
+                                                Radius.circular(10),
                                               ),
                                             ),
                                             child: Scrollbar(
@@ -710,13 +710,13 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.20,
+                                                0.203,
                                             decoration: BoxDecoration(
                                               color: Colors.white
                                                   .withValues(alpha: 0.7),
                                               borderRadius:
                                                   const BorderRadius.all(
-                                                Radius.circular(5),
+                                                Radius.circular(10),
                                               ),
                                             ),
                                             child: Scrollbar(
@@ -846,7 +846,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(251, 173, 55, 1),
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -914,7 +914,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: const BorderRadius.all(
-                          Radius.circular(5),
+                          Radius.circular(10),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -1061,7 +1061,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: const BorderRadius.all(
-                          Radius.circular(5),
+                          Radius.circular(10),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -1092,7 +1092,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               decoration: BoxDecoration(
                                 color: Colors.white.withAlpha(180),
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
+                                  Radius.circular(8),
                                 ),
                               ),
                               child: Scrollbar(
@@ -1133,7 +1133,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: const BorderRadius.all(
-                          Radius.circular(5),
+                          Radius.circular(10),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -1164,7 +1164,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               decoration: BoxDecoration(
                                 color: Colors.white.withAlpha(180),
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
+                                  Radius.circular(8),
                                 ),
                               ),
                               child: Scrollbar(
@@ -1205,7 +1205,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(251, 173, 55, 1),
                         borderRadius: const BorderRadius.all(
-                          Radius.circular(5),
+                          Radius.circular(10),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -1236,7 +1236,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                               decoration: BoxDecoration(
                                 color: Colors.white.withAlpha(180),
                                 borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
+                                  Radius.circular(8),
                                 ),
                               ),
                               child: Scrollbar(
@@ -1278,7 +1278,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         decoration: BoxDecoration(
                           color: const Color.fromRGBO(251, 173, 55, 1),
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
+                            Radius.circular(10),
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -1307,7 +1307,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                 decoration: BoxDecoration(
                                   color: Colors.white.withAlpha(180),
                                   borderRadius: const BorderRadius.all(
-                                    Radius.circular(5),
+                                    Radius.circular(8),
                                   ),
                                 ),
                                 child: Padding(
@@ -1530,23 +1530,53 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
             children: [
               const SizedBox(width: 4),
               if (allowApproveStatus == true) ...[
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 6),
+                //   child: ElevatedButton(
+                //     onPressed: () {
+                //       Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (context) =>
+                //                 CreditDebtorDetail(widget.custId),
+                //           ));
+                //     },
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                //     ),
+                //     child: Text(
+                //       'ตรวจสอบหนี้สิน',
+                //       style: MyContant().h4normalStyle(),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                CreditDebtorDetail(widget.custId),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CreditDebtorDetail(widget.custId),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                      padding: EdgeInsets.all(6), // สำคัญ: กัน padding ซ้อน
                     ),
-                    child: Text(
-                      'ตรวจสอบหนี้สิน',
-                      style: MyContant().h4normalStyle(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Text(
+                        'ตรวจสอบหนี้สิน',
+                        style: MyContant().h4normalStyle(),
+                      ),
                     ),
                   ),
                 ),
@@ -1565,10 +1595,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                      padding: EdgeInsets.all(6),
                     ),
-                    child: Text(
-                      'รายละเอียดผู้ค้ำ',
-                      style: MyContant().h4normalStyle(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Text(
+                        'รายละเอียดผู้ค้ำ',
+                        style: MyContant().h4normalStyle(),
+                      ),
                     ),
                   ),
                 ),
@@ -1580,16 +1619,25 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              Page_Check_Blacklist(valueapprove['smartId']),
+                              PageCheckBlacklist(valueapprove['smartId']),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                      padding: EdgeInsets.all(6),
                     ),
-                    child: Text(
-                      'เช็ค Blacklist',
-                      style: MyContant().h4normalStyle(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Text(
+                        'เช็ค Blacklist',
+                        style: MyContant().h4normalStyle(),
+                      ),
                     ),
                   ),
                 ),
@@ -1597,6 +1645,32 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                   padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
+                      print(valueapprove['address']);
+                      print(valueapprove['homeNo']);
+                      print(valueapprove['moo']);
+                      print(valueapprove['provId']);
+                      print(valueapprove['amphurId']);
+                      print(valueapprove['tumbolId']);
+                      bool isEmpty(dynamic v) =>
+                          v == null || v.toString().trim().isEmpty;
+
+                      final bool allEmpty = isEmpty(valueapprove['address']) &&
+                          isEmpty(valueapprove['homeNo']) &&
+                          isEmpty(valueapprove['moo']) &&
+                          isEmpty(valueapprove['provId']) &&
+                          isEmpty(valueapprove['amphurId']) &&
+                          isEmpty(valueapprove['tumbolId']);
+
+                      if (allEmpty) {
+                        showProgressDialog(
+                          context,
+                          'แจ้งเตือน',
+                          'ไม่พบข้อมูลที่อยู่ลูกค้า',
+                        );
+                        return; // ❌ ไม่ให้ข้ามหน้า
+                      }
+
+                      // ✅ มีข้อมูลอย่างน้อย 1 ค่า → ไปต่อ
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -1613,10 +1687,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                      padding: EdgeInsets.all(6),
                     ),
-                    child: Text(
-                      'สอบถามลูกหนี้',
-                      style: MyContant().h4normalStyle(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Text(
+                        'สอบถามลูกหนี้',
+                        style: MyContant().h4normalStyle(),
+                      ),
                     ),
                   ),
                 ),
@@ -1634,10 +1717,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                      padding: EdgeInsets.all(6),
                     ),
-                    child: Text(
-                      'บันทึกผู้ค้ำประกัน',
-                      style: MyContant().h4normalStyle(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Text(
+                        'บันทึกผู้ค้ำประกัน',
+                        style: MyContant().h4normalStyle(),
+                      ),
                     ),
                   ),
                 ),
@@ -1656,10 +1748,19 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
+                      padding: EdgeInsets.all(6),
                     ),
-                    child: Text(
-                      'บันทึกผู้ค้ำประกัน',
-                      style: MyContant().h4normalStyle(),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Text(
+                        'บันทึกผู้ค้ำประกัน',
+                        style: MyContant().h4normalStyle(),
+                      ),
                     ),
                   ),
                 ),
@@ -1759,7 +1860,7 @@ class _Data_Cust_ApproveState extends State<Data_Cust_Approve> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  Page_Info_Consider_Cus(
+                                                  PageInfoConsiderCus(
                                                 list_signDetail[i]['signId'],
                                               ),
                                             ),

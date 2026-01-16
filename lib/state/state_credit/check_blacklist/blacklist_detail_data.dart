@@ -10,15 +10,15 @@ import 'package:http/http.dart' as http;
 
 import '../../../widgets/custom_appbar.dart';
 
-class Blacklist_Detail extends StatefulWidget {
+class BlacklistDetail extends StatefulWidget {
   final String? blId;
-  const Blacklist_Detail(this.blId, {super.key});
+  const BlacklistDetail(this.blId, {super.key});
 
   @override
-  State<Blacklist_Detail> createState() => _Blacklist_DetailState();
+  State<BlacklistDetail> createState() => _BlacklistDetailState();
 }
 
-class _Blacklist_DetailState extends State<Blacklist_Detail> {
+class _BlacklistDetailState extends State<BlacklistDetail> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   var status_data = false;
   List list_detail_bl = [], list_detail = [];
@@ -131,11 +131,11 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: const Color.fromRGBO(162, 181, 252, 1),
                           borderRadius: const BorderRadius.all(
-                            Radius.circular(5),
+                            Radius.circular(10),
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -281,10 +281,10 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                     padding:
                         const EdgeInsets.only(left: 8, right: 8, bottom: 4),
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(
-                          Radius.circular(5),
+                          Radius.circular(10),
                         ),
                         color: const Color.fromRGBO(162, 181, 252, 1),
                         boxShadow: [
@@ -296,14 +296,21 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                           )
                         ],
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'รายละเอียดของลูกค้า Blacklist',
-                            style: MyContant().h4normalStyle(),
-                          ),
-                        ],
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.7),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'รายละเอียดของลูกค้า Blacklist',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -313,11 +320,11 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         child: Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: const Color.fromRGBO(162, 181, 252, 1),
                             borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
+                              Radius.circular(10),
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -339,6 +346,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 5),
                               Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.15,
@@ -385,9 +393,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
                                   Text(
@@ -396,9 +402,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
                                   Text(
@@ -407,9 +411,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
+                              const SizedBox(height: 5),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -432,9 +434,7 @@ class _Blacklist_DetailState extends State<Blacklist_Detail> {
                       ),
                     ],
                   ],
-                  const SizedBox(
-                    height: 10,
-                  )
+                  const SizedBox(height: 10)
                 ],
               ),
             ),

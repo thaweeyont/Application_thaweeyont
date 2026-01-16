@@ -186,7 +186,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   color: const Color.fromRGBO(64, 203, 203, 1),
                                   borderRadius: const BorderRadius.all(
@@ -363,7 +363,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: Container(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   color: const Color.fromRGBO(64, 203, 203, 1),
                                   borderRadius: const BorderRadius.all(
@@ -460,10 +460,10 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
-                                    Radius.circular(5),
+                                    Radius.circular(10),
                                   ),
                                   color: const Color.fromRGBO(64, 203, 203, 1),
                                   boxShadow: [
@@ -475,14 +475,23 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                     )
                                   ],
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ข้อมูลที่อยู่ของลูกค้า',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withAlpha(180),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'ข้อมูลที่อยู่ของลูกค้า',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -509,7 +518,7 @@ class _Detail_member_custState extends State<Detail_member_cust> {
                                   padding: const EdgeInsets.only(
                                       bottom: 8, left: 8, right: 8),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       color:
                                           const Color.fromRGBO(64, 203, 203, 1),
