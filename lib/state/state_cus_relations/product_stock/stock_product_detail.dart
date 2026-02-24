@@ -19,7 +19,8 @@ class StockProductDetail extends StatefulWidget {
       itemId,
       itemName,
       itemTypeName,
-      brandName;
+      brandName,
+      valueStockType;
   const StockProductDetail(
       this.branchId,
       this.branchName,
@@ -29,6 +30,7 @@ class StockProductDetail extends StatefulWidget {
       this.itemName,
       this.itemTypeName,
       this.brandName,
+      this.valueStockType,
       {super.key});
 
   @override
@@ -61,6 +63,12 @@ class _StockProductDetailState extends State<StockProductDetail> {
       NitemTypeName = '';
       NbrandName = '';
     }
+
+    print('whName>${widget.whName}');
+    print('itemName>${widget.itemName}');
+    print('itemTypeName>${widget.itemTypeName}');
+    print('brandName>${widget.brandName}');
+    print('valueStockType>>>${widget.valueStockType}');
   }
 
   Future<void> getdata() async {
@@ -80,7 +88,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
 
   Future<void> getWarehouseStatus() async {
     try {
-      var respose = await http.get(
+      var response = await http.get(
         Uri.parse('${api}setup/warehouseStatus'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -88,43 +96,17 @@ class _StockProductDetailState extends State<StockProductDetail> {
         },
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> warehouseStatus =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
 
         setState(() {
           dropdownSerialStatus = warehouseStatus['data'];
         });
         getDataStockDetail('get');
         statusLoading = true;
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoading = true;
-          statusLoad404 = true;
-        });
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -140,7 +122,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
     }
 
     try {
-      var respose = await http.post(
+      var response = await http.post(
         Uri.parse('${api}stock/detail'),
         headers: <String, String>{
           'Content-Type': 'application/json',
@@ -156,47 +138,51 @@ class _StockProductDetailState extends State<StockProductDetail> {
         }),
       );
 
-      if (respose.statusCode == 200) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> stockdetail =
-            Map<String, dynamic>.from(json.decode(respose.body));
+            Map<String, dynamic>.from(json.decode(response.body));
 
         setState(() {
           dataStockDetail = stockdetail['data'];
         });
+        print(dataStockDetail);
         statusLoading = true;
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoading = true;
-          statusLoad404 = true;
-        });
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialog(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -220,7 +206,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
@@ -241,7 +227,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white.withAlpha(180),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
                         children: [
@@ -258,7 +244,6 @@ class _StockProductDetailState extends State<StockProductDetail> {
                               )
                             ],
                           ),
-                          // const SizedBox(height: 5),
                           Row(
                             children: [
                               Expanded(
@@ -276,9 +261,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                     const SizedBox(height: 5),
                     Row(
                       children: [
-                        // const SizedBox(width: 30),
                         selectSerialStatus(sizeIcon, border),
-                        // const SizedBox(width: 30),
                       ],
                     ),
                   ],
@@ -362,7 +345,7 @@ class _StockProductDetailState extends State<StockProductDetail> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4, horizontal: 8),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(10),
@@ -391,7 +374,11 @@ class _StockProductDetailState extends State<StockProductDetail> {
                                                   MyContant().h4normalStyle(),
                                             ),
                                             Text(
-                                              'วันที่รับของ : ${dataStockDetail[i]['receiveDate']}',
+                                              (widget.valueStockType == '3' ||
+                                                      widget.valueStockType ==
+                                                          '4')
+                                                  ? ''
+                                                  : 'วันที่รับของ : ${dataStockDetail[i]['receiveDate']}',
                                               style:
                                                   MyContant().h4normalStyle(),
                                             ),
@@ -403,30 +390,36 @@ class _StockProductDetailState extends State<StockProductDetail> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'หมายเลขเครื่อง : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${dataStockDetail[i]['serial']}',
-                                                      overflow:
-                                                          TextOverflow.clip,
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
+                                              (widget.valueStockType == '3' ||
+                                                      widget.valueStockType ==
+                                                          '4')
+                                                  ? const SizedBox()
+                                                  : Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          'หมายเลขเครื่อง : ',
+                                                          style: MyContant()
+                                                              .h4normalStyle(),
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            '${dataStockDetail[i]['serial']}',
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            style: MyContant()
+                                                                .h4normalStyle(),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
                                               const SizedBox(height: 5),
                                               Row(
                                                 crossAxisAlignment:

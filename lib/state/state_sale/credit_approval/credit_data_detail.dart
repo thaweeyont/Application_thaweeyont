@@ -4,6 +4,8 @@ import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +13,6 @@ import 'package:http/http.dart' as http;
 import '../../../widgets/endpage.dart';
 import '../../../widgets/loaddata.dart';
 import 'page_datacust_approve.dart';
-import 'package:loading_gifs/loading_gifs.dart';
 
 class CreditDataDetail extends StatefulWidget {
   final String? custId,
@@ -42,8 +43,8 @@ class CreditDataDetail extends StatefulWidget {
 class _CreditDataDetailState extends State<CreditDataDetail> {
   String userId = '', empId = '', firstName = '', lastName = '', tokenId = '';
   List list_approve = [];
-  var status_loading = false;
-  bool status_load404 = false, isLoad = false, isLoadendPage = false;
+  var statusLoading = false;
+  bool statusLoad404 = false, isLoad = false, isLoadendPage = false;
   final scrollControll = TrackingScrollController();
   int offset = 30, stquery = 0;
 
@@ -115,7 +116,7 @@ class _CreditDataDetailState extends State<CreditDataDetail> {
         setState(() {
           list_approve = dataApprove['data'];
         });
-        status_loading = true;
+        statusLoading = true;
         isLoad = false;
         if (stquery > 0) {
           if (offset > list_approve.length) {
@@ -125,39 +126,42 @@ class _CreditDataDetailState extends State<CreditDataDetail> {
         } else {
           stquery = 1;
         }
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          status_loading = true;
-          status_load404 = true;
-        });
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -167,205 +171,140 @@ class _CreditDataDetailState extends State<CreditDataDetail> {
       appBar: const CustomAppbar(
         title: 'รายการที่ค้นหา',
       ),
-      body: status_loading == false
-          ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(cupertinoActivityIndicator, scale: 4),
-                    Text(
-                      'กำลังโหลด',
-                      style: MyContant().textLoading(),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : status_load404 == true
-              ? Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+      body: statusLoading == false
+          ? LoadingView()
+          : statusLoad404 == true
+              ? NoDataView()
+              : mainContent(context),
+    );
+  }
+
+  Padding mainContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        controller: scrollControll,
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        child: Column(
+          children: [
+            if (list_approve.isNotEmpty) ...[
+              for (var i = 0; i < list_approve.length; i++) ...[
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DataCustApprove(
+                          list_approve[i]['custId'],
+                          list_approve[i]['tranId'],
+                        ),
                       ),
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: Column(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    ).then((_) => getdata());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withAlpha(130),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
+                        color: const Color.fromRGBO(251, 173, 55, 1),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withAlpha(180),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  'images/Nodata.png',
-                                  width: 55,
-                                  height: 55,
+                                Text(
+                                  'สาขา : ${list_approve[i]['branchName']}',
+                                  style: MyContant().h4normalStyle(),
                                 ),
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'ไม่พบรายการข้อมูล',
-                                  style: MyContant().h5NotData(),
+                                  'รันนิ่งสัญญา : ${list_approve[i]['signRunning']}',
+                                  style: MyContant().h4normalStyle(),
                                 ),
                               ],
-                            )
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'วันที่ : ${list_approve[i]['tranDate']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'ชื่อ : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${list_approve[i]['custName']}',
+                                    overflow: TextOverflow.clip,
+                                    style: MyContant().h4normalStyle(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'สถานะ : ${list_approve[i]['approveStatus']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    controller: scrollControll,
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
-                    child: Column(
-                      children: [
-                        if (list_approve.isNotEmpty) ...[
-                          for (var i = 0; i < list_approve.length; i++) ...[
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DataCustApprove(
-                                      list_approve[i]['custId'],
-                                      list_approve[i]['tranId'],
-                                    ),
-                                  ),
-                                ).then((_) => getdata());
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 3),
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withAlpha(130),
-                                        spreadRadius: 0.2,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ],
-                                    color:
-                                        const Color.fromRGBO(251, 173, 55, 1),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withAlpha(180),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'สาขา : ${list_approve[i]['branchName']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'รันนิ่งสัญญา : ${list_approve[i]['signRunning']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'เลขที่เอกสาร : ${list_approve[i]['tranId']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'วันที่ : ${list_approve[i]['tranDate']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'ชื่อ : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${list_approve[i]['custName']}',
-                                                overflow: TextOverflow.clip,
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'สถานะ : ${list_approve[i]['approveStatus']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                          if (isLoad == true && isLoadendPage == false) ...[
-                            const LoadData(),
-                          ] else if (isLoadendPage == true) ...[
-                            const EndPage(),
-                          ],
-                          const SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
+              ],
+              if (isLoad == true && isLoadendPage == false) ...[
+                const LoadData(),
+              ] else if (isLoadendPage == true) ...[
+                const EndPage(),
+              ],
+              const SizedBox(
+                height: 30,
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

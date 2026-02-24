@@ -342,7 +342,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
@@ -361,7 +361,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                               vertical: 4, horizontal: 8),
                           decoration: BoxDecoration(
                             color: Colors.white.withAlpha(180),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(
                             children: [
@@ -383,7 +383,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                       padding:
                           const EdgeInsets.only(left: 8, right: 8, bottom: 6),
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
@@ -402,7 +402,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.white.withAlpha(180),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Column(
                                 children: [
@@ -447,7 +447,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                 ),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
                                   children: [
@@ -485,7 +485,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                             padding: const EdgeInsets.only(
                                 left: 8, right: 8, bottom: 6),
                             child: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
@@ -507,7 +507,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                         i++) ...[
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(bottom: 4),
+                                            const EdgeInsets.only(bottom: 3),
                                         child: Row(
                                           children: [
                                             Container(
@@ -522,7 +522,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                     : const Color.fromRGBO(
                                                         223, 221, 216, 1),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Column(
                                                 children: [
@@ -614,7 +614,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                                                             223, 221, 216, 1),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10),
+                                                            8),
                                                   ),
                                                   child: Column(
                                                     children: [
@@ -671,7 +671,7 @@ class _PaymentReportListState extends State<PaymentReportList> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
                             child: Container(
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(10)),
@@ -687,10 +687,10 @@ class _PaymentReportListState extends State<PaymentReportList> {
                               ),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
+                                    vertical: 6, horizontal: 8),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
                                   children: [

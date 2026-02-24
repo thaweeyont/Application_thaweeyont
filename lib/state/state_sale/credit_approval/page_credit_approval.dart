@@ -245,12 +245,6 @@ class _PageCreditApprovalState extends State<PageCreditApproval> {
                                 });
                               }
                             });
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => FixedTablePage(),
-                            //   ),
-                            // );
                           },
                           child: const Icon(
                             Icons.search,

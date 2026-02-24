@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_sale/credit_approval/page_pay_installment.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,6 +27,7 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
       active_mu2 = false,
       active_mu3 = false,
       active_mu4 = false;
+  int activeMenu = 1;
   var Debtordetail,
       statusLoading = false,
       dataDebnote,
@@ -164,39 +166,58 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
     }
   }
 
-  void menuList(page) {
+  // void menuList(page) {
+  //   setState(() {
+  //     active_mu1 = false;
+  //     active_mu2 = false;
+  //     active_mu3 = false;
+  //     active_mu4 = false;
+  //   });
+  //   switch (page) {
+  //     case "list_content_mu1":
+  //       setState(() {
+  //         page = "list_content_mu1";
+  //         active_mu1 = true;
+  //       });
+  //       break;
+  //     case "list_content_mu2":
+  //       setState(() {
+  //         page = "list_content_mu2";
+  //         active_mu2 = true;
+  //       });
+  //       break;
+  //     case "list_content_mu3":
+  //       setState(() {
+  //         page = "list_content_mu3";
+  //         active_mu3 = true;
+  //       });
+  //       break;
+  //     case "list_content_mu4":
+  //       setState(() {
+  //         page = "list_content_mu4";
+  //         active_mu4 = true;
+  //       });
+  //       break;
+  //   }
+  // }
+
+  void menuList(String page) {
     setState(() {
-      active_mu1 = false;
-      active_mu2 = false;
-      active_mu3 = false;
-      active_mu4 = false;
+      switch (page) {
+        case "list_content_mu1":
+          activeMenu = 1;
+          break;
+        case "list_content_mu2":
+          activeMenu = 2;
+          break;
+        case "list_content_mu3":
+          activeMenu = 3;
+          break;
+        case "list_content_mu4":
+          activeMenu = 4;
+          break;
+      }
     });
-    switch (page) {
-      case "list_content_mu1":
-        setState(() {
-          page = "list_content_mu1";
-          active_mu1 = true;
-        });
-        break;
-      case "list_content_mu2":
-        setState(() {
-          page = "list_content_mu2";
-          active_mu2 = true;
-        });
-        break;
-      case "list_content_mu3":
-        setState(() {
-          page = "list_content_mu3";
-          active_mu3 = true;
-        });
-        break;
-      case "list_content_mu4":
-        setState(() {
-          page = "list_content_mu4";
-          active_mu4 = true;
-        });
-        break;
-    }
   }
 
   @override
@@ -204,142 +225,20 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
     return Scaffold(
       appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล'),
       body: statusLoading == false
-          ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(cupertinoActivityIndicator, scale: 4),
-                    Text(
-                      'กำลังโหลด',
-                      style: MyContant().textLoading(),
-                    ),
-                  ],
-                ),
-              ),
-            )
+          ? LoadingView()
           : status_check404 == true
-              ? Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: Column(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'images/Nodata.png',
-                                  width: 55,
-                                  height: 55,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ไม่พบรายการข้อมูล',
-                                  style: MyContant().h5NotData(),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+              ? NoDataView()
               : GestureDetector(
                   child: Column(
                     children: [
                       slidemenu(context),
-                      if (active_mu1 == true) ...[
-                        contentListMu1(context),
-                      ],
-                      if (active_mu2 == true) ...[
-                        contentListMu2(context),
-                      ],
-                      if (active_mu3 == true) ...[
-                        contentListMu3(context),
-                      ],
-                      if (active_mu4 == true) ...[
+                      if (activeMenu == 1) contentListMu1(context),
+                      if (activeMenu == 2) contentListMu2(context),
+                      if (activeMenu == 3) contentListMu3(context),
+                      if (activeMenu == 4) ...[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: const Color.fromRGBO(251, 173, 55, 1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'รายการชำระค่างวด',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withAlpha(180),
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
-                                                style: MyContant().h3Style(),
-                                              ),
-                                              Text(
-                                                'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
-                                                style: MyContant().h3Style(),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: payDetailSum(),
                         ),
                         contentListMu4(context),
                       ],
@@ -2132,6 +2031,57 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
     );
   }
 
+  Widget payDetailSum() {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color.fromRGBO(251, 173, 55, 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withAlpha(130),
+            spreadRadius: 0.2,
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                'รายการชำระค่างวด',
+                style: MyContant().h4normalStyle(),
+              ),
+            ],
+          ),
+          const SizedBox(height: 5),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(180),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
+                  style: MyContant().h3Style(),
+                ),
+                Text(
+                  'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
+                  style: MyContant().h3Style(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   SizedBox slidemenu(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.06,
@@ -2149,7 +2099,7 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
                     menuList("list_content_mu1");
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: active_mu1 == true
+                    backgroundColor: activeMenu == 1
                         ? const Color.fromRGBO(202, 121, 0, 1)
                         : const Color.fromRGBO(251, 173, 55, 1),
                   ),
@@ -2166,7 +2116,7 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
                     menuList("list_content_mu2");
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: active_mu2 == true
+                    backgroundColor: activeMenu == 2
                         ? const Color.fromRGBO(202, 121, 0, 1)
                         : const Color.fromRGBO(251, 173, 55, 1),
                   ),
@@ -2183,7 +2133,7 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
                     menuList("list_content_mu3");
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: active_mu3 == true
+                    backgroundColor: activeMenu == 3
                         ? const Color.fromRGBO(202, 121, 0, 1)
                         : const Color.fromRGBO(251, 173, 55, 1),
                   ),
@@ -2200,7 +2150,7 @@ class _PageInfoConsiderCusState extends State<PageInfoConsiderCus> {
                     menuList("list_content_mu4");
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: active_mu4 == true
+                    backgroundColor: activeMenu == 4
                         ? const Color.fromRGBO(202, 121, 0, 1)
                         : const Color.fromRGBO(251, 173, 55, 1),
                   ),

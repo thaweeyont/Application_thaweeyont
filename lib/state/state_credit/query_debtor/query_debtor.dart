@@ -612,25 +612,6 @@ class _QueryDebtorState extends State<QueryDebtor> {
                             ),
                           ),
                         );
-                        print('========= ส่งไป ==========');
-                        print('custId> ${custId.text}');
-                        print('homeNo> ${homeNo.text}');
-                        print('moo> ${moo.text}');
-                        print('tumbolId> $tumbolId');
-                        print('amphurId> $amphurId');
-                        print('provinceId> $provinceId');
-                        print('firstnameCus> ${firstnameCus.text}');
-                        print('lastnameCus> ${lastnameCus.text}');
-                        print(
-                            'select_addreessType> ${select_addreessType.toString()}');
-                        print('select_debtorType> $select_debtorType');
-                        print('idcard> ${idcard.text}');
-                        print('telephone> ${telephone.text}');
-                        print('select_branchlist> $select_branchlist');
-                        print('signid> ${signid.text}');
-                        print('signrunning> ${signrunning.text}');
-                        print('select_signStatus> $select_signStatus');
-                        print('itemType> $itemType');
                       },
                       child: const Text('ค้นหา'),
                     ),

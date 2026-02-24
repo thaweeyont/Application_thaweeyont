@@ -45,8 +45,6 @@ class _PaymentDetailState extends State<PaymentDetail> {
   var formatter = NumberFormat('#,##0.00'); // รูปแบบที่แสดงทศนิยม 2 ตำแหน่ง
 
   Future<void> getPaymentList() async {
-    // print(
-    //     '1<${widget.selectBranchlist}> 2<${widget.selectSupplylist}> 3<${widget.valueStartDate}> 4<${widget.valueEndDate}> 5<${widget.selectEmployeelist}> 6<${widget.paydetail}> 7<$newPaymentType> 8<${widget.supplyName}>');
     try {
       var respose = await http.post(
         Uri.parse('${api}payment/detail'),
@@ -171,8 +169,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 8),
+                          padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
@@ -193,7 +190,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     vertical: 6, horizontal: 8),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
                                   children: [
@@ -244,7 +241,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     vertical: 6, horizontal: 8),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withAlpha(180),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
                                   children: [
@@ -263,8 +260,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                         padding:
                             const EdgeInsets.only(left: 8, right: 8, bottom: 8),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 6),
+                          padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
@@ -289,7 +285,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     decoration: BoxDecoration(
                                       color: Colors.white.withAlpha(180),
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(8),
                                       ),
                                     ),
                                     child: Padding(
@@ -325,7 +321,6 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 5)
                                 ],
                             ],
                           ),
@@ -335,8 +330,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                         padding:
                             const EdgeInsets.only(left: 8, right: 8, bottom: 8),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 6),
+                          padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
@@ -361,7 +355,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     decoration: BoxDecoration(
                                       color: Colors.white.withAlpha(180),
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
+                                        Radius.circular(8),
                                       ),
                                     ),
                                     child: Padding(
@@ -385,7 +379,6 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 5),
                                 ],
                             ],
                           ),

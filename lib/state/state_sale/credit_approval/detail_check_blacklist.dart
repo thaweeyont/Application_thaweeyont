@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,387 +105,292 @@ class _DetailCheckBlacklistState extends State<DetailCheckBlacklist> {
     return Scaffold(
       appBar: const CustomAppbar(title: 'รายละเอียด Blacklist'),
       body: status_data == false
-          ? Center(
+          ? LoadingView()
+          : statusLoad404 == true
+              ? NoDataView()
+              : mainContent(context),
+    );
+  }
+
+  GestureDetector mainContent(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      child: ListView(
+        children: [
+          if (list_detail_bl.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Container(
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(10),
                   ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(cupertinoActivityIndicator, scale: 4),
-                    Text(
-                      'กำลังโหลด',
-                      style: MyContant().textLoading(),
-                    ),
+                  color: const Color.fromRGBO(251, 173, 55, 1),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withAlpha(130),
+                      spreadRadius: 0.2,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
                   ],
                 ),
-              ),
-            )
-          : statusLoad404 == true
-              ? Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: Column(
+                child: Column(
+                  children: [
+                    Row(
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'images/Nodata.png',
-                                  width: 55,
-                                  height: 55,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ไม่พบรายการข้อมูล',
-                                  style: MyContant().h5NotData(),
-                                ),
-                              ],
-                            )
-                          ],
+                        Text(
+                          'ข้อมูลลูกค้า',
+                          style: MyContant().h4normalStyle(),
                         ),
                       ],
                     ),
-                  ),
-                )
-              : GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  child: ListView(
-                    children: [
-                      if (list_detail_bl.isNotEmpty) ...[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
-                              ),
-                              color: const Color.fromRGBO(251, 173, 55, 1),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withAlpha(130),
-                                  spreadRadius: 0.2,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'ข้อมูลลูกค้า',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  child: Scrollbar(
-                                    child: ListView(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'รหัส Blacklist : ${list_detail_bl[0]['blId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'รหัสลูกค้า : ${list_detail_bl[0]['custId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'เลขที่บัตรประชาชน : ${list_detail_bl[0]['smartId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'ชื่อลูกค้า : ${list_detail_bl[0]['custName']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'ที่อยู่ลูกค้า : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${list_detail_bl[0]['custAddress']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'เบอร์โทรศัพท์ : ${list_detail_bl[0]['telephone']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'เบอร์มือถือ : ${list_detail_bl[0]['mobile']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 8, right: 8, bottom: 4),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                            color: const Color.fromRGBO(251, 173, 55, 1),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withAlpha(130),
-                                spreadRadius: 0.2,
-                                blurRadius: 2,
-                                offset: const Offset(0, 1),
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'รายละเอียดของลูกค้า Blacklist',
-                                style: MyContant().h4normalStyle(),
-                              ),
-                            ],
-                          ),
+                    const SizedBox(height: 5),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(8),
                         ),
                       ),
-                      if (list_detail.isNotEmpty) ...[
-                        for (var i = 0; i < list_detail.length; i++) ...[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(251, 173, 55, 1),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withAlpha(130),
-                                    spreadRadius: 0.2,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 1),
-                                  )
-                                ],
-                              ),
+                      child: Scrollbar(
+                        child: ListView(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'รายละเอียด :',
+                                        'รหัส Blacklist : ${list_detail_bl[0]['blId']}',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
                                   ),
-                                  Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withAlpha(180),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
-                                      ),
-                                    ),
-                                    child: Scrollbar(
-                                      child: ListView(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Text(
-                                                        '${list_detail[i]['blDetail']}',
-                                                        style: MyContant()
-                                                            .h4normalStyle(),
-                                                        overflow:
-                                                            TextOverflow.clip,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
+                                  const SizedBox(height: 5),
                                   Row(
                                     children: [
                                       Text(
-                                        'เลขที่สัญญา : ${list_detail[i]['signId']}',
+                                        'รหัสลูกค้า : ${list_detail_bl[0]['custId']}',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
+                                  const SizedBox(height: 5),
                                   Row(
                                     children: [
                                       Text(
-                                        'วันที่บันทึก : ${list_detail[i]['createDate']}',
+                                        'เลขที่บัตรประชาชน : ${list_detail_bl[0]['smartId']}',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
+                                  const SizedBox(height: 5),
                                   Row(
                                     children: [
                                       Text(
-                                        'ฝ่ายที่บันทึก : ${list_detail[i]['createDepart']}',
+                                        'ชื่อลูกค้า : ${list_detail_bl[0]['custName']}',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
+                                  const SizedBox(height: 5),
                                   Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'ผู้บันทึกข้อมูล : ',
+                                        'ที่อยู่ลูกค้า : ',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                       Expanded(
                                         child: Text(
-                                          '${list_detail[i]['createName']}',
+                                          '${list_detail_bl[0]['custAddress']}',
                                           style: MyContant().h4normalStyle(),
                                           overflow: TextOverflow.clip,
                                         ),
                                       ),
                                     ],
                                   ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เบอร์โทรศัพท์ : ${list_detail_bl[0]['telephone']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'เบอร์มือถือ : ${list_detail_bl[0]['mobile']}',
+                                        style: MyContant().h4normalStyle(),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
-                      ],
-                      const SizedBox(
-                        height: 10,
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(18),
+                ),
+                color: const Color.fromRGBO(251, 173, 55, 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withAlpha(130),
+                    spreadRadius: 0.2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  )
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'รายละเอียดของลูกค้า Blacklist',
+                    style: MyContant().h4normalStyle(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (list_detail.isNotEmpty) ...[
+            for (var i = 0; i < list_detail.length; i++) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(251, 173, 55, 1),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withAlpha(130),
+                        spreadRadius: 0.2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
                       )
                     ],
                   ),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'รายละเอียด :',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.17,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withAlpha(180),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        child: Scrollbar(
+                          child: ListView(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${list_detail[i]['blDetail']}',
+                                            style: MyContant().h4normalStyle(),
+                                            overflow: TextOverflow.clip,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Text(
+                            'เลขที่สัญญา : ${list_detail[i]['signId']}',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Text(
+                            'วันที่บันทึก : ${list_detail[i]['createDate']}',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Text(
+                            'ฝ่ายที่บันทึก : ${list_detail[i]['createDepart']}',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ผู้บันทึกข้อมูล : ',
+                            style: MyContant().h4normalStyle(),
+                          ),
+                          Expanded(
+                            child: Text(
+                              '${list_detail[i]['createName']}',
+                              style: MyContant().h4normalStyle(),
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+            ],
+          ],
+          const SizedBox(height: 10)
+        ],
+      ),
     );
   }
 }

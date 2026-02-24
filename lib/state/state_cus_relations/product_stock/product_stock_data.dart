@@ -1229,7 +1229,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -1355,7 +1355,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -1433,7 +1433,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  10),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -1666,7 +1666,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -1792,7 +1792,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -1875,7 +1875,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  10),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -2097,7 +2097,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -2223,7 +2223,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -2302,7 +2302,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  10),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -2544,7 +2544,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -2670,7 +2670,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -2747,7 +2747,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  10),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -2971,7 +2971,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -3097,7 +3097,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -3173,7 +3173,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  10),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -3246,9 +3246,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   ],
                                 ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        )
+                        const SizedBox(height: 20)
                       ],
                     ),
                   ),
@@ -3397,7 +3395,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -3523,7 +3521,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -3600,7 +3598,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  10),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -3786,7 +3784,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหาสีสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -3824,7 +3822,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -3950,7 +3948,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -4025,7 +4023,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  1),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -4210,7 +4208,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'ค้นหาข้อมูล',
+                                        'ค้นหาคลังสินค้า',
                                         style: MyContant().h4normalStyle(),
                                       ),
                                     ],
@@ -4248,7 +4246,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                                Radius.circular(10),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -4284,9 +4282,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
@@ -4374,7 +4370,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                         padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                            Radius.circular(5),
+                                            Radius.circular(10),
                                           ),
                                           color: const Color.fromARGB(
                                               255, 130, 196, 255),
@@ -4454,7 +4450,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                 const BorderRadius
                                                                     .all(
                                                               Radius.circular(
-                                                                  5),
+                                                                  10),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -5450,7 +5446,7 @@ class _ProductStockDataState extends State<ProductStockData> {
     }
   }
 
-  Future<void> getDataSubmited(index) async {
+  Future<void> getDataSubmited(index) async { 
     switch (index) {
       case "1":
         if (checkNull(idWareHouse.text) == true) {

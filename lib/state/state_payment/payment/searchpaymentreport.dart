@@ -83,14 +83,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     }
   }
 
-  // void selectDatenow() {
-  //   var formattedDate = DateFormat('-MM-dd').format(selectedDate);
-  //   var formattedYear = DateFormat('yyyy').format(selectedDate);
-  //   var yearnow = int.parse(formattedYear);
-  //   final year = [yearnow, 543].reduce((value, element) => value + element);
-  //   startdate.text = '$year$formattedDate';
-  // }
-
   void selectDatenow() {
     startdate.text =
         '${selectedDate.year + 543}${DateFormat('-MM-dd').format(selectedDate)}';
@@ -648,52 +640,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
     );
   }
 
-  // Expanded selectSupplyList(sizeIcon, border) {
-  //   return Expanded(
-  //     child: Padding(
-  //       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-  //       child: Container(
-  //         height: MediaQuery.of(context).size.width * 0.1,
-  //         padding: const EdgeInsets.all(4),
-  //         decoration: BoxDecoration(
-  //           color: supplyname.text.isEmpty ? Colors.white : Colors.grey[300],
-  //           borderRadius: BorderRadius.circular(5),
-  //         ),
-  //         child: Padding(
-  //           padding: const EdgeInsets.only(left: 4),
-  //           child: DropdownButton(
-  //             items: dropdownsupplylist
-  //                 .map((value) => DropdownMenuItem(
-  //                       value: value['id'],
-  //                       child: Text(
-  //                         value['name'],
-  //                         style: MyContant().textInputStyle(),
-  //                       ),
-  //                     ))
-  //                 .toList(),
-  //             onChanged: supplyname.text.isEmpty
-  //                 ? (newvalue) {
-  //                     setState(() {
-  //                       selectSupplylist = newvalue;
-  //                     });
-  //                   }
-  //                 : null,
-  //             value: selectSupplylist,
-  //             isExpanded: true,
-  //             underline: const SizedBox(),
-  //             hint: Align(
-  //               child: Text(
-  //                 'เลือกผู้จำหน่าย',
-  //                 style: MyContant().TextInputSelect(),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Expanded inputSupplyList(BoxConstraints sizeIcon, InputBorder border) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
     const border = OutlineInputBorder(
@@ -881,48 +827,6 @@ class _SearchPaymentReportState extends State<SearchPaymentReport> {
       ),
     );
   }
-
-  // Expanded selectEmployeeList(sizeIcon, border) {
-  //   return Expanded(
-  //     child: Padding(
-  //       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-  //       child: Container(
-  //         height: MediaQuery.of(context).size.width * 0.1,
-  //         padding: const EdgeInsets.all(4),
-  //         decoration: BoxDecoration(
-  //             color: Colors.white, borderRadius: BorderRadius.circular(5)),
-  //         child: Padding(
-  //           padding: const EdgeInsets.only(left: 4),
-  //           child: DropdownButton(
-  //             items: dropdownemployeelist
-  //                 .map((value) => DropdownMenuItem(
-  //                       value: value['id'],
-  //                       child: Text(
-  //                         value['name'],
-  //                         style: MyContant().textInputStyle(),
-  //                       ),
-  //                     ))
-  //                 .toList(),
-  //             onChanged: (newvalue) {
-  //               setState(() {
-  //                 selectEmployeelist = newvalue;
-  //               });
-  //             },
-  //             value: selectEmployeelist,
-  //             isExpanded: true,
-  //             underline: const SizedBox(),
-  //             hint: Align(
-  //               child: Text(
-  //                 'เลือกผู้จ่าย',
-  //                 style: MyContant().TextInputSelect(),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Expanded inputEmployeeList(BoxConstraints sizeIcon, InputBorder border) {
     const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
@@ -1235,9 +1139,9 @@ class _SupplyListState extends State<SupplyList> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -1255,7 +1159,7 @@ class _SupplyListState extends State<SupplyList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -1344,7 +1248,7 @@ class _SupplyListState extends State<SupplyList> {
                                     horizontal: 8, vertical: 3),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                      horizontal: 6, vertical: 3),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -1382,7 +1286,7 @@ class _SupplyListState extends State<SupplyList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -1678,7 +1582,7 @@ class _EmployeeListState extends State<EmployeeList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
@@ -1696,7 +1600,7 @@ class _EmployeeListState extends State<EmployeeList> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
                     children: [
@@ -1782,10 +1686,10 @@ class _EmployeeListState extends State<EmployeeList> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 3),
+                                    horizontal: 6, vertical: 3),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                      horizontal: 6, vertical: 3),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -1823,7 +1727,7 @@ class _EmployeeListState extends State<EmployeeList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -2020,7 +1924,6 @@ class _GroupExpensesState extends State<GroupExpenses> {
           dropdownGroupexpenses = dataGroupexpenses['data'];
         });
         statusLoading = true;
-        print('data>>$dropdownGroupexpenses');
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -2067,46 +1970,6 @@ class _GroupExpensesState extends State<GroupExpenses> {
         child: Column(
           children: [
             SizedBox(height: 10),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Container(
-            //     padding: const EdgeInsets.all(8),
-            //     decoration: BoxDecoration(
-            //       borderRadius: const BorderRadius.all(Radius.circular(10)),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.grey.withAlpha(130),
-            //           spreadRadius: 0.2,
-            //           blurRadius: 2,
-            //           offset: const Offset(0, 1),
-            //         )
-            //       ],
-            //       color: const Color.fromRGBO(226, 199, 132, 1),
-            //     ),
-            //     child: Container(
-            //       padding:
-            //           const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-            //       decoration: BoxDecoration(
-            //         color: Colors.white.withValues(alpha: 0.7),
-            //         borderRadius: BorderRadius.circular(10),
-            //       ),
-            //       child: Column(
-            //         children: [
-            //           Row(
-            //             children: [
-            //               Text(
-            //                 'หมวดค่าใช้จ่าย : ',
-            //                 style: MyContant().h4normalStyle(),
-            //               ),
-            //               inputEmployeeNamelist(sizeIcon, border),
-            //             ],
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // groupBtnsearch(),
             Expanded(
               child: statusLoading == false
                   ? Center(
@@ -2177,7 +2040,7 @@ class _GroupExpensesState extends State<GroupExpenses> {
                                     horizontal: 8, vertical: 3),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                      horizontal: 6, vertical: 3),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -2215,7 +2078,7 @@ class _GroupExpensesState extends State<GroupExpenses> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [
@@ -2528,7 +2391,7 @@ class _ExpensesListState extends State<ExpensesList> {
                                     horizontal: 8, vertical: 3),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6),
+                                      horizontal: 6, vertical: 3),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10),
@@ -2567,7 +2430,7 @@ class _ExpensesListState extends State<ExpensesList> {
                                                 color: Colors.white
                                                     .withValues(alpha: 0.7),
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Row(
                                                 children: [

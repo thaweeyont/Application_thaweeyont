@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application_thaweeyont/state/state_sale/credit_approval/data_list_quarantee.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,31 +136,8 @@ class _DataCustApproveState extends State<DataCustApprove> {
 
           showNamecredit.text = list_detail!['approveReasonName'];
         });
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       showProgressDialogNotdata(
@@ -197,31 +175,8 @@ class _DataCustApproveState extends State<DataCustApprove> {
           getDataCreditdetail();
         });
         showAlertDialogSuccess();
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่สำเร็จ (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        showProgressDialog_404(context, 'แจ้งเตือน', 'บันทึกข้อมูลไม่สำเร็จ');
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(context, 'แจ้งเตือน',
-            'บันทึกข้อมูลไม่สำเร็จ (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -247,31 +202,8 @@ class _DataCustApproveState extends State<DataCustApprove> {
         setState(() {
           dropdown_approveTypeList = data_approveTypeList['data'];
         });
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ${respose.statusCode}');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -297,31 +229,8 @@ class _DataCustApproveState extends State<DataCustApprove> {
         setState(() {
           dropdown_approveReasonList = dataapproveReasonList['data'];
         });
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -347,36 +256,39 @@ class _DataCustApproveState extends State<DataCustApprove> {
         setState(() {
           dropdown_NotapproveReasonList = datanotReasonList['data'];
         });
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
+    }
+  }
+
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -417,28 +329,7 @@ class _DataCustApproveState extends State<DataCustApprove> {
     return Scaffold(
       appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล'),
       body: status == false
-          ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(cupertinoActivityIndicator, scale: 4),
-                    Text(
-                      'กำลังโหลด',
-                      style: MyContant().textLoading(),
-                    ),
-                  ],
-                ),
-              ),
-            )
+          ? LoadingView()
           : GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => FocusScope.of(context).requestFocus(
@@ -1530,26 +1421,6 @@ class _DataCustApproveState extends State<DataCustApprove> {
             children: [
               const SizedBox(width: 4),
               if (allowApproveStatus == true) ...[
-                // Padding(
-                //   padding: const EdgeInsets.only(right: 6),
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //             builder: (context) =>
-                //                 CreditDebtorDetail(widget.custId),
-                //           ));
-                //     },
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: const Color.fromRGBO(251, 173, 55, 1),
-                //     ),
-                //     child: Text(
-                //       'ตรวจสอบหนี้สิน',
-                //       style: MyContant().h4normalStyle(),
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
@@ -1645,12 +1516,6 @@ class _DataCustApproveState extends State<DataCustApprove> {
                   padding: const EdgeInsets.only(right: 6),
                   child: ElevatedButton(
                     onPressed: () {
-                      print(valueapprove['address']);
-                      print(valueapprove['homeNo']);
-                      print(valueapprove['moo']);
-                      print(valueapprove['provId']);
-                      print(valueapprove['amphurId']);
-                      print(valueapprove['tumbolId']);
                       bool isEmpty(dynamic v) =>
                           v == null || v.toString().trim().isEmpty;
 
@@ -1773,7 +1638,6 @@ class _DataCustApproveState extends State<DataCustApprove> {
   }
 
   Future<void> signDetail(sizeIcon, border) async {
-    double size = MediaQuery.of(context).size.width;
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -1989,15 +1853,17 @@ class _DataCustApproveState extends State<DataCustApprove> {
                         ),
                       )
                       .toList(),
-              onChanged: list_detail!['approveStatus'] == '3'
-                  ? (String? newvalue) {
-                      setState(() {
-                        select_approveTypeList = newvalue;
-                      });
-                      if (select_approveTypeList == '1') {
-                        getApproveReasonList();
-                      } else if (select_approveTypeList == '2') {
-                        getNotApproveReasonList();
+              onChanged: list_detail?['approveStatus'] == '3'
+                  ? (String? value) {
+                      setState(() => select_approveTypeList = value);
+
+                      switch (value) {
+                        case '1':
+                          getApproveReasonList();
+                          break;
+                        case '2':
+                          getNotApproveReasonList();
+                          break;
                       }
                     }
                   : null,
@@ -2259,7 +2125,7 @@ class _DataCustApproveState extends State<DataCustApprove> {
     );
   }
 
-  showAlertDialogSubmit() async {
+  showAlertDialogSubmit111() async {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -2346,118 +2212,77 @@ class _DataCustApproveState extends State<DataCustApprove> {
     );
   }
 
-  showAlertDialogSubmit22() async {
+  void showAlertDialogSubmit() {
     showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
-
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
-          title: Row(
-            children: [
-              const Text(
-                "อนุมัติสินเชื่อ",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontFamily: 'Prompt',
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Image.asset('images/question.gif',
-                  width: 25, height: 25, fit: BoxFit.contain),
-            ],
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        titlePadding: const EdgeInsets.only(top: 20, left: 24, right: 24),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+        actionsPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        title: const Text(
+          'อนุมัติสินเชื่อ',
+          style: TextStyle(
+            fontSize: 18,
+            fontFamily: 'Prompt',
+            fontWeight: FontWeight.bold,
           ),
-          content: const Text(
-            "คุณต้องการบันทึกข้อมูลใช่หรือไม่",
-            style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
+        ),
+        content: const Text(
+          'คุณต้องการบันทึกข้อมูลใช่หรือไม่',
+          style: TextStyle(
+            fontFamily: 'Prompt',
+            fontSize: 16,
+            color: Colors.grey,
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(
-                'ยกเลิก',
-                style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(
-                'ตกลง',
-                style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                setState(() {
-                  Navigator.of(context).pop();
-                  showProgressLoading(context);
-                  approveCredit();
-                });
-              },
-            ),
-          ],
-        );
-      },
+        ),
+        actions: [
+          _dialogButton(
+            text: 'ยกเลิก',
+            color: Colors.redAccent,
+            onPressed: () => Navigator.pop(context),
+          ),
+          _dialogButton(
+            text: 'ตกลง',
+            color: Colors.green,
+            onPressed: () {
+              Navigator.pop(context);
+              showProgressLoading(context);
+              approveCredit();
+            },
+          ),
+        ],
+      ),
     );
   }
 
-  showAlertDialogSuccess11() async {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
-          title: Row(
-            children: [
-              Image.asset('images/success.gif',
-                  width: 40, height: 40, fit: BoxFit.contain),
-              const SizedBox(width: 5),
-              const Text(
-                "สำเร็จ",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontFamily: 'Prompt',
-                ),
-              ),
-            ],
-          ),
-          content: const Text(
-            "บันทึกข้อมูลสำเร็จเรียบร้อย",
-            style: TextStyle(fontFamily: 'Prompt', fontSize: 16),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(
-                'ตกลง',
-                style: TextStyle(
-                    fontFamily: 'Prompt',
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-                // Navigator.pop(context, 'refresh');
-              },
-            ),
-          ],
-        );
-      },
+  Widget _dialogButton({
+    required String text,
+    required Color color,
+    required VoidCallback onPressed,
+  }) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        minimumSize: const Size(80, 35),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: 'Prompt',
+          fontSize: 15,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 

@@ -122,6 +122,13 @@ class _StockProductListState extends State<StockProductList> {
   }
 
   Future<void> getDataStockList(offset) async {
+    print('stockType>${widget.selectStockTypeList}');
+    print('branchId>${widget.selectBranchList}');
+    print('freeItemCode>${widget.idItemFree}');
+    print('whId>${widget.idItemWareHouse}');
+    print('itemTypeId>${widget.idItemType}');
+    print('groupId>${widget.idItemGroup}');
+    print('groupFree>${widget.selectGroupFreeList}');
     try {
       var respose = await http.post(
         Uri.parse('${api}stock/list'),
@@ -286,15 +293,15 @@ class _StockProductListState extends State<StockProductList> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => StockProductDetail(
-                                        dataStockList[i]['branchId'],
-                                        dataStockList[i]['branchName'],
-                                        dataStockList[i]['whId'],
-                                        dataStockList[i]['whName'],
-                                        dataStockList[i]['itemId'],
-                                        dataStockList[i]['itemName'],
-                                        dataStockList[i]['itemTypeName'],
-                                        dataStockList[i]['brandName'],
-                                      ),
+                                          dataStockList[i]['branchId'],
+                                          dataStockList[i]['branchName'],
+                                          dataStockList[i]['whId'],
+                                          dataStockList[i]['whName'],
+                                          dataStockList[i]['itemId'],
+                                          dataStockList[i]['itemName'],
+                                          dataStockList[i]['itemTypeName'],
+                                          dataStockList[i]['brandName'],
+                                          valueStockType),
                                     ),
                                   );
                                 },
@@ -302,7 +309,7 @@ class _StockProductListState extends State<StockProductList> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4, horizontal: 8),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(10),
@@ -343,7 +350,7 @@ class _StockProductListState extends State<StockProductList> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
@@ -444,10 +451,10 @@ class _StockProductListState extends State<StockProductList> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 4, horizontal: 8),
                               child: Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
-                                    Radius.circular(5),
+                                    Radius.circular(10),
                                   ),
                                   color:
                                       const Color.fromARGB(255, 130, 196, 255),
@@ -471,12 +478,11 @@ class _StockProductListState extends State<StockProductList> {
                                       ],
                                     ),
                                     const SizedBox(height: 5),
-                                    // const Divider(thickness: 1),
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Column(
                                         children: [
@@ -557,15 +563,17 @@ class _StockProductListState extends State<StockProductList> {
                                         dataStockList[i]['itemName'],
                                         dataStockList[i]['itemTypeName'],
                                         dataStockList[i]['brandName'],
+                                        valueStockType,
                                       ),
                                     ),
                                   );
+                                  print('stockType>>>>>>>>>$valueStockType');
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 4, horizontal: 8),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(6),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(10),
@@ -606,7 +614,7 @@ class _StockProductListState extends State<StockProductList> {
                                           decoration: BoxDecoration(
                                             color: Colors.white.withAlpha(180),
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                                BorderRadius.circular(8),
                                           ),
                                           child: Column(
                                             children: [
@@ -684,10 +692,10 @@ class _StockProductListState extends State<StockProductList> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 4, horizontal: 8),
                               child: Container(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
-                                    Radius.circular(5),
+                                    Radius.circular(10),
                                   ),
                                   color:
                                       const Color.fromARGB(255, 130, 196, 255),
@@ -710,13 +718,12 @@ class _StockProductListState extends State<StockProductList> {
                                         ),
                                       ],
                                     ),
-                                    // const Divider(thickness: 1),
                                     SizedBox(height: 5),
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                         color: Colors.white.withAlpha(180),
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Column(
                                         children: [

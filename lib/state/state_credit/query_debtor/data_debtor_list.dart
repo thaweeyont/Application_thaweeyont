@@ -118,26 +118,6 @@ class _DataDebtorListState extends State<DataDebtorList> {
     final amphur = widget.tumbolId != null ? widget.amphur ?? '' : '';
     final province = widget.tumbolId != null ? widget.province ?? '' : '';
 
-    print('----- รับแล้วส่ง api -----');
-    print('custId = ${widget.custId}');
-    print('IDcard = ${widget.idcard}');
-    print('firstname_c = ${widget.firstname_c}');
-    print('lastname_c = ${widget.lastname_c}');
-    print('signRunning = ${widget.signRunning}');
-    print('signId = ${widget.signId}');
-    print('telephone = ${widget.telephone}');
-    print('select_addreessType = ${widget.select_addreessType}');
-    print('homeNo = ${widget.homeNo}');
-    print('moo = ${widget.moo}');
-    print('tumbol = $tumbol');
-    print('amphur = $amphur');
-    print('province = $province');
-    print('branch = $branch');
-    print('itemTypelist = ${widget.itemTypelist}');
-    print('signStatus = $signStatus');
-    print('debtorType = $debtorType');
-    print('-----------------------------');
-
     try {
       var response = await http.post(
         Uri.parse('${api}debtor/list'),
@@ -187,11 +167,9 @@ class _DataDebtorListState extends State<DataDebtorList> {
           stquery = 1;
         }
       } else {
-        print(response.statusCode);
-        handleHttpError(response.statusCode, response.body);
+        handleHttpError(response.statusCode);
       }
     } catch (e) {
-      print(e.runtimeType);
       print("ไม่มีข้อมูล $e");
       Navigator.pop(context);
       showProgressDialog(
@@ -200,15 +178,7 @@ class _DataDebtorListState extends State<DataDebtorList> {
   }
 
   // แยกฟังก์ชัน handle error HTTP
-  void handleHttpError(int statusCode, String body) async {
-    String message = 'เกิดข้อผิดพลาด';
-
-    if (body.isNotEmpty) {
-      try {
-        final decoded = json.decode(body);
-        message = decoded['message'] ?? message;
-      } catch (_) {}
-    }
+  void handleHttpError(int statusCode) async {
     if (statusCode == 400) {
       showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
     } else if (statusCode == 401) {
@@ -222,19 +192,16 @@ class _DataDebtorListState extends State<DataDebtorList> {
       showProgressDialog_401(
           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
     } else if (statusCode == 404) {
-      // showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
       setState(() {
-        statusLoad404 = true;
         statusLoading = true;
+        statusLoad404 = true;
       });
     } else if (statusCode == 405) {
       showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
     } else if (statusCode == 500) {
-      if (mounted) return;
       showProgressDialog_500(
           context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
     } else {
-      if (mounted) return;
       showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }

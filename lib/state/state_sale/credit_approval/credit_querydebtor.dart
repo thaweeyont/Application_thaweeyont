@@ -107,12 +107,6 @@ class _CreditQueryDebtorState extends State<CreditQueryDebtor> {
     getSelectAddressTypelist();
     getSelectBranch();
     getSelectSignStatus();
-
-    print('homeNo> ${widget.homeNo}');
-    print('moo> ${widget.moo}');
-    print('tumbolId> $tumbolId');
-    print('amphurId> $amphurId');
-    print('provId> $provinceId');
   }
 
   Future<void> getProvince() async {

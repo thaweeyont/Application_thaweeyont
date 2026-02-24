@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,206 +106,146 @@ class _DataListQuaranteeState extends State<DataListQuarantee> {
     return Scaffold(
       appBar: const CustomAppbar(title: 'รายละเอียดผู้ค้ำ'),
       body: statusLoading == false
-          ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(cupertinoActivityIndicator, scale: 4),
-                    Text(
-                      'กำลังโหลด',
-                      style: MyContant().textLoading(),
-                    ),
-                  ],
-                ),
-              ),
-            )
+          ? LoadingView()
           : statusLoad404 == true
-              ? Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+              ? NoDataView()
+              : mainContent(context),
+    );
+  }
+
+  Padding mainContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Scrollbar(
+        child: ListView(
+          children: [
+            for (var i = 0; i < list_quarantee.length; i++) ...[
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PageInfoConsiderCus(
+                        list_quarantee[i]['signId'],
                       ),
                     ),
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: Column(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'images/Nodata.png',
-                                  width: 55,
-                                  height: 55,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'ไม่พบรายการข้อมูล',
-                                  style: MyContant().h5NotData(),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      color: const Color.fromRGBO(251, 173, 55, 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withAlpha(130),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
                       ],
                     ),
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Scrollbar(
-                    child: ListView(
-                      children: [
-                        for (var i = 0; i < list_quarantee.length; i++) ...[
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PageInfoConsiderCus(
-                                    list_quarantee[i]['signId'],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  color: const Color.fromRGBO(251, 173, 55, 1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
-                                    )
-                                  ],
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'เลขที่สัญญา : ${list_quarantee[i]['signId']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ชื่อ-สกุล : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_quarantee[i]['custName']}',
-                                              overflow: TextOverflow.clip,
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'ชื่อ-สกุลในสัญญา : ',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              '${list_quarantee[i]['signCustName']}',
-                                              overflow: TextOverflow.clip,
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'ยอดคงเหลือ : ${list_quarantee[i]['remainPrice']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'สถานะ : ${list_quarantee[i]['personStatusName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'เขตติดตาม : ${list_quarantee[i]['followName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                          Text(
-                                            'สถานะสัญญา : ${list_quarantee[i]['signStatusName']}',
-                                            style: MyContant().h4normalStyle(),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withAlpha(180),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'เลขที่สัญญา : ${list_quarantee[i]['signId']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'ชื่อ-สกุล : ',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${list_quarantee[i]['custName']}',
+                                  overflow: TextOverflow.clip,
+                                  style: MyContant().h4normalStyle(),
                                 ),
                               ),
-                            ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'ชื่อ-สกุลในสัญญา : ',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${list_quarantee[i]['signCustName']}',
+                                  overflow: TextOverflow.clip,
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'ยอดคงเหลือ : ${list_quarantee[i]['remainPrice']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Text(
+                                'สถานะ : ${list_quarantee[i]['personStatusName']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'เขตติดตาม : ${list_quarantee[i]['followName']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Text(
+                                'สถานะสัญญา : ${list_quarantee[i]['signStatusName']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
                           ),
                         ],
-                      ],
+                      ),
                     ),
                   ),
                 ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }
