@@ -575,33 +575,6 @@ class _CustomerListState extends State<CustomerList> {
                   ),
                   child: Column(
                     children: [
-                      // Row(
-                      //   children: ['1', '2'].map((val) {
-                      //     final isCustomer = val == '1';
-                      //     return Expanded(
-                      //       child: RadioListTile(
-                      //         activeColor: Colors.black,
-                      //         value: val,
-                      //         groupValue: id,
-                      //         title: Text(
-                      //           isCustomer ? 'ลูกค้าทั่วไป' : 'พนักงาน',
-                      //           style: MyContant().h4normalStyle(),
-                      //         ),
-                      //         onChanged: (value) {
-                      //           setState(() {
-                      //             st_customer = isCustomer;
-                      //             st_employee = !isCustomer;
-                      //             id = value.toString();
-                      //             searchData.clear();
-                      //           });
-                      //         },
-                      //         visualDensity: VisualDensity.compact,
-                      //         materialTapTargetSize:
-                      //             MaterialTapTargetSize.shrinkWrap,
-                      //       ),
-                      //     );
-                      //   }).toList(),
-                      // ),
                       RadioGroup<String>(
                         groupValue: id,
                         onChanged: (value) {

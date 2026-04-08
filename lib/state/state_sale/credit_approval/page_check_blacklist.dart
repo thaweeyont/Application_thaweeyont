@@ -6,7 +6,6 @@ import 'package:application_thaweeyont/widgets/loaddata.dart';
 import 'package:application_thaweeyont/widgets/loading_view.dart';
 import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:application_thaweeyont/api.dart';
@@ -244,8 +243,6 @@ class _PageCheckBlacklistState extends State<PageCheckBlacklist> {
                                 const Color.fromRGBO(173, 106, 3, 1),
                           ),
                           onPressed: () {
-                            // searchDistrict(context, border);
-                            // getSelectDistrict();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -316,7 +313,7 @@ class _PageCheckBlacklistState extends State<PageCheckBlacklist> {
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
-                        if (idblacklist.text.isEmpty &&
+                        final isAllEmpty = idblacklist.text.isEmpty &&
                             idcard.text.isEmpty &&
                             name.text.isEmpty &&
                             lastname.text.isEmpty &&
@@ -324,49 +321,93 @@ class _PageCheckBlacklistState extends State<PageCheckBlacklist> {
                             moo_no.text.isEmpty &&
                             district.text.isEmpty &&
                             amphoe.text.isEmpty &&
-                            province.text.isEmpty) {
+                            province.text.isEmpty;
+
+                        final hasAddressInput =
+                            home_no.text.isNotEmpty || moo_no.text.isNotEmpty;
+
+                        // 1️⃣ กรอกอะไรเลย
+                        if (isAllEmpty) {
                           showProgressDialog(
                               context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
-                        } else {
-                          if (home_no.text.isNotEmpty ||
-                              moo_no.text.isNotEmpty) {
-                            if (district.text.isEmpty) {
-                              showProgressDialog(context, 'แจ้งเตือน',
-                                  'กรุณาเลือก ตำบล อำเภอ จังหวัด');
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ListCheckBlacklist(
-                                        idblacklist.text,
-                                        idcard.text,
-                                        name.text,
-                                        lastname.text,
-                                        home_no.text,
-                                        moo_no.text,
-                                        districtId,
-                                        selectValue_amphoe,
-                                        selectValue_province),
-                                  ));
-                            }
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ListCheckBlacklist(
-                                    idblacklist.text,
-                                    idcard.text,
-                                    name.text,
-                                    lastname.text,
-                                    home_no.text,
-                                    moo_no.text,
-                                    districtId,
-                                    selectValue_amphoe,
-                                    selectValue_province),
-                              ),
-                            );
-                          }
+                          return;
                         }
+
+                        // 2️⃣ กรอกบ้าน แต่ไม่เลือกตำบล
+                        if (hasAddressInput && district.text.isEmpty) {
+                          showProgressDialog(context, 'แจ้งเตือน',
+                              'กรุณาเลือก ตำบล อำเภอ จังหวัด');
+                          return;
+                        }
+
+                        // 3️⃣ ผ่านหมดแล้ว → ไปหน้าใหม่
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ListCheckBlacklist(
+                              idblacklist.text,
+                              idcard.text,
+                              name.text,
+                              lastname.text,
+                              home_no.text,
+                              moo_no.text,
+                              districtId,
+                              selectValue_amphoe,
+                              selectValue_province,
+                            ),
+                          ),
+                        );
+                        // if (idblacklist.text.isEmpty &&
+                        //     idcard.text.isEmpty &&
+                        //     name.text.isEmpty &&
+                        //     lastname.text.isEmpty &&
+                        //     home_no.text.isEmpty &&
+                        //     moo_no.text.isEmpty &&
+                        //     district.text.isEmpty &&
+                        //     amphoe.text.isEmpty &&
+                        //     province.text.isEmpty) {
+                        //   showProgressDialog(
+                        //       context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลลูกค้า');
+                        // } else {
+                        //   if (home_no.text.isNotEmpty ||
+                        //       moo_no.text.isNotEmpty) {
+                        //     if (district.text.isEmpty) {
+                        //       showProgressDialog(context, 'แจ้งเตือน',
+                        //           'กรุณาเลือก ตำบล อำเภอ จังหวัด');
+                        //     } else {
+                        //       Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //             builder: (context) => ListCheckBlacklist(
+                        //                 idblacklist.text,
+                        //                 idcard.text,
+                        //                 name.text,
+                        //                 lastname.text,
+                        //                 home_no.text,
+                        //                 moo_no.text,
+                        //                 districtId,
+                        //                 selectValue_amphoe,
+                        //                 selectValue_province),
+                        //           ));
+                        //     }
+                        //   } else {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => ListCheckBlacklist(
+                        //             idblacklist.text,
+                        //             idcard.text,
+                        //             name.text,
+                        //             lastname.text,
+                        //             home_no.text,
+                        //             moo_no.text,
+                        //             districtId,
+                        //             selectValue_amphoe,
+                        //             selectValue_province),
+                        //       ),
+                        //     );
+                        //   }
+                        // }
                       },
                       child: const Text('ค้นหา'),
                     ),

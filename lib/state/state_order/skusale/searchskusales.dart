@@ -449,7 +449,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
     }
   }
 
-  Future<void> getSelectMonth3() async { 
+  Future<void> getSelectMonth3() async {
     try {
       var response = await http.get(
         Uri.parse('${api}setup/monthList'),
@@ -619,7 +619,7 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
         MaterialPageRoute(builder: (context) => const Authen()),
         (Route<dynamic> route) => false,
       );
-      showProgressDialog_401( 
+      showProgressDialog_401(
           context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
     } else if (statusCode == 404) {
       showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');

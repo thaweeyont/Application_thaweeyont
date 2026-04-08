@@ -5,6 +5,8 @@ import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_credit/check_blacklist/blacklist_detail_data.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -178,194 +180,129 @@ class _BlacklistCustListState extends State<BlacklistCustList> {
     return Scaffold(
       appBar: const CustomAppbar(title: 'รายการที่ค้นหา'),
       body: statusLoading == false
-          ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(cupertinoActivityIndicator, scale: 4),
-                    Text(
-                      'กำลังโหลด',
-                      style: MyContant().textLoading(),
-                    ),
-                  ],
-                ),
-              ),
-            )
+          ? LoadingView()
           : statusLoad404 == true
-              ? Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+              ? NoDataView()
+              : mainContent(context),
+    );
+  }
+
+  SingleChildScrollView mainContent(BuildContext context) {
+    return SingleChildScrollView(
+      controller: scrollControll,
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            if (list_data_blacklist.isNotEmpty) ...[
+              for (var i = 0; i < list_data_blacklist.length; i++) ...[
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            BlacklistDetail(list_data_blacklist[i]['blId']),
                       ),
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: Column(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(162, 181, 252, 1),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withAlpha(130),
+                            spreadRadius: 0.2,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          )
+                        ],
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.7),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'images/Nodata.png',
-                                  width: 55,
-                                  height: 55,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'ไม่พบรายการข้อมูล',
-                                  style: MyContant().h5NotData(),
+                                  'รหัสลูกค้า : ${list_data_blacklist[i]['blId']}',
+                                  style: MyContant().h4normalStyle(),
                                 ),
                               ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    controller: scrollControll,
-                    physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics(),
-                    ),
-                    child: Column(
-                      children: [
-                        if (list_data_blacklist.isNotEmpty) ...[
-                          for (var i = 0;
-                              i < list_data_blacklist.length;
-                              i++) ...[
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BlacklistDetail(
-                                        list_data_blacklist[i]['blId']),
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 3),
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromRGBO(162, 181, 252, 1),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withAlpha(130),
-                                        spreadRadius: 0.2,
-                                        blurRadius: 2,
-                                        offset: const Offset(0, 1),
-                                      )
-                                    ],
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.7),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'รหัสลูกค้า : ${list_data_blacklist[i]['blId']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'ชื่อลูกค้า : ${list_data_blacklist[i]['custName']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'ที่อยู่ : ',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '${list_data_blacklist[i]['custAddress']}',
-                                                style:
-                                                    MyContant().h4normalStyle(),
-                                                overflow: TextOverflow.clip,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'สถานะ : ${list_data_blacklist[i]['blStatus']}',
-                                              style:
-                                                  MyContant().h4normalStyle(),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'ชื่อลูกค้า : ${list_data_blacklist[i]['custName']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'ที่อยู่ : ',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '${list_data_blacklist[i]['custAddress']}',
+                                    style: MyContant().h4normalStyle(),
+                                    overflow: TextOverflow.clip,
                                   ),
                                 ),
-                              ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'สถานะ : ${list_data_blacklist[i]['blStatus']}',
+                                  style: MyContant().h4normalStyle(),
+                                ),
+                              ],
                             ),
                           ],
-                          if (isLoad == true && isLoadendPage == false) ...[
-                            const LoadData(),
-                          ] else if (isLoadendPage == true) ...[
-                            const EndPage(),
-                          ],
-                          const SizedBox(
-                            height: 35,
-                          ),
-                        ],
-                      ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
+              ],
+              if (isLoad == true && isLoadendPage == false) ...[
+                const LoadData(),
+              ] else if (isLoadendPage == true) ...[
+                const EndPage(),
+              ],
+              const SizedBox(
+                height: 35,
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

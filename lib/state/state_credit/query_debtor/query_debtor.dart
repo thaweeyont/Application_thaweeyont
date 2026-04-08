@@ -5,6 +5,8 @@ import 'package:application_thaweeyont/state/state_credit/query_debtor/data_debt
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:application_thaweeyont/widgets/endpage.dart';
 import 'package:application_thaweeyont/widgets/loaddata.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_gifs/loading_gifs.dart';
@@ -73,22 +75,23 @@ class _QueryDebtorState extends State<QueryDebtor> {
   }
 
   Future<void> getdata() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    final preferences = await SharedPreferences.getInstance();
+
+    if (!mounted) return;
+
     setState(() {
-      userId = preferences.getString('userId')!;
-      empId = preferences.getString('empId')!;
-      firstName = preferences.getString('firstName')!;
-      lastName = preferences.getString('lastName')!;
-      tokenId = preferences.getString('tokenId')!;
-      allowApproveStatus = preferences.getBool('allowApproveStatus');
+      userId = preferences.getString('userId') ?? '';
+      empId = preferences.getString('empId') ?? '';
+      firstName = preferences.getString('firstName') ?? '';
+      lastName = preferences.getString('lastName') ?? '';
+      tokenId = preferences.getString('tokenId') ?? '';
+      allowApproveStatus = preferences.getBool('allowApproveStatus') ?? false;
     });
-    await Future.delayed(const Duration(milliseconds: 100));
-    if (mounted) {
-      getSelectAddressTypelist();
-      getSelectBranch();
-      getSelectDebtorType();
-      getSelectSignStatus();
-    }
+
+    getSelectAddressTypelist();
+    getSelectBranch();
+    getSelectDebtorType();
+    getSelectSignStatus();
   }
 
   Future<void> getSelectAddressTypelist() async {
@@ -100,6 +103,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
           'Authorization': tokenId.toString(),
         },
       );
+      if (!mounted) return;
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data_addressTypelist =
@@ -112,6 +116,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
         handleHttpError(response.statusCode);
       }
     } catch (e) {
+      if (!mounted) return;
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -127,6 +132,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
           'Authorization': tokenId.toString(),
         },
       );
+      if (!mounted) return;
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data_branch =
@@ -138,7 +144,8 @@ class _QueryDebtorState extends State<QueryDebtor> {
         handleHttpError(response.statusCode);
       }
     } catch (e) {
-      print("ไม่มีข้อมูล_อิอิ $e");
+      if (!mounted) return;
+      print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
     }
@@ -153,6 +160,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
           'Authorization': tokenId.toString(),
         },
       );
+      if (!mounted) return;
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data_debtorType =
@@ -164,6 +172,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
         handleHttpError(response.statusCode);
       }
     } catch (e) {
+      if (!mounted) return;
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -179,6 +188,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
           'Authorization': tokenId.toString(),
         },
       );
+      if (!mounted) return;
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data_signStatusList =
@@ -191,6 +201,7 @@ class _QueryDebtorState extends State<QueryDebtor> {
         handleHttpError(response.statusCode);
       }
     } catch (e) {
+      if (!mounted) return;
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
@@ -542,40 +553,59 @@ class _QueryDebtorState extends State<QueryDebtor> {
             children: [
               InkWell(
                 onTap: () {
-                  if (filter == false) {
-                    setState(() {
-                      filter = true;
-                    });
-                  } else {
-                    setState(() {
-                      filter = false;
-                    });
-                  }
+                  setState(() {
+                    filter = !filter;
+                  });
                 },
                 child: Row(
                   children: [
-                    if (filter == true) ...[
-                      Text(
-                        'ค้นหาแบบย่อย',
-                        style: MyContant().TextsearchStyle(),
-                      ),
-                      const Icon(
-                        Icons.arrow_drop_up,
-                        color: Colors.black,
-                      ),
-                    ] else ...[
-                      Text(
-                        'ค้นหาแบบละเอียด',
-                        style: MyContant().TextsearchStyle(),
-                      ),
-                      const Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black,
-                      ),
-                    ],
+                    Text(
+                      filter ? 'ค้นหาแบบย่อย' : 'ค้นหาแบบละเอียด',
+                      style: MyContant().TextsearchStyle(),
+                    ),
+                    Icon(
+                      filter ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                      color: Colors.black,
+                    ),
                   ],
                 ),
               ),
+              // InkWell(
+              //   onTap: () {
+              //     if (filter == false) {
+              //       setState(() {
+              //         filter = true;
+              //       });
+              //     } else {
+              //       setState(() {
+              //         filter = false;
+              //       });
+              //     }
+              //   },
+              //   child: Row(
+              //     children: [
+              //       if (filter == true) ...[
+              //         Text(
+              //           'ค้นหาแบบย่อย',
+              //           style: MyContant().TextsearchStyle(),
+              //         ),
+              //         const Icon(
+              //           Icons.arrow_drop_up,
+              //           color: Colors.black,
+              //         ),
+              //       ] else ...[
+              //         Text(
+              //           'ค้นหาแบบละเอียด',
+              //           style: MyContant().TextsearchStyle(),
+              //         ),
+              //         const Icon(
+              //           Icons.arrow_drop_down,
+              //           color: Colors.black,
+              //         ),
+              //       ],
+              //     ],
+              //   ),
+              // ),
             ],
           ),
           Column(
@@ -1145,14 +1175,17 @@ class _CustomerListState extends State<CustomerList> {
   List list_datavalue = [], dropdown_customer = [];
   String? id = '1';
   bool st_customer = true, st_employee = false;
-  bool statusLoading = false,
-      statusLoad404 = false,
-      isLoading = false,
-      isLoadScroll = false,
-      isLoadendPage = false;
   var selectValue_customer, Texthint;
   final scrollControll = TrackingScrollController();
-  int offset = 50, stquery = 0;
+  bool isLoadScroll = false;
+  bool isLoadendPage = false;
+  bool isLoadingMore = false;
+  bool isAtBottom = false;
+  bool statusLoading = false;
+  bool statusLoad404 = false;
+  int offset = 20;
+  int step = 20;
+  int totalRows = 0;
 
   TextEditingController searchData = TextEditingController();
   TextEditingController lastname = TextEditingController();
@@ -1162,7 +1195,14 @@ class _CustomerListState extends State<CustomerList> {
   @override
   void initState() {
     super.initState();
+    myScroll();
     getdata();
+  }
+
+  @override
+  void dispose() {
+    scrollControll.dispose();
+    super.dispose();
   }
 
   Future<void> getdata() async {
@@ -1175,7 +1215,6 @@ class _CustomerListState extends State<CustomerList> {
       tokenId = preferences.getString('tokenId')!;
     });
     getSelectCus();
-    myScroll(scrollControll, offset);
   }
 
   Future<void> getSelectCus() async {
@@ -1206,7 +1245,7 @@ class _CustomerListState extends State<CustomerList> {
   }
 
   Future<void> getData_condition(String? custType, conditionType,
-      String searchData, String firstName, String lastName, offset) async {
+      String searchData, String firstName, String lastName) async {
     try {
       var respose = await http.post(
         Uri.parse('${api}customer/list'),
@@ -1229,10 +1268,18 @@ class _CustomerListState extends State<CustomerList> {
         Map<String, dynamic> dataList =
             Map<String, dynamic>.from(json.decode(respose.body));
 
+        List newData = dataList['data'] ?? [];
+
+        totalRows = int.tryParse(dataList['rowCount'].toString()) ?? 0;
+
         setState(() {
-          list_datavalue = dataList['data'];
+          list_datavalue = newData;
+
+          isLoadendPage = list_datavalue.length >= totalRows;
+
+          isLoadScroll = false;
+          statusLoading = true;
         });
-        statusLoading = true;
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -1269,32 +1316,67 @@ class _CustomerListState extends State<CustomerList> {
     }
   }
 
-  Future<void> getData_search(offset) async {
+  Future<void> getData_search() async {
+    String customerType = selectValue_customer.toString();
+    String firstName = '';
+    String lastName = '';
+    String keyword = '';
+
     if (id == '1') {
-      if (selectValue_customer.toString() == "2") {
-        getData_condition(id, selectValue_customer, '', searchData.text,
-            lastname.text, offset);
+      if (customerType == '2') {
+        firstName = searchData.text;
+        lastName = lastname.text;
       } else {
-        getData_condition(
-            id, selectValue_customer, searchData.text, '', '', offset);
+        keyword = searchData.text;
       }
     } else {
-      getData_condition(id, '2', '', firstnameEm.text, lastnameEm.text, offset);
+      customerType = '2';
+      firstName = firstnameEm.text;
+      lastName = lastnameEm.text;
     }
+
+    await getData_condition(
+      id,
+      customerType,
+      keyword,
+      firstName,
+      lastName,
+    );
   }
 
-  void myScroll(ScrollController scrollController, int offset) {
-    scrollController.addListener(() async {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        setState(() {
-          isLoadScroll = true;
-        });
-        await Future.delayed(const Duration(seconds: 1), () {
-          offset = offset + 20;
-          getData_search(offset);
-        });
+  void myScroll() {
+    scrollControll.addListener(() async {
+      if (!scrollControll.hasClients) return;
+
+      final position = scrollControll.position;
+
+      if (position.maxScrollExtent <= 0) return;
+
+      final isNearBottom = position.pixels >= position.maxScrollExtent - 50;
+
+      // 👇 ถ้ายังไม่ถึงล่าง รีเซ็ต flag
+      if (!isNearBottom) {
+        isAtBottom = false;
+        return;
       }
+
+      // 👇 ถึงล่างแล้ว และเคยโหลดไปแล้ว ห้ามยิงซ้ำ
+      if (isAtBottom) return;
+
+      if (isLoadingMore || isLoadendPage) return;
+
+      isAtBottom = true;
+
+      setState(() {
+        isLoadingMore = true;
+        offset += step;
+      });
+
+      await getData_search();
+
+      setState(() {
+        isLoadingMore = false;
+      });
     });
   }
 
@@ -1472,193 +1554,127 @@ class _CustomerListState extends State<CustomerList> {
             const SizedBox(height: 5),
             Expanded(
               child: statusLoading == false
-                  ? Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 24, 24, 24)
-                              .withValues(alpha: 0.9),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(cupertinoActivityIndicator, scale: 4),
-                            Text(
-                              'กำลังโหลด',
-                              style: MyContant().textLoading(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                  ? LoadingView()
                   : statusLoad404 == true
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'images/noresults.png',
-                                      color: const Color.fromARGB(
-                                          255, 158, 158, 158),
-                                      width: 60,
-                                      height: 60,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ไม่พบรายการข้อมูล',
-                                      style: MyContant().h5NotData(),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          controller: scrollControll,
-                          physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics(),
-                          ),
-                          child: Column(
-                            children: [
-                              for (var i = 0; i < list_datavalue.length; i++)
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context, {
-                                      'id': list_datavalue[i]['custId'],
-                                      // 'name': list_datavalue[i]['custName'],
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 8),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                        color: const Color.fromRGBO(
-                                            255, 203, 246, 1),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey
-                                                .withValues(alpha: 0.5),
-                                            spreadRadius: 0.2,
-                                            blurRadius: 2,
-                                            offset: const Offset(0, 1),
-                                          )
-                                        ],
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'รหัส : ${list_datavalue[i]['custId']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'ชื่อ : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_datavalue[i]['custName']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                    overflow: TextOverflow.clip,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'ที่อยู่ : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_datavalue[i]['address']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                    overflow: TextOverflow.clip,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'โทร : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    '${list_datavalue[i]['telephone']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                    overflow: TextOverflow.clip,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              if (isLoadScroll && !isLoadendPage)
-                                const LoadData()
-                              else if (isLoadendPage)
-                                const EndPage(),
-                              const SizedBox(height: 20),
-                            ],
-                          ),
-                        ),
+                      ? NoDataView()
+                      : mainContent(context),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  SingleChildScrollView mainContent(BuildContext context) {
+    return SingleChildScrollView(
+      controller: scrollControll,
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      child: Column(
+        children: [
+          for (var i = 0; i < list_datavalue.length; i++)
+            InkWell(
+              onTap: () {
+                Navigator.pop(context, {
+                  'id': list_datavalue[i]['custId'],
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    color: const Color.fromRGBO(255, 203, 246, 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withValues(alpha: 0.5),
+                        spreadRadius: 0.2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.7),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'รหัส : ${list_datavalue[i]['custId']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'ชื่อ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${list_datavalue[i]['custName']}',
+                                style: MyContant().h4normalStyle(),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'ที่อยู่ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${list_datavalue[i]['address']}',
+                                style: MyContant().h4normalStyle(),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'โทร : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${list_datavalue[i]['telephone']}',
+                                style: MyContant().h4normalStyle(),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (isLoadScroll && !isLoadendPage)
+            const LoadData()
+          else if (isLoadendPage)
+            const EndPage(),
+          const SizedBox(height: 20),
+        ],
       ),
     );
   }
@@ -1678,29 +1694,37 @@ class _CustomerListState extends State<CustomerList> {
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
-                      onPressed: () {
-                        setState(() {
-                          if (id == '1') {
-                            if (selectValue_customer == null ||
-                                searchData.text.isEmpty &&
-                                    lastname.text.isEmpty) {
-                              showProgressDialog(
-                                  context, 'แจ้งเตือน', 'กรุณากรอกข้อมูล');
-                            } else {
-                              getData_search(offset);
-                              statusLoading = false;
-                            }
-                          } else {
-                            if (firstnameEm.text.isEmpty &&
-                                lastnameEm.text.isEmpty) {
-                              showProgressDialog(
-                                  context, 'แจ้งเตือน', 'กรุณากรอกข้อมูล');
-                            } else {
-                              getData_search(offset);
-                              statusLoading = false;
-                            }
+                      onPressed: () async {
+                        // 🔎 VALIDATE
+
+                        if (id == '1') {
+                          if (selectValue_customer == null ||
+                              (searchData.text.isEmpty &&
+                                  lastname.text.isEmpty)) {
+                            showProgressDialog(
+                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูล');
+                            return;
                           }
+                        } else {
+                          if (firstnameEm.text.isEmpty &&
+                              lastnameEm.text.isEmpty) {
+                            showProgressDialog(
+                                context, 'แจ้งเตือน', 'กรุณากรอกข้อมูล');
+                            return;
+                          }
+                        }
+
+                        // 🔥 RESET STATE ก่อนค้นหาใหม่
+                        setState(() {
+                          offset = step; // reset limit
+                          list_datavalue.clear(); // ล้างของเก่า
+                          isLoadendPage = false;
+                          isLoadScroll = false;
+                          statusLoading = false;
                         });
+
+                        // 🚀 ยิง API
+                        await getData_search();
                       },
                       child: const Text('ค้นหา'),
                     ),
@@ -1729,7 +1753,7 @@ class _CustomerListState extends State<CustomerList> {
   Expanded inputSearchCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
         child: SizedBox(
           height: MediaQuery.of(context).size.width * 0.095,
           child: TextField(
@@ -1809,12 +1833,12 @@ class _CustomerListState extends State<CustomerList> {
   Expanded inputLastnameCus(sizeIcon, border) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(0),
+        padding: const EdgeInsets.only(right: 4),
         child: TextField(
           controller: lastname,
           onChanged: (keyword) {},
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(6),
+            contentPadding: const EdgeInsets.all(7),
             isDense: true,
             enabledBorder: border,
             focusedBorder: border,
@@ -1881,38 +1905,8 @@ class _DistrictListState extends State<DistrictList> {
           dropdown_province = data_provice['data'];
         });
         statusLoading = true;
-      } else if (respose.statusCode == 400) {
-        if (!mounted) return;
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        if (!mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        if (!mounted) return;
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        if (!mounted) return;
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        if (!mounted) return;
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        if (!mounted) return;
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -1940,39 +1934,8 @@ class _DistrictListState extends State<DistrictList> {
         });
         statusLoading = true;
         if (!mounted) return;
-      } else if (respose.statusCode == 400) {
-        if (!mounted) return;
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        if (!mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoading = true;
-          statusLoad404 = true;
-        });
-      } else if (respose.statusCode == 405) {
-        if (!mounted) return;
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        if (!mounted) return;
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        if (!mounted) return;
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -1997,25 +1960,41 @@ class _DistrictListState extends State<DistrictList> {
         setState(() {
           dropdown_amphoe = data_amphoe['data'];
         });
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
+    }
+  }
+
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -2031,7 +2010,7 @@ class _DistrictListState extends State<DistrictList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar(title: 'ค้นหาข้อมูล'),
+      appBar: const CustomAppbar(title: 'ค้นหาจังหวัดอำเภอตำบล'),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         behavior: HitTestBehavior.opaque,
@@ -2190,165 +2169,104 @@ class _DistrictListState extends State<DistrictList> {
             const SizedBox(height: 5),
             Expanded(
               child: statusLoading == false
-                  ? Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 24, 24, 24)
-                              .withValues(alpha: 0.9),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(cupertinoActivityIndicator, scale: 4),
-                            Text(
-                              'กำลังโหลด',
-                              style: MyContant().textLoading(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                  ? LoadingView()
                   : statusLoad404 == true
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'images/noresults.png',
-                                      color: const Color.fromARGB(
-                                          255, 158, 158, 158),
-                                      width: 60,
-                                      height: 60,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ไม่พบรายการข้อมูล',
-                                      style: MyContant().h5NotData(),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics(),
-                          ),
-                          child: Column(
-                            children: [
-                              for (var i = 0; i < list_district.length; i++)
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context, {
-                                      'id': list_district[i]['id'],
-                                      'name': list_district[i]['name'],
-                                      'province': text_province,
-                                      'provinceId': provinceId,
-                                      'amphoe': text_amphoe,
-                                      'amphoeId': amphoeId,
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 8),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                        color: const Color.fromRGBO(
-                                            255, 218, 249, 1),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey
-                                                .withValues(alpha: 0.5),
-                                            spreadRadius: 0.2,
-                                            blurRadius: 2,
-                                            offset: const Offset(0, 1),
-                                          )
-                                        ],
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'จังหวัด : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Text(
-                                                  text_province,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'อำเภอ : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Text(
-                                                  text_amphoe,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'ตำบล : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Text(
-                                                  '${list_district[i]['name']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              const SizedBox(height: 40)
-                            ],
-                          ),
-                        ),
+                      ? NoDataView()
+                      : mainContent(context),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  SingleChildScrollView mainContent(BuildContext context) {
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      child: Column(
+        children: [
+          for (var i = 0; i < list_district.length; i++)
+            InkWell(
+              onTap: () {
+                Navigator.pop(context, {
+                  'id': list_district[i]['id'],
+                  'name': list_district[i]['name'],
+                  'province': text_province,
+                  'provinceId': provinceId,
+                  'amphoe': text_amphoe,
+                  'amphoeId': amphoeId,
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    color: const Color.fromRGBO(255, 218, 249, 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withValues(alpha: 0.5),
+                        spreadRadius: 0.2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.7),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'จังหวัด : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              text_province,
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'อำเภอ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              text_amphoe,
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'ตำบล : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              '${list_district[i]['name']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          const SizedBox(height: 40)
+        ],
       ),
     );
   }
@@ -2423,14 +2341,25 @@ class _ItemTypeListState extends State<ItemTypeList> {
       statusLoad404 = false,
       isLoadScroll = false,
       isLoadendPage = false;
+  bool isLoadingMore = false;
+  bool isAtBottom = false;
   TextEditingController searchNameItemtype = TextEditingController();
   final scrollControll = TrackingScrollController();
-  int offset = 50, stquery = 0;
+  int offset = 20;
+  int step = 20;
+  int totalRows = 0;
 
   @override
   void initState() {
     super.initState();
     getdata();
+    myScroll();
+  }
+
+  @override
+  void dispose() {
+    scrollControll.dispose();
+    super.dispose();
   }
 
   Future<void> getdata() async {
@@ -2449,7 +2378,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
     try {
       var respose = await http.get(
         Uri.parse(
-            '${api}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=50'),
+            '${api}setup/itemTypeList?searchName=${searchNameItemtype.text}&page=1&limit=$offset'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -2459,11 +2388,17 @@ class _ItemTypeListState extends State<ItemTypeList> {
       if (respose.statusCode == 200) {
         Map<String, dynamic> data_itemTypelist =
             Map<String, dynamic>.from(json.decode(respose.body));
-        setState(() {
-          list_itemType = data_itemTypelist['data'];
-        });
 
-        statusLoading = true;
+        List newData = data_itemTypelist['data'] ?? [];
+
+        totalRows = int.tryParse(data_itemTypelist['rowCount'].toString()) ?? 0;
+        setState(() {
+          list_itemType = newData;
+          isLoadendPage = list_itemType.length >= totalRows;
+
+          isLoadScroll = false;
+          statusLoading = true;
+        });
       } else if (respose.statusCode == 400) {
         showProgressDialog_400(
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
@@ -2498,18 +2433,34 @@ class _ItemTypeListState extends State<ItemTypeList> {
     }
   }
 
-  void myScroll(ScrollController scrollController, int offset) {
-    scrollController.addListener(() async {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        setState(() {
-          isLoadScroll = true;
-        });
-        await Future.delayed(const Duration(seconds: 1), () {
-          offset = offset + 20;
-          // getData_search(offset);
-        });
+  void myScroll() {
+    scrollControll.addListener(() async {
+      if (!scrollControll.hasClients) return;
+
+      final position = scrollControll.position;
+
+      if (position.maxScrollExtent <= 0) return;
+
+      final isNearBottom = position.extentAfter < 200;
+
+      if (!isNearBottom) {
+        isAtBottom = false;
+        return;
       }
+
+      if (isAtBottom || isLoadingMore || isLoadendPage) return;
+
+      isAtBottom = true;
+
+      setState(() => isLoadingMore = true);
+
+      offset += step;
+
+      await getItemTypelist();
+
+      if (!mounted) return;
+
+      setState(() => isLoadingMore = false);
     });
   }
 
@@ -2584,153 +2535,189 @@ class _ItemTypeListState extends State<ItemTypeList> {
             const SizedBox(height: 5),
             Expanded(
               child: statusLoading == false
-                  ? Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 24, 24, 24)
-                              .withValues(alpha: 0.9),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(cupertinoActivityIndicator, scale: 4),
-                            Text(
-                              'กำลังโหลด',
-                              style: MyContant().textLoading(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                  ? LoadingView()
                   : statusLoad404 == true
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'images/noresults.png',
-                                      color: const Color.fromARGB(
-                                          255, 158, 158, 158),
-                                      width: 60,
-                                      height: 60,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ไม่พบรายการข้อมูล',
-                                      style: MyContant().h5NotData(),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics(),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 40),
-                            child: Column(
-                              children: list_itemType.map((item) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context, {
-                                      'id': item['id'],
-                                      'name': item['name'],
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 8),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                        color: const Color.fromRGBO(
-                                            255, 218, 249, 1),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey
-                                                .withValues(alpha: 0.5),
-                                            spreadRadius: 0.2,
-                                            blurRadius: 2,
-                                            offset: const Offset(0, 1),
-                                          )
-                                        ],
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'รหัส : ${item['id']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'ชื่อ : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    item['name'] ?? '',
-                                                    overflow: TextOverflow.clip,
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
+                      ? NoDataView()
+                      : mainContent(context),
             ),
           ],
         ),
       ),
     );
   }
+
+  Widget mainContent(BuildContext context) {
+    return ListView.builder(
+      controller: scrollControll,
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      itemCount:
+          list_itemType.length + ((isLoadScroll || isLoadendPage) ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index < list_itemType.length) {
+          final item = list_itemType[index];
+
+          return InkWell(
+            onTap: () {
+              Navigator.pop(context, {
+                'id': item['id'],
+                'name': item['name'],
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+              child: buildItem(item),
+            ),
+          );
+        }
+
+        if (isLoadScroll && !isLoadendPage) {
+          return const LoadData();
+        }
+
+        return const EndPage();
+      },
+    );
+  }
+
+  Widget buildItem(dynamic item) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color.fromRGBO(255, 218, 249, 1),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.7),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'รหัส : ${item['id']}',
+                  style: MyContant().h4normalStyle(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 5),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'ชื่อ : ',
+                  style: MyContant().h4normalStyle(),
+                ),
+                Expanded(
+                  child: Text(
+                    item['name'] ?? '',
+                    overflow: TextOverflow.clip,
+                    style: MyContant().h4normalStyle(),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // SingleChildScrollView mainContent(BuildContext context) {
+  //   final List<Widget> items = list_itemType.map(
+  //     (item) {
+  //       return InkWell(
+  //         onTap: () {
+  //           Navigator.pop(context, {
+  //             'id': item['id'],
+  //             'name': item['name'],
+  //           });
+  //         },
+  //         child: Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+  //           child: Container(
+  //             padding: const EdgeInsets.all(6),
+  //             decoration: BoxDecoration(
+  //               borderRadius: const BorderRadius.all(
+  //                 Radius.circular(10),
+  //               ),
+  //               color: const Color.fromRGBO(255, 218, 249, 1),
+  //               boxShadow: [
+  //                 BoxShadow(
+  //                   color: Colors.grey.withValues(alpha: 0.5),
+  //                   spreadRadius: 0.2,
+  //                   blurRadius: 2,
+  //                   offset: const Offset(0, 1),
+  //                 )
+  //               ],
+  //             ),
+  //             child: Container(
+  //               padding: const EdgeInsets.all(6),
+  //               decoration: BoxDecoration(
+  //                 color: Colors.white.withValues(alpha: 0.7),
+  //                 borderRadius: BorderRadius.circular(8),
+  //               ),
+  //               child: Column(
+  //                 children: [
+  //                   Row(
+  //                     children: [
+  //                       Text(
+  //                         'รหัส : ${item['id']}',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 5),
+  //                   Row(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       Text(
+  //                         'ชื่อ : ',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                       Expanded(
+  //                         child: Text(
+  //                           item['name'] ?? '',
+  //                           overflow: TextOverflow.clip,
+  //                           style: MyContant().h4normalStyle(),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   ).toList();
+
+  //   if (isLoadScroll && !isLoadendPage) {
+  //     items.add(const LoadData());
+  //   } else if (isLoadendPage) {
+  //     items.add(const EndPage());
+  //   }
+
+  //   items.add(const SizedBox(height: 20));
+
+  //   return SingleChildScrollView(
+  //     controller: scrollControll,
+  //     physics: const BouncingScrollPhysics(
+  //       parent: AlwaysScrollableScrollPhysics(),
+  //     ),
+  //     child: Padding(
+  //       padding: const EdgeInsets.only(bottom: 40),
+  //       child: Column(
+  //         children: items,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Padding groupBtnsearch() {
     return Padding(

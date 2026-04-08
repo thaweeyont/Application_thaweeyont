@@ -7,8 +7,9 @@ import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:application_thaweeyont/widgets/endpage.dart';
 import 'package:application_thaweeyont/widgets/loaddata.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -61,119 +62,6 @@ class _CheckBlacklistDataState extends State<CheckBlacklistData> {
       lastName = preferences.getString('lastName')!;
       tokenId = preferences.getString('tokenId')!;
     });
-    getSelectProvince();
-  }
-
-  Future<void> getSelectProvince() async {
-    try {
-      var respose = await http.get(
-        Uri.parse('${api}setup/provinceList?page=1&limit=100'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-      );
-
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> data_provice =
-            Map<String, dynamic>.from(json.decode(respose.body));
-        setState(() {
-          dropdown_province = data_provice['data'];
-        });
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
-      } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialogNotdata(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลระบบ');
-    }
-  }
-
-  Future<void> getSelectDistrict() async {
-    const sizeIcon = BoxConstraints(minWidth: 40, minHeight: 40);
-    const border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 0,
-      ),
-      borderRadius: BorderRadius.all(
-        Radius.circular(4.0),
-      ),
-    );
-    try {
-      var respose = await http.get(
-        Uri.parse(
-            '${api}setup/districtList?pId=${selectValue_province.toString().split("_")[0]}&aId=${selectValue_amphoe.toString().split("_")[0]}'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': tokenId.toString(),
-        },
-      );
-
-      if (respose.statusCode == 200) {
-        Map<String, dynamic> data_district =
-            Map<String, dynamic>.from(json.decode(respose.body));
-        setState(() {
-          list_district = data_district['data'];
-        });
-        Navigator.pop(context);
-        Navigator.pop(context);
-        // searchDistrict(sizeIcon, border);
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ${respose.statusCode}');
-      } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
-      }
-    } catch (e) {
-      print("ไม่มีข้อมูล $e");
-      showProgressDialogNotdata(
-          context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผู้ดูแลระบบ');
-    }
   }
 
   clearDataBlacklist() {
@@ -385,9 +273,7 @@ class _CheckBlacklistDataState extends State<CheckBlacklistData> {
               ),
             ),
             groupBtnsearch(),
-            const SizedBox(
-              height: 25,
-            ),
+            const SizedBox(height: 25),
           ],
         ),
       ),
@@ -832,13 +718,25 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
       statusLoad404 = false,
       isLoadScroll = false,
       isLoadendPage = false;
+  bool isLoadingMore = false;
+  bool isAtBottom = false;
+  bool isLoading = false;
   final scrollControll = TrackingScrollController();
-  int offset = 50, stquery = 0;
+  int offset = 20;
+  int step = 20;
+  int totalRows = 0;
 
   @override
   void initState() {
     super.initState();
+    myScroll();
     getdata();
+  }
+
+  @override
+  void dispose() {
+    scrollControll.dispose();
+    super.dispose();
   }
 
   Future<void> getdata() async {
@@ -851,7 +749,6 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
       tokenId = preferences.getString('tokenId')!;
     });
     getSelectBlSearch();
-    myScroll(scrollControll, offset);
   }
 
   Future<void> getSelectBlSearch() async {
@@ -872,18 +769,8 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
           selectValue_bl = dropdown_search_bl[0]['id'];
         });
         statusLoading = true;
-      } else if (respose.statusCode == 401) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -892,8 +779,20 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
     }
   }
 
-  Future<void> getData_search_bl(searchType, String? searchData,
-      String? firstName, String? lastName, offset) async {
+  Future<void> getData_search_bl(
+    searchType,
+    String? searchData,
+    String? firstName,
+    String? lastName, {
+    bool loadMore = false,
+  }) async {
+    if (loadMore) {
+      isLoadingMore = true;
+    } else {
+      isLoading = true;
+    }
+
+    setState(() {});
     try {
       var respose = await http.post(
         Uri.parse('${api}credit/blacklist'),
@@ -915,38 +814,23 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
         Map<String, dynamic> data_list =
             Map<String, dynamic>.from(json.decode(respose.body));
 
+        List newData = data_list['data'] ?? [];
+
+        if (!mounted) return;
+
         setState(() {
-          list_dataSearch_bl = data_list['data'];
+          // ✅ replace ไม่ใช่ add
+          list_dataSearch_bl = newData;
+
+          // ✅ ถ้าได้ข้อมูลน้อยกว่า step = จบ
+          isLoadendPage = newData.length < offset;
+
+          isLoading = false;
+          isLoadingMore = false;
           statusLoading = true;
         });
-      } else if (respose.statusCode == 400) {
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoading = true;
-          statusLoad404 = true;
-        });
-      } else if (respose.statusCode == 405) {
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -955,39 +839,88 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
     }
   }
 
-  void myScroll(ScrollController scrollController, int offset) {
-    scrollController.addListener(() async {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        setState(() {
-          isLoadScroll = true;
-        });
-        await Future.delayed(const Duration(seconds: 1), () {
-          offset = offset + 20;
-          btnSendvalue(offset);
-        });
-      }
+  // แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+    }
+  }
+
+  void myScroll() {
+    scrollControll.addListener(() {
+      if (!scrollControll.hasClients) return;
+
+      final position = scrollControll.position;
+
+      final isNearBottom = position.extentAfter < 200;
+
+      if (!isNearBottom) return;
+
+      if (isLoading || isLoadingMore || isLoadendPage) return;
+
+      offset += step;
+
+      getData_search_bl(
+        selectValue_bl,
+        searchData.text,
+        nameSearchBl.text,
+        lastnameSearchBl.text,
+        loadMore: true,
+      );
     });
   }
 
-  btnSendvalue(offset) {
-    setState(() {
-      if (selectValue_bl.toString() == "2") {
-        if (nameSearchBl.text.isEmpty && lastnameSearchBl.text.isEmpty) {
-          showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอก ชื่อ-นามสกุล');
-        } else {
-          getData_search_bl(selectValue_bl, '', nameSearchBl.text,
-              lastnameSearchBl.text, offset);
-        }
-      } else {
-        if (searchData.text.isEmpty) {
-          showProgressDialog(
-              context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลที่ต้องการค้นหา');
-        } else {
-          getData_search_bl(selectValue_bl, searchData.text, '', '', offset);
-        }
+  Future<void> btnSendvalue() async {
+    // ✅ VALIDATE ก่อน
+    if (selectValue_bl.toString() == "2") {
+      if (nameSearchBl.text.isEmpty && lastnameSearchBl.text.isEmpty) {
+        showProgressDialog(context, 'แจ้งเตือน', 'กรุณากรอก ชื่อ-นามสกุล');
+        return;
       }
+    } else {
+      if (searchData.text.isEmpty) {
+        showProgressDialog(
+            context, 'แจ้งเตือน', 'กรุณากรอกข้อมูลที่ต้องการค้นหา');
+        return;
+      }
+    }
+
+    // ✅ RESET SEARCH STATE
+    setState(() {
+      offset = step;
+      isLoadendPage = false;
+      list_dataSearch_bl.clear();
+      statusLoading = false;
     });
+
+    await getData_search_bl(
+      selectValue_bl,
+      searchData.text,
+      nameSearchBl.text,
+      lastnameSearchBl.text,
+    );
   }
 
   clearValueSearch() {
@@ -1119,198 +1052,133 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
             const SizedBox(height: 5),
             Expanded(
               child: statusLoading == false
-                  ? Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 24, 24, 24)
-                              .withValues(alpha: 0.9),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(cupertinoActivityIndicator, scale: 4),
-                            Text(
-                              'กำลังโหลด',
-                              style: MyContant().textLoading(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                  ? LoadingView()
                   : statusLoad404 == true
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'images/noresults.png',
-                                      color: const Color.fromARGB(
-                                          255, 158, 158, 158),
-                                      width: 60,
-                                      height: 60,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ไม่พบรายการข้อมูล',
-                                      style: MyContant().h5NotData(),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          controller: scrollControll,
-                          physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics(),
-                          ),
-                          child: Column(
-                            children: [
-                              ...list_dataSearch_bl.map(
-                                (item) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context, {
-                                        'id': item['blId'],
-                                        'name': item['custName'],
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 8),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10)),
-                                          color: const Color.fromRGBO(
-                                              162, 181, 252, 1),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey
-                                                  .withValues(alpha: 0.5),
-                                              spreadRadius: 0.2,
-                                              blurRadius: 2,
-                                              offset: const Offset(0, 1),
-                                            )
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(6),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white
-                                                .withValues(alpha: 0.7),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'รหัส : ${item['blId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'ชื่อ-สกุล : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${item['custName']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'เลขบัตรประชนชน : ${item['smartId']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'สถานะ : ${item['blStatus']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'เบอร์โทรศัพท์ : ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      '${item['telephone']}',
-                                                      style: MyContant()
-                                                          .h4normalStyle(),
-                                                      overflow:
-                                                          TextOverflow.clip,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              if (isLoadScroll && !isLoadendPage)
-                                const LoadData()
-                              else if (isLoadendPage)
-                                const EndPage(),
-                              const SizedBox(height: 20),
-                            ],
-                          ),
-                        ),
+                      ? NoDataView()
+                      : mainContent(context),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  SingleChildScrollView mainContent(BuildContext context) {
+    return SingleChildScrollView(
+      controller: scrollControll,
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      child: Column(
+        children: [
+          ...list_dataSearch_bl.map(
+            (item) {
+              return InkWell(
+                onTap: () {
+                  Navigator.pop(context, {
+                    'id': item['blId'],
+                    'name': item['custName'],
+                  });
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      color: const Color.fromRGBO(162, 181, 252, 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withValues(alpha: 0.5),
+                          spreadRadius: 0.2,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.7),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'รหัส : ${item['blId']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'ชื่อ-สกุล : ',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${item['custName']}',
+                                  style: MyContant().h4normalStyle(),
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Text(
+                                'เลขบัตรประชนชน : ${item['smartId']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Text(
+                                'สถานะ : ${item['blStatus']}',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'เบอร์โทรศัพท์ : ',
+                                style: MyContant().h4normalStyle(),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '${item['telephone']}',
+                                  style: MyContant().h4normalStyle(),
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          if (isLoadScroll && !isLoadendPage)
+            const LoadData()
+          else if (isLoadendPage)
+            const EndPage(),
+          const SizedBox(height: 20),
+        ],
       ),
     );
   }
@@ -1332,8 +1200,7 @@ class _CustomerBlackListState extends State<CustomerBlackList> {
                       style: MyContant().myButtonSearchStyle(),
                       onPressed: () {
                         setState(() {
-                          btnSendvalue(offset);
-                          statusLoading = false;
+                          btnSendvalue();
                         });
                       },
                       child: const Text('ค้นหา'),
@@ -1493,38 +1360,8 @@ class _DistrictListState extends State<DistrictList> {
           dropdown_province = data_provice['data'];
         });
         statusLoading = true;
-      } else if (respose.statusCode == 400) {
-        if (!mounted) return;
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        if (!mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        if (!mounted) return;
-        showProgressDialog_404(context, 'แจ้งเตือน', 'ไม่พบข้อมูลที่ค้นหา');
-      } else if (respose.statusCode == 405) {
-        if (!mounted) return;
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        if (!mounted) return;
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        if (!mounted) return;
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -1552,39 +1389,8 @@ class _DistrictListState extends State<DistrictList> {
         });
         statusLoading = true;
         if (!mounted) return;
-      } else if (respose.statusCode == 400) {
-        if (!mounted) return;
-        showProgressDialog_400(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        if (!mounted) return;
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
-      } else if (respose.statusCode == 404) {
-        setState(() {
-          statusLoading = true;
-          statusLoad404 = true;
-        });
-      } else if (respose.statusCode == 405) {
-        if (!mounted) return;
-        showProgressDialog_405(
-            context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
-      } else if (respose.statusCode == 500) {
-        if (!mounted) return;
-        showProgressDialog_500(
-            context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด (${respose.statusCode})');
       } else {
-        if (!mounted) return;
-        showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ!');
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
@@ -1609,25 +1415,42 @@ class _DistrictListState extends State<DistrictList> {
         setState(() {
           dropdown_amphoe = data_amphoe['data'];
         });
-      } else if (respose.statusCode == 401) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Authen(),
-          ),
-          (Route<dynamic> route) => false,
-        );
-        showProgressDialog_401(
-            context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
       } else {
-        print(respose.statusCode);
+        handleHttpError(respose.statusCode);
       }
     } catch (e) {
       print("ไม่มีข้อมูล $e");
       showProgressDialogNotdata(
           context, 'แจ้งเตือน', 'เกิดข้อผิดพลาด! กรุณาแจ้งผูดูแลระบบ');
+    }
+  }
+
+// แยกฟังก์ชัน handle error HTTP
+  void handleHttpError(int statusCode) async {
+    if (statusCode == 400) {
+      showProgressDialog_400(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 401) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.clear();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Authen()),
+        (Route<dynamic> route) => false,
+      );
+      showProgressDialog_401(
+          context, 'แจ้งเตือน', 'กรุณา Login เข้าสู่ระบบใหม่');
+    } else if (statusCode == 404) {
+      setState(() {
+        statusLoading = true;
+        statusLoad404 = true;
+      });
+    } else if (statusCode == 405) {
+      showProgressDialog_405(context, 'แจ้งเตือน', 'ไม่พบข้อมูล ($statusCode)');
+    } else if (statusCode == 500) {
+      showProgressDialog_500(
+          context, 'แจ้งเตือน', 'ข้อมูลผิดพลาด ($statusCode)');
+    } else {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาติดต่อผู้ดูแลระบบ');
     }
   }
 
@@ -1801,175 +1624,122 @@ class _DistrictListState extends State<DistrictList> {
             SizedBox(height: 5),
             Expanded(
               child: statusLoading == false
-                  ? Center(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 24, 24, 24)
-                              .withValues(alpha: 0.9),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(cupertinoActivityIndicator, scale: 4),
-                            Text(
-                              'กำลังโหลด',
-                              style: MyContant().textLoading(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                  ? LoadingView()
                   : statusLoad404 == true
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(40.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'images/noresults.png',
-                                      color: const Color.fromARGB(
-                                          255, 158, 158, 158),
-                                      width: 60,
-                                      height: 60,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'ไม่พบรายการข้อมูล',
-                                      style: MyContant().h5NotData(),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      : SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics(),
-                          ),
-                          child: Column(
-                            children: [
-                              for (var i = 0; i < list_district.length; i++)
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context, {
-                                      'id': list_district[i]['id'],
-                                      'name': list_district[i]['name'],
-                                      'province': text_province,
-                                      'provinceId': provinceId,
-                                      'amphoe': text_amphoe,
-                                      'amphoeId': amphoeId,
-                                    });
-                                    // print({
-                                    //   'id': list_district[i]['id'],
-                                    //   'name': list_district[i]['name'],
-                                    //   'province': text_province,
-                                    //   'provinceId': provinceId,
-                                    //   'amphoe': text_amphoe,
-                                    //   'amphoeId': amphoeId,
-                                    // });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 8),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                        color: const Color.fromRGBO(
-                                            162, 181, 252, 1),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey
-                                                .withValues(alpha: 0.5),
-                                            spreadRadius: 0.2,
-                                            blurRadius: 2,
-                                            offset: const Offset(0, 1),
-                                          )
-                                        ],
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.7),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'จังหวัด : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Text(
-                                                  text_province,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'อำเภอ : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Text(
-                                                  text_amphoe,
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'ตำบล : ',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Text(
-                                                  '${list_district[i]['name']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              const SizedBox(height: 40)
-                            ],
-                          ),
-                        ),
+                      ? NoDataView()
+                      : mainContent(context),
             )
           ],
         ),
       ),
     );
+  }
+
+  SingleChildScrollView mainContent(BuildContext context) {
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
+      child: Column(
+        children: [
+          for (var i = 0; i < list_district.length; i++)
+            InkWell(
+              onTap: () {
+                Navigator.pop(context, {
+                  'id': list_district[i]['id'],
+                  'name': list_district[i]['name'],
+                  'province': text_province,
+                  'provinceId': provinceId,
+                  'amphoe': text_amphoe,
+                  'amphoeId': amphoeId,
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    color: const Color.fromRGBO(162, 181, 252, 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withValues(alpha: 0.5),
+                        spreadRadius: 0.2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.7),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'จังหวัด : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              text_province,
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'อำเภอ : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              text_amphoe,
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'ตำบล : ',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                            Text(
+                              '${list_district[i]['name']}',
+                              style: MyContant().h4normalStyle(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          const SizedBox(height: 40)
+        ],
+      ),
+    );
+  }
+
+  Future<void> onSearchDistrict() async {
+    if (selectValue_province == null) {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกจังหวัด');
+      return;
+    }
+
+    if (selectValue_amphoe == null) {
+      showProgressDialog(context, 'แจ้งเตือน', 'กรุณาเลือกอำเภอ');
+      return;
+    }
+
+    setState(() => statusLoading = false);
+
+    await getSelectDistrict();
   }
 
   Padding groupBtnsearch() {
@@ -1987,20 +1757,21 @@ class _DistrictListState extends State<DistrictList> {
                     width: MediaQuery.of(context).size.width * 0.25,
                     child: ElevatedButton(
                       style: MyContant().myButtonSearchStyle(),
-                      onPressed: () {
-                        setState(() {
-                          if (selectValue_province == null) {
-                            showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณาเลือกจังหวัด');
-                          } else if (selectValue_amphoe == null) {
-                            showProgressDialog(
-                                context, 'แจ้งเตือน', 'กรุณาเลือกอำเภอ');
-                          } else {
-                            getSelectDistrict();
-                            statusLoading = false;
-                          }
-                        });
-                      },
+                      onPressed: onSearchDistrict,
+                      // onPressed: () {
+                      //   setState(() {
+                      //     if (selectValue_province == null) {
+                      //       showProgressDialog(
+                      //           context, 'แจ้งเตือน', 'กรุณาเลือกจังหวัด');
+                      //     } else if (selectValue_amphoe == null) {
+                      //       showProgressDialog(
+                      //           context, 'แจ้งเตือน', 'กรุณาเลือกอำเภอ');
+                      //     } else {
+                      //       getSelectDistrict();
+                      //       statusLoading = false;
+                      //     }
+                      //   });
+                      // },
                       child: const Text('ค้นหา'),
                     ),
                   ),
