@@ -497,7 +497,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.20;
+				MARKETING_VERSION = 2.8.21;
 				PRODUCT_BUNDLE_IDENTIFIER = thaweeyont.com.applicationThaweeyont;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -683,7 +683,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.20;
+				MARKETING_VERSION = 2.8.21;
 				PRODUCT_BUNDLE_IDENTIFIER = thaweeyont.com.applicationThaweeyont;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -709,7 +709,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.20;
+				MARKETING_VERSION = 2.8.21;
 				PRODUCT_BUNDLE_IDENTIFIER = thaweeyont.com.applicationThaweeyont;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

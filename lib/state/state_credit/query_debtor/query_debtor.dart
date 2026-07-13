@@ -1434,120 +1434,7 @@ class _CustomerListState extends State<CustomerList> {
                 ),
                 padding: const EdgeInsets.all(6),
                 width: double.infinity,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.7),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    children: [
-                      RadioGroup<String>(
-                        groupValue: id,
-                        onChanged: (value) {
-                          setState(() {
-                            id = value!;
-                            final isCustomer = value == '1';
-                            st_customer = isCustomer;
-                            st_employee = !isCustomer;
-                            searchData.clear();
-                          });
-                        },
-                        child: Row(
-                          children: ['1', '2'].map((val) {
-                            final isCustomer = val == '1';
-                            return Expanded(
-                              child: RadioListTile<String>(
-                                activeColor: Colors.black,
-                                value: val,
-                                title: Text(
-                                  isCustomer ? 'ลูกค้าทั่วไป' : 'พนักงาน',
-                                  style: MyContant().h4normalStyle(),
-                                ),
-                                visualDensity: VisualDensity.compact,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      if (st_employee == true) ...[
-                        Row(
-                          children: [
-                            Text(
-                              'ชื่อ',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            inputNameEmploDia(sizeIcon, border),
-                            Text(
-                              'สกุล',
-                              style: MyContant().h4normalStyle(),
-                            ),
-                            inputLastNameEmploDia(sizeIcon, border),
-                          ],
-                        ),
-                      ],
-                      if (st_customer == true) ...[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.095,
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 4),
-                                    child: DropdownButton(
-                                      items: dropdown_customer
-                                          .map((value) => DropdownMenuItem(
-                                                value: value['id'],
-                                                child: Text(
-                                                  value['name'],
-                                                  style: MyContant()
-                                                      .textInputStyle(),
-                                                ),
-                                              ))
-                                          .toList(),
-                                      onChanged: (newvalue) {
-                                        setState(() {
-                                          selectValue_customer = newvalue;
-                                          Texthint = newvalue.toString() == '2'
-                                              ? 'ชื่อ'
-                                              : '';
-                                          searchData.clear();
-                                        });
-                                      },
-                                      value: selectValue_customer,
-                                      isExpanded: true,
-                                      underline: const SizedBox(),
-                                      hint: Align(
-                                        child: Text(
-                                          'กรุณาเลือกข้อมูล',
-                                          style: MyContant().TextInputSelect(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            inputSearchCus(sizeIcon, border),
-                            if (selectValue_customer.toString() == "2") ...[
-                              inputLastnameCus(sizeIcon, border)
-                            ],
-                          ],
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+                child: content(sizeIcon, border, context),
               ),
             ),
             groupBtnsearch(),
@@ -1562,6 +1449,125 @@ class _CustomerListState extends State<CustomerList> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget content(sizeIcon, border, context) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          radioSection(),
+          if (st_employee) employeeInput(sizeIcon, border),
+          if (st_customer) customerInput(context, sizeIcon, border),
+        ],
+      ),
+    );
+  }
+
+  Row employeeInput(sizeIcon, border) {
+    return Row(
+      children: [
+        Text('ชื่อ', style: MyContant().h4normalStyle()),
+        inputNameEmploDia(sizeIcon, border),
+        Text('สกุล', style: MyContant().h4normalStyle()),
+        inputLastNameEmploDia(sizeIcon, border),
+      ],
+    );
+  }
+
+  Row customerInput(context, sizeIcon, border) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: customerDropdown(context),
+        ),
+        inputSearchCus(sizeIcon, border),
+        if (selectValue_customer.toString() == "2") ...[
+          inputLastnameCus(sizeIcon, border)
+        ],
+      ],
+    );
+  }
+
+  Widget customerDropdown(context) {
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: Container(
+        height: MediaQuery.of(context).size.width * 0.095,
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: DropdownButton(
+            items: dropdown_customer
+                .map((value) => DropdownMenuItem(
+                      value: value['id'],
+                      child: Text(
+                        value['name'],
+                        style: MyContant().textInputStyle(),
+                      ),
+                    ))
+                .toList(),
+            onChanged: (newvalue) {
+              setState(() {
+                selectValue_customer = newvalue;
+                Texthint = newvalue.toString() == '2' ? 'ชื่อ' : '';
+                searchData.clear();
+              });
+            },
+            value: selectValue_customer,
+            isExpanded: true,
+            underline: const SizedBox(),
+            hint: Align(
+              child: Text(
+                'กรุณาเลือกข้อมูล',
+                style: MyContant().TextInputSelect(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget radioSection() {
+    return RadioGroup<String>(
+      groupValue: id,
+      onChanged: (value) {
+        setState(() {
+          id = value!;
+          final isCustomer = value == '1';
+          st_customer = isCustomer;
+          st_employee = !isCustomer;
+          searchData.clear();
+        });
+      },
+      child: Row(
+        children:
+            ['1', '2'].map((val) => Expanded(child: radioTile(val))).toList(),
+      ),
+    );
+  }
+
+  Widget radioTile(String val) {
+    final isCustomer = val == '1';
+
+    return RadioListTile<String>(
+      activeColor: Colors.black,
+      value: val,
+      title: Text(
+        isCustomer ? 'ลูกค้าทั่วไป' : 'พนักงาน',
+        style: MyContant().h4normalStyle(),
+      ),
+      visualDensity: VisualDensity.compact,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
 

@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:application_thaweeyont/widgets/loading_view.dart';
+import 'package:application_thaweeyont/widgets/nodata_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,215 +137,261 @@ class _Pay_installmentState extends State<Pay_installment> {
       appBar: const CustomAppbar(title: 'รายการชำระค่างวด'),
       body: Column(
         children: [
-          const SizedBox(
-            height: 5,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                color: const Color.fromRGBO(255, 203, 246, 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(130),
-                    spreadRadius: 0.2,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'งวดที่ : ',
-                    style: MyContant().h4normalStyle(),
-                  ),
-                  inputPayInstallment(sizeIcon, border),
-                ],
-              ),
-            ),
-          ),
+          const SizedBox(height: 5),
+          _headerSearch(sizeIcon, border),
           Expanded(
-            child: statusLoading200 == false
-                ? Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 24, 24, 24)
-                            .withValues(alpha: 0.9),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 30),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(cupertinoActivityIndicator, scale: 4),
-                          Text(
-                            'กำลังโหลด',
-                            style: MyContant().textLoading(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : statusLoad404 == true
-                    ? Center(
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          height: MediaQuery.of(context).size.height * 0.15,
-                          child: Column(
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'images/Nodata.png',
-                                        width: 55,
-                                        height: 55,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'ไม่พบรายการข้อมูล',
-                                        style: MyContant().h5NotData(),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : ListView(
-                        shrinkWrap: true,
-                        children: [
-                          for (var i = 0; i < datapayDetail.length; i++) ...[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 6, bottom: 2, left: 8, right: 8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(255, 203, 246, 1),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withAlpha(130),
-                                      spreadRadius: 0.2,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 1),
-                                    )
-                                  ],
-                                ),
-                                padding: const EdgeInsets.all(6),
-                                child: Column(
-                                  children: [
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'งวดที่ : $dropdownValue',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                        Text(
-                                          'วันที่ใบเสร็จ : ${datapayDetail[i]['payDate']}',
-                                          style: MyContant().h4normalStyle(),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withAlpha(180),
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'เลขที่ใบเสร็จ : ${datapayDetail[i]['receiptTranId']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'จำนวนเงิน : ${datapayDetail[i]['payPrice']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                                Text(
-                                                  'ค่าปรับ : ${datapayDetail[i]['payFine']}',
-                                                  style: MyContant()
-                                                      .h4normalStyle(),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    'ประเภทการรับ : ${datapayDetail[i]['payBy']}',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                    overflow: TextOverflow.clip,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                          const SizedBox(height: 15),
-                        ],
-                      ),
+              child: !statusLoading200
+                  ? LoadingView()
+                  : statusLoad404
+                      ? NoDataView()
+                      : _buildPaymentList(
+                          context) // แสดงผลลัพธ์เมื่อโหลดเสร็จแล้ว
+              // ListView(
+              //     shrinkWrap: true,
+              //     children: [
+              //       for (var i = 0; i < datapayDetail.length; i++) ...[
+              //         Padding(
+              //           padding: const EdgeInsets.only(
+              //               top: 6, bottom: 2, left: 8, right: 8),
+              //           child: Container(
+              //             decoration: BoxDecoration(
+              //               color: const Color.fromRGBO(255, 203, 246, 1),
+              //               borderRadius: const BorderRadius.all(
+              //                 Radius.circular(10),
+              //               ),
+              //               boxShadow: [
+              //                 BoxShadow(
+              //                   color: Colors.grey.withAlpha(130),
+              //                   spreadRadius: 0.2,
+              //                   blurRadius: 2,
+              //                   offset: const Offset(0, 1),
+              //                 )
+              //               ],
+              //             ),
+              //             padding: const EdgeInsets.all(6),
+              //             child: Column(
+              //               children: [
+              //                 const SizedBox(height: 5),
+              //                 Row(
+              //                   mainAxisAlignment:
+              //                       MainAxisAlignment.spaceBetween,
+              //                   children: [
+              //                     Text(
+              //                       'งวดที่ : $dropdownValue',
+              //                       style: MyContant().h4normalStyle(),
+              //                     ),
+              //                     Text(
+              //                       'วันที่ใบเสร็จ : ${datapayDetail[i]['payDate']}',
+              //                       style: MyContant().h4normalStyle(),
+              //                     ),
+              //                   ],
+              //                 ),
+              //                 const SizedBox(
+              //                   height: 5,
+              //                 ),
+              //                 Container(
+              //                   decoration: BoxDecoration(
+              //                     color: Colors.white.withAlpha(180),
+              //                     borderRadius: const BorderRadius.all(
+              //                       Radius.circular(8),
+              //                     ),
+              //                   ),
+              //                   child: Padding(
+              //                     padding: const EdgeInsets.all(8),
+              //                     child: Column(
+              //                       children: [
+              //                         const SizedBox(height: 5),
+              //                         Row(
+              //                           mainAxisAlignment:
+              //                               MainAxisAlignment
+              //                                   .spaceBetween,
+              //                           children: [
+              //                             Text(
+              //                               'เลขที่ใบเสร็จ : ${datapayDetail[i]['receiptTranId']}',
+              //                               style: MyContant()
+              //                                   .h4normalStyle(),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         const SizedBox(height: 5),
+              //                         Row(
+              //                           mainAxisAlignment:
+              //                               MainAxisAlignment
+              //                                   .spaceBetween,
+              //                           children: [
+              //                             Text(
+              //                               'จำนวนเงิน : ${datapayDetail[i]['payPrice']}',
+              //                               style: MyContant()
+              //                                   .h4normalStyle(),
+              //                             ),
+              //                             Text(
+              //                               'ค่าปรับ : ${datapayDetail[i]['payFine']}',
+              //                               style: MyContant()
+              //                                   .h4normalStyle(),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                         const SizedBox(height: 5),
+              //                         Row(
+              //                           children: [
+              //                             Expanded(
+              //                               child: Text(
+              //                                 'ประเภทการรับ : ${datapayDetail[i]['payBy']}',
+              //                                 style: MyContant()
+              //                                     .h4normalStyle(),
+              //                                 overflow: TextOverflow.clip,
+              //                               ),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //       const SizedBox(height: 15),
+              //     ],
+              //   ),
+              ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentList(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 15),
+      children: datapayDetail.map((item) => _paymentCard(item)).toList(),
+    );
+  }
+
+  Widget _paymentCard(dynamic item) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 6, 8, 2),
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: _boxDecoration(),
+        child: Column(
+          children: [
+            const SizedBox(height: 5),
+            _rowBetween(
+              'งวดที่ : $dropdownValue',
+              'วันที่ใบเสร็จ : ${item['payDate']}',
+            ),
+            const SizedBox(height: 5),
+            _paymentDetail(item),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _paymentDetail(dynamic item) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(180),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 5),
+          _rowText(
+            'เลขที่ใบเสร็จ : ${item['receiptTranId']}',
+          ),
+          const SizedBox(height: 5),
+          _rowBetween(
+            'จำนวนเงิน : ${item['payPrice']}',
+            'ค่าปรับ : ${item['payFine']}',
+          ),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'ประเภทการรับ : ${item['payBy']}',
+                  overflow: TextOverflow.clip,
+                  style: MyContant().h4normalStyle(),
+                ),
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _rowBetween(
+    String left,
+    String right,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(left, style: MyContant().h4normalStyle()),
+        Text(right, style: MyContant().h4normalStyle()),
+      ],
+    );
+  }
+
+  Widget _rowText(String text) {
+    return Row(
+      children: [
+        Text(
+          text,
+          style: MyContant().h4normalStyle(),
+        ),
+      ],
+    );
+  }
+
+  BoxDecoration _boxDecoration() {
+    return BoxDecoration(
+      color: const Color.fromRGBO(255, 203, 246, 1),
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withAlpha(130),
+          blurRadius: 2,
+          offset: const Offset(0, 1),
+        ),
+      ],
+    );
+  }
+
+  Padding _headerSearch(BoxConstraints sizeIcon, OutlineInputBorder border) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
+          ),
+          color: const Color.fromRGBO(255, 203, 246, 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha(130),
+              spreadRadius: 0.2,
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            )
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'งวดที่ : ',
+              style: MyContant().h4normalStyle(),
+            ),
+            inputPayInstallment(sizeIcon, border),
+          ],
+        ),
       ),
     );
   }

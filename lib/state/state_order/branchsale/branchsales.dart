@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/state/state_order/branchsale/branchsaleslist.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_gifs/loading_gifs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ import '../../../utility/my_constant.dart';
 import '../../../widgets/custom_appbar.dart';
 import '../../../widgets/endpage.dart';
 import '../../../widgets/loaddata.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 
 class BranchSales extends StatefulWidget {
   const BranchSales({super.key});
@@ -79,6 +81,9 @@ class _BranchSalesState extends State<BranchSales> {
   TextEditingController itemList = TextEditingController();
   TextEditingController employeeList = TextEditingController();
   TextEditingController supplyList = TextEditingController();
+  TextEditingController interestMonthStart = TextEditingController();
+  TextEditingController interestMonthEnd = TextEditingController();
+  TextEditingController leasePrice = TextEditingController();
 
   List targetType = [], channelSales = [];
   Map<String, bool> checkedSaleItems = {}; // เก็บสถานะของ checkbox
@@ -651,6 +656,9 @@ class _BranchSalesState extends State<BranchSales> {
       itemStyle.clear();
       itemSize.clear();
       itemList.clear();
+      interestMonthStart.clear();
+      interestMonthEnd.clear();
+      leasePrice.clear();
       employeeList.clear();
       supplyList.clear();
       valueGrouplist = null;
@@ -1156,6 +1164,59 @@ class _BranchSalesState extends State<BranchSales> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.22,
                           child: Text(
+                            'ตั้งแต่ : ',
+                            style: MyContant().h4normalStyle(),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        inputInterestMonthStart(),
+                        Text(
+                          'เดือน',
+                          style: MyContant().h4normalStyle(),
+                          textAlign: TextAlign.right,
+                        ),
+                        // const SizedBox(width: 10),
+                        SizedBox(
+                          // width: MediaQuery.of(context).size.width * 0.22,
+                          child: Text(
+                            'ถึง : ',
+                            style: MyContant().h4normalStyle(),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        inputInterestMonthEnd(),
+                        Text(
+                          'เดือน',
+                          style: MyContant().h4normalStyle(),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.24,
+                          child: Text(
+                            'ราคาตั้งขาย \n(ไม่รวมVat) : ',
+                            style:
+                                MyContant().h4normalStyle().copyWith(height: 1),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        inputleasePrice(),
+                        Text(
+                          'บาท',
+                          style: MyContant().h4normalStyle(),
+                          textAlign: TextAlign.right,
+                        ),
+                        // const SizedBox(width: 10),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.22,
+                          child: Text(
                             'พนักงานขาย : ',
                             style: MyContant().h4normalStyle(),
                             textAlign: TextAlign.right,
@@ -1522,6 +1583,10 @@ class _BranchSalesState extends State<BranchSales> {
                                   valueItemlist: valueItemlist,
                                   selectSaleTypelist: selectSaleTypelist,
                                   selectInterestlist: selectInterestlist,
+                                  valueInterestMonthStart:
+                                      interestMonthStart.text,
+                                  valueInterestMonthEnd: interestMonthEnd.text,
+                                  valueleasePrice: leasePrice.text,
                                   valueEmployeelist: valueEmployeelist,
                                   selectMonthlist: selectMonthlist,
                                   selectYearlist: selectYearlist,
@@ -1650,6 +1715,10 @@ class _BranchSalesState extends State<BranchSales> {
   }
 
   Expanded selectBranch(sizeIcon, border) {
+    final isEnable = (appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
+        appGroupId == '003' ||
+        appGroupId == '011';
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
@@ -1657,39 +1726,19 @@ class _BranchSalesState extends State<BranchSales> {
           height: 42,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-              color: ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
-                      (appGroupId == '003' || appGroupId == '011'))
-                  ? Colors.white
-                  : Colors.grey[200],
-              borderRadius: BorderRadius.circular(5)),
+            color: isEnable ? Colors.white : Colors.grey[200],
+            borderRadius: BorderRadius.circular(5),
+          ),
           child: Padding(
             padding: const EdgeInsets.only(left: 4),
             child: DropdownButton<String>(
-              items: dropdownBranch
-                  .map(
-                    (value) => DropdownMenuItem<String>(
-                      value: value['id'].toString(),
-                      child: Text(
-                        value['name'].toString(),
-                        style: value['id'] == "99"
-                            ? MyContant().TextInputSelect()
-                            : MyContant().textInputStyle(),
-                      ),
-                    ),
-                  )
-                  .toList(),
-              onChanged:
-                  ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
-                          (appGroupId == '003' || appGroupId == '011'))
-                      ? (String? newvalue) {
-                          setState(() {
-                            selectBranchlist = newvalue;
-                          });
-                        }
-                      : null,
               value: selectBranchlist,
               isExpanded: true,
               underline: const SizedBox(),
+              items: dropdownBranch.map(_buildBranchItem).toList(),
+              onChanged: isEnable
+                  ? (value) => setState(() => selectBranchlist = value)
+                  : null,
               hint: Align(
                 alignment: Alignment.center,
                 child: Text(
@@ -1697,30 +1746,116 @@ class _BranchSalesState extends State<BranchSales> {
                   style: MyContant().TextInputSelect(),
                 ),
               ),
-              selectedItemBuilder: (BuildContext context) {
-                return dropdownBranch.map<Widget>((value) {
-                  return Align(
-                    alignment: value['id'] == "99"
-                        ? Alignment.center
-                        : Alignment.centerLeft,
-                    child: Text(
-                      value['name'],
-                      style: value['id'] == "99"
-                          ? MyContant().TextInputSelect()
-                          : MyContant().textInputStyle(),
-                      textAlign: value['id'] == "99"
-                          ? TextAlign.center
-                          : TextAlign.left,
-                    ),
-                  );
-                }).toList();
-              },
+              selectedItemBuilder: (_) =>
+                  dropdownBranch.map(_buildSelectedBranchItem).toList(),
             ),
           ),
         ),
       ),
     );
   }
+
+  DropdownMenuItem<String> _buildBranchItem(dynamic value) {
+    final isDefault = value['id'] == '99';
+
+    return DropdownMenuItem<String>(
+      value: value['id'].toString(),
+      child: Text(
+        value['name'].toString(),
+        style: isDefault
+            ? MyContant().TextInputSelect()
+            : MyContant().textInputStyle(),
+      ),
+    );
+  }
+
+  Widget _buildSelectedBranchItem(dynamic value) {
+    final isDefault = value['id'] == '99';
+
+    return Align(
+      alignment: isDefault ? Alignment.center : Alignment.centerLeft,
+      child: Text(
+        value['name'],
+        textAlign: isDefault ? TextAlign.center : TextAlign.left,
+        style: isDefault
+            ? MyContant().TextInputSelect()
+            : MyContant().textInputStyle(),
+      ),
+    );
+  }
+
+  // Expanded selectBranch11(sizeIcon, border) {
+  //   return Expanded(
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+  //       child: Container(
+  //         height: 42,
+  //         padding: const EdgeInsets.all(4),
+  //         decoration: BoxDecoration(
+  //             color: ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
+  //                     (appGroupId == '003' || appGroupId == '011'))
+  //                 ? Colors.white
+  //                 : Colors.grey[200],
+  //             borderRadius: BorderRadius.circular(5)),
+  //         child: Padding(
+  //           padding: const EdgeInsets.only(left: 4),
+  //           child: DropdownButton<String>(
+  //             items: dropdownBranch
+  //                 .map(
+  //                   (value) => DropdownMenuItem<String>(
+  //                     value: value['id'].toString(),
+  //                     child: Text(
+  //                       value['name'].toString(),
+  //                       style: value['id'] == "99"
+  //                           ? MyContant().TextInputSelect()
+  //                           : MyContant().textInputStyle(),
+  //                     ),
+  //                   ),
+  //                 )
+  //                 .toList(),
+  //             onChanged:
+  //                 ((appGroupId == '004' && branchAreaId.trim().isNotEmpty) ||
+  //                         (appGroupId == '003' || appGroupId == '011'))
+  //                     ? (String? newvalue) {
+  //                         setState(() {
+  //                           selectBranchlist = newvalue;
+  //                         });
+  //                       }
+  //                     : null,
+  //             value: selectBranchlist,
+  //             isExpanded: true,
+  //             underline: const SizedBox(),
+  //             hint: Align(
+  //               alignment: Alignment.center,
+  //               child: Text(
+  //                 'เลือกสาขา',
+  //                 style: MyContant().TextInputSelect(),
+  //               ),
+  //             ),
+  //             selectedItemBuilder: (BuildContext context) {
+  //               return dropdownBranch.map<Widget>((value) {
+  //                 return Align(
+  //                   alignment: value['id'] == "99"
+  //                       ? Alignment.center
+  //                       : Alignment.centerLeft,
+  //                   child: Text(
+  //                     value['name'],
+  //                     style: value['id'] == "99"
+  //                         ? MyContant().TextInputSelect()
+  //                         : MyContant().textInputStyle(),
+  //                     textAlign: value['id'] == "99"
+  //                         ? TextAlign.center
+  //                         : TextAlign.left,
+  //                   ),
+  //                 );
+  //               }).toList();
+  //             },
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Expanded inputItemGroup() {
     return Expanded(
@@ -2107,6 +2242,117 @@ class _BranchSalesState extends State<BranchSales> {
               },
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputInterestMonthStart() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: interestMonthStart,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          decoration: InputDecoration(
+            suffixIcon: interestMonthStart.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        interestMonthStart.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: _border,
+            focusedBorder: _border,
+            prefixIconConstraints: _sizeIcon,
+            suffixIconConstraints: _sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputInterestMonthEnd() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: interestMonthEnd,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          decoration: InputDecoration(
+            suffixIcon: interestMonthEnd.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        interestMonthEnd.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: _border,
+            focusedBorder: _border,
+            prefixIconConstraints: _sizeIcon,
+            suffixIconConstraints: _sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputleasePrice() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: leasePrice,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            CurrencyTextInputFormatter.currency(
+              decimalDigits: 0,
+              symbol: '',
+            ),
+          ],
+          decoration: InputDecoration(
+            suffixIcon: leasePrice.text.isEmpty
+                ? null
+                : GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        leasePrice.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: _border,
+            focusedBorder: _border,
+            prefixIconConstraints: _sizeIcon,
+            suffixIconConstraints: _sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().textInputStyle(),
         ),
       ),
     );

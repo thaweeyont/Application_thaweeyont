@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:application_thaweeyont/state/authen.dart';
 import 'package:application_thaweeyont/utility/my_constant.dart';
+import 'package:application_thaweeyont/widgets/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_gifs/loading_gifs.dart';
@@ -203,100 +204,16 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     return Scaffold(
       appBar: const CustomAppbar(title: 'รายละเอียดข้อมูล'),
       body: status == false
-          ? Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 24, 24, 24).withAlpha(230),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(cupertinoActivityIndicator, scale: 4),
-                    Text(
-                      'กำลังโหลด',
-                      style: MyContant().textLoading(),
-                    ),
-                  ],
-                ),
-              ),
-            )
+          ? LoadingView()
           : GestureDetector(
               child: Column(
                 children: [
                   slidemenu(context),
-                  if (active_l1 == true) ...[
-                    contentList_1(context),
-                  ],
-                  if (active_l2 == true) ...[
-                    contentList_2(context),
-                  ],
-                  if (active_l3 == true) ...[
-                    contentList_3(context),
-                  ],
+                  if (active_l1) contentList_1(context),
+                  if (active_l2) contentList_2(context),
+                  if (active_l3) contentList_3(context),
                   if (active_l4 == true) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(255, 203, 246, 1),
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withAlpha(130),
-                                  spreadRadius: 0.2,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'รายการชำระค่างวด',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withAlpha(180),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(8),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
-                                        style: MyContant().h3Style(),
-                                      ),
-                                      Text(
-                                        'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
-                                        style: MyContant().h3Style(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    paymentHeader(),
                     contentList_4(context),
                   ],
                 ],
@@ -305,7 +222,121 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
+  Padding paymentHeader() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(255, 203, 246, 1),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withAlpha(130),
+                  spreadRadius: 0.2,
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
+                )
+              ],
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'รายการชำระค่างวด',
+                      style: MyContant().h4normalStyle(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(180),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'เงินต้นคงเหลือ : ${list_paydetailsum!['remainPrice']}',
+                        style: MyContant().h3Style(),
+                      ),
+                      Text(
+                        'ค่าปรับคงเหลือ : ${list_paydetailsum!['finePrice']}',
+                        style: MyContant().h3Style(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   SizedBox slidemenu(BuildContext context) {
+    final menus = [
+      ('รายการสินค้า', 'list_content1', active_l1),
+      ('หมายเหตุพิจารณาสินเชื่อ', 'list_content2', active_l2),
+      ('บันทึกหมายเหตุ', 'list_content3', active_l3),
+      ('ชำระค่างวด', 'list_content4', active_l4),
+    ];
+
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.064,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Row(
+            children: menus.map((menu) {
+              return _menuButton(
+                text: menu.$1,
+                keyName: menu.$2,
+                isActive: menu.$3,
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _menuButton({
+    required String text,
+    required String keyName,
+    required bool isActive,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 8,
+        top: 8,
+        right: 2,
+        bottom: 8,
+      ),
+      child: ElevatedButton(
+        onPressed: () => menuList(keyName),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isActive
+              ? const Color.fromARGB(255, 235, 121, 189)
+              : const Color.fromRGBO(255, 203, 246, 1),
+        ),
+        child: Text(
+          text,
+          style: MyContant().h4normalStyle(),
+        ),
+      ),
+    );
+  }
+
+  SizedBox slidemenuOld(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.064,
       child: ListView(
@@ -396,6 +427,42 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
+  SizedBox NoGuarantor(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.28,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(6),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.26,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.7),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'ไม่มีผู้ค้ำ',
+                        style: MyContant().h4normalStyle(),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Expanded contentList_1(BuildContext context) {
     return Expanded(
       child: Scrollbar(
@@ -438,9 +505,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               style: MyContant().h4normalStyle()),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text(
@@ -448,9 +513,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                               style: MyContant().h4normalStyle()),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -467,9 +530,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -484,9 +545,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -501,9 +560,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -520,9 +577,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Text(
@@ -535,9 +590,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
               child: DefaultTabController(
@@ -597,48 +650,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         //ผู้ค้ำที1
                         SingleChildScrollView(
                           child: list_quarantee1 == null
-                              ? SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.28,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(6),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.267,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white
-                                                .withValues(alpha: 0.7),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(8),
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'ไม่มีผู้ค้ำ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                              ? NoGuarantor(context)
                               : Container(
                                   padding: const EdgeInsets.all(6),
                                   child: Column(
@@ -670,9 +682,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                                 .h4normalStyle()),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -695,9 +705,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -720,9 +728,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -745,9 +751,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -770,9 +774,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       children: [
                                                         Text(
@@ -795,48 +797,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         //ผู้ค้ำที่2
                         SingleChildScrollView(
                           child: list_quarantee2 == null
-                              ? SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.28,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(6),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.267,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white
-                                                .withValues(alpha: 0.7),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(8),
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'ไม่มีผู้ค้ำ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                              ? NoGuarantor(context)
                               : Container(
                                   padding: const EdgeInsets.all(6),
                                   child: Column(
@@ -868,9 +829,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                                 .h4normalStyle()),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -893,9 +852,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -918,9 +875,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -940,9 +895,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -965,9 +918,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       children: [
                                                         Text(
@@ -990,48 +941,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                         //ผู้ค้ำที่3
                         SingleChildScrollView(
                           child: list_quarantee3 == null
-                              ? SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.28,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(6),
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.267,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white
-                                                .withValues(alpha: 0.7),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(8),
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'ไม่มีผู้ค้ำ',
-                                                    style: MyContant()
-                                                        .h4normalStyle(),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                              ? NoGuarantor(context)
                               : Container(
                                   padding: const EdgeInsets.all(6),
                                   child: Column(
@@ -1063,9 +973,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                                 .h4normalStyle()),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1088,9 +996,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1113,9 +1019,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1138,9 +1042,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -1163,9 +1065,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                                                         ),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    const SizedBox(height: 5),
                                                     Row(
                                                       children: [
                                                         Text(
@@ -1448,122 +1348,30 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  Expanded contentList_2(BuildContext context) {
+  Widget contentList_2(BuildContext context) {
     return Expanded(
       child: ListView(
+        padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 203, 246, 1),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(6),
+            decoration: _boxDecoration(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _noteSection(
+                  context,
+                  title: 'หมายเหตุพนักงานสินเชื่อ',
+                  detail: '${Debtordetail['considerNote']}',
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(130),
-                    spreadRadius: 0.2,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-              ),
-              padding: const EdgeInsets.all(6),
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'หมายเหตุพนักงานสินเชื่อ',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: Scrollbar(
-                      child: ListView(children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      '${Debtordetail['considerNote']}',
-                                      overflow: TextOverflow.clip,
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ]),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      Text('หมายเหตุหัวหน้าสินเชื่อ',
-                          style: MyContant().h4normalStyle()),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: Scrollbar(
-                      child: ListView(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '${Debtordetail['headNote']}',
-                                        overflow: TextOverflow.clip,
-                                        style: MyContant().h4normalStyle(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                ],
-              ),
+                const SizedBox(height: 15),
+                _noteSection(
+                  context,
+                  title: 'หมายเหตุหัวหน้าสินเชื่อ',
+                  detail: '${Debtordetail['headNote']}',
+                ),
+              ],
             ),
           ),
         ],
@@ -1571,572 +1379,950 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  Expanded contentList_3(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.only(top: 4, bottom: 8, left: 8, right: 8),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 203, 246, 1),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(130),
-                    spreadRadius: 0.2,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  )
-                ],
-              ),
-              padding: const EdgeInsets.all(6),
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'เชคเกอร์ ',
+  Widget _noteSection(
+    BuildContext context, {
+    required String title,
+    required String detail,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: MyContant().h4normalStyle(),
+        ),
+        const SizedBox(height: 5),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.3,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withAlpha(180),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Scrollbar(
+            child: ListView(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        detail,
+                        overflow: TextOverflow.clip,
                         style: MyContant().h4normalStyle(),
                       ),
-                      if (list_service == null) ...[
-                        Text(
-                          'วันที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ] else ...[
-                        Text(
-                          'วันที่ : ${list_service!['date']}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
                     ),
-                    child: list_service == null
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${list_service!['note']}',
-                                            overflow: TextOverflow.clip,
-                                            style:
-                                                MyContant().TextSmalldebNote(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ผู้บันทึก : ${list_service!['createName']}',
-                                          style: MyContant().TextSmalldebNote(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'การเงิน',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      if (list_finance == null) ...[
-                        Text(
-                          'วันที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ] else ...[
-                        Text(
-                          'วันที่ : ${list_finance!['date']}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: list_finance == null
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${list_finance!['note']}',
-                                            overflow: TextOverflow.clip,
-                                            style:
-                                                MyContant().TextSmalldebNote(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ผู้บันทึก : ${list_finance!['createName']}',
-                                          style: MyContant().TextSmalldebNote(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'ติดตามหนี้ ',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      if (list_debNote == null) ...[
-                        Text(
-                          'วันที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ] else ...[
-                        Text(
-                          'วันที่ : ${list_debNote!['date']}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    padding: const EdgeInsets.all(2.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: list_debNote == null
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${list_debNote!['note']}',
-                                            overflow: TextOverflow.clip,
-                                            style:
-                                                MyContant().TextSmalldebNote(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ผู้บันทึก : ${list_debNote!['createName']}',
-                                          style: MyContant().TextSmalldebNote(),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'กฎหมาย',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      if (list_law == null) ...[
-                        Text(
-                          'วันที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ] else ...[
-                        Text(
-                          'วันที่ : ${list_law!['date']}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: list_law == null
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${list_law!['note']}',
-                                            overflow: TextOverflow.clip,
-                                            style:
-                                                MyContant().TextSmalldebNote(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ผู้บันทึก : ${list_law!['createName']}',
-                                          style: MyContant().TextSmalldebNote(),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'ทะเบียน',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      if (list_regis == null) ...[
-                        Text(
-                          'วันที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ] else ...[
-                        Text(
-                          'วันที่ : ${list_regis!['date']}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: list_regis == null
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${list_regis!['note']}',
-                                            overflow: TextOverflow.clip,
-                                            style:
-                                                MyContant().TextSmalldebNote(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ผู้บันทึก : ${list_regis!['createName']}',
-                                          style: MyContant().TextSmalldebNote(),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'บริการ',
-                        style: MyContant().h4normalStyle(),
-                      ),
-                      if (list_checker == null) ...[
-                        Text(
-                          'วันที่ : ',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ] else ...[
-                        Text(
-                          'วันที่ : ${list_checker!['date']}',
-                          style: MyContant().h4normalStyle(),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8.0),
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(180),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    child: list_checker == null
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '',
-                                      style: MyContant().h4normalStyle(),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${list_checker!['note']}',
-                                            overflow: TextOverflow.clip,
-                                            style:
-                                                MyContant().TextSmalldebNote(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'ผู้บันทึก : ${list_checker!['createName']}',
-                                          style: MyContant().TextSmalldebNote(),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                  ),
-                  const SizedBox(height: 5)
-                ],
-              ),
+                  ],
+                )
+              ],
             ),
           ),
-          const SizedBox(
-            height: 10,
+        ),
+      ],
+    );
+  }
+
+  BoxDecoration _boxDecoration() {
+    return BoxDecoration(
+      color: const Color.fromRGBO(255, 203, 246, 1),
+      borderRadius: const BorderRadius.all(
+        Radius.circular(10),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withAlpha(130),
+          spreadRadius: 0.2,
+          blurRadius: 2,
+          offset: const Offset(0, 1),
+        )
+      ],
+    );
+  }
+
+  // Expanded contentList_2(BuildContext context) {
+  //   return Expanded(
+  //     child: ListView(
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.only(top: 4, left: 8, right: 8),
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //               color: const Color.fromRGBO(255, 203, 246, 1),
+  //               borderRadius: const BorderRadius.all(
+  //                 Radius.circular(10),
+  //               ),
+  //               boxShadow: [
+  //                 BoxShadow(
+  //                   color: Colors.grey.withAlpha(130),
+  //                   spreadRadius: 0.2,
+  //                   blurRadius: 2,
+  //                   offset: const Offset(0, 1),
+  //                 )
+  //               ],
+  //             ),
+  //             padding: const EdgeInsets.all(6),
+  //             width: double.infinity,
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Text(
+  //                       'หมายเหตุพนักงานสินเชื่อ',
+  //                       style: MyContant().h4normalStyle(),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 5,
+  //                 ),
+  //                 Container(
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: Scrollbar(
+  //                     child: ListView(children: [
+  //                       Column(
+  //                         children: [
+  //                           Padding(
+  //                             padding: const EdgeInsets.all(8.0),
+  //                             child: Row(
+  //                               children: [
+  //                                 Expanded(
+  //                                   child: Text(
+  //                                     '${Debtordetail['considerNote']}',
+  //                                     overflow: TextOverflow.clip,
+  //                                     style: MyContant().h4normalStyle(),
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           )
+  //                         ],
+  //                       ),
+  //                     ]),
+  //                   ),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 15,
+  //                 ),
+  //                 Row(
+  //                   children: [
+  //                     Text('หมายเหตุหัวหน้าสินเชื่อ',
+  //                         style: MyContant().h4normalStyle()),
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 5),
+  //                 Container(
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: Scrollbar(
+  //                     child: ListView(
+  //                       children: [
+  //                         Column(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Row(
+  //                                 children: [
+  //                                   Expanded(
+  //                                     child: Text(
+  //                                       '${Debtordetail['headNote']}',
+  //                                       overflow: TextOverflow.clip,
+  //                                       style: MyContant().h4normalStyle(),
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 const SizedBox(height: 5),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget contentList_3(BuildContext context) {
+    final notes = [
+      ('เชคเกอร์', list_service),
+      ('การเงิน', list_finance),
+      ('ติดตามหนี้', list_debNote),
+      ('กฎหมาย', list_law),
+      ('ทะเบียน', list_regis),
+      ('บริการ', list_checker),
+    ];
+
+    return Expanded(
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(8, 4, 8, 10),
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(6),
+            decoration: _boxDecoration(),
+            child: Column(
+              children: notes.map((note) {
+                return _noteCard(
+                  context,
+                  title: note.$1,
+                  data: note.$2,
+                );
+              }).toList(),
+            ),
           )
         ],
       ),
     );
   }
 
-  Expanded contentList_4(BuildContext context) {
+  Widget _noteCard(
+    BuildContext context, {
+    required String title,
+    required dynamic data,
+  }) {
+    final isEmpty = data == null;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: MyContant().h4normalStyle(),
+              ),
+              Text(
+                'วันที่ : ${isEmpty ? '' : data['date']}',
+                style: MyContant().h4normalStyle(),
+              ),
+            ],
+          ),
+          const SizedBox(height: 5),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: double.infinity,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(180),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: isEmpty
+                ? Center(child: Text(''))
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Text(
+                            '${data['note']}',
+                            style: MyContant().TextSmalldebNote(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'ผู้บันทึก : ${data['createName']}',
+                        style: MyContant().TextSmalldebNote(),
+                      ),
+                    ],
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Expanded contentList_3(BuildContext context) {
+  //   return Expanded(
+  //     child: ListView(
+  //       children: [
+  //         Padding(
+  //           padding:
+  //               const EdgeInsets.only(top: 4, bottom: 8, left: 8, right: 8),
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //               color: const Color.fromRGBO(255, 203, 246, 1),
+  //               borderRadius: const BorderRadius.all(
+  //                 Radius.circular(10),
+  //               ),
+  //               boxShadow: [
+  //                 BoxShadow(
+  //                   color: Colors.grey.withAlpha(130),
+  //                   spreadRadius: 0.2,
+  //                   blurRadius: 2,
+  //                   offset: const Offset(0, 1),
+  //                 )
+  //               ],
+  //             ),
+  //             padding: const EdgeInsets.all(6),
+  //             width: double.infinity,
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       'เชคเกอร์ ',
+  //                       style: MyContant().h4normalStyle(),
+  //                     ),
+  //                     if (list_service == null) ...[
+  //                       Text(
+  //                         'วันที่ : ',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ] else ...[
+  //                       Text(
+  //                         'วันที่ : ${list_service!['date']}',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ],
+  //                   ],
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 5,
+  //                 ),
+  //                 Container(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: list_service == null
+  //                       ? SizedBox(
+  //                           height: MediaQuery.of(context).size.height * 0.25,
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Text(
+  //                                     '',
+  //                                     style: MyContant().h4normalStyle(),
+  //                                   ),
+  //                                 ],
+  //                               )
+  //                             ],
+  //                           ),
+  //                         )
+  //                       : Column(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Column(
+  //                                 children: [
+  //                                   Row(
+  //                                     children: [
+  //                                       Expanded(
+  //                                         child: Text(
+  //                                           '${list_service!['note']}',
+  //                                           overflow: TextOverflow.clip,
+  //                                           style:
+  //                                               MyContant().TextSmalldebNote(),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                   const SizedBox(
+  //                                     height: 10,
+  //                                   ),
+  //                                   Row(
+  //                                     children: [
+  //                                       Text(
+  //                                         'ผู้บันทึก : ${list_service!['createName']}',
+  //                                         style: MyContant().TextSmalldebNote(),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 10,
+  //                 ),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       'การเงิน',
+  //                       style: MyContant().h4normalStyle(),
+  //                     ),
+  //                     if (list_finance == null) ...[
+  //                       Text(
+  //                         'วันที่ : ',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ] else ...[
+  //                       Text(
+  //                         'วันที่ : ${list_finance!['date']}',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ],
+  //                   ],
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 5,
+  //                 ),
+  //                 Container(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: list_finance == null
+  //                       ? SizedBox(
+  //                           height: MediaQuery.of(context).size.height * 0.25,
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Text(
+  //                                     '',
+  //                                     style: MyContant().h4normalStyle(),
+  //                                   ),
+  //                                 ],
+  //                               )
+  //                             ],
+  //                           ),
+  //                         )
+  //                       : Column(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Column(
+  //                                 children: [
+  //                                   Row(
+  //                                     children: [
+  //                                       Expanded(
+  //                                         child: Text(
+  //                                           '${list_finance!['note']}',
+  //                                           overflow: TextOverflow.clip,
+  //                                           style:
+  //                                               MyContant().TextSmalldebNote(),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                   const SizedBox(
+  //                                     height: 10,
+  //                                   ),
+  //                                   Row(
+  //                                     children: [
+  //                                       Text(
+  //                                         'ผู้บันทึก : ${list_finance!['createName']}',
+  //                                         style: MyContant().TextSmalldebNote(),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 10,
+  //                 ),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       'ติดตามหนี้ ',
+  //                       style: MyContant().h4normalStyle(),
+  //                     ),
+  //                     if (list_debNote == null) ...[
+  //                       Text(
+  //                         'วันที่ : ',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ] else ...[
+  //                       Text(
+  //                         'วันที่ : ${list_debNote!['date']}',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ],
+  //                   ],
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 5,
+  //                 ),
+  //                 Container(
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   padding: const EdgeInsets.all(2.0),
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: list_debNote == null
+  //                       ? SizedBox(
+  //                           height: MediaQuery.of(context).size.height * 0.25,
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Text(
+  //                                     '',
+  //                                     style: MyContant().h4normalStyle(),
+  //                                   ),
+  //                                 ],
+  //                               )
+  //                             ],
+  //                           ),
+  //                         )
+  //                       : Column(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Column(
+  //                                 children: [
+  //                                   Row(
+  //                                     children: [
+  //                                       Expanded(
+  //                                         child: Text(
+  //                                           '${list_debNote!['note']}',
+  //                                           overflow: TextOverflow.clip,
+  //                                           style:
+  //                                               MyContant().TextSmalldebNote(),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                   const SizedBox(
+  //                                     height: 10,
+  //                                   ),
+  //                                   Row(
+  //                                     children: [
+  //                                       Text(
+  //                                         'ผู้บันทึก : ${list_debNote!['createName']}',
+  //                                         style: MyContant().TextSmalldebNote(),
+  //                                       ),
+  //                                     ],
+  //                                   )
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 10,
+  //                 ),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       'กฎหมาย',
+  //                       style: MyContant().h4normalStyle(),
+  //                     ),
+  //                     if (list_law == null) ...[
+  //                       Text(
+  //                         'วันที่ : ',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ] else ...[
+  //                       Text(
+  //                         'วันที่ : ${list_law!['date']}',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ],
+  //                   ],
+  //                 ),
+  //                 const SizedBox(
+  //                   height: 5,
+  //                 ),
+  //                 Container(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: list_law == null
+  //                       ? SizedBox(
+  //                           height: MediaQuery.of(context).size.height * 0.25,
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Text(
+  //                                     '',
+  //                                     style: MyContant().h4normalStyle(),
+  //                                   ),
+  //                                 ],
+  //                               )
+  //                             ],
+  //                           ),
+  //                         )
+  //                       : Column(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Column(
+  //                                 children: [
+  //                                   Row(
+  //                                     children: [
+  //                                       Expanded(
+  //                                         child: Text(
+  //                                           '${list_law!['note']}',
+  //                                           overflow: TextOverflow.clip,
+  //                                           style:
+  //                                               MyContant().TextSmalldebNote(),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                   const SizedBox(height: 10),
+  //                                   Row(
+  //                                     children: [
+  //                                       Text(
+  //                                         'ผู้บันทึก : ${list_law!['createName']}',
+  //                                         style: MyContant().TextSmalldebNote(),
+  //                                       ),
+  //                                     ],
+  //                                   )
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                 ),
+  //                 const SizedBox(height: 10),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       'ทะเบียน',
+  //                       style: MyContant().h4normalStyle(),
+  //                     ),
+  //                     if (list_regis == null) ...[
+  //                       Text(
+  //                         'วันที่ : ',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ] else ...[
+  //                       Text(
+  //                         'วันที่ : ${list_regis!['date']}',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ],
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 5),
+  //                 Container(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: list_regis == null
+  //                       ? SizedBox(
+  //                           height: MediaQuery.of(context).size.height * 0.25,
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Text(
+  //                                     '',
+  //                                     style: MyContant().h4normalStyle(),
+  //                                   ),
+  //                                 ],
+  //                               )
+  //                             ],
+  //                           ),
+  //                         )
+  //                       : Column(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Column(
+  //                                 children: [
+  //                                   Row(
+  //                                     children: [
+  //                                       Expanded(
+  //                                         child: Text(
+  //                                           '${list_regis!['note']}',
+  //                                           overflow: TextOverflow.clip,
+  //                                           style:
+  //                                               MyContant().TextSmalldebNote(),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                   const SizedBox(height: 10),
+  //                                   Row(
+  //                                     children: [
+  //                                       Text(
+  //                                         'ผู้บันทึก : ${list_regis!['createName']}',
+  //                                         style: MyContant().TextSmalldebNote(),
+  //                                       ),
+  //                                     ],
+  //                                   )
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                 ),
+  //                 const SizedBox(height: 10),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       'บริการ',
+  //                       style: MyContant().h4normalStyle(),
+  //                     ),
+  //                     if (list_checker == null) ...[
+  //                       Text(
+  //                         'วันที่ : ',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ] else ...[
+  //                       Text(
+  //                         'วันที่ : ${list_checker!['date']}',
+  //                         style: MyContant().h4normalStyle(),
+  //                       ),
+  //                     ],
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 5),
+  //                 Container(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   height: MediaQuery.of(context).size.height * 0.3,
+  //                   decoration: BoxDecoration(
+  //                     color: Colors.white.withAlpha(180),
+  //                     borderRadius: const BorderRadius.all(
+  //                       Radius.circular(8),
+  //                     ),
+  //                   ),
+  //                   child: list_checker == null
+  //                       ? SizedBox(
+  //                           height: MediaQuery.of(context).size.height * 0.25,
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.center,
+  //                                 children: [
+  //                                   Text(
+  //                                     '',
+  //                                     style: MyContant().h4normalStyle(),
+  //                                   ),
+  //                                 ],
+  //                               )
+  //                             ],
+  //                           ),
+  //                         )
+  //                       : Column(
+  //                           children: [
+  //                             Padding(
+  //                               padding: const EdgeInsets.all(8.0),
+  //                               child: Column(
+  //                                 children: [
+  //                                   Row(
+  //                                     children: [
+  //                                       Expanded(
+  //                                         child: Text(
+  //                                           '${list_checker!['note']}',
+  //                                           overflow: TextOverflow.clip,
+  //                                           style:
+  //                                               MyContant().TextSmalldebNote(),
+  //                                         ),
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                   const SizedBox(height: 10),
+  //                                   Row(
+  //                                     children: [
+  //                                       Text(
+  //                                         'ผู้บันทึก : ${list_checker!['createName']}',
+  //                                         style: MyContant().TextSmalldebNote(),
+  //                                       ),
+  //                                     ],
+  //                                   )
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                 ),
+  //                 const SizedBox(height: 5)
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 10)
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget contentList_4(BuildContext context) {
+    return Expanded(
+        child: ListView(
+      children:
+          list_payDetail.map((item) => _paymentCard(context, item)).toList(),
+    ));
+  }
+
+  Widget _paymentCard(
+    BuildContext context,
+    dynamic item,
+  ) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => Pay_installment(
+              Debtordetail['signId'],
+              item['periodNo'],
+              list_payDetail,
+            ),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 4,
+        ),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(6),
+          decoration: _boxDecoration(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              /// HEADER
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'งวดที่ : ${item['periodNo']}',
+                    style: MyContant().h4normalStyle(),
+                  ),
+                  Text(
+                    'วันที่ชำระ : ${item['periodDate']}',
+                    style: MyContant().h4normalStyle(),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 5),
+
+              /// DETAIL BOX
+              _paymentDetail(context, item),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _paymentDetail(BuildContext context, dynamic item) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.2,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(180),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          _rowBetween(
+            'เงินต้น : ${item['periodPrice']}',
+            'คงเหลือ : ${item['remainPrice']}',
+          ),
+          const SizedBox(height: 5),
+          _rowText(
+            'ค่าปรับ : ${item['finePrice']}',
+          ),
+          const SizedBox(height: 5),
+          line(),
+          const SizedBox(height: 5),
+          _rowText(
+            'วันที่ชำระ : ${item['payDate']}',
+          ),
+          const SizedBox(height: 5),
+          _rowBetween(
+            'ชำระเงินต้น : ${item['payPrice']}',
+            'ชำระค่าปรับ : ${item['payFine']}',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _rowBetween(
+    String left,
+    String right,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(left, style: MyContant().h4normalStyle()),
+        Text(right, style: MyContant().h4normalStyle()),
+      ],
+    );
+  }
+
+  Widget _rowText(String text) {
+    return Row(
+      children: [
+        Text(
+          text,
+          style: MyContant().h4normalStyle(),
+        ),
+      ],
+    );
+  }
+
+  Expanded contentList_44(BuildContext context) {
     return Expanded(
       child: ListView(
         children: [
@@ -2191,9 +2377,7 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.2,
                           decoration: BoxDecoration(
@@ -2274,13 +2458,9 @@ class _Data_SearchDebtorState extends State<Data_SearchDebtor> {
     );
   }
 
-  SizedBox line() {
-    return const SizedBox(
-      height: 0,
-      width: double.infinity,
-      child: Divider(
-        color: Color.fromARGB(255, 77, 77, 77),
-      ),
-    );
-  }
+  Widget line() => Container(
+        height: 0,
+        width: double.infinity,
+        color: const Color.fromARGB(255, 77, 77, 77),
+      );
 }

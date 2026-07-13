@@ -25,6 +25,9 @@ class BranchSalesList extends StatefulWidget {
       valueItemlist,
       selectSaleTypelist,
       selectInterestlist,
+      valueInterestMonthStart,
+      valueInterestMonthEnd,
+      valueleasePrice,
       valueEmployeelist,
       selectMonthlist,
       selectYearlist,
@@ -46,6 +49,9 @@ class BranchSalesList extends StatefulWidget {
     this.valueItemlist,
     this.selectSaleTypelist,
     this.selectInterestlist,
+    this.valueInterestMonthStart,
+    this.valueInterestMonthEnd,
+    this.valueleasePrice,
     this.valueEmployeelist,
     this.selectMonthlist,
     this.selectYearlist,
@@ -73,6 +79,9 @@ class _BranchSalesListState extends State<BranchSalesList> {
       valueItemlist,
       selectSaleTypelist,
       selectInterestlist,
+      valueInterestMonthStart,
+      valueInterestMonthEnd,
+      valueleasePrice,
       valueEmployeelist,
       selectMonthlist,
       selectYearlist,
@@ -138,6 +147,9 @@ class _BranchSalesListState extends State<BranchSalesList> {
       widget.selectInterestlist == null || widget.selectInterestlist == "99"
           ? selectInterestlist = ""
           : selectInterestlist = widget.selectInterestlist;
+      valueInterestMonthStart = widget.valueInterestMonthStart ?? '';
+      valueInterestMonthEnd = widget.valueInterestMonthEnd ?? '';
+      valueleasePrice = widget.valueleasePrice ?? '';
       valueEmployeelist = widget.valueEmployeelist ?? '';
       selectMonthlist = widget.selectMonthlist ?? '';
       selectYearlist = widget.selectYearlist ?? '';
@@ -172,6 +184,9 @@ class _BranchSalesListState extends State<BranchSalesList> {
               ? selectedSaleItems.map((item) => item.toString()).toList()
               : [],
           'interestType': selectInterestlist.toString(),
+          'interestMonthStart': valueInterestMonthStart.toString(),
+          'interestMonthEnd': valueInterestMonthEnd.toString(),
+          'leasePrice': valueleasePrice.toString(),
           'saleId': valueEmployeelist.toString(),
           'monthId': selectMonthlist.toString(),
           'yearId': selectYearlist.toString(),
@@ -1463,6 +1478,47 @@ class _BranchSalesListState extends State<BranchSalesList> {
                       Expanded(
                         child: Text(
                           '${saleBranchHead?['headDetail2'] ?? '-'}',
+                          style: MyContant().h4normalStyle(),
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withAlpha(130),
+                  spreadRadius: 0.2,
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
+                )
+              ],
+              color: const Color.fromRGBO(239, 191, 239, 1),
+            ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(180),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'ประเภทดอกเบี้ย : ${saleBranchHead?['interestHead'] ?? '-'}',
                           style: MyContant().h4normalStyle(),
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.clip,
