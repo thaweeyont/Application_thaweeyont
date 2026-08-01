@@ -84,6 +84,8 @@ class _BranchSalesState extends State<BranchSales> {
   TextEditingController interestMonthStart = TextEditingController();
   TextEditingController interestMonthEnd = TextEditingController();
   TextEditingController leasePrice = TextEditingController();
+  TextEditingController startdate = TextEditingController();
+  TextEditingController enddate = TextEditingController();
 
   List targetType = [], channelSales = [];
   Map<String, bool> checkedSaleItems = {}; // เก็บสถานะของ checkbox
@@ -1217,6 +1219,32 @@ class _BranchSalesState extends State<BranchSales> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.22,
                           child: Text(
+                            'วันที่ขาย : ',
+                            style: MyContant().h4normalStyle(),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        inputStartdate(),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.22,
+                          child: Text(
+                            'ถึงวันที่ : ',
+                            style: MyContant().h4normalStyle(),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                        inputEnddate(),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.22,
+                          child: Text(
                             'พนักงานขาย : ',
                             style: MyContant().h4normalStyle(),
                             textAlign: TextAlign.right,
@@ -1565,6 +1593,10 @@ class _BranchSalesState extends State<BranchSales> {
                         // print('จาก : ${selectSortlist ?? ""}');
                         // print('เป้าหมาย : ${selectedtargetType ?? ""}');
 
+                        print(
+                            'วันที่ขาย : ${startdate.text.isEmpty ? "" : startdate.text.replaceAll('-', '')}');
+                        print(
+                            'ถึงวันที่ : ${enddate.text.isEmpty ? "" : enddate.text.replaceAll('-', '')}');
                         setState(() {
                           if (selectAreaBranchlist != null &&
                               selectAreaBranchlist != "99") {
@@ -1587,6 +1619,8 @@ class _BranchSalesState extends State<BranchSales> {
                                       interestMonthStart.text,
                                   valueInterestMonthEnd: interestMonthEnd.text,
                                   valueleasePrice: leasePrice.text,
+                                  startdate: startdate.text.replaceAll('-', ''),
+                                  enddate: enddate.text.replaceAll('-', ''),
                                   valueEmployeelist: valueEmployeelist,
                                   selectMonthlist: selectMonthlist,
                                   selectYearlist: selectYearlist,
@@ -2353,6 +2387,136 @@ class _BranchSalesState extends State<BranchSales> {
             fillColor: Colors.white,
           ),
           style: MyContant().textInputStyle(),
+        ),
+      ),
+    );
+  }
+
+  Expanded inputStartdate() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: startdate,
+          onChanged: (keyword) {},
+          readOnly: true,
+          decoration: InputDecoration(
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (startdate.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        startdate.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: _border,
+            focusedBorder: _border,
+            prefixIconConstraints: _sizeIcon,
+            suffixIconConstraints: _sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputDate(),
+          onTap: () async {
+            DateTime? pickeddate = await showDatePicker(
+              context: context,
+              locale: const Locale("th", "TH"),
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+            if (pickeddate != null) {
+              var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var formattedyear = DateFormat('yyyy').format(pickeddate);
+              var year = int.parse(formattedyear);
+              final newYear =
+                  [year, 543].reduce((value, element) => value + element);
+
+              setState(() {
+                startdate.text =
+                    '$newYear$formattedDate'; //set output date to TextField value.
+              });
+            } else {}
+          },
+        ),
+      ),
+    );
+  }
+
+  Expanded inputEnddate() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: TextField(
+          controller: enddate,
+          onChanged: (keyword) {},
+          readOnly: true,
+          decoration: InputDecoration(
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (enddate.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        enddate.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+            contentPadding: const EdgeInsets.all(8),
+            isDense: true,
+            enabledBorder: _border,
+            focusedBorder: _border,
+            prefixIconConstraints: _sizeIcon,
+            suffixIconConstraints: _sizeIcon,
+            filled: true,
+            fillColor: Colors.white,
+          ),
+          style: MyContant().TextInputDate(),
+          onTap: () async {
+            DateTime? pickeddate = await showDatePicker(
+              context: context,
+              locale: const Locale("th", "TH"),
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2101),
+            );
+            if (pickeddate != null) {
+              var formattedDate = DateFormat('-MM-dd').format(pickeddate);
+              var formattedyear = DateFormat('yyyy').format(pickeddate);
+              var year = int.parse(formattedyear);
+              final newYear =
+                  [year, 543].reduce((value, element) => value + element);
+
+              setState(() {
+                enddate.text =
+                    '$newYear$formattedDate'; //set output date to TextField value.
+              });
+            } else {}
+          },
         ),
       ),
     );

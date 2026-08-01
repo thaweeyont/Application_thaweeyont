@@ -28,6 +28,8 @@ class BranchSalesList extends StatefulWidget {
       valueInterestMonthStart,
       valueInterestMonthEnd,
       valueleasePrice,
+      startdate,
+      enddate,
       valueEmployeelist,
       selectMonthlist,
       selectYearlist,
@@ -52,6 +54,8 @@ class BranchSalesList extends StatefulWidget {
     this.valueInterestMonthStart,
     this.valueInterestMonthEnd,
     this.valueleasePrice,
+    this.startdate,
+    this.enddate,
     this.valueEmployeelist,
     this.selectMonthlist,
     this.selectYearlist,
@@ -82,6 +86,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
       valueInterestMonthStart,
       valueInterestMonthEnd,
       valueleasePrice,
+      startdate,
+      enddate,
       valueEmployeelist,
       selectMonthlist,
       selectYearlist,
@@ -150,6 +156,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
       valueInterestMonthStart = widget.valueInterestMonthStart ?? '';
       valueInterestMonthEnd = widget.valueInterestMonthEnd ?? '';
       valueleasePrice = widget.valueleasePrice ?? '';
+      startdate = widget.startdate ?? '';
+      enddate = widget.enddate ?? '';
       valueEmployeelist = widget.valueEmployeelist ?? '';
       selectMonthlist = widget.selectMonthlist ?? '';
       selectYearlist = widget.selectYearlist ?? '';
@@ -187,6 +195,8 @@ class _BranchSalesListState extends State<BranchSalesList> {
           'interestMonthStart': valueInterestMonthStart.toString(),
           'interestMonthEnd': valueInterestMonthEnd.toString(),
           'leasePrice': valueleasePrice.toString(),
+          'startDate': startdate.toString(),
+          'endDate': enddate.toString(),
           'saleId': valueEmployeelist.toString(),
           'monthId': selectMonthlist.toString(),
           'yearId': selectYearlist.toString(),
