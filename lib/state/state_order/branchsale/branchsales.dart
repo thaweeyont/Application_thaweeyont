@@ -661,6 +661,8 @@ class _BranchSalesState extends State<BranchSales> {
       interestMonthStart.clear();
       interestMonthEnd.clear();
       leasePrice.clear();
+      startdate.clear();
+      enddate.clear();
       employeeList.clear();
       supplyList.clear();
       valueGrouplist = null;
@@ -1593,10 +1595,6 @@ class _BranchSalesState extends State<BranchSales> {
                         // print('จาก : ${selectSortlist ?? ""}');
                         // print('เป้าหมาย : ${selectedtargetType ?? ""}');
 
-                        print(
-                            'วันที่ขาย : ${startdate.text.isEmpty ? "" : startdate.text.replaceAll('-', '')}');
-                        print(
-                            'ถึงวันที่ : ${enddate.text.isEmpty ? "" : enddate.text.replaceAll('-', '')}');
                         setState(() {
                           if (selectAreaBranchlist != null &&
                               selectAreaBranchlist != "99") {

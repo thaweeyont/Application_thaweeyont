@@ -491,13 +491,13 @@ class _ReportSKUSaleListState extends State<ReportSKUSaleList> {
     String text, {
     double? width,
     double? height,
-    Alignment? alignment,
+    Alignment alignment = Alignment.center,
   }) {
     return RepaintBoundary(
       child: Container(
         width: width ?? cellWidth,
         height: height ?? rowHeight,
-        alignment: alignment ?? Alignment.center,
+        alignment: alignment,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         decoration: BoxDecoration(
           border: Border.all(

@@ -1981,9 +1981,25 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           onChanged: (keyword) {},
           readOnly: true,
           decoration: InputDecoration(
-            suffixIcon: const Icon(
-              Icons.calendar_today,
-              color: Colors.black,
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (startdate.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        startdate.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -2030,9 +2046,25 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           onChanged: (keyword) {},
           readOnly: true,
           decoration: InputDecoration(
-            suffixIcon: const Icon(
-              Icons.calendar_today,
-              color: Colors.black,
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (startdatePO.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        startdatePO.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -2079,9 +2111,25 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           onChanged: (keyword) {},
           readOnly: true,
           decoration: InputDecoration(
-            suffixIcon: const Icon(
-              Icons.calendar_today,
-              color: Colors.black,
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (enddatePO.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        enddatePO.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -2128,9 +2176,25 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           onChanged: (keyword) {},
           readOnly: true,
           decoration: InputDecoration(
-            suffixIcon: const Icon(
-              Icons.calendar_today,
-              color: Colors.black,
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (startDatesale.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        startDatesale.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -2177,9 +2241,25 @@ class _SearchSKUSaleState extends State<SearchSKUSale> {
           onChanged: (keyword) {},
           readOnly: true,
           decoration: InputDecoration(
-            suffixIcon: const Icon(
-              Icons.calendar_today,
-              color: Colors.black,
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (endDatesale.text.isNotEmpty)
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        endDatesale.clear();
+                      });
+                    },
+                    child: const Icon(Icons.close),
+                  ),
+                const SizedBox(width: 8),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.black,
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
             contentPadding: const EdgeInsets.all(8),
             isDense: true,
@@ -2989,7 +3069,7 @@ class _ItemGroupListState extends State<ItemGroupList> {
     }
     if (statusLoad404) {
       return Center(
-        child: Center(
+        child: Center( 
           child: Padding(
             padding: const EdgeInsets.all(40.0),
             child: Column(
@@ -3254,6 +3334,7 @@ class _ItemTypeListState extends State<ItemTypeList> {
 
     groupIds = widget.valueGrouplist ?? [];
     groupIdsParam = (groupIds.isNotEmpty) ? groupIds.join(',') : '';
+    print('groupIdsParam: $groupIdsParam'); // ตรวจสอบค่าที่ส่งมา
   }
 
   Future<void> getdata() async {

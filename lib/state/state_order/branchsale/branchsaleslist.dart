@@ -1418,47 +1418,51 @@ class _BranchSalesListState extends State<BranchSalesList> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
-          child: Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withAlpha(130),
-                  spreadRadius: 0.2,
-                  blurRadius: 2,
-                  offset: const Offset(0, 1),
-                )
-              ],
-              color: const Color.fromRGBO(239, 191, 239, 1),
-            ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-              decoration: BoxDecoration(
-                color: Colors.white.withAlpha(180),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '${saleBranchHead?['headDetail1'] ?? '-'}',
-                          style: MyContant().h4normalStyle(),
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
+        saleBranchHead?['headDetail1'] != null &&
+                saleBranchHead?['headDetail1'] != ""
+            ? Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withAlpha(130),
+                        spreadRadius: 0.2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
                     ],
+                    color: const Color.fromRGBO(239, 191, 239, 1),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withAlpha(180),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${saleBranchHead?['headDetail1'] ?? '-'}',
+                                style: MyContant().h4normalStyle(),
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox.shrink(),
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
           child: Container(
