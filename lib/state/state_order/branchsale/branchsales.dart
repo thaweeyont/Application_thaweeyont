@@ -212,10 +212,11 @@ class _BranchSalesState extends State<BranchSales> {
     }
   }
 
-  Future<void> getSelectBranch() async {
+  Future<void> getSelectBranch([String? areaId]) async {
+    final id = areaId ?? selectAreaBranchlist;
     try {
       var respose = await http.get(
-        Uri.parse('${api}setup/branchList?searchAreaId=$selectAreaBranchlist'),
+        Uri.parse('${api}setup/branchList?searchAreaId=$id'),
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': tokenId.toString(),
@@ -231,9 +232,8 @@ class _BranchSalesState extends State<BranchSales> {
           ];
           myListJson = List.from(df)..addAll(dataBranch['data']);
           dropdownBranch = myListJson;
+          isLoadingBranch = true;
         });
-
-        isLoadingBranch = true;
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.clear();
@@ -1707,9 +1707,15 @@ class _BranchSalesState extends State<BranchSales> {
                   : (String? newvalue) async {
                       setState(() {
                         selectAreaBranchlist = newvalue;
+                        selectBranchlist =
+                            null; // เคลียร์สาขาที่เลือกไว้ใน setState เดียวกัน
+                        dropdownBranch = []; // ล้างรายการสาขาเก่าทันที
+                        isLoadingBranch = false;
                       });
-                      selectBranchlist = null;
-                      getSelectBranch();
+                      if (newvalue == null || newvalue == "99") {
+                        return; // เลือก "เลือกเขตสาขา" ไม่ต้องยิง API
+                      }
+                      await getSelectBranch(newvalue); // ส่ง id ตรงๆ
                     },
               value: selectAreaBranchlist,
               isExpanded: true,

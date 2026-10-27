@@ -1096,10 +1096,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemGroupLIst
-  Future<void> getDataItemGroupList(nav) async {
+  Future<void> getDataItemGroupList(String nav) async {
     itemGroupList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemGroupList?searchName=${searchNameGroup.text}&page=1&limit=100'),
         headers: <String, String>{
@@ -1109,7 +1109,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItem =
+        final Map<String, dynamic> dataItem =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemGroupList = dataItem['data'];
@@ -1123,7 +1123,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -1490,15 +1490,6 @@ class _ProductStockDataState extends State<ProductStockData> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              // Row(
-                                                              //   children: [
-                                                              //     Text(
-                                                              //       'ชื่อ : ${itemGroupList[i]['name']}',
-                                                              //       style: MyContant()
-                                                              //           .h4normalStyle(),
-                                                              //     )
-                                                              //   ],
-                                                              // )
                                                             ],
                                                           ),
                                                         ),
@@ -1515,9 +1506,7 @@ class _ProductStockDataState extends State<ProductStockData> {
                                   ],
                                 ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        )
+                        const SizedBox(height: 20)
                       ],
                     ),
                   ),
@@ -1531,10 +1520,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemTypeList
-  Future<void> getDataItemTypeList(nav) async {
+  Future<void> getDataItemTypeList(String nav) async {
     itemTypeList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemTypeList?searchName=${searchNameType.text}&page=1&limit=100&itemGroupId=$idItemGroup&itemStatus=$itemStatus'),
         headers: <String, String>{
@@ -1544,7 +1533,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItemType =
+        final Map<String, dynamic> dataItemType =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemTypeList = dataItemType['data'];
@@ -1558,7 +1547,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -1964,10 +1953,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemBrandList
-  Future<void> getDataItemBrandList(nav) async {
+  Future<void> getDataItemBrandList(String nav) async {
     itemBrandList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemBrandList?searchName=${searchNameBrand.text}&page=1&limit=100&itemGroupId=$idItemGroup&itemTypeId=$idItemType&itemStatus=$itemStatus'),
         headers: <String, String>{
@@ -1977,7 +1966,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItemBrand =
+        final Map<String, dynamic> dataItemBrand =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemBrandList = dataItemBrand['data'];
@@ -1991,7 +1980,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -2409,10 +2398,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemModelList
-  Future<void> getDataItemModelList(nav, load) async {
+  Future<void> getDataItemModelList(String nav, load) async {
     itemModelList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemModelList?searchName=${searchNameModel.text}&page=1&limit=100&itemGroupId=$idItemGroup&itemTypeId=$idItemType&itemBrandId=$idItemBrand&itemStatus=$itemStatus'),
         headers: <String, String>{
@@ -2422,7 +2411,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItemModel =
+        final Map<String, dynamic> dataItemModel =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemModelList = dataItemModel['data'];
@@ -2436,7 +2425,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -2836,10 +2825,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemStyleList
-  Future<void> getDataItemStyleList(nav) async {
+  Future<void> getDataItemStyleList(String nav) async {
     itemStyleList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemStyleList?searchName=${searchNameStyle.text}&page=1&limit=100&itemTypeId=$idItemType'),
         headers: <String, String>{
@@ -2849,7 +2838,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItemStyle =
+        final Map<String, dynamic> dataItemStyle =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemStyleList = dataItemStyle['data'];
@@ -2863,7 +2852,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -3260,10 +3249,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemSizeList
-  Future<void> getDataItemSizeList(nav) async {
+  Future<void> getDataItemSizeList(String nav) async {
     itemSizeList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemSizeList?searchName=${searchNameSize.text}&page=1&limit=100&itemTypeId=$idItemType'),
         headers: <String, String>{
@@ -3273,7 +3262,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItemSize =
+        final Map<String, dynamic> dataItemSize =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemSizeList = dataItemSize['data'];
@@ -3287,7 +3276,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -3687,10 +3676,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemColorList
-  Future<void> getDataItemColorList(nav) async {
+  Future<void> getDataItemColorList(String nav) async {
     itemColorList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemColorList?searchName=${searchNameColor.text}&page=1&limit=100'),
         headers: <String, String>{
@@ -3700,7 +3689,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItemColor =
+        final Map<String, dynamic> dataItemColor =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemColorList = dataItemColor['data'];
@@ -3714,7 +3703,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -4112,10 +4101,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemWarehouseList
-  Future<void> getDataItemWarehouseList(nav) async {
+  Future<void> getDataItemWarehouseList(String nav) async {
     itemWarehouseList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/warehouseList?searchName=${searchNameWareHouse.text}&page=1&limit=100&branchId=$selectBranchList'),
         headers: <String, String>{
@@ -4125,7 +4114,7 @@ class _ProductStockDataState extends State<ProductStockData> {
       );
 
       if (respose.statusCode == 200) {
-        Map<String, dynamic> dataItemWarehouse =
+        final Map<String, dynamic> dataItemWarehouse =
             Map<String, dynamic>.from(json.decode(respose.body));
         setState(() {
           itemWarehouseList = dataItemWarehouse['data'];
@@ -4139,7 +4128,7 @@ class _ProductStockDataState extends State<ProductStockData> {
             context, 'แจ้งเตือน', 'ไม่พบข้อมูล (${respose.statusCode})');
       } else if (respose.statusCode == 401) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.clear();
+        await preferences.clear();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -4539,10 +4528,10 @@ class _ProductStockDataState extends State<ProductStockData> {
   }
 
 // ItemFreeList
-  Future<void> getDataItemFreeList(nav) async {
+  Future<void> getDataItemFreeList(String nav) async {
     itemFreeList = [];
     try {
-      var respose = await http.get(
+      final respose = await http.get(
         Uri.parse(
             '${api}setup/itemFreeList?searchName=${searchNameItemFree.text}&page=1&limit=100&itemStatus=$itemStatus'),
         headers: <String, String>{
@@ -5446,7 +5435,7 @@ class _ProductStockDataState extends State<ProductStockData> {
     }
   }
 
-  Future<void> getDataSubmited(index) async { 
+  Future<void> getDataSubmited(index) async {
     switch (index) {
       case "1":
         if (checkNull(idWareHouse.text) == true) {

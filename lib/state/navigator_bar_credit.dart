@@ -19,6 +19,7 @@ import 'package:http/http.dart' as http;
 
 import 'authen.dart';
 import 'state_cus_relations/check_purchase_info/page_checkpurchase_info.dart';
+import 'state_cus_relations/count_stockproduct/stock_count_page.dart';
 import 'state_order/skusale/searchskusales.dart';
 import 'state_sale/credit_approval/testUI.dart';
 
@@ -515,6 +516,23 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
           );
         },
       ),
+      actions: [
+        if (_selectedIndex == 6 && status == false)
+          IconButton(
+            icon: const Icon(
+              Icons.qr_code_scanner, // เปลี่ยนไอคอนตามต้องการ
+              color: Colors.white,
+            ),
+            tooltip: 'ตรวจนับสต็อก',
+            onPressed: () {
+              // TODO: ใส่สิ่งที่ต้องการให้ทำ เช่น เปิดหน้าตรวจนับสต็อก
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const StockSearchPage()),
+              );
+            },
+          ),
+      ],
     );
   }
 

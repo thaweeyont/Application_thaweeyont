@@ -720,3 +720,147 @@ Future<void> showProgressLoading(BuildContext context) async {
     ),
   );
 }
+
+enum AlertType { info, warning, error, success }
+
+/// ตัวอย่าง:
+///   showAppAlert(context, 'แจ้งเตือน', 'กรุณาเลือกสาขาก่อน');
+///   showAppAlert(context, 'ผิดพลาด', 'ไม่สามารถบันทึกได้', type: AlertType.error);
+///   showAppAlert(context, 'สำเร็จ', 'บันทึกเรียบร้อย',
+///       type: AlertType.success, onConfirm: () => Navigator.pop(context));
+Future<void> showAppAlert(
+  BuildContext context,
+  String title,
+  String message, {
+  AlertType type = AlertType.warning,
+  String confirmText = 'ตกลง',
+  VoidCallback? onConfirm,
+}) {
+  late final Color color;
+  late final IconData icon;
+  switch (type) {
+    case AlertType.info:
+      color = const Color(0xFF1470E0);
+      icon = Icons.info_outline_rounded;
+      break;
+    case AlertType.warning:
+      color = const Color(0xFFF5A623);
+      icon = Icons.priority_high_rounded;
+      break;
+    case AlertType.error:
+      color = const Color(0xFFE53935);
+      icon = Icons.close_rounded;
+      break;
+    case AlertType.success:
+      color = const Color(0xFF2E9E5B);
+      icon = Icons.check_rounded;
+      break;
+  }
+
+  final base = MyContant().h4normalStyle();
+
+  return showGeneralDialog<void>(
+    context: context,
+    // ถ้ามี onConfirm ต้องกดปุ่มเท่านั้น (กันปิดโดยไม่ตั้งใจแล้วงานไม่ต่อ)
+    barrierDismissible: onConfirm == null,
+    barrierLabel: 'ปิด',
+    barrierColor: Colors.black54,
+    transitionDuration: const Duration(milliseconds: 240),
+    pageBuilder: (ctx, _, __) => Center(
+      child: Dialog(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 36),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // ไอคอนวงกลมซ้อน 2 ชั้น
+              Container(
+                width: 84,
+                height: 84,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.14),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Container(
+                    width: 58,
+                    height: 58,
+                    decoration: BoxDecoration(
+                      color: color,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: color.withValues(alpha: 0.35),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(icon, color: Colors.white, size: 34),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: base.copyWith(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF0B2C63),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: base.copyWith(
+                  fontSize: 15,
+                  height: 1.5,
+                  color: Colors.grey.shade700,
+                ),
+              ),
+              const SizedBox(height: 22),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: color,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    onConfirm?.call();
+                  },
+                  child: Text(
+                    confirmText,
+                    style: base.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+    transitionBuilder: (ctx, anim, _, child) {
+      final curved = CurvedAnimation(parent: anim, curve: Curves.easeOutBack);
+      return FadeTransition(
+        opacity: anim,
+        child: ScaleTransition(
+            scale: Tween(begin: 0.85, end: 1.0).animate(curved), child: child),
+      );
+    },
+  );
+}

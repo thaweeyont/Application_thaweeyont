@@ -48,7 +48,7 @@ dependencies:
   loading_gifs: ^0.3.0
   flutter_localization: ^0.2.0
   equatable: ^2.0.5
-  keyboard_actions: ^4.2.0
+  keyboard_actions: ^4.2.2
   geolocator: ^12.0.0
   geolocator_android: ^4.1.4
   geolocator_apple: ^2.2.5
