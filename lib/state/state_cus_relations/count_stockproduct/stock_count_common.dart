@@ -32,6 +32,46 @@ class ScanItem {
   const ScanItem(this.serial, this.found, this.time);
 }
 
+/// สินค้าที่ได้จาก API inventorycount/itemList
+class StockItem {
+  final String branchId;
+  final String whId;
+  final String branchName;
+  final String whName;
+  final String itemId;
+  final String itemTypeName;
+  final String brandName;
+  final String modelName;
+  final int qty;
+  final int serialType;
+
+  const StockItem({
+    required this.branchId,
+    required this.whId,
+    required this.branchName,
+    required this.whName,
+    required this.itemId,
+    required this.itemTypeName,
+    required this.brandName,
+    required this.modelName,
+    required this.qty,
+    required this.serialType,
+  });
+
+  factory StockItem.fromJson(Map<String, dynamic> j) => StockItem(
+        branchId: '${j['branchId'] ?? ''}',
+        whId: '${j['whId'] ?? ''}',
+        branchName: '${j['branchName'] ?? ''}',
+        whName: '${j['whName'] ?? ''}',
+        itemId: '${j['itemId'] ?? ''}',
+        itemTypeName: '${j['itemTypeName'] ?? ''}',
+        brandName: '${j['brandName'] ?? ''}',
+        modelName: '${j['modelName'] ?? ''}',
+        qty: int.tryParse('${j['qty']}') ?? 0,
+        serialType: int.tryParse('${j['serialType']}') ?? 0,
+      );
+}
+
 /// รายการที่ได้จากการค้นหา (คลัง/กลุ่ม/ประเภท/ยี่ห้อ/รุ่น)
 class PickItem {
   final String id;
@@ -288,6 +328,79 @@ class PickerField extends StatelessWidget {
   }
 }
 
+// ───────────── ปุ่มเลื่อนกลับขึ้นบนสุด ─────────────
+/// ใช้เป็น floatingActionButton ของ Scaffold คู่กับ ScrollController ของลิสต์
+/// ปุ่มจะโผล่เมื่อเลื่อนลงเกิน [showAfter] พิกเซล และเลื่อนกลับบนสุดเมื่อกด
+class BackToTopButton extends StatefulWidget {
+  final ScrollController controller;
+  final double showAfter;
+  const BackToTopButton({
+    super.key,
+    required this.controller,
+    this.showAfter = 300,
+  });
+
+  @override
+  State<BackToTopButton> createState() => _BackToTopButtonState();
+}
+
+class _BackToTopButtonState extends State<BackToTopButton> {
+  bool _visible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_onScroll);
+  }
+
+  @override
+  void didUpdateWidget(covariant BackToTopButton old) {
+    super.didUpdateWidget(old);
+    if (old.controller != widget.controller) {
+      old.controller.removeListener(_onScroll);
+      widget.controller.addListener(_onScroll);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onScroll);
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!widget.controller.hasClients) return;
+    final show = widget.controller.offset > widget.showAfter;
+    if (show != _visible) setState(() => _visible = show);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: _visible ? 1 : 0,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+      child: IgnorePointer(
+        ignoring: !_visible,
+        child: FloatingActionButton.small(
+          heroTag: null, // มีหลายหน้าที่ใช้ปุ่มนี้ ป้องกัน Hero ชนกัน
+          backgroundColor: kBlue,
+          foregroundColor: Colors.white,
+          elevation: 3,
+          shape: const CircleBorder(),
+          tooltip: 'กลับขึ้นบนสุด',
+          onPressed: () => widget.controller.animateTo(
+            0,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeOut,
+          ),
+          child: const Icon(Icons.keyboard_arrow_up_rounded, size: 28),
+        ),
+      ),
+    );
+  }
+}
+
 // ───────────── หน้าค้นหา (เปิดมาโหลดรายการทันที → พิมพ์/กดค้นหาเพื่อกรอง → เลือก) ─────────────
 /// เปิดด้วย Navigator.push<PickItem>() แล้วรับค่าที่เลือกกลับมา
 class SearchPickerPage extends StatefulWidget {
@@ -309,6 +422,7 @@ class SearchPickerPage extends StatefulWidget {
 
 class _SearchPickerPageState extends State<SearchPickerPage> {
   final _ctrl = TextEditingController();
+  final _scroll = ScrollController();
   List<PickItem> _items = [];
   bool _searched = false;
 
@@ -324,6 +438,7 @@ class _SearchPickerPageState extends State<SearchPickerPage> {
   @override
   void dispose() {
     _ctrl.dispose();
+    _scroll.dispose();
     super.dispose();
   }
 
@@ -361,6 +476,7 @@ class _SearchPickerPageState extends State<SearchPickerPage> {
       appBar: CustomAppbar(title: widget.title),
       // คีย์บอร์ดเปิดแล้วไม่ดันเลย์เอาต์ (ช่องค้นหาอยู่บนสุดอยู่แล้ว)
       resizeToAvoidBottomInset: false,
+      floatingActionButton: BackToTopButton(controller: _scroll),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
@@ -431,6 +547,7 @@ class _SearchPickerPageState extends State<SearchPickerPage> {
                         child:
                             Text('ไม่พบข้อมูล', style: MyContant().h5NotData()))
                     : ListView.separated(
+                        controller: _scroll,
                         keyboardDismissBehavior:
                             ScrollViewKeyboardDismissBehavior.onDrag,
                         padding: EdgeInsets.zero,

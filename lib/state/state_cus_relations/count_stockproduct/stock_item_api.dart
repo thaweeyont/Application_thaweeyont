@@ -1,17 +1,16 @@
 import 'dart:convert';
 
+import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/api.dart';
 import 'package:application_thaweeyont/state/authen.dart';
-import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-// TODO: แก้ path ให้ตรงกับโปรเจกต์ (ตัวแปร api และหน้า Login ที่เมนูอื่นใช้อยู่)
-// import 'package:application_thaweeyont/....dart';  // ที่ประกาศตัวแปร api
-// import 'package:application_thaweeyont/....dart';  // class Authen
-
 import 'stock_count_common.dart';
+
+/// stockType ของ inventorycount/itemList (ทั้งสองแท็บใช้ API และค่าเดียวกัน)
+const String kStockTypeSerial = '1';
 
 /// สถานะสินค้าที่ใช้กับ API ประเภท / ยี่ห้อ / รุ่น (itemStatus=1)
 const String kItemStatus = '1';
@@ -88,7 +87,57 @@ class StockItemApi {
     });
   }
 
-  // ───────────── ตัวกลางเรียก API ─────────────
+  // inventorycount/itemList  (POST)  ← ค้นหาสินค้าตามตัวกรอง
+  static Future<List<StockItem>> itemList(
+    BuildContext context, {
+    required String stockType, // "1" = แท็บสแกนเลขเครื่อง
+    required List<String> whId, // [] = ทุกคลัง
+    String itemName = '',
+    required String groupId,
+    required String itemTypeId,
+    required String brandId,
+    required String modelId,
+  }) async {
+    final body = <String, dynamic>{
+      'stockType': stockType,
+      'whId': whId,
+      'itemName': itemName,
+      'groupFree': '',
+      'freeItemId': '',
+      'freeItemCode': '',
+      'groupId': groupId,
+      'itemTypeId': itemTypeId,
+      'brandId': brandId,
+      'modelId': modelId,
+      'styleId': '',
+      'sizeId': '',
+      'colorId': '',
+      'page': 1,
+      'limit': 100,
+    };
+    // ดู body ที่ส่งจริงได้ใน Debug Console (คัดลอกไปทดสอบใน Postman เทียบกันได้)
+    debugPrint('itemList body: ${jsonEncode(body)}');
+
+    final map = await _call(
+      context,
+      (token) => http.post(
+        Uri.parse('${api}inventorycount/itemList'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        },
+        body: jsonEncode(body),
+      ),
+    );
+    if (map == null) return [];
+    final detail = ((map['data'] as Map?)?['detail'] as List?) ?? [];
+    return detail
+        .map<StockItem>(
+            (e) => StockItem.fromJson(Map<String, dynamic>.from(e as Map)))
+        .toList();
+  }
+
+  // ───────────── ตัวกลางเรียก API (GET รายการสำหรับหน้าค้นหา) ─────────────
   static Future<List<PickItem>> _fetch(
     BuildContext context,
     String path,
@@ -96,10 +145,7 @@ class StockItemApi {
     bool paging =
         true, // false = ไม่ส่ง searchId/page/limit (สำหรับ branchList)
   }) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('tokenId') ?? '';
-
+    final map = await _call(context, (token) {
       final uri = Uri.parse('$api$path').replace(
         queryParameters: paging
             ? {
@@ -111,28 +157,51 @@ class StockItemApi {
               }
             : (params.isEmpty ? null : params),
       );
-
-      final res = await http.get(
+      return http.get(
         uri,
         headers: <String, String>{
           'Content-Type': 'application/json',
           'Authorization': token,
         },
       );
+    });
+    if (map == null) return [];
+    final list = (map['data'] as List?) ?? [];
+    return list.map<PickItem>((e) {
+      final m = Map<String, dynamic>.from(e as Map);
+      // TODO: ถ้า field ของ response ไม่ใช่ id / name ให้แก้ตรงนี้
+      return PickItem('${m['id']}', '${m['name']}', m);
+    }).toList();
+  }
+
+  // ───────────── ตัวกลางจัดการสถานะ (ใช้ร่วมทุก API) ─────────────
+  /// คืน response ทั้งก้อน (Map) เมื่อ 200, คืน null เมื่อไม่พบข้อมูล (400/404)
+  /// 401 → ไปหน้า Login แล้ว throw SessionExpiredException
+  /// อื่นๆ → throw ApiException(ข้อความ)
+  static Future<Map<String, dynamic>?> _call(
+    BuildContext context,
+    Future<http.Response> Function(String token) send,
+  ) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('tokenId') ?? '';
+
+      final res = await send(token);
+
+      // log สำหรับตรวจสอบ (ตัดความยาวไม่ให้ยาวเกินไป)
+      debugPrint('API ${res.request?.method} ${res.request?.url} '
+          '-> ${res.statusCode}');
+      debugPrint(res.body.length > 400
+          ? '${res.body.substring(0, 400)}...'
+          : res.body);
 
       switch (res.statusCode) {
         case 200:
-          final map = Map<String, dynamic>.from(json.decode(res.body));
-          final list = (map['data'] as List?) ?? [];
-          return list.map<PickItem>((e) {
-            final m = Map<String, dynamic>.from(e as Map);
-            // TODO: ถ้า field ของ response ไม่ใช่ id / name ให้แก้ตรงนี้
-            return PickItem('${m['id']}', '${m['name']}', m);
-          }).toList();
+          return Map<String, dynamic>.from(json.decode(res.body));
 
-        case 400: // ไม่พบข้อมูล → แสดง "ไม่พบข้อมูล" ในหน้าค้นหา
+        case 400: // ไม่พบข้อมูล
         case 404:
-          return [];
+          return null;
 
         case 401: // Token หมดอายุ → กลับหน้า Login (เหมือนเมนูอื่น)
           await prefs.clear();
