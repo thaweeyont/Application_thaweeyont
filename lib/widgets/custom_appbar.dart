@@ -4,7 +4,8 @@ import '../utility/my_constant.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const CustomAppbar({super.key, required this.title});
+  final List<Widget>? actions;
+  const CustomAppbar({super.key, required this.title, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         style: MyContant().TitleStyle(),
       ),
       centerTitle: true,
+      actions: actions,
     );
   }
 

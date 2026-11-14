@@ -1,11 +1,14 @@
 import 'package:application_thaweeyont/utility/my_constant.dart';
 import 'package:application_thaweeyont/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'stock_count_common.dart';
 import 'stock_filter_panel.dart';
+import 'stock_history_page.dart';
 import 'stock_item_api.dart';
 import 'stock_qty_page.dart';
+import 'stock_scan_draft.dart';
 import 'stock_scan_page.dart';
 
 /// หน้าหลักของเมนู "ตรวจนับสต็อคสินค้า" (2 แท็บ ใช้ตัวกรองชุดเดียวกัน)
@@ -20,6 +23,8 @@ class _StockSearchPageState extends State<StockSearchPage> {
   int _tab = 0;
   final _filter = StockFilter();
   final _scroll = ScrollController();
+  final _draft =
+      ScanDraft(); // รายการสแกนที่ยังไม่ได้บันทึก (ทุกสินค้า ทุกคลัง)
 
   // ผลการค้นหา (แสดงต่อใต้ปุ่มค้นหา)
   List<StockItem> _results = [];
@@ -30,38 +35,56 @@ class _StockSearchPageState extends State<StockSearchPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadBranches());
+    _draft.addListener(_onDraftChanged);
+    _loadUserBranch();
   }
 
   @override
   void dispose() {
+    _draft.removeListener(_onDraftChanged);
+    _draft.dispose();
     _scroll.dispose();
     super.dispose();
   }
 
-  // โหลดรายการสาขาสำหรับ dropdown
-  Future<void> _loadBranches() async {
-    showProgressLoading(context);
+  // เปิดหน้า "ประวัติการตรวจนับ" (ฉบับร่างที่ยังไม่บันทึกยังอยู่ครบเมื่อกลับมา)
+  void _openHistory() {
+    FocusScope.of(context).unfocus();
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const StockHistoryPage()),
+    );
+  }
 
-    List<PickItem>? list;
-    Object? error;
-    try {
-      list = await StockItemApi.branchList(context);
-    } catch (e) {
-      error = e;
-    }
+  void _onDraftChanged() {
+    if (mounted) setState(() {});
+  }
 
-    if (error is SessionExpiredException) return; // ไปหน้า Login แล้ว
+  // กดย้อนกลับ/ปัดย้อนกลับ ตอนมีรายการสแกนที่ยังไม่ได้บันทึก → เตือนก่อนออกจากเมนู
+  Future<void> _onPopInvoked(bool didPop, Object? result) async {
+    if (didPop) return;
+    final leave = await showAppConfirm(
+      context,
+      'ยังไม่ได้บันทึก',
+      'มีเลขเครื่องที่สแกนไว้ ${_draft.serialCount} รายการ '
+          '(${_draft.itemCount} สินค้า) ที่ยังไม่ได้บันทึก\n'
+          'ต้องการออกจากเมนูโดยไม่บันทึกหรือไม่?',
+      confirmText: 'ออก',
+      cancelText: 'อยู่ต่อ',
+      confirmColor: const Color(0xFFE53935),
+    );
+    if (leave == true && mounted) Navigator.of(context).pop();
+  }
+
+  // สาขาของผู้ใช้ที่ login (SharedPreferences: branchId / branchName)
+  // ใช้เป็น branchId ตอนเลือกคลัง (setup/warehouseList) — เปลี่ยนสาขาไม่ได้
+  Future<void> _loadUserBranch() async {
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('branchId') ?? '';
+    final name = prefs.getString('branchName') ?? '';
     if (!mounted) return;
-    Navigator.pop(context); // ปิด loading
-
-    if (error != null) {
-      final msg =
-          error is ApiException ? error.message : 'กรุณาแจ้งผู้ดูแลระบบ';
-      showAppAlert(context, 'แจ้งเตือน', msg, type: AlertType.error);
-      return;
-    }
-    setState(() => _filter.branchList = list ?? []);
+    setState(() {
+      _filter.branch = id.isEmpty ? null : PickItem(id, name);
+    });
   }
 
   // แท็บ 1: ค้นหาสินค้า (API inventorycount/itemList) แล้วไปแสดงผลอีกหน้า
@@ -106,7 +129,9 @@ class _StockSearchPageState extends State<StockSearchPage> {
   // แตะการ์ด → ไปหน้าที่ 2 พร้อมส่ง itemId (อยู่ใน StockItem) ไปด้วย
   void _openItem(StockItem it) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => StockScanPage(item: it)),
+      MaterialPageRoute(
+        builder: (_) => StockScanPage(item: it, draft: _draft),
+      ),
     );
   }
 
@@ -125,6 +150,7 @@ class _StockSearchPageState extends State<StockSearchPage> {
       );
 
   Widget _itemCard(StockItem it) {
+    final pending = _draft.countOf(it); // เลขเครื่องที่สแกนไว้แต่ยังไม่บันทึก
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Material(
@@ -137,7 +163,12 @@ class _StockSearchPageState extends State<StockSearchPage> {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: kBlue.withValues(alpha: 0.15)),
+              border: Border.all(
+                color: pending > 0
+                    ? const Color(0xFFF5A623)
+                    : kBlue.withValues(alpha: 0.15),
+                width: pending > 0 ? 1.5 : 1,
+              ),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,16 +192,35 @@ class _StockSearchPageState extends State<StockSearchPage> {
                         style: appText(weight: FontWeight.w700, size: 15),
                       ),
                       const SizedBox(height: 4),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: kPanel,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                            it.itemTypeName.isEmpty ? '-' : it.itemTypeName,
-                            style: appText(color: kBlue, size: 12)),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 4,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: kPanel,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                                it.itemTypeName.isEmpty ? '-' : it.itemTypeName,
+                                style: appText(color: kBlue, size: 12)),
+                          ),
+                          if (pending > 0)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFFFF1D6),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text('สแกนแล้ว $pending รายการ · รอบันทึก',
+                                  style: appText(
+                                      color: const Color(0xFFB26A00),
+                                      size: 12)),
+                            ),
+                        ],
                       ),
                       const SizedBox(height: 4),
                       _infoLine(Icons.storefront_outlined, it.branchName),
@@ -186,6 +236,46 @@ class _StockSearchPageState extends State<StockSearchPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _pendingBar() {
+    const brown = Color(0xFF7A4A00);
+    return Panel(
+      color: const Color(0xFFFFF1D6),
+      padding: const EdgeInsets.fromLTRB(14, 10, 10, 10),
+      child: Row(
+        children: [
+          const Icon(Icons.pending_actions, color: Color(0xFFB26A00)),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('รอบันทึก ${_draft.itemCount} สินค้า',
+                    style: appText(
+                        color: brown, weight: FontWeight.w700, size: 14)),
+                Text('เลขเครื่อง ${_draft.serialCount} รายการ',
+                    style: appText(color: brown, size: 12.5)),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 40,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: kBlue,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () => saveScanDraft(context, _draft),
+              child: Text('บันทึกทั้งหมด',
+                  style: appText(
+                      color: Colors.white, weight: FontWeight.w600, size: 14)),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -247,40 +337,57 @@ class _StockSearchPageState extends State<StockSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppbar(title: 'ตรวจนับสต็อคสินค้า'),
-      floatingActionButton: BackToTopButton(controller: _scroll),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ListView(
-          controller: _scroll,
-          padding: const EdgeInsets.all(16),
-          children: [
-            SegmentTabs(
-                index: _tab, onChanged: (i) => setState(() => _tab = i)),
-            const SizedBox(height: 16),
-            StockFilterPanel(
-              filter: _filter,
-              // เปลี่ยนตัวกรองแล้วล้างผลเดิม กันเข้าใจผิดว่าตรงกับตัวกรองใหม่
-              onChanged: () => setState(() {
-                _results = [];
-                _searched = false;
-                _filterVersion++;
-              }),
+    return PopScope(
+      canPop: !_draft.hasUnsaved,
+      onPopInvokedWithResult: _onPopInvoked,
+      child: Scaffold(
+        appBar: CustomAppbar(
+          title: 'ตรวจนับสต็อคสินค้า',
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.history, color: Colors.white),
+              tooltip: 'ประวัติการตรวจนับ',
+              onPressed: _openHistory,
             ),
-            const SizedBox(height: 14),
-            if (_tab == 0) ...[
-              PrimaryButton(
-                label: 'ค้นหา',
-                icon: Icons.search,
-                onPressed: _search,
-              ),
-              const SizedBox(height: 16),
-              ..._resultSection(),
-            ] else
-              QtyCountTab(filter: _filter, resetToken: _filterVersion),
           ],
+        ),
+        floatingActionButton: BackToTopButton(controller: _scroll),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: ListView(
+            controller: _scroll,
+            padding: const EdgeInsets.all(16),
+            children: [
+              SegmentTabs(
+                  index: _tab, onChanged: (i) => setState(() => _tab = i)),
+              const SizedBox(height: 16),
+              StockFilterPanel(
+                filter: _filter,
+                // เปลี่ยนตัวกรองแล้วล้างผลเดิม กันเข้าใจผิดว่าตรงกับตัวกรองใหม่
+                onChanged: () => setState(() {
+                  _results = [];
+                  _searched = false;
+                  _filterVersion++;
+                }),
+              ),
+              const SizedBox(height: 14),
+              if (_tab == 0) ...[
+                PrimaryButton(
+                  label: 'ค้นหา',
+                  icon: Icons.search,
+                  onPressed: _search,
+                ),
+                if (_draft.hasUnsaved) ...[
+                  const SizedBox(height: 12),
+                  _pendingBar(),
+                ],
+                const SizedBox(height: 16),
+                ..._resultSection(),
+              ] else
+                QtyCountTab(filter: _filter, resetToken: _filterVersion),
+            ],
+          ),
         ),
       ),
     );

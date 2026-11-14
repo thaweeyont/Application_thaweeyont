@@ -205,11 +205,15 @@ class SerialField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final VoidCallback onScanTap;
+
+  /// ถ้าใส่ จะมีไอคอนเช็คถูกในช่อง (โผล่เมื่อพิมพ์แล้ว) กดหรือกด Enter เพื่อยืนยันค่า
+  final VoidCallback? onSubmit;
   const SerialField({
     super.key,
     required this.controller,
     required this.hint,
     required this.onScanTap,
+    this.onSubmit,
   });
 
   @override
@@ -221,18 +225,32 @@ class SerialField extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: TextField(
-            controller: controller,
-            style: appText(),
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: appText(color: kNavy.withValues(alpha: 0.4)),
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-              border: border,
-              enabledBorder: border,
+          // rebuild ตามข้อความ เพื่อให้ไอคอนเช็คโผล่/หายตามที่พิมพ์
+          child: ValueListenableBuilder<TextEditingValue>(
+            valueListenable: controller,
+            builder: (context, value, _) => TextField(
+              controller: controller,
+              style: appText(),
+              textInputAction: TextInputAction.done,
+              onSubmitted: onSubmit == null ? null : (_) => onSubmit!(),
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: appText(color: kNavy.withValues(alpha: 0.4)),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                border: border,
+                enabledBorder: border,
+                suffixIcon: (onSubmit != null && value.text.trim().isNotEmpty)
+                    ? IconButton(
+                        icon: const Icon(Icons.check_circle_rounded,
+                            color: kOkFg, size: 28),
+                        tooltip: 'ยืนยันเลขเครื่อง',
+                        onPressed: onSubmit,
+                      )
+                    : null,
+              ),
             ),
           ),
         ),

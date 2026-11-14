@@ -711,7 +711,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
               children: [
                 drawerIcon(size),
                 listMenu(context, size),
-                // skusale(context, size),
+                Backupbutton(context, size),
                 about(context, size),
                 btnLogout(context, size),
                 const SizedBox(height: 10),
@@ -938,14 +938,12 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
     );
   }
 
-  InkWell skusale(BuildContext context, double size) {
+  InkWell Backupbutton(BuildContext context, double size) {
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const FixedTablePage(),
-          ),
+          MaterialPageRoute(builder: (_) => const StockSearchPage()),
         );
       },
       child: Container(
@@ -954,7 +952,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), bottomLeft: Radius.circular(30)),
-          color: Color.fromRGBO(239, 191, 239, 1),
+          color: Color.fromRGBO(101, 230, 176, 1),
         ),
         child: const Column(
           children: [
@@ -966,7 +964,7 @@ class _NavigatorBarMenuState extends State<NavigatorBarMenu> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "รายงาน SKU Sale ทดสอบ",
+                  "เมนูสำรอง",
                   style: TextStyle(
                       color: Colors.white, fontSize: 16, fontFamily: 'Prompt'),
                 ),

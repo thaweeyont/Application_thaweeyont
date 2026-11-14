@@ -137,13 +137,83 @@ class StockItemApi {
         .toList();
   }
 
+  // inventorycount/checkHistory  (POST)  ← ค้นหาประวัติการตรวจนับ
+  // คืน response ทั้งก้อน (Map) เมื่อพบข้อมูล / null เมื่อ "ไม่พบข้อมูล"
+  // startDate / endDate เป็น พ.ศ. รูปแบบ yyyyMMdd เช่น "25690113"
+  static Future<Map<String, dynamic>?> checkHistory(
+    BuildContext context, {
+    required String stockType,
+    required String startDate,
+    required String endDate,
+    required List<String> whId, // [] = ทุกคลัง
+  }) async {
+    final body = <String, dynamic>{
+      'stockType': stockType,
+      'startDate': startDate,
+      'endDate': endDate,
+      'whId': whId,
+      'itemName': '',
+      'groupFree': '',
+      'freeItemId': '',
+      'freeItemCode': '',
+      'groupId': '',
+      'itemTypeId': '',
+      'brandId': '',
+      'modelId': '',
+      'styleId': '',
+      'sizeId': '',
+      'colorId': '',
+      'page': 1,
+      'limit': 100,
+    };
+    debugPrint('checkHistory body: ${jsonEncode(body)}');
+
+    final map = await _call(
+      context,
+      (token) => http.post(
+        Uri.parse('${api}inventorycount/checkHistory'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        },
+        body: jsonEncode(body),
+      ),
+      logLimit: 4000,
+    );
+    if (map == null || map['status'] == 'fail') return null;
+    return map;
+  }
+
+  // inventorycount/checkHistoryDetail  (POST)  ← รายละเอียดของรอบที่เลือก (tranId)
+  static Future<Map<String, dynamic>?> checkHistoryDetail(
+    BuildContext context, {
+    required String tranId,
+  }) async {
+    final body = <String, dynamic>{'tranId': tranId};
+    debugPrint('checkHistoryDetail body: ${jsonEncode(body)}');
+
+    final map = await _call(
+      context,
+      (token) => http.post(
+        Uri.parse('${api}inventorycount/checkHistoryDetail'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        },
+        body: jsonEncode(body),
+      ),
+      logLimit: 4000,
+    );
+    if (map == null || map['status'] == 'fail') return null;
+    return map;
+  }
+
   // ───────────── ตัวกลางเรียก API (GET รายการสำหรับหน้าค้นหา) ─────────────
   static Future<List<PickItem>> _fetch(
     BuildContext context,
     String path,
     Map<String, String> params, {
-    bool paging =
-        true, // false = ไม่ส่ง searchId/page/limit (สำหรับ branchList)
+    bool paging = true, // false = ไม่ส่ง searchId/page/limit (สำหรับ branchList)
   }) async {
     final map = await _call(context, (token) {
       final uri = Uri.parse('$api$path').replace(
@@ -180,8 +250,9 @@ class StockItemApi {
   /// อื่นๆ → throw ApiException(ข้อความ)
   static Future<Map<String, dynamic>?> _call(
     BuildContext context,
-    Future<http.Response> Function(String token) send,
-  ) async {
+    Future<http.Response> Function(String token) send, {
+    int logLimit = 400, // จำนวนตัวอักษรของ response ที่พิมพ์ใน Debug Console
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('tokenId') ?? '';
@@ -191,8 +262,8 @@ class StockItemApi {
       // log สำหรับตรวจสอบ (ตัดความยาวไม่ให้ยาวเกินไป)
       debugPrint('API ${res.request?.method} ${res.request?.url} '
           '-> ${res.statusCode}');
-      debugPrint(res.body.length > 400
-          ? '${res.body.substring(0, 400)}...'
+      debugPrint(res.body.length > logLimit
+          ? '${res.body.substring(0, logLimit)}...'
           : res.body);
 
       switch (res.statusCode) {

@@ -477,6 +477,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.0"
+  mobile_scanner:
+    dependency: "direct main"
+    description:
+      name: mobile_scanner
+      sha256: "175c62fc813c2bd762757359a2088f8cbdb72020cf85d4cd27fc4d3fe59be058"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.5.0"
   nested:
     dependency: transitive
     description:
@@ -892,4 +900,4 @@ packages:
     version: "1.1.0"
 sdks:
   dart: ">=3.11.0-0 <4.0.0"
-  flutter: ">=3.27.0"
+  flutter: ">=3.29.0"

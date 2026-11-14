@@ -6,8 +6,8 @@ import 'stock_item_api.dart';
 
 /// ค่าตัวกรองที่ใช้ร่วมกันทั้งสองแท็บ (เก็บไว้ที่หน้าแม่)
 class StockFilter {
-  List<PickItem> branchList = []; // รายการสาขา (โหลดจาก API ตอนเปิดหน้า)
-  PickItem? branch; // สาขา = dropdown (ไม่มีค่าเริ่มต้น)
+  // สาขา = สาขาของผู้ใช้ที่ login (id/ชื่อจาก SharedPreferences) เปลี่ยนไม่ได้
+  PickItem? branch;
   PickItem? warehouse; // คลัง      ← ต้องเลือก สาขา ก่อน
   PickItem? group; // กลุ่ม
   PickItem? category; // ประเภท     ← ต้องเลือก กลุ่ม ก่อน
@@ -22,7 +22,8 @@ class StockFilter {
   String? get itemModelId => model?.id;
 
   // คืนข้อความแจ้งเตือนถ้ายังเลือกไม่ได้ (null = เลือกได้)
-  String? get warehouseBlock => branch == null ? 'กรุณาเลือกสาขาก่อน' : null;
+  String? get warehouseBlock =>
+      branch == null ? 'ไม่พบข้อมูลสาขาของผู้ใช้' : null;
   String? get categoryBlock => group == null ? 'กรุณาเลือกกลุ่มก่อน' : null;
   String? get brandBlock => group == null
       ? 'กรุณาเลือกกลุ่มก่อน'
@@ -38,11 +39,6 @@ class StockFilter {
               : null;
 
   // เปลี่ยนหรือล้างค่าตัวแรก → ล้างตัวที่ขึ้นกับมันทั้งหมด (กันค่าตกค้างไม่ตรงกัน)
-  void setBranch(PickItem? v) {
-    branch = v;
-    warehouse = null;
-  }
-
   void setGroup(PickItem? v) {
     group = v;
     category = null;
@@ -73,43 +69,35 @@ class StockFilterPanel extends StatelessWidget {
     required this.onChanged,
   });
 
-  // สาขา: dropdown ที่โหลดรายการจาก API (กว้างเท่าแถวที่มีปุ่มค้นหา)
+  // สาขา: ดึงจากผู้ใช้ที่ login — แสดงอย่างเดียว เลือกเปลี่ยนไม่ได้ (ช่องถูกปิด)
   Widget _branchRow() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
           Expanded(
-            child: DropdownButtonFormField<String>(
-              key: ValueKey(
-                  filter.branchList.length), // รีเฟรชเมื่อโหลดรายการเสร็จ
-              initialValue: filter.branch?.id,
-              isExpanded: true,
-              style: appText(),
-              hint: Text('สาขา',
-                  style: appText(color: kNavy.withValues(alpha: 0.5))),
-              icon: const Icon(Icons.arrow_drop_down, color: kNavy),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                isDense: true,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
+            child: Container(
+              height: 46,
+              padding: const EdgeInsets.only(left: 12, right: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE9ECF0),
+                borderRadius: BorderRadius.circular(10),
               ),
-              items: filter.branchList
-                  .map((e) => DropdownMenuItem(
-                      value: e.id, child: Text(e.name, style: appText())))
-                  .toList(),
-              onChanged: (id) {
-                final item =
-                    filter.branchList.where((e) => e.id == id).firstOrNull;
-                filter.setBranch(item);
-                onChanged();
-              },
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      filter.branch?.name.isNotEmpty == true
+                          ? filter.branch!.name
+                          : 'สาขา',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: appText(color: kNavy.withValues(alpha: 0.7)),
+                    ),
+                  ),
+                  Icon(Icons.arrow_drop_down, color: Colors.grey.shade500),
+                ],
+              ),
             ),
           ),
           const SizedBox(width: 56), // เว้นให้เท่าแถวที่มีปุ่มค้นหา
